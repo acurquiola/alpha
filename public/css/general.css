@@ -1,0 +1,12 @@
+.form-control{
+    font-size:13px ! important;
+}
+
+.btn{
+    font-size:13px
+}
+
+input[readonly]{
+    background-color: #F3F3F3 ! important;
+    padding-left:3px !important;
+}

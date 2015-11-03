@@ -1,0 +1,7 @@
+@include('partials.header')
+@include('partials.navbar')
+@include('partials.menu')
+@include('partials.errors')
+@yield('content')
+@include('partials.footer')
+@yield('script')

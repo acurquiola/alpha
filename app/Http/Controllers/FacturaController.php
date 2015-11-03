@@ -1,0 +1,233 @@
+<?php namespace App\Http\Controllers;
+
+use App\Http\Requests;
+use App\Http\Requests\FacturaRequest;
+use App\Http\Controllers\Controller;
+use \App\Factura;
+use Illuminate\Http\Request;
+
+class FacturaController extends Controller {
+
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
+    public function main($id){
+        $id=($id=="Todos")?"%":$id;
+        $modulos=$this->getModulos($id);
+        return view('factura.main', compact('modulos'));
+    }
+
+	/**
+	 * Display a listing of the resource.
+	 *
+	 * @return Response
+	 */
+	public function index($id, Request $request)
+	{
+
+        $sortName          = $request->get('sortName','id');
+        $sortName          =($sortName=="")?"id":$sortName;
+        
+        $sortType          = $request->get('sortType','ASC');
+        $sortType          =($sortType=="")?"ASC":$sortType;
+        
+        
+        $facturaId         = $request->get('id');
+        $facturaId         =($facturaId=="")?0:$facturaId;
+        $facturaIdOperator = $request->get('facturaIdOperator', '>=');
+        $facturaIdOperator =($facturaIdOperator=="")?'>=':$facturaIdOperator;
+        $facturaIdOperator =($facturaId==0)?">=":$facturaIdOperator;
+        
+        $clienteNombre     = $request->get('clienteNombre', '%');
+        
+        $descripcion       = $request->get('descripcion', '%');
+        
+        $total             = $request->get('total');
+        $total             =($total=="")?0:$total;
+        $totalOperator     = $request->get('totalOperator', '>=');
+        $totalOperator     =($totalOperator=="")?'>=':$totalOperator;
+        $totalOperator     =($total==0)?">=":$totalOperator;
+        
+        
+        $fecha             = $request->get('fecha');
+        $fechaOperator     = $request->get('fechaOperator', '>=');
+        $fechaOperator     =($fechaOperator=="")?'>=':$fechaOperator;
+        if($fecha==""){
+            $fecha='0000-00-00';
+            $fechaOperator='>=';
+        }else{
+            $fecha=\Carbon\Carbon::createFromFormat('d/m/Y', $fecha);
+        }
+
+
+
+        \Input::merge(['fechaOperator'=>$fechaOperator,
+            'facturaIdOperator'=>$facturaIdOperator,
+            'totalOperator'=>$totalOperator,
+            'sortName'=>$sortName,
+            'sortType'=>$sortType]);
+
+        $modulo=\App\Modulo::where("nombre","like",$id)->first();
+
+
+            $modulo->facturas=\App\Factura::select("facturas.*","clientes.nombre as clienteNombre")
+                ->join('clientes','clientes.id' , '=', 'facturas.cliente_id')
+                ->where('facturas.id', $facturaIdOperator, $facturaId)
+                ->where('total', $totalOperator, $total)
+                ->where('fecha', $fechaOperator, $fecha)
+                ->where('descripcion', 'like', "%$descripcion%")
+                ->where('clientes.nombre', 'like', "%$clienteNombre%")
+                ->where('facturas.aeropuerto_id','=', session('aeropuerto')->id)
+                ->with('cliente')
+                ->orderBy($sortName, $sortType)->paginate(50);
+
+        $modulo->facturas->setPath('');
+
+		return view('factura.index', compact('modulo'))->withInput(\Input::all());
+	}
+
+	/**
+	 * Show the form for creating a new resource.
+	 *
+	 * @return Response
+	 */
+	public function create($modulo,Factura $factura)
+	{
+		return view('factura.create', compact('factura', 'modulo'));
+	}
+
+	/**
+	 * Store a newly created resource in storage.
+	 *
+	 * @return Response
+	 */
+	public function store(FacturaRequest $request)
+	{
+
+        $facturaData         =$this->getFacturaDataFromRequest($request);
+        $facturaDetallesData =$this->getFacturaDetallesDataFromRequest($request);
+        $estacionamientoOp   =\App\Factura::create($facturaData);
+        $estacionamientoOp->detalles()->createMany($facturaDetallesData);
+        return ["success"    => 1];
+
+	}
+
+	/**
+	 * Display the specified resource.
+	 *
+	 * @param  int  $id
+	 * @return Response
+	 */
+	public function show($id,Factura $factura)
+	{
+        $factura->load('detalles');
+		return view('factura.partials.show', compact('factura'));
+	}
+
+	/**
+	 * Show the form for editing the specified resource.
+	 *
+	 * @param  int  $id
+	 * @return Response
+	 */
+	public function edit($modulo, Factura $factura)
+	{
+        $factura->load('detalles');
+		return view('factura.edit', compact('factura', 'modulo'));
+	}
+
+	/**
+	 * Update the specified resource in storage.
+	 *
+	 * @param  int  $id
+	 * @return Response
+	 */
+	public function update($id, Factura $factura, FacturaRequest $request)
+	{
+
+        $facturaData=$this->getFacturaDataFromRequest($request);
+        $facturaDetallesData=$this->getFacturaDetallesDataFromRequest($request);
+        $factura->update($facturaData);
+        $factura->detalles()->delete();
+        $factura->detalles()->createMany($facturaDetallesData);
+        return ["success" => 1];
+	}
+
+	/**
+	 * Remove the specified resource from storage.
+	 *
+	 * @param  int  $id
+	 * @return Response
+	 */
+	public function destroy($id,Factura $factura)
+	{
+        $factura->detalles()->delete();
+        if($factura->delete())
+            return ["success"=>1, "text"=>"La factura se ha eliminado con exito"];
+        else
+            return ["success"=>0, "text"=>"No se pudo eliminar la factura con exito"];
+	}
+
+
+
+    protected function getFacturaDataFromRequest($request){
+        return  $request->only('aeropuerto_id',
+            'condicionPago',
+            'nControl',
+            'nFactura',
+            'fecha',
+            'fechaVencimiento',
+            'cliente_id',
+            'subtotalNeto',
+            'descuentoTotal',
+            'subtotal',
+            'iva',
+            'recargoTotal',
+            'total',
+            'descripcion',
+            'comentario');
+
+    }
+    protected function getFacturaDetallesDataFromRequest($request){
+        $detalles=$request->only(  'concepto_id',
+            'cantidadDes',
+            'montoDes',
+            'descuentoPerDes',
+            'descuentoTotalDes',
+            'ivaDes',
+            'recargoPerDes',
+            'recargoTotalDes',
+            'totalDes' );
+        $size=count($detalles["concepto_id"]);
+        $facturaDetallesData=array();
+        for($i=0; $i<$size; $i++){
+            $facturaDetallesData[]=array('concepto_id' => $detalles["concepto_id"][$i],
+                'cantidadDes' => $detalles["cantidadDes"][$i],
+                'montoDes' => $detalles["montoDes"][$i],
+                'descuentoPerDes' => $detalles["descuentoPerDes"][$i],
+                'descuentoTotalDes' => $detalles["descuentoTotalDes"][$i],
+                'ivaDes' => $detalles["ivaDes"][$i],
+                'recargoPerDes' => $detalles["recargoPerDes"][$i],
+                'recargoTotalDes' => $detalles["recargoTotalDes"][$i],
+                'totalDes' => $detalles["totalDes"][$i]);
+        }
+        return $facturaDetallesData;
+
+    }
+
+     protected function getModulos($id){
+        $modulos=\App\Modulo::where("nombre","like",$id)->orderBy("nombre")->get();
+        foreach($modulos as $modulo){
+        $modulo->facturas=\App\Factura::select("facturas.*")
+        ->join('facturadetalles','facturas.id' , '=', 'facturadetalles.factura_id')
+        ->join('conceptos','conceptos.id' , '=', 'facturadetalles.concepto_id')
+        ->where('conceptos.modulo_id', "=", $modulo->id)
+        ->groupBy("facturas.id")->get();
+        $modulo->facturas->load('cliente');
+        }
+         return $modulos;
+    }
+}

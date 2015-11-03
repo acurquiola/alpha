@@ -1,0 +1,276 @@
+
+
+    var ajaxClienteTableStartUrl='{{url('administracion/cliente')}}';
+    var timeOut=null;
+    function getClientTable(url){$('#advance-search-modal .modal-body').load(url, function(){$.AdminLTE.boxWidget.activate();});}
+
+    function calculateTotal(e){
+    clearTimeout(timeOut);
+    timeOut=setTimeout(function(){
+
+    if(e){
+        var input= e.currentTarget;
+        e.preventDefault();
+    }
+
+
+    var subtotalNeto=0;
+    var descuentoTotalDoc=0;
+    var subtotal=0;
+    var iva=0;
+    var recargoTotalDoc=0;
+    var total=0;
+
+
+    $('#concepto-table tbody tr').each(function(index, value){
+    var cantidadVal=$(value).find('.cantidad-input').val();
+    var cantidad=parseInt(cantidadVal);
+    cantidad=isNaN(cantidad)?0:cantidad;
+    if(cantidadVal!="")
+        $(value).find('.cantidad-input').val(cantidad.toFixed(2));
+    var montoVal=$(value).find('.monto-input').val();
+    var monto=parseFloat(montoVal);
+    monto=isNaN(monto)?0:monto;
+    if(montoVal!="")
+        $(value).find('.monto-input').val(monto.toFixed(2));
+    var subtotalNetoRow=cantidad*monto;
+    subtotalNeto+=subtotalNetoRow;
+    var descuentoPer=$(value).find('.descuentoPer-input')[0];
+    var descuentoTotal=$(value).find('.descuentoTotal-input')[0];
+
+    var descuentoTotalRow=0;
+    switch(input){
+
+        case descuentoTotal:
+        var descuentoTotalVal=parseFloat($(descuentoTotal).val());
+                    descuentoTotalVal=isNaN(descuentoTotalVal)?0:descuentoTotalVal;
+        $(descuentoPer).val((100*descuentoTotalVal/subtotalNetoRow).toFixed(2));
+                    $(descuentoTotal).val(descuentoTotalVal.toFixed(2));
+        break;
+
+                default:
+                    var descuentoPerVal=parseFloat($(descuentoPer).val());
+                    descuentoPerVal=isNaN(descuentoPerVal)?0:descuentoPerVal;
+                    $(descuentoTotal).val((descuentoPerVal*subtotalNetoRow/100).toFixed(2));
+                    $(descuentoPer).val(descuentoPerVal.toFixed(2));
+                break;
+
+    }
+
+    descuentoTotalDoc+=descuentoTotalRow=parseFloat($(descuentoTotal).val());
+    var subtotalRow=subtotalNetoRow-descuentoTotalRow;
+    subtotal+=subtotalRow;
+        var recargoPer=$(value).find('.recargoPer-input')[0];
+        var recargoTotal=$(value).find('.recargoTotal-input')[0];
+        switch(input){
+
+            case recargoTotal:
+                var recargoTotalVal=parseFloat($(recargoTotal).val());
+                            recargoTotalVal=isNaN(recargoTotalVal)?0:recargoTotalVal;
+                $(recargoPer).val((100*recargoTotalVal/subtotalRow).toFixed(2));
+                            $(recargoTotal).val(recargoTotalVal.toFixed(2));
+            break;
+
+        default:
+            var recargoPerVal=parseFloat($(recargoPer).val());
+                        recargoPerVal=isNaN(recargoPerVal)?0:recargoPerVal;
+            $(recargoTotal).val((recargoPerVal*subtotalRow/100).toFixed(2));
+                        $(recargoPer).val(recargoPerVal.toFixed(2));
+        break;
+        }
+        var ivaVal=$(value).find('.iva-input').val();
+    var ivaInput=parseFloat(ivaVal);
+    ivaInput=isNaN(ivaInput)?0:ivaInput;
+    if(ivaVal!="")
+        $(value).find('.iva-input').val(ivaInput.toFixed(2));
+    var ivaRow=subtotalRow*ivaInput/100;
+    iva+=ivaRow;
+    var recargoTotalRow=parseFloat($(recargoTotal).val());
+    recargoTotalDoc+=recargoTotalRow;
+    var totalRow=subtotalRow+ivaRow+recargoTotalRow;
+    $(value).find('.total-input').val(totalRow.toFixed(2));
+    total+=totalRow;
+
+    })
+    $("#subtotalNeto-doc-input").val(subtotalNeto.toFixed(2));
+    $("#descuentoTotal-doc-input").val(descuentoTotalDoc.toFixed(2));
+    $("#subtotal-doc-input").val(subtotal.toFixed(2));
+    $("#iva-doc-input").val(iva.toFixed(2));
+    $("#recargoTotal-doc-input").val(recargoTotalDoc.toFixed(2));
+    $("#total-doc-input").val(total.toFixed(2));
+
+    },500);
+
+
+}
+
+
+
+
+
+
+/*
+*   Funcion para iniciar el modal de busqueda de cliente
+*/
+  getClientTable(ajaxClienteTableStartUrl)
+
+  /*
+  *   Funcion para darle accion al ordenamiento por columna al darle click al header
+  */
+$('#advance-search-modal .modal-body').delegate('.operator-list li', 'click', function(){
+    var value=$(this).text();
+    var formGroup=$(this).closest('.form-group');
+    $(formGroup).find('.operator-text').text(value);
+    $(formGroup).find('.operator-input').val((value=="Todos")?"_":value);
+})
+
+  /*
+  *   Funcion para pasar de pagina
+  */
+
+  $('#advance-search-modal .modal-body').delegate('.pagination li a', 'click', function(e){
+  e.preventDefault();
+    //Hay que quitar el slash antes del ?, no se como no generarlo pero replace resuelve.
+    getClientTable($(this).attr('href').replace("/?", "?"));
+  })
+
+    /*
+    *   Funcion para reinciiar los filtros
+    */
+
+  $('#advance-search-modal .modal-body').delegate('.cliente-reset-btn', 'click', function(e){
+  e.preventDefault();
+
+    getClientTable(ajaxClienteTableStartUrl);
+  })
+
+    /*
+    *   Funcion para buscar por los filtros
+    */
+
+    $('#advance-search-modal .modal-body').delegate('#cliente-filter-btn', 'click', function(e){
+    e.preventDefault();
+    var container=$(this).closest('.box-body');
+    console.log(container,$(container).find('input[name="sortName"]').val());
+    var getParametersString="?";
+    var getParametersObject={
+         sortName : $(container).find('input[name="sortName"]').val(),
+         sortType : $(container).find('input[name="sortType"]').val(),
+         codigo : $(container).find('input[name="codigo"]').val(),
+         nombre : $(container).find('input[name="nombre"]').val(),
+         cedRifPrefix : $(container).find('input[name="cedRifPrefix"]').val(),
+         cedRif : $(container).find('input[name="cedRif"]').val(),
+         tipo : $(container).find('select[name="tipo"]').val()
+    }
+    for(var index in getParametersObject){
+        var value=getParametersObject[index];
+        getParametersString+=index+"="+encodeURI(value)+"&";
+    }
+    getParametersString= getParametersString.substring(0, getParametersString.length - 1);
+    getClientTable(ajaxClienteTableStartUrl+getParametersString);
+    })
+
+      /*
+      *   Funcion para seleccionar un cliente y colocarlo en el formulario de factura
+      */
+
+    $('#advance-search-modal .modal-body').delegate('.select-client-btn', 'click', function(e){
+        e.preventDefault();
+        var clienteId=$(this).data('id');
+        $('#cliente-select').val(clienteId).trigger('chosen:updated').trigger('change');
+        $('#advance-search-modal').modal('hide');
+
+    })
+
+
+  $('#fechaVencimiento, #fecha').datepicker({
+    closeText: 'Cerrar',
+    prevText: '&#x3C;Ant',
+    nextText: 'Sig&#x3E;',
+    currentText: 'Hoy',
+    monthNames: ['Enero','Febrero','Marzo','Abril','Mayo','Junio',
+    'Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'],
+    monthNamesShort: ['Ene','Feb','Mar','Abr','May','Jun',
+    'Jul','Ago','Sep','Oct','Nov','Dic'],
+    dayNames: ['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'],
+    dayNamesShort: ['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'],
+    dayNamesMin: ['D','L','M','M','J','V','S'],
+    weekHeader: 'Sm',
+    firstDay: 1,
+    isRTL: false,
+    showMonthAfterYear: false,
+    yearSuffix: '',
+    dateFormat: "dd/mm/yy"});
+
+
+
+
+
+  $('#cliente-select').chosen({width: "100%"}).change(function(){
+  var option=$('#cliente-select option:selected');
+    var nombre=$(option).data('nombre');
+    var cedRif=$(option).data('cedRifPrefix')+$(option).data('cedRif');
+    $('#cliente_nombre-input').val(((nombre)?nombre:""));
+    $('#cliente_cedRif-input').val(((cedRif)?cedRif:""));
+  }).trigger('change');
+
+
+
+  $('#concepto-select').chosen({width: "100%"});
+
+
+
+  $('#add-conceptop-btn').click(function(){
+
+    var conceptoId=$('#concepto-select').val();
+          if(conceptoId==0)
+            return;
+        if($('#concepto-table tbody tr input[name="concepto_id[]"][value="'+conceptoId+'"]').length>0){
+            alertify.error("El concepto ya existe en la tabla");
+            return;
+        }
+        var option=$('#concepto-select option[value="'+conceptoId+'"]');
+        var conceptoNombre=$(option).text();
+        var costo=$(option).data('costo');
+
+
+
+
+    $('#concepto-table tbody').append('<tr>\
+     <td style="text-align: left"><input type="hidden" name="concepto_id[]" value="'+conceptoId+'" autocomplete="off" />'+conceptoNombre+'</td>\
+     <td><input class="form-control cantidad-input text-right" value="1" name="cantidadDes[]" autocomplete="off" /></td>\
+     <td><input class="form-control monto-input text-right" value="'+costo+'" name="montoDes[]" autocomplete="off" /> </td>\
+     <td><input class="form-control descuentoPer-input text-right" value="0" name="descuentoPerDes[]" autocomplete="off" /></td>\
+     <td><input class="form-control descuentoTotal-input text-right" value="0" name="descuentoTotalDes[]" autocomplete="off" /></td>\
+     <td><input class="form-control iva-input text-right" value="12" name="ivaDes[]" autocomplete="off" /></td>\
+     <td><input class="form-control recargoPer-input text-right" value="0" name="recargoPerDes[]" autocomplete="off" /></td>\
+     <td><input class="form-control recargoTotal-input text-right" value="0" name="recargoTotalDes[]" autocomplete="off" /></td>\
+     <td><input class="form-control total-input text-right" value="0" readonly name="totalDes[]" autocomplete="off" /></td>\
+     <td><button class="btn btn-danger eliminar-concepto-btn"><span class="glyphicon glyphicon-remove"></span></button></td>\
+     </tr>')
+
+     calculateTotal();
+     })
+
+  $('#concepto-table').delegate('input', 'focusout paste',function(e){calculateTotal(e)});
+
+$('#concepto-table').delegate('input', 'keyup keypress',function(e){
+  var code = e.keyCode || e.which;
+  if (code == 13) {
+    calculateTotal(e)
+  }
+});
+
+  $('#concepto-table').delegate('.eliminar-concepto-btn', 'click', function(){
+    $(this).closest('tr').remove();
+    calculateTotal();
+  });
+
+
+$('form').on('keyup keypress', function(e) {
+  var code = e.keyCode || e.which;
+  if (code == 13) {
+    e.preventDefault();
+    return false;
+  }
+});
