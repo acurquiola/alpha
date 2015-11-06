@@ -148,12 +148,15 @@
                                                 <tr><th>Portón</th><th>Acción</th></tr>
                                             </thead>
                                             <tbody>
-                                                @foreach($portons as $porton)
-                                                    <tr>
-                                                        <td><input type="text" class="form-control" value="{{$porton->nombre}}" name="portones[{{$porton->id}}][nombre]"></td>
-                                                        <td class="text-right"><button class='btn btn-danger remove-porton-btn'><span class='glyphicon glyphicon-minus'></span></button></td>
-                                                    </tr>
-                                                @endforeach
+
+                                                @if($portons->count()>0)
+                                                    @foreach($portons as $porton)
+                                                        <tr>
+                                                            <td><input type="text" class="form-control" value="{{$porton->nombre}}" name="portones[{{$porton->id}}][nombre]"></td>
+                                                            <td><button type="button" class='btn btn-danger remove-porton-btn'><span class='glyphicon glyphicon-minus'></span></button></td>
+                                                        </tr>
+                                                    @endforeach
+                                                @endif
                                             </tbody>
                                         </table>
                                     </div>
@@ -172,13 +175,16 @@
                                                 <tr><th>Concepto</th><th>Monto</th><th>Acción</th></tr>
                                             </thead>
                                             <tbody>
-                                                @foreach($conceptos as $concepto)
-                                                    <tr>
-                                                        <td><input class="form-control" value="{{$concepto->nombre}}" name="conceptos[{{$concepto->id}}][nombre]"></td>
-                                                        <td><input type="text" class="form-control" value="{{$concepto->costo}}" name="conceptos[{{$concepto->id}}][costo]"></td>
-                                                        <td class="text-right"><button class='btn btn-danger remove-concepto-btn'><span class='glyphicon glyphicon-minus'></span></button></td>
-                                                    </tr>
-                                                @endforeach
+
+                                                @if($conceptosEstacionamiento->count()>0)
+                                                    @foreach($conceptosEstacionamiento as $concepto)
+                                                        <tr>
+                                                            <td><input class="form-control" value="{{$concepto->nombre}}" name="conceptos[{{$concepto->id}}][nombre]"></td>
+                                                            <td><input type="text" class="form-control" value="{{$concepto->costo}}" name="conceptos[{{$concepto->id}}][costo]"></td>
+                                                            <td><button class='btn btn-danger remove-concepto-btn'><span class='glyphicon glyphicon-minus'></span></button></td>
+                                                        </tr>
+                                                    @endforeach
+                                                @endif
                                             </tbody>
                                         </table>
                                     </div>
@@ -188,105 +194,72 @@
                         <div role="tabpanel" class="tab-pane" id="metas">
                             <div class="row">
                                 <div class="col-md-12">
-                                    <h3>Metas Ley de Presupuesto (Gobernación)</h3>
-                                    <div role="tabpanel" id="meta-gobernacion-tabs">
+                                        <h3>Metas</h3>
+                                        <div role="tabpanel" id="meta-gobernacion-tabs">
 
-                                        <!-- Nav tabs -->
-                                        <ul class="nav nav-tabs" role="tablist">
-                                            <li role="presentation" id="new-meta-gobernacion-li"><a aria-controls="new-meta-gobernacion-tab" role="tab" data-toggle="tab"><span class="text-primary glyphicon glyphicon-plus"></span></a></li>
-                                            <li role="presentation" class="active"><a href="#current-meta-gobernacion-tab" aria-controls="current-meta-gobernacion-tab" role="tab" data-toggle="tab">01/01/2015</a></li>
-                                        </ul>
+                                            <!-- Nav tabs -->
+                                            <ul class="nav nav-tabs margin-bottom" role="tablist">
+                                                <li role="presentation" class="active"><a aria-controls="new-meta-gobernacion-tab" role="tab" data-toggle="tab"><span class="text-primary glyphicon glyphicon-plus"></span></a></li>
 
-                                        <!-- Tab panes -->
-                                        <div class="tab-content">
-                                            <div role="tabpanel" class="tab-pane" id="new-meta-gobernacion-tab"></div>
-                                            <div role="tabpanel" class="tab-pane active" id="current-meta-gobernacion-tab">
-                                                <div class="form-horizontal">
-                                                    <div class="form-group">
-                                                        <label for="cliente-input" class="col-xs-1 control-label">Concepto</label>
-                                                        <div class="col-xs-4">
-                                                            <select class="concepto-meta-gobernacion-select">
-                                                                <option>Tasa internacionales</option>
-                                                                <option>Tasa nacionales</option>
-                                                                <option>Formulario</option>
-                                                                <option>Aterrizaje</option>
-                                                                <option>...</option>
-                                                            </select>
-                                                        </div>
-                                                        <label for="cliente-input" class="col-xs-1 control-label">Monto</label>
-                                                        <div class="col-xs-4">
-                                                            <input class="form-control monto-meta-gobernacion-input"  type="text">
-                                                        </div>
-                                                        <div class="col-xs-1">
-                                                            <button class="btn btn-primary add-concepto-meta-gobernacion-btn"><span class="glyphicon glyphicon-plus"></span></button>
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <div class="col-xs-6 col-xs-offset-3">
-                                                            <table class="table">
-                                                                <thead>
-                                                                    <tr><th>Concepto</th><th>Monto</th></tr>
-                                                                </thead>
-                                                                <tbody>
-                                                                    <tr><td>Formulario</td><td>100</td></tr>
-                                                                    <tr><td>Aterrizaje</td><td>582387</td></tr>
-                                                                </tbody>
-                                                            </table>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <h3>Metas SAAR</h3>
-                                        <div role="tabpanel" id="meta-saar-tabs">
+                                                @foreach($metas as $meta)
+                                                    <li role="presentation"><a href="#meta-{{$meta->id}}-tab" aria-controls="meta-{{$meta->id}}-tab" role="tab" data-toggle="tab">{{$metas->fecha_inicio}}</a></li>
+                                                @endforeach
+                                            </ul>
 
-                                        <!-- Nav tabs -->
-                                        <ul class="nav nav-tabs" role="tablist">
-                                        <li role="presentation" id="new-meta-saar-li"><a  aria-controls="new-meta-saar-tab" role="tab" data-toggle="tab"><span class="text-primary glyphicon glyphicon-plus"></span></a></li>
-                                        <li role="presentation" class="active"><a href="#current-meta-saar-tab" aria-controls="current-meta-saar-tab" role="tab" data-toggle="tab">01/01/2015</a></li>
-
-                                        </ul>
-
-                                        <!-- Tab panes -->
+                                            <!-- Tab panes -->
                                             <div class="tab-content">
-                                                <div role="tabpanel" class="tab-pane" id="new-meta-saar-tab"></div>
-                                                <div role="tabpanel" class="tab-pane active" id="current-meta-saar-tab">
+                                                <div role="tabpanel" class="tab-pane active" id="new-meta-gobernacion-tab">
                                                     <div class="form-horizontal">
                                                         <div class="form-group">
-                                                            <label for="cliente-input" class="col-xs-1 control-label">Concepto</label>
+                                                            <label for="fecha-inicio-input" class="col-xs-1 control-label">Fecha inicio</label>
                                                             <div class="col-xs-4">
-                                                                <select class="concepto-meta-saar-select">
-                                                                    <option>Tasa internacionales</option>
-                                                                    <option>Tasa nacionales</option>
-                                                                    <option>Formulario</option>
-                                                                    <option>Aterrizaje</option>
-                                                                    <option>...</option>
+                                                                <input class="form-control" name="meta[fecha_inicio]">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <div class="col-xs-4">
+                                                                <select class="concepto-meta-gobernacion-select">
+                                                                    @foreach($conceptos as $pkey => $concepto)
+                                                                        <option value="{{$pkey}}">{{$concepto}}</option>
+                                                                    @endforeach
                                                                 </select>
                                                             </div>
-                                                            <label for="cliente-input" class="col-xs-1 control-label">Monto</label>
-                                                            <div class="col-xs-4">
-                                                                <input class="form-control monto-meta-saar-input"  type="text">
+                                                            <div class="col-xs-3">
+                                                                <input class="form-control" id="monto-meta-gobernacion-input"  type="text" placeholder="Meta Gobernación">
+                                                            </div>
+                                                            <div class="col-xs-3">
+                                                                <input class="form-control" id="monto-meta-saar-input"  type="text" placeholder="Meta SAAR">
                                                             </div>
                                                             <div class="col-xs-1">
-                                                                <button class="btn btn-primary add-concepto-meta-saar-btn"><span class="glyphicon glyphicon-plus"></span></button>
+                                                                <button class="btn btn-primary add-concepto-meta-gobernacion-btn"><span class="glyphicon glyphicon-plus"></span></button>
                                                             </div>
                                                         </div>
                                                         <div class="form-group">
                                                             <div class="col-xs-6 col-xs-offset-3">
                                                                 <table class="table">
-                                                                <thead>
-                                                                    <tr><th>Concepto</th><th>Monto</th></tr>
-                                                                </thead>
-                                                                <tbody>
-                                                                    <tr><td>Formulario</td><td>100</td></tr>
-                                                                    <tr><td>Aterrizaje</td><td>582387</td></tr>
-                                                                </tbody>
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th>Concepto</th>
+                                                                            <th>Meta Gobernación</th>
+                                                                            <th>Meta SAAR</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+
+                                                                    </tbody>
                                                                 </table>
                                                             </div>
                                                         </div>
                                                     </div>
+
                                                 </div>
+
+                                                @foreach($metas as $meta)
+                                                    <div role="tabpanel" class="tab-pane" id="meta-{{$meta->id}}-tab">
+
+                                                    </div>
+                                                @endforeach
+
                                             </div>
                                         </div>
                                     </div>
@@ -397,20 +370,16 @@ $(document).ready(function(){
         var value=$('#concepto-input').val();
         if(value=="")
           return;
+        var index= $('#concepto-table tbody tr').length;
       $('#concepto-table tbody').append("<tr>\
-        <td><input class='form-control' value='"+value+"' name='conceptos[][nombre]'></td>
-        <td><input type='text' class='form-control' value='0' name='conceptos[][costo]'></td>
+        <td><input class='form-control' value='"+value+"' name='conceptosNuevos["+index+"][nombre]'></td>\
+        <td><input type='text' class='form-control' value='0' name='conceptosNuevos["+index+"][costo]'></td>\
         <td><button class='btn btn-danger remove-concepto-btn'><span class='glyphicon glyphicon-minus'></span></button></td>\
         </tr>");
   });
 
     $('#concepto-table').delegate('.remove-concepto-btn','click',function(){
-        var tr=$(this).closest('tr');
-        if($(tr).data('id') == undefined){
-            $(tr).remove();
-        }else{
-            $(tr).hide().addClass('deleted');
-        }
+        $(this).closest('tr').remove();
     });
 
     $('#add-porton-btn').click(function(){
@@ -418,19 +387,13 @@ $(document).ready(function(){
         if(value=="")
           return;
       $('#porton-table tbody').append("<tr>\
-        <td><input type='text' class='form-control' value='"+value+"' name='portonesNuevos[][nombre]'></td>
-        <td><button class='btn btn-danger remove-porton-btn'><span class='glyphicon glyphicon-minus'></span></button></td>\
+        <td><input type='text' class='form-control' value='"+value+"' name='portonesNuevos[][nombre]'></td>\
+        <td><button type='button' class='btn btn-danger remove-porton-btn'><span class='glyphicon glyphicon-minus'></span></button></td>\
         </tr>");
   });
 
-<td class="text-right"><button class='btn btn-danger remove-porton-btn'><span class='glyphicon glyphicon-minus'></span></button></td>
     $('#porton-table').delegate('.remove-porton-btn','click',function(){
-        var tr=$(this).closest('tr');
-        if($(tr).data('id') == undefined){
-            $(tr).remove();
-        }else{
-            $(tr).hide().addClass('deleted');
-        }
+        $(this).closest('tr').remove();
     });
 
 });

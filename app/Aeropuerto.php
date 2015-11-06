@@ -6,15 +6,9 @@ class Aeropuerto extends Model {
 
     protected $guarded = [];
 
-    public function usuarios()
-    {
-        return $this->hasMany('App\Usuario');
-    }
+    public function conceptos(){
 
-
-    public function hangar()
-    {
-        return $this->hasMany('App\Hangar');
+        return $this->hasMany('App\Concepto');
     }
 
     public function estacionamiento()
@@ -22,5 +16,20 @@ class Aeropuerto extends Model {
         return $this->hasOne('App\Estacionamiento');
     }
 
+    public function hangar()
+    {
+        return $this->hasMany('App\Hangar');
+    }
+
+    public function metas()
+    {
+        return $this->hasMany('App\Meta');
+    }
+
+
+    public function usuarios()
+    {
+        return $this->hasMany('App\Usuario');
+    }
 
 }

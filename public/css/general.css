@@ -10,3 +10,10 @@ input[readonly]{
     background-color: #F3F3F3 ! important;
     padding-left:3px !important;
 }
+
+.margin-top{
+    margin-top:15x;
+}
+.margin-bottom{
+    margin-bottom:15x;
+}
