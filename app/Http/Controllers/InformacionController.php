@@ -35,12 +35,14 @@ class InformacionController extends Controller {
 			$portons=$estacionamiento->portons()->create(['nombre'=> 'predeterminado']);
 		}
 
-		$conceptos=$estacionamiento->conceptos()->get();
-		if($conceptos->count()==0){
-			$conceptos=$estacionamiento->conceptos()->create(['nombre'=> 'predeterminado', 'costo' => 0]);
+		$conceptosEstacionamiento=$estacionamiento->conceptos()->get();
+		if($conceptosEstacionamiento->count()==0){
+            $conceptosEstacionamiento=$estacionamiento->conceptos()->create(['nombre'=> 'predeterminado', 'costo' => 0]);
 		}
 
-        return view("administracion/informacion", compact("aeropuerto", "estacionamiento", "portons", "conceptos"));
+        $metas=$aeropuerto->metas()->orderBy('fecha_inicio')->get();
+
+        return view("administracion/informacion", compact("aeropuerto", "estacionamiento", "portons", "conceptosEstacionamiento", "metas"));
 	}
 
 	/**
@@ -93,57 +95,24 @@ class InformacionController extends Controller {
 	public function update(Request $request)
 	{
 
+        //actualizando aeropuerto de sesion
+		$aeropuerto=session("aeropuerto");
+        $aeropuerto->update($request->get("aeropuerto"));
 
-		$aeropuertoParametrosActualizados=$request->get("aeropuerto");
-		$aeropuerto=session("aeropuerto")->update($aeropuertoParametrosActualizados);
+        //actualizando estacionamientos del aeropuerto de la sesion
+        $estacionamiento=$aeropuerto->estacionamiento;
+        $estacionamiento->update($request->get("estacionamiento"));
 
+        //actualizando portones
+        $this->actualizarEstacionamientos($estacionamiento, $request->get('portonesNuevos',[]), $request->get("portones", []));
+
+        //actualizando conceptos
+        $this->actualizarConceptos($estacionamiento, $request->get('conceptosNuevos',[]), $request->get("conceptos", []));
+
+
+        dd($request->all());
 		return redirect('administracion/informacion');
 
-        if($estacionamiento->update($request->all())){
-
-            /*
-             *
-             * Editando los portones del estacionamiento
-             *
-             */
-            $portonsToDelete=json_decode($request->get('portonsToDelete'));
-            \App\Estacionamientoporton::destroy($portonsToDelete);
-
-            $portonsToAdd=json_decode($request->get('portonsToAdd'));
-            foreach($portonsToAdd as $porton){
-                $estacionamiento->portons()->create(['nombre'=> $porton->nombre]);
-            }
-
-            $portons=json_decode($request->get('portons'));
-            foreach($portons as $porton){
-                $p=\App\Estacionamientoporton::find($porton->id);
-                if($p){
-                 $p->update(['nombre'=> $porton->nombre]);
-                }
-            }
-
-            /*
-             *
-             * Editando los conceptos del estacionamiento
-             *
-             */
-            $conceptosToDelete=json_decode($request->get('conceptosToDelete'));
-            \App\Estacionamientoconcepto::destroy($conceptosToDelete);
-
-            $conceptosToAdd=json_decode($request->get('conceptosToAdd'));
-            foreach($conceptosToAdd as $concepto){
-                $estacionamiento->conceptos()->create(['nombre'=> $concepto->nombre, 'costo' => $concepto->costo]);
-            }
-
-            $conceptos=json_decode($request->get('conceptos'));
-            foreach($conceptos as $concepto){
-                $c=\App\Estacionamientoconcepto::find($concepto->id);
-                if($c){
-                    $c->update(['nombre'=> $concepto->nombre, 'costo'=> $concepto->costo]);
-                }
-            }
-
-        }
 
         return ["text" => "Modificacion realizada"];
 
@@ -160,4 +129,35 @@ class InformacionController extends Controller {
 		//
 	}
 
+    protected function actualizarEstacionamientos($estacionamiento, $nuevos, $actualizados){
+
+        foreach($actualizados as $portonId => $porton){
+            $estacionamiento->portons()->find($portonId)->update($porton);
+        }
+        list($keys, $values) = array_divide($actualizados);
+        $portonesBorrar=$estacionamiento->portons()->whereNotIn('id',$keys)->get();
+        $portonesBorrar->each(function($porton){
+            $porton->delete();
+        });
+        foreach($nuevos as $porton){
+            $estacionamiento->portons()->create($porton);
+        }
+
+    }
+
+    protected function actualizarConceptos($estacionamiento, $nuevos, $actualizados){
+
+        foreach($actualizados as $conceptoId => $concepto){
+            $estacionamiento->conceptos()->find($conceptoId)->update($concepto);
+        }
+        list($keys, $values) = array_divide($actualizados);
+        $conceptosBorrar=$estacionamiento->conceptos()->whereNotIn('id',$keys)->get();
+        $conceptosBorrar->each(function($concepto){
+            $concepto->delete();
+        });
+        foreach($nuevos as $concepto){
+            $estacionamiento->conceptos()->create($concepto);
+        }
+
+    }
 }
