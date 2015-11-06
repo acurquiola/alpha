@@ -21,7 +21,7 @@
                     
                     <!-- Tab panes -->
                     <div class="tab-content">
-                        <div role="tabpanel" class="tab-pane active" id="home">
+                        <div role="tabpanel" class="tab-pane" id="home">
                             <div class="row">
                                 <div class="col-md-8 col-md-offset-2">
                                     <div class="form-group">
@@ -191,15 +191,15 @@
                                 </div>
                             </div>
                         </div>
-                        <div role="tabpanel" class="tab-pane" id="metas">
+                        <div role="tabpanel" class="tab-pane active" id="metas">
                             <div class="row">
                                 <div class="col-md-12">
                                         <h3>Metas</h3>
-                                        <div role="tabpanel" id="meta-gobernacion-tabs">
+                                        <div role="tabpanel" id="meta-tabs">
 
                                             <!-- Nav tabs -->
                                             <ul class="nav nav-tabs margin-bottom" role="tablist">
-                                                <li role="presentation" class="active"><a aria-controls="new-meta-gobernacion-tab" role="tab" data-toggle="tab"><span class="text-primary glyphicon glyphicon-plus"></span></a></li>
+                                                <li role="presentation" class="active"><a aria-controls="new-meta-tab" role="tab" data-toggle="tab"><span class="text-primary glyphicon glyphicon-plus"></span></a></li>
 
                                                 @foreach($metas as $meta)
                                                     <li role="presentation"><a href="#meta-{{$meta->id}}-tab" aria-controls="meta-{{$meta->id}}-tab" role="tab" data-toggle="tab">{{$metas->fecha_inicio}}</a></li>
@@ -208,17 +208,17 @@
 
                                             <!-- Tab panes -->
                                             <div class="tab-content">
-                                                <div role="tabpanel" class="tab-pane active" id="new-meta-gobernacion-tab">
+                                                <div role="tabpanel" class="tab-pane active" id="new-meta-tab">
                                                     <div class="form-horizontal">
                                                         <div class="form-group">
                                                             <label for="fecha-inicio-input" class="col-xs-1 control-label">Fecha inicio</label>
                                                             <div class="col-xs-4">
-                                                                <input class="form-control" name="meta[fecha_inicio]">
+                                                                <input class="form-control" id="fecha-inicio-datepicker" name="meta[fecha_inicio]">
                                                             </div>
                                                         </div>
                                                         <div class="form-group">
                                                             <div class="col-xs-4">
-                                                                <select class="concepto-meta-gobernacion-select">
+                                                                <select class="concepto-meta-select">
                                                                     @foreach($conceptos as $pkey => $concepto)
                                                                         <option value="{{$pkey}}">{{$concepto}}</option>
                                                                     @endforeach
@@ -231,7 +231,7 @@
                                                                 <input class="form-control" id="monto-meta-saar-input"  type="text" placeholder="Meta SAAR">
                                                             </div>
                                                             <div class="col-xs-1">
-                                                                <button class="btn btn-primary add-concepto-meta-gobernacion-btn"><span class="glyphicon glyphicon-plus"></span></button>
+                                                                <button type="button" class="btn btn-primary add-concepto-meta-btn"><span class="glyphicon glyphicon-plus"></span></button>
                                                             </div>
                                                         </div>
                                                         <div class="form-group">
@@ -242,6 +242,7 @@
                                                                             <th>Concepto</th>
                                                                             <th>Meta Gobernación</th>
                                                                             <th>Meta SAAR</th>
+                                                                            <th>Acción</th>
                                                                         </tr>
                                                                     </thead>
                                                                     <tbody>
@@ -285,60 +286,47 @@
 
 $(document).ready(function(){
 
+          $('#fecha-inicio-datepicker').datepicker({
+            closeText: 'Cerrar',
+            prevText: '&#x3C;Ant',
+            nextText: 'Sig&#x3E;',
+            currentText: 'Hoy',
+            monthNames: ['Enero','Febrero','Marzo','Abril','Mayo','Junio',
+            'Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'],
+            monthNamesShort: ['Ene','Feb','Mar','Abr','May','Jun',
+            'Jul','Ago','Sep','Oct','Nov','Dic'],
+            dayNames: ['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'],
+            dayNamesShort: ['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'],
+            dayNamesMin: ['D','L','M','M','J','V','S'],
+            weekHeader: 'Sm',
+            firstDay: 1,
+            isRTL: false,
+            showMonthAfterYear: false,
+            yearSuffix: '',
+            dateFormat: "dd/mm/yy"});
+
     $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
       console.log(e);
   console.log(e.target); // newly activated tab
   console.log(e.relatedTarget); // previous active tab
 })
 
-    $('#new-meta-gobernacion-li').click(function(e){
 
-      var tabName='meta-gobernacion-tab';
-      var ul=$(this).closest('ul');
-      $(this).after('<li role="presentation"><a href="#'+tabName+'" aria-controls="'+tabName+'" role="tab" data-toggle="tab">00/05/2015</a></li>');
-      var newTab=$('#current-meta-gobernacion-tab').clone();
-      $(newTab).attr('id',tabName);
-      $('#current-meta-gobernacion-tab .form-group:eq(0)').remove();
-      $('#meta-gobernacion-tabs .tab-content').prepend($(newTab).prop('outerHTML'));
-      $(ul).find('li:eq(1) a').tab('show');
-  })
 
-    $('#meta-gobernacion-tabs').delegate('.add-concepto-meta-gobernacion-btn','click',function(){
+
+    $('#meta-saar-tabs').delegate('.add-concepto-meta-btn','click',function(){
       var tab=$(this).closest('.tab-pane');
       var table=$(tab).find('table');
-      var concepto=$(tab).find('.concepto-meta-gobernacion-select').val();
-      var monto=$(tab).find('.monto-meta-gobernacion-input').val();
-      $(table).prepend('<tr><td>'+concepto+'</td><td>'+monto+'</td></tr>')
-  })
-
-    $('.concepto-meta-gobernacion-select').chosen({width:"100%"})
-    $('#add-serie-btn').click(function(){
-        var value=$('#serie-input').val();
-        if(value=="")
-          return;
-      $('#serie-table tbody').append("<tr><td>"+value+"</td><td><button class='btn btn-danger remove-serie-btn'><span class='glyphicon glyphicon-minus'></span></button></td></tr>");
-  });
-    $('#serie-table').delegate('.remove-serie-btn','click',function(){
-        $(this).closest('tr').remove();
-    });
-
-    $('#new-meta-saar-li').click(function(){
-      var tabName='meta-saar-tab';
-      var ul=$(this).closest('ul');
-      $(this).after('<li role="presentation"><a href="#'+tabName+'" aria-controls="'+tabName+'" role="tab" data-toggle="tab">00/05/2015</a></li>');
-      var newTab=$('#current-meta-saar-tab').clone();
-      $(newTab).attr('id',tabName);
-      $('#current-meta-saar-tab .form-group:eq(0)').remove();
-      $('#meta-saar-tabs .tab-content').prepend($(newTab).prop('outerHTML'));
-      $(ul).find('li:eq(1) a').tab('show');
-  })
-
-    $('#meta-saar-tabs').delegate('.add-concepto-meta-saar-btn','click',function(){
-      var tab=$(this).closest('.tab-pane');
-      var table=$(tab).find('table');
-      var concepto=$(tab).find('.concepto-meta-saar-select').val();
-      var monto=$(tab).find('.monto-meta-saar-input').val();
-      $(table).prepend('<tr><td>'+concepto+'</td><td>'+monto+'</td></tr>')
+      var concepto=$(tab).find('.concepto-meta-select').val();
+      var montoSaar=$(tab).find('.monto-meta-saar-input').val();
+      var montoGobernacion=$(tab).find('.monto-meta-gobernacion-input').val();
+      $(table).prepend('<tr><td>'+
+        concepto
+        +'</td><td>'+
+        montoGobernacion
+        +'</td><td>'+
+        montoSaar
+        +'</td><button class="btn btn-danger remove-meta-btn" type="button"><span class="glyphicon glyphicon-minus"></span> </td></tr>')
   })
 
     $('.concepto-meta-saar-select').chosen({width:"100%"})
