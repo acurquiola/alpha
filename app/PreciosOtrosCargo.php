@@ -11,4 +11,10 @@ class PerciosOtrosCargo extends Model {
         return $this->belongsTo('App\Concepto');
     }
 
+
+    public function otrosCargos()
+    {
+        return $this->hasMany('App\OtrosCargos');
+    }
+
 }

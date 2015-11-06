@@ -80,7 +80,7 @@ Route::group(['prefix' => 'administracion/'], function () {
     Route::resource('configuracionSCV/HorarioAeronautico', 'HorarioAeronauticoController', ['only'         =>['update', 'index']]);
     Route::resource('configuracionSCV/CargosVarios', 'CargosVarioController', ['only'                      =>['update', 'index']]);
     Route::resource('configuracionSCV/Carga', 'PreciosCargaController', ['only'                            =>['update', 'index']]);
-    //Route::resource('configuracionSCV/OtrosCargos', 'PreciosOtrosCargoController', ['only'                 =>'update', 'index']);
+    Route::resource('configuracionSCV/OtrosCargos', 'PreciosOtrosCargoController', ['only'                 =>'update', 'index']);
 
 
     Route::get('informacion', 'InformacionController@index');

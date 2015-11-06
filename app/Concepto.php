@@ -39,7 +39,7 @@ class Concepto extends Model {
 
     public function otros_cargos()
     {
-        return $this->hasOne('App\PerciosOtrosCargo');
+        return $this->hasOne('App\OtrosCargo');
     }
 
 }

@@ -29,35 +29,35 @@ class AterrizajeController extends Controller {
 		if($request->ajax()){
 		$sortName                  = $request->get('sortName','fecha');
 		$sortName                  =($sortName=="")?"fecha":$sortName;
-		
+
 		$sortType                  = $request->get('sortType','DES');
 		$sortType                  =($sortType=="")?"DES":$sortType;
-		
+
 		$fecha                     = $request->get('fecha', '%');
 		$fecha                     =($fecha=="")?"%":$fecha;
-		
+
 		$hora                      = $request->get('hora', '%');
 		$hora                      =($hora=="")?"%":$hora;
-		
+
 		$num_vuelo                 = $request->get('num_vuelo', '%');
 		$num_vuelo                 =($num_vuelo=="")?"%":$num_vuelo;
-		
+
 		$aeronave_id               = $request->get('aeronave_id', 0);
 		$aeronaveOperador          =($aeronave_id=="")?">":"=";
-		
+
 		$tipoMatricula_id          = $request->get('tipoMatricula_id', 0);
 		$tipoMatriculaOperador     =($tipoMatricula_id=="")?">":"=";
-		
+
 		$puerto_id                 = $request->get('puerto_id', 0);
 		$puertoOperador            =($puerto_id=="")?">":"=";
-		
+
 		$cliente_id                = $request->get('cliente_id', 0);
 		$clienteOperador           =($cliente_id=="")?">":"=";
 		 \Input::merge([
             'sortName'=>$sortName,
             'sortType'=>$sortType]);
 
-	
+
 		$aterrizajes = Aterrizaje::with("puerto", "piloto", "nacionalidad_vuelo", "aeronave" , "cliente", "tipo")
 									->where('fecha', 'like', $fecha)
 									->where('hora', 'like', $hora)
@@ -67,7 +67,7 @@ class AterrizajeController extends Controller {
 									->where('puerto_id', $puertoOperador, $puerto_id)
 									->where('cliente_id', $clienteOperador, $cliente_id);
 
-									
+
 
 		if($puerto_id==''){
 			$aterrizajes=$aterrizajes->orWhere('puerto_id','=' , null);
@@ -80,13 +80,13 @@ class AterrizajeController extends Controller {
 		return view('aterrizajes.partials.table', compact('aterrizajes'));
 		}
 		else
-			{	
+			{
 			$aterrizajes         = Aterrizaje::all();
 			$puertos             = Puerto::all();
 			$pilotos             = Piloto::all();
 			$nacionalidad_vuelos = NacionalidadVuelo::all();
 			$aeronaves           = Aeronave::all();
-			$tipoMatriculas      = TipoMatricula::all();	
+			$tipoMatriculas      = TipoMatricula::all();
 
 		return view("aterrizajes.index", compact("nacionalidad_vuelos", "tipoMatriculas", "aeronaves", "puertos", "pilotos", "today"));
 }
@@ -104,7 +104,7 @@ class AterrizajeController extends Controller {
 			$pilotos             = Piloto::all();
 			$nacionalidad_vuelos = NacionalidadVuelo::all();
 			$aeronaves           = Aeronave::all();
-			$tipoMatriculas      = TipoMatricula::all();		
+			$tipoMatriculas      = TipoMatricula::all();
 			$today               = Carbon::now();
 		return view("aterrizajes.create", compact("nacionalidad_vuelos", "tipoMatriculas", "aeronaves", "puertos", "pilotos", "today"));
 
@@ -144,7 +144,7 @@ class AterrizajeController extends Controller {
 			$aterrizaje->piloto_id            =$pilotoID;
 			$aterrizaje->cliente_id           =$clienteID;
 			$aterrizaje->save();
-			
+
 			return response()->json(array("text"		 =>'Aterrizaje registrado exitósamente',
 										  "aterrizaje"   =>$aterrizaje->load("nacionalidad_vuelo", "tipo", "aeronave", "puerto", "piloto"),
 									      "success"      =>1));
@@ -181,7 +181,7 @@ class AterrizajeController extends Controller {
 	 */
 	public function edit($id)
 	{
-		
+
 		$aterrizaje          = Aterrizaje::find($id);
 		$puertos             = Puerto::all();
 		$pilotos             = Piloto::all();
@@ -203,7 +203,7 @@ class AterrizajeController extends Controller {
 		$aterrizaje = Aterrizaje::update($request->except("nacionalidadVuelo_id", "piloto_id", "puerto_id", "cliente_id"));
 
 		if($aterrizaje)
-		{		
+		{
 
 			$nacID     =$nacionalidad=NacionalidadVuelo::find($request->get("nacionalidadVuelo_id"));
 			$puertoID  =$puerto=Puerto::find($request->get("puerto_id"));
@@ -221,7 +221,7 @@ class AterrizajeController extends Controller {
 			$aterrizaje->puerto_id            =$puertoID;
 			$aterrizaje->piloto_id            =$pilotoID;
 			$aterrizaje->cliente_id           =$clienteID;
-			$aterrizaje->save();	
+			$aterrizaje->save();
 
 			return response()->json(array("text"=>'Aterrizaje modificado exitósamente',
 										  "aterrizaje"=>$aterrizaje->load("nacionalidad_vuelo", "tipo", "aeronave", "puerto", "piloto"),

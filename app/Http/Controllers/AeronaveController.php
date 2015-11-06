@@ -20,45 +20,45 @@ class AeronaveController extends Controller {
 	 *
 	 * @return Response
 	 */
-	
+
 	//Mostrar tabla
 	public function index(Request $request)
 	{
 		if($request->ajax()){
 		$sortName             = $request->get('sortName','matricula');
 		$sortName             =($sortName=="")?"matricula":$sortName;
-		
+
 		$sortType             = $request->get('sortType','ASC');
 		$sortType             =($sortType=="")?"ASC":$sortType;
-		
+
 		$matricula            = $request->get('matricula', '%');
 		$matricula            =($matricula=="")?"%":$matricula;
-		
+
 		$peso                 = $request->get('peso', '%');
 		$peso                 =($peso=="")?"%":$peso;
-		
+
 		$nacionalidad_id      = $request->get('nacionalidad_id', 0);
 		$nacionalidadOperator =($nacionalidad_id=="")?">":"=";
-		
+
 		$tipo_id              = $request->get('tipo_id', 0);
 		$tipoOperator         =($tipo_id=="")?">":"=";
-		
+
 		$modelo_id            = $request->get('modelo_id', 0);
 		$modeloOperator       =($modelo_id=="")?">":"=";
-		
+
 		$cliente_id           = $request->get('cliente_id', 0);
 		$clienteOperador      =($cliente_id=="")?">":"=";
 
 		$hangar_id           = $request->get('hangar_id', 0);
 		$hangarOperador      =($hangar_id=="")?">":"=";
-		
+
 		$hangar_id            = $request->get('hangar_id', 0);
 		$hangarOperator       =($hangar_id=="")?">":"=";
 		 \Input::merge([
             'sortName'=>$sortName,
             'sortType'=>$sortType]);
 
-	
+
 		$aeronaves = Aeronave::with("tipo","cliente", "hangar", "modelo", "nacionalidad")
 									->where('matricula', 'like', $matricula)
 									->where('peso', 'like', $peso)
@@ -81,13 +81,13 @@ class AeronaveController extends Controller {
 		return view('aeronaves.partials.table', compact('aeronaves'));
 		}
 		else
-		{	
+		{
 			$paises                  = Aeronave::all();
 			$modelo_aeronaves        = ModeloAeronave::all();
 			$tipo_matriculas         = TipoMatricula::all();
 			$clientes                = Cliente::all();
 			$nacionalidad_matriculas = NacionalidadMatricula::all();
-			
+
 		return view('aeronaves.index', compact('paises', 'modelo_aeronaves', 'tipo_matriculas', 'clientes','nacionalidad_matriculas'));
 		}
 	}
@@ -114,7 +114,7 @@ class AeronaveController extends Controller {
 
 		if($aeronave)
 		{
-			
+
 			$clienteID =$cliente=Cliente::find($request->get("cliente_id"));
 			$hangarId  =$hangar=Hangar::find($request->get("hangar_id"));
 
@@ -187,7 +187,7 @@ class AeronaveController extends Controller {
 			response()->json(array("text"=>'Error registrando la aeronave',"success"=>0));
 		}
 	}
-	
+
 
 	/**
 	 * Remove the specified resource from storage.

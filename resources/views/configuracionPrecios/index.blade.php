@@ -31,10 +31,10 @@
 				<li>
 					<a href="#tab_3" data-toggle="tab">Horarios</a>
 				</li>
-<!-- 				<li>
+				<li>
 					<a href="#tab_4" data-toggle="tab">Otros Cargos</a>
 				</li>
- -->				<li>
+ 				<li>
 					<a href="#tab_5" data-toggle="tab">Cargos Varios</a>
 				</li>
 			</ul>
@@ -74,10 +74,10 @@
 				<!-- Otras Configuraciones -->
 				<div class="tab-pane" id="tab_4">
 
-					@include('configuracionPrecios.confOtrosCargos.partials.edit')
+					@include('configuracionPrecios.confOtrosCargos.index')
 
 
-				</div> --><!-- /.tab-pane -->
+				</div><!-- /.tab-pane -->
 
 				<!-- Otras Configuraciones -->
 				<div class="tab-pane" id="tab_5">

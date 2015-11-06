@@ -16,7 +16,7 @@ class CargosVarioController extends Controller {
 	 * @return Response
 	 */
 	public function index()
-	{		
+	{
 		return view('configuracionPrecios.index');
 	}
 
@@ -69,12 +69,12 @@ class CargosVarioController extends Controller {
 	 * @return Response
 	 */
 	public function update($id, Request $request)
-	{		
+	{
 		$cargosVarios = CargosVario::find($id);
 		$cargosVarios->update($request->all());
-		
+
 		if($cargosVarios)
-		{			
+		{
 			return response()->json(array("text"=>'Información Modificada exitósamente' ,
 										  "cargosVarios"=>$cargosVarios,
 										  "success"=>1));
