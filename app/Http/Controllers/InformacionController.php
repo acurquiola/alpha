@@ -109,12 +109,26 @@ class InformacionController extends Controller {
         //actualizando conceptos
         $this->actualizarConceptos($estacionamiento, $request->get('conceptosNuevos',[]), $request->get("conceptos", []));
 
+        //registrando metas nuevas
+        $conceptoMeta=$request->get("conceptoMeta", []);
+        $montoGobernacion=$request->get("montoGobernacion", []);
+        $montoSaar=$request->get("montoSaar", []);
+        $metaDetalles=[];
+        foreach($conceptoMeta as $index => $meta){
+            $metaDetalles[]=["concepto_id"=>$meta, "gobernacion_meta" => $montoGobernacion[$index], "saar_meta" => $montoSaar[$index] ];
+        }
 
-        dd($request->all());
+        if(count($metaDetalles)){
+            if($aeropuerto->metas->count()>0){
+                $ultimaMeta=$aeropuerto->metas()->latest()->first();
+                $ultimaMeta->update(["fecha_fin" => $request->get('metaFechaInicio')]);
+            }
+            $meta=$aeropuerto->metas()->create(["fecha_inicio" => $request->get('metaFechaInicio')]);
+            $meta->detalles()->createMany($metaDetalles);
+        }
+
 		return redirect('administracion/informacion');
 
-
-        return ["text" => "Modificacion realizada"];
 
 	}
 

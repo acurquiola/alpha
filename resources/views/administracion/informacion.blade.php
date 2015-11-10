@@ -75,50 +75,7 @@
                                         <label for="cliente-input">Número de taquillas</label>
                                         <input class="form-control" id="numero-input" type="text">
                                     </div>
-                                    
-                                    <div class="form-group">
-                                        <label for="cliente-input">Serie</label>
-                                        <div class="input-group">
-                                            <input type="text" class="form-control" id="serie-input">
-                                            <span class="input-group-btn">
-                                                <button class="btn btn-primary" type="button" id="add-serie-btn"><span class="glyphicon glyphicon-plus"></span></button>
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <table class="table" id="serie-table">
-                                            <thead>
-                                                <tr><th>Serie</th><th>Acción</th></tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr><td>A</td><td><button class='btn btn-danger remove-serie-btn'><span class='glyphicon glyphicon-minus'></span></button></td></tr>
-                                                <tr><td>B</td><td><button class='btn btn-danger remove-serie-btn'><span class='glyphicon glyphicon-minus'></span></button></td></tr>
-                                                <tr><td>C</td><td><button class='btn btn-danger remove-serie-btn'><span class='glyphicon glyphicon-minus'></span></button></td></tr>
-                                                <tr><td>Exonerado</td><td><button class='btn btn-danger remove-serie-btn'><span class='glyphicon glyphicon-minus'></span></button></td></tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="cliente-input">Precios</label>
-                                        <div class="input-group">
-                                            <input type="text" class="form-control" id="precio-input">
-                                            <span class="input-group-btn">
-                                                <button class="btn btn-primary" type="button" id="add-precio-btn"><span class="glyphicon glyphicon-plus"></span></button>
-                                            </span>
-                                        </div><!-- /input-group -->
-                                    </div>
-                                    <div class="form-group">
-                                        <table class="table" id="precio-table">
-                                            <thead>
-                                                <tr><th>Precio</th><th>Acción</th></tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr><td>85</td><td><button class='btn btn-danger remove-precio-btn'><span class='glyphicon glyphicon-minus'></span></button></td></tr>
-                                                <tr><td>170</td><td><button class='btn btn-danger remove-precio-btn'><span class='glyphicon glyphicon-minus'></span></button></td></tr>
-                                                <tr><td>0</td><td><button class='btn btn-danger remove-precio-btn'><span class='glyphicon glyphicon-minus'></span></button></td></tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
+
                                 </div>
                             </div>
                         </div>
@@ -199,10 +156,10 @@
 
                                             <!-- Nav tabs -->
                                             <ul class="nav nav-tabs margin-bottom" role="tablist">
-                                                <li role="presentation" class="active"><a aria-controls="new-meta-tab" role="tab" data-toggle="tab"><span class="text-primary glyphicon glyphicon-plus"></span></a></li>
+                                                <li role="presentation" class="active"><a href="#new-meta-tab" aria-controls="new-meta-tab" role="tab" data-toggle="tab"><span class="text-primary glyphicon glyphicon-plus"></span></a></li>
 
                                                 @foreach($metas as $meta)
-                                                    <li role="presentation"><a href="#meta-{{$meta->id}}-tab" aria-controls="meta-{{$meta->id}}-tab" role="tab" data-toggle="tab">{{$metas->fecha_inicio}}</a></li>
+                                                    <li role="presentation"><a href="#meta-{{$meta->id}}-tab" aria-controls="meta-{{$meta->id}}-tab" role="tab" data-toggle="tab">{{$meta->fecha_inicio}}</a></li>
                                                 @endforeach
                                             </ul>
 
@@ -211,32 +168,32 @@
                                                 <div role="tabpanel" class="tab-pane active" id="new-meta-tab">
                                                     <div class="form-horizontal">
                                                         <div class="form-group">
-                                                            <label for="fecha-inicio-input" class="col-xs-1 control-label">Fecha inicio</label>
+                                                            <label for="fecha-inicio-input" class="col-xs-2 control-label" >Fecha inicio</label>
                                                             <div class="col-xs-4">
-                                                                <input class="form-control" id="fecha-inicio-datepicker" name="meta[fecha_inicio]">
+                                                                <input autocomplete="off" value="{{\Carbon\Carbon::now()->format("d/m/Y")}}" class="form-control" id="fecha-inicio-datepicker" name="metaFechaInicio">
                                                             </div>
                                                         </div>
                                                         <div class="form-group">
                                                             <div class="col-xs-4">
-                                                                <select class="concepto-meta-select">
+                                                                <select id="concepto-meta-select">
                                                                     @foreach($conceptos as $pkey => $concepto)
                                                                         <option value="{{$pkey}}">{{$concepto}}</option>
                                                                     @endforeach
                                                                 </select>
                                                             </div>
                                                             <div class="col-xs-3">
-                                                                <input class="form-control" id="monto-meta-gobernacion-input"  type="text" placeholder="Meta Gobernación">
+                                                                <input class="form-control text-right" autocomplete="off" id="monto-meta-gobernacion-input"  type="text" placeholder="Meta Gobernación">
                                                             </div>
                                                             <div class="col-xs-3">
-                                                                <input class="form-control" id="monto-meta-saar-input"  type="text" placeholder="Meta SAAR">
+                                                                <input class="form-control text-right" autocomplete="off" id="monto-meta-saar-input"  type="text" placeholder="Meta SAAR">
                                                             </div>
                                                             <div class="col-xs-1">
                                                                 <button type="button" class="btn btn-primary add-concepto-meta-btn"><span class="glyphicon glyphicon-plus"></span></button>
                                                             </div>
                                                         </div>
                                                         <div class="form-group">
-                                                            <div class="col-xs-6 col-xs-offset-3">
-                                                                <table class="table">
+                                                            <div class="col-xs-12">
+                                                                <table class="table" id="new-meta-table">
                                                                     <thead>
                                                                         <tr>
                                                                             <th>Concepto</th>
@@ -257,7 +214,41 @@
 
                                                 @foreach($metas as $meta)
                                                     <div role="tabpanel" class="tab-pane" id="meta-{{$meta->id}}-tab">
+                                                        <div class="form-horizontal">
+                                                            <div class="form-group">
+                                                                <label for="fecha-inicio-input" class="col-xs-2 control-label" >Fecha Inicio</label>
+                                                                <div class="col-xs-4">
+                                                                    <p class="form-control-static">{{$meta->fecha_inicio}}</p>
+                                                                </div>
+                                                                <label for="fecha-inicio-input" class="col-xs-2 control-label" >Fecha Fin</label>
+                                                                <div class="col-xs-4">
+                                                                    <p class="form-control-static">{{$meta->fecha_fin}}</p>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <div class="col-xs-12">
+                                                                    <table class="table" id="new-meta-table">
+                                                                        <thead>
+                                                                            <tr>
+                                                                                <th>Concepto</th>
+                                                                                <th>Meta Gobernación</th>
+                                                                                <th>Meta SAAR</th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                            @foreach($meta->detalles as $detalle)
+                                                                                <tr>
+                                                                                    <td>{{$detalle->concepto->nompre}}</td>
+                                                                                    <td>{{$detalle->gobernacion_meta}}</td>
+                                                                                    <td>{{$detalle->saar_meta}}</td>
+                                                                                </tr>
 
+                                                                            @endforeach
+                                                                        </tbody>
+                                                                    </table>
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 @endforeach
 
@@ -305,54 +296,39 @@ $(document).ready(function(){
             yearSuffix: '',
             dateFormat: "dd/mm/yy"});
 
-    $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
-      console.log(e);
-  console.log(e.target); // newly activated tab
-  console.log(e.relatedTarget); // previous active tab
-})
 
 
 
 
-    $('#meta-saar-tabs').delegate('.add-concepto-meta-btn','click',function(){
-      var tab=$(this).closest('.tab-pane');
-      var table=$(tab).find('table');
-      var concepto=$(tab).find('.concepto-meta-select').val();
-      var montoSaar=$(tab).find('.monto-meta-saar-input').val();
-      var montoGobernacion=$(tab).find('.monto-meta-gobernacion-input').val();
-      $(table).prepend('<tr><td>'+
+
+    $('#new-meta-tab').delegate('.add-concepto-meta-btn','click',function(){
+
+      var concepto=$('#concepto-meta-select').val();
+      if(concepto==""){
+        alertify.error("Debe seleccionar un concepto.");
+        return;
+      }
+      if($('input[name="conceptoMeta[]"][value="'+concepto+'"]').length>0){
+              alertify.error("El concepto seleccionado ya existe en la tabla.");
+              return;
+      }
+      var conceptoText=$('#concepto-meta-select option:selected').text();
+      var montoSaar=$('#monto-meta-saar-input').val();
+      var montoGobernacion=$('#monto-meta-gobernacion-input').val();
+      $('#new-meta-table tbody').prepend(
+      '<tr><td>'+conceptoText+'<input type="hidden" value="'+
         concepto
-        +'</td><td>'+
+        +'" name="conceptoMeta[]" ></td><td> <input class="form-control text-right" value="'+
         montoGobernacion
-        +'</td><td>'+
+        +'" name="montoGobernacion[]"></td><td><input class="form-control text-right" value="'+
         montoSaar
-        +'</td><button class="btn btn-danger remove-meta-btn" type="button"><span class="glyphicon glyphicon-minus"></span> </td></tr>')
+        +'" name="montoSaar[]"></td><td><button class="btn btn-danger remove-meta-btn" type="button"><span class="glyphicon glyphicon-minus"></span> </td></tr>')
+
+        $('#monto-meta-saar-input').val('');
+        $('#monto-meta-gobernacion-input').val('');
   })
 
-    $('.concepto-meta-saar-select').chosen({width:"100%"})
-
-    $('#add-serie-btn').click(function(){
-        var value=$('#serie-input').val();
-        if(value=="")
-          return;
-      $('#serie-table tbody').append("<tr><td>"+value+"</td><td><button class='btn btn-danger remove-serie-btn'><span class='glyphicon glyphicon-minus'></span></button></td></tr>");
-  });
-
-    $('#serie-table').delegate('.remove-serie-btn','click',function(){
-        $(this).closest('tr').remove();
-    });
-
-    $('#add-precio-btn').click(function(){
-        var value=$('#precio-input').val();
-        if(value=="")
-          return;
-      $('#precio-table tbody').append("<tr><td>"+value+"</td><td>" +
-       "<button class='btn btn-danger remove-precio-btn'><span class='glyphicon glyphicon-minus'></span></button></td></tr>");
-  });
-
-    $('#precio-table').delegate('.remove-precio-btn','click',function(){
-        $(this).closest('tr').remove();
-    });
+    $('#concepto-meta-select').chosen({width:"100%"})
 
     $('#add-concepto-btn').click(function(){
         var value=$('#concepto-input').val();
@@ -366,7 +342,7 @@ $(document).ready(function(){
         </tr>");
   });
 
-    $('#concepto-table').delegate('.remove-concepto-btn','click',function(){
+    $('body').delegate('.remove-concepto-btn, .remove-porton-btn, .remove-meta-btn','click',function(){
         $(this).closest('tr').remove();
     });
 
@@ -380,9 +356,6 @@ $(document).ready(function(){
         </tr>");
   });
 
-    $('#porton-table').delegate('.remove-porton-btn','click',function(){
-        $(this).closest('tr').remove();
-    });
 
 });
 
