@@ -1,0 +1,8 @@
+@CHARSET "UTF-8";
+/**
+ *	Porpiedades para el div que muestra los resultads en tablas
+ */
+ #dLista {
+ 	margin-left:2em;
+	padding-bottom: 1em;
+ }

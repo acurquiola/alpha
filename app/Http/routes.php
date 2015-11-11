@@ -11,6 +11,15 @@
 |
 */
 
+Route::group(['prefix' => 'systas/'], function () {
+Route::get('inicio',  function(){
+    return view('systas.inicio.form');
+});
+
+});
+
+
+
 
 Route::get('/',  'Auth\AuthController@getLogin');
 Route::post('login', 'Auth\AuthController@postLogin');

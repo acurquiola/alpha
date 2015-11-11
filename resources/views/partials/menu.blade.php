@@ -218,6 +218,7 @@
                  @permission('menu.preciosSCV')
                  <li {{ (\Request::is('administracion/configuracionSCV*'))?"class=active":"" }}><a href="{{ URL::to('administracion/configuracionSCV') }}"><i class="fa  fa-plane"></i> Configuración de Cargos</a></li>
                  @endpermission
+                 <li {{ (\Request::is('systas/*'))?"class=active":"" }}><a href="{{ URL::to('systas/inicio') }}"><i class="fa  fa-plane"></i> Systas</a></li>
              </ul>
          </li>
          @endpermission

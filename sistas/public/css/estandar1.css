@@ -1,0 +1,106 @@
+/*
+ *	WEB STANDARS
+ */
+	body {
+		margin:0em;
+		padding:0em;
+		min-width:600px;
+		font: normal 12px Arial;
+		color: #666;
+		
+	}
+		
+	a {
+		color: #0077dd;
+		text-decoration: underline;
+	}
+	
+	a:hover {
+		text-decoration: none;
+	}
+	
+	fieldset {
+		border: 0px;
+		border-top: #ccc 1px solid;
+	}
+	
+	fieldset legend {
+	  font-size: 120%;
+	  font-weight: normal;
+	  color: #000000;
+	  margin: 0 0 0 0;
+		padding: 0em 0.5em 0em 0.5em;
+	}
+	
+/* 
+ *	DIV CONTENEDOR PRINCIPAL
+ */
+ 
+	#Content {
+		padding: 0em;
+		margin: 0em;
+		width: 100%;
+		overflow:auto;
+	}
+	
+	#Cont h2,h3,h4,h5,h6 {
+		color: #545454;
+		margin-bottom: 1em;
+
+		padding-bottom: 0.3em;
+	}
+	
+	.subrayado  {
+				border-bottom: dashed 1px #dfdfdf;
+	}
+	
+/*
+ *	CONTENEDORES DE INFORMACION
+ */
+ #ContMenu {
+		width: 13.5em;
+		background-color: #f2f2f2;
+		border-right : 1px solid #cccccc;
+		border-left : 1px solid #cccccc;
+		float: left; 
+		margin-right: 1em;
+		padding: 0em 1em 0em 1em;
+
+ }
+ #ContInfo {
+ 		width: 90%;
+		margin-left: 8px;
+		padding: 0px 0px 10px 0px;
+		background-color : #ffffff;
+		float:left; 
+ }
+ #dContInfo {
+ 		width: 90%;
+
+		padding: 0px 0px 10px 0px;
+		background-color : #ffffff;
+		float:left; 
+ }
+ 
+ /* USUARIO */
+#box {
+	margin-top: 1em;
+	border: 1px solid #ccc;
+	border-left: 5px solid #ccc;
+	width: 140px;
+	padding: 7px;
+	margin-bottom: 8px;
+	background:#ffffff url(img/usuario.gif) no-repeat top right;
+	
+}
+.rojo {
+	color: red;
+}
+
+#box label  {
+	width: 4.5em;
+	font: normal 12px Arial;
+	float: left;
+	text-align: left;
+	margin-right: 0.1em;
+}
