@@ -6,7 +6,7 @@
 	 */
 	 
 	// require_once ("../ccaja.php");
-	 require("db.php");
+	 require ("db.php");
 	 //require ("../../class/func.php");
 	// require_once ("consult.php");	
 	

@@ -12,10 +12,12 @@
 */
 
 Route::group(['prefix' => 'systas/'], function () {
-Route::get('inicio',  function(){
-    return view('systas.inicio.form');
-});
-
+    Route::get('configurar', 'SysTasController@configurar');
+    Route::get('imprimir', 'SysTasController@imprimir');
+    Route::get('verificar', 'SysTasController@verificar');
+    Route::get('reporte/repccaja', 'SysTasController@repccaja');
+    Route::get('reporte/repctasa', 'SysTasController@repctasa');
+    Route::get('reporte/reprseries', 'SysTasController@reprseries');
 });
 
 
