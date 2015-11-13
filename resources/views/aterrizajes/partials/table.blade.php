@@ -18,11 +18,13 @@
                     <td class ='hora-td'>{{$aterrizaje->hora}}</td>
                     <td class ='aeronave_id-td'>{{$aterrizaje->aeronave->matricula}}</td>
                     <td class ='tipoMatricula_id-td'>{{$aterrizaje->tipo->nombre}}</td>
-                    <td class ='cliente_id-td'>{{(($aterrizaje->puerto)?$aterrizaje->puerto->siglas:"No disponible")}}</td>
+                    <td class ='puerto_id-td'>{{(($aterrizaje->puerto)?$aterrizaje->puerto->siglas:"No disponible")}}</td>
                     <td class ='num_vuelo-td'>{{(($aterrizaje->num_vuelo)?$aterrizaje->num_vuelo:"N/A")}}</td>
                     <td class ='cliente_id-td'>{{(($aterrizaje->cliente)?$aterrizaje->cliente->nombre:"No asignado")}}</td>
                     <td>
-                         <button class='btn btn-success btn-sm darSalida-btn' data-id='{{$aterrizaje->id}}' ><i class='fa fa-plane' title='Dar Salida'></i></button>
+                         <a href="{{  action('DespegueController@create', [$aterrizaje->id])}}">
+                              <button class='btn btn-success btn-sm darSalida-btn'><i class='fa fa-plane' title='Dar Salida'></i></button>
+                         </a>
                          <button class='btn btn-warning btn-sm editarAterrizaje-btn' data-id='{{$aterrizaje->id}}' ><i class='fa fa-edit' title='Editar Información'></i></button>
                          <button class='btn btn-danger  btn-sm eliminarAterrizaje-btn' data-id='{{$aterrizaje->id}}' ><i class='fa fa-trash' title='Eliminar Registro'></i></button>
                     </td>

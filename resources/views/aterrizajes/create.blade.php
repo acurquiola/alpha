@@ -6,15 +6,15 @@
 		<!-- Content Header (Page header) -->
 
 		<ol class="breadcrumb">
-		  <li><a href="{{url('principal')}}">Inicio</a></li>
-		  <li><a id="listado-aterrizajes" href="{{action('AterrizajeController@index')}}">Lista de Aterrizajes</a></li>
-		  <li><a id="registro-aterrizajes" class="active">Registro</a></li>
+			<li><a href="{{url('principal')}}">Inicio</a></li>
+			<li><a id="listado-aterrizajes" href="{{action('AterrizajeController@index')}}">Lista de Aterrizajes</a></li>
+			<li><a id="registro-aterrizajes" class="active">Registro</a></li>
 		</ol>
 		<section class="content-header">
 			<h1>
 				<?php 
-				$fecha = date('Y-m-d');
-				ini_set('date.timezone','America/Caracas');
+					$fecha = date('Y-m-d');
+					ini_set('date.timezone','America/Caracas');
 				?>
 				<i class="fa fa-road"></i> Registro de Aterrizajes  
 			</h1>
@@ -139,7 +139,7 @@
 										<div class="input-group-addon">
 											<i class="fa fa-info"></i>
 										</div>
-										<select name="tipoMatricula_id" is="tipoMatricula_id" class="form-control tipo_vuelo no-vacio">
+										<select name="tipoMatricula_id" id="tipoMatricula_id" class="form-control tipo_vuelo no-vacio">
 											<option value="">--Seleccione Tipo de Vuelo--</option>
 											@foreach ($tipoMatriculas as $tipoMatricula)
 											<option value="{{$tipoMatricula->id}}"> {{$tipoMatricula->nombre}}</option>
@@ -165,7 +165,6 @@
 					</div><!-- /.box -->
 
 					<div class="box box-warning">
-
 						<div class="box-header">
 							<h5>
 								<i class="fa fa-plane"></i>
@@ -223,14 +222,14 @@
 						</form>
 					</div> <!-- /. box-body -->
 				</div><!-- /. box-body -->
-		</div>
+			</div>
 
-		<div class="box-footer" align="right">
-			<button class="btn btn-default" type="button" id="cancel-aterrizaje-btn">Cancelar </button>
-			<button class="btn btn-primary" type="submit" disabled id="save-aterrizaje-btn"> Registrar </button>
-		</div><!-- ./box-footer -->
+			<div class="box-footer" align="right">
+				<button class="btn btn-default" type="button" id="cancel-aterrizaje-btn">Cancelar </button>
+				<button class="btn btn-primary" type="submit" disabled id="save-aterrizaje-btn"> Registrar </button>
+			</div><!-- ./box-footer -->
+		</section>
 	</section>
-</section>
 </div><!-- /.row (main row) -->
 
 @endsection
@@ -240,16 +239,16 @@
 
 //Función que comprueba que no existen campos sin llenar al momento de enviar el formulario.
 function camposVacios() {
-    var flag=true;
-    $('#fecha-datepicker, #hora, #aeronave_id, tipoMatricula_id').each(function(index, value){
-        if($(value).val()=='')
-            flag&=false;
-    });
-    if(flag==false){
-        $('#save-aterrizaje-btn').attr('disabled','disabled');
-    }else{
-        $('#save-aterrizaje-btn').removeAttr('disabled');
-    }
+	var flag=true;
+	$('#fecha-datepicker, #hora, #aeronave_id, tipoMatricula_id').each(function(index, value){
+		if($(value).val()=='')
+			flag&=false;
+	});
+	if(flag==false){
+		$('#save-aterrizaje-btn').attr('disabled','disabled');
+	}else{
+		$('#save-aterrizaje-btn').removeAttr('disabled');
+	}
 }
 
 $(document).ready(function(){
@@ -258,29 +257,29 @@ $(document).ready(function(){
 		Condiciones en los campos de los formularios
 		*/
 
-    		$('#aterrizajeForm-div input').keyup(function()
-    		{
-    			camposVacios();
-    		});
+		$('#aterrizajeForm-div input').keyup(function()
+		{
+			camposVacios();
+		});
 
-    		$('#aterrizajeForm-div select').change(function()
-    		{
-    			camposVacios();	
-    		});
+		$('#aterrizajeForm-div select').change(function()
+		{
+			camposVacios();	
+		});
 
     /*
     	Fecha
-     	*/
-    		var d= new Date();
-    		var today=$.datepicker.formatDate('d/m/yy', new Date());
-    		var h=d.getHours();
-    		var m=d.getMinutes();
-    		var s=d.getSeconds();
-    		if (m<'10'){
-    			m='0'+m;
-    		}
-			var time=h+':'+m+':'+s;
-    		
+    	*/
+    	var d= new Date();
+    	var today=$.datepicker.formatDate('d/m/yy', new Date());
+    	var h=d.getHours();
+    	var m=d.getMinutes();
+    	var s=d.getSeconds();
+    	if (m<'10'){
+    		m='0'+m;
+    	}
+    	var time=h+':'+m+':'+s;
+
 
 	/*
 		Campos Automáticos.
@@ -423,7 +422,7 @@ $(document).ready(function(){
 
 
 
-	});
+});
 
 </script>
 

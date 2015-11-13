@@ -113,9 +113,13 @@ class OtrosCargoController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function destroy($id)
-	{
-		//
-	}
+    public function destroy($id)
+    {
+        if(\App\OtrosCargo::destroy($id)){
+            return ["success"=>1, "text" => "Registro eliminado con éxito."];
+        }else{
+            return ["success"=>0, "text" => "Error eliminando el registro."];
+        }
+    }
 
 }

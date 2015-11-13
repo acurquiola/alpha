@@ -9,12 +9,7 @@
 				$fecha = date('Y-m-d');
 				ini_set('date.timezone','America/Caracas');
 				?>
-				<i class="fa fa-road"></i> Aterrizajes 
-				<a href="{{ URL::to('operaciones/Aterrizajes/create') }}">
-					<button type="button" class="btn btn-primary pull-right">
-						<i class="fa fa-plus-circle"></i> Registrar
-					</button>
-				</a>
+				<i class="fa fa-road"></i> Despegues 
 			</h1>
 		</section>
 		<section class="content">

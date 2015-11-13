@@ -52,8 +52,11 @@ Route::group(['prefix' => 'maestros/'], function () {
 //
 
 Route::group(['prefix' => 'operaciones/'], function () {
+    Route::group(['prefix' => 'Aterrizajes/{aterrizaje}/'], function () {
+        Route::resource('Despegues', 'DespegueController');
+    });
     Route::resource('Aterrizajes', 'AterrizajeController');
-    Route::resource('Despegues', 'DespegueController');
+
 });
 
 Route::group(['prefix' => 'cobranza/{modulo}/'], function () {
@@ -83,14 +86,13 @@ Route::resource('contrato', 'ContratoController');
 Route::group(['prefix' => 'administracion/'], function () {
     Route::get('usuario/estadoUser', 'UsuarioController@estadoUser');
     Route::resource('usuario', 'UsuarioController');
-    Route::resource('configuracionSCV', 'MontosFijoController', ['only'                                    =>['update', 'index']]);
-    Route::resource('configuracionSCV/AterrizajeDespegue', 'PreciosAterrizajesDespegueController', ['only' =>['update', 'index']]);
-    Route::resource('configuracionSCVEstAeronautico', 'EstacionamientoAeronaveController', ['only'         =>['update', 'index']]);
-    Route::resource('configuracionSCV/HorarioAeronautico', 'HorarioAeronauticoController', ['only'         =>['update', 'index']]);
-    Route::resource('configuracionSCV/CargosVarios', 'CargosVarioController', ['only'                      =>['update', 'index']]);
-    Route::resource('configuracionSCV/Carga', 'PreciosCargaController', ['only'                            =>['update', 'index']]);
-    Route::resource('configuracionSCV/OtrosCargos', 'PreciosOtrosCargoController', ['only'                 =>'update', 'index']);
-
+    Route::resource('configuracionSCV', 'MontosFijoController', ['only'=>['update', 'index']]);
+    Route::resource('configuracionSCV/AterrizajeDespegue', 'PreciosAterrizajesDespegueController', ['only'=>['update', 'index']]);
+    Route::resource('configuracionSCVEstAeronautico', 'EstacionamientoAeronaveController', ['only'=>['update', 'index']]);
+    Route::resource('configuracionSCV/HorarioAeronautico', 'HorarioAeronauticoController', ['only'=>['update', 'index']]);
+    Route::resource('configuracionSCV/CargosVarios', 'CargosVarioController', ['only'=>['update', 'index']]);
+    Route::resource('configuracionSCV/Carga', 'PreciosCargaController', ['only'=>['update', 'index']]);
+    Route::resource('configuracionSCV/OtrosCargos', 'OtrosCargoController');
 
     Route::get('informacion', 'InformacionController@index');
     Route::post('informacion/update', 'InformacionController@update');

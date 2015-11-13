@@ -35,20 +35,20 @@
 	</div><!-- /.invoice col -->
 
 	<div class="col-sm-4 invoice-col">	
-		<div class="box box-info">
+		<div class="box box-info"  id="otrosCargos-div">
 			<div class="box-header">
 				<h3 class="box-title">Registro de Otros Cargos</h3>
 			</div>
-			<div class="box-body" id="otrosCargos-div">
+			<div class="box-body">
 				<form id="otrosCargos-form">
 					<div class="input-group">
 						<span class="input-group-addon"><i class="ion ion-android-arrow-dropright"></i></span>
-						<input type="text" class="form-control" placeholder="Descripción">
+						<input type="text" class="form-control" name="nombre_cargo" placeholder="Descripción">
 					</div>
 					<br/>
 					<div class="input-group">
 						<span class="input-group-addon">BsF.</span>
-						<input type="text" class="form-control" placeholder="Monto">
+						<input type="text" name="precio_cargo" class="form-control" placeholder="Monto">
 
 						<span class="input-group-addon"><i class="fa fa-money"></i></span>
 					</div>
@@ -108,17 +108,49 @@ function getTable(url){
     	    
     	    getTable($(this).attr('href').replace("/?", "?"));
     	})
-   	})
+   	
 
-   	 /*  
+   	    /*   
+            Eliminar registro
+            */
+            
+            $('body').delegate('.eliminarOtroCargo-btn', 'click', function(){
+            var tr  =$(this).closest('tr');
+            var id  =$(this).data('id');
+            var url ="{{action('OtrosCargoController@index')}}/"+id;
+            
+            // confirm dialog
+            alertify.confirm("¿Realmente desea  eliminar este registro?", function (e){
+                if (e) {        
+
+                    $.ajax({url: url,
+                        method:"DELETE"})
+                    .done(function(response, status, responseObject){
+                        try{
+                            var obj= JSON.parse(responseObject.responseText);
+                            if(obj.success==1){
+                                $(tr).remove();
+                                $('#filtrar-btn').trigger('click');
+                                alertify.success(obj.text);
+                            }
+                        }catch(e){
+                            console.log(e);
+                            alertify.error('Error procesando la información');
+                        }
+                    })
+                } 
+            })
+        })
+
+   	/*  
         Guardar un nuevo registro
         */
         $('#save-otrosCargos-btn').click(function(){
 
-            var data=$('#otrosCargos-form-form').serializeArray();
+            var data=$('#otrosCargos-form').serializeArray();
             
             var overlay=    "<div class='overlay'>\
-            <i class='fa fa-refresh' fa-spin></i>\
+            <i class='fa fa-refresh fa-spin'></i>\
             </div>";
             $('#otrosCargos-div').append(overlay);
 
@@ -156,6 +188,7 @@ function getTable(url){
                 }
             })
         })
+	})
 
 </script>
 @endsection('script')

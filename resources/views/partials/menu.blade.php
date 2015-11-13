@@ -99,14 +99,11 @@
 				@permission('menu.aterrizaje')
 				<li {{ (\Request::is('operaciones/Aterrizajes*'))?"class=active":"" }}><a href="{{ URL::to('operaciones/Aterrizajes') }}"><i class="fa fa-fighter-jet"></i> Aterrizajes</a></li>
 				@endpermission
-				<li class="header">DESPEGUES</li>
 				@permission('menu.despegue')
-				<li {{ (\Request::is('operaciones/pilotos*'))?"class=active":"" }}><a href="{{ URL::to('operaciones/pilotos') }}"><i class="fa fa-plane"></i> Consultar Despegues</a></li>
+				<li {{ (\Request::is('operaciones/Despegues*'))?"class=active":"" }}><a href="{{ URL::to('operaciones/Despegues') }}"><i class="fa fa-plane"></i> Despegues</a></li>
 				@endpermission
-				<li class="header">CARGA</li>
 				@permission('menu.carga')
-				<li {{ (\Request::is('operaciones/hangares*'))?"class=active":"" }}><a href="{{ URL::to('operaciones/hangares') }}"><i class="fa fa-truck"></i> Registrar Carga</a></li>
-				<li {{ (\Request::is('operaciones/aeronaves*'))?"class=active":"" }}><a href="{{ URL::to('operaciones/aeronaves') }}"><i class="fa fa-reorder"></i>Consultar Cargas</a></li>
+				<li {{ (\Request::is('operaciones/Cargas*'))?"class=active":"" }}><a href="{{ URL::to('operaciones/Cargas') }}"><i class="fa fa-truck"></i> Cargas</a></li>
 				@endpermission
 			</ul>
 		</li>

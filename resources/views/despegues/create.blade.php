@@ -55,7 +55,7 @@
 									<div class="input-group-addon">
 										<i class="fa fa-plane"></i>
 									</div>                                        
-									<input id="matricula_id" type="text" class="form-control no-vacio" value="Matrícula" placeholder="Matrícula" />
+									<input id="matricula_id" type="text" class="form-control no-vacio" value="{{$aterrizaje->aeronave->matricula}}" placeholder="Matrícula" />
 								</div><!-- /.input group -->
 							</div>
 							<div class="form-group">
@@ -73,7 +73,7 @@
 									<div class="input-group-addon">
 										<i class="fa fa-map-marker"></i>
 									</div>
-									<input id="procedencia" type="text" class="form-control no-vacio" value="Procedencia" placeholder="Procedencia" />
+									<input id="procedencia" type="text" class="form-control no-vacio" value="{{($aterrizaje->puerto)?$aterrizaje->puerto->nombre:'N/A'}}" placeholder="Procedencia" />
 								</div><!-- /.input group -->
 							</div>
 							<div class="form-group">
