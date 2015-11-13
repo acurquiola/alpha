@@ -42,10 +42,8 @@ Route::group(['prefix' => 'maestros/'], function () {
 
 Route::group(['prefix' => 'operaciones/'], function () {
     Route::resource('Aterrizajes', 'AterrizajeController');
+    Route::resource('Despegues', 'DespegueController');
 });
-
-
-
 
 Route::group(['prefix' => 'cobranza/{modulo}/'], function () {
     Route::get('main', 'CobranzaController@main');
