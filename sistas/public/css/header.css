@@ -1,0 +1,99 @@
+/* 
+ *	DIV HEADER
+ */	
+		#dHeader {
+			position: relative;
+			height: 120px;
+			padding-left: 0em;
+		}
+		
+		#dHeader h1 {
+			position: absolute;
+			top: 0.2em;
+			font-size: 40px;
+			letter-spacing: -0.05em;
+			color:#fff;
+			right:2em;
+		}
+		
+		#dHeader h2 {
+			position: absolute;
+			font-size: 12px;
+			top: 5.4em;
+			color: #666666;
+			right:6.5em;
+		}
+
+/* 
+ *	DIV SEPARADOR CON RAYAS
+ */
+		#dLineas {
+			background: url(img/bg.gif) repeat-x;
+			padding-bottom:3em;
+		}
+
+/* 
+ *	MENU DEL HEADER
+ */
+		#dTopMenu
+		{
+			position: absolute;
+			top: 5em;
+			right: 3em;
+		}
+		
+		#dTopMenu ul
+		{
+			list-style: none;
+		}
+		
+		#dTopMenu li
+		{
+			display: inline;
+			padding-left: 1.1em;
+			margin-left: 1em;
+			border-left: dotted 1px #E0E8EF;
+		}
+		
+		#dTopMenu li.first
+		{
+			border: 0em;
+			margin-left: 0em;
+			padding-left: 0em;
+		}
+		
+		#dTopMenu li a
+		{
+			color: #fff;
+			padding: 0.1em;
+			text-decoration: none;
+		}
+		
+		#dTopMenu li a:hover
+		{
+			text-decoration: underline;
+		}
+		/*
+		 * DIV DE LA IMAGEN DEL LOGO
+		 */
+		#dLog171 img{
+			position: absolute;
+			font-size: 0.8em;
+			top: 1em;
+			left:1em;
+			color: #E0E8EF;
+		}
+		
+		#dLog171 p {
+			position: absolute;
+			font-size: 0.8em;
+			top: 7em;
+			right: 2em;
+			color: #E0E8EF;
+			font-size:9px;
+		}
+		
+		#dLog171 a {
+			color:#FFFFFF;
+		}
+

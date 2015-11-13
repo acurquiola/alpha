@@ -30,6 +30,36 @@
 				</a>
 			</li>
 		-->
+
+
+
+
+         <li class="treeview {{ (\Request::is('systas/*'))?"active":"" }}">
+            <a href="{{ URL::to('systas/inicio') }}"><i class="fa  fa-plane"></i> Systas</a>
+            <ul class="treeview-menu">
+                <li class="header">Configuraciones</li>
+
+                <li {{ (\Request::is('systas/configurar*'))?"class=active":"" }}><a href="{{ URL::to('systas/configurar') }}"><i class="fa fa-paper-plane"></i> Configurar Tipos de Tasa</a></li>
+
+                <li class="header">Servicios</li>
+
+                <li {{ (\Request::is('systas/imprimir*'))?"class=active":"" }}><a href="{{ URL::to('systas/imprimir') }}"><i class="fa fa-road"></i> Imprimir</a></li>
+
+                <li {{ (\Request::is('systas/verificar*'))?"class=active":"" }}><a href="{{ URL::to('systas/verificar') }}"><i class="glyphicon glyphicon-user"></i> Verificar</a></li>
+
+                <li class="header">Reportes</li>
+
+                <li {{ (\Request::is('systas/reportes/repccaja*'))?"class=active":"" }}><a href="{{ URL::to('systas/reporte/repccaja') }}"><i class="glyphicon glyphicon-home"></i> Tasas Conciliadas</a></li>
+
+                <li {{ (\Request::is('systas/reportes/repctasa*'))?"class=active":"" }}><a href="{{ URL::to('systas/reporte/repctasa') }}"><i class="fa fa-plane"></i> Tasas Emitidas (Detallado)</a></li>
+
+                <li {{ (\Request::is('systas/reportes/reprseries*'))?"class=active":"" }}><a href="{{ URL::to('systas/reporte/reprseries') }}"><i class="fa fa-plane"></i> Tasas Emitidas (Series)</a></li>
+
+            </ul>
+         </li>
+
+
+
 		@permission('menu.modeloaeronave|menu.puerto|menu.piloto|menu.hangar|menu.aeronave')
 		<li class="treeview {{ (\Request::is('maestros*'))?"active":""}}">
 			<a href="#">
