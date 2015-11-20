@@ -56,6 +56,7 @@ Route::group(['prefix' => 'operaciones/'], function () {
         Route::resource('Despegues', 'DespegueController');
     });
     Route::resource('Aterrizajes', 'AterrizajeController');
+    Route::resource('Cargas', 'CargaController');
 
 });
 

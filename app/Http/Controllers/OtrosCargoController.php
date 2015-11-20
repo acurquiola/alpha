@@ -36,7 +36,7 @@ class OtrosCargoController extends Controller {
 			$otros_cargos = OtrosCargo::with("conceptos")
 										->where('nombre_cargo', 'like', $nombre_cargo)
 										->orderBy($sortName, $sortType)
-										->paginate(7);
+										->paginate(3);
 
 			return view('configuracionPrecios.confOtrosCargos.partials.table', compact('otros_cargos'));
 		}
