@@ -52,6 +52,7 @@ class HangarController extends Controller {
 			$aeropuertos = Aeropuerto::all();
 			$clientes    = Cliente::all();
 			$aeronaves   = Aeronave::all();
+			dd($cargas);
 			
 			return view('hangares.index', compact('hangares', 'aeropuertos', 'clientes', 'aeronaves'));
 		}

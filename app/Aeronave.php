@@ -33,4 +33,9 @@ class Aeronave extends Model {
         return $this->hasMany('App\Aterrizaje');
     }
 
+    public function carga()
+    {
+        return $this->hasMany('App\Carga');
+    }
+
 }

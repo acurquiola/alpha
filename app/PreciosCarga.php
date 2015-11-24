@@ -10,4 +10,8 @@ class PreciosCarga extends Model {
     { 
         return $this->belongsTo('App\Concepto');
     }
+	public function carga()
+    { 
+        return $this->hasOne('App\Carga');
+    }
 }

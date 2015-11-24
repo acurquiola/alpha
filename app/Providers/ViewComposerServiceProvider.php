@@ -40,7 +40,7 @@ class ViewComposerServiceProvider extends ServiceProvider {
             $view->with(compact('hangars'));
         });
 
-        view()->composer(['aeronaves.partials.form', 'aeronaves.index', 'aterrizajes.index', 'aterrizajes.create', 'aterrizajes.partials.form', 'aterrizajes.partials.edit', 'aterrizajes.partials.show'], function($view){
+        view()->composer(['aeronaves.partials.form', 'aeronaves.index', 'aterrizajes.index', 'aterrizajes.create', 'aterrizajes.partials.form', 'aterrizajes.partials.edit', 'aterrizajes.partials.show', 'cargas.index', 'cargas.create', ], function($view){
             $clientes= \App\Cliente::where("tipo","=", "Aeronáutico")->lists('nombre', 'id');
             $view->with(compact('clientes'));
         });

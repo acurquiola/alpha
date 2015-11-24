@@ -122,7 +122,9 @@
  <script>
 
 // Función constructora de la tabla.
-function getTable(url){$('#table-wrapper').load(url)}
+function getTable(url){
+    $('#table-wrapper').load(url)
+}
 
 //Función que comprueba que no existen campos sin llenar al momento de enviar el formulario.
 function camposVacios() {

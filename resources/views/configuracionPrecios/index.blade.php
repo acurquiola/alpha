@@ -174,7 +174,8 @@ $(document).ready(function(){
 		var eq_AborCH =$('body #tab_5 .eq_usoAbordajeConHab').val();
 
 		var val_form= eq_form*ut;
-		$('body #tab_5 #precioFormulario-input').val(val_form.toFixed(2));
+		$('body #tab_5 #precioFormulario-input').val(val_form);
+		alert(val_form);
 		var val_DerHab= eq_DerHab*ut;
 		$('body #tab_5 #precioDerechoHabilitacion-input').val(val_DerHab)
 		var val_AborSH= eq_AborSH*ut;
@@ -192,7 +193,8 @@ $(document).ready(function(){
 		var eq_AborCH =$('body #tab_5 .eq_usoAbordajeConHab').val();
 
 		var val_form= eq_form*ut;
-		$('body #tab_5 #precioFormulario-input').val(val_form.toFixed(2));
+		alert(val_form);
+		$('body #tab_5 #precioFormulario-input').val(val_form);
 		var val_DerHab= eq_DerHab*ut;
 		$('body #tab_5 #precioDerechoHabilitacion-input').val(val_DerHab);
 		var val_AborSH= eq_AborSH*ut;
@@ -208,7 +210,8 @@ $(document).ready(function(){
 		var eq_UT     =$('body #tab_6 .equivalenteUT').val();
 		
 		var val_carga = eq_UT*ut;
-		$('body #tab_6 #equivalenteUT-input').val(val_carga.toFixed(2));
+		$('body #tab_6 #equivalenteUT-input').val(val_carga);
+		console.log(val_carga);
 	});
 
 	$( "body #tab_6 input" ).keyup(function( event ) {	
@@ -216,7 +219,7 @@ $(document).ready(function(){
 		var eq_UT     =$('body #tab_6 .equivalenteUT').val();
 		
 		var val_carga = eq_UT*ut;
-		$('body #tab_6 #equivalenteUT-input').val(val_carga.toFixed(2));
+		$('body #tab_6 #equivalenteUT-input').val(val_carga);
 	});
 
 
