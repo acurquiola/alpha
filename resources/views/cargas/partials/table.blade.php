@@ -18,9 +18,10 @@
                     <td class ='num_vuelo-td'>{{$carga->num_vuelo}}</td>
                     <td class ='aeronave_id-td'>{{$carga->aeronave->matricula}}</td>
                     <td class ='cliente_id-td'>{{$carga->cliente->nombre}}</td>
-                    <td class ="embarque-td">{{$carga->peso_embarcado}}</td>
-                    <td class ="desembarque-td">{{$carga->peso_desembarcado}}</td>
+                    <td class ="peso_embarcado-td">{{$carga->peso_embarcado}}</td>
+                    <td class ="peso_desembarcado-td">{{$carga->peso_desembarcado}}</td>
                     <td>
+                         <button class='btn btn-warning btn-sm facturarCarga-btn' data-id='{{$carga->id}}' ><i class='fa fa-credit-card-alt' title='Facturar'></i></button>
                          <button class='btn btn-warning btn-sm editarCarga-btn' data-id='{{$carga->id}}' ><i class='fa fa-edit' title='Editar Información'></i></button>
                          <button class='btn btn-danger btn-sm eliminarCarga-btn' data-id='{{$carga->id}}' ><i class='fa fa-trash' title='Eliminar Registro'></i></button>
                     </td>

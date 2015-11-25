@@ -147,9 +147,9 @@
 							</h5>
 						</div>		
 										
-						<div class="box-body">
+						<div class="box-body" >
 							<!-- Estacionamiento -->
-							<div class="col-sm-3">
+							<div class="col-sm-3" >
 								<label>
 									{!! Form::checkbox('cobrar_estacionamiento', '1', true) !!}
 									Estacionamiento
@@ -170,7 +170,7 @@
 							</div><!--/. col -->
 
 							<!-- Puentes de Abordaje -->
-							<div class="col-sm-4">
+							<div class="col-sm-4" disabled>
 								<label>
 									{!! Form::checkbox('cobrar_puenteAbordaje', '1', true) !!}
 									Puentes de Abordaje
@@ -385,14 +385,12 @@ function camposVacios() {
 	}
 }
 
-function calcularAterrizajeDespegue(today, horaActual, fecha, hora, salidaSol, puestaSol){
-    if()
-}
+
 
 $(document).ready(function(){
 
 
-	$('#otros_cargos-select').chosen({width:'40%'})
+	$('#otros_cargos-select').chosen({width:'40%'});
 
 	/* 
 		Condiciones en los campos de los formularios
