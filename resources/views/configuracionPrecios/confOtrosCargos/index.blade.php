@@ -81,6 +81,7 @@
 
 
 @section('script')
+@parent
 <script> 
 
 function getTable(url){
