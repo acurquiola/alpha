@@ -2,7 +2,7 @@
 <div class="col-sm-4 invoice-col">
 
 	<!-- Configuración del Precio del Formulario -->
-	<div class="box box-success">
+	<div class="box box-success cargosVariosBox">
 		<div class="box-header">
 			<h5>Formulario <small></br>Costo</small></h5>
 		</div>
@@ -43,7 +43,7 @@
 </div>
 
 <div class="col-sm-4 invoice-col">
-	<div class="box box-success">
+	<div class="box box-success cargosVariosBox">
 		<div class="box-header">
 			<h5>Derecho de Habilitación <small></br>Costo</small></h5>
 		</div>
@@ -86,7 +86,7 @@
 
 <!-- Configuración del Precio del uso de Abordaje -->
 <div class="col-sm-4 invoice-col">
-	<div class="box box-success">
+	<div class="box box-success cargosVariosBox">
 		<div class="box-header">
 			<h5>Derecho de Uso de Abordaje <small></br>Con/Sin Habilitación</small></h5>
 		</div>

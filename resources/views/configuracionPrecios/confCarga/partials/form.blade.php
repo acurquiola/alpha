@@ -1,6 +1,6 @@
 <div class="col-sm-4 invoice-col">
 	<!-- Configuración del Precio por Carga -->
-	<div class="box box-success">
+	<div class="box box-success cargaBox">
 		<div class="box-header">
 			<h5>Carga <small></br>Costo</small></h5>
 		</div>
@@ -42,7 +42,7 @@
 
 <!-- Definicion de Partida Presupuestaria -->
 <div class="col-sm-4 invoice-col">
-	<div class="box box-success">
+	<div class="box box-success cargaBox">
 		<div class="box-header">
 			<h5>Conceptos<small></br>Seleccionar nombre del concepto</small></h5>
 		</div>

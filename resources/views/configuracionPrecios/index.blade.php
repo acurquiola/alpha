@@ -71,12 +71,14 @@
 
 				</div><!-- /.tab-pane -->
 
-				<!-- Otras Configuraciones -->
+				<!-- Otros Cargos -->
 				<div class="tab-pane" id="tab_4">
 
-					@include('configuracionPrecios.confOtrosCargos.index')
+	 				@include('configuracionPrecios.confOtrosCargos.index') 
 
 				</div><!-- /.tab-pane -->
+
+
 
 				<!-- Otras Configuraciones -->
 				<div class="tab-pane" id="tab_5">
@@ -229,10 +231,16 @@ $(document).ready(function(){
 			data.dolar_oficial     =$('#tab_0 form .dolar_oficial').val()
 			var url                =$('#tab_0 form').attr('action')
 
+			var overlay=    "<div class='overlay'>\
+	            <i class='fa fa-refresh fa-spin'></i>\
+	            </div>";
+	            $('body .confGeneralBox').append(overlay);
+
 			$.ajax({data:data,
 				method:'PUT',
 				url:url})
 			.always(function(text, status, responseObject){
+                $('body .confGeneralBox .overlay').remove();
 				try
 				{
 					var respuesta = JSON.parse(responseObject.responseText);
@@ -264,10 +272,16 @@ $(document).ready(function(){
 			var data =$('#tab_1 form').serializeArray()
 			var url  =$('#tab_1 form').attr('action')
 
+			var overlay=    "<div class='overlay'>\
+	            <i class='fa fa-refresh fa-spin'></i>\
+	            </div>";
+	            $('body .aterrizajeBox').append(overlay);
+
 			$.ajax({data:data,
 				method:'PUT',
 				url:url})
 			.always(function(text, status, responseObject){
+                $('body .aterrizajeBox .overlay').remove();
 				try
 				{
 					var respuesta = JSON.parse(responseObject.responseText);
@@ -296,11 +310,16 @@ $(document).ready(function(){
 			var data =$('#tab_2 form').serializeArray()
 			var url  =$('#tab_2 form').attr('action')
 
-			console.log(data)
+			var overlay=    "<div class='overlay'>\
+	            <i class='fa fa-refresh fa-spin'></i>\
+	            </div>";
+	            $('body .estacionamientoBox').append(overlay);
+
 			$.ajax({data:data,
 				method:'PUT',
 				url:url})
 			.always(function(text, status, responseObject){
+                $('body .estacionamientoBox .overlay').remove();
 				try
 				{
 					var respuesta = JSON.parse(responseObject.responseText);
@@ -330,11 +349,17 @@ $(document).ready(function(){
 			var data =$('#tab_3 form').serializeArray()
 			var url  =$('#tab_3 form').attr('action')
 
-			console.log(data)
+			var overlay=    "<div class='overlay'>\
+	            <i class='fa fa-refresh fa-spin'></i>\
+	            </div>";
+	            $('body .horariosBox').append(overlay);
+
+
 			$.ajax({data:data,
 				method:'PUT',
 				url:url})
 			.always(function(text, status, responseObject){
+                $('body .horariosBox .overlay').remove();
 				try
 				{
 					var respuesta = JSON.parse(responseObject.responseText);
@@ -362,11 +387,16 @@ $(document).ready(function(){
 			var data =$('#tab_5 form').serializeArray()
 			var url  =$('#tab_5 form').attr('action')
 
-			console.log(data)
+			var overlay=    "<div class='overlay'>\
+	            <i class='fa fa-refresh fa-spin'></i>\
+	            </div>";
+	            $('body .cargosVariosBox').append(overlay);
+
 			$.ajax({data:data,
 				method:'PUT',
 				url:url})
 			.always(function(text, status, responseObject){
+                $('body .cargosVariosBox .overlay').remove();
 				try
 				{
 					var respuesta = JSON.parse(responseObject.responseText);
@@ -395,12 +425,17 @@ $(document).ready(function(){
 			var data =$('#tab_6 form').serializeArray()
 			var url  =$('#tab_6 form').attr('action')
 
-			console.log(data)
+			var overlay=    "<div class='overlay'>\
+	            <i class='fa fa-refresh fa-spin'></i>\
+	            </div>";
+	            $('body .cargaBox').append(overlay);
+
 			$.ajax({data:data,
 				method:'PUT',
 				url:url})
 			.always(function(text, status, responseObject){
-				try
+                $('body .cargaBox .overlay').remove();
+                try
 				{
 					var respuesta = JSON.parse(responseObject.responseText);
 					if (respuesta.success==1)

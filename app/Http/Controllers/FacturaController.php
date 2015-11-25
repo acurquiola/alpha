@@ -15,8 +15,8 @@ class FacturaController extends Controller {
     }
 
     public function main($id){
-        $id=($id=="Todos")?"%":$id;
-        $modulos=$this->getModulos($id);
+        $id      =($id=="Todos")?"%":$id;
+        $modulos =$this->getModulos($id);
         return view('factura.main', compact('modulos'));
     }
 
@@ -56,33 +56,33 @@ class FacturaController extends Controller {
         $fechaOperator     = $request->get('fechaOperator', '>=');
         $fechaOperator     =($fechaOperator=="")?'>=':$fechaOperator;
         if($fecha==""){
-            $fecha='0000-00-00';
-            $fechaOperator='>=';
+            $fecha         ='0000-00-00';
+            $fechaOperator ='>=';
         }else{
             $fecha=\Carbon\Carbon::createFromFormat('d/m/Y', $fecha);
         }
 
 
 
-        \Input::merge(['fechaOperator'=>$fechaOperator,
-            'facturaIdOperator'=>$facturaIdOperator,
-            'totalOperator'=>$totalOperator,
-            'sortName'=>$sortName,
-            'sortType'=>$sortType]);
+        \Input::merge([ 'fechaOperator'     =>$fechaOperator,
+                        'facturaIdOperator' =>$facturaIdOperator,
+                        'totalOperator'     =>$totalOperator,
+                        'sortName'          =>$sortName,
+                        'sortType'          =>$sortType]);
 
         $modulo=\App\Modulo::where("nombre","like",$id)->first();
 
 
             $modulo->facturas=\App\Factura::select("facturas.*","clientes.nombre as clienteNombre")
-                ->join('clientes','clientes.id' , '=', 'facturas.cliente_id')
-                ->where('facturas.id', $facturaIdOperator, $facturaId)
-                ->where('total', $totalOperator, $total)
-                ->where('fecha', $fechaOperator, $fecha)
-                ->where('descripcion', 'like', "%$descripcion%")
-                ->where('clientes.nombre', 'like', "%$clienteNombre%")
-                ->where('facturas.aeropuerto_id','=', session('aeropuerto')->id)
-                ->with('cliente')
-                ->orderBy($sortName, $sortType)->paginate(50);
+                                            ->join('clientes','clientes.id' , '=', 'facturas.cliente_id')
+                                            ->where('facturas.id', $facturaIdOperator, $facturaId)
+                                            ->where('total', $totalOperator, $total)
+                                            ->where('fecha', $fechaOperator, $fecha)
+                                            ->where('descripcion', 'like', "%$descripcion%")
+                                            ->where('clientes.nombre', 'like', "%$clienteNombre%")
+                                            ->where('facturas.aeropuerto_id','=', session('aeropuerto')->id)
+                                            ->with('cliente')
+                                            ->orderBy($sortName, $sortType)->paginate(50);
 
         $modulo->facturas->setPath('');
 
@@ -136,8 +136,9 @@ class FacturaController extends Controller {
 	public function edit($modulo, Factura $factura)
 	{
         $factura->load('detalles');
-		return view('factura.edit', compact('factura', 'modulo'));
-	}
+        return view('factura.edit', compact('factura', 'modulo'));
+      
+    }
 
 	/**
 	 * Update the specified resource in storage.
@@ -148,11 +149,12 @@ class FacturaController extends Controller {
 	public function update($id, Factura $factura, FacturaRequest $request)
 	{
 
-        $facturaData=$this->getFacturaDataFromRequest($request);
-        $facturaDetallesData=$this->getFacturaDetallesDataFromRequest($request);
+        $facturaData         =$this->getFacturaDataFromRequest($request);
+        $facturaDetallesData =$this->getFacturaDetallesDataFromRequest($request);
         $factura->update($facturaData);
         $factura->detalles()->delete();
         $factura->detalles()->createMany($facturaDetallesData);
+
         return ["success" => 1];
 	}
 
@@ -175,44 +177,45 @@ class FacturaController extends Controller {
 
     protected function getFacturaDataFromRequest($request){
         return  $request->only('aeropuerto_id',
-            'condicionPago',
-            'nControl',
-            'nFactura',
-            'fecha',
-            'fechaVencimiento',
-            'cliente_id',
-            'subtotalNeto',
-            'descuentoTotal',
-            'subtotal',
-            'iva',
-            'recargoTotal',
-            'total',
-            'descripcion',
-            'comentario');
+                                'condicionPago',
+                                'nControl',
+                                'nFactura',
+                                'fecha',
+                                'fechaVencimiento',
+                                'cliente_id',
+                                'subtotalNeto',
+                                'descuentoTotal',
+                                'subtotal',
+                                'iva',
+                                'recargoTotal',
+                                'total',
+                                'descripcion',
+                                'comentario');
 
     }
     protected function getFacturaDetallesDataFromRequest($request){
-        $detalles=$request->only(  'concepto_id',
-            'cantidadDes',
-            'montoDes',
-            'descuentoPerDes',
-            'descuentoTotalDes',
-            'ivaDes',
-            'recargoPerDes',
-            'recargoTotalDes',
-            'totalDes' );
-        $size=count($detalles["concepto_id"]);
-        $facturaDetallesData=array();
+        $detalles=$request->only(   'concepto_id',
+                                    'cantidadDes',
+                                    'montoDes',
+                                    'descuentoPerDes',
+                                    'descuentoTotalDes',
+                                    'ivaDes',
+                                    'recargoPerDes',
+                                    'recargoTotalDes',
+                                    'totalDes' );
+
+        $size                =count($detalles["concepto_id"]);
+        $facturaDetallesData =array();
         for($i=0; $i<$size; $i++){
-            $facturaDetallesData[]=array('concepto_id' => $detalles["concepto_id"][$i],
-                'cantidadDes' => $detalles["cantidadDes"][$i],
-                'montoDes' => $detalles["montoDes"][$i],
-                'descuentoPerDes' => $detalles["descuentoPerDes"][$i],
-                'descuentoTotalDes' => $detalles["descuentoTotalDes"][$i],
-                'ivaDes' => $detalles["ivaDes"][$i],
-                'recargoPerDes' => $detalles["recargoPerDes"][$i],
-                'recargoTotalDes' => $detalles["recargoTotalDes"][$i],
-                'totalDes' => $detalles["totalDes"][$i]);
+            $facturaDetallesData[]=array(   'concepto_id'       => $detalles["concepto_id"][$i],
+                                            'cantidadDes'       => $detalles["cantidadDes"][$i],
+                                            'montoDes'          => $detalles["montoDes"][$i],
+                                            'descuentoPerDes'   => $detalles["descuentoPerDes"][$i],
+                                            'descuentoTotalDes' => $detalles["descuentoTotalDes"][$i],
+                                            'ivaDes'            => $detalles["ivaDes"][$i],
+                                            'recargoPerDes'     => $detalles["recargoPerDes"][$i],
+                                            'recargoTotalDes'   => $detalles["recargoTotalDes"][$i],
+                                            'totalDes'          => $detalles["totalDes"][$i]);
         }
         return $facturaDetallesData;
 
@@ -222,10 +225,10 @@ class FacturaController extends Controller {
         $modulos=\App\Modulo::where("nombre","like",$id)->orderBy("nombre")->get();
         foreach($modulos as $modulo){
         $modulo->facturas=\App\Factura::select("facturas.*")
-        ->join('facturadetalles','facturas.id' , '=', 'facturadetalles.factura_id')
-        ->join('conceptos','conceptos.id' , '=', 'facturadetalles.concepto_id')
-        ->where('conceptos.modulo_id', "=", $modulo->id)
-        ->groupBy("facturas.id")->get();
+                                        ->join('facturadetalles','facturas.id' , '=', 'facturadetalles.factura_id')
+                                        ->join('conceptos','conceptos.id' , '=', 'facturadetalles.concepto_id')
+                                        ->where('conceptos.modulo_id', "=", $modulo->id)
+                                        ->groupBy("facturas.id")->get();
         $modulo->facturas->load('cliente');
         }
          return $modulos;

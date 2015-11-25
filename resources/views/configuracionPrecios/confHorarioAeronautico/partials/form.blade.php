@@ -1,5 +1,5 @@
 <div class="col-sm-4 invoice-col">	
-		<div class="box box-info">
+		<div class="box box-info horariosBox">
 			<div class="box-header">
 				<h5>Horario de Operaciones </h5>
 			</div>
@@ -34,7 +34,7 @@
 	</div> <!-- /.col -->
 
 	<div class="col-sm-4 invoice-col">	
-		<div class="box box-info">
+		<div class="box box-info horariosBox">
 			<div class="box-header">
 				<h5>Salida y Puesta del Sol </h5>
 			</div>

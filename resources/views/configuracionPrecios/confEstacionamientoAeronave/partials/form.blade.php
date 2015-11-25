@@ -1,6 +1,6 @@
 	<!-- Configuración del Precio del Estacionamiento y espacio libre -->
 	<div class="col-sm-4 invoice-col">
-		<div class="box box-danger">
+		<div class="box box-danger estacionamientoBox">
 			<div class="box-header">
 				<h5>Internacionales<small></br>Bloque sin cargo y Precio por bloque</small></h5>
 			</div>
@@ -56,7 +56,7 @@
 
 	<!-- Configuración del Precio del Estacionamiento y espacio libre -->
 	<div class="col-sm-4 invoice-col">
-		<div class="box box-danger">
+		<div class="box box-danger estacionamientoBox">
 			<div class="box-header">
 				<h5>Nacionales<small></br>Bloque sin cargo y Precio por bloque</small></h5>
 			</div>
@@ -114,7 +114,7 @@
 	
 <!-- Definicion de Partida Presupuestaria -->
 <div class="col-sm-4 invoice-col">
-	<div class="box box-warning">
+	<div class="box box-warning estacionamientoBox">
 		<div class="box-header">
 			<h5>Conceptos<small></br>Seleccionar nombre del concepto</small></h5>
 		</div>

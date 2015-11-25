@@ -1,6 +1,6 @@
 <div class="col-sm-4 invoice-col">
 
-	<div class="box box-warning">
+	<div class="box box-warning aterrizajeBox">
 		<div class="box-header">
 			<h5>Internacionales<small></br>Diurno y Nocturno</small></h5>
 		</div>
@@ -53,7 +53,7 @@
 
 <!-- Nacionales -->
 <div class="col-sm-4 invoice-col">
-	<div class="box box-warning">
+	<div class="box box-warning aterrizajeBox">
 		<div class="box-header">
 			<h5>Nacionales<small></br>Diurno y Nocturno</small></h5>
 		</div>
@@ -106,7 +106,7 @@
 </div> <!-- /.col -->
 <!-- Definicion de Partida Presupuestaria -->
 <div class="col-sm-4 invoice-col">
-	<div class="box box-warning">
+	<div class="box box-warning aterrizajeBox">
 		<div class="box-header">
 			<h5>Conceptos<small></br>Seleccionar nombre del concepto</small></h5>
 		</div>

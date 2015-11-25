@@ -1,6 +1,6 @@
 <div class="col-sm-4 invoice-col">
 	<!-- Precio de la UT -->
-	<div class="box box-info">
+	<div class="box box-info confGeneralBox">
 		<div class="box-header">
 			<h5>Unidad Tributaria</h5>
 		</div>
@@ -21,7 +21,7 @@
 
 <div class="col-sm-4 invoice-col">
 	<!-- Precio del Dolar -->
-	<div class="box box-info">
+	<div class="box box-info confGeneralBox">
 		<div class="box-header">
 			<h5>Dólar Oficial</h5>
 		</div>
