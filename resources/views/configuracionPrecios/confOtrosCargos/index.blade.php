@@ -35,11 +35,11 @@
 	</div><!-- /.invoice col -->
 
 	<div class="col-sm-4 invoice-col">	
-		<div class="box box-info"  id="otrosCargos-div">
+		<div class="box box-info">
 			<div class="box-header">
 				<h3 class="box-title">Registro de Otros Cargos</h3>
 			</div>
-			<div class="box-body">
+			<div class="box-body" id="otrosCargos-div">
 				<form id="otrosCargos-form">
 					<div class="input-group">
 						<span class="input-group-addon"><i class="ion ion-android-arrow-dropright"></i></span>
@@ -55,7 +55,7 @@
 					</br>
 					<div class="input-group">
 						<select class="form-control" id="conceptoCredito_id"  name="conceptoCredito_id" required>
-							<option value="">--Seleccione Concepto--</option>
+							<option value="">--Seleccione Concepto - Crédito--</option>
 	                        @foreach ($conceptos as $index => $concepto)
 	                        <option value="{{$index}}"> {{$concepto}}</option>
 	                        @endforeach
@@ -63,7 +63,7 @@
 					</div>
 					<div class="input-group">
 						<select class="form-control" id="conceptoContado_id"  name="conceptoContado_id" required>
-							<option value="">--Seleccione Concepto--</option>
+							<option value="">--Seleccione Concepto - Contado--</option>
 	                        @foreach ($conceptos as $index => $concepto)
 	                        <option value="{{$index}}"> {{$concepto}}</option>
 	                        @endforeach
@@ -150,7 +150,7 @@ function getTable(url){
             var data=$('#otrosCargos-form').serializeArray();
             
             var overlay=    "<div class='overlay'>\
-            <i class='fa fa-refresh fa-spin'></i>\
+            <i class='fa fa-refresh fa-spin></i>\
             </div>";
             $('#otrosCargos-div').append(overlay);
 

@@ -10,6 +10,7 @@ use App\Carga;
 use App\PreciosCarga;
 use App\Cliente;
 use App\Aeronave;
+use App\MontosFijo;
 
 class CargaController extends Controller {
 
@@ -74,8 +75,9 @@ class CargaController extends Controller {
 	{
 		$aeronaves      = Aeronave::all();
 		$today          = Carbon::now();
-		$precios_cargas = PreciosCarga::all();
-		return view('cargas.create', compact('today', 'aeronaves'));
+		$precios_cargas = PreciosCarga::first();
+		$montos_fijos   = MontosFijo::first();
+		return view('cargas.create', compact('today', 'aeronaves', 'montos_fijos', 'precios_cargas'));
 	}
 
 	/**

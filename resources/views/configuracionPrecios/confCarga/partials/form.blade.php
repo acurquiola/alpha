@@ -21,7 +21,7 @@
 					<div class="input-group-addon">
 						<i class="fa fa-money"></i> BsF. 
 					</div>
-					<input type="text" class="form-control" disabled id="equivalenteUT-input"/>
+					<input type="text" class="form-control"  id="equivalenteUT-input" disabled/>
 				</div><!-- /.input group -->
 			</div><!-- /.form group -->
 			<!-- Definición de Bloque -->

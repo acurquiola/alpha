@@ -92,14 +92,18 @@
 											<div class="input-group-addon">
 												Kg(s) <i class="ion ion-soup-can-outline"></i>
 											</div>
-											<input type="text" name="peso_embarcado" placeholder="Peso Embarcado" class="form-control"/>
+											<input type="text" name="peso_embarcado" value="0" id="peso_embarcado" placeholder="Peso Embarcado" class="form-control"/>
 										</div><!-- /.input group -->
 									</div><!-- /.form group -->
+
+									<input type="hidden" name="" id="precio_bloque" class="form-control" value="{{$precios_cargas->equivalenteUT}}">	
+									<input type="hidden" name="" id="toneladas_bloque" class="form-control" value="{{$precios_cargas->toneladaPorBloque}}">	
+									<input type="hidden" name="" id="ut" class="form-control" value="{{$montos_fijos->unidad_tributaria}}">	
 
 									<!-- Peso de Desembarque -->
 									<div class="form-group">
 										<div class="input-group">
-											<input type="text"  name="peso_desembarcado" placeholder="Peso Desembarcado" class="form-control"/>
+											<input type="text"  name="peso_desembarcado" value="0" id="peso_desembarcado" placeholder="Peso Desembarcado" class="form-control"/>
 											<div class="input-group-addon ">
 												Kg(s) <i class="ion ion-soup-can-outline"></i>
 											</div>
@@ -122,9 +126,9 @@
 										<div class="input-group-addon">
 											<i class="fa fa-money"></i> BsF. 
 										</div>
-										<input type="text" name="monto_total" class="form-control no-vacio" />
+										<input type="text" name="monto_total" id="monto_total" class="form-control no-vacio" />
 									</div><!-- /.input group -->
-								</div><!-- /.form group -->		
+								</div><!-- /.form group -->	
 
 							</form>
 						</div><!-- /.box-body -->
@@ -200,22 +204,20 @@
 		/* 
 			Cálculo de Monto Total
 			*/
-			$( "body #tab_5 input" ).keyup(function( event ) {	
+			$("#carga-form input" ).keyup(function(event) {	
 
-			var ut        =$('body #tab_0 .unidad_tributaria').val();
-			var eq_form   =$('body #tab_5 .eq_formulario').val();
-			var eq_DerHab =$('body #tab_5 .eq_derechoHabilitacion').val();
-			var eq_AborSH =$('body #tab_5 .eq_usoAbordajeSinHab').val();
-			var eq_AborCH =$('body #tab_5 .eq_usoAbordajeConHab').val();
+				var ut                =$('#ut').val();
+				var eq_carga          =$('#precio_bloque').val();
+				var bloque            =$('#toneladas_bloque').val();
+				var peso_embarcado    =$('#peso_embarcado').val();
+				var peso_desembarcado =$('#peso_desembarcado').val();
+				
+				var carga             = (parseFloat(peso_embarcado) + parseFloat(peso_desembarcado))/bloque;
+				var equivalente       = parseFloat(ut)*parseFloat(eq_carga);
+				var monto             = parseFloat(carga)*parseFloat(equivalente);
 
-			var val_form= eq_form*ut;
-			$('body #tab_5 #precioFormulario-input').val(val_form.toFixed(2));
-			var val_DerHab= eq_DerHab*ut;
-			$('body #tab_5 #precioDerechoHabilitacion-input').val(val_DerHab);
-			var val_AborSH= eq_AborSH*ut;
-			$('body #tab_5 #preciousoAbordajeSinHab-input').val(val_AborSH);
-			var val_AborCH= eq_AborCH*ut;
-			$('body #tab_5 #preciousoAbordajeConHab-input').val(val_AborCH);
+				$('#monto_total').val(monto);
+			
 		});
 
 
@@ -228,7 +230,7 @@
                 console.log(data);
                 
                 var overlay=    "<div class='overlay'>\
-                <i class='fa fa-refresh fa-spin></i>\
+                <i class='fa fa-refresh fa-spin'></i>\
                 </div>";
                 $('#cargaForm-div').append(overlay);
 
@@ -249,7 +251,8 @@
                             var respuesta=JSON.parse(responseObject.responseText);
                             if(respuesta.success==1)
                             {
-                                $('#cargaForm-div .no-vacio').val('');
+                                $('#cargaForm-div input').val('');
+                                $('#cargaForm-div select').val('');
                                 $('#save-carga-btn').attr('disabled','disabled');
                                 alertify.success(respuesta.text);
                             }
