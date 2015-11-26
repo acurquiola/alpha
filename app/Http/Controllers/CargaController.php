@@ -121,7 +121,12 @@ class CargaController extends Controller {
 	 */
 	public function edit($id)
 	{
-		//
+		$carga          = Carga::find($id);
+		$aeronaves      = Aeronave::all();
+		$today          = Carbon::now();
+		$precios_cargas = PreciosCarga::first();
+		$montos_fijos   = MontosFijo::first();
+		return view('cargas.partials.edit', compact('aeronaves', 'today', 'precios_cargas', 'montos_fijos', 'carga'));
 	}
 
 	/**
@@ -141,9 +146,13 @@ class CargaController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function destroy($id)
-	{
-		//
-	}
+	    public function destroy($id)
+    {
+        if(Carga::destroy($id)){
+            return ["success"=>1, "text" => "Registro eliminado con éxito."];
+        }else{
+            return ["success"=>0, "text" => "Error eliminando el registro."];
+        }
+    }
 
 }

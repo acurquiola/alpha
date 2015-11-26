@@ -174,6 +174,120 @@ $(document).ready(function(){
 		})
 
 
+		/* 
+			Cálculo de Monto Total
+			*/
+			$('body').delegate('#carga-form input', 'keyup', function(){
+
+				var ut                =$('#ut').val();
+				var eq_carga          =$('#precio_bloque').val();
+				var bloque            =$('#toneladas_bloque').val();
+				var peso_embarcado    =$('.peso_embarcado').val();
+				var peso_desembarcado =$('.peso_desembarcado').val();
+
+				//Cálculo del equivalente a cobrar
+				var equivalente             = parseFloat(ut)*parseFloat(eq_carga);
+				
+				//Cáldulo del Precio del Peso embarcado
+				var peso_embarcado_monto    = (parseFloat(equivalente)/bloque)*parseFloat(peso_embarcado);
+				$('.peso_embarcado_monto').val(peso_embarcado_monto);
+				
+				//Cáldulo del Precio del Peso embarcado
+				var peso_desembarcado_monto = (parseFloat(equivalente)/bloque)*parseFloat(peso_desembarcado);
+				$('.peso_desembarcado_monto').val(peso_desembarcado_monto);
+				
+				//Cálculo de Monto Total
+				var monto_total             = parseFloat(peso_embarcado_monto) + parseFloat(peso_desembarcado_monto);
+				$('.monto_total').val(monto_total);
+
+			});
+
+
+ 		/*   
+            Eliminar registro
+            */
+        $('body').delegate('.eliminarCarga-btn', 'click', function(){
+            var tr  =$(this).closest('tr');
+            var id  =$(this).data('id');
+            var url ="{{action('CargaController@index')}}/"+id;
+            
+            // confirm dialog
+            alertify.confirm("¿Realmente desea eliminar este registro?", function (e) {
+                if (e) {        
+
+                    $.
+                    ajax({url: url,
+                        method:"DELETE"})
+                    .done(function(response, status, responseObject){
+                        try{
+                            var obj= JSON.parse(responseObject.responseText);
+                            if(obj.success==1){
+                                $(tr).remove();
+                                $('#filtrar-btn').trigger('click');
+                                alertify.success(obj.text);
+                            }
+                        }catch(e){
+                            console.log(e);
+                            alertify.error('Error procesando la información');
+                        }
+
+                    })
+                } 
+            })
+        })
+
+        /*
+            Modificar un registro
+
+            */      
+            
+            //Mostrar la información en un modal para editar
+
+            $('body').delegate('.editarCarga-btn', 'click', function(){
+                var fila = $(this).closest('tr');
+                var id   = $(fila).data('id');
+                var url  ='{{action('CargaController@edit', ["::"])}}';
+                url      =url.replace("::", id)
+                $.ajax({
+                    method: 'get',
+                    url: url})
+                .always(function(text, status, responseObject){
+                    $('#show-modal .modal-body').html(text);
+                    $('#show-modal').modal('show');
+                })
+            })
+
+            //Editar la información
+            
+            $('#save-carga-btn-modal').click(function(){
+
+                var data =$('#show-modal form').serializeArray()
+                var url  =$('#show-modal form').attr('action')
+                $.ajax({data:data,
+                    method:'PUT',
+                    url:url})
+                .always(function(text, status, responseObject){
+                    try
+                    {
+                        var respuesta = JSON.parse(responseObject.responseText);
+                        if (respuesta.success==1)
+                        {
+                            console.log(respuesta);
+                            alertify.success(respuesta.text);
+                            $('#filtrar-btn').trigger('click');
+                        }
+                        else
+                        {
+                            alertify.error(respuesta.text);
+                        }
+                    }
+                    catch(e)
+                    {
+                        alertify.error('Error procesando la información');
+                    }
+                })
+            })
+
 		
 })
 </script>

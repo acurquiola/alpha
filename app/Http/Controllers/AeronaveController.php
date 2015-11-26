@@ -198,12 +198,10 @@ class AeronaveController extends Controller {
     public function destroy($id)
     {
         if(\App\Aeronave::destroy($id)){
-            return ["success"=>1, "text" => "Aeronave registrada con éxito."];
+            return ["success"=>1, "text" => "Registro eliminado con éxito."];
         }else{
-            return ["success"=>0, "text" => "Error eliminando la aeronave."];
+            return ["success"=>0, "text" => "Error eliminando el registro."];
         }
-
-
     }
 
 }

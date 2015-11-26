@@ -64,7 +64,7 @@
 											<div class="input-group-addon">
 												<i class="ion ion-plane"></i>
 											</div>
-											<select name="aeronave_id" id="aeronave_id-select" class="form-control aeronave">
+											<select name="aeronave_id" id="aeronave_id-select" class="form-control aeronave no-vacio">
 												<option value="">--Seleccione Matrícula--</option>
 												@foreach ($aeronaves as $aeronave)
 												<option data-modelo="{{$aeronave->modelo_id}}" data-nombremodelo="{{$aeronave->modelo->modelo}}" data-cliente="{{$aeronave->cliente_id}}" data-tipo="{{$aeronave->tipo_id}}" data-tipoV="{{$aeronave->tipo->nombre}}" value="{{$aeronave->id}}"> {{$aeronave->matricula}}</option>
@@ -82,7 +82,7 @@
 											<div class="input-group-addon">
 												#
 											</div>
-											<input type="text" name="num_vuelo" placeholder="Número de Vuelo" class="form-control" />
+											<input type="text" name="num_vuelo" placeholder="Número de Vuelo" class="form-control no-vacio" />
 										</div><!-- /.input group -->
 									</div><!-- /.form group -->
 
@@ -165,21 +165,23 @@
 @endsection
 
 @section('script')
+
+
 <script>
 
-    //Función que comprueba que no existen campos sin llenar al momento de enviar el formulario.
-    function camposVacios() {
-        var flag=true;
-        $('#cargaForm-div .no-vacio').each(function(index, value){
-            if($(value).val()=='')
-               flag&=false;
-        });
-        if(flag==false){
-            $('#save-carga-btn').attr('disabled','disabled');
-        }else{
-            $('#save-carga-btn').removeAttr('disabled');
-        }
+//Función que comprueba que no existen campos sin llenar al momento de enviar el formulario.
+function camposVacios() {
+    var flag=true;
+    $('#cargaForm-div .no-vacio').each(function(index, value){
+        if($(value).val()=='')
+           flag&=false;
+    });
+    if(flag==false){
+        $('#save-carga-btn').attr('disabled','disabled');
+    }else{
+        $('#save-carga-btn').removeAttr('disabled');
     }
+}
 
 
 	$(document).ready(function(){
@@ -266,9 +268,7 @@
             */
             $('#save-carga-btn').click(function(){
 
-                var data=$('#carga-form').serializeArray();
-                console.log(data);
-                
+                var data=$('#carga-form').serializeArray();                
                 var overlay=    "<div class='overlay'>\
                 <i class='fa fa-refresh fa-spin'></i>\
                 </div>";
