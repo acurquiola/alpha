@@ -64,7 +64,7 @@
 											<div class="input-group-addon">
 												<i class="ion ion-plane"></i>
 											</div>
-											<select name="aeronave_id" id="aeronave_id-select" class="form-control aeronave no-vacio">
+											<select name="aeronave_id" id="aeronave_id-select" class="form-control aeronave">
 												<option value="">--Seleccione Matrícula--</option>
 												@foreach ($aeronaves as $aeronave)
 												<option data-modelo="{{$aeronave->modelo_id}}" data-nombremodelo="{{$aeronave->modelo->modelo}}" data-cliente="{{$aeronave->cliente_id}}" data-tipo="{{$aeronave->tipo_id}}" data-tipoV="{{$aeronave->tipo->nombre}}" value="{{$aeronave->id}}"> {{$aeronave->matricula}}</option>
@@ -74,10 +74,10 @@
 									</div><!-- /.form group -->
 								</div>
 
-								<div class="form-inline col-md-12" style="margin-top: 20px">
+								<div class="form-inline col-md-12" style="margin-top: 20px; padding-left: -40px">
 
 									<!-- Nro Vuelo -->
-									<div class="form-group" style="margin-right: 10px">
+									<div class="form-group col-md-3">
 										<div class="input-group">
 											<div class="input-group-addon">
 												#
@@ -86,27 +86,44 @@
 										</div><!-- /.input group -->
 									</div><!-- /.form group -->
 
+									<input type="hidden" name="" id="precio_bloque" class="form-control" value="{{$precios_cargas->equivalenteUT}}">	
+									<input type="hidden" name="" id="toneladas_bloque" class="form-control" value="{{$precios_cargas->toneladaPorBloque}}">	
+									<input type="hidden" name="" id="ut" class="form-control" value="{{$montos_fijos->unidad_tributaria}}">	
+								
+									
+
 									<!-- Peso de Embarque -->
-									<div class="form-group" style="margin-right: 10px">
+									<div class="form-group col-md-4" style="margin-right: 10px" >
+										<label>Peso Embarcado</label>
 										<div class="input-group">
 											<div class="input-group-addon">
 												Kg(s) <i class="ion ion-soup-can-outline"></i>
 											</div>
-											<input type="text" name="peso_embarcado" value="0" id="peso_embarcado" placeholder="Peso Embarcado" class="form-control"/>
+											<input type="text" name="peso_embarcado" value="0" id="peso_embarcado" placeholder="Peso Embarcado" class="form-control no.vacio"/>
+										</div><!-- /.input group -->
+										<div class="input-group">
+											<input type="text" disabled value="0" id="peso_embarcado_monto" placeholder="Peso Embarcado" class="form-control"/>
+											<div class="input-group-addon">
+												<i class="fa fa-money"></i> BsF.
+											</div>
 										</div><!-- /.input group -->
 									</div><!-- /.form group -->
 
-									<input type="hidden" name="" id="precio_bloque" class="form-control" value="{{$precios_cargas->equivalenteUT}}">	
-									<input type="hidden" name="" id="toneladas_bloque" class="form-control" value="{{$precios_cargas->toneladaPorBloque}}">	
-									<input type="hidden" name="" id="ut" class="form-control" value="{{$montos_fijos->unidad_tributaria}}">	
 
 									<!-- Peso de Desembarque -->
-									<div class="form-group">
+									<div class="form-group col-md-4">
+											<label>Peso Desembarcado</label>
 										<div class="input-group">
-											<input type="text"  name="peso_desembarcado" value="0" id="peso_desembarcado" placeholder="Peso Desembarcado" class="form-control"/>
+											<input type="text"  name="peso_desembarcado" value="0" id="peso_desembarcado" placeholder="Peso Desembarcado" class="form-control no.vacio"/>
 											<div class="input-group-addon ">
 												Kg(s) <i class="ion ion-soup-can-outline"></i>
 											</div>
+										</div><!-- /.input group -->
+										<div class="input-group">
+											<div class="input-group-addon ">
+												<i class="fa fa-money"></i> BsF.
+											</div>
+											<input type="text"  disabled value="0" id="peso_desembarcado_monto" placeholder="Peso Desembarcado" class="form-control"/>
 										</div><!-- /.input group -->
 									</div><!-- /.form group -->
 								</div>
@@ -136,7 +153,7 @@
 
 					<div class="box-footer" align="right">
 						<button class="btn btn-default" type="button" id="cancel-carga-btn">Cancelar </button>
-						<button class="btn btn-primary" type="submit" id="save-carga-btn"> Registrar </button>
+						<button class="btn btn-primary" type="submit" disabled id="save-carga-btn"> Registrar </button>
 					</div><!-- ./box-footer -->
 
 
@@ -149,6 +166,20 @@
 
 @section('script')
 <script>
+
+    //Función que comprueba que no existen campos sin llenar al momento de enviar el formulario.
+    function camposVacios() {
+        var flag=true;
+        $('#cargaForm-div .no-vacio').each(function(index, value){
+            if($(value).val()=='')
+               flag&=false;
+        });
+        if(flag==false){
+            $('#save-carga-btn').attr('disabled','disabled');
+        }else{
+            $('#save-carga-btn').removeAttr('disabled');
+        }
+    }
 
 
 	$(document).ready(function(){
@@ -211,12 +242,21 @@
 				var bloque            =$('#toneladas_bloque').val();
 				var peso_embarcado    =$('#peso_embarcado').val();
 				var peso_desembarcado =$('#peso_desembarcado').val();
-				
-				var carga             = (parseFloat(peso_embarcado) + parseFloat(peso_desembarcado))/bloque;
-				var equivalente       = parseFloat(ut)*parseFloat(eq_carga);
-				var monto             = parseFloat(carga)*parseFloat(equivalente);
 
-				$('#monto_total').val(monto);
+				//Cálculo del equivalente a cobrar
+				var equivalente             = parseFloat(ut)*parseFloat(eq_carga);
+				
+				//Cáldulo del Precio del Peso embarcado
+				var peso_embarcado_monto    = (parseFloat(equivalente)/bloque)*parseFloat(peso_embarcado);
+				$('#peso_embarcado_monto').val(peso_embarcado_monto);
+				
+				//Cáldulo del Precio del Peso embarcado
+				var peso_desembarcado_monto = (parseFloat(equivalente)/bloque)*parseFloat(peso_desembarcado);
+				$('#peso_desembarcado_monto').val(peso_desembarcado_monto);
+				
+				//Cálculo de Monto Total
+				var monto_total             = parseFloat(peso_embarcado_monto) + parseFloat(peso_desembarcado_monto);
+				$('#monto_total').val(monto_total);
 			
 		});
 
@@ -251,7 +291,8 @@
                             var respuesta=JSON.parse(responseObject.responseText);
                             if(respuesta.success==1)
                             {
-                                $('#cargaForm-div input').val('');
+                                $('#cargaForm-div input').val('0');
+                                $('#cargaForm-div #num_vuelo').val('');
                                 $('#cargaForm-div select').val('');
                                 $('#save-carga-btn').attr('disabled','disabled');
                                 alertify.success(respuesta.text);

@@ -27,11 +27,11 @@
 			<!-- Definición de Bloque -->
 			<div class="bootstrap-timepicker">
 				<div class="form-group">
-					<label>Toneladas por bloque a cobrar: </label>
+					<label>Kilogramos por bloque a cobrar: </label>
 					<div class="input-group">
-						{!! Form::text('toneladaPorBloque', null, [ 'class'=>"form-control toneladaPorBloque","placeholder"=>"Toneladas por Bloque"]) !!}
+						{!! Form::text('toneladaPorBloque', null, [ 'class'=>"form-control toneladaPorBloque","placeholder"=>"Kilogramos por Bloque"]) !!}
 						<div class="input-group-addon">
-							Tonelada(s) <i class="ion ion-soup-can-outline"></i>
+							Kg(s) <i class="ion ion-soup-can-outline"></i>
 						</div>
 					</div><!-- /.input group -->
 				</div><!-- /.form group -->
