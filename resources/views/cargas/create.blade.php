@@ -86,9 +86,9 @@
 										</div><!-- /.input group -->
 									</div><!-- /.form group -->
 
-									<input type="hidden" name="" id="precio_bloque" class="form-control" value="{{$precios_cargas->equivalenteUT}}">	
-									<input type="hidden" name="" id="toneladas_bloque" class="form-control" value="{{$precios_cargas->toneladaPorBloque}}">	
-									<input type="hidden" name="" id="ut" class="form-control" value="{{$montos_fijos->unidad_tributaria}}">	
+									<input type="hidden" name="" id="precio_bloque" class="form-control" value="{{$precios_cargas->equivalenteUT}}" autocomplete="off">	
+									<input type="hidden" name="" id="toneladas_bloque" class="form-control" value="{{$precios_cargas->toneladaPorBloque}}" autocomplete="off">	
+									<input type="hidden" name="" id="ut" class="form-control" value="{{$montos_fijos->unidad_tributaria}}" autocomplete="off">	
 								
 									
 
@@ -99,7 +99,7 @@
 											<div class="input-group-addon">
 												Kg(s) <i class="ion ion-soup-can-outline"></i>
 											</div>
-											<input type="text" name="peso_embarcado" value="0" id="peso_embarcado" placeholder="Peso Embarcado" class="form-control no.vacio"/>
+											<input type="text" name="peso_embarcado" value="0" id="peso_embarcado" placeholder="Peso Embarcado" class="form-control no-vacio"/>
 										</div><!-- /.input group -->
 										<div class="input-group">
 											<input type="text" disabled value="0" id="peso_embarcado_monto" placeholder="Peso Embarcado" class="form-control"/>
@@ -114,7 +114,7 @@
 									<div class="form-group col-md-4">
 											<label>Peso Desembarcado</label>
 										<div class="input-group">
-											<input type="text"  name="peso_desembarcado" value="0" id="peso_desembarcado" placeholder="Peso Desembarcado" class="form-control no.vacio"/>
+											<input type="text"  name="peso_desembarcado" value="0" id="peso_desembarcado" placeholder="Peso Desembarcado" class="form-control no-vacio"/>
 											<div class="input-group-addon ">
 												Kg(s) <i class="ion ion-soup-can-outline"></i>
 											</div>
@@ -153,7 +153,7 @@
 
 					<div class="box-footer" align="right">
 						<button class="btn btn-default" type="button" id="cancel-carga-btn">Cancelar </button>
-						<button class="btn btn-primary" type="submit" disabled id="save-carga-btn"> Registrar </button>
+						<button class="btn btn-primary" type="submit" id="save-carga-btn"> Registrar </button>
 					</div><!-- ./box-footer -->
 
 
@@ -291,11 +291,12 @@ function camposVacios() {
                             var respuesta=JSON.parse(responseObject.responseText);
                             if(respuesta.success==1)
                             {
-                                $('#cargaForm-div input').val('0');
+                                //$('#cargaForm-div input').val('0');
                                 $('#cargaForm-div #num_vuelo').val('');
-                                $('#cargaForm-div select').val('');
+                                $('#cargaForm-div select').val('').trigger('chosen:updated');
                                 $('#save-carga-btn').attr('disabled','disabled');
                                 alertify.success(respuesta.text);
+                                window.location="{{action('CargaController@index')}}";
                             }
                             else
                             {
