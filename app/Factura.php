@@ -26,6 +26,10 @@ class Factura extends Model {
         return $this->belongsToMany('App\Cobro')->withPivot('monto')-> withTimestamps();
     }
 
+    public function aeropuerto()
+    {
+        return $this->belongsTo('App\Aeropuerto');
+    }
 
     public function getSubtotalNetoAttribute($value){
         return number_format($value,2);

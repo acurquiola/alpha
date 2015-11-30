@@ -201,13 +201,13 @@
                   <li><a href="#"><i class="fa fa-folder-o"></i> Proyección de cobranza</a></li>
                   <li><a href="#"><i class="fa fa-folder-o"></i> Estimación de metas</a></li>
                     </ul>
-              </li>
+              </li>-->
             <li class="treeview">
                 <a href="#">
                   <i class="fa fa-signal"></i> <span>Reportes</span>  <i class="fa fa-angle-left pull-right"></i>
                 </a>
                                                     <ul class="treeview-menu">
-                  <li><a href="#"><i class="fa fa-folder-o"></i> Recaudación consolidada</a></li>
+                  <li><a href="{{action('ReporteController@getReporteMensual')}}"><i class="fa fa-folder-o"></i> Recaudación consolidada</a></li>
                   <li><a href="#"><i class="fa fa-folder-o"></i> Libro de ventas</a></li>
                   <li><a href="#"><i class="fa fa-folder-o"></i> Relación cuentas por cobrar</a></li>
                   <li><a href="#"><i class="fa fa-folder-o"></i> Relación facturado/cobrado</a></li>
@@ -216,7 +216,7 @@
                     </ul>
               </li>
 
-          -->
+
           @permission('menu.cliente|menu.role|menu.usuario|menu.modulo|menu.concepto'|'menu.preciosSCV')
           <li class="treeview {{ (\Request::is('administracion*'))?"active":""}}">
           	<a href="#">

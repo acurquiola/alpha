@@ -68,6 +68,7 @@ Route::group(['prefix' => 'cobranza/{modulo}/'], function () {
 });
 
 Route::group(['prefix' => 'facturacion/{modulo}/'], function () {
+    Route::get('print/{factura}', 'FacturaController@getPrint');
     Route::get('main', 'FacturaController@main');
     Route::resource('factura', 'FacturaController');
 });
@@ -109,5 +110,7 @@ Route::group(['prefix' => 'administracion/'], function () {
     Route::resource('roles', 'RolesController');
 
 });
-
+Route::group(['prefix' => 'reporte/'], function () {
+    Route::get('mensual', 'ReporteController@getReporteMensual');
+});
 
