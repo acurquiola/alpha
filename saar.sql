@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.2.7.1
+-- version 4.5.0.2
 -- http://www.phpmyadmin.net
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 05-11-2015 a las 22:49:40
--- Versión del servidor: 5.6.20
--- Versión de PHP: 5.5.15
+-- Tiempo de generación: 30-11-2015 a las 14:58:20
+-- Versión del servidor: 10.0.17-MariaDB
+-- Versión de PHP: 5.6.14
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -14,7 +14,7 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
+/*!40101 SET NAMES utf8mb4 */;
 
 --
 -- Base de datos: `saar`
@@ -26,18 +26,18 @@ SET time_zone = "+00:00";
 -- Estructura de tabla para la tabla `aeronaves`
 --
 
-CREATE TABLE IF NOT EXISTS `aeronaves` (
-`id` int(10) unsigned NOT NULL,
+CREATE TABLE `aeronaves` (
+  `id` int(10) UNSIGNED NOT NULL,
   `matricula` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `nacionalidad_id` int(10) unsigned NOT NULL,
-  `tipo_id` int(10) unsigned NOT NULL,
-  `modelo_id` int(10) unsigned NOT NULL,
+  `nacionalidad_id` int(10) UNSIGNED NOT NULL,
+  `tipo_id` int(10) UNSIGNED NOT NULL,
+  `modelo_id` int(10) UNSIGNED NOT NULL,
   `peso` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `cliente_id` int(10) unsigned DEFAULT NULL,
-  `hangar_id` int(10) unsigned DEFAULT NULL,
+  `cliente_id` int(10) UNSIGNED DEFAULT NULL,
+  `hangar_id` int(10) UNSIGNED DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=52 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Volcado de datos para la tabla `aeronaves`
@@ -101,12 +101,12 @@ INSERT INTO `aeronaves` (`id`, `matricula`, `nacionalidad_id`, `tipo_id`, `model
 -- Estructura de tabla para la tabla `aeropuertos`
 --
 
-CREATE TABLE IF NOT EXISTS `aeropuertos` (
-`id` int(10) unsigned NOT NULL,
+CREATE TABLE `aeropuertos` (
+  `id` int(10) UNSIGNED NOT NULL,
   `nombre` varchar(150) COLLATE utf8_unicode_ci NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Volcado de datos para la tabla `aeropuertos`
@@ -123,14 +123,14 @@ INSERT INTO `aeropuertos` (`id`, `nombre`, `created_at`, `updated_at`) VALUES
 -- Estructura de tabla para la tabla `ajustes`
 --
 
-CREATE TABLE IF NOT EXISTS `ajustes` (
-`id` int(10) unsigned NOT NULL,
-  `cliente_id` int(10) unsigned NOT NULL,
-  `cobro_id` int(10) unsigned NOT NULL,
+CREATE TABLE `ajustes` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `cliente_id` int(10) UNSIGNED NOT NULL,
+  `cobro_id` int(10) UNSIGNED NOT NULL,
   `monto` double(15,2) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -138,41 +138,36 @@ CREATE TABLE IF NOT EXISTS `ajustes` (
 -- Estructura de tabla para la tabla `aterrizajes`
 --
 
-CREATE TABLE IF NOT EXISTS `aterrizajes` (
-`id` int(10) unsigned NOT NULL,
+CREATE TABLE `aterrizajes` (
+  `id` int(10) UNSIGNED NOT NULL,
   `hora` time NOT NULL,
   `fecha` date NOT NULL,
-  `aeronave_id` int(10) unsigned NOT NULL,
-  `cliente_id` int(10) unsigned DEFAULT NULL,
-  `tipoMatricula_id` int(10) unsigned NOT NULL,
-  `nacionalidadVuelo_id` int(10) unsigned DEFAULT NULL,
-  `piloto_id` int(10) unsigned DEFAULT NULL,
+  `aeropuerto_id` int(11) UNSIGNED NOT NULL,
+  `aeronave_id` int(10) UNSIGNED NOT NULL,
+  `cliente_id` int(10) UNSIGNED DEFAULT NULL,
+  `tipoMatricula_id` int(10) UNSIGNED NOT NULL,
+  `nacionalidadVuelo_id` int(10) UNSIGNED DEFAULT NULL,
+  `piloto_id` int(10) UNSIGNED DEFAULT NULL,
   `num_vuelo` int(11) DEFAULT NULL,
-  `puerto_id` int(10) unsigned DEFAULT NULL,
+  `puerto_id` int(10) UNSIGNED DEFAULT NULL,
   `desembarqueAdultos` int(11) NOT NULL DEFAULT '0',
   `desembarqueInfante` int(11) NOT NULL DEFAULT '0',
   `desembarqueTercera` int(11) NOT NULL DEFAULT '0',
   `desembarqueTransito` int(11) NOT NULL DEFAULT '0',
+  `despego` int(11) NOT NULL DEFAULT '0',
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=12 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Volcado de datos para la tabla `aterrizajes`
 --
 
-INSERT INTO `aterrizajes` (`id`, `hora`, `fecha`, `aeronave_id`, `cliente_id`, `tipoMatricula_id`, `nacionalidadVuelo_id`, `piloto_id`, `num_vuelo`, `puerto_id`, `desembarqueAdultos`, `desembarqueInfante`, `desembarqueTercera`, `desembarqueTransito`, `created_at`, `updated_at`) VALUES
-(1, '20:41:43', '2015-10-27', 4, NULL, 4, NULL, NULL, 0, NULL, 0, 0, 0, 0, '2015-10-28 01:11:47', '2015-10-28 01:11:47'),
-(2, '20:47:29', '2015-10-27', 4, NULL, 4, NULL, NULL, 0, NULL, 0, 0, 0, 0, '2015-10-28 01:17:37', '2015-10-28 01:17:37'),
-(3, '20:48:57', '2015-10-27', 4, NULL, 4, NULL, NULL, 0, NULL, 0, 0, 0, 0, '2015-10-28 01:19:02', '2015-10-28 01:19:02'),
-(4, '20:49:33', '2015-10-27', 4, NULL, 4, NULL, NULL, 0, NULL, 0, 0, 0, 0, '2015-10-28 01:19:44', '2015-10-28 01:19:44'),
-(5, '20:49:59', '2015-10-27', 4, NULL, 4, NULL, NULL, 0, NULL, 0, 0, 0, 0, '2015-10-28 01:20:03', '2015-10-28 01:20:03'),
-(6, '20:50:04', '2015-10-27', 4, NULL, 4, NULL, NULL, 0, NULL, 0, 0, 0, 0, '2015-10-28 01:21:27', '2015-10-28 01:21:27'),
-(7, '20:51:27', '2015-10-27', 4, NULL, 4, NULL, NULL, 0, NULL, 0, 0, 0, 0, '2015-10-28 01:22:23', '2015-10-28 01:22:23'),
-(8, '20:53:22', '2015-10-27', 4, NULL, 4, NULL, NULL, 0, NULL, 0, 0, 0, 0, '2015-10-28 01:24:04', '2015-10-28 01:24:04'),
-(9, '20:55:14', '2015-10-27', 4, NULL, 4, NULL, NULL, 0, NULL, 0, 0, 0, 0, '2015-10-28 01:25:22', '2015-10-28 01:25:22'),
-(10, '20:57:46', '2015-10-27', 4, NULL, 4, NULL, NULL, 0, NULL, 0, 0, 0, 0, '2015-10-28 01:27:52', '2015-10-28 01:27:52'),
-(11, '21:01:17', '2015-10-27', 4, NULL, 4, NULL, NULL, 0, NULL, 0, 0, 0, 0, '2015-10-28 01:31:34', '2015-10-28 01:31:34');
+INSERT INTO `aterrizajes` (`id`, `hora`, `fecha`, `aeropuerto_id`, `aeronave_id`, `cliente_id`, `tipoMatricula_id`, `nacionalidadVuelo_id`, `piloto_id`, `num_vuelo`, `puerto_id`, `desembarqueAdultos`, `desembarqueInfante`, `desembarqueTercera`, `desembarqueTransito`, `despego`, `created_at`, `updated_at`) VALUES
+(3, '20:48:57', '2015-10-27', 1, 4, NULL, 4, NULL, NULL, 0, NULL, 0, 0, 0, 0, 1, '2015-10-28 01:19:02', '2015-11-30 08:37:17'),
+(16, '20:10:51', '2015-11-29', 1, 9, 40, 3, 2, 21, 545, 1, 0, 0, 0, 0, 1, '2015-11-30 05:11:05', '2015-11-30 08:31:57'),
+(17, '00:03:51', '2015-11-30', 1, 9, 40, 3, 2, 16, 443, 1, 23, 34, 33, 0, 1, '2015-11-30 09:04:11', '2015-11-30 09:05:01'),
+(18, '00:04:29', '2015-11-30', 1, 51, 63, 3, 2, 10, 111, 1, 12, 2, 2, 0, 1, '2015-11-30 09:04:52', '2015-11-30 09:07:51');
 
 -- --------------------------------------------------------
 
@@ -180,12 +175,12 @@ INSERT INTO `aterrizajes` (`id`, `hora`, `fecha`, `aeronave_id`, `cliente_id`, `
 -- Estructura de tabla para la tabla `bancos`
 --
 
-CREATE TABLE IF NOT EXISTS `bancos` (
-`id` int(10) unsigned NOT NULL,
+CREATE TABLE `bancos` (
+  `id` int(10) UNSIGNED NOT NULL,
   `nombre` char(150) COLLATE utf8_unicode_ci NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Volcado de datos para la tabla `bancos`
@@ -201,14 +196,14 @@ INSERT INTO `bancos` (`id`, `nombre`, `created_at`, `updated_at`) VALUES
 -- Estructura de tabla para la tabla `bancoscuentas`
 --
 
-CREATE TABLE IF NOT EXISTS `bancoscuentas` (
-`id` int(10) unsigned NOT NULL,
+CREATE TABLE `bancoscuentas` (
+  `id` int(10) UNSIGNED NOT NULL,
   `descripcion` char(150) COLLATE utf8_unicode_ci NOT NULL,
   `isActivo` tinyint(1) NOT NULL,
-  `banco_id` int(10) unsigned NOT NULL,
+  `banco_id` int(10) UNSIGNED NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Volcado de datos para la tabla `bancoscuentas`
@@ -221,15 +216,46 @@ INSERT INTO `bancoscuentas` (`id`, `descripcion`, `isActivo`, `banco_id`, `creat
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `cargas`
+--
+
+CREATE TABLE `cargas` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `fecha` date NOT NULL,
+  `cliente_id` int(10) UNSIGNED NOT NULL,
+  `aeronave_id` int(10) UNSIGNED NOT NULL,
+  `num_vuelo` int(11) DEFAULT NULL,
+  `peso_embarcado` double(8,2) NOT NULL,
+  `peso_desembarcado` double(8,2) NOT NULL,
+  `observaciones` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `monto_total` double(8,2) NOT NULL,
+  `precio_carga` int(10) UNSIGNED NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Volcado de datos para la tabla `cargas`
+--
+
+INSERT INTO `cargas` (`id`, `fecha`, `cliente_id`, `aeronave_id`, `num_vuelo`, `peso_embarcado`, `peso_desembarcado`, `observaciones`, `monto_total`, `precio_carga`, `created_at`, `updated_at`) VALUES
+(1, '0000-00-00', 4, 5, 432, 123.00, 999999.99, '', 999999.99, 0, '2015-11-30 04:30:47', '2015-11-30 04:30:47'),
+(2, '2015-11-30', 8, 4, 323, 1212.00, 424323.00, '', 638302.50, 0, '2015-11-30 04:39:07', '2015-11-30 04:39:07'),
+(3, '2015-11-30', 8, 4, 323, 1212.00, 424323.00, '', 638302.50, 0, '2015-11-30 04:39:36', '2015-11-30 04:39:36'),
+(4, '2015-11-30', 10, 5, 211, 232.00, 323.00, '', 832.50, 0, '2015-11-30 04:43:57', '2015-11-30 04:43:57');
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `cargos`
 --
 
-CREATE TABLE IF NOT EXISTS `cargos` (
-`id` int(10) unsigned NOT NULL,
+CREATE TABLE `cargos` (
+  `id` int(10) UNSIGNED NOT NULL,
   `nombre` varchar(150) COLLATE utf8_unicode_ci NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Volcado de datos para la tabla `cargos`
@@ -244,21 +270,21 @@ INSERT INTO `cargos` (`id`, `nombre`, `created_at`, `updated_at`) VALUES
 -- Estructura de tabla para la tabla `cargos_varios`
 --
 
-CREATE TABLE IF NOT EXISTS `cargos_varios` (
-`id` int(10) unsigned NOT NULL,
+CREATE TABLE `cargos_varios` (
+  `id` int(10) UNSIGNED NOT NULL,
   `eq_formulario` double(8,2) NOT NULL,
   `eq_derechoHabilitacion` double(8,2) NOT NULL,
   `eq_usoAbordajeSinHab` double(8,2) NOT NULL,
   `eq_usoAbordajeConHab` double(8,2) NOT NULL,
-  `formularioCredito_id` int(10) unsigned NOT NULL,
-  `formularioContado_id` int(10) unsigned NOT NULL,
-  `habilitacionCredito_id` int(10) unsigned NOT NULL,
-  `habilitacionContado_id` int(10) unsigned NOT NULL,
-  `abordajeCredito_id` int(10) unsigned NOT NULL,
-  `abordajeContado_id` int(10) unsigned NOT NULL,
+  `formularioCredito_id` int(10) UNSIGNED NOT NULL,
+  `formularioContado_id` int(10) UNSIGNED NOT NULL,
+  `habilitacionCredito_id` int(10) UNSIGNED NOT NULL,
+  `habilitacionContado_id` int(10) UNSIGNED NOT NULL,
+  `abordajeCredito_id` int(10) UNSIGNED NOT NULL,
+  `abordajeContado_id` int(10) UNSIGNED NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Volcado de datos para la tabla `cargos_varios`
@@ -273,8 +299,8 @@ INSERT INTO `cargos_varios` (`id`, `eq_formulario`, `eq_derechoHabilitacion`, `e
 -- Estructura de tabla para la tabla `clientes`
 --
 
-CREATE TABLE IF NOT EXISTS `clientes` (
-`id` int(10) unsigned NOT NULL,
+CREATE TABLE `clientes` (
+  `id` int(10) UNSIGNED NOT NULL,
   `codigo` char(15) COLLATE utf8_unicode_ci NOT NULL,
   `cedRifPrefix` char(1) COLLATE utf8_unicode_ci DEFAULT NULL,
   `cedRif` char(100) COLLATE utf8_unicode_ci DEFAULT NULL,
@@ -286,7 +312,7 @@ CREATE TABLE IF NOT EXISTS `clientes` (
   `fechaIngreso` date NOT NULL,
   `direccion` text COLLATE utf8_unicode_ci,
   `ciudad` char(100) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `pais_id` int(10) unsigned NOT NULL,
+  `pais_id` int(10) UNSIGNED NOT NULL,
   `codpostal` char(15) COLLATE utf8_unicode_ci DEFAULT NULL,
   `telefonos` char(100) COLLATE utf8_unicode_ci DEFAULT NULL,
   `fax` char(100) COLLATE utf8_unicode_ci DEFAULT NULL,
@@ -303,7 +329,7 @@ CREATE TABLE IF NOT EXISTS `clientes` (
   `comentario` text COLLATE utf8_unicode_ci,
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=149 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Volcado de datos para la tabla `clientes`
@@ -465,13 +491,13 @@ INSERT INTO `clientes` (`id`, `codigo`, `cedRifPrefix`, `cedRif`, `nit`, `nombre
 -- Estructura de tabla para la tabla `cliente_hangar`
 --
 
-CREATE TABLE IF NOT EXISTS `cliente_hangar` (
-`id` int(10) unsigned NOT NULL,
-  `cliente_id` int(10) unsigned NOT NULL,
-  `hangar_id` int(10) unsigned NOT NULL,
+CREATE TABLE `cliente_hangar` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `cliente_id` int(10) UNSIGNED NOT NULL,
+  `hangar_id` int(10) UNSIGNED NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -479,15 +505,15 @@ CREATE TABLE IF NOT EXISTS `cliente_hangar` (
 -- Estructura de tabla para la tabla `cobros`
 --
 
-CREATE TABLE IF NOT EXISTS `cobros` (
-`id` int(10) unsigned NOT NULL,
+CREATE TABLE `cobros` (
+  `id` int(10) UNSIGNED NOT NULL,
   `observacion` text COLLATE utf8_unicode_ci NOT NULL,
   `hasrecaudos` text COLLATE utf8_unicode_ci NOT NULL,
   `montofacturas` double(15,2) NOT NULL,
   `montodepositado` double(15,2) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -495,18 +521,18 @@ CREATE TABLE IF NOT EXISTS `cobros` (
 -- Estructura de tabla para la tabla `cobrospagos`
 --
 
-CREATE TABLE IF NOT EXISTS `cobrospagos` (
-`id` int(10) unsigned NOT NULL,
+CREATE TABLE `cobrospagos` (
+  `id` int(10) UNSIGNED NOT NULL,
   `tipo` enum('D','NC') COLLATE utf8_unicode_ci NOT NULL,
   `fecha` date NOT NULL,
-  `banco_id` int(10) unsigned NOT NULL,
-  `cuenta_id` int(10) unsigned NOT NULL,
+  `banco_id` int(10) UNSIGNED NOT NULL,
+  `cuenta_id` int(10) UNSIGNED NOT NULL,
   `ncomprobante` varchar(150) COLLATE utf8_unicode_ci NOT NULL,
   `monto` double(15,2) NOT NULL,
-  `cobro_id` int(10) unsigned NOT NULL,
+  `cobro_id` int(10) UNSIGNED NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -514,14 +540,14 @@ CREATE TABLE IF NOT EXISTS `cobrospagos` (
 -- Estructura de tabla para la tabla `cobro_factura`
 --
 
-CREATE TABLE IF NOT EXISTS `cobro_factura` (
-`id` int(10) unsigned NOT NULL,
-  `factura_id` int(10) unsigned NOT NULL,
-  `cobro_id` int(10) unsigned NOT NULL,
+CREATE TABLE `cobro_factura` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `factura_id` int(10) UNSIGNED NOT NULL,
+  `cobro_id` int(10) UNSIGNED NOT NULL,
   `monto` double(15,2) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -529,19 +555,19 @@ CREATE TABLE IF NOT EXISTS `cobro_factura` (
 -- Estructura de tabla para la tabla `conceptos`
 --
 
-CREATE TABLE IF NOT EXISTS `conceptos` (
-`id` int(10) unsigned NOT NULL,
+CREATE TABLE `conceptos` (
+  `id` int(10) UNSIGNED NOT NULL,
   `codpre` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `nompre` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `codcta` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `stacod` char(1) COLLATE utf8_unicode_ci NOT NULL,
   `coduni` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `iva` double(8,2) unsigned NOT NULL,
-  `aeropuerto_id` int(10) unsigned NOT NULL,
+  `iva` double(8,2) UNSIGNED NOT NULL,
+  `aeropuerto_id` int(10) UNSIGNED NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `modulo_id` int(10) unsigned DEFAULT NULL
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=99 ;
+  `modulo_id` int(10) UNSIGNED DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Volcado de datos para la tabla `conceptos`
@@ -550,28 +576,28 @@ CREATE TABLE IF NOT EXISTS `conceptos` (
 INSERT INTO `conceptos` (`id`, `codpre`, `nompre`, `codcta`, `stacod`, `coduni`, `iva`, `aeropuerto_id`, `created_at`, `updated_at`, `modulo_id`) VALUES
 (50, '0-033-001-124-301-09-02-01-001  ', 'TASAS NACIONALES MODULO', '4-2-302-02-01-0001              ', 'A', '', 0.00, 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00', NULL),
 (51, '0-033-001-124-301-09-02-01-002  ', 'TASAS INTERNACIONALES MODULO', '4-2-302-02-01-0001              ', 'A', '', 0.00, 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00', NULL),
-(52, '0-033-001-124-301-09-02-01-003  ', 'TASAS NACIONALES SCV', '4-2-302-02-01-0002              ', 'A', '', 0.00, 1, '0000-00-00 00:00:00', '2015-08-08 01:51:53', 5),
-(53, '0-033-001-124-301-09-02-01-004  ', 'TASAS INTERNACIONALES SCV', '4-2-302-02-01-0002              ', 'A', '', 0.00, 1, '0000-00-00 00:00:00', '2015-08-08 01:51:53', 5),
-(54, '0-033-001-124-301-09-02-02-001  ', 'ATERRIZAJE Y DESPEGUE DE AERONAVES', '4-2-302-02-01-0002              ', 'A', '', 0.00, 1, '0000-00-00 00:00:00', '2015-08-08 01:51:53', 5),
-(55, '0-033-001-124-301-09-02-02-002  ', 'ESTACIONAMIENTO DE AERONAVES', '4-2-302-02-01-0002              ', 'A', '', 0.00, 1, '0000-00-00 00:00:00', '2015-08-08 01:51:53', 5),
-(56, '0-033-001-124-301-09-02-02-003  ', 'HABILITACION', '4-2-302-02-01-0002              ', 'A', '', 0.00, 1, '0000-00-00 00:00:00', '2015-08-08 01:51:53', 5),
-(57, '0-033-001-124-301-09-02-02-004  ', 'FORMULARIO DOSA', '4-2-302-02-01-0002              ', 'A', '', 0.00, 1, '0000-00-00 00:00:00', '2015-08-08 01:51:53', 5),
-(58, '0-033-001-124-301-09-02-02-005  ', 'JET WAY', '4-2-302-02-01-0002              ', 'A', '', 0.00, 1, '0000-00-00 00:00:00', '2015-08-08 01:51:53', 5),
-(59, '0-033-001-124-301-09-02-02-006  ', 'CARGA', '4-2-302-02-01-0002              ', 'A', '', 0.00, 1, '0000-00-00 00:00:00', '2015-08-08 01:51:53', 5),
+(52, '0-033-001-124-301-09-02-01-003  ', 'TASAS NACIONALES SCV', '4-2-302-02-01-0002              ', 'A', '', 0.00, 1, '0000-00-00 00:00:00', '2015-11-20 19:27:34', 5),
+(53, '0-033-001-124-301-09-02-01-004  ', 'TASAS INTERNACIONALES SCV', '4-2-302-02-01-0002              ', 'A', '', 0.00, 1, '0000-00-00 00:00:00', '2015-11-20 19:27:34', 5),
+(54, '0-033-001-124-301-09-02-02-001  ', 'ATERRIZAJE Y DESPEGUE DE AERONAVES', '4-2-302-02-01-0002              ', 'A', '', 0.00, 1, '0000-00-00 00:00:00', '2015-11-20 19:27:34', 5),
+(55, '0-033-001-124-301-09-02-02-002  ', 'ESTACIONAMIENTO DE AERONAVES', '4-2-302-02-01-0002              ', 'A', '', 0.00, 1, '0000-00-00 00:00:00', '2015-11-20 19:27:34', 5),
+(56, '0-033-001-124-301-09-02-02-003  ', 'HABILITACION', '4-2-302-02-01-0002              ', 'A', '', 0.00, 1, '0000-00-00 00:00:00', '2015-11-20 19:27:34', 5),
+(57, '0-033-001-124-301-09-02-02-004  ', 'FORMULARIO DOSA', '4-2-302-02-01-0002              ', 'A', '', 0.00, 1, '0000-00-00 00:00:00', '2015-11-20 19:27:34', 5),
+(58, '0-033-001-124-301-09-02-02-005  ', 'JET WAY', '4-2-302-02-01-0002              ', 'A', '', 0.00, 1, '0000-00-00 00:00:00', '2015-11-20 19:27:34', 5),
+(59, '0-033-001-124-301-09-02-02-006  ', 'CARGA', '4-2-302-02-01-0002              ', 'A', '', 0.00, 1, '0000-00-00 00:00:00', '2015-11-20 19:27:34', 5),
 (60, '0-033-001-124-301-09-02-03-000  ', 'CANON DE ARRENDAMIENTO', '1-1-122-02-01-0003              ', 'A', '', 0.00, 1, '0000-00-00 00:00:00', '2015-08-08 01:50:09', 2),
 (61, '0-033-001-124-301-09-02-04-000  ', 'ESTACIONAMIENTO DE VEHICULOS', '4-2-302-02-01-0004              ', 'A', '', 0.00, 1, '0000-00-00 00:00:00', '2015-08-08 01:51:06', 4),
 (62, '0-033-001-124-301-09-02-05-000  ', 'PUBLICIDAD', '4-2-302-02-01-0005              ', 'A', '', 0.00, 1, '0000-00-00 00:00:00', '2015-08-08 01:50:37', 3),
-(63, '0-033-001-124-301-09-02-06-000  ', 'OTROS INGRESOS COMBUSTIBLE', '1-1-122-02-01-0007              ', 'A', '', 0.00, 1, '0000-00-00 00:00:00', '2015-08-08 01:51:53', 5),
+(63, '0-033-001-124-301-09-02-06-000  ', 'OTROS INGRESOS COMBUSTIBLE', '1-1-122-02-01-0007              ', 'A', '', 0.00, 1, '0000-00-00 00:00:00', '2015-11-20 19:27:34', 5),
 (64, '0-033-001-124-301-09-02-06-001  ', 'TARJETA DE IDENTIFICACION ', '4-2-302-02-01-0006              ', 'A', '', 0.00, 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00', NULL),
-(65, '0-033-001-124-301-09-02-06-002  ', 'OTROS INGRESOS 10% SERVICIOS DE HANDLING ', '4-2-302-02-01-0006              ', 'A', '', 0.00, 1, '0000-00-00 00:00:00', '2015-08-08 01:51:53', 5),
+(65, '0-033-001-124-301-09-02-06-002  ', 'OTROS INGRESOS 10% SERVICIOS DE HANDLING ', '4-2-302-02-01-0006              ', 'A', '', 0.00, 1, '0000-00-00 00:00:00', '2015-11-20 19:27:34', 5),
 (66, '0-033-001-124-301-09-02-06-003  ', 'OTROS INGRESOS CARNET DE CIRCULACION', '4-2-302-02-01-0006              ', 'A', '', 0.00, 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00', NULL),
 (67, '0-033-001-124-301-09-02-06-005  ', ' OTROS INGRESOS', '1-1-122-02-01-0007              ', 'A', '', 0.00, 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00', NULL),
 (68, '0-033-001-124-301-09-02-07-001  ', ' ATERRIZAJE Y DESPEGUE DE AERONAVES CREDITO', '4-2-302-02-01-0002              ', 'A', '', 0.00, 1, '0000-00-00 00:00:00', '2015-08-08 01:51:53', 5),
-(69, '0-033-001-124-301-09-02-07-002  ', 'ESTACIONAMIENTO DE AERONAVES CREDITO', '4-2-302-02-01-0002              ', 'A', '', 0.00, 1, '0000-00-00 00:00:00', '2015-08-08 01:51:53', 5),
-(70, '0-033-001-124-301-09-02-07-003  ', 'HABILITACION CREDITO', '4-2-302-02-01-0002              ', 'A', '', 0.00, 1, '0000-00-00 00:00:00', '2015-08-08 01:51:53', 5),
-(71, '0-033-001-124-301-09-02-07-004  ', 'FOMULARIO DOSA CREDITO', '4-2-302-02-01-0002              ', 'A', '', 0.00, 1, '0000-00-00 00:00:00', '2015-08-08 01:51:53', 5),
-(72, '0-033-001-124-301-09-02-07-005  ', 'JET WAY CREDITO', '4-2-302-02-01-0002              ', 'A', '', 0.00, 1, '0000-00-00 00:00:00', '2015-08-08 01:51:53', 5),
-(73, '0-033-001-124-301-09-02-07-006  ', 'CARGA CREDITO', '4-2-302-02-01-0002              ', 'A', '', 0.00, 1, '0000-00-00 00:00:00', '2015-08-08 01:51:53', 5),
+(69, '0-033-001-124-301-09-02-07-002  ', 'ESTACIONAMIENTO DE AERONAVES CREDITO', '4-2-302-02-01-0002              ', 'A', '', 0.00, 1, '0000-00-00 00:00:00', '2015-11-20 19:27:34', 5),
+(70, '0-033-001-124-301-09-02-07-003  ', 'HABILITACION CREDITO', '4-2-302-02-01-0002              ', 'A', '', 0.00, 1, '0000-00-00 00:00:00', '2015-11-20 19:27:34', 5),
+(71, '0-033-001-124-301-09-02-07-004  ', 'FOMULARIO DOSA CREDITO', '4-2-302-02-01-0002              ', 'A', '', 0.00, 1, '0000-00-00 00:00:00', '2015-11-20 19:27:34', 5),
+(72, '0-033-001-124-301-09-02-07-005  ', 'JET WAY CREDITO', '4-2-302-02-01-0002              ', 'A', '', 0.00, 1, '0000-00-00 00:00:00', '2015-11-20 19:27:34', 5),
+(73, '0-033-001-124-301-09-02-07-006  ', 'CARGA CREDITO', '4-2-302-02-01-0002              ', 'A', '', 0.00, 1, '0000-00-00 00:00:00', '2015-11-20 19:27:34', 5),
 (74, '0-033-002-125-302-99-02-01-001  ', 'TASAS NACIONALES MODULO', '1-1-122-03-01-0001              ', 'A', '', 0.00, 2, '0000-00-00 00:00:00', '0000-00-00 00:00:00', NULL),
 (75, '0-033-002-125-302-99-02-01-003  ', 'TASAS NACIONALES SCV ', '1-1-122-03-01-0002              ', 'A', '', 0.00, 2, '0000-00-00 00:00:00', '0000-00-00 00:00:00', NULL),
 (76, '0-033-002-125-302-99-02-02-001  ', 'ATERRIZAJE Y DESPEGUE DE AERONAVES', '1-1-122-03-01-0002              ', 'A', '', 0.00, 2, '0000-00-00 00:00:00', '0000-00-00 00:00:00', NULL),
@@ -601,15 +627,35 @@ INSERT INTO `conceptos` (`id`, `codpre`, `nompre`, `codcta`, `stacod`, `coduni`,
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `concils`
+--
+
+CREATE TABLE `concils` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `encargado` varchar(150) COLLATE utf8_unicode_ci NOT NULL,
+  `codbarras` varchar(150) COLLATE utf8_unicode_ci NOT NULL,
+  `fVer` varchar(10) COLLATE utf8_unicode_ci NOT NULL,
+  `hVer` time NOT NULL,
+  `serie` text COLLATE utf8_unicode_ci NOT NULL,
+  `codtas` varchar(4) COLLATE utf8_unicode_ci NOT NULL,
+  `tiptas` int(11) NOT NULL,
+  `valor` double(14,2) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `contratos`
 --
 
-CREATE TABLE IF NOT EXISTS `contratos` (
-`id` int(10) unsigned NOT NULL,
+CREATE TABLE `contratos` (
+  `id` int(10) UNSIGNED NOT NULL,
   `nContrato` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
-  `cliente_id` int(10) unsigned NOT NULL,
-  `concepto_id` int(10) unsigned NOT NULL,
-  `monto` double(8,2) unsigned NOT NULL,
+  `cliente_id` int(10) UNSIGNED NOT NULL,
+  `concepto_id` int(10) UNSIGNED NOT NULL,
+  `monto` double(8,2) UNSIGNED NOT NULL,
   `montoTipo` enum('Mensual','Anual') COLLATE utf8_unicode_ci NOT NULL,
   `fechaInicio` date NOT NULL,
   `fechaVencimiento` date NOT NULL,
@@ -625,7 +671,7 @@ CREATE TABLE IF NOT EXISTS `contratos` (
   `imagen` text COLLATE utf8_unicode_ci NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -633,12 +679,12 @@ CREATE TABLE IF NOT EXISTS `contratos` (
 -- Estructura de tabla para la tabla `departamentos`
 --
 
-CREATE TABLE IF NOT EXISTS `departamentos` (
-`id` int(10) unsigned NOT NULL,
+CREATE TABLE `departamentos` (
+  `id` int(10) UNSIGNED NOT NULL,
   `nombre` varchar(150) COLLATE utf8_unicode_ci NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Volcado de datos para la tabla `departamentos`
@@ -650,21 +696,82 @@ INSERT INTO `departamentos` (`id`, `nombre`, `created_at`, `updated_at`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `despegues`
+--
+
+CREATE TABLE `despegues` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `hora` time NOT NULL,
+  `fecha` date NOT NULL,
+  `aeropuerto_id` int(11) UNSIGNED NOT NULL,
+  `num_vuelo` int(11) DEFAULT NULL,
+  `aeronave_id` int(10) UNSIGNED NOT NULL,
+  `puerto_id` int(10) UNSIGNED DEFAULT NULL,
+  `piloto_id` int(10) UNSIGNED DEFAULT NULL,
+  `tipoMatricula_id` int(10) UNSIGNED NOT NULL,
+  `nacionalidadVuelo_id` int(10) UNSIGNED DEFAULT NULL,
+  `cliente_id` int(10) UNSIGNED DEFAULT NULL,
+  `embarqueAdultos` int(11) NOT NULL DEFAULT '0',
+  `embarqueInfante` int(11) NOT NULL DEFAULT '0',
+  `embarqueTercera` int(11) NOT NULL DEFAULT '0',
+  `transitoAdultos` int(11) NOT NULL DEFAULT '0',
+  `transitoInfante` int(11) NOT NULL DEFAULT '0',
+  `transitoTercera` int(11) NOT NULL DEFAULT '0',
+  `tiempo_estacionamiento` double(8,2) DEFAULT NULL,
+  `numero_puenteAbordaje` int(11) DEFAULT NULL,
+  `tiempo_puenteAbord` double(8,2) DEFAULT NULL,
+  `cobrar_estacionamiento` int(11) NOT NULL DEFAULT '0',
+  `cobrar_puenteAbordaje` int(11) NOT NULL DEFAULT '0',
+  `cobrar_Formulario` int(11) NOT NULL DEFAULT '0',
+  `cobrar_AterDesp` int(11) NOT NULL DEFAULT '0',
+  `cobrar_Combustible` int(11) NOT NULL DEFAULT '0',
+  `cobrar_servHandling` int(11) NOT NULL DEFAULT '0',
+  `cobrar_habilitacion` int(11) NOT NULL DEFAULT '0',
+  `aterrizaje_id` int(10) UNSIGNED NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Volcado de datos para la tabla `despegues`
+--
+
+INSERT INTO `despegues` (`id`, `hora`, `fecha`, `aeropuerto_id`, `num_vuelo`, `aeronave_id`, `puerto_id`, `piloto_id`, `tipoMatricula_id`, `nacionalidadVuelo_id`, `cliente_id`, `embarqueAdultos`, `embarqueInfante`, `embarqueTercera`, `transitoAdultos`, `transitoInfante`, `transitoTercera`, `tiempo_estacionamiento`, `numero_puenteAbordaje`, `tiempo_puenteAbord`, `cobrar_estacionamiento`, `cobrar_puenteAbordaje`, `cobrar_Formulario`, `cobrar_AterDesp`, `cobrar_Combustible`, `cobrar_servHandling`, `cobrar_habilitacion`, `aterrizaje_id`, `created_at`, `updated_at`) VALUES
+(28, '00:07:35', '2015-11-30', 1, 444, 51, 2, 11, 3, 1, 63, 0, 0, 0, 0, 0, 0, NULL, NULL, NULL, 1, 1, 1, 1, 0, 0, 0, 18, '2015-11-30 09:07:51', '2015-11-30 09:07:51');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `despegue_otros_cargo`
+--
+
+CREATE TABLE `despegue_otros_cargo` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `despegue_id` int(10) UNSIGNED NOT NULL,
+  `otrosCargo_id` int(10) UNSIGNED NOT NULL,
+  `monto` double(8,2) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `estacionamientoclientes`
 --
 
-CREATE TABLE IF NOT EXISTS `estacionamientoclientes` (
-`id` int(10) unsigned NOT NULL,
+CREATE TABLE `estacionamientoclientes` (
+  `id` int(10) UNSIGNED NOT NULL,
   `nombre` char(150) COLLATE utf8_unicode_ci NOT NULL,
   `cantidad` int(11) NOT NULL,
-  `costoUnidad` int(10) unsigned NOT NULL,
+  `costoUnidad` int(10) UNSIGNED NOT NULL,
   `fechaSuscripcion` date NOT NULL,
   `isActivo` tinyint(1) NOT NULL,
   `nPagos` int(11) NOT NULL,
-  `estacionamiento_id` int(10) unsigned NOT NULL,
+  `estacionamiento_id` int(10) UNSIGNED NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -672,14 +779,14 @@ CREATE TABLE IF NOT EXISTS `estacionamientoclientes` (
 -- Estructura de tabla para la tabla `estacionamientoconceptos`
 --
 
-CREATE TABLE IF NOT EXISTS `estacionamientoconceptos` (
-`id` int(10) unsigned NOT NULL,
+CREATE TABLE `estacionamientoconceptos` (
+  `id` int(10) UNSIGNED NOT NULL,
   `nombre` char(150) COLLATE utf8_unicode_ci NOT NULL,
   `costo` double(8,2) NOT NULL,
-  `estacionamiento_id` int(10) unsigned NOT NULL,
+  `estacionamiento_id` int(10) UNSIGNED NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -687,8 +794,8 @@ CREATE TABLE IF NOT EXISTS `estacionamientoconceptos` (
 -- Estructura de tabla para la tabla `estacionamientoops`
 --
 
-CREATE TABLE IF NOT EXISTS `estacionamientoops` (
-`id` int(10) unsigned NOT NULL,
+CREATE TABLE `estacionamientoops` (
+  `id` int(10) UNSIGNED NOT NULL,
   `fecha` date NOT NULL,
   `nTaquillas` int(11) NOT NULL,
   `nTurnos` int(11) NOT NULL,
@@ -696,7 +803,7 @@ CREATE TABLE IF NOT EXISTS `estacionamientoops` (
   `depositado` double(8,2) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -704,19 +811,19 @@ CREATE TABLE IF NOT EXISTS `estacionamientoops` (
 -- Estructura de tabla para la tabla `estacionamientooptarjetas`
 --
 
-CREATE TABLE IF NOT EXISTS `estacionamientooptarjetas` (
-`id` int(10) unsigned NOT NULL,
+CREATE TABLE `estacionamientooptarjetas` (
+  `id` int(10) UNSIGNED NOT NULL,
   `fecha` date NOT NULL,
-  `estacionamientocliente_id` int(10) unsigned NOT NULL,
+  `estacionamientocliente_id` int(10) UNSIGNED NOT NULL,
   `cantidad` int(11) NOT NULL,
-  `banco_id` int(10) unsigned NOT NULL,
-  `bancoscuenta_id` int(10) unsigned NOT NULL,
+  `banco_id` int(10) UNSIGNED NOT NULL,
+  `bancoscuenta_id` int(10) UNSIGNED NOT NULL,
   `total` double(8,2) NOT NULL,
   `deposito` char(150) COLLATE utf8_unicode_ci NOT NULL,
-  `estacionamientoop_id` int(10) unsigned NOT NULL,
+  `estacionamientoop_id` int(10) UNSIGNED NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -724,18 +831,18 @@ CREATE TABLE IF NOT EXISTS `estacionamientooptarjetas` (
 -- Estructura de tabla para la tabla `estacionamientooptickets`
 --
 
-CREATE TABLE IF NOT EXISTS `estacionamientooptickets` (
-`id` int(10) unsigned NOT NULL,
-  `econcepto_id` int(10) unsigned NOT NULL,
+CREATE TABLE `estacionamientooptickets` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `econcepto_id` int(10) UNSIGNED NOT NULL,
   `taquilla` int(11) NOT NULL,
   `turno` int(11) NOT NULL,
   `costo` double(8,2) NOT NULL,
   `cantidad` int(11) NOT NULL,
   `monto` double(8,2) NOT NULL,
-  `estacionamientoop_id` int(10) unsigned NOT NULL,
+  `estacionamientoop_id` int(10) UNSIGNED NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -743,17 +850,17 @@ CREATE TABLE IF NOT EXISTS `estacionamientooptickets` (
 -- Estructura de tabla para la tabla `estacionamientoopticketsdepositos`
 --
 
-CREATE TABLE IF NOT EXISTS `estacionamientoopticketsdepositos` (
-`id` int(10) unsigned NOT NULL,
+CREATE TABLE `estacionamientoopticketsdepositos` (
+  `id` int(10) UNSIGNED NOT NULL,
   `fecha` date NOT NULL,
-  `banco_id` int(10) unsigned NOT NULL,
-  `bancoscuenta_id` int(10) unsigned NOT NULL,
+  `banco_id` int(10) UNSIGNED NOT NULL,
+  `bancoscuenta_id` int(10) UNSIGNED NOT NULL,
   `total` double(8,2) NOT NULL,
   `deposito` char(150) COLLATE utf8_unicode_ci NOT NULL,
-  `estacionamientoop_id` int(10) unsigned NOT NULL,
+  `estacionamientoop_id` int(10) UNSIGNED NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -761,13 +868,13 @@ CREATE TABLE IF NOT EXISTS `estacionamientoopticketsdepositos` (
 -- Estructura de tabla para la tabla `estacionamientoportons`
 --
 
-CREATE TABLE IF NOT EXISTS `estacionamientoportons` (
-`id` int(10) unsigned NOT NULL,
+CREATE TABLE `estacionamientoportons` (
+  `id` int(10) UNSIGNED NOT NULL,
   `nombre` char(150) COLLATE utf8_unicode_ci NOT NULL,
-  `estacionamiento_id` int(10) unsigned NOT NULL,
+  `estacionamiento_id` int(10) UNSIGNED NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -775,14 +882,14 @@ CREATE TABLE IF NOT EXISTS `estacionamientoportons` (
 -- Estructura de tabla para la tabla `estacionamientos`
 --
 
-CREATE TABLE IF NOT EXISTS `estacionamientos` (
-`id` int(10) unsigned NOT NULL,
+CREATE TABLE `estacionamientos` (
+  `id` int(10) UNSIGNED NOT NULL,
   `nTaquillas` int(11) NOT NULL,
   `nTurnos` int(11) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `aeropuerto_id` int(10) unsigned NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+  `aeropuerto_id` int(10) UNSIGNED NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -790,19 +897,19 @@ CREATE TABLE IF NOT EXISTS `estacionamientos` (
 -- Estructura de tabla para la tabla `estacionamiento_aeronaves`
 --
 
-CREATE TABLE IF NOT EXISTS `estacionamiento_aeronaves` (
-`id` int(10) unsigned NOT NULL,
+CREATE TABLE `estacionamiento_aeronaves` (
+  `id` int(10) UNSIGNED NOT NULL,
   `tiempoLibreInt` int(11) NOT NULL,
   `eq_bloqueInt` double(8,2) NOT NULL,
   `minBloqueInt` int(11) NOT NULL,
   `tiempoLibreNac` int(11) NOT NULL,
   `eq_bloqueNac` double(8,2) NOT NULL,
   `minBloqueNac` int(11) NOT NULL,
-  `conceptoCredito_id` int(10) unsigned NOT NULL,
-  `conceptoContado_id` int(10) unsigned NOT NULL,
+  `conceptoCredito_id` int(10) UNSIGNED NOT NULL,
+  `conceptoContado_id` int(10) UNSIGNED NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Volcado de datos para la tabla `estacionamiento_aeronaves`
@@ -817,21 +924,21 @@ INSERT INTO `estacionamiento_aeronaves` (`id`, `tiempoLibreInt`, `eq_bloqueInt`,
 -- Estructura de tabla para la tabla `facturadetalles`
 --
 
-CREATE TABLE IF NOT EXISTS `facturadetalles` (
-`id` int(10) unsigned NOT NULL,
-  `factura_id` int(10) unsigned NOT NULL,
-  `concepto_id` int(10) unsigned NOT NULL,
-  `cantidadDes` int(10) unsigned NOT NULL,
-  `montoDes` double(8,2) unsigned NOT NULL,
-  `descuentoPerDes` double(8,2) unsigned NOT NULL,
-  `descuentoTotalDes` double(8,2) unsigned NOT NULL,
-  `ivaDes` double(8,2) unsigned NOT NULL,
-  `recargoPerDes` double(8,2) unsigned NOT NULL,
-  `recargoTotalDes` double(8,2) unsigned NOT NULL,
-  `totalDes` double(8,2) unsigned NOT NULL,
+CREATE TABLE `facturadetalles` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `factura_id` int(10) UNSIGNED NOT NULL,
+  `concepto_id` int(10) UNSIGNED NOT NULL,
+  `cantidadDes` int(10) UNSIGNED NOT NULL,
+  `montoDes` double(8,2) UNSIGNED NOT NULL,
+  `descuentoPerDes` double(8,2) UNSIGNED NOT NULL,
+  `descuentoTotalDes` double(8,2) UNSIGNED NOT NULL,
+  `ivaDes` double(8,2) UNSIGNED NOT NULL,
+  `recargoPerDes` double(8,2) UNSIGNED NOT NULL,
+  `recargoTotalDes` double(8,2) UNSIGNED NOT NULL,
+  `totalDes` double(8,2) UNSIGNED NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Volcado de datos para la tabla `facturadetalles`
@@ -848,11 +955,11 @@ INSERT INTO `facturadetalles` (`id`, `factura_id`, `concepto_id`, `cantidadDes`,
 -- Estructura de tabla para la tabla `facturametadatas`
 --
 
-CREATE TABLE IF NOT EXISTS `facturametadatas` (
-`id` int(10) unsigned NOT NULL,
-  `factura_id` int(10) unsigned NOT NULL,
-  `ncobros` int(10) unsigned NOT NULL,
-  `ncuotas` int(10) unsigned NOT NULL,
+CREATE TABLE `facturametadatas` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `factura_id` int(10) UNSIGNED NOT NULL,
+  `ncobros` int(10) UNSIGNED NOT NULL,
+  `ncuotas` int(10) UNSIGNED NOT NULL,
   `montoiniciocuota` double(15,2) NOT NULL,
   `montopagado` double(15,2) NOT NULL,
   `basepagado` double(15,2) NOT NULL,
@@ -863,7 +970,7 @@ CREATE TABLE IF NOT EXISTS `facturametadatas` (
   `total` double(15,2) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -871,28 +978,28 @@ CREATE TABLE IF NOT EXISTS `facturametadatas` (
 -- Estructura de tabla para la tabla `facturas`
 --
 
-CREATE TABLE IF NOT EXISTS `facturas` (
-`id` int(10) unsigned NOT NULL,
-  `aeropuerto_id` int(10) unsigned NOT NULL,
+CREATE TABLE `facturas` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `aeropuerto_id` int(10) UNSIGNED NOT NULL,
   `condicionPago` enum('Crédito','Contado') COLLATE utf8_unicode_ci NOT NULL,
-  `nControl` int(10) unsigned NOT NULL,
-  `nFactura` int(10) unsigned NOT NULL,
+  `nControl` int(10) UNSIGNED NOT NULL,
+  `nFactura` int(10) UNSIGNED NOT NULL,
   `fecha` date NOT NULL,
   `fechaVencimiento` date NOT NULL,
-  `cliente_id` int(10) unsigned NOT NULL,
-  `subtotalNeto` double(8,2) unsigned NOT NULL,
-  `descuentoTotal` double(8,2) unsigned NOT NULL,
-  `subtotal` double(8,2) unsigned NOT NULL,
-  `iva` double(8,2) unsigned NOT NULL,
-  `recargoTotal` double(8,2) unsigned NOT NULL,
-  `total` double(8,2) unsigned NOT NULL,
+  `cliente_id` int(10) UNSIGNED NOT NULL,
+  `subtotalNeto` double(8,2) UNSIGNED NOT NULL,
+  `descuentoTotal` double(8,2) UNSIGNED NOT NULL,
+  `subtotal` double(8,2) UNSIGNED NOT NULL,
+  `iva` double(8,2) UNSIGNED NOT NULL,
+  `recargoTotal` double(8,2) UNSIGNED NOT NULL,
+  `total` double(8,2) UNSIGNED NOT NULL,
   `descripcion` text COLLATE utf8_unicode_ci NOT NULL,
   `comentario` text COLLATE utf8_unicode_ci NOT NULL,
   `estado` char(1) COLLATE utf8_unicode_ci NOT NULL,
   `isImpresa` tinyint(1) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Volcado de datos para la tabla `facturas`
@@ -906,16 +1013,32 @@ INSERT INTO `facturas` (`id`, `aeropuerto_id`, `condicionPago`, `nControl`, `nFa
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `footers`
+--
+
+CREATE TABLE `footers` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `footer` varchar(200) COLLATE utf8_unicode_ci NOT NULL,
+  `fecha_registro` datetime NOT NULL,
+  `usuario` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+  `status` varchar(1) COLLATE utf8_unicode_ci NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `hangars`
 --
 
-CREATE TABLE IF NOT EXISTS `hangars` (
-`id` int(10) unsigned NOT NULL,
+CREATE TABLE `hangars` (
+  `id` int(10) UNSIGNED NOT NULL,
   `nombre` varchar(300) COLLATE utf8_unicode_ci NOT NULL,
-  `aeropuerto_id` int(10) unsigned NOT NULL,
+  `aeropuerto_id` int(10) UNSIGNED NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=44 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Volcado de datos para la tabla `hangars`
@@ -968,15 +1091,15 @@ INSERT INTO `hangars` (`id`, `nombre`, `aeropuerto_id`, `created_at`, `updated_a
 -- Estructura de tabla para la tabla `horarios_aeronauticos`
 --
 
-CREATE TABLE IF NOT EXISTS `horarios_aeronauticos` (
-`id` int(10) unsigned NOT NULL,
+CREATE TABLE `horarios_aeronauticos` (
+  `id` int(10) UNSIGNED NOT NULL,
   `operaciones_inicio` time NOT NULL,
   `operaciones_fin` time NOT NULL,
   `sol_salida` time NOT NULL,
   `sol_puesta` time NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Volcado de datos para la tabla `horarios_aeronauticos`
@@ -988,10 +1111,55 @@ INSERT INTO `horarios_aeronauticos` (`id`, `operaciones_inicio`, `operaciones_fi
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `lista_tasas`
+--
+
+CREATE TABLE `lista_tasas` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `opcion` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+  `relacion` int(11) NOT NULL DEFAULT '0',
+  `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `metas`
+--
+
+CREATE TABLE `metas` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `aeropuerto_id` int(10) UNSIGNED NOT NULL,
+  `fecha_inicio` date NOT NULL,
+  `fecha_fin` date DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `meta_detalles`
+--
+
+CREATE TABLE `meta_detalles` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `meta_id` int(10) UNSIGNED NOT NULL,
+  `concepto_id` int(10) UNSIGNED NOT NULL,
+  `gobernacion_meta` double(8,2) NOT NULL,
+  `saar_meta` double(8,2) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `migrations`
 --
 
-CREATE TABLE IF NOT EXISTS `migrations` (
+CREATE TABLE `migrations` (
   `migration` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `batch` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
@@ -1083,7 +1251,19 @@ INSERT INTO `migrations` (`migration`, `batch`) VALUES
 ('2015_10_28_185118_create_otros_cargos_table', 23),
 ('2015_10_29_160450_create_precios_otros_cargos_table', 24),
 ('2015_10_29_185118_create_otros_cargos_table', 24),
-('2015_10_30_185118_create_otros_cargos_table', 25);
+('2015_10_30_185118_create_otros_cargos_table', 25),
+('2015_11_06_135819_create_metas_table', 25),
+('2015_11_06_135827_create_meta_detalles_table', 25),
+('2015_11_09_141140_create_despegues_table', 25),
+('2015_11_12_163326_create_concils_table', 25),
+('2015_11_12_163501_create_footers_table', 25),
+('2015_11_12_163515_create_lista_tasas_table', 25),
+('2015_11_12_163533_create_tasa_cierres_table', 25),
+('2015_11_12_163551_create_ta_tasas_table', 25),
+('2015_11_12_163600_create_tip_tas_table', 25),
+('2015_11_12_163608_create_topes_table', 25),
+('2015_11_20_143239_create_cargas_table', 25),
+('2015_11_30_020918_create_despegue_otros_cargo_table', 26);
 
 -- --------------------------------------------------------
 
@@ -1091,14 +1271,14 @@ INSERT INTO `migrations` (`migration`, `batch`) VALUES
 -- Estructura de tabla para la tabla `modelo_aeronaves`
 --
 
-CREATE TABLE IF NOT EXISTS `modelo_aeronaves` (
-`id` int(10) unsigned NOT NULL,
+CREATE TABLE `modelo_aeronaves` (
+  `id` int(10) UNSIGNED NOT NULL,
   `modelo` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
   `peso_maximo` varchar(20) COLLATE utf8_unicode_ci NOT NULL,
-  `tipo_id` int(10) unsigned NOT NULL,
+  `tipo_id` int(10) UNSIGNED NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=461 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Volcado de datos para la tabla `modelo_aeronaves`
@@ -1572,16 +1752,16 @@ INSERT INTO `modelo_aeronaves` (`id`, `modelo`, `peso_maximo`, `tipo_id`, `creat
 -- Estructura de tabla para la tabla `modulos`
 --
 
-CREATE TABLE IF NOT EXISTS `modulos` (
-`id` int(10) unsigned NOT NULL,
+CREATE TABLE `modulos` (
+  `id` int(10) UNSIGNED NOT NULL,
   `nombre` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
   `descripcion` text COLLATE utf8_unicode_ci NOT NULL,
   `isRetencion` tinyint(1) NOT NULL,
   `isPredeterminado` tinyint(1) NOT NULL,
-  `aeropuerto_id` int(10) unsigned NOT NULL,
+  `aeropuerto_id` int(10) UNSIGNED NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=6 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Volcado de datos para la tabla `modulos`
@@ -1599,13 +1779,13 @@ INSERT INTO `modulos` (`id`, `nombre`, `descripcion`, `isRetencion`, `isPredeter
 -- Estructura de tabla para la tabla `montos_fijos`
 --
 
-CREATE TABLE IF NOT EXISTS `montos_fijos` (
-`id` int(10) unsigned NOT NULL,
+CREATE TABLE `montos_fijos` (
+  `id` int(10) UNSIGNED NOT NULL,
   `unidad_tributaria` double(8,2) NOT NULL,
   `dolar_oficial` double(8,2) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Volcado de datos para la tabla `montos_fijos`
@@ -1620,13 +1800,13 @@ INSERT INTO `montos_fijos` (`id`, `unidad_tributaria`, `dolar_oficial`, `created
 -- Estructura de tabla para la tabla `nacionalidad_matriculas`
 --
 
-CREATE TABLE IF NOT EXISTS `nacionalidad_matriculas` (
-`id` int(10) unsigned NOT NULL,
+CREATE TABLE `nacionalidad_matriculas` (
+  `id` int(10) UNSIGNED NOT NULL,
   `siglas` varchar(5) COLLATE utf8_unicode_ci NOT NULL,
   `nombre` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=252 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Volcado de datos para la tabla `nacionalidad_matriculas`
@@ -1853,13 +2033,13 @@ INSERT INTO `nacionalidad_matriculas` (`id`, `siglas`, `nombre`, `created_at`, `
 -- Estructura de tabla para la tabla `nacionalidad_vuelos`
 --
 
-CREATE TABLE IF NOT EXISTS `nacionalidad_vuelos` (
-`id` int(10) unsigned NOT NULL,
+CREATE TABLE `nacionalidad_vuelos` (
+  `id` int(10) UNSIGNED NOT NULL,
   `siglas` varchar(2) COLLATE utf8_unicode_ci NOT NULL,
   `nombre` varchar(20) COLLATE utf8_unicode_ci NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Volcado de datos para la tabla `nacionalidad_vuelos`
@@ -1875,23 +2055,23 @@ INSERT INTO `nacionalidad_vuelos` (`id`, `siglas`, `nombre`, `created_at`, `upda
 -- Estructura de tabla para la tabla `otros_cargos`
 --
 
-CREATE TABLE IF NOT EXISTS `otros_cargos` (
-`id` int(10) unsigned NOT NULL,
+CREATE TABLE `otros_cargos` (
+  `id` int(10) UNSIGNED NOT NULL,
   `nombre_cargo` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `precio_cargo` double(8,2) NOT NULL,
-  `conceptoCredito_id` int(10) unsigned DEFAULT NULL,
-  `conceptoContado_id` int(10) unsigned NOT NULL,
+  `conceptoCredito_id` int(10) UNSIGNED DEFAULT NULL,
+  `conceptoContado_id` int(10) UNSIGNED NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=5 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Volcado de datos para la tabla `otros_cargos`
 --
 
 INSERT INTO `otros_cargos` (`id`, `nombre_cargo`, `precio_cargo`, `conceptoCredito_id`, `conceptoContado_id`, `created_at`, `updated_at`) VALUES
-(3, 'Servicio Handling', 100.00, NULL, 61, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-(4, 'Combustible', 2000.00, NULL, 50, '0000-00-00 00:00:00', '0000-00-00 00:00:00');
+(1, 'gf', 333.00, 59, 60, '2015-11-25 20:28:06', '2015-11-25 20:28:06'),
+(2, 'hola', 12345.00, 67, 67, '2015-11-25 20:58:07', '2015-11-25 20:58:07');
 
 -- --------------------------------------------------------
 
@@ -1899,13 +2079,13 @@ INSERT INTO `otros_cargos` (`id`, `nombre_cargo`, `precio_cargo`, `conceptoCredi
 -- Estructura de tabla para la tabla `pais`
 --
 
-CREATE TABLE IF NOT EXISTS `pais` (
-`id` int(10) unsigned NOT NULL,
+CREATE TABLE `pais` (
+  `id` int(10) UNSIGNED NOT NULL,
   `siglas` varchar(3) COLLATE utf8_unicode_ci NOT NULL,
   `nombre` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=241 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Volcado de datos para la tabla `pais`
@@ -2159,15 +2339,15 @@ INSERT INTO `pais` (`id`, `siglas`, `nombre`, `created_at`, `updated_at`) VALUES
 -- Estructura de tabla para la tabla `permissions`
 --
 
-CREATE TABLE IF NOT EXISTS `permissions` (
-`id` int(10) unsigned NOT NULL,
+CREATE TABLE `permissions` (
+  `id` int(10) UNSIGNED NOT NULL,
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `slug` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `description` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `model` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=19 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Volcado de datos para la tabla `permissions`
@@ -2199,13 +2379,13 @@ INSERT INTO `permissions` (`id`, `name`, `slug`, `description`, `model`, `create
 -- Estructura de tabla para la tabla `permission_role`
 --
 
-CREATE TABLE IF NOT EXISTS `permission_role` (
-`id` int(10) unsigned NOT NULL,
-  `permission_id` int(10) unsigned NOT NULL,
-  `role_id` int(10) unsigned NOT NULL,
+CREATE TABLE `permission_role` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `permission_id` int(10) UNSIGNED NOT NULL,
+  `role_id` int(10) UNSIGNED NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=63 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Volcado de datos para la tabla `permission_role`
@@ -2249,13 +2429,13 @@ INSERT INTO `permission_role` (`id`, `permission_id`, `role_id`, `created_at`, `
 -- Estructura de tabla para la tabla `permission_usuario`
 --
 
-CREATE TABLE IF NOT EXISTS `permission_usuario` (
-`id` int(10) unsigned NOT NULL,
-  `permission_id` int(10) unsigned NOT NULL,
-  `usuario_id` int(10) unsigned NOT NULL,
+CREATE TABLE `permission_usuario` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `permission_id` int(10) UNSIGNED NOT NULL,
+  `usuario_id` int(10) UNSIGNED NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -2263,17 +2443,17 @@ CREATE TABLE IF NOT EXISTS `permission_usuario` (
 -- Estructura de tabla para la tabla `pilotos`
 --
 
-CREATE TABLE IF NOT EXISTS `pilotos` (
-`id` int(10) unsigned NOT NULL,
+CREATE TABLE `pilotos` (
+  `id` int(10) UNSIGNED NOT NULL,
   `nombre` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
-  `nacionalidad_id` int(10) unsigned NOT NULL,
+  `nacionalidad_id` int(10) UNSIGNED NOT NULL,
   `documento_identidad` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `telefono` varchar(12) COLLATE utf8_unicode_ci DEFAULT NULL,
   `licencia` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `estado` int(11) NOT NULL DEFAULT '0',
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=121 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Volcado de datos para la tabla `pilotos`
@@ -2397,24 +2577,24 @@ INSERT INTO `pilotos` (`id`, `nombre`, `nacionalidad_id`, `documento_identidad`,
 -- Estructura de tabla para la tabla `precios_aterrizajes_despegues`
 --
 
-CREATE TABLE IF NOT EXISTS `precios_aterrizajes_despegues` (
-`id` int(10) unsigned NOT NULL,
+CREATE TABLE `precios_aterrizajes_despegues` (
+  `id` int(10) UNSIGNED NOT NULL,
   `eq_diurnoNac` double(8,2) NOT NULL,
   `eq_diurnoInt` double(8,2) NOT NULL,
   `eq_nocturNac` double(8,2) NOT NULL,
   `eq_nocturInt` double(8,2) NOT NULL,
-  `conceptoCredito_id` int(10) unsigned NOT NULL,
-  `conceptoContado_id` int(10) unsigned NOT NULL,
+  `conceptoCredito_id` int(10) UNSIGNED NOT NULL,
+  `conceptoContado_id` int(10) UNSIGNED NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Volcado de datos para la tabla `precios_aterrizajes_despegues`
 --
 
 INSERT INTO `precios_aterrizajes_despegues` (`id`, `eq_diurnoNac`, `eq_diurnoInt`, `eq_nocturNac`, `eq_nocturInt`, `conceptoCredito_id`, `conceptoContado_id`, `created_at`, `updated_at`) VALUES
-(1, 0.29, 0.35, 0.35, 1.65, 68, 54, '0000-00-00 00:00:00', '2015-10-22 02:35:34');
+(1, 0.29, 0.35, 0.35, 1.65, 68, 54, '0000-00-00 00:00:00', '2015-11-30 04:52:43');
 
 -- --------------------------------------------------------
 
@@ -2422,22 +2602,22 @@ INSERT INTO `precios_aterrizajes_despegues` (`id`, `eq_diurnoNac`, `eq_diurnoInt
 -- Estructura de tabla para la tabla `precios_cargas`
 --
 
-CREATE TABLE IF NOT EXISTS `precios_cargas` (
-`id` int(10) unsigned NOT NULL,
+CREATE TABLE `precios_cargas` (
+  `id` int(10) UNSIGNED NOT NULL,
   `equivalenteUT` double(8,2) NOT NULL,
   `toneladaPorBloque` double(8,2) NOT NULL,
-  `conceptoCredito_id` int(10) unsigned NOT NULL,
-  `conceptoContado_id` int(10) unsigned NOT NULL,
+  `conceptoCredito_id` int(10) UNSIGNED NOT NULL,
+  `conceptoContado_id` int(10) UNSIGNED NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Volcado de datos para la tabla `precios_cargas`
 --
 
 INSERT INTO `precios_cargas` (`id`, `equivalenteUT`, `toneladaPorBloque`, `conceptoCredito_id`, `conceptoContado_id`, `created_at`, `updated_at`) VALUES
-(1, 0.01, 2.00, 73, 59, '0000-00-00 00:00:00', '2015-10-28 20:24:10');
+(1, 0.01, 1.00, 73, 59, '0000-00-00 00:00:00', '2015-11-25 21:01:46');
 
 -- --------------------------------------------------------
 
@@ -2445,15 +2625,15 @@ INSERT INTO `precios_cargas` (`id`, `equivalenteUT`, `toneladaPorBloque`, `conce
 -- Estructura de tabla para la tabla `puertos`
 --
 
-CREATE TABLE IF NOT EXISTS `puertos` (
-`id` int(10) unsigned NOT NULL,
+CREATE TABLE `puertos` (
+  `id` int(10) UNSIGNED NOT NULL,
   `nombre` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
   `siglas` varchar(20) COLLATE utf8_unicode_ci NOT NULL,
   `estado` int(11) NOT NULL DEFAULT '0',
-  `pais_id` int(10) unsigned NOT NULL,
+  `pais_id` int(10) UNSIGNED NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Volcado de datos para la tabla `puertos`
@@ -2469,15 +2649,15 @@ INSERT INTO `puertos` (`id`, `nombre`, `siglas`, `estado`, `pais_id`, `created_a
 -- Estructura de tabla para la tabla `roles`
 --
 
-CREATE TABLE IF NOT EXISTS `roles` (
-`id` int(10) unsigned NOT NULL,
+CREATE TABLE `roles` (
+  `id` int(10) UNSIGNED NOT NULL,
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `slug` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `description` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `level` int(11) NOT NULL DEFAULT '1',
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Volcado de datos para la tabla `roles`
@@ -2494,13 +2674,13 @@ INSERT INTO `roles` (`id`, `name`, `slug`, `description`, `level`, `created_at`,
 -- Estructura de tabla para la tabla `role_usuario`
 --
 
-CREATE TABLE IF NOT EXISTS `role_usuario` (
-`id` int(10) unsigned NOT NULL,
-  `role_id` int(10) unsigned NOT NULL,
-  `usuario_id` int(10) unsigned NOT NULL,
+CREATE TABLE `role_usuario` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `role_id` int(10) UNSIGNED NOT NULL,
+  `usuario_id` int(10) UNSIGNED NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Volcado de datos para la tabla `role_usuario`
@@ -2514,15 +2694,55 @@ INSERT INTO `role_usuario` (`id`, `role_id`, `usuario_id`, `created_at`, `update
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `tasa_cierres`
+--
+
+CREATE TABLE `tasa_cierres` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `fcierre` date NOT NULL,
+  `hcierre` time NOT NULL,
+  `monto` varchar(12) COLLATE utf8_unicode_ci NOT NULL,
+  `encargado` varchar(150) COLLATE utf8_unicode_ci NOT NULL,
+  `observacion` text COLLATE utf8_unicode_ci NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `ta_tasas`
+--
+
+CREATE TABLE `ta_tasas` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `codtas` int(11) NOT NULL,
+  `serie` varchar(3) COLLATE utf8_unicode_ci NOT NULL,
+  `femision` varchar(10) COLLATE utf8_unicode_ci NOT NULL,
+  `hemision` time NOT NULL,
+  `tiptas` varchar(12) COLLATE utf8_unicode_ci NOT NULL,
+  `status` varchar(12) COLLATE utf8_unicode_ci NOT NULL,
+  `encargado` varchar(150) COLLATE utf8_unicode_ci NOT NULL,
+  `codbarras` varchar(150) COLLATE utf8_unicode_ci NOT NULL,
+  `fVer` varchar(10) COLLATE utf8_unicode_ci NOT NULL,
+  `hVer` time NOT NULL,
+  `valor` double(14,2) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `tipo_aeronaves`
 --
 
-CREATE TABLE IF NOT EXISTS `tipo_aeronaves` (
-`id` int(10) unsigned NOT NULL,
+CREATE TABLE `tipo_aeronaves` (
+  `id` int(10) UNSIGNED NOT NULL,
   `nombre` varchar(20) COLLATE utf8_unicode_ci NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Volcado de datos para la tabla `tipo_aeronaves`
@@ -2538,13 +2758,13 @@ INSERT INTO `tipo_aeronaves` (`id`, `nombre`, `created_at`, `updated_at`) VALUES
 -- Estructura de tabla para la tabla `tipo_matriculas`
 --
 
-CREATE TABLE IF NOT EXISTS `tipo_matriculas` (
-`id` int(10) unsigned NOT NULL,
+CREATE TABLE `tipo_matriculas` (
+  `id` int(10) UNSIGNED NOT NULL,
   `nombre` varchar(20) COLLATE utf8_unicode_ci NOT NULL,
   `siglas` varchar(2) COLLATE utf8_unicode_ci NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=9 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Volcado de datos para la tabla `tipo_matriculas`
@@ -2563,31 +2783,62 @@ INSERT INTO `tipo_matriculas` (`id`, `nombre`, `siglas`, `created_at`, `updated_
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `tip_tas`
+--
+
+CREATE TABLE `tip_tas` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `nombre` varchar(150) COLLATE utf8_unicode_ci NOT NULL,
+  `monto` varchar(12) COLLATE utf8_unicode_ci NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `topes`
+--
+
+CREATE TABLE `topes` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `nombre_archivo` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+  `ruta_imagen` varchar(200) COLLATE utf8_unicode_ci NOT NULL,
+  `fecha` date NOT NULL,
+  `status` tinyint(1) NOT NULL,
+  `aeropuerto` varchar(200) COLLATE utf8_unicode_ci NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `usuarios`
 --
 
-CREATE TABLE IF NOT EXISTS `usuarios` (
-`id` int(10) unsigned NOT NULL,
+CREATE TABLE `usuarios` (
+  `id` int(10) UNSIGNED NOT NULL,
   `username` varchar(200) COLLATE utf8_unicode_ci NOT NULL,
   `password` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
   `fullname` varchar(200) COLLATE utf8_unicode_ci NOT NULL,
   `estado` int(11) NOT NULL,
-  `departamento_id` int(10) unsigned DEFAULT NULL,
-  `aeropuerto_id` int(10) unsigned DEFAULT NULL,
-  `cargo_id` int(10) unsigned DEFAULT NULL,
+  `departamento_id` int(10) UNSIGNED DEFAULT NULL,
+  `aeropuerto_id` int(10) UNSIGNED DEFAULT NULL,
+  `cargo_id` int(10) UNSIGNED DEFAULT NULL,
   `directo` varchar(4) COLLATE utf8_unicode_ci NOT NULL,
   `email` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `remember_token` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Volcado de datos para la tabla `usuarios`
 --
 
 INSERT INTO `usuarios` (`id`, `username`, `password`, `fullname`, `estado`, `departamento_id`, `aeropuerto_id`, `cargo_id`, `directo`, `email`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, 'admin', '$2y$10$IiAw5mwzKZwMjPMP7gv64OBUMHL2INfwOYpZaYxbHPPaS1oJComkm', '', 0, NULL, NULL, NULL, '', '', 'LdiocNBuUDMfI1GTjAEAs98uUktndXgOeTnvxw1d4JRzzoMi9NVNbIx7Yr59', '2015-07-31 12:42:36', '2015-09-04 01:42:09'),
+(1, 'admin', '$2y$10$IiAw5mwzKZwMjPMP7gv64OBUMHL2INfwOYpZaYxbHPPaS1oJComkm', '', 0, NULL, NULL, NULL, '', '', 'jOncICisYYsgty7bbrI2Tnoc5kOMVZaB4kEZpp5zpalMYSmsWsPzvnRcNYgi', '2015-07-31 12:42:36', '2015-11-14 01:21:41'),
 (2, 'supervisor-scv', '$2y$10$hZdmhsjIpdtl0elgxBhg4OIbeTa4EnN6525Gm/ZmtTgrvDCKOZ4Sy', 'Supervisor SCV', 1, 1, 1, 1, '0000', 'saar@gmail.com', 'Ate9WJDGMcl1BpKn382FipyUJxuOIbRWVPySyyEmpC5DtWJM50v3frWp6bKC', '2015-09-02 00:32:49', '2015-09-15 02:58:26'),
 (3, 'recaudacion', '$2y$10$euqvcZN2k7eP6B6gFfbb.eIfKJ7JaUZMHe8hg9ORz5zWD6uKBIrQ.', 'Recaudacion', 1, 1, 1, 1, '1234', 'email@gmail.com', 'B75Y0W3frFNjkXwEqzh6gHgcssFIxBBJf4NGRjoi0brkjHCGUJMSUrK2XiS4', '2015-09-02 01:18:54', '2015-09-02 01:40:19');
 
@@ -2599,295 +2850,444 @@ INSERT INTO `usuarios` (`id`, `username`, `password`, `fullname`, `estado`, `dep
 -- Indices de la tabla `aeronaves`
 --
 ALTER TABLE `aeronaves`
- ADD PRIMARY KEY (`id`), ADD KEY `aeronaves_nacionalidad_id_foreign` (`nacionalidad_id`), ADD KEY `aeronaves_tipo_id_foreign` (`tipo_id`), ADD KEY `aeronaves_modelo_id_foreign` (`modelo_id`), ADD KEY `aeronaves_cliente_id_foreign` (`cliente_id`), ADD KEY `aeronaves_hangar_id_foreign` (`hangar_id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `aeronaves_nacionalidad_id_foreign` (`nacionalidad_id`),
+  ADD KEY `aeronaves_tipo_id_foreign` (`tipo_id`),
+  ADD KEY `aeronaves_modelo_id_foreign` (`modelo_id`),
+  ADD KEY `aeronaves_cliente_id_foreign` (`cliente_id`),
+  ADD KEY `aeronaves_hangar_id_foreign` (`hangar_id`);
 
 --
 -- Indices de la tabla `aeropuertos`
 --
 ALTER TABLE `aeropuertos`
- ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indices de la tabla `ajustes`
 --
 ALTER TABLE `ajustes`
- ADD PRIMARY KEY (`id`), ADD KEY `ajustes_cliente_id_foreign` (`cliente_id`), ADD KEY `ajustes_cobro_id_foreign` (`cobro_id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `ajustes_cliente_id_foreign` (`cliente_id`),
+  ADD KEY `ajustes_cobro_id_foreign` (`cobro_id`);
 
 --
 -- Indices de la tabla `aterrizajes`
 --
 ALTER TABLE `aterrizajes`
- ADD PRIMARY KEY (`id`), ADD KEY `aterrizajes_aeronave_id_foreign` (`aeronave_id`), ADD KEY `aterrizajes_cliente_id_foreign` (`cliente_id`), ADD KEY `aterrizajes_tipomatricula_id_foreign` (`tipoMatricula_id`), ADD KEY `aterrizajes_nacionalidadvuelo_id_foreign` (`nacionalidadVuelo_id`), ADD KEY `aterrizajes_piloto_id_foreign` (`piloto_id`), ADD KEY `aterrizajes_puerto_id_foreign` (`puerto_id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `aterrizajes_aeronave_id_foreign` (`aeronave_id`),
+  ADD KEY `aterrizajes_cliente_id_foreign` (`cliente_id`),
+  ADD KEY `aterrizajes_tipomatricula_id_foreign` (`tipoMatricula_id`),
+  ADD KEY `aterrizajes_nacionalidadvuelo_id_foreign` (`nacionalidadVuelo_id`),
+  ADD KEY `aterrizajes_piloto_id_foreign` (`piloto_id`),
+  ADD KEY `aterrizajes_puerto_id_foreign` (`puerto_id`);
 
 --
 -- Indices de la tabla `bancos`
 --
 ALTER TABLE `bancos`
- ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indices de la tabla `bancoscuentas`
 --
 ALTER TABLE `bancoscuentas`
- ADD PRIMARY KEY (`id`), ADD KEY `bancoscuentas_banco_id_foreign` (`banco_id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `bancoscuentas_banco_id_foreign` (`banco_id`);
+
+--
+-- Indices de la tabla `cargas`
+--
+ALTER TABLE `cargas`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `cargas_cliente_id_foreign` (`cliente_id`);
 
 --
 -- Indices de la tabla `cargos`
 --
 ALTER TABLE `cargos`
- ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indices de la tabla `cargos_varios`
 --
 ALTER TABLE `cargos_varios`
- ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indices de la tabla `clientes`
 --
 ALTER TABLE `clientes`
- ADD PRIMARY KEY (`id`), ADD KEY `clientes_pais_id_foreign` (`pais_id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `clientes_pais_id_foreign` (`pais_id`);
 
 --
 -- Indices de la tabla `cliente_hangar`
 --
 ALTER TABLE `cliente_hangar`
- ADD PRIMARY KEY (`id`), ADD KEY `cliente_hangar_cliente_id_foreign` (`cliente_id`), ADD KEY `cliente_hangar_hangar_id_foreign` (`hangar_id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `cliente_hangar_cliente_id_foreign` (`cliente_id`),
+  ADD KEY `cliente_hangar_hangar_id_foreign` (`hangar_id`);
 
 --
 -- Indices de la tabla `cobros`
 --
 ALTER TABLE `cobros`
- ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indices de la tabla `cobrospagos`
 --
 ALTER TABLE `cobrospagos`
- ADD PRIMARY KEY (`id`), ADD KEY `cobrospagos_banco_id_foreign` (`banco_id`), ADD KEY `cobrospagos_cuenta_id_foreign` (`cuenta_id`), ADD KEY `cobrospagos_cobro_id_foreign` (`cobro_id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `cobrospagos_banco_id_foreign` (`banco_id`),
+  ADD KEY `cobrospagos_cuenta_id_foreign` (`cuenta_id`),
+  ADD KEY `cobrospagos_cobro_id_foreign` (`cobro_id`);
 
 --
 -- Indices de la tabla `cobro_factura`
 --
 ALTER TABLE `cobro_factura`
- ADD PRIMARY KEY (`id`), ADD KEY `cobro_factura_factura_id_foreign` (`factura_id`), ADD KEY `cobro_factura_cobro_id_foreign` (`cobro_id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `cobro_factura_factura_id_foreign` (`factura_id`),
+  ADD KEY `cobro_factura_cobro_id_foreign` (`cobro_id`);
 
 --
 -- Indices de la tabla `conceptos`
 --
 ALTER TABLE `conceptos`
- ADD PRIMARY KEY (`id`), ADD KEY `conceptos_aeropuerto_id_foreign` (`aeropuerto_id`), ADD KEY `conceptos_modulo_id_foreign` (`modulo_id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `conceptos_aeropuerto_id_foreign` (`aeropuerto_id`),
+  ADD KEY `conceptos_modulo_id_foreign` (`modulo_id`);
+
+--
+-- Indices de la tabla `concils`
+--
+ALTER TABLE `concils`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indices de la tabla `contratos`
 --
 ALTER TABLE `contratos`
- ADD PRIMARY KEY (`id`), ADD UNIQUE KEY `contratos_ncontrato_unique` (`nContrato`), ADD KEY `contratos_cliente_id_foreign` (`cliente_id`), ADD KEY `contratos_concepto_id_foreign` (`concepto_id`);
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `contratos_ncontrato_unique` (`nContrato`),
+  ADD KEY `contratos_cliente_id_foreign` (`cliente_id`),
+  ADD KEY `contratos_concepto_id_foreign` (`concepto_id`);
 
 --
 -- Indices de la tabla `departamentos`
 --
 ALTER TABLE `departamentos`
- ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `despegues`
+--
+ALTER TABLE `despegues`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `despegues_puerto_id_foreign` (`puerto_id`),
+  ADD KEY `despegues_piloto_id_foreign` (`piloto_id`),
+  ADD KEY `despegues_tipomatricula_id_foreign` (`tipoMatricula_id`),
+  ADD KEY `despegues_nacionalidadvuelo_id_foreign` (`nacionalidadVuelo_id`),
+  ADD KEY `despegues_aeronave_id_foreign` (`aeronave_id`),
+  ADD KEY `despegues_cliente_id_foreign` (`cliente_id`),
+  ADD KEY `despegues_aterrizaje_id_foreign` (`aterrizaje_id`);
+
+--
+-- Indices de la tabla `despegue_otros_cargo`
+--
+ALTER TABLE `despegue_otros_cargo`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `despegue_otros_cargo_despegue_id_foreign` (`despegue_id`),
+  ADD KEY `despegue_otros_cargo_otroscargo_id_foreign` (`otrosCargo_id`);
 
 --
 -- Indices de la tabla `estacionamientoclientes`
 --
 ALTER TABLE `estacionamientoclientes`
- ADD PRIMARY KEY (`id`), ADD KEY `estacionamientoclientes_estacionamiento_id_foreign` (`estacionamiento_id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `estacionamientoclientes_estacionamiento_id_foreign` (`estacionamiento_id`);
 
 --
 -- Indices de la tabla `estacionamientoconceptos`
 --
 ALTER TABLE `estacionamientoconceptos`
- ADD PRIMARY KEY (`id`), ADD KEY `estacionamientoconceptos_estacionamiento_id_foreign` (`estacionamiento_id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `estacionamientoconceptos_estacionamiento_id_foreign` (`estacionamiento_id`);
 
 --
 -- Indices de la tabla `estacionamientoops`
 --
 ALTER TABLE `estacionamientoops`
- ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indices de la tabla `estacionamientooptarjetas`
 --
 ALTER TABLE `estacionamientooptarjetas`
- ADD PRIMARY KEY (`id`), ADD KEY `estacionamientooptarjetas_estacionamientocliente_id_foreign` (`estacionamientocliente_id`), ADD KEY `estacionamientooptarjetas_estacionamientoop_id_foreign` (`estacionamientoop_id`), ADD KEY `estacionamientooptarjetas_banco_id_foreign` (`banco_id`), ADD KEY `estacionamientooptarjetas_bancoscuenta_id_foreign` (`bancoscuenta_id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `estacionamientooptarjetas_estacionamientocliente_id_foreign` (`estacionamientocliente_id`),
+  ADD KEY `estacionamientooptarjetas_estacionamientoop_id_foreign` (`estacionamientoop_id`),
+  ADD KEY `estacionamientooptarjetas_banco_id_foreign` (`banco_id`),
+  ADD KEY `estacionamientooptarjetas_bancoscuenta_id_foreign` (`bancoscuenta_id`);
 
 --
 -- Indices de la tabla `estacionamientooptickets`
 --
 ALTER TABLE `estacionamientooptickets`
- ADD PRIMARY KEY (`id`), ADD KEY `estacionamientooptickets_econcepto_id_foreign` (`econcepto_id`), ADD KEY `estacionamientooptickets_estacionamientoop_id_foreign` (`estacionamientoop_id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `estacionamientooptickets_econcepto_id_foreign` (`econcepto_id`),
+  ADD KEY `estacionamientooptickets_estacionamientoop_id_foreign` (`estacionamientoop_id`);
 
 --
 -- Indices de la tabla `estacionamientoopticketsdepositos`
 --
 ALTER TABLE `estacionamientoopticketsdepositos`
- ADD PRIMARY KEY (`id`), ADD KEY `estacionamientoopticketsdepositos_estacionamientoop_id_foreign` (`estacionamientoop_id`), ADD KEY `estacionamientoopticketsdepositos_banco_id_foreign` (`banco_id`), ADD KEY `estacionamientoopticketsdepositos_bancoscuenta_id_foreign` (`bancoscuenta_id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `estacionamientoopticketsdepositos_estacionamientoop_id_foreign` (`estacionamientoop_id`),
+  ADD KEY `estacionamientoopticketsdepositos_banco_id_foreign` (`banco_id`),
+  ADD KEY `estacionamientoopticketsdepositos_bancoscuenta_id_foreign` (`bancoscuenta_id`);
 
 --
 -- Indices de la tabla `estacionamientoportons`
 --
 ALTER TABLE `estacionamientoportons`
- ADD PRIMARY KEY (`id`), ADD KEY `estacionamientoportons_estacionamiento_id_foreign` (`estacionamiento_id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `estacionamientoportons_estacionamiento_id_foreign` (`estacionamiento_id`);
 
 --
 -- Indices de la tabla `estacionamientos`
 --
 ALTER TABLE `estacionamientos`
- ADD PRIMARY KEY (`id`), ADD KEY `estacionamientos_aeropuerto_id_foreign` (`aeropuerto_id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `estacionamientos_aeropuerto_id_foreign` (`aeropuerto_id`);
 
 --
 -- Indices de la tabla `estacionamiento_aeronaves`
 --
 ALTER TABLE `estacionamiento_aeronaves`
- ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indices de la tabla `facturadetalles`
 --
 ALTER TABLE `facturadetalles`
- ADD PRIMARY KEY (`id`), ADD KEY `facturadetalles_factura_id_foreign` (`factura_id`), ADD KEY `facturadetalles_concepto_id_foreign` (`concepto_id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `facturadetalles_factura_id_foreign` (`factura_id`),
+  ADD KEY `facturadetalles_concepto_id_foreign` (`concepto_id`);
 
 --
 -- Indices de la tabla `facturametadatas`
 --
 ALTER TABLE `facturametadatas`
- ADD PRIMARY KEY (`id`), ADD KEY `facturametadatas_factura_id_foreign` (`factura_id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `facturametadatas_factura_id_foreign` (`factura_id`);
 
 --
 -- Indices de la tabla `facturas`
 --
 ALTER TABLE `facturas`
- ADD PRIMARY KEY (`id`), ADD KEY `facturas_aeropuerto_id_foreign` (`aeropuerto_id`), ADD KEY `facturas_cliente_id_foreign` (`cliente_id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `facturas_aeropuerto_id_foreign` (`aeropuerto_id`),
+  ADD KEY `facturas_cliente_id_foreign` (`cliente_id`);
+
+--
+-- Indices de la tabla `footers`
+--
+ALTER TABLE `footers`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indices de la tabla `hangars`
 --
 ALTER TABLE `hangars`
- ADD PRIMARY KEY (`id`), ADD KEY `hangars_aeropuerto_id_foreign` (`aeropuerto_id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `hangars_aeropuerto_id_foreign` (`aeropuerto_id`);
 
 --
 -- Indices de la tabla `horarios_aeronauticos`
 --
 ALTER TABLE `horarios_aeronauticos`
- ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `lista_tasas`
+--
+ALTER TABLE `lista_tasas`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `metas`
+--
+ALTER TABLE `metas`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `metas_aeropuerto_id_foreign` (`aeropuerto_id`);
+
+--
+-- Indices de la tabla `meta_detalles`
+--
+ALTER TABLE `meta_detalles`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `meta_detalles_meta_id_foreign` (`meta_id`),
+  ADD KEY `meta_detalles_concepto_id_foreign` (`concepto_id`);
 
 --
 -- Indices de la tabla `modelo_aeronaves`
 --
 ALTER TABLE `modelo_aeronaves`
- ADD PRIMARY KEY (`id`), ADD KEY `modelo_aeronaves_tipo_id_foreign` (`tipo_id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `modelo_aeronaves_tipo_id_foreign` (`tipo_id`);
 
 --
 -- Indices de la tabla `modulos`
 --
 ALTER TABLE `modulos`
- ADD PRIMARY KEY (`id`), ADD KEY `modulos_aeropuerto_id_foreign` (`aeropuerto_id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `modulos_aeropuerto_id_foreign` (`aeropuerto_id`);
 
 --
 -- Indices de la tabla `montos_fijos`
 --
 ALTER TABLE `montos_fijos`
- ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indices de la tabla `nacionalidad_matriculas`
 --
 ALTER TABLE `nacionalidad_matriculas`
- ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indices de la tabla `nacionalidad_vuelos`
 --
 ALTER TABLE `nacionalidad_vuelos`
- ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indices de la tabla `otros_cargos`
 --
 ALTER TABLE `otros_cargos`
- ADD PRIMARY KEY (`id`), ADD KEY `otros_cargos_conceptocredito_id_foreign` (`conceptoCredito_id`), ADD KEY `otros_cargos_conceptocontado_id_foreign` (`conceptoContado_id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `otros_cargos_conceptocredito_id_foreign` (`conceptoCredito_id`),
+  ADD KEY `otros_cargos_conceptocontado_id_foreign` (`conceptoContado_id`);
 
 --
 -- Indices de la tabla `pais`
 --
 ALTER TABLE `pais`
- ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indices de la tabla `permissions`
 --
 ALTER TABLE `permissions`
- ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indices de la tabla `permission_role`
 --
 ALTER TABLE `permission_role`
- ADD PRIMARY KEY (`id`), ADD KEY `permission_role_permission_id_index` (`permission_id`), ADD KEY `permission_role_role_id_index` (`role_id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `permission_role_permission_id_index` (`permission_id`),
+  ADD KEY `permission_role_role_id_index` (`role_id`);
 
 --
 -- Indices de la tabla `permission_usuario`
 --
 ALTER TABLE `permission_usuario`
- ADD PRIMARY KEY (`id`), ADD KEY `permission_usuario_permission_id_index` (`permission_id`), ADD KEY `permission_usuario_usuario_id_index` (`usuario_id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `permission_usuario_permission_id_index` (`permission_id`),
+  ADD KEY `permission_usuario_usuario_id_index` (`usuario_id`);
 
 --
 -- Indices de la tabla `pilotos`
 --
 ALTER TABLE `pilotos`
- ADD PRIMARY KEY (`id`), ADD KEY `pilotos_nacionalidad_id_foreign` (`nacionalidad_id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `pilotos_nacionalidad_id_foreign` (`nacionalidad_id`);
 
 --
 -- Indices de la tabla `precios_aterrizajes_despegues`
 --
 ALTER TABLE `precios_aterrizajes_despegues`
- ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indices de la tabla `precios_cargas`
 --
 ALTER TABLE `precios_cargas`
- ADD PRIMARY KEY (`id`), ADD KEY `precios_cargas_conceptocredito_id_foreign` (`conceptoCredito_id`), ADD KEY `precios_cargas_conceptocontado_id_foreign` (`conceptoContado_id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `precios_cargas_conceptocredito_id_foreign` (`conceptoCredito_id`),
+  ADD KEY `precios_cargas_conceptocontado_id_foreign` (`conceptoContado_id`);
 
 --
 -- Indices de la tabla `puertos`
 --
 ALTER TABLE `puertos`
- ADD PRIMARY KEY (`id`), ADD KEY `puertos_pais_id_foreign` (`pais_id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `puertos_pais_id_foreign` (`pais_id`);
 
 --
 -- Indices de la tabla `roles`
 --
 ALTER TABLE `roles`
- ADD PRIMARY KEY (`id`), ADD UNIQUE KEY `roles_slug_unique` (`slug`);
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `roles_slug_unique` (`slug`);
 
 --
 -- Indices de la tabla `role_usuario`
 --
 ALTER TABLE `role_usuario`
- ADD PRIMARY KEY (`id`), ADD KEY `role_usuario_role_id_index` (`role_id`), ADD KEY `role_usuario_usuario_id_index` (`usuario_id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `role_usuario_role_id_index` (`role_id`),
+  ADD KEY `role_usuario_usuario_id_index` (`usuario_id`);
+
+--
+-- Indices de la tabla `tasa_cierres`
+--
+ALTER TABLE `tasa_cierres`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `ta_tasas`
+--
+ALTER TABLE `ta_tasas`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indices de la tabla `tipo_aeronaves`
 --
 ALTER TABLE `tipo_aeronaves`
- ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indices de la tabla `tipo_matriculas`
 --
 ALTER TABLE `tipo_matriculas`
- ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `tip_tas`
+--
+ALTER TABLE `tip_tas`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `topes`
+--
+ALTER TABLE `topes`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indices de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
- ADD PRIMARY KEY (`id`), ADD KEY `usuarios_departamento_id_foreign` (`departamento_id`), ADD KEY `usuarios_aeropuerto_id_foreign` (`aeropuerto_id`), ADD KEY `usuarios_cargo_id_foreign` (`cargo_id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `usuarios_departamento_id_foreign` (`departamento_id`),
+  ADD KEY `usuarios_aeropuerto_id_foreign` (`aeropuerto_id`),
+  ADD KEY `usuarios_cargo_id_foreign` (`cargo_id`);
 
 --
 -- AUTO_INCREMENT de las tablas volcadas
@@ -2897,247 +3297,307 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT de la tabla `aeronaves`
 --
 ALTER TABLE `aeronaves`
-MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=52;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
 --
 -- AUTO_INCREMENT de la tabla `aeropuertos`
 --
 ALTER TABLE `aeropuertos`
-MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT de la tabla `ajustes`
 --
 ALTER TABLE `ajustes`
-MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT de la tabla `aterrizajes`
 --
 ALTER TABLE `aterrizajes`
-MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=12;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 --
 -- AUTO_INCREMENT de la tabla `bancos`
 --
 ALTER TABLE `bancos`
-MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT de la tabla `bancoscuentas`
 --
 ALTER TABLE `bancoscuentas`
-MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+--
+-- AUTO_INCREMENT de la tabla `cargas`
+--
+ALTER TABLE `cargas`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT de la tabla `cargos`
 --
 ALTER TABLE `cargos`
-MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT de la tabla `cargos_varios`
 --
 ALTER TABLE `cargos_varios`
-MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT de la tabla `clientes`
 --
 ALTER TABLE `clientes`
-MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=149;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=149;
 --
 -- AUTO_INCREMENT de la tabla `cliente_hangar`
 --
 ALTER TABLE `cliente_hangar`
-MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT de la tabla `cobros`
 --
 ALTER TABLE `cobros`
-MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT de la tabla `cobrospagos`
 --
 ALTER TABLE `cobrospagos`
-MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT de la tabla `cobro_factura`
 --
 ALTER TABLE `cobro_factura`
-MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT de la tabla `conceptos`
 --
 ALTER TABLE `conceptos`
-MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=99;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=99;
+--
+-- AUTO_INCREMENT de la tabla `concils`
+--
+ALTER TABLE `concils`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT de la tabla `contratos`
 --
 ALTER TABLE `contratos`
-MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT de la tabla `departamentos`
 --
 ALTER TABLE `departamentos`
-MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+--
+-- AUTO_INCREMENT de la tabla `despegues`
+--
+ALTER TABLE `despegues`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+--
+-- AUTO_INCREMENT de la tabla `despegue_otros_cargo`
+--
+ALTER TABLE `despegue_otros_cargo`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT de la tabla `estacionamientoclientes`
 --
 ALTER TABLE `estacionamientoclientes`
-MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT de la tabla `estacionamientoconceptos`
 --
 ALTER TABLE `estacionamientoconceptos`
-MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT de la tabla `estacionamientoops`
 --
 ALTER TABLE `estacionamientoops`
-MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT de la tabla `estacionamientooptarjetas`
 --
 ALTER TABLE `estacionamientooptarjetas`
-MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT de la tabla `estacionamientooptickets`
 --
 ALTER TABLE `estacionamientooptickets`
-MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT de la tabla `estacionamientoopticketsdepositos`
 --
 ALTER TABLE `estacionamientoopticketsdepositos`
-MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT de la tabla `estacionamientoportons`
 --
 ALTER TABLE `estacionamientoportons`
-MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT de la tabla `estacionamientos`
 --
 ALTER TABLE `estacionamientos`
-MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT de la tabla `estacionamiento_aeronaves`
 --
 ALTER TABLE `estacionamiento_aeronaves`
-MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT de la tabla `facturadetalles`
 --
 ALTER TABLE `facturadetalles`
-MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT de la tabla `facturametadatas`
 --
 ALTER TABLE `facturametadatas`
-MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT de la tabla `facturas`
 --
 ALTER TABLE `facturas`
-MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+--
+-- AUTO_INCREMENT de la tabla `footers`
+--
+ALTER TABLE `footers`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT de la tabla `hangars`
 --
 ALTER TABLE `hangars`
-MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=44;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
 --
 -- AUTO_INCREMENT de la tabla `horarios_aeronauticos`
 --
 ALTER TABLE `horarios_aeronauticos`
-MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+--
+-- AUTO_INCREMENT de la tabla `lista_tasas`
+--
+ALTER TABLE `lista_tasas`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT de la tabla `metas`
+--
+ALTER TABLE `metas`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT de la tabla `meta_detalles`
+--
+ALTER TABLE `meta_detalles`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT de la tabla `modelo_aeronaves`
 --
 ALTER TABLE `modelo_aeronaves`
-MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=461;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=461;
 --
 -- AUTO_INCREMENT de la tabla `modulos`
 --
 ALTER TABLE `modulos`
-MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 --
 -- AUTO_INCREMENT de la tabla `montos_fijos`
 --
 ALTER TABLE `montos_fijos`
-MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT de la tabla `nacionalidad_matriculas`
 --
 ALTER TABLE `nacionalidad_matriculas`
-MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=252;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=252;
 --
 -- AUTO_INCREMENT de la tabla `nacionalidad_vuelos`
 --
 ALTER TABLE `nacionalidad_vuelos`
-MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT de la tabla `otros_cargos`
 --
 ALTER TABLE `otros_cargos`
-MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT de la tabla `pais`
 --
 ALTER TABLE `pais`
-MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=241;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=241;
 --
 -- AUTO_INCREMENT de la tabla `permissions`
 --
 ALTER TABLE `permissions`
-MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=19;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 --
 -- AUTO_INCREMENT de la tabla `permission_role`
 --
 ALTER TABLE `permission_role`
-MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=63;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
 --
 -- AUTO_INCREMENT de la tabla `permission_usuario`
 --
 ALTER TABLE `permission_usuario`
-MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT de la tabla `pilotos`
 --
 ALTER TABLE `pilotos`
-MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=121;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=121;
 --
 -- AUTO_INCREMENT de la tabla `precios_aterrizajes_despegues`
 --
 ALTER TABLE `precios_aterrizajes_despegues`
-MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT de la tabla `precios_cargas`
 --
 ALTER TABLE `precios_cargas`
-MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT de la tabla `puertos`
 --
 ALTER TABLE `puertos`
-MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT de la tabla `roles`
 --
 ALTER TABLE `roles`
-MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT de la tabla `role_usuario`
 --
 ALTER TABLE `role_usuario`
-MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+--
+-- AUTO_INCREMENT de la tabla `tasa_cierres`
+--
+ALTER TABLE `tasa_cierres`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT de la tabla `ta_tasas`
+--
+ALTER TABLE `ta_tasas`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT de la tabla `tipo_aeronaves`
 --
 ALTER TABLE `tipo_aeronaves`
-MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT de la tabla `tipo_matriculas`
 --
 ALTER TABLE `tipo_matriculas`
-MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=9;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+--
+-- AUTO_INCREMENT de la tabla `tip_tas`
+--
+ALTER TABLE `tip_tas`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT de la tabla `topes`
+--
+ALTER TABLE `topes`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- Restricciones para tablas volcadas
 --
@@ -3146,218 +3606,256 @@ MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
 -- Filtros para la tabla `aeronaves`
 --
 ALTER TABLE `aeronaves`
-ADD CONSTRAINT `aeronaves_cliente_id_foreign` FOREIGN KEY (`cliente_id`) REFERENCES `clientes` (`id`),
-ADD CONSTRAINT `aeronaves_hangar_id_foreign` FOREIGN KEY (`hangar_id`) REFERENCES `hangars` (`id`),
-ADD CONSTRAINT `aeronaves_modelo_id_foreign` FOREIGN KEY (`modelo_id`) REFERENCES `modelo_aeronaves` (`id`),
-ADD CONSTRAINT `aeronaves_nacionalidad_id_foreign` FOREIGN KEY (`nacionalidad_id`) REFERENCES `nacionalidad_matriculas` (`id`),
-ADD CONSTRAINT `aeronaves_tipo_id_foreign` FOREIGN KEY (`tipo_id`) REFERENCES `tipo_matriculas` (`id`);
+  ADD CONSTRAINT `aeronaves_cliente_id_foreign` FOREIGN KEY (`cliente_id`) REFERENCES `clientes` (`id`),
+  ADD CONSTRAINT `aeronaves_hangar_id_foreign` FOREIGN KEY (`hangar_id`) REFERENCES `hangars` (`id`),
+  ADD CONSTRAINT `aeronaves_modelo_id_foreign` FOREIGN KEY (`modelo_id`) REFERENCES `modelo_aeronaves` (`id`),
+  ADD CONSTRAINT `aeronaves_nacionalidad_id_foreign` FOREIGN KEY (`nacionalidad_id`) REFERENCES `nacionalidad_matriculas` (`id`),
+  ADD CONSTRAINT `aeronaves_tipo_id_foreign` FOREIGN KEY (`tipo_id`) REFERENCES `tipo_matriculas` (`id`);
 
 --
 -- Filtros para la tabla `ajustes`
 --
 ALTER TABLE `ajustes`
-ADD CONSTRAINT `ajustes_cliente_id_foreign` FOREIGN KEY (`cliente_id`) REFERENCES `clientes` (`id`),
-ADD CONSTRAINT `ajustes_cobro_id_foreign` FOREIGN KEY (`cobro_id`) REFERENCES `cobros` (`id`);
+  ADD CONSTRAINT `ajustes_cliente_id_foreign` FOREIGN KEY (`cliente_id`) REFERENCES `clientes` (`id`),
+  ADD CONSTRAINT `ajustes_cobro_id_foreign` FOREIGN KEY (`cobro_id`) REFERENCES `cobros` (`id`);
 
 --
 -- Filtros para la tabla `aterrizajes`
 --
 ALTER TABLE `aterrizajes`
-ADD CONSTRAINT `aterrizajes_aeronave_id_foreign` FOREIGN KEY (`aeronave_id`) REFERENCES `aeronaves` (`id`),
-ADD CONSTRAINT `aterrizajes_cliente_id_foreign` FOREIGN KEY (`cliente_id`) REFERENCES `clientes` (`id`),
-ADD CONSTRAINT `aterrizajes_nacionalidadvuelo_id_foreign` FOREIGN KEY (`nacionalidadVuelo_id`) REFERENCES `nacionalidad_vuelos` (`id`),
-ADD CONSTRAINT `aterrizajes_piloto_id_foreign` FOREIGN KEY (`piloto_id`) REFERENCES `pilotos` (`id`),
-ADD CONSTRAINT `aterrizajes_puerto_id_foreign` FOREIGN KEY (`puerto_id`) REFERENCES `puertos` (`id`),
-ADD CONSTRAINT `aterrizajes_tipomatricula_id_foreign` FOREIGN KEY (`tipoMatricula_id`) REFERENCES `tipo_matriculas` (`id`);
+  ADD CONSTRAINT `aterrizajes_aeronave_id_foreign` FOREIGN KEY (`aeronave_id`) REFERENCES `aeronaves` (`id`),
+  ADD CONSTRAINT `aterrizajes_cliente_id_foreign` FOREIGN KEY (`cliente_id`) REFERENCES `clientes` (`id`),
+  ADD CONSTRAINT `aterrizajes_nacionalidadvuelo_id_foreign` FOREIGN KEY (`nacionalidadVuelo_id`) REFERENCES `nacionalidad_vuelos` (`id`),
+  ADD CONSTRAINT `aterrizajes_piloto_id_foreign` FOREIGN KEY (`piloto_id`) REFERENCES `pilotos` (`id`),
+  ADD CONSTRAINT `aterrizajes_puerto_id_foreign` FOREIGN KEY (`puerto_id`) REFERENCES `puertos` (`id`),
+  ADD CONSTRAINT `aterrizajes_tipomatricula_id_foreign` FOREIGN KEY (`tipoMatricula_id`) REFERENCES `tipo_matriculas` (`id`);
 
 --
 -- Filtros para la tabla `bancoscuentas`
 --
 ALTER TABLE `bancoscuentas`
-ADD CONSTRAINT `bancoscuentas_banco_id_foreign` FOREIGN KEY (`banco_id`) REFERENCES `bancos` (`id`);
+  ADD CONSTRAINT `bancoscuentas_banco_id_foreign` FOREIGN KEY (`banco_id`) REFERENCES `bancos` (`id`);
+
+--
+-- Filtros para la tabla `cargas`
+--
+ALTER TABLE `cargas`
+  ADD CONSTRAINT `cargas_cliente_id_foreign` FOREIGN KEY (`cliente_id`) REFERENCES `clientes` (`id`);
 
 --
 -- Filtros para la tabla `clientes`
 --
 ALTER TABLE `clientes`
-ADD CONSTRAINT `clientes_pais_id_foreign` FOREIGN KEY (`pais_id`) REFERENCES `pais` (`id`);
+  ADD CONSTRAINT `clientes_pais_id_foreign` FOREIGN KEY (`pais_id`) REFERENCES `pais` (`id`);
 
 --
 -- Filtros para la tabla `cliente_hangar`
 --
 ALTER TABLE `cliente_hangar`
-ADD CONSTRAINT `cliente_hangar_cliente_id_foreign` FOREIGN KEY (`cliente_id`) REFERENCES `clientes` (`id`),
-ADD CONSTRAINT `cliente_hangar_hangar_id_foreign` FOREIGN KEY (`hangar_id`) REFERENCES `hangars` (`id`);
+  ADD CONSTRAINT `cliente_hangar_cliente_id_foreign` FOREIGN KEY (`cliente_id`) REFERENCES `clientes` (`id`),
+  ADD CONSTRAINT `cliente_hangar_hangar_id_foreign` FOREIGN KEY (`hangar_id`) REFERENCES `hangars` (`id`);
 
 --
 -- Filtros para la tabla `cobrospagos`
 --
 ALTER TABLE `cobrospagos`
-ADD CONSTRAINT `cobrospagos_banco_id_foreign` FOREIGN KEY (`banco_id`) REFERENCES `bancoscuentas` (`banco_id`),
-ADD CONSTRAINT `cobrospagos_cobro_id_foreign` FOREIGN KEY (`cobro_id`) REFERENCES `cobros` (`id`),
-ADD CONSTRAINT `cobrospagos_cuenta_id_foreign` FOREIGN KEY (`cuenta_id`) REFERENCES `bancoscuentas` (`id`);
+  ADD CONSTRAINT `cobrospagos_banco_id_foreign` FOREIGN KEY (`banco_id`) REFERENCES `bancoscuentas` (`banco_id`),
+  ADD CONSTRAINT `cobrospagos_cobro_id_foreign` FOREIGN KEY (`cobro_id`) REFERENCES `cobros` (`id`),
+  ADD CONSTRAINT `cobrospagos_cuenta_id_foreign` FOREIGN KEY (`cuenta_id`) REFERENCES `bancoscuentas` (`id`);
 
 --
 -- Filtros para la tabla `cobro_factura`
 --
 ALTER TABLE `cobro_factura`
-ADD CONSTRAINT `cobro_factura_cobro_id_foreign` FOREIGN KEY (`cobro_id`) REFERENCES `cobros` (`id`),
-ADD CONSTRAINT `cobro_factura_factura_id_foreign` FOREIGN KEY (`factura_id`) REFERENCES `facturas` (`id`);
+  ADD CONSTRAINT `cobro_factura_cobro_id_foreign` FOREIGN KEY (`cobro_id`) REFERENCES `cobros` (`id`),
+  ADD CONSTRAINT `cobro_factura_factura_id_foreign` FOREIGN KEY (`factura_id`) REFERENCES `facturas` (`id`);
 
 --
 -- Filtros para la tabla `conceptos`
 --
 ALTER TABLE `conceptos`
-ADD CONSTRAINT `conceptos_aeropuerto_id_foreign` FOREIGN KEY (`aeropuerto_id`) REFERENCES `aeropuertos` (`id`),
-ADD CONSTRAINT `conceptos_modulo_id_foreign` FOREIGN KEY (`modulo_id`) REFERENCES `modulos` (`id`);
+  ADD CONSTRAINT `conceptos_aeropuerto_id_foreign` FOREIGN KEY (`aeropuerto_id`) REFERENCES `aeropuertos` (`id`),
+  ADD CONSTRAINT `conceptos_modulo_id_foreign` FOREIGN KEY (`modulo_id`) REFERENCES `modulos` (`id`);
 
 --
 -- Filtros para la tabla `contratos`
 --
 ALTER TABLE `contratos`
-ADD CONSTRAINT `contratos_cliente_id_foreign` FOREIGN KEY (`cliente_id`) REFERENCES `clientes` (`id`),
-ADD CONSTRAINT `contratos_concepto_id_foreign` FOREIGN KEY (`concepto_id`) REFERENCES `conceptos` (`id`);
+  ADD CONSTRAINT `contratos_cliente_id_foreign` FOREIGN KEY (`cliente_id`) REFERENCES `clientes` (`id`),
+  ADD CONSTRAINT `contratos_concepto_id_foreign` FOREIGN KEY (`concepto_id`) REFERENCES `conceptos` (`id`);
+
+--
+-- Filtros para la tabla `despegues`
+--
+ALTER TABLE `despegues`
+  ADD CONSTRAINT `despegues_aeronave_id_foreign` FOREIGN KEY (`aeronave_id`) REFERENCES `aeronaves` (`id`),
+  ADD CONSTRAINT `despegues_aterrizaje_id_foreign` FOREIGN KEY (`aterrizaje_id`) REFERENCES `aterrizajes` (`id`),
+  ADD CONSTRAINT `despegues_cliente_id_foreign` FOREIGN KEY (`cliente_id`) REFERENCES `clientes` (`id`),
+  ADD CONSTRAINT `despegues_nacionalidadvuelo_id_foreign` FOREIGN KEY (`nacionalidadVuelo_id`) REFERENCES `nacionalidad_vuelos` (`id`),
+  ADD CONSTRAINT `despegues_piloto_id_foreign` FOREIGN KEY (`piloto_id`) REFERENCES `pilotos` (`id`),
+  ADD CONSTRAINT `despegues_puerto_id_foreign` FOREIGN KEY (`puerto_id`) REFERENCES `puertos` (`id`),
+  ADD CONSTRAINT `despegues_tipomatricula_id_foreign` FOREIGN KEY (`tipoMatricula_id`) REFERENCES `tipo_matriculas` (`id`);
+
+--
+-- Filtros para la tabla `despegue_otros_cargo`
+--
+ALTER TABLE `despegue_otros_cargo`
+  ADD CONSTRAINT `despegue_otros_cargo_despegue_id_foreign` FOREIGN KEY (`despegue_id`) REFERENCES `despegues` (`id`),
+  ADD CONSTRAINT `despegue_otros_cargo_otroscargo_id_foreign` FOREIGN KEY (`otrosCargo_id`) REFERENCES `otros_cargos` (`id`);
 
 --
 -- Filtros para la tabla `estacionamientoclientes`
 --
 ALTER TABLE `estacionamientoclientes`
-ADD CONSTRAINT `estacionamientoclientes_estacionamiento_id_foreign` FOREIGN KEY (`estacionamiento_id`) REFERENCES `estacionamientos` (`id`);
+  ADD CONSTRAINT `estacionamientoclientes_estacionamiento_id_foreign` FOREIGN KEY (`estacionamiento_id`) REFERENCES `estacionamientos` (`id`);
 
 --
 -- Filtros para la tabla `estacionamientoconceptos`
 --
 ALTER TABLE `estacionamientoconceptos`
-ADD CONSTRAINT `estacionamientoconceptos_estacionamiento_id_foreign` FOREIGN KEY (`estacionamiento_id`) REFERENCES `estacionamientos` (`id`);
+  ADD CONSTRAINT `estacionamientoconceptos_estacionamiento_id_foreign` FOREIGN KEY (`estacionamiento_id`) REFERENCES `estacionamientos` (`id`);
 
 --
 -- Filtros para la tabla `estacionamientooptarjetas`
 --
 ALTER TABLE `estacionamientooptarjetas`
-ADD CONSTRAINT `estacionamientooptarjetas_banco_id_foreign` FOREIGN KEY (`banco_id`) REFERENCES `bancos` (`id`),
-ADD CONSTRAINT `estacionamientooptarjetas_bancoscuenta_id_foreign` FOREIGN KEY (`bancoscuenta_id`) REFERENCES `bancoscuentas` (`id`),
-ADD CONSTRAINT `estacionamientooptarjetas_estacionamientocliente_id_foreign` FOREIGN KEY (`estacionamientocliente_id`) REFERENCES `estacionamientoclientes` (`id`),
-ADD CONSTRAINT `estacionamientooptarjetas_estacionamientoop_id_foreign` FOREIGN KEY (`estacionamientoop_id`) REFERENCES `estacionamientoops` (`id`);
+  ADD CONSTRAINT `estacionamientooptarjetas_banco_id_foreign` FOREIGN KEY (`banco_id`) REFERENCES `bancos` (`id`),
+  ADD CONSTRAINT `estacionamientooptarjetas_bancoscuenta_id_foreign` FOREIGN KEY (`bancoscuenta_id`) REFERENCES `bancoscuentas` (`id`),
+  ADD CONSTRAINT `estacionamientooptarjetas_estacionamientocliente_id_foreign` FOREIGN KEY (`estacionamientocliente_id`) REFERENCES `estacionamientoclientes` (`id`),
+  ADD CONSTRAINT `estacionamientooptarjetas_estacionamientoop_id_foreign` FOREIGN KEY (`estacionamientoop_id`) REFERENCES `estacionamientoops` (`id`);
 
 --
 -- Filtros para la tabla `estacionamientooptickets`
 --
 ALTER TABLE `estacionamientooptickets`
-ADD CONSTRAINT `estacionamientooptickets_econcepto_id_foreign` FOREIGN KEY (`econcepto_id`) REFERENCES `estacionamientoconceptos` (`id`),
-ADD CONSTRAINT `estacionamientooptickets_estacionamientoop_id_foreign` FOREIGN KEY (`estacionamientoop_id`) REFERENCES `estacionamientoops` (`id`);
+  ADD CONSTRAINT `estacionamientooptickets_econcepto_id_foreign` FOREIGN KEY (`econcepto_id`) REFERENCES `estacionamientoconceptos` (`id`),
+  ADD CONSTRAINT `estacionamientooptickets_estacionamientoop_id_foreign` FOREIGN KEY (`estacionamientoop_id`) REFERENCES `estacionamientoops` (`id`);
 
 --
 -- Filtros para la tabla `estacionamientoopticketsdepositos`
 --
 ALTER TABLE `estacionamientoopticketsdepositos`
-ADD CONSTRAINT `estacionamientoopticketsdepositos_banco_id_foreign` FOREIGN KEY (`banco_id`) REFERENCES `bancos` (`id`),
-ADD CONSTRAINT `estacionamientoopticketsdepositos_bancoscuenta_id_foreign` FOREIGN KEY (`bancoscuenta_id`) REFERENCES `bancoscuentas` (`id`),
-ADD CONSTRAINT `estacionamientoopticketsdepositos_estacionamientoop_id_foreign` FOREIGN KEY (`estacionamientoop_id`) REFERENCES `estacionamientoops` (`id`);
+  ADD CONSTRAINT `estacionamientoopticketsdepositos_banco_id_foreign` FOREIGN KEY (`banco_id`) REFERENCES `bancos` (`id`),
+  ADD CONSTRAINT `estacionamientoopticketsdepositos_bancoscuenta_id_foreign` FOREIGN KEY (`bancoscuenta_id`) REFERENCES `bancoscuentas` (`id`),
+  ADD CONSTRAINT `estacionamientoopticketsdepositos_estacionamientoop_id_foreign` FOREIGN KEY (`estacionamientoop_id`) REFERENCES `estacionamientoops` (`id`);
 
 --
 -- Filtros para la tabla `estacionamientoportons`
 --
 ALTER TABLE `estacionamientoportons`
-ADD CONSTRAINT `estacionamientoportons_estacionamiento_id_foreign` FOREIGN KEY (`estacionamiento_id`) REFERENCES `estacionamientos` (`id`);
+  ADD CONSTRAINT `estacionamientoportons_estacionamiento_id_foreign` FOREIGN KEY (`estacionamiento_id`) REFERENCES `estacionamientos` (`id`);
 
 --
 -- Filtros para la tabla `estacionamientos`
 --
 ALTER TABLE `estacionamientos`
-ADD CONSTRAINT `estacionamientos_aeropuerto_id_foreign` FOREIGN KEY (`aeropuerto_id`) REFERENCES `aeropuertos` (`id`);
+  ADD CONSTRAINT `estacionamientos_aeropuerto_id_foreign` FOREIGN KEY (`aeropuerto_id`) REFERENCES `aeropuertos` (`id`);
 
 --
 -- Filtros para la tabla `facturadetalles`
 --
 ALTER TABLE `facturadetalles`
-ADD CONSTRAINT `facturadetalles_concepto_id_foreign` FOREIGN KEY (`concepto_id`) REFERENCES `conceptos` (`id`),
-ADD CONSTRAINT `facturadetalles_factura_id_foreign` FOREIGN KEY (`factura_id`) REFERENCES `facturas` (`id`);
+  ADD CONSTRAINT `facturadetalles_concepto_id_foreign` FOREIGN KEY (`concepto_id`) REFERENCES `conceptos` (`id`),
+  ADD CONSTRAINT `facturadetalles_factura_id_foreign` FOREIGN KEY (`factura_id`) REFERENCES `facturas` (`id`);
 
 --
 -- Filtros para la tabla `facturametadatas`
 --
 ALTER TABLE `facturametadatas`
-ADD CONSTRAINT `facturametadatas_factura_id_foreign` FOREIGN KEY (`factura_id`) REFERENCES `facturas` (`id`);
+  ADD CONSTRAINT `facturametadatas_factura_id_foreign` FOREIGN KEY (`factura_id`) REFERENCES `facturas` (`id`);
 
 --
 -- Filtros para la tabla `facturas`
 --
 ALTER TABLE `facturas`
-ADD CONSTRAINT `facturas_aeropuerto_id_foreign` FOREIGN KEY (`aeropuerto_id`) REFERENCES `aeropuertos` (`id`),
-ADD CONSTRAINT `facturas_cliente_id_foreign` FOREIGN KEY (`cliente_id`) REFERENCES `clientes` (`id`);
+  ADD CONSTRAINT `facturas_aeropuerto_id_foreign` FOREIGN KEY (`aeropuerto_id`) REFERENCES `aeropuertos` (`id`),
+  ADD CONSTRAINT `facturas_cliente_id_foreign` FOREIGN KEY (`cliente_id`) REFERENCES `clientes` (`id`);
 
 --
 -- Filtros para la tabla `hangars`
 --
 ALTER TABLE `hangars`
-ADD CONSTRAINT `hangars_aeropuerto_id_foreign` FOREIGN KEY (`aeropuerto_id`) REFERENCES `aeropuertos` (`id`);
+  ADD CONSTRAINT `hangars_aeropuerto_id_foreign` FOREIGN KEY (`aeropuerto_id`) REFERENCES `aeropuertos` (`id`);
+
+--
+-- Filtros para la tabla `metas`
+--
+ALTER TABLE `metas`
+  ADD CONSTRAINT `metas_aeropuerto_id_foreign` FOREIGN KEY (`aeropuerto_id`) REFERENCES `aeropuertos` (`id`);
+
+--
+-- Filtros para la tabla `meta_detalles`
+--
+ALTER TABLE `meta_detalles`
+  ADD CONSTRAINT `meta_detalles_concepto_id_foreign` FOREIGN KEY (`concepto_id`) REFERENCES `conceptos` (`id`),
+  ADD CONSTRAINT `meta_detalles_meta_id_foreign` FOREIGN KEY (`meta_id`) REFERENCES `metas` (`id`);
 
 --
 -- Filtros para la tabla `modelo_aeronaves`
 --
 ALTER TABLE `modelo_aeronaves`
-ADD CONSTRAINT `modelo_aeronaves_tipo_id_foreign` FOREIGN KEY (`tipo_id`) REFERENCES `tipo_aeronaves` (`id`);
+  ADD CONSTRAINT `modelo_aeronaves_tipo_id_foreign` FOREIGN KEY (`tipo_id`) REFERENCES `tipo_aeronaves` (`id`);
 
 --
 -- Filtros para la tabla `modulos`
 --
 ALTER TABLE `modulos`
-ADD CONSTRAINT `modulos_aeropuerto_id_foreign` FOREIGN KEY (`aeropuerto_id`) REFERENCES `aeropuertos` (`id`);
+  ADD CONSTRAINT `modulos_aeropuerto_id_foreign` FOREIGN KEY (`aeropuerto_id`) REFERENCES `aeropuertos` (`id`);
 
 --
 -- Filtros para la tabla `otros_cargos`
 --
 ALTER TABLE `otros_cargos`
-ADD CONSTRAINT `otros_cargos_conceptocontado_id_foreign` FOREIGN KEY (`conceptoContado_id`) REFERENCES `conceptos` (`id`),
-ADD CONSTRAINT `otros_cargos_conceptocredito_id_foreign` FOREIGN KEY (`conceptoCredito_id`) REFERENCES `conceptos` (`id`);
+  ADD CONSTRAINT `otros_cargos_conceptocontado_id_foreign` FOREIGN KEY (`conceptoContado_id`) REFERENCES `conceptos` (`id`),
+  ADD CONSTRAINT `otros_cargos_conceptocredito_id_foreign` FOREIGN KEY (`conceptoCredito_id`) REFERENCES `conceptos` (`id`);
 
 --
 -- Filtros para la tabla `permission_role`
 --
 ALTER TABLE `permission_role`
-ADD CONSTRAINT `permission_role_permission_id_foreign` FOREIGN KEY (`permission_id`) REFERENCES `permissions` (`id`) ON DELETE CASCADE,
-ADD CONSTRAINT `permission_role_role_id_foreign` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`) ON DELETE CASCADE;
+  ADD CONSTRAINT `permission_role_permission_id_foreign` FOREIGN KEY (`permission_id`) REFERENCES `permissions` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `permission_role_role_id_foreign` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`) ON DELETE CASCADE;
 
 --
 -- Filtros para la tabla `permission_usuario`
 --
 ALTER TABLE `permission_usuario`
-ADD CONSTRAINT `permission_usuario_permission_id_foreign` FOREIGN KEY (`permission_id`) REFERENCES `permissions` (`id`) ON DELETE CASCADE,
-ADD CONSTRAINT `permission_usuario_usuario_id_foreign` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`id`) ON DELETE CASCADE;
+  ADD CONSTRAINT `permission_usuario_permission_id_foreign` FOREIGN KEY (`permission_id`) REFERENCES `permissions` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `permission_usuario_usuario_id_foreign` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`id`) ON DELETE CASCADE;
 
 --
 -- Filtros para la tabla `pilotos`
 --
 ALTER TABLE `pilotos`
-ADD CONSTRAINT `pilotos_nacionalidad_id_foreign` FOREIGN KEY (`nacionalidad_id`) REFERENCES `pais` (`id`);
+  ADD CONSTRAINT `pilotos_nacionalidad_id_foreign` FOREIGN KEY (`nacionalidad_id`) REFERENCES `pais` (`id`);
 
 --
 -- Filtros para la tabla `precios_cargas`
 --
 ALTER TABLE `precios_cargas`
-ADD CONSTRAINT `precios_cargas_conceptocontado_id_foreign` FOREIGN KEY (`conceptoContado_id`) REFERENCES `conceptos` (`id`),
-ADD CONSTRAINT `precios_cargas_conceptocredito_id_foreign` FOREIGN KEY (`conceptoCredito_id`) REFERENCES `conceptos` (`id`);
+  ADD CONSTRAINT `precios_cargas_conceptocontado_id_foreign` FOREIGN KEY (`conceptoContado_id`) REFERENCES `conceptos` (`id`),
+  ADD CONSTRAINT `precios_cargas_conceptocredito_id_foreign` FOREIGN KEY (`conceptoCredito_id`) REFERENCES `conceptos` (`id`);
 
 --
 -- Filtros para la tabla `puertos`
 --
 ALTER TABLE `puertos`
-ADD CONSTRAINT `puertos_pais_id_foreign` FOREIGN KEY (`pais_id`) REFERENCES `pais` (`id`);
+  ADD CONSTRAINT `puertos_pais_id_foreign` FOREIGN KEY (`pais_id`) REFERENCES `pais` (`id`);
 
 --
 -- Filtros para la tabla `role_usuario`
 --
 ALTER TABLE `role_usuario`
-ADD CONSTRAINT `role_usuario_role_id_foreign` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`) ON DELETE CASCADE,
-ADD CONSTRAINT `role_usuario_usuario_id_foreign` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`id`) ON DELETE CASCADE;
+  ADD CONSTRAINT `role_usuario_role_id_foreign` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `role_usuario_usuario_id_foreign` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`id`) ON DELETE CASCADE;
 
 --
 -- Filtros para la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-ADD CONSTRAINT `usuarios_aeropuerto_id_foreign` FOREIGN KEY (`aeropuerto_id`) REFERENCES `aeropuertos` (`id`),
-ADD CONSTRAINT `usuarios_cargo_id_foreign` FOREIGN KEY (`cargo_id`) REFERENCES `cargos` (`id`),
-ADD CONSTRAINT `usuarios_departamento_id_foreign` FOREIGN KEY (`departamento_id`) REFERENCES `departamentos` (`id`);
+  ADD CONSTRAINT `usuarios_aeropuerto_id_foreign` FOREIGN KEY (`aeropuerto_id`) REFERENCES `aeropuertos` (`id`),
+  ADD CONSTRAINT `usuarios_cargo_id_foreign` FOREIGN KEY (`cargo_id`) REFERENCES `cargos` (`id`),
+  ADD CONSTRAINT `usuarios_departamento_id_foreign` FOREIGN KEY (`departamento_id`) REFERENCES `departamentos` (`id`);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
