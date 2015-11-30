@@ -11,10 +11,6 @@
 		</ol>
 		<section class="content-header">
 			<h1>
-				<?php 
-				$fecha = date('Y-m-d');
-				ini_set('date.timezone','America/Caracas');
-				?>				
 				<i class="ion ion-android-plane"></i> Registro de Despegues	
 			</h1>
 		</section>
@@ -32,8 +28,11 @@
 							Información del vuelo
 						</h5>
 					</div>
-					<div class="box-body">
-						<form id="despegue-form">                       
+					<form id="despegue-form">                       
+						<div class="box-body">
+							<input id="fechaAterrizaje" type="hidden" class="form-control" value="{{$aterrizaje->fecha}}"/>
+							<input id="horaAterrizaje" type="hidden" class="form-control" value="{{$aterrizaje->hora}}"/>
+							<input type="hidden" name="aterrizaje_id" class="form-control" value="{{$aterrizaje->id}}" />
 
 							<div class="form-inline" style="margin-top: 20px">
 								<div class="form-group">
@@ -57,7 +56,8 @@
 										<div class="input-group-addon">
 											<i class="fa fa-plane"></i>
 										</div>                                        
-										<input id="matricula_id" type="text" class="form-control no-vacio" value="{{$aterrizaje->aeronave->matricula}}" placeholder="Matrícula" />
+										<input type="text" class="form-control no-vacio" value="{{$aterrizaje->aeronave->matricula}}" placeholder="Matrícula" />
+										<input type="hidden" name="aeronave_id" class="form-control" value="{{$aterrizaje->aeronave_id}}" />
 									</div><!-- /.input group -->
 								</div>
 								<div class="form-group">
@@ -74,7 +74,7 @@
 									<div class="input-group">
 										<div class="input-group-addon">
 											<i class="fa fa-map-marker"></i>
-										</div>
+										</div>	
 										<input id="procedencia" type="text" class="form-control no-vacio" value="{{($aterrizaje->puerto)?$aterrizaje->puerto->nombre:'N/A'}}" placeholder="Procedencia" />
 									</div><!-- /.input group -->
 								</div>
@@ -118,7 +118,20 @@
 									</div><!-- /input group -->
 								</div>
 							</div> 
-							<div class="form-inline" style="margin-top: 20px">								
+							<div class="form-inline" style="margin-top: 20px">      
+								<div class="form-group">
+									<div class="input-group">
+										<div class="input-group-addon">
+											<i class="fa fa-diamond"></i>
+										</div>                                                                            
+										<select name="cliente_id" class="form-control cliente" style="width: 500px">
+											<option value="">--Seleccione Cliente--</option>
+											@foreach ($clientes as $index=>$cliente)
+											<option value="{{$index}}" {{(($aterrizaje->cliente_id == $index)?"selected":"")}} > {{$cliente}}</option>
+											@endforeach
+										</select>
+									</div><!-- /.input group -->
+								</div>
 								<div class="form-group">
 									<div class="input-group">
 										<div class="input-group-addon">
@@ -132,234 +145,233 @@
 										</select>
 									</div><!-- /.input group -->
 								</div>
-							</div>  	
-						</div>	
-					</div>
+							</div>								
+						</div>  
 
-					<!-- Cobros -->
-					<div class="box box-info">
+						<!-- Cobros -->
+						<div class="box box-info">
 
-						<div class="box-header">
-							<h5>
-								<i class="fa fa-money"></i>
-								Cobros
-								<small>Conceptos a facturar</small>
-							</h5>
-						</div>		
-										
-						<div class="box-body" >
-							<!-- Estacionamiento -->
-							<div class="col-sm-3" >
-								<label>
-									{!! Form::checkbox('cobrar_estacionamiento', '1', true) !!}
-									Estacionamiento
-								</label>
-								<div class="box-body" id="estacionamiento-box">
-									<!-- Tiempo de Estacionamiento-->
-									<div class="form-group ">
-										<label>Tiempo: </label>
-										<div class="input-group">
-											<input type="text" class="form-control" disabled/>
-											<div class="input-group-addon">
-												min
-												<i class="ion ion-clock"></i>
-											</div>
-										</div><!-- /.input group -->
-									</div><!-- /.form group -->
-								</div><!--/. box-body -->
-							</div><!--/. col -->
-
-							<!-- Puentes de Abordaje -->
-							<div class="col-sm-4" disabled>
-								<label>
-									{!! Form::checkbox('cobrar_puenteAbordaje', '1', true) !!}
-									Puentes de Abordaje
-								</label>
-								<div class="box-body" id="puenteAbordaje-box">
-
-									<div class="form-inline">
-										<!-- Puente Usado -->
-										<div class="form-group">
-											<label>Número: </label>
-											<div class="input-group">
-												<div class="input-group-addon">
-													#
-												</div>
-												<input type="number"  class="form-control"  />
-											</div><!-- /.input group -->
-										</div><!-- /.form group -->
-									</div>
-									<div class="form-inline">
-										<!-- Tiempo de Uso -->
-										<div class="form-group">
+							<div class="box-header">
+								<h5>
+									<i class="fa fa-money"></i>
+									Cobros
+									<small>Conceptos a facturar</small>
+								</h5>
+							</div>		
+											
+							<div class="box-body" >
+								<!-- Estacionamiento -->
+								<div class="col-sm-3" >
+									<label>
+										{!! Form::checkbox('cobrar_estacionamiento', '1', true) !!}
+										Estacionamiento
+									</label>
+									<div class="box-body" id="estacionamiento-box">
+										<!-- Tiempo de Estacionamiento-->
+										<div class="form-group ">
 											<label>Tiempo: </label>
 											<div class="input-group">
-												<input type="text" class="form-control"  />
+												<input type="text" class="form-control" id="tiempo_estacionamiento"  disabled/>
 												<div class="input-group-addon">
 													min
 													<i class="ion ion-clock"></i>
 												</div>
 											</div><!-- /.input group -->
 										</div><!-- /.form group -->
-									</div>
-								</div>
-							</div><!-- /.col -->
-							<div>
-								<label><i class="ion ion-android-plane"> </i> Otros Cargos</label>
-								<div class="box-body">
+									</div><!--/. box-body -->
+								</div><!--/. col -->
+
+								<!-- Puentes de Abordaje -->
+								<div class="col-sm-4" disabled>
 									<label>
-										{!! Form::checkbox('cobrar_formulario', '1', true) !!}
-										Formulario
-									</label></br>
-									<label>
-										{!! Form::checkbox('cobrar_AterDesp', '1', true) !!}
-										Aterrizaje y Despegue
+										{!! Form::checkbox('cobrar_puenteAbordaje', '1', true) !!}
+										Puentes de Abordaje
 									</label>
-									<select name="otros_cargos" id="otros_cargos-select" class="form-control" data-placeholder="Seleccione otros cargos" multiple>
-										<option value="">--Seleccione Otros Cargos--</option>
-										@foreach ($otrosCargos as $otroCargo)
-										<option value="{{$otroCargo->id}}"> {{$otroCargo->nombre_cargo}}</option>
-										@endforeach
-									</select>
-								</div>						
+									<div class="box-body" id="puenteAbordaje-box">
+
+										<div class="form-inline">
+											<!-- Puente Usado -->
+											<div class="form-group">
+												<label>Número: </label>
+												<div class="input-group">
+													<div class="input-group-addon">
+														#
+													</div>
+													<input type="number"  class="form-control"  />
+												</div><!-- /.input group -->
+											</div><!-- /.form group -->
+										</div>
+										<div class="form-inline">
+											<!-- Tiempo de Uso -->
+											<div class="form-group">
+												<label>Tiempo: </label>
+												<div class="input-group">
+													<input type="text" class="form-control"  />
+													<div class="input-group-addon">
+														min
+														<i class="ion ion-clock"></i>
+													</div>
+												</div><!-- /.input group -->
+											</div><!-- /.form group -->
+										</div>
+									</div>
+								</div><!-- /.col -->
+								<div>
+									<label><i class="ion ion-android-plane"> </i> Otros Cargos</label>
+									<div class="box-body">
+										<label>
+											{!! Form::checkbox('cobrar_formulario', '1', true) !!}
+											Formulario
+										</label></br>
+										<label>
+											{!! Form::checkbox('cobrar_AterDesp', '1', true) !!}
+											Aterrizaje y Despegue
+										</label>
+										<select name="otros_cargos" id="otros_cargos-select" class="form-control" data-placeholder="Seleccione otros cargos" multiple>
+											<option value="">--Seleccione Otros Cargos--</option>
+											@foreach ($otrosCargos as $otroCargo)
+											<option value="{{$otroCargo->id}}"> {{$otroCargo->nombre_cargo}}</option>
+											@endforeach
+										</select>
+									</div>						
+								</div>
+							</div> <!-- /. box-body -->
+						</div>	
+						<div class="box box-warning">
+							<div class="box-header">
+								<h5>
+									<i class="fa fa-plane"></i>
+									Transportados
+									<small>Cantidad de Pasajeros</small>
+								</h5>
 							</div>
-						</div> <!-- /. box-body -->
-					</div>	
-					<div class="box box-warning">
-						<div class="box-header">
-							<h5>
-								<i class="fa fa-plane"></i>
-								Transportados
-								<small>Cantidad de Pasajeros</small>
-							</h5>
+							<div class="box-body">
+								<label><i class="ion ion-android-plane"> </i> Embarcados</label>
+								<div class="box-body">
+									<!-- Pasajeros adultos -->
+									<div class="form-group col-md-3">
+										<label>Adultos:</label>
+										<div class="input-group">
+											<div class="input-group-addon">
+												<i class="ion ion-person-stalker"></i>
+											</div>
+											<input type="number" name="embarqueAdultos"  value="0"  class="form-control" />
+										</div><!-- /.input group -->
+									</div><!-- /.form group -->
+
+									<!-- Pasajeros Infantes-->
+									<div class="form-group col-md-3">
+										<label>Infantes:</label>
+										<div class="input-group">
+											<div class="input-group-addon">
+												<i class="ion ion-android-happy"></i>
+											</div>
+											<input type="number" name="embarqueInfante"  value="0"  class="form-control" />
+										</div><!-- /.input group -->
+									</div><!-- /.form group -->
+
+
+									<!-- Pasajeros tercera edad -->
+									<div class="form-group ">
+										<label>Tercera Edad:</label>
+										<div class="input-group col-md-3">
+											<div class="input-group-addon">
+												<i class="ion ion-person-stalker"></i>
+											</div>
+											<input type="number" name="embarqueTercera"  value="0"  class="form-control" />
+										</div><!-- /.input group -->
+									</div><!-- /.form group -->
+								</div>
+								<label><i class="ion ion-android-plane"> </i> En Tránsito</label>
+								<div class="box-body">
+
+									<!-- Pasajeros adultos -->
+									<div class="form-group col-md-3">
+										<label>Adultos:</label>
+										<div class="input-group">
+											<div class="input-group-addon">
+												<i class="ion ion-person-stalker"></i>
+											</div>
+											<input type="number" name="transitoAdultos"  value="0"  class="form-control" />
+										</div><!-- /.input group -->
+									</div><!-- /.form group -->
+
+									<!-- Pasajeros Infantes-->
+									<div class="form-group col-md-3">
+										<label>Infantes:</label>
+										<div class="input-group">
+											<div class="input-group-addon">
+												<i class="ion ion-android-happy"></i>
+											</div>
+											<input type="number" name="transitoInfante"  value="0"  class="form-control" />
+										</div><!-- /.input group -->
+									</div><!-- /.form group -->
+
+
+									<!-- Pasajeros tercera edad -->
+									<div class="form-group ">
+										<label>Tercera Edad:</label>
+										<div class="input-group col-md-3">
+											<div class="input-group-addon">
+												<i class="ion ion-person-stalker"></i>
+											</div>
+											<input type="number" name="transitoTercera"  value="0"  class="form-control" />
+										</div><!-- /.input group -->
+									</div><!-- /.form group -->
+								</div>
+								<label><i class="ion ion-android-plane"> </i> Total</label>
+								<div class="box-body">
+
+									<!-- Pasajeros adultos -->
+									<div class="form-group col-md-3">
+										<label>Adultos:</label>
+										<div class="input-group">
+											<div class="input-group-addon">
+												<i class="ion ion-person-stalker"></i>
+											</div>
+											<input type="number"   value="0" disabled class="form-control" />
+										</div><!-- /.input group -->
+									</div><!-- /.form group -->
+
+									<!-- Pasajeros Infantes-->
+									<div class="form-group col-md-3">
+										<label>Infantes:</label>
+										<div class="input-group">
+											<div class="input-group-addon">
+												<i class="ion ion-android-happy"></i>
+											</div>
+											<input type="number"   value="0" disabled  class="form-control" />
+										</div><!-- /.input group -->
+									</div><!-- /.form group -->
+
+									<!-- Pasajeros tercera edad -->
+									<div class="form-group  col-md-3 ">
+										<label>Tercera Edad:</label>
+										<div class="input-group">
+											<div class="input-group-addon">
+												<i class="ion ion-person-stalker"></i>
+											</div>
+											<input type="number"   value="0" disabled class="form-control" />
+										</div><!-- /.input group -->
+									</div><!-- /.form group -->
+
+									<!-- Total de Pasajeros -->
+									<div class="form-group ">
+										<label>Total:</label>
+										<div class="input-group col-md-3">
+											<div class="input-group-addon">
+												<i class="ion ion-person-stalker"></i>
+											</div>
+											<input type="number" value="0" disabled class="form-control" />
+										</div><!-- /.input group -->
+									</div><!-- /.form group -->
+								</div>
+							</div> <!-- /. box-body -->
 						</div>
-						<div class="box-body">
-							<label><i class="ion ion-android-plane"> </i> Embarcados</label>
-							<div class="box-body">
-								<!-- Pasajeros adultos -->
-								<div class="form-group col-md-3">
-									<label>Adultos:</label>
-									<div class="input-group">
-										<div class="input-group-addon">
-											<i class="ion ion-person-stalker"></i>
-										</div>
-										<input type="number" name="embarqueAdultos"  value="0"  class="form-control" />
-									</div><!-- /.input group -->
-								</div><!-- /.form group -->
-
-								<!-- Pasajeros Infantes-->
-								<div class="form-group col-md-3">
-									<label>Infantes:</label>
-									<div class="input-group">
-										<div class="input-group-addon">
-											<i class="ion ion-android-happy"></i>
-										</div>
-										<input type="number" name="embarqueInfante"  value="0"  class="form-control" />
-									</div><!-- /.input group -->
-								</div><!-- /.form group -->
-
-
-								<!-- Pasajeros tercera edad -->
-								<div class="form-group ">
-									<label>Tercera Edad:</label>
-									<div class="input-group col-md-3">
-										<div class="input-group-addon">
-											<i class="ion ion-person-stalker"></i>
-										</div>
-										<input type="number" name="embarqueTercera"  value="0"  class="form-control" />
-									</div><!-- /.input group -->
-								</div><!-- /.form group -->
-							</div>
-							<label><i class="ion ion-android-plane"> </i> En Tránsito</label>
-							<div class="box-body">
-
-								<!-- Pasajeros adultos -->
-								<div class="form-group col-md-3">
-									<label>Adultos:</label>
-									<div class="input-group">
-										<div class="input-group-addon">
-											<i class="ion ion-person-stalker"></i>
-										</div>
-										<input type="number" name="transitoAdultos"  value="0"  class="form-control" />
-									</div><!-- /.input group -->
-								</div><!-- /.form group -->
-
-								<!-- Pasajeros Infantes-->
-								<div class="form-group col-md-3">
-									<label>Infantes:</label>
-									<div class="input-group">
-										<div class="input-group-addon">
-											<i class="ion ion-android-happy"></i>
-										</div>
-										<input type="number" name="transitoInfante"  value="0"  class="form-control" />
-									</div><!-- /.input group -->
-								</div><!-- /.form group -->
-
-
-								<!-- Pasajeros tercera edad -->
-								<div class="form-group ">
-									<label>Tercera Edad:</label>
-									<div class="input-group col-md-3">
-										<div class="input-group-addon">
-											<i class="ion ion-person-stalker"></i>
-										</div>
-										<input type="number" name="transitoTercera"  value="0"  class="form-control" />
-									</div><!-- /.input group -->
-								</div><!-- /.form group -->
-							</div>
-							<label><i class="ion ion-android-plane"> </i> Total</label>
-							<div class="box-body">
-
-								<!-- Pasajeros adultos -->
-								<div class="form-group col-md-3">
-									<label>Adultos:</label>
-									<div class="input-group">
-										<div class="input-group-addon">
-											<i class="ion ion-person-stalker"></i>
-										</div>
-										<input type="number"   value="0" disabled class="form-control" />
-									</div><!-- /.input group -->
-								</div><!-- /.form group -->
-
-								<!-- Pasajeros Infantes-->
-								<div class="form-group col-md-3">
-									<label>Infantes:</label>
-									<div class="input-group">
-										<div class="input-group-addon">
-											<i class="ion ion-android-happy"></i>
-										</div>
-										<input type="number"   value="0" disabled  class="form-control" />
-									</div><!-- /.input group -->
-								</div><!-- /.form group -->
-
-								<!-- Pasajeros tercera edad -->
-								<div class="form-group  col-md-3 ">
-									<label>Tercera Edad:</label>
-									<div class="input-group">
-										<div class="input-group-addon">
-											<i class="ion ion-person-stalker"></i>
-										</div>
-										<input type="number"   value="0" disabled class="form-control" />
-									</div><!-- /.input group -->
-								</div><!-- /.form group -->
-
-								<!-- Total de Pasajeros -->
-								<div class="form-group ">
-									<label>Total:</label>
-									<div class="input-group col-md-3">
-										<div class="input-group-addon">
-											<i class="ion ion-person-stalker"></i>
-										</div>
-										<input type="number" value="0" disabled class="form-control" />
-									</div><!-- /.input group -->
-								</div><!-- /.form group -->
-							</div>
-						</form>
-					</div> <!-- /. box-body -->
-				</div>
+					</form>
 				<div class="box-footer" align="right">
-					<button class="btn btn-default" type="button" id="cancel-aterrizaje-btn">Cancelar </button>
-					<button class="btn btn-primary" type="submit" id="save-aterrizaje-btn"> Registrar </button>
+					<button class="btn btn-default" type="button" id="cancel-despegue-btn">Cancelar </button>
+					<button class="btn btn-primary" type="submit" id="save-despegue-btn"> Registrar </button>
 				</div><!-- ./box-footer -->
 			</section>
 		</section>
@@ -385,12 +397,28 @@ function camposVacios() {
 	}
 }
 
+//Función que calcula el tiempo 
+function calcularDiferenciaMinutos(){
+
+	var fecha             = $('#fechaAterrizaje').val();
+	var hora              = $('#horaAterrizaje').val();
+	var fecha_hora        = fecha+' '+hora;
+	
+	var fechaActual       = $('#fecha-datepicker').val();
+	var horaActual        = $('#hora').val();
+	var fecha_hora_actual = fechaActual+' '+horaActual;
+
+	var a = moment(fecha_hora, "DD/MM/YYYY HH:mm:ss");
+	var b = moment(fecha_hora_actual, "DD/MM/YYYY HH:mm:ss");	
+	var estacionamiento = (b.diff(a, 'minutes'));
+	$('#tiempo_estacionamiento').val(estacionamiento);
+}
 
 
 $(document).ready(function(){
 
 
-	$('#otros_cargos-select').chosen({width:'40%'});
+		$('#otros_cargos-select').chosen({width:'40%'});
 
 	/* 
 		Condiciones en los campos de los formularios
@@ -432,7 +460,7 @@ $(document).ready(function(){
 				$(nacionalidad).val('').attr('disabled', 'disabled');
 			}else{
 				var nac_vuelo=$(option).data('nacionalidad');
-				if ($(nac_vuelo) == '232'){
+				if (nac_vuelo == '232'){
 					$(nacionalidad).val('1');
 				}else{
 					$(nacionalidad).val('2');
@@ -440,6 +468,8 @@ $(document).ready(function(){
 			}               
 		});
 
+		$('#fecha-datepicker').change(calcularDiferenciaMinutos).trigger('change');
+		$('#hora').keyup(calcularDiferenciaMinutos);
 
 
 	/*
@@ -465,32 +495,32 @@ $(document).ready(function(){
 			yearSuffix: '',
 			dateFormat: 'yy-mm-dd'});
 
-		$('#cancel-aterrizaje-btn').click(function(){
-			$('#aterrizajeForm-div input').val('');
-			$('#aterrizajeForm-div select').val('');
-			$('#aterrizajeForm-div #fecha-datepicker').val(today);
-			$('#aterrizajeForm-div #hora').val(time);
+		$('#cancel-despegue-btn').click(function(){
+			$('#despegueForm-div input').val('');
+			$('#despegueForm-div select').val('');
+			$('#despegueForm-div #fecha-datepicker').val(today);
+			$('#despegueForm-div #hora').val(time);
 		})
 
 	/*
-		Registro de Aterrizajes
+		Registro de despegue
 
 		*/
 		
-		$('#save-aterrizaje-btn').click(function(){
+		$('#save-despegue-btn').click(function(){
 
-			var data=$('#aterrizaje-form').serializeArray();
+			var data=$('#despegue-form').serializeArray();
 
 			var overlay="<div class='overlay'>\
-			<i class='fa fa-refresh' fa-spin></i>\
-		</div>";
+							<i class='fa fa-refresh fa-spin'></i>\
+						</div>";
 		$('.box-body').append(overlay);
 
 
 		$.ajax(
 			{data:data,
 				method:'post',
-				url:"{{action('AterrizajeController@store')}}"}
+				url:"{{action('DespegueController@store')}}"}
 				)
 		.always(function(response, status, responseObject){
 			$('.box-body .overlay').remove();
@@ -504,11 +534,9 @@ $(document).ready(function(){
 					var respuesta=JSON.parse(responseObject.responseText);
 					if(respuesta.success==1)
 					{
-						$('#save-aeronave-btn').attr('disabled','disabled');
-						$('#aterrizajeForm-div input').val('');
-						$('#aterrizajeForm-div select').val('');
-						$('#aterrizajeForm-div #fecha-datepicker').val(today);
+						$('#save-despegue-btn').attr('disabled','disabled');
 						alertify.success(respuesta.text);
+						window.location="{{action('DespegueController@index')}}";
 					}
 					else
 					{

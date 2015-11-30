@@ -51,6 +51,8 @@ $.widget.bridge('uibutton', $.ui.button);
 
 <script src=" {{ asset('/js/shared.js') }}" type="text/javascript"></script>
 
+<script src=" {{ asset('/js/moment.js') }}" type="text/javascript"></script>
+
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <script src=" {{ asset('/dist/js/pages/dashboard.js') }}" type="text/javascript"></script>
 <script type="text/javascript">

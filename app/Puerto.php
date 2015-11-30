@@ -15,4 +15,9 @@ class Puerto extends Model {
         return $this->hasMany('App\Aterrizaje');
     }
 
+    public function despegue()
+    {
+        return $this->hasMany('App\Despegue');
+    }
+
 }

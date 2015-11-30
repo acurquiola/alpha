@@ -16,4 +16,8 @@ class Piloto extends Model {
 	{
 		return $this->belongsTo('App\Aterrizaje');
 	}
+	public function despegue()
+	{
+		return $this->belongsTo('App\Despegue');
+	}
 }

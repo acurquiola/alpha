@@ -100,7 +100,7 @@
 				<li {{ (\Request::is('operaciones/Aterrizajes*'))?"class=active":"" }}><a href="{{ URL::to('operaciones/Aterrizajes') }}"><i class="fa fa-fighter-jet"></i> Aterrizajes</a></li>
 				@endpermission
 				@permission('menu.despegue')
-				<li {{ (\Request::is('operaciones/aterrizaje/Despegues*'))?"class=active":"" }}><a href="{{ URL::to('operaciones/aterrizaje/Despegues') }}"><i class="fa fa-plane"></i> Despegues</a></li>
+				<li {{ (\Request::is('operaciones/*/Despegues*'))?"class=active":"" }}><a href="{{action('DespegueController@index')}}"><i class="fa fa-plane"></i> Despegues</a></li>
 				@endpermission
 				@permission('menu.carga')
 				<li {{ (\Request::is('operaciones/Cargas*'))?"class=active":"" }}><a href="{{ URL::to('operaciones/Cargas') }}"><i class="fa fa-truck"></i> Cargas</a></li>

@@ -12,10 +12,6 @@
 		</ol>
 		<section class="content-header">
 			<h1>
-				<?php 
-					$fecha = date('Y-m-d');
-					ini_set('date.timezone','America/Caracas');
-				?>
 				<i class="fa fa-road"></i> Registro de Aterrizajes  
 			</h1>
 		</section>
@@ -329,7 +325,7 @@ $(document).ready(function(){
 				$(nacionalidad).val('').attr('disabled', 'disabled');
 			}else{
 				var nac_vuelo=$(option).data('nacionalidad');
-				if ($(nac_vuelo) == '232'){
+				if (nac_vuelo == '232'){
 					$(nacionalidad).val('1');
 				}else{
 					$(nacionalidad).val('2');
@@ -379,7 +375,7 @@ $(document).ready(function(){
 			var data=$('#aterrizaje-form').serializeArray();
 
 			var overlay="<div class='overlay'>\
-			<i class='fa fa-refresh' fa-spin></i>\
+			<i class='fa fa-refresh fa-spin'></i>\
 			</div>";
 			$('.box-body').append(overlay);
 
@@ -406,6 +402,8 @@ $(document).ready(function(){
 							$('#aterrizajeForm-div select').val('');
 							$('#aterrizajeForm-div #fecha-datepicker').val(today);
 							alertify.success(respuesta.text);
+							window.location="{{action('AterrizajeController@index')}}";
+
 						}
 						else
 						{

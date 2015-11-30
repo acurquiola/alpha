@@ -14,7 +14,7 @@
           </thead>
                @foreach($aterrizajes as $aterrizaje)
                <tr data-id='{{$aterrizaje->id}}'>
-                    <td class ='fecha-td'>{{$aterrizaje->fecha}}</td>
+                    <td class ='fecha-td'>{{$aterrizaje->fecha }}</td>
                     <td class ='hora-td'>{{$aterrizaje->hora}}</td>
                     <td class ='aeronave_id-td'>{{$aterrizaje->aeronave->matricula}}</td>
                     <td class ='tipoMatricula_id-td'>{{$aterrizaje->tipo->nombre}}</td>

@@ -19,6 +19,8 @@ class CreateDespeguesTable extends Migration {
 			$table->date('fecha');
 			$table->integer('num_vuelo')->nullable();
 			$table->integer('aeronave_id')->unsigned();
+			$table->integer('aeropuerto_id')->unsigned()->nullable();
+			$table->foreign('aeropuerto_id')->references('id')->on('aeropuertos');
 			$table->integer('puerto_id')->unsigned()->nullable();
 			$table->foreign('puerto_id')->references('id')->on('puertos');
 			$table->integer('piloto_id')->unsigned()->nullable();

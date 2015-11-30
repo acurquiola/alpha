@@ -93,8 +93,7 @@ class CargaController extends Controller {
 			$precio_carga        = PreciosCarga::first();
 			$carga->precio_carga = $precio_carga;
 			return response()->json(array("text"=>'Registro almacenado con éxito',
-											  "carga"=>$carga->load("aeronave", "cliente"),
-											  "success"=>1));
+																	  "success"=>1));
 		}
 		else
 		{

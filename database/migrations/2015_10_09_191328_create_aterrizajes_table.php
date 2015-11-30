@@ -17,6 +17,8 @@ class CreateAterrizajesTable extends Migration {
 			$table->increments('id');
 			$table->time('hora');
 			$table->date('fecha');
+			$table->integer('aeropuerto_id')->unsigned();
+			$table->foreign('aeropuerto_id')->references('id')->on('aeropuertos');
 			$table->integer('aeronave_id')->unsigned();
 			$table->foreign('aeronave_id')->references('id')->on('aeronaves');
 			$table->integer('cliente_id')->unsigned()->nullable();
@@ -34,6 +36,7 @@ class CreateAterrizajesTable extends Migration {
 			$table->integer('desembarqueInfante')->default('0');
 			$table->integer('desembarqueTercera')->default('0');
 			$table->integer('desembarqueTransito')->default('0');
+			$table->integer('despego')->default('0');
 			$table->timestamps();
 		});
 

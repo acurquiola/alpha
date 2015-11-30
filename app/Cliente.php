@@ -43,6 +43,11 @@ class Cliente extends Model {
         return $this->hasMany('App\Aterrizaje');
     }
 
+    public function despegue()
+    {
+        return $this->hasMany('App\Despegue');
+    }
+
     public function carga()
     {
         return $this->hasMany('App\Carga');

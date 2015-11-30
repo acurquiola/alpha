@@ -4,15 +4,19 @@ use Illuminate\Database\Eloquent\Model;
 
 class TipoMatricula extends Model {
 
-    protected $guarded = [];
+	protected $guarded = [];
 
 	public function aeronave()
-    {
-        return $this->hasMany('App\Aeronave');
-    }
+	{
+		return $this->hasMany('App\Aeronave');
+	}
 	public function aterrizaje()
-    {
-        return $this->hasMany('App\Aterrizaje', 'tipoMatricula_id', 'id');
-    }
+	{
+		return $this->hasMany('App\Aterrizaje', 'tipoMatricula_id', 'id');
+	}
+	public function despegue()
+	{
+		return $this->hasMany('App\Despegue', 'tipoMatricula_id', 'id');
+	}
 
 }
