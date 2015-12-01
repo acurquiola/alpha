@@ -39,25 +39,42 @@
                 <div class="box-body" >
                     <div class="row">
                         <div class="col-xs-12">
-                         <table class="table">
+
+                        <div class="table-responsive" style="max-height: 500px">
+                         <table class="table table-hover table-condensed">
                          <thead  class="bg-primary">
                          <tr>
-                         <th>
+                         <th id="fecha-col" style="vertical-align: middle" class="text-center">
                             Fecha Recaudación
                          </th>
                          @foreach($modulos as $modulo)
-                          <th>
+                          <th expandible data-colspan="{{$modulo->conceptos->count()}}" class="text-center" style="vertical-align: middle" >
                              {{$modulo->nombre}}
                           </th>
                          @endforeach
                          </tr>
+                          <tr >
+                          @foreach($modulos as $modulo)
+                            @foreach($modulo->conceptos as $concepto)
+                               <th details data-parent="{{$modulo->nombre}}" style="display:none;vertical-align: middle"  class="text-center" >
+                                  <small>{{$concepto->nompre}}</small>
+                               </th>
+                            @endforeach
+                          @endforeach
+                          </tr>
                          </thead>
                         <tbody>
                         @foreach($montos as $fecha => $montoModulos)
-                        <tr>
+                        <tr title="{{$fecha}}">
                         <td>{{$fecha}}</td>
-                        @foreach($montoModulos as $monto)
-                        <td>{{$monto}}</td>
+                        @foreach($montoModulos as $moduloNombre => $conceptos)
+                            @foreach($conceptos as $concepto => $monto)
+                                @if($concepto=="total")
+                                    <td class="text-right" main data-parent="{{$moduloNombre}}">{{$monto}}</td>
+                                @else
+                                    <td class="text-right" details data-parent="{{$moduloNombre}}" style="display:none">{{$monto}}</td>
+                                @endif
+                            @endforeach
                         @endforeach
                         </tr>
                         @endforeach
@@ -74,13 +91,60 @@
                         </tbody>
 
                          </table>
-
+                        </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
+
+@endsection
+
+@section('script')
+<script>
+
+$(function(){
+
+
+$('th[expandible]').click(function(){
+    var moduloNombre=$(this).text().trim();
+    var thfecha=$('#fecha-col');
+    if(!$(this).hasClass('activo')){
+        $(this).attr('rowspan',1);
+        $(this).addClass('activo');
+        $(this).attr('colspan', $(this).data('colspan'));
+        $(thfecha).attr('rowspan', 2);
+        $('td[main][data-parent="'+moduloNombre+'"]').hide();
+        $('td[details][data-parent="'+moduloNombre+'"]').show();
+        $('th[details][data-parent="'+moduloNombre+'"]').show();
+        $('th[expandible]:not(".activo")').attr('rowspan',2)
+
+    }else{
+            $(this).removeClass('activo');
+            $(this).attr('colspan', 1);
+            $('td[details][data-parent="'+moduloNombre+'"]').hide();
+            $('th[details][data-parent="'+moduloNombre+'"]').hide();
+            $('td[main][data-parent="'+moduloNombre+'"]').show();
+            if($('th[expandible].activo').length==0){
+                $(thfecha).attr('rowspan', 1);
+                $('th[expandible]').attr('rowspan',1)
+            }
+    }
+
+
+
+
+
+})
+
+
+
+})
+
+
+</script>
 
 
 @endsection
