@@ -17,19 +17,7 @@ class CreateHorariosAeronauticosTable extends Migration {
 			$table->time('operaciones_inicio');
 			$table->time('operaciones_fin');
 			$table->time('sol_salida');
-			$table->time('sol_puesta');	
-			$table->integer('formularioCredito_id')->unsigned();
-			$table->foreign('formularioCredito_id')->references('id')->on('conceptos');
-			$table->integer('formularioContado_id')->unsigned();
-			$table->foreign('formularioContado_id')->references('id')->on('conceptos');		
-			$table->integer('habilitacionCredito_id')->unsigned();
-			$table->foreign('habilitacionCredito_id')->references('id')->on('conceptos');		
-			$table->integer('habilitacionContado_id')->unsigned();
-			$table->foreign('habilitacionContado_id')->references('id')->on('conceptos');	
-			$table->integer('abordajeCredito_id')->unsigned();
-			$table->foreign('abordajeCredito_id')->references('id')->on('conceptos');		
-			$table->integer('abordajeContado_id')->unsigned();
-			$table->foreign('abordajeContado_id')->references('id')->on('conceptos');		
+			$table->time('sol_puesta');			
 			$table->timestamps();
 		});
 	}

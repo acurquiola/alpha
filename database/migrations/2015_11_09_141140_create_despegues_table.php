@@ -41,10 +41,10 @@ class CreateDespeguesTable extends Migration {
 			$table->float('tiempo_estacionamiento')->nullable();
 			$table->integer('numero_puenteAbordaje')->nullable();
 			$table->float('tiempo_puenteAbord')->nullable();
-			$table->integer('cobrar_estacionamiento')->default('1');
-			$table->integer('cobrar_puenteAbordaje')->default('1');
-			$table->integer('cobrar_Formulario')->default('1');
-			$table->integer('cobrar_AterDesp')->default('1');
+			$table->integer('cobrar_estacionamiento')->default('0');
+			$table->integer('cobrar_puenteAbordaje')->default('0');
+			$table->integer('cobrar_Formulario')->default('0');
+			$table->integer('cobrar_AterDesp')->default('0');
 			$table->integer('cobrar_Combustible')->default('0');
 			$table->integer('cobrar_servHandling')->default('0');
 			$table->integer('cobrar_habilitacion')->default('0');

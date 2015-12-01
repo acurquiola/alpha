@@ -15,6 +15,13 @@ use App\TipoMatricula;
 use App\Cliente;
 use App\OtrosCargo;
 use App\Factura;
+use App\CargosVario;
+use App\Facturadetalle;
+use App\MontosFijo;
+use App\Concepto;
+use App\HorariosAeronautico;
+use App\EstacionamientoAeronave;
+use App\PreciosAterrizajesDespegue;
 
 use Carbon\Carbon;
 
@@ -113,10 +120,29 @@ class DespegueController extends Controller {
 	 */
 	public function store(Request $request)
 	{
-		$despegue   = Despegue::create($request->except("nacionalidadVuelo_id", "piloto_id", "puerto_id", "cliente_id"));
-		$aterrizaje = Aterrizaje::find($request->get("aterrizaje_id"));
+		$despegue                         = Despegue::create($request->except("nacionalidadVuelo_id", "piloto_id", "puerto_id", "cliente_id", "cobrar_estacionamiento", "cobrar_puenteAbordaje", "cobrar_Formulario", "cobrar_AterDesp", "cobrar_Combustible", "cobrar_servHandling", "cobrar_habilitacion"));
+		$aterrizaje                       = Aterrizaje::find($request->get("aterrizaje_id"));
 		$aterrizaje->despegue()->save($despegue);
-		$aterrizaje->update(["despego"=>"1"]);
+		$aterrizaje->update(["despego"    =>"1"]);
+		$despegue->cobrar_estacionamiento =$request->input('cobrar_estacionamiento', 0);
+		$despegue->cobrar_puenteAbordaje  =$request->input('cobrar_puenteAbordaje', 0);
+		$despegue->cobrar_Formulario      =$request->input('cobrar_Formulario', 0);
+		$despegue->cobrar_AterDesp        =$request->input('cobrar_AterDesp', 0);
+		$despegue->cobrar_AterDesp        =$request->input('cobrar_AterDesp', 0);
+		$despegue->cobrar_Combustible     =$request->input('cobrar_Combustible', 0);
+		$despegue->cobrar_servHandling    =$request->input('cobrar_servHandling', 0);	
+		
+		$today             = Carbon::now();
+		$today->timezone   = 'America/Caracas';
+		$hora              = $today->format('H:m:s');
+		$inicioOperaciones = HorariosAeronautico::first()->operaciones_inicio;
+		$finOperaciones    = HorariosAeronautico::first()->operaciones_fin;
+
+		if ($hora > $inicioOperaciones && $hora < $finOperaciones){
+			$despegue->cobrar_servHandling  = '1';
+		}else{
+			$despegue->cobrar_servHandling  = '0';
+		}
 
 		if($despegue)
 		{
@@ -194,13 +220,140 @@ class DespegueController extends Controller {
 
 	public function getCrearFactura($id)
 	{
+		//Información general de la factura a crear.
 		$despegue = Despegue::find($id);
 		$factura  = new Factura();
-		$modulo = \App\Modulo::find(5)->nombre;
+		$modulo   = \App\Modulo::find(5)->nombre;
+		$ut       = MontosFijo::first()->unidad_tributaria;
 
-		$factura->fill(['aeropuerto_id' => $despegue->aeropuerto_id,
-	                  'fecha' => $despegue->fecha,
-	                  'cliente_id'  => $despegue->cliente_id]);
+		$factura->fill(['aeropuerto_id' 	  => $despegue->aeropuerto_id,
+		                 		'fecha' 	  => $despegue->fecha,
+			                  	'cliente_id'  => $despegue->cliente_id]);
+		
+		$factura->detalles = new Collection();
+
+		//Item de Formulario.
+		if($despegue->cobrar_Formulario == '1'){
+			$formulario        = new Facturadetalle();
+			$eq_formulario     = CargosVario::first()->eq_formulario;
+			$concepto_id       = CargosVario::first()->formularioCredito_id;
+			$montoDes          = $eq_formulario * $ut;
+			$cantidadDes       = '1';
+			$iva               = Concepto::find($concepto_id)->iva;
+			$montoIva          = ($iva * $montoDes)/100 ;
+			$totalDes          = $montoDes + $montoIva;
+			$formulario->fill(compact('concepto_id', 'montoDes', 'cantidadDes', 'iva', 'totalDes'));
+		}
+
+		//Item de Estacionamiento.
+		if($despegue->cobrar_estacionamiento == '1'){
+			$estacionamiento = new Facturadetalle();
+			$nacionalidad    = $despegue->nacionalidadVuelo_id;
+			$concepto_id     = EstacionamientoAeronave::first()->conceptoCredito_id;
+
+			switch ($nacionalidad) {
+			    case 1:
+			        $minutosLibre  = EstacionamientoAeronave::first()->tiempoLibreNac;
+					$eq_bloque     = EstacionamientoAeronave::first()->eq_bloqueNac;
+					$minutosBloque = EstacionamientoAeronave::first()->minBloqueNac;
+			        break;
+			    case 2:
+			        $minutosLibre  = EstacionamientoAeronave::first()->tiempoLibreInt;
+					$eq_bloque     = EstacionamientoAeronave::first()->eq_bloqueInt;
+					$minutosBloque = EstacionamientoAeronave::first()->minBloqueInt;
+			        break;
+			}
+
+			$tiempo_estacionamiento = $despegue->tiempo_estacionamiento;
+			$tiempoAFacturar        = ($tiempo_estacionamiento - $minutosLibre)/$minutosBloque;
+			$equivalente            = ($eq_bloque * $ut);
+			$montoDes               = $equivalente * $tiempoAFacturar;
+			$cantidadDes            = '1';
+			$iva                    = Concepto::find($concepto_id)->iva;
+			$montoIva               = ($iva * $montoDes)/100 ;
+			$totalDes               = $montoDes + $montoIva;
+			$estacionamiento->fill(compact('concepto_id', 'montoDes', 'cantidadDes', 'iva', 'totalDes'));
+		}
+
+		//Item de Aterrizaje y Despegue
+		if($despegue->cobrar_AterDesp == '1'){
+			$aterrizajeDespegue = new Facturadetalle();
+			$nacionalidad    = $despegue->nacionalidadVuelo_id;
+			$concepto_id     = PreciosAterrizajesDespegue::first()->conceptoCredito_id;
+
+			$today           = Carbon::now();
+			$today->timezone = 'America/Caracas';
+			$hora            = $today->format('H:m:s');
+			$salidaSol       = HorariosAeronautico::first()->sol_salida;
+			$puestaSol       = HorariosAeronautico::first()->sol_puesta;
+
+			if ($hora > $salidaSol && $hora < $puestaSol){
+				switch ($nacionalidad) {
+			    case 1:
+					$eq_aterDesp     = PreciosAterrizajesDespegue::first()->eq_diurnoNac;
+			        break;
+			    case 2:
+					$eq_aterDesp     = PreciosAterrizajesDespegue::first()->eq_diurnoInt;
+			        break;
+				}
+			}else{
+				switch ($nacionalidad) {
+			    case 1:
+					$eq_aterDesp     = PreciosAterrizajesDespegue::first()->eq_nocturNac;
+			        break;
+			    case 2:
+					$eq_aterDesp     = PreciosAterrizajesDespegue::first()->eq_nocturInt;
+			        break;
+				}
+			}
+
+			$montoDes          = $eq_aterDesp * $ut;
+			$cantidadDes       = '1';
+			$iva               = Concepto::find($concepto_id)->iva;
+			$montoIva          = ($iva * $montoDes)/100 ;
+			$totalDes          = $montoDes + $montoIva;
+			$aterrizajeDespegue->fill(compact('concepto_id', 'montoDes', 'cantidadDes', 'iva', 'totalDes'));
+		}
+		
+		//Ítem de Puentes de Abordaje.
+		if($despegue->cobrar_puenteAbordaje == '1'){
+			$puenteAbordaje    = new Facturadetalle();
+			$concepto_id       = CargosVario::first()->abordajeCredito_id;
+			
+			$today             = Carbon::now();
+			$today->timezone   = 'America/Caracas';
+			$hora              = $today->format('H:m:s');
+			$inicioOperaciones = HorariosAeronautico::first()->operaciones_inicio;
+			$finOperaciones    = HorariosAeronautico::first()->operaciones_fin;
+
+			if ($hora > $inicioOperaciones && $hora < $puestafinOperacionesSol){
+				$eq_puenteAbordaje = CargosVario::first()->eq_usoAbordajeSinHab;
+			}else{
+				$eq_puenteAbordaje = CargosVario::first()->eq_usoAbordajeConHab;
+			}
+
+			$tiempoUsoPuenteAbordaje = $despegue->tiempo_puenteAbord;
+			$equivalente = $eq_puenteAbordaje * $ut;
+			$montoDes          = $equivalente * $tiempoUsoPuenteAbordaje;
+			$cantidadDes       = '1';
+			$iva               = Concepto::find($concepto_id)->iva;
+			$montoIva          = ($iva * $montoDes)/100 ;
+			$totalDes          = $montoDes + $montoIva;
+			$puenteAbordaje->fill(compact('concepto_id', 'montoDes', 'cantidadDes', 'iva', 'totalDes'));
+		}
+
+		//Ítem de Habilitación
+		if($despegue->cobrar_habilitacion){
+			$habilitacion    = new Facturadetalle();
+			$concepto_id       = CargosVario::first()->habilitacionCredito_id;
+			
+			$montoDes          = $eq_derechoHabilitacion * $ut;
+			$cantidadDes       = '1';
+			$iva               = Concepto::find($concepto_id)->iva;
+			$montoIva          = ($iva * $montoDes)/100 ;
+			$totalDes          = $montoDes + $montoIva;
+			$habilitacion->fill(compact('concepto_id', 'montoDes', 'cantidadDes', 'iva', 'totalDes'));
+		}
 
 		return view('factura.edit', compact('factura', 'modulo'));
 
