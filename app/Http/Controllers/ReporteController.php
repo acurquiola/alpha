@@ -50,8 +50,16 @@ class ReporteController extends Controller {
 
 
                 if(!isset($montosTotales[$modulo->nombre]))
-                    $montosTotales[$modulo->nombre]=0;
-                $montosTotales[$modulo->nombre]+=($montos[$primerDiaMes->format('d/m/Y')][$modulo->nombre]["total"]);
+                    $montosTotales[$modulo->nombre]=[];
+                if(!isset($montosTotales[$modulo->nombre]["total"]))
+                    $montosTotales[$modulo->nombre]["total"]=0;
+                $montosTotales[$modulo->nombre]["total"]+=($montos[$primerDiaMes->format('d/m/Y')][$modulo->nombre]["total"]);
+                foreach($modulo->conceptos as $concepto){
+                    if(!isset($montosTotales[$modulo->nombre][$concepto->nompre]))
+                        $montosTotales[$modulo->nombre][$concepto->nompre]=0;
+                    $montosTotales[$modulo->nombre][$concepto->nompre]+=($montos[$primerDiaMes->format('d/m/Y')][$modulo->nombre][$concepto->nompre]);
+
+                }
             }
         }
         return view('reportes.reporteDiario', compact('modulos', 'montos', 'montosTotales','mes','anno'));

@@ -81,8 +81,14 @@
 
                         <tr class="bg-gray">
                         <td>Totales</td>
-                        @foreach($montosTotales as $total)
-                        <td>{{$total}}</td>
+                        @foreach($montosTotales as $moduloNombre => $conceptos)
+                            @foreach($conceptos as $concepto => $monto)
+                                @if($concepto=="total")
+                                    <td class="text-right" main data-parent="{{$moduloNombre}}">{{$monto}}</td>
+                                @else
+                                    <td class="text-right" details data-parent="{{$moduloNombre}}" style="display:none">{{$monto}}</td>
+                                @endif
+                            @endforeach
                         @endforeach
                         </tr>
 
