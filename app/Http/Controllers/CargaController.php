@@ -154,4 +154,35 @@ class CargaController extends Controller {
         }
     }
 
+    public function getCrearFactura($id)
+	{
+		//Información general de la factura a crear.
+		$carga   = Carga::find($id);
+		$factura = new Factura();
+		$modulo  = \App\Modulo::find(5)->nombre;
+		$ut      = MontosFijo::first()->unidad_tributaria;
+
+		$factura->fill(['aeropuerto_id' 	  => $despegue->aeropuerto_id,
+		                 		'fecha' 	  => $despegue->fecha,
+			                  	'cliente_id'  => $despegue->cliente_id]);
+		
+		$factura->detalles = new Collection();
+
+		//Item de Comcepto
+		
+		$cobrarCarga       = new Facturadetalle();
+		$concepto_id       = PreciosCarga::first()->conceptoCredito_id;
+		$montoDes          = $carga->monto_total;
+		$cantidadDes       = '1';
+		$iva               = Concepto::find($concepto_id)->iva;
+		$montoIva          = ($iva * $montoDes)/100 ;
+		$totalDes          = $montoDes + $montoIva;
+		$cobrarCarga->fill(compact('concepto_id', 'montoDes', 'cantidadDes', 'iva', 'totalDes'));
+		$factura->detalles->push($cobrarCarga);
+
+
+		return view('factura.edit', compact('factura', 'modulo'));
+
+	}
+
 }

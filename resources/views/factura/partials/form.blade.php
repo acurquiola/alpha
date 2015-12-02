@@ -30,18 +30,17 @@
 		{!! Form::text('fechaVencimiento', null, [ 'class'=>"form-control", $disabled, "id" =>"fechaVencimiento"]) !!}
 	</div>
 </div>
-
 <div class="form-group">
 	<label for="cliente-select" class="control-label col-xs-1"><strong>Cliente<span class="text-danger">*</span></strong></label>
 	<div class="col-xs-4">
-		<select id="cliente-select" class="form-control" name="cliente_id" autocomplete="off">
+		<select id="cliente-select" class="form-control" name="cliente_id" autocomplete="off" @if(!isset($bloqueoDosa)) readonly @endif>
 			<option value="0" > --Seleccione un cliente-- </option>
 			@foreach($clientes as $c)
 			<option {{($c->id==$factura->cliente_id)?"selected":""}} value="{{$c->id}}" data-nombre="{{$c->nombre}}" data-ced-rif="{{$c->cedRif}}" data-ced-rif-prefix="{{$c->cedRifPrefix}}">{{$c->codigo}}</option>
 			@endforeach
 		</select>
 	</div>
-	@if($disabled!="disabled")
+	@if($disabled!="disabled" && !isset($bloqueoDosa))
 	<div class="col-xs-1">
 		<button type="button" class="btn btn-primary" id="advance-search-btn" data-toggle="modal" data-target="#advance-search-modal"> <span class="glyphicon glyphicon-search"></span></button>
 	</div>
@@ -55,6 +54,7 @@
 
 </div>
 
+@if(!isset($bloqueoDosa))
 <div class="form-group">
 	<label for="concepto-input" class="control-label col-xs-1"><strong>Concepto<span class="text-danger">*</span></strong></label>
 	<div class="col-xs-4">
@@ -71,6 +71,7 @@
 	</div>
 	@endif
 </div>
+@endif
 
 <div class="table-responsive"  style="margin-bottom:50px">
 	<table class="table text-center" id="concepto-table">
@@ -85,7 +86,7 @@
 				<th style="min-width:90">% Recargo</th>
 				<th style="min-width:90">Monto Recargo</th>
 				<th style="min-width:90">Monto Total</th>
-				@if($disabled!="disabled")<th style="min-width:90">Acción</th>@endif
+				@if($disabled!="disabled" && !isset($bloqueoDosa))<th style="min-width:90">Acción</th>@endif
 			</tr>
 		</thead>
 
@@ -105,7 +106,7 @@
 				<td><input {{$disabled}} class="form-control recargoTotal-input text-right" value="{{$detalle->recargoTotalDes}}" name="recargoTotalDes[]"  autocomplete="off" /></td>
 				<td><input {{$disabled}} class="form-control total-input text-right" value="{{$detalle->totalDes}}" readonly name="totalDes[]"  autocomplete="off" /></td>
 
-				@if($disabled!="disabled")
+				@if($disabled!="disabled" && !isset($bloqueoDosa))
 				<td><button type="button" class="btn btn-danger eliminar-concepto-btn"><span class="glyphicon glyphicon-remove"></span></button></td>
 				@endif
 			</tr>
