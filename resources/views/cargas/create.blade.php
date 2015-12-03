@@ -249,11 +249,11 @@ function camposVacios() {
 				var equivalente             = parseFloat(ut)*parseFloat(eq_carga);
 				
 				//Cáldulo del Precio del Peso embarcado
-				var peso_embarcado_monto    = (parseFloat(equivalente)/bloque)*parseFloat(peso_embarcado);
+				var peso_embarcado_monto    = (parseFloat(peso_embarcado)/bloque)*parseFloat(equivalente);
 				$('#peso_embarcado_monto').val(peso_embarcado_monto);
 				
 				//Cáldulo del Precio del Peso embarcado
-				var peso_desembarcado_monto = (parseFloat(equivalente)/bloque)*parseFloat(peso_desembarcado);
+				var peso_desembarcado_monto = (parseFloat(peso_desembarcado)/bloque)*parseFloat(equivalente);
 				$('#peso_desembarcado_monto').val(peso_desembarcado_monto);
 				
 				//Cálculo de Monto Total

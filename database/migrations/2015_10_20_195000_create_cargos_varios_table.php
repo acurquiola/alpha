@@ -19,6 +19,18 @@ class CreateCargosVariosTable extends Migration {
 			$table->float('eq_derechoHabilitacion');
 			$table->float('eq_usoAbordajeSinHab');
 			$table->float('eq_usoAbordajeConHab');
+			$table->integer('formularioCredito_id')->unsigned();
+			$table->foreign('formularioCredito_id')->references('id')->on('conceptos');
+			$table->integer('formularioContado_id')->unsigned();
+			$table->foreign('formularioContado_id')->references('id')->on('conceptos');		
+			$table->integer('habilitacionCredito_id')->unsigned();
+			$table->foreign('habilitacionCredito_id')->references('id')->on('conceptos');		
+			$table->integer('habilitacionContado_id')->unsigned();
+			$table->foreign('habilitacionContado_id')->references('id')->on('conceptos');	
+			$table->integer('abordajeCredito_id')->unsigned();
+			$table->foreign('abordajeCredito_id')->references('id')->on('conceptos');		
+			$table->integer('abordajeContado_id')->unsigned();
+			$table->foreign('abordajeContado_id')->references('id')->on('conceptos');
 			$table->timestamps();
 		});
 	}

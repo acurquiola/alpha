@@ -171,7 +171,7 @@
 										<div class="form-group ">
 											<label>Tiempo: </label>
 											<div class="input-group">
-												<input type="text" class="form-control" id="tiempo_estacionamiento"  disabled/>
+												<input type="text" class="form-control" id="tiempo_estacionamiento" name="tiempo_estacionamiento" readonly />
 												<div class="input-group-addon">
 													min
 													<i class="ion ion-clock"></i>
@@ -197,7 +197,7 @@
 													<div class="input-group-addon">
 														#
 													</div>
-													<input type="number"  class="form-control"  />
+													<input type="number"  class="form-control" name="numero_puenteAbordaje" />
 												</div><!-- /.input group -->
 											</div><!-- /.form group -->
 										</div>
@@ -206,7 +206,7 @@
 											<div class="form-group">
 												<label>Tiempo: </label>
 												<div class="input-group">
-													<input type="text" class="form-control"  />
+													<input type="text" class="form-control" name="tiempo_puenteAbord"  />
 													<div class="input-group-addon">
 														min
 														<i class="ion ion-clock"></i>
@@ -510,6 +510,7 @@ $(document).ready(function(){
 		$('#save-despegue-btn').click(function(){
 
 			var data=$('#despegue-form').serializeArray();
+			console.log(data);
 
 			var overlay="<div class='overlay'>\
 							<i class='fa fa-refresh fa-spin'></i>\

@@ -39,11 +39,10 @@ class HangarController extends Controller {
 	            'sortType'=>$sortType]);
 		
 			$hangares= Hangar::with("aeropuerto", "clientes", "aeronaves")
-										->where('aeropuerto_id', $aeropuertoOperador, $aeropuerto_id)
-										->where('nombre', 'like', '%'.$nombre.'%')
-										->orderBy($sortName, $sortType)
-										->paginate(7);
-
+									->where('aeropuerto_id', $aeropuertoOperador, $aeropuerto_id)
+									->where('nombre', 'like', '%'.$nombre.'%')
+									->orderBy($sortName, $sortType)
+									->paginate(7);
 			return view('hangares.partials.table', compact('hangares'));
 		}
 		else
@@ -52,7 +51,6 @@ class HangarController extends Controller {
 			$aeropuertos = Aeropuerto::all();
 			$clientes    = Cliente::all();
 			$aeronaves   = Aeronave::all();
-			dd($cargas);
 			
 			return view('hangares.index', compact('hangares', 'aeropuertos', 'clientes', 'aeronaves'));
 		}

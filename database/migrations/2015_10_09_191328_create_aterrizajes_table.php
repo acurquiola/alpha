@@ -32,10 +32,10 @@ class CreateAterrizajesTable extends Migration {
 			$table->integer('num_vuelo')->nullable();
 			$table->integer('puerto_id')->unsigned()->nullable();
 			$table->foreign('puerto_id')->references('id')->on('puertos');
-			$table->integer('desembarqueAdultos')->default('0');
-			$table->integer('desembarqueInfante')->default('0');
-			$table->integer('desembarqueTercera')->default('0');
-			$table->integer('desembarqueTransito')->default('0');
+			$table->integer('desembarqueAdultos')->default(0);
+			$table->integer('desembarqueInfante')->default(0);
+			$table->integer('desembarqueTercera')->default(0);
+			$table->integer('desembarqueTransito')->default(0);
 			$table->integer('despego')->default('0');
 			$table->timestamps();
 		});

@@ -27,7 +27,7 @@
 </tr>
 <tr>
 <td  colspan="4">
-<strong>DIRECCION FISCAL:</strong> {{$factura->cliente->direccion}}
+<strong>DIRECCIÓN FISCAL:</strong> {{$factura->cliente->direccion}}
 </td>
 <td  colspan="2">
 <strong>RIF:</strong> {{$factura->cliente->rif}}
@@ -38,10 +38,10 @@
 </tr>
 <tr>
 <td  colspan="4">
-<strong>telefono:</strong> {{$factura->cliente->telefono}}
+<strong>TELÉFONO:</strong> {{$factura->cliente->telefono}}
 </td>
 <td  colspan="4">
-<strong>CONDICION DE PAGO:</strong> {{$factura->condicionPago}}
+<strong>CONDICIÓN DE PAGO:</strong> {{$factura->condicionPago}}
 </td>
 </tr>
 </table>
@@ -53,7 +53,7 @@
 <table style="width:100%; border-collapse: collapse; padding:2px">
 <tr>
 <td style="border-top: 1px solid black;border-bottom: 1px solid black;" colspan="2">
-<strong>Codigo</strong>
+<strong>Código</strong>
 </td>
 <td style="border-top: 1px solid black;border-bottom: 1px solid black;" colspan="6">
 <strong>Concepto</strong>
