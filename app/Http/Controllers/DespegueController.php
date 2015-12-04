@@ -358,6 +358,6 @@ class DespegueController extends Controller {
 			$factura->detalles->push($habilitacion);
 		}
 
-		return view('factura.facturaAeronautica.create', compact('factura', 'despegue'));
+		return view('factura.facturaAeronautica.create', compact('factura'))->with(['despegue_id'=>$despegue->id]);
 	}
 }

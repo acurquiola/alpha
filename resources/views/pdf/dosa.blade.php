@@ -30,6 +30,33 @@
 
 <br>
 <br>
+
+<table>
+<tr>
+<td colspan="3">		
+</td>
+<td colspan="5" style="border-bottom: 1px solid black">	
+<strong>			FACTURACIÓN DE CONCEPTOS AERONÁUTICOS</strong> 	
+</td>
+<td colspan="2">		
+</td>
+</tr>	
+</table>
+<br>
+<br>
+<br>
+
+<table>
+<tr>
+<td colspan="4" style="border-bottom: 1px solid black; border-top: 1px solid black; ">		
+</td>
+<td colspan="4" style="border-bottom: 1px solid black; border-top: 1px solid black; ">	
+<strong>INFORMACIÓN DEL CLIENTE</strong> 	
+</td>
+<td colspan="2" style="border-bottom: 1px solid black; border-top: 1px solid black; ">		
+</td>
+</tr>	
+</table>
 <br>
 
 <table style="width:100%; border-collapse: collapse; padding:2px">
@@ -50,20 +77,54 @@
 </tr>
 </table>
 
-<table style="width:100%; border-top: 1px dashed black;border-bottom: 1px solid black;">
+<table>
 <tr>
-<td  colspan="10">
-<strong>MATRÍCULA:</strong> {{$despegue->aterrizaje->aeronave->matricula}}
+<td colspan="4" style="border-bottom: 1px solid black; border-top: 1px solid black; ">		
+</td>
+<td colspan="4" style="border-bottom: 1px solid black; border-top: 1px solid black; ">	
+<strong>INFORMACIÓN DE LA AERONAVE</strong> 	
+</td>
+<td colspan="2" style="border-bottom: 1px solid black; border-top: 1px solid black; ">		
+</td>
+</tr>	
+</table>
+<br>
+
+<br>
+
+<table style="width:100%;">
+<tr>
+<td colspan="1">
+</td>
+<td  colspan="2">
+<strong><u>MATRÍCULA</u></strong>
+</td>
+<td colspan="1">
+</td>
+<td  colspan="2">
+<strong><u>MODELO</u></strong>
+</td>
+<td colspan="1">
+</td>
+<td  colspan="2">
+<strong><u>PESO</u></strong>
 </td>
 </tr>
 <tr>
-<td  colspan="10">
-<strong>TIPO DE AVIÓN:</strong>
+<td colspan="1">
 </td>
-</tr>
-<tr>
-<td  colspan="10">
-<strong>PESO:</strong>
+<td  colspan="1">
+{{$despegue->aterrizaje->aeronave->matricula}}
+</td>
+<td colspan="2">
+</td>
+<td  colspan="2">
+{{$despegue->aterrizaje->aeronave->modelo->modelo}}
+</td>
+<td colspan="2">
+</td>
+<td  colspan="1">
+{{$despegue->aterrizaje->aeronave->modelo->peso_aeronave}}
 </td>
 </tr>
 </table>

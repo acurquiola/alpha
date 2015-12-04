@@ -17,6 +17,8 @@ class FacturaController extends Controller {
 
     public function getPrint($modulo, Factura $factura){
 
+        $despegue = \App\Despegue::with('aterrizaje')->where('factura_id', $factura->id)->first();
+
         $factura->load('detalles');
         //return view('pdf.factura', compact('factura'));
         // create new PDF document
@@ -54,7 +56,14 @@ class FacturaController extends Controller {
 
         // set text shadow effect
         // Set some content to print
-        $html = view('pdf.factura', compact('factura'))->render();
+        // 
+        
+        
+        if($despegue){
+            $html = view('pdf.dosa', compact('factura', 'despegue'))->render();
+        }else{
+            $html = view('pdf.factura', compact('factura'))->render();
+        }
 
         // Print text using writeHTMLCell()
         $pdf->writeHTML($html);
@@ -163,8 +172,15 @@ class FacturaController extends Controller {
 
         $facturaData         =$this->getFacturaDataFromRequest($request);
         $facturaDetallesData =$this->getFacturaDetallesDataFromRequest($request);
-        $estacionamientoOp   =\App\Factura::create($facturaData);
-        $estacionamientoOp->detalles()->createMany($facturaDetallesData);
+        if ($request->has('nroDosa'))
+            $facturaData['nroDosa'] = $request->get('nroDosa');
+        $factura   =\App\Factura::create($facturaData);
+        $factura->detalles()->createMany($facturaDetallesData);
+        if($request->has('despegue_id')){
+            $despegue = \App\Despegue::find($request->get('despegue_id'));
+            $despegue->factura_id = $factura->id;
+            $despegue->save();
+        }
         return ["success"    => 1];
 
 	}
