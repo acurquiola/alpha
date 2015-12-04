@@ -140,17 +140,15 @@ class AterrizajeController extends Controller {
 		if($aterrizaje)
 		{
 
-			$nacID      =$nacionalidad=NacionalidadVuelo::find($request->get("nacionalidadVuelo_id"));
-			$puertoID   =$puerto=Puerto::find($request->get("puerto_id"));
-			$pilotoID   =$piloto=Piloto::find($request->get("piloto_id"));
-			$clienteID  =$cliente=Cliente::find($request->get("cliente_id"));
-
-			if($nacionalidad&&$piloto&&$puerto&&$cliente){
-				$nacID     =$nacionalidad->id;
-				$puertoID  =$puerto->id;
-				$pilotoID  =$piloto->id;
-				$clienteID =$cliente->id;
-			}
+			$nacID     =$nacionalidad=NacionalidadVuelo::find($request->get("nacionalidadVuelo_id"));
+			$puertoID  =$puerto=Puerto::find($request->get("puerto_id"));
+			$pilotoID  =$piloto=Piloto::find($request->get("piloto_id"));
+			$clienteID =$cliente=Cliente::find($request->get("cliente_id"));
+			
+			$nacID     =($nacID)?$nacionalidad->id:NULL;
+			$puertoID  =($puertoID)?$puerto->id:NULL;
+			$pilotoID  =($pilotoID)?$piloto->id:NULL;
+			$clienteID =($clienteID)?$cliente->id:NULL;
 
 			$aterrizaje->nacionalidadVuelo_id =$nacID;
 			$aterrizaje->puerto_id            =$puertoID;
@@ -159,7 +157,7 @@ class AterrizajeController extends Controller {
 			$aterrizaje->save();
 
 			return response()->json(array("text"		 =>'Aterrizaje registrado exitósamente',
-									     						  "success"      =>1));
+									      "success"      =>1));
 		}
 		else
 		{

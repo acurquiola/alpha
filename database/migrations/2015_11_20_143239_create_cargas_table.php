@@ -20,13 +20,16 @@ class CreateCargasTable extends Migration {
 			$table->foreign('cliente_id')->references('id')->on('clientes');
 			$table->integer('aeronave_id')->unsigned();
 			$table->foreign('aeronave_id')->references('id')->on('aeronaves');
+			$table->integer('aeropuerto_id')->unsigned()->nullable();
+			$table->foreign('aeropuerto_id')->references('id')->on('aeropuertos');
 			$table->integer('num_vuelo')->nullable();
 			$table->float('peso_embarcado');
 			$table->float('peso_desembarcado');			
 			$table->string('observaciones')->nullable();			
 			$table->float('monto_total');	
 			$table->integer('precio_carga')->unsigned();
-			$table->foreign('precio_carga')->references('id')->on('precios_cargas');				
+			$table->foreign('precio_carga')->references('id')->on('precios_cargas');	
+			$table->integer('facturado')->default(0);			
 			$table->timestamps();
 	
 		});

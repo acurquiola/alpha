@@ -53,7 +53,6 @@ class FacturaController extends Controller {
         $pdf->AddPage();
 
         // set text shadow effect
-
         // Set some content to print
         $html = view('pdf.factura', compact('factura'))->render();
 
@@ -65,8 +64,8 @@ class FacturaController extends Controller {
         // Close and output PDF document
         // This method has several options, check the source code documentation for more information.
         $pdf->Output('factura.pdf', 'I');
-    }
 
+    }
 
 
     public function main($id){

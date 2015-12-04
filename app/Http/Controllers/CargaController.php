@@ -3,14 +3,19 @@
 use App\Http\Requests;
 use App\Http\Requests\CargaRequest;
 use App\Http\Controllers\Controller;
+use Illuminate\Database\Eloquent\Collection;
+
 
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use App\Carga;
 use App\PreciosCarga;
 use App\Cliente;
+use App\Concepto;
 use App\Aeronave;
 use App\MontosFijo;
+use App\Factura;
+use App\Facturadetalle;
 
 class CargaController extends Controller {
 
@@ -162,14 +167,14 @@ class CargaController extends Controller {
 		$modulo  = \App\Modulo::find(5)->nombre;
 		$ut      = MontosFijo::first()->unidad_tributaria;
 
-		$factura->fill(['aeropuerto_id' 	  => $despegue->aeropuerto_id,
-		                 		'fecha' 	  => $despegue->fecha,
-			                  	'cliente_id'  => $despegue->cliente_id]);
+
+
+		$factura->fill(['aeropuerto_id' 	  => $carga->aeropuerto_id,
+			                  	'cliente_id'  => $carga->cliente_id]);
 		
 		$factura->detalles = new Collection();
 
 		//Item de Comcepto
-		
 		$cobrarCarga       = new Facturadetalle();
 		$concepto_id       = PreciosCarga::first()->conceptoCredito_id;
 		$montoDes          = $carga->monto_total;
@@ -181,7 +186,7 @@ class CargaController extends Controller {
 		$factura->detalles->push($cobrarCarga);
 
 
-		return view('factura.edit', compact('factura', 'modulo'));
+		return view('factura.facturaAeronautica.create', compact('factura'));
 
 	}
 

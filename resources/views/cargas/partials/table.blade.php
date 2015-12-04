@@ -9,6 +9,7 @@
                     {!!Html::sortableColumnTitle("Cliente", "cliente_id")!!}
                     <th>Peso Embarcado</th>
                     <th>Peso Desembarcado</th>
+                    <th>Monto Total</th>
                     <th>Opciones</th>
                </tr>
           </thead>
@@ -20,10 +21,19 @@
                     <td class ='cliente_id-td'>{{$carga->cliente->nombre}}</td>
                     <td class ="peso_embarcado-td">{{$carga->peso_embarcado}}</td>
                     <td class ="peso_desembarcado-td">{{$carga->peso_desembarcado}}</td>
-                    <td>
-                         <button class='btn btn-info btn-sm facturarCarga-btn' data-id='{{$carga->id}}' ><i class='fa fa-credit-card' title='Facturar'></i></button>
-                         <button class='btn btn-warning btn-sm editarCarga-btn' data-id='{{$carga->id}}' ><i class='fa fa-edit' title='Editar Información'></i></button>
-                         <button class='btn btn-danger btn-sm eliminarCarga-btn' data-id='{{$carga->id}}' ><i class='fa fa-trash' title='Eliminar Registro'></i></button>
+                    <td class ="peso_desembarcado-td">{{$carga->monto_total}}</td>
+                    <td>                         
+                         @if($carga->facturado == 1)
+                        <a target="_blank" class='btn btn-default  btn-sm' href='{{action('FacturaController@getPrint')}}'>
+                              <span class='glyphicon glyphicon-print'></span>
+                        </a>
+                         @endif
+                         @if($carga->facturado == 0)
+                         <a href="{{  action('CargaController@getCrearFactura', [$carga->id])}}">
+                              <button class='btn btn-info btn-sm facturaCarga-btn'><span class='fa fa-credit-card' title='Facturar'></span></button>
+                         </a>                              <button class='btn btn-warning btn-sm editarCarga-btn' data-id='{{$carga->id}}' ><i class='fa fa-edit' title='Editar Información'></i></button>
+                         @endif
+                         <button class='btn btn-success btn-sm verCarga-btn'><span class='glyphicon glyphicon-eye-open' title='Ver Información'></span></button>
                     </td>
                </tr>   
                @endforeach

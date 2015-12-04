@@ -147,7 +147,6 @@
 								</div>
 							</div>								
 						</div>  
-
 						<!-- Cobros -->
 						<div class="box box-info">
 
@@ -369,6 +368,7 @@
 							</div> <!-- /. box-body -->
 						</div>
 					</form>
+				</div>
 				<div class="box-footer" align="right">
 					<button class="btn btn-default" type="button" id="cancel-despegue-btn">Cancelar </button>
 					<button class="btn btn-primary" type="submit" id="save-despegue-btn"> Registrar </button>
@@ -510,7 +510,7 @@ $(document).ready(function(){
 		$('#save-despegue-btn').click(function(){
 
 			var data=$('#despegue-form').serializeArray();
-			console.log(data);
+
 
 			var overlay="<div class='overlay'>\
 							<i class='fa fa-refresh fa-spin'></i>\

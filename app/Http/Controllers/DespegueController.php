@@ -1,6 +1,7 @@
 <?php namespace App\Http\Controllers;
 
 use App\Http\Requests;
+use App\Http\Requests\DespegueRequest;
 use App\Http\Controllers\Controller;
 use Illuminate\Database\Eloquent\Collection;
 
@@ -119,12 +120,13 @@ class DespegueController extends Controller {
 	 *
 	 * @return Response
 	 */
-	public function store(Request $request)
+	public function store(DespegueRequest $request)
 	{
 		$despegue                         = Despegue::create($request->except("nacionalidadVuelo_id", "piloto_id", "puerto_id", "cliente_id", "cobrar_estacionamiento", "cobrar_puenteAbordaje", "cobrar_Formulario", "cobrar_AterDesp", "cobrar_Combustible", "cobrar_servHandling", "cobrar_habilitacion"));
 		$aterrizaje                       = Aterrizaje::find($request->get("aterrizaje_id"));
 		$aterrizaje->despegue()->save($despegue);
 		$aterrizaje->update(["despego"    =>"1"]);
+
 		$despegue->cobrar_estacionamiento =$request->input('cobrar_estacionamiento', 0);
 		$despegue->cobrar_puenteAbordaje  =$request->input('cobrar_puenteAbordaje', 0);
 		$despegue->cobrar_Formulario      =$request->input('cobrar_Formulario', 0);
@@ -138,24 +140,24 @@ class DespegueController extends Controller {
 		$finOperaciones    = HorariosAeronautico::first()->operaciones_fin;
 
 		if ($hora > $inicioOperaciones && $hora < $finOperaciones){
-			$despegue->cobrar_habilitacion  = '1';
-		}else{
 			$despegue->cobrar_habilitacion  = '0';
+		}else{
+			$despegue->cobrar_habilitacion  = '1';
 		}
 
 		if($despegue)
 		{
 
-			$nacID      =$nacionalidad=NacionalidadVuelo::find($request->get("nacionalidadVuelo_id"));
-			$puertoID   =$puerto=Puerto::find($request->get("puerto_id"));
-			$pilotoID   =$piloto=Piloto::find($request->get("piloto_id"));
-			$clienteID  =$cliente=Cliente::find($request->get("cliente_id"));
-
-			$nacID=($nacID)?$nacionalidad->id:NULL;
-			$puertoID=($puertoID)?$puerto->id:NULL;
-			$pilotoID=($pilotoID)?$piloto->id:NULL;
-			$clienteID=($clienteID)?$cliente->id:NULL;
-
+			$nacID     =$nacionalidad=NacionalidadVuelo::find($request->get("nacionalidadVuelo_id"));
+			$puertoID  =$puerto=Puerto::find($request->get("puerto_id"));
+			$pilotoID  =$piloto=Piloto::find($request->get("piloto_id"));
+			$clienteID =$cliente=Cliente::find($request->get("cliente_id"));
+			
+			$nacID     =($nacID)?$nacionalidad->id:NULL;
+			$puertoID  =($puertoID)?$puerto->id:NULL;
+			$pilotoID  =($pilotoID)?$piloto->id:NULL;
+			$clienteID =($clienteID)?$cliente->id:NULL;
+			
 			$despegue->nacionalidadVuelo_id =$nacID;
 			$despegue->puerto_id            =$puertoID;
 			$despegue->piloto_id            =$pilotoID;
@@ -163,7 +165,7 @@ class DespegueController extends Controller {
 			$despegue->save();
 
 			return response()->json(array("text"   =>'Despegue registrado exitósamente',
-																		"success"=>1));
+										  "success"=>1));
 		}
 		else
 		{
@@ -223,8 +225,8 @@ class DespegueController extends Controller {
 		$modulo    = \App\Modulo::find(5)->nombre;
 		$ut        = MontosFijo::first()->unidad_tributaria;
 
-	$factura->fill(['aeropuerto_id' => $despegue->aeropuerto_id,
-			         'cliente_id'   => $despegue->cliente_id]);
+		$factura->fill(['aeropuerto_id' => $despegue->aeropuerto_id,
+				         'cliente_id'   => $despegue->cliente_id]);
 
 
 		
@@ -343,8 +345,9 @@ class DespegueController extends Controller {
 
 		//Ítem de Habilitación
 		if($despegue->cobrar_habilitacion){
-			$habilitacion = new Facturadetalle();
-			$concepto_id  = CargosVario::first()->habilitacionCredito_id;
+			$habilitacion           = new Facturadetalle();
+			$concepto_id            = CargosVario::first()->habilitacionCredito_id;
+			$eq_derechoHabilitacion = CargosVario::first()->eq_derechoHabilitacion;
 			
 			$montoDes     = $eq_derechoHabilitacion * $ut;
 			$cantidadDes  = '1';
@@ -355,6 +358,6 @@ class DespegueController extends Controller {
 			$factura->detalles->push($habilitacion);
 		}
 
-		return view('factura.facturaAeronautica.create', compact('factura'));
+		return view('factura.facturaAeronautica.create', compact('factura', 'despegue'));
 	}
 }
