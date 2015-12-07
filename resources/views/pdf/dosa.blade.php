@@ -44,7 +44,6 @@
 </table>
 <br>
 <br>
-<br>
 
 <table>
 <tr>
@@ -121,93 +120,154 @@
 <td  colspan="2">
 {{$despegue->aterrizaje->aeronave->modelo->modelo}}
 </td>
-<td colspan="2">
+<td colspan="1">
 </td>
-<td  colspan="1">
-{{$despegue->aterrizaje->aeronave->modelo->peso_aeronave}}
+<td  colspan="2">
+{{$despegue->aterrizaje->aeronave->peso}}
 </td>
 </tr>
 </table>
 
 <br>
+<br>
+
+<table>
+<tr>
+<td colspan="4" style="border-bottom: 1px solid black; border-top: 1px solid black; ">    
+</td>
+<td colspan="4" style="border-bottom: 1px solid black; border-top: 1px solid black; ">  
+<strong>INFORMACIÓN DEL VUELO</strong>   
+</td>
+<td colspan="2" style="border-bottom: 1px solid black; border-top: 1px solid black; ">    
+</td>
+</tr> 
+</table>
+<br>
 
 <table style="width:100%; border-collapse: collapse; padding:2px">
 <tr>
-<td  colspan="2">
+<td  colspan="4">
 </td>
-<td  colspan="3">
+<td  colspan="2">
 <strong>ATERRIZAJE</strong>
 </td>
-<td  colspan="2">
+<td  colspan="1">
 </td>
 <td  colspan="3">
 <strong>DESPEGUE</strong>
 </td>
 </tr>
 <tr>
-<td  colspan="5">
-<strong>PROCEDENCIA:</strong>
+<td  colspan="4">
+<strong><u>PROCEDENCIA/DESTINO</u></strong>
 </td>
-<td  colspan="5">
-<strong>DESTINO:</strong> 
+<td  colspan="2">
+{{$despegue->aterrizaje->puerto->nombre}}
+</td>
+<td colspan="1">
+</td>
+<td  colspan="3">
+{{$despegue->puerto->nombre}}
 </td>
 </tr>
 <tr>
-<td  colspan="3">
-<strong>PILOTO:</strong>
-</td>
-<td  colspan="2">
-<strong>LICENCIA:</strong>
-</td>
-<td  colspan="3">
-<strong>PILOTO:</strong> 
-</td>
-<td  colspan="2">
-<strong>LICENCIA:</strong> 
+<td colspan="10">
+<strong><u>PILOTO</u></strong>
 </td>
 </tr>
 <tr>
-<td  colspan="5">
-<strong>NRO. VUELO:</strong>
+<td colspan="1">
 </td>
-<td  colspan="5">
-<strong>NRO. VUELO:</strong> 
+<td  colspan="3">
+<strong>Nombre:</strong>
+</td>
+<td  colspan="3">
+{{$despegue->aterrizaje->piloto->nombre}}
+</td>
+<td  colspan="3">
+{{$despegue->piloto->nombre}}
 </td>
 </tr>
 <tr>
-<td  colspan="5">
-<strong>PASAJEROS</strong>
+<td colspan="1">
 </td>
-<td  colspan="5">
-<strong>PASAJEROS</strong>
+<td  colspan="3">
+<strong>Licencia:</strong>
+</td>
+<td  colspan="3">
+{{$despegue->aterrizaje->piloto->licencia}}
+</td>
+<td  colspan="3">
+{{$despegue->piloto->licencia}}
 </td>
 </tr>
 <tr>
-<td  colspan="3">
-<strong>Embarcados:</strong> 
+<td  colspan="4">
+<strong><u>NRO. VUELO</u></strong>
 </td>
 <td  colspan="2">
-<strong>En Tránsito:</strong>
+{{$despegue->aterrizaje->num_vuelo}}
+</td>
+<td colspan="1">
 </td>
 <td  colspan="3">
-<strong>Embarcados:</strong> 
-</td>
-<td  colspan="2">
-<strong>En Tránsito:</strong> 
+{{$despegue->num_vuelo}}
 </td>
 </tr>
 <tr>
+<td colspan="10">
+<strong><u>PASAJEROS</u></strong>
+</td>
+</tr>
+<tr>
+<td colspan="1">
+</td>
 <td  colspan="3">
-<strong>FECHA:</strong>
+<strong>Embarcados/Desembarcados</strong>
+</td>
+<td  colspan="3">
+{{$despegue->aterrizaje->desembarqueAdultos+$despegue->aterrizaje->desembarqueInfante+$despegue->aterrizaje->desembarqueTercera}}
+</td>
+<td  colspan="3">
+{{$despegue->embarqueAdultos+$despegue->embarqueInfante+$despegue->embarqueTercera}}
+</td>
+</tr>
+<tr>
+<td colspan="1">
+</td>
+<td  colspan="3">
+<strong>En tránsito:</strong>
+</td>
+<td  colspan="3">
+{{$despegue->aterrizaje->desembarqueTransito}}
+</td>
+<td  colspan="3">
+{{$despegue->transitoAdultos+$despegue->transitoInfante+$despegue->transitoTercera}}</td>
+</tr>
+<tr>
+<td  colspan="4">
+<strong><u>FECHA</u></strong>
 </td>
 <td  colspan="2">
-<strong>HORA:</strong> 
+{{$despegue->aterrizaje->fecha}}
+</td>
+<td colspan="1">
 </td>
 <td  colspan="3">
-<strong>FECHA:</strong> 
+{{$despegue->fecha}}
+</td>
+</tr>
+<tr>
+<td  colspan="4">
+<strong><u>HORA</u></strong>
 </td>
 <td  colspan="2">
-<strong>HORA:</strong>
+{{$despegue->aterrizaje->hora}}
+</td>
+<td colspan="1">
+</td>
+<td  colspan="3">
+{{$despegue->hora}}
 </td>
 </tr>
 </table>
@@ -237,7 +297,7 @@
 </tr>
 @endforeach
 <tr> <td colspan="10">
-@for($i=0; $i<20-$factura->detalles->count();$i++)
+@for($i=0; $i<10-$factura->detalles->count();$i++)
 <br>
 @endfor
 </td></tr>

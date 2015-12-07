@@ -30,7 +30,7 @@ class CreateFacturasTable extends Migration {
             $table->float('iva')->unsigned();
             $table->float('recargoTotal')->unsigned();
             $table->float('total')->unsigned();
-            $table->integer('nroDosa')->unsigned();
+            $table->integer('nroDosa')->nulleable();
             $table->text('descripcion');
             $table->text('comentario');
             $table->char("estado",1);

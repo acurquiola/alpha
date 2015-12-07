@@ -186,7 +186,7 @@ class CargaController extends Controller {
 		$factura->detalles->push($cobrarCarga);
 
 
-		return view('factura.facturaAeronautica.create', compact('factura'));
+		return view('factura.facturaAeronautica.create', compact('factura'))->with(['carga_id'=>$carga->id]);
 
 	}
 

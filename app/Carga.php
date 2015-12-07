@@ -37,6 +37,10 @@ class Carga extends Model {
     {
         return $this->belongsTo('App\Aeropuerto');
     }
+        public function factura()
+    {
+        return $this->belongsTo('App\Factura');
+    }
 
 
 

@@ -181,6 +181,11 @@ class FacturaController extends Controller {
             $despegue->factura_id = $factura->id;
             $despegue->save();
         }
+        if($request->has('cargo_id')){
+            $carga = \App\Carga::find($request->get('cargo_id'));
+            $carga->factura_id = $factura->id;
+            $carga->save();
+        }
         return ["success"    => 1];
 
 	}

@@ -29,7 +29,9 @@ class CreateCargasTable extends Migration {
 			$table->float('monto_total');	
 			$table->integer('precio_carga')->unsigned();
 			$table->foreign('precio_carga')->references('id')->on('precios_cargas');	
-			$table->integer('facturado')->default(0);			
+			$table->integer('facturado')->default(0);		
+			$table->integer('factura_id')->unsigned();
+			$table->foreign('factura_id')->references('id')->on('facturas');	
 			$table->timestamps();
 	
 		});
