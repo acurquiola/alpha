@@ -12,9 +12,6 @@
             <div class="pull-left" style="margin-top: 10px;" >
                 <img src="{{asset('/imgs/gobernacion.png')}}"  width="200px"/>
             </div>
-            <div class="pull-right" style="margin-top: 30px;" >
-                <img src="{{asset('/imgs/logos.png')}}" width= "350px" />
-            </div>
         </small>
     </div>
     <div class="container">
@@ -65,5 +62,11 @@
                 </div>
             </div>
         </div>
+    </div>
+    <div class="col-md-4" style="margin-top: 180px;">
+        <h5 class="pull right"><strong>Sistema de Control de Recaudación y Operaciones Aeronáuticas</strong></h5>
+    </div>
+    <div class="pull-right" style="margin-top: 180px;" >
+        <img src="{{asset('/imgs/logos.png')}}" width= "350px" />
     </div>
 </body>
