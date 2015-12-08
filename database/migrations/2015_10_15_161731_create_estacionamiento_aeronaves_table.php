@@ -16,10 +16,10 @@ class CreateEstacionamientoAeronavesTable extends Migration {
 		{
 			$table->increments('id');
 			$table->integer('tiempoLibreInt');
-			$table->float('eq_bloqueInt');
+			$table->float('eq_bloqueInt', 7, 5);
 			$table->integer('minBloqueInt');
 			$table->integer('tiempoLibreNac');
-			$table->float('eq_bloqueNac');
+			$table->float('eq_bloqueNac', 7, 5 );
 			$table->integer('minBloqueNac');
 			$table->integer('conceptoCredito_id')->unsigned();
 			$table->foreign('conceptoCredito_id')->references('id')->on('conceptos');

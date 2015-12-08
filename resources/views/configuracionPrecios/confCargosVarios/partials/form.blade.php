@@ -28,13 +28,13 @@
 				</div><!-- /.input group -->
 			</div><!-- /.form group -->		
 			<div class="form-group" >
-				<label>Concepto Contado: </label><br/>
+				<label>Concepto Crédito:  </label><br/>
 
 				{!! Form::select('formularioCredito_id',	$conceptos, null, [ 'class'=>"form-control"]) !!}
 			</div>	
 
 			<div class="form-group" >
-				<label>Concepto Crédito: </label><br/>
+				<label>Concepto Contado: </label><br/>
 
 				{!! Form::select('formularioContado_id',	$conceptos, null, [ 'class'=>"form-control"]) !!}
 			</div>					
@@ -70,13 +70,13 @@
 				</div><!-- /.input group -->
 			</div><!-- /.form group -->	
 			<div class="form-group" >
-				<label>Concepto Contado: </label><br/>
+				<label>Concepto Crédito:  </label><br/>
 
 				{!! Form::select('habilitacionCredito_id',	$conceptos, null, [ 'class'=>"form-control"]) !!}
 			</div>	
 
 			<div class="form-group" >
-				<label>Concepto Crédito: </label><br/>
+				<label>Concepto Contado: </label><br/>
 
 				{!! Form::select('habilitacionContado_id',	$conceptos, null, [ 'class'=>"form-control"]) !!}
 			</div>					
@@ -133,13 +133,13 @@
 				</div><!-- /.input group -->
 			</div><!-- /.form group -->
 			<div class="form-group" >
-				<label>Concepto Contado: </label><br/>
+				<label>Concepto Crédito:  </label><br/>
 
 				{!! Form::select('abordajeCredito_id',	$conceptos, null, [ 'class'=>"form-control"]) !!}
 			</div>	
 
 			<div class="form-group" >
-				<label>Concepto Crédito: </label><br/>
+				<label>Concepto Contado: </label><br/>
 
 				{!! Form::select('abordajeContado_id',	$conceptos, null, [ 'class'=>"form-control"]) !!}
 			</div>								

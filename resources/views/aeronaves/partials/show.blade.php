@@ -5,7 +5,7 @@
                 <h3 class="box-title">Información de Aeronave</h3>
             </div>
             {!! Form::model($aeronave, [ "class" => "form-horizontal"]) !!}
-                @include('aeronave.partials.form', ["disabled" =>"disabled"])
+                @include('aeronaves.partials.form', ["disabled" =>"disabled"])
             {!! Form::close() !!}
         </div>
     </div>

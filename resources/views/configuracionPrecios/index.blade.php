@@ -150,9 +150,9 @@ $(document).ready(function(){
 		var eq_bN =$('body #tab_2 .eq_bloqueNac').val();
 
 		var val_precioInt= eq_bI*ut;
-		$('body #tab_2 #precioBloqueInt-input').val(val_precioInt);
+		$('body #tab_2 #precioBloqueInt-input').val(val_precioInt.toFixed(4));
 		var val_precioNac= eq_bN*ut;
-		$('body #tab_2 #precioBloqueNac-input').val(val_precioNac);
+		$('body #tab_2 #precioBloqueNac-input').val(val_precioNac.toFixed(4));
 	});
 
 	$( "body #tab_2 input" ).keyup(function( event ) {	
@@ -161,9 +161,9 @@ $(document).ready(function(){
 		var eq_bN =$('body #tab_2 .eq_bloqueNac').val();
 
 		var val_precioInt= eq_bI*ut;
-		$('body #tab_2 #precioBloqueInt-input').val(val_precioInt);
+		$('body #tab_2 #precioBloqueInt-input').val(val_precioInt.toFixed(4));
 		var val_precioNac= eq_bN*ut;
-		$('body #tab_2 #precioBloqueNac-input').val(val_precioNac);
+		$('body #tab_2 #precioBloqueNac-input').val(val_precioNac.toFixed(4));
 	});
 
 

@@ -31,6 +31,16 @@ class Factura extends Model {
         return $this->belongsTo('App\Aeropuerto');
     }
 
+    public function despegue()
+    {
+        return $this->hasOne('App\Despegue');
+    }
+
+    public function carga()
+    {
+        return $this->hasOne('App\Carga');
+    }
+
     public function getSubtotalNetoAttribute($value){
         return number_format($value,2);
     }
