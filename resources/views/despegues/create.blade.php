@@ -159,6 +159,17 @@
 							</div>		
 											
 							<div class="box-body" >
+									
+								<div class="col-md-12" style="margin-bottom: 20px">
+									<div class="form-inline" >
+										<label style="margin-right: 20px"><strong>Condición de pago</strong></label>
+										<select name="condicionPago" id="condicionPago-select" class="form-control">
+											<option value=""><-- Seleccione --></option>
+											<option value="1"> Contado</option>
+											<option value="2"> Crédito</option>
+										</select>
+									</div><!-- /.form group -->
+								</div><!-- /.form group -->
 								<!-- Estacionamiento -->
 								<div class="col-sm-3" >
 									<label>
@@ -177,6 +188,8 @@
 												</div>
 											</div><!-- /.input group -->
 										</div><!-- /.form group -->
+
+
 									</div><!--/. box-body -->
 								</div><!--/. col -->
 

@@ -23,12 +23,12 @@
                     <td class ="peso_desembarcado-td">{{$carga->peso_desembarcado}}</td>
                     <td class ="peso_desembarcado-td">{{$carga->monto_total}}</td>
                     <td>                         
-                         @if($carga->facturado == 1)
-                        <a target="_blank" class='btn btn-default  btn-sm' href='{{action('FacturaController@getPrint')}}'>
+                         @if($carga->factura_id != NULL)
+                        <a target="_blank" class='btn btn-default  btn-sm' href='{{action('FacturaController@getPrint', ["modulo"=>"CARGA", $carga->factura_id])}}'>
                               <span class='glyphicon glyphicon-print'></span>
                         </a>
                          @endif
-                         @if($carga->facturado == 0)
+                         @if($carga->factura_id == NULL)
                          <a href="{{  action('CargaController@getCrearFactura', [$carga->id])}}">
                               <button class='btn btn-info btn-sm facturaCarga-btn'><span class='fa fa-credit-card' title='Facturar'></span></button>
                          </a>                              <button class='btn btn-warning btn-sm editarCarga-btn' data-id='{{$carga->id}}' ><i class='fa fa-edit' title='Editar Información'></i></button>

@@ -76,7 +76,7 @@
 										<div class="input-group-addon">
 											<i class="fa fa-diamond"></i>
 										</div>                                                                            
-										<select name="cliente_id" class="form-control cliente" style="width: 500px">
+										<select name="cliente_id" id="cliente_id" class="form-control cliente" style="width: 500px">
 											<option value="">--Seleccione Cliente--</option>
 											@foreach ($clientes as $index=>$cliente)
 											<option value="{{$index}}"> {{$cliente}}</option>
@@ -91,7 +91,7 @@
 										<div class="input-group-addon">
 											<i class="fa fa-map-marker"></i>
 										</div>									
-										<select name="puerto_id" class="form-control puerto">
+										<select name="puerto_id" id="puerto_id" class="form-control puerto">
 											<option value="">--Seleccione Procedencia--</option>
 											@foreach ($puertos as $puerto)
 											<option  data-nacionalidad="{{$puerto->pais_id}}" value="{{$puerto->id}}"> {{$puerto->nombre}}</option>
@@ -104,7 +104,7 @@
 										<div class="input-group-addon">
 											<i class="fa fa-user"></i>
 										</div>									                                    
-										<select name="piloto_id" class="form-control piloto">
+										<select name="piloto_id" id="piloto_id" class="form-control piloto">
 											<option value="">--Seleccione Piloto--</option>
 											@foreach ($pilotos as $piloto)
 											<option data-ci="{{$piloto->documento_identidad}}" value="{{$piloto->id}}"> {{$piloto->nombre}}</option>
@@ -248,6 +248,9 @@ function camposVacios() {
 }
 
 $(document).ready(function(){
+
+		$('#aeronave_id, #puerto_id').chosen({width:'200px'});
+		$('#piloto_id').chosen({width:'300px'});
 
     /* 
 		Condiciones en los campos de los formularios

@@ -164,7 +164,7 @@ class CargaController extends Controller {
 		//Información general de la factura a crear.
 		$carga   = Carga::find($id);
 		$factura = new Factura();
-		$modulo  = \App\Modulo::find(5)->nombre;
+		$modulo  = \App\Modulo::find(6)->nombre;
 		$ut      = MontosFijo::first()->unidad_tributaria;
 
 
@@ -186,7 +186,7 @@ class CargaController extends Controller {
 		$factura->detalles->push($cobrarCarga);
 
 
-		return view('factura.facturaAeronautica.create', compact('factura'))->with(['carga_id'=>$carga->id]);
+		return view('factura.facturaCarga.create', compact('factura'))->with(['carga_id'=>$carga->id]);
 
 	}
 

@@ -50,6 +50,7 @@ class CreateDespeguesTable extends Migration {
 			$table->integer('cobrar_habilitacion')->default(0);
 			$table->integer('aterrizaje_id')->unsigned();
 			$table->foreign('aterrizaje_id')->references('id')->on('aterrizajes');
+			$table->integer('condicionPago')->nullable();
 			$table->integer('factura_id')->unsigned();
 			$table->foreign('factura_id')->references('id')->on('facturas');
 			$table->integer('facturado')->default(0);

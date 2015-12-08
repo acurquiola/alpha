@@ -114,15 +114,14 @@ class AeronaveController extends Controller {
 
 		if($aeronave)
 		{
-
+			
 			$clienteID =$cliente=Cliente::find($request->get("cliente_id"));
-			$hangarId  =$hangar=Hangar::find($request->get("hangar_id"));
-
-			if($hangar & $cliente){
-				$hangarId  =$hangar->id;
-				$clienteID =$cliente->id;
-			}
-			$aeronave->hangar_id    =$hangarId;
+			$hangarID  =$hangar=Hangar::find($request->get("hangar_id"));
+			
+			$clienteID =($clienteID)?$cliente->id:NULL;
+			$hangarID  =($hangarID)?$hangar->id:NULL;
+			
+			$aeronave->hangar_id  =$hangarID;
 			$aeronave->cliente_id =$clienteID;
 
 			$aeronave->save();
@@ -174,10 +173,20 @@ class AeronaveController extends Controller {
 	public function update($id, AeronaveRequest $request)
 	{
 		$aeronave = Aeronave::find($id);
-		$aeronave->update($request->all());
+		$aeronave->update($request->except("hangar_id", "cliente_id"));
 
 		if($aeronave)
 		{
+			$clienteID =$cliente=Cliente::find($request->get("cliente_id"));
+			$hangarID  =$hangar=Hangar::find($request->get("hangar_id"));
+			
+			$clienteID =($clienteID)?$cliente->id:NULL;
+			$hangarID  =($hangarID)?$hangar->id:NULL;
+			
+			$aeronave->hangar_id  =$hangarID;
+			$aeronave->cliente_id =$clienteID;
+
+			$aeronave->save();
 			return response()->json(array("text"=>'Aeronave registrado exitósamente',
 										  "aeronave"=>$aeronave->load("modelo", "tipo", "hangar", "cliente", "nacionalidad"),
 										  "success"=>1));

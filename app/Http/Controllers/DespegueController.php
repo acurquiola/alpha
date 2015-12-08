@@ -224,6 +224,7 @@ class DespegueController extends Controller {
 		$factura   = new Factura();
 		$modulo    = \App\Modulo::find(5)->nombre;
 		$ut        = MontosFijo::first()->unidad_tributaria;
+		$condicionPago = $despegue->condicionPago;
 
 		$factura->fill(['aeropuerto_id' => $despegue->aeropuerto_id,
 				         'cliente_id'   => $despegue->cliente_id]);
@@ -236,13 +237,20 @@ class DespegueController extends Controller {
 		if($despegue->cobrar_Formulario == '1'){
 			$formulario        = new Facturadetalle();
 			$eq_formulario     = CargosVario::first()->eq_formulario;
-			$concepto_id       = CargosVario::first()->formularioCredito_id;
+			switch ($condicionPago) {
+			    case 1:
+			        $concepto_id  = CargosVario::first()->formularioContado_id;
+			        break;
+			    case 2:
+			        $concepto_id  = CargosVario::first()->formularioCredito_id;
+			        break;
+			}
 			$montoDes          = $eq_formulario * $ut;
 			$cantidadDes       = '1';
 			$iva               = Concepto::find($concepto_id)->iva;
 			$montoIva          = ($iva * $montoDes)/100 ;
 			$totalDes          = $montoDes + $montoIva;
-			$formulario->fill(compact('concepto_id', 'montoDes', 'cantidadDes', 'iva', 'totalDes'));
+			$formulario->fill(compact('concepto_id', 'condicionPago', 'montoDes', 'cantidadDes', 'iva', 'totalDes'));
 			$factura->detalles->push($formulario);
 		}
 
@@ -250,7 +258,17 @@ class DespegueController extends Controller {
 		if($despegue->cobrar_estacionamiento == '1'){
 			$estacionamiento = new Facturadetalle();
 			$nacionalidad    = $despegue->nacionalidadVuelo_id;
-			$concepto_id     = EstacionamientoAeronave::first()->conceptoCredito_id;
+			$peso_aeronave   = $despegue->aterrizaje->aeronave->peso;
+
+			switch ($condicionPago) {
+			    case 1:
+			        $concepto_id     = EstacionamientoAeronave::first()->conceptoContado_id;
+			        break;
+			    case 2:
+			        $concepto_id     = EstacionamientoAeronave::first()->conceptoCredito_id;
+			        break;
+			}
+
 			switch ($nacionalidad) {
 			    case 1:
 			        $minutosLibre  = EstacionamientoAeronave::first()->tiempoLibreNac;
@@ -267,24 +285,33 @@ class DespegueController extends Controller {
 			$tiempo_estacionamiento = $despegue->tiempo_estacionamiento;
 			$tiempoAFacturar        = ($tiempo_estacionamiento - $minutosLibre)/$minutosBloque;
 			$equivalente            = ($eq_bloque * $ut);
-			$montoDes               = $equivalente * $tiempoAFacturar;
+			$montoDes               = $equivalente * $tiempoAFacturar * $peso_aeronave/1000;
 			$cantidadDes            = '1';
 			$iva                    = Concepto::find($concepto_id)->iva;
 			$montoIva               = ($iva * $montoDes)/100 ;
 			$totalDes               = $montoDes + $montoIva;
-			$estacionamiento->fill(compact('concepto_id', 'montoDes', 'cantidadDes', 'iva', 'totalDes'));
+			$estacionamiento->fill(compact('concepto_id', 'condicionPago',  'montoDes', 'cantidadDes', 'iva', 'totalDes'));
 			$factura->detalles->push($estacionamiento);
 		}
 
 		//Ítem de Aterrizaje y Despegue
 		if($despegue->cobrar_AterDesp == '1'){
 			$aterrizajeDespegue = new Facturadetalle();
-			$nacionalidad    = $despegue->nacionalidadVuelo_id;
-			$concepto_id     = PreciosAterrizajesDespegue::first()->conceptoCredito_id;
+			$nacionalidad       = $despegue->nacionalidadVuelo_id;
+			$hora               = $despegue->aterrizaje->hora;
+			$salidaSol          = HorariosAeronautico::first()->sol_salida;
+			$puestaSol          = HorariosAeronautico::first()->sol_puesta;
+			$peso_aeronave      = $despegue->aterrizaje->aeronave->peso;
 
-			$hora      = $despegue->aterrizaje->hora;
-			$salidaSol = HorariosAeronautico::first()->sol_salida;
-			$puestaSol = HorariosAeronautico::first()->sol_puesta;
+			switch ($condicionPago) {
+			    case 1:
+			        $concepto_id     = PreciosAterrizajesDespegue::first()->conceptoContado_id;
+			        break;
+			    case 2:
+			        $concepto_id     = PreciosAterrizajesDespegue::first()->conceptoCredito_id;
+			        break;
+			}
+
 
 			if ($hora > $salidaSol && $hora < $puestaSol){
 				switch ($nacionalidad) {
@@ -307,29 +334,38 @@ class DespegueController extends Controller {
 
 			}
 
-			$montoDes          = $eq_aterDesp * $ut;
+			$montoDes          = $eq_aterDesp * $ut * $peso_aeronave/1000;
 			$cantidadDes       = '1';
 			$iva               = Concepto::find($concepto_id)->iva;
 			$montoIva          = ($iva * $montoDes)/100 ;
 			$totalDes          = $montoDes + $montoIva;
-			$aterrizajeDespegue->fill(compact('concepto_id', 'montoDes', 'cantidadDes', 'iva', 'totalDes'));
+			$aterrizajeDespegue->fill(compact('concepto_id', 'condicionPago',  'montoDes', 'cantidadDes', 'iva', 'totalDes'));
 			$factura->detalles->push($aterrizajeDespegue);
 		}
 		
 		//Ítem de Puentes de Abordaje.
 		if($despegue->cobrar_puenteAbordaje == '1'){
-			$puenteAbordaje    = new Facturadetalle();
-			$concepto_id       = CargosVario::first()->abordajeCredito_id;
-			
-			$hora = $despegue->aterrizaje->hora;
+			$puenteAbordaje    = new Facturadetalle();		
+			$hora              = $despegue->aterrizaje->hora;
 			$inicioOperaciones = HorariosAeronautico::first()->operaciones_inicio;
 			$finOperaciones    = HorariosAeronautico::first()->operaciones_fin;
+
+
+			switch ($condicionPago) {
+			    case 1:
+			        $concepto_id     = CargosVario::first()->abordajeContado_id;
+			        break;
+			    case 2:
+			        $concepto_id     = CargosVario::first()->abordajeCredito_id;
+			        break;
+			}
 
 			if ($hora > $inicioOperaciones && $hora < $finOperaciones){
 				$eq_puenteAbordaje = CargosVario::first()->eq_usoAbordajeSinHab;
 			}else{
 				$eq_puenteAbordaje = CargosVario::first()->eq_usoAbordajeConHab;
 			}
+
 
 			$tiempoUsoPuenteAbordaje = $despegue->tiempo_puenteAbord;
 			$equivalente = $eq_puenteAbordaje * $ut;
@@ -338,7 +374,7 @@ class DespegueController extends Controller {
 			$iva               = Concepto::find($concepto_id)->iva;
 			$montoIva          = ($iva * $montoDes)/100 ;
 			$totalDes          = $montoDes + $montoIva;
-			$puenteAbordaje->fill(compact('concepto_id', 'montoDes', 'cantidadDes', 'iva', 'totalDes'));
+			$puenteAbordaje->fill(compact('concepto_id', 'condicionPago',  'montoDes', 'cantidadDes', 'iva', 'totalDes'));
 			$factura->detalles->push($puenteAbordaje);
 
 		}
@@ -346,15 +382,25 @@ class DespegueController extends Controller {
 		//Ítem de Habilitación
 		if($despegue->cobrar_habilitacion){
 			$habilitacion           = new Facturadetalle();
-			$concepto_id            = CargosVario::first()->habilitacionCredito_id;
 			$eq_derechoHabilitacion = CargosVario::first()->eq_derechoHabilitacion;
+
+
+			switch ($condicionPago) {
+			    case 1:
+					$concepto_id            = CargosVario::first()->habilitacionContado_id;
+			        break;
+			    case 2:
+					$concepto_id            = CargosVario::first()->habilitacionCredito_id;
+			        break;
+			}
+
 			
 			$montoDes     = $eq_derechoHabilitacion * $ut;
 			$cantidadDes  = '1';
 			$iva          = Concepto::find($concepto_id)->iva;
 			$montoIva     = ($iva * $montoDes)/100 ;
 			$totalDes     = $montoDes + $montoIva;
-			$habilitacion->fill(compact('concepto_id', 'montoDes', 'cantidadDes', 'iva', 'totalDes'));
+			$habilitacion->fill(compact('concepto_id', 'condicionPago', 'montoDes', 'cantidadDes', 'iva', 'totalDes'));
 			$factura->detalles->push($habilitacion);
 		}
 

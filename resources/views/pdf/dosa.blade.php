@@ -17,13 +17,14 @@
 <td  colspan="7">
 </td>
 <td  colspan="3">
-<strong>CONDICIÓN DE PAGO:</strong> {{$factura->condicionPago}}</td>
+<strong>CONDICIÓN DE PAGO:</strong> {{$factura->condicionPago}}
+</td>
 </tr>
 <tr>
 <td  colspan="7">
 </td>
 <td  colspan="3">
-<strong>NRO. DOSA:</strong> 
+<strong>NRO. DOSA:</strong> {{$factura->nroDosa}}
 </td>
 </tr>
 </table>

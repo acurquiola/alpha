@@ -25,10 +25,14 @@
 	<div class="col-xs-3">
 		{!! Form::text('fecha', null, [ 'class'=>"form-control", $disabled, "id" =>"fecha"] ) !!}
 	</div>
-	@if(!isset($bloqueoDosa))
+
+	@if(!isset($bloqueoDosa) || isset($facturaCarga))
 	<label for="inputEmail3" class="col-xs-1  control-label"><strong>Fecha Venc.<span class="text-danger">*</span> </strong></label>
 	<div class="col-xs-3">
 		{!! Form::text('fechaVencimiento', null, [ 'class'=>"form-control", $disabled, "id" =>"fechaVencimiento"]) !!}
+		@if(isset($facturaCarga))
+					{!! Form::hidden('carga_id', $carga_id) !!}
+		@endif
 	</div>
 	@else
 	<label for="inputEmail3" class="col-xs-1  control-label"><strong>Nro. Dosa<span class="text-danger">*</span> </strong></label>

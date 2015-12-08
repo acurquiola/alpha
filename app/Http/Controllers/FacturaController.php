@@ -169,7 +169,6 @@ class FacturaController extends Controller {
 	 */
 	public function store(FacturaRequest $request)
 	{
-
         $facturaData         =$this->getFacturaDataFromRequest($request);
         $facturaDetallesData =$this->getFacturaDetallesDataFromRequest($request);
         if ($request->has('nroDosa'))
@@ -181,8 +180,8 @@ class FacturaController extends Controller {
             $despegue->factura_id = $factura->id;
             $despegue->save();
         }
-        if($request->has('cargo_id')){
-            $carga = \App\Carga::find($request->get('cargo_id'));
+        if($request->has('carga_id')){
+            $carga = \App\Carga::find($request->get('carga_id'));
             $carga->factura_id = $factura->id;
             $carga->save();
         }
