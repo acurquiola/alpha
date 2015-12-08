@@ -31,7 +31,8 @@
                          @if($carga->factura_id == NULL)
                          <a href="{{  action('CargaController@getCrearFactura', [$carga->id])}}">
                               <button class='btn btn-info btn-sm facturaCarga-btn'><span class='fa fa-credit-card' title='Facturar'></span></button>
-                         </a>                              <button class='btn btn-warning btn-sm editarCarga-btn' data-id='{{$carga->id}}' ><i class='fa fa-edit' title='Editar Información'></i></button>
+                         </a>                              
+                         <button class='btn btn-warning btn-sm editarCarga-btn' data-id='{{$carga->id}}' ><i class='fa fa-edit' title='Editar Información'></i></button>
                          @endif
                          <button class='btn btn-success btn-sm verCarga-btn'><span class='glyphicon glyphicon-eye-open' title='Ver Información'></span></button>
                     </td>

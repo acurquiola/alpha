@@ -165,8 +165,8 @@
 										<label style="margin-right: 20px"><strong>Condición de pago</strong></label>
 										<select name="condicionPago" id="condicionPago-select" class="form-control">
 											<option value=""><-- Seleccione --></option>
-											<option value="1"> Contado</option>
-											<option value="2"> Crédito</option>
+											<option value="Contado"> Contado</option>
+											<option value="Crédito"> Crédito</option>
 										</select>
 									</div><!-- /.form group -->
 								</div><!-- /.form group -->

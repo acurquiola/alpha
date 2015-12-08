@@ -2,6 +2,7 @@
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use Illuminate\Database\Eloquent\Collection;
 
 use Illuminate\Http\Request;
 
@@ -120,4 +121,11 @@ class ReporteController extends Controller {
         return view('reportes.reporterFacturadoCobradoMensual', compact('montosMeses', 'anno', 'aeropuerto'));
     }
 
+    public function getReporteDES900(Request $request){
+        $mes        =$request->get('mes', \Carbon\Carbon::now()->month);
+        $anno       =$request->get('anno',  \Carbon\Carbon::now()->year);
+        $aeropuerto =$request->get('aeropuerto',  0);
+        $despegues = \App\Despegue::with("factura", "aterrizaje")->where('fecha', 'LIKE', '%-'.$mes.'-%')->get();;
+        return view('reportes.reporteDES900', compact('mes', 'anno', 'aeropuerto', 'despegues'));
+    }
 }

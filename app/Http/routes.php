@@ -116,6 +116,7 @@ Route::group(['prefix' => 'reporte/'], function () {
     Route::get('mensual', 'ReporteController@getReporteMensual');
     Route::get('reporteModuloMetaMensual', 'ReporteController@getReporteModuloMetaMensual');
     Route::get('reporterFacturadoCobradoMensual', 'ReporteController@getReporterFacturadoCobradoMensual');
+    Route::get('reporterDES900', 'ReporteController@getReporteDES900');
 
 });
 

@@ -162,12 +162,12 @@ class CargaController extends Controller {
     public function getCrearFactura($id)
 	{
 		//Información general de la factura a crear.
+
 		$carga   = Carga::find($id);
 		$factura = new Factura();
 		$modulo  = \App\Modulo::find(6)->nombre;
 		$ut      = MontosFijo::first()->unidad_tributaria;
-
-
+		$condicionPago = $carga->condicionPago;
 
 		$factura->fill(['aeropuerto_id' 	  => $carga->aeropuerto_id,
 			                  	'cliente_id'  => $carga->cliente_id]);
@@ -176,7 +176,15 @@ class CargaController extends Controller {
 
 		//Item de Comcepto
 		$cobrarCarga       = new Facturadetalle();
-		$concepto_id       = PreciosCarga::first()->conceptoCredito_id;
+
+		switch ($condicionPago) {
+			    case 'Contado':
+			        $concepto_id       = PreciosCarga::first()->conceptoContado_id;
+			        break;
+			    case 'Crédito':
+							$concepto_id       = PreciosCarga::first()->conceptoCredito_id;
+			        break;
+			}
 		$montoDes          = $carga->monto_total;
 		$cantidadDes       = '1';
 		$iva               = Concepto::find($concepto_id)->iva;
@@ -186,7 +194,7 @@ class CargaController extends Controller {
 		$factura->detalles->push($cobrarCarga);
 
 
-		return view('factura.facturaCarga.create', compact('factura'))->with(['carga_id'=>$carga->id]);
+		return view('factura.facturaCarga.create', compact('factura', 'condicionPago'))->with(['carga_id'=>$carga->id]);
 
 	}
 

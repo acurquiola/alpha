@@ -8,7 +8,11 @@
 	</div>
 	<label for="condicionPago" class="col-xs-1 control-label"><strong>Cond. de pago<span class="text-danger">*</span></strong> </label>
 	<div class="col-xs-3">
+	@if(!isset($bloqueoDosa))
 		{!! Form::select('condicionPago', ["Crédito" => "Crédito", "Contado"=>"Contado"], null, [ 'class'=>"form-control", $disabled]) !!}
+	@else		
+		{!! Form::text('condicionPago', $condicionPago, [ 'class'=>"form-control", $disabled] ) !!}
+	@endif
 	</div>
 	<label for="nControl" class="col-xs-1 control-label"><strong>N° Control<span class="text-danger">*</span></strong> </label>
 	<div class="col-xs-3">

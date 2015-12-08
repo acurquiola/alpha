@@ -129,7 +129,7 @@ class DespegueController extends Controller {
 
 		$despegue->cobrar_estacionamiento =$request->input('cobrar_estacionamiento', 0);
 		$despegue->cobrar_puenteAbordaje  =$request->input('cobrar_puenteAbordaje', 0);
-		$despegue->cobrar_Formulario      =$request->input('cobrar_Formulario', 0);
+		$despegue->cobrar_Formulario      =$request->input('cobrar_Formulario', 1);
 		$despegue->cobrar_AterDesp        =$request->input('cobrar_AterDesp', 0);
 		$despegue->cobrar_AterDesp        =$request->input('cobrar_AterDesp', 0);
 		$despegue->cobrar_Combustible     =$request->input('cobrar_Combustible', 0);
@@ -218,6 +218,7 @@ class DespegueController extends Controller {
 	}
 
 	public function getCrearFactura($id)
+
 	{
 		//Información general de la factura a crear.
 		$despegue  = Despegue::find($id);
@@ -238,10 +239,10 @@ class DespegueController extends Controller {
 			$formulario        = new Facturadetalle();
 			$eq_formulario     = CargosVario::first()->eq_formulario;
 			switch ($condicionPago) {
-			    case 1:
+			    case 'Contado':
 			        $concepto_id  = CargosVario::first()->formularioContado_id;
 			        break;
-			    case 2:
+			    case 'Crédito':
 			        $concepto_id  = CargosVario::first()->formularioCredito_id;
 			        break;
 			}
@@ -261,10 +262,10 @@ class DespegueController extends Controller {
 			$peso_aeronave   = $despegue->aterrizaje->aeronave->peso;
 
 			switch ($condicionPago) {
-			    case 1:
+			    case 'Contado':
 			        $concepto_id     = EstacionamientoAeronave::first()->conceptoContado_id;
 			        break;
-			    case 2:
+			    case 'Crédito':
 			        $concepto_id     = EstacionamientoAeronave::first()->conceptoCredito_id;
 			        break;
 			}
@@ -304,10 +305,10 @@ class DespegueController extends Controller {
 			$peso_aeronave      = $despegue->aterrizaje->aeronave->peso;
 
 			switch ($condicionPago) {
-			    case 1:
+			    case 'Contado':
 			        $concepto_id     = PreciosAterrizajesDespegue::first()->conceptoContado_id;
 			        break;
-			    case 2:
+			    case 'Crédito':
 			        $concepto_id     = PreciosAterrizajesDespegue::first()->conceptoCredito_id;
 			        break;
 			}
@@ -352,10 +353,10 @@ class DespegueController extends Controller {
 
 
 			switch ($condicionPago) {
-			    case 1:
+			    case 'Contado':
 			        $concepto_id     = CargosVario::first()->abordajeContado_id;
 			        break;
-			    case 2:
+			    case 'Crédito':
 			        $concepto_id     = CargosVario::first()->abordajeCredito_id;
 			        break;
 			}
@@ -386,10 +387,10 @@ class DespegueController extends Controller {
 
 
 			switch ($condicionPago) {
-			    case 1:
+			    case 'Contado':
 					$concepto_id            = CargosVario::first()->habilitacionContado_id;
 			        break;
-			    case 2:
+			    case 'Crédito':
 					$concepto_id            = CargosVario::first()->habilitacionCredito_id;
 			        break;
 			}
@@ -404,6 +405,6 @@ class DespegueController extends Controller {
 			$factura->detalles->push($habilitacion);
 		}
 
-		return view('factura.facturaAeronautica.create', compact('factura'))->with(['despegue_id'=>$despegue->id]);
+		return view('factura.facturaAeronautica.create', compact('factura', 'condicionPago'))->with(['despegue_id'=>$despegue->id]);
 	}
 }

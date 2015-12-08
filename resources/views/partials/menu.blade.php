@@ -210,6 +210,7 @@
                   <li><a href="{{action('ReporteController@getReporteMensual')}}"><i class="fa fa-folder-o"></i> Recaudación consolidada</a></li>
                   <li><a href="{{action('ReporteController@getReporteModuloMetaMensual')}}"><i class="fa fa-folder-o"></i> Libro de ventas</a></li>
                   <li><a href="{{action('ReporteController@getReporterFacturadoCobradoMensual')}}"><i class="fa fa-folder-o"></i> Relación cuentas por cobrar</a></li>
+                  <li><a href="{{action('ReporteController@getReporteDES900')}}"><i class="fa fa-folder-o"></i> DES 900</a></li>
                   <li><a href="#"><i class="fa fa-folder-o"></i> Relación facturado/cobrado</a></li>
                   <li><a href="#"><i class="fa fa-folder-o"></i> Relación de contratos</a></li>
                                     <li><a href="#"><i class="fa fa-folder-o"></i> Listado facturas emitidas</a></li>

@@ -243,7 +243,8 @@
 {{$despegue->aterrizaje->desembarqueTransito}}
 </td>
 <td  colspan="3">
-{{$despegue->transitoAdultos+$despegue->transitoInfante+$despegue->transitoTercera}}</td>
+{{$despegue->transitoAdultos+$despegue->transitoInfante+$despegue->transitoTercera}}
+</td>
 </tr>
 <tr>
 <td  colspan="4">
