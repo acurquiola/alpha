@@ -53,19 +53,19 @@
                          <thead  class="bg-primary">
                          <tr>
                              <th style="vertical-align: middle" class="text-center">
-                                Nº
+                                Cliente
                              </th>
                              <th style="vertical-align: middle" class="text-center">
-                                Concepto
+                                Nro Recibo
                              </th>
                              <th style="vertical-align: middle" class="text-center">
-                                Meta
+                                Fecha
                              </th>
                              <th style="vertical-align: middle" class="text-center">
-                                Recaudado
+                                Monto facturas
                              </th>
                              <th style="vertical-align: middle" class="text-center">
-                                Diferencia
+                                Monto depositado
                              </th>
                          </tr>
                          </thead>
@@ -76,7 +76,8 @@
                                 <td>{{$recibo->cobro->facturas()->first()->cliente->nombre}}</td>
                                 <td>{{$recibo->cobro->id}}</td>
                                 <td>{{$recibo->fecha}}</td>
-                                <td>{{$recibo->fecha}}</td>
+                                <td>{{$recibo->montofacturas}}</td>
+                                <td>{{$recibo->montodepositado}}</td>
                             </tr>
                         @endforeach
                         @else
