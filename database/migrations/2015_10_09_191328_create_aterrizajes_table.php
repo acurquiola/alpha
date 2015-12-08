@@ -36,7 +36,7 @@ class CreateAterrizajesTable extends Migration {
 			$table->integer('desembarqueInfante')->default(0);
 			$table->integer('desembarqueTercera')->default(0);
 			$table->integer('desembarqueTransito')->default(0);
-			$table->integer('despego')->default('0');
+			$table->integer('despego')->default(0);
 			$table->timestamps();
 		});
 

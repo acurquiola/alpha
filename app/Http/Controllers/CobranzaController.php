@@ -248,6 +248,7 @@ class CobranzaController extends Controller {
                 ->join('conceptos','conceptos.id' , '=', 'facturadetalles.concepto_id')
                 ->where('conceptos.modulo_id', "=", $modulo->id)
                 ->where('facturas.estado','=','P')
+                ->where('facturas.aeropuerto_id','=', session('aeropuerto')->id)
                 ->groupBy("facturas.id")->get();
             $modulo->facturas->load('cliente', 'metadata');
         }

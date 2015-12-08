@@ -53,6 +53,7 @@ Route::group(['prefix' => 'maestros/'], function () {
 
 Route::group(['prefix' => 'operaciones/'], function () {
     Route::get('Despegues/{id}', 'DespegueController@getCrearFactura');
+    Route::get('Cargas/{id}', 'CargaController@getCrearFactura');
     Route::group(['prefix' => '{aterrizaje}/'], function () {
         Route::resource('Despegues', 'DespegueController');
     });
@@ -84,7 +85,9 @@ Route::post('contrato/lote',"ContratoController@loteStore");
 Route::resource('contrato', 'ContratoController');
 
 
-
+Route::get('tasas/taquilla', function(){
+    return view('tasas.taquilla');
+});
 
 Route::group(['prefix' => 'administracion/'], function () {
     Route::get('usuario/estadoUser', 'UsuarioController@estadoUser');
@@ -111,6 +114,13 @@ Route::group(['prefix' => 'administracion/'], function () {
 
 });
 Route::group(['prefix' => 'reporte/'], function () {
+
     Route::get('mensual', 'ReporteController@getReporteMensual');
+    Route::get('reporteModuloMetaMensual', 'ReporteController@getReporteModuloMetaMensual');
+    Route::get('reporterFacturadoCobradoMensual', 'ReporteController@getReporterFacturadoCobradoMensual');
+
+    Route::get('reporterDES900', 'ReporteController@getReporteDES900');
+    Route::get('reporteClienteReciboMensual', 'ReporteController@getReporteClienteReciboMensual');
+
 });
 

@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 30-11-2015 a las 14:58:20
+-- Tiempo de generación: 08-12-2015 a las 14:46:12
 -- Versión del servidor: 10.0.17-MariaDB
 -- Versión de PHP: 5.6.14
 
@@ -46,7 +46,7 @@ CREATE TABLE `aeronaves` (
 INSERT INTO `aeronaves` (`id`, `matricula`, `nacionalidad_id`, `tipo_id`, `modelo_id`, `peso`, `cliente_id`, `hangar_id`, `created_at`, `updated_at`) VALUES
 (2, 'YV-1381', 246, 3, 71, '55000', 124, NULL, '2015-09-09 03:44:47', '2015-09-09 03:44:47'),
 (3, 'YV-380T', 246, 3, 71, '53000', 124, NULL, '2015-09-09 03:45:36', '2015-09-09 03:45:36'),
-(4, 'YV-390T', 246, 4, 71, '53000', 124, NULL, '2015-09-09 03:46:26', '2015-09-09 03:46:26'),
+(4, 'YV-390T', 246, 3, 71, '53000', 124, NULL, '2015-09-09 03:46:26', '2015-12-08 03:50:41'),
 (5, 'YV-137T', 246, 3, 233, '54488', 13, NULL, '2015-09-11 17:55:38', '2015-09-11 17:55:38'),
 (6, 'YV-2992', 246, 3, 362, '64000', 13, NULL, '2015-09-11 17:56:35', '2015-09-11 17:56:35'),
 (7, 'YV-505T', 246, 3, 362, '61009', 13, NULL, '2015-09-11 17:57:45', '2015-09-11 17:57:45'),
@@ -67,7 +67,7 @@ INSERT INTO `aeronaves` (`id`, `matricula`, `nacionalidad_id`, `tipo_id`, `model
 (22, 'N-429PL', 89, 1, 102, '6000', 68, 2, '2015-09-12 01:34:22', '2015-09-12 01:34:22'),
 (23, 'N-16LJ', 89, 1, 328, '10000', 130, NULL, '2015-09-12 01:36:50', '2015-09-12 01:36:50'),
 (24, 'YV-1024', 246, 2, 122, '1000', 125, 38, '2015-09-12 01:39:39', '2015-09-12 01:39:40'),
-(25, 'YV-2021', 246, 1, 440, '5680', 24, NULL, '2015-09-12 01:41:08', '2015-09-12 01:41:08'),
+(25, 'YV-2021', 246, 1, 440, '7000', 24, NULL, '2015-09-12 01:41:08', '2015-12-08 05:49:45'),
 (26, 'YV-2456', 246, 2, 313, '5000', 139, NULL, '2015-09-12 01:42:07', '2015-09-12 01:42:07'),
 (27, 'YV-2272', 246, 2, 313, '5000', 139, 28, '2015-09-12 01:42:55', '2015-09-12 01:42:55'),
 (28, 'YV-2536', 246, 2, 313, '5000', 139, 28, '2015-09-12 01:44:27', '2015-09-12 01:44:27'),
@@ -93,7 +93,8 @@ INSERT INTO `aeronaves` (`id`, `matricula`, `nacionalidad_id`, `tipo_id`, `model
 (48, 'YV-2965', 246, 3, 253, '51800', 63, NULL, '2015-09-15 02:55:00', '2015-09-15 02:55:00'),
 (49, 'YV-2966', 246, 3, 253, '51800', 63, NULL, '2015-09-15 02:55:49', '2015-09-15 02:55:49'),
 (50, 'YV-3052', 246, 3, 253, '51800', 63, NULL, '2015-09-15 02:56:27', '2015-09-15 02:56:27'),
-(51, 'YV-3071', 246, 3, 253, '51800', 63, NULL, '2015-09-15 02:56:58', '2015-09-15 02:56:58');
+(51, 'YV-3071', 246, 3, 253, '51800', 63, NULL, '2015-09-15 02:56:58', '2015-09-15 02:56:58'),
+(52, 'YV-1234', 246, 4, 327, '9752', NULL, NULL, '2015-12-08 03:52:12', '2015-12-08 03:52:12');
 
 -- --------------------------------------------------------
 
@@ -164,10 +165,12 @@ CREATE TABLE `aterrizajes` (
 --
 
 INSERT INTO `aterrizajes` (`id`, `hora`, `fecha`, `aeropuerto_id`, `aeronave_id`, `cliente_id`, `tipoMatricula_id`, `nacionalidadVuelo_id`, `piloto_id`, `num_vuelo`, `puerto_id`, `desembarqueAdultos`, `desembarqueInfante`, `desembarqueTercera`, `desembarqueTransito`, `despego`, `created_at`, `updated_at`) VALUES
-(3, '20:48:57', '2015-10-27', 1, 4, NULL, 4, NULL, NULL, 0, NULL, 0, 0, 0, 0, 1, '2015-10-28 01:19:02', '2015-11-30 08:37:17'),
-(16, '20:10:51', '2015-11-29', 1, 9, 40, 3, 2, 21, 545, 1, 0, 0, 0, 0, 1, '2015-11-30 05:11:05', '2015-11-30 08:31:57'),
-(17, '00:03:51', '2015-11-30', 1, 9, 40, 3, 2, 16, 443, 1, 23, 34, 33, 0, 1, '2015-11-30 09:04:11', '2015-11-30 09:05:01'),
-(18, '00:04:29', '2015-11-30', 1, 51, 63, 3, 2, 10, 111, 1, 12, 2, 2, 0, 1, '2015-11-30 09:04:52', '2015-11-30 09:07:51');
+(32, '21:05:00', '2015-12-03', 0, 14, 40, 3, 1, 7, 747, 3, 140, 4, 3, 3, 1, '2015-12-08 04:12:52', '2015-12-08 04:20:27'),
+(33, '00:10:00', '2015-12-03', 0, 2, 124, 3, 1, 9, 803, 4, 68, 2, 5, 0, 1, '2015-12-08 04:15:13', '2015-12-08 04:21:59'),
+(34, '18:38:00', '2015-12-03', 0, 25, 24, 1, 1, 31, 0, 5, 2, 0, 0, 0, 1, '2015-12-08 04:17:18', '2015-12-08 04:23:13'),
+(35, '00:53:39', '2015-12-06', 0, 6, 13, 3, 1, 8, 123, 4, 124, 5, 3, 0, 1, '2015-12-08 05:54:00', '2015-12-08 05:54:32'),
+(36, '20:55:51', '2015-12-07', 0, 6, 13, 3, 2, 6, 1234, 1, 35, 2, 0, 0, 0, '2015-12-08 05:56:06', '2015-12-08 05:56:06'),
+(37, '04:50:44', '2015-12-08', 0, 7, 13, 3, 1, 10, 123, 3, 120, 1, 2, 5, 1, '2015-12-08 13:51:06', '2015-12-08 13:52:05');
 
 -- --------------------------------------------------------
 
@@ -224,12 +227,16 @@ CREATE TABLE `cargas` (
   `fecha` date NOT NULL,
   `cliente_id` int(10) UNSIGNED NOT NULL,
   `aeronave_id` int(10) UNSIGNED NOT NULL,
+  `aeropuerto_id` int(10) UNSIGNED NOT NULL,
   `num_vuelo` int(11) DEFAULT NULL,
   `peso_embarcado` double(8,2) NOT NULL,
   `peso_desembarcado` double(8,2) NOT NULL,
   `observaciones` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `monto_total` double(8,2) NOT NULL,
   `precio_carga` int(10) UNSIGNED NOT NULL,
+  `facturado` int(11) NOT NULL DEFAULT '0',
+  `condicionPago` varchar(11) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `factura_id` int(10) UNSIGNED NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
@@ -238,11 +245,11 @@ CREATE TABLE `cargas` (
 -- Volcado de datos para la tabla `cargas`
 --
 
-INSERT INTO `cargas` (`id`, `fecha`, `cliente_id`, `aeronave_id`, `num_vuelo`, `peso_embarcado`, `peso_desembarcado`, `observaciones`, `monto_total`, `precio_carga`, `created_at`, `updated_at`) VALUES
-(1, '0000-00-00', 4, 5, 432, 123.00, 999999.99, '', 999999.99, 0, '2015-11-30 04:30:47', '2015-11-30 04:30:47'),
-(2, '2015-11-30', 8, 4, 323, 1212.00, 424323.00, '', 638302.50, 0, '2015-11-30 04:39:07', '2015-11-30 04:39:07'),
-(3, '2015-11-30', 8, 4, 323, 1212.00, 424323.00, '', 638302.50, 0, '2015-11-30 04:39:36', '2015-11-30 04:39:36'),
-(4, '2015-11-30', 10, 5, 211, 232.00, 323.00, '', 832.50, 0, '2015-11-30 04:43:57', '2015-11-30 04:43:57');
+INSERT INTO `cargas` (`id`, `fecha`, `cliente_id`, `aeronave_id`, `aeropuerto_id`, `num_vuelo`, `peso_embarcado`, `peso_desembarcado`, `observaciones`, `monto_total`, `precio_carga`, `facturado`, `condicionPago`, `factura_id`, `created_at`, `updated_at`) VALUES
+(1, '0000-00-00', 4, 5, 1, 432, 123.00, 999999.99, '', 999999.99, 0, 0, 'Crédito', 0, '2015-12-08 09:58:15', '2015-11-30 04:30:47'),
+(2, '2015-11-30', 8, 4, 1, 323, 1212.00, 424323.00, '', 638302.50, 0, 0, 'Crédito', 19, '2015-12-08 09:58:15', '2015-12-08 02:34:49'),
+(3, '2015-11-30', 8, 4, 1, 323, 1212.00, 424323.00, '', 638302.50, 0, 0, 'Crédito', 0, '2015-12-08 09:58:15', '2015-11-30 04:39:36'),
+(4, '2015-11-30', 10, 5, 1, 211, 232.00, 323.00, '', 832.50, 0, 0, 'Crédito', 0, '2015-12-08 09:58:15', '2015-11-30 04:43:57');
 
 -- --------------------------------------------------------
 
@@ -291,7 +298,7 @@ CREATE TABLE `cargos_varios` (
 --
 
 INSERT INTO `cargos_varios` (`id`, `eq_formulario`, `eq_derechoHabilitacion`, `eq_usoAbordajeSinHab`, `eq_usoAbordajeConHab`, `formularioCredito_id`, `formularioContado_id`, `habilitacionCredito_id`, `habilitacionContado_id`, `abordajeCredito_id`, `abordajeContado_id`, `created_at`, `updated_at`) VALUES
-(1, 0.14, 14.00, 5.14, 5.71, 57, 71, 56, 70, 58, 72, '0000-00-00 00:00:00', '2015-10-28 19:00:55');
+(1, 0.14, 14.00, 5.14, 5.71, 71, 57, 70, 56, 72, 58, '0000-00-00 00:00:00', '2015-12-08 06:27:03');
 
 -- --------------------------------------------------------
 
@@ -576,28 +583,28 @@ CREATE TABLE `conceptos` (
 INSERT INTO `conceptos` (`id`, `codpre`, `nompre`, `codcta`, `stacod`, `coduni`, `iva`, `aeropuerto_id`, `created_at`, `updated_at`, `modulo_id`) VALUES
 (50, '0-033-001-124-301-09-02-01-001  ', 'TASAS NACIONALES MODULO', '4-2-302-02-01-0001              ', 'A', '', 0.00, 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00', NULL),
 (51, '0-033-001-124-301-09-02-01-002  ', 'TASAS INTERNACIONALES MODULO', '4-2-302-02-01-0001              ', 'A', '', 0.00, 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00', NULL),
-(52, '0-033-001-124-301-09-02-01-003  ', 'TASAS NACIONALES SCV', '4-2-302-02-01-0002              ', 'A', '', 0.00, 1, '0000-00-00 00:00:00', '2015-11-20 19:27:34', 5),
-(53, '0-033-001-124-301-09-02-01-004  ', 'TASAS INTERNACIONALES SCV', '4-2-302-02-01-0002              ', 'A', '', 0.00, 1, '0000-00-00 00:00:00', '2015-11-20 19:27:34', 5),
-(54, '0-033-001-124-301-09-02-02-001  ', 'ATERRIZAJE Y DESPEGUE DE AERONAVES', '4-2-302-02-01-0002              ', 'A', '', 0.00, 1, '0000-00-00 00:00:00', '2015-11-20 19:27:34', 5),
-(55, '0-033-001-124-301-09-02-02-002  ', 'ESTACIONAMIENTO DE AERONAVES', '4-2-302-02-01-0002              ', 'A', '', 0.00, 1, '0000-00-00 00:00:00', '2015-11-20 19:27:34', 5),
-(56, '0-033-001-124-301-09-02-02-003  ', 'HABILITACION', '4-2-302-02-01-0002              ', 'A', '', 0.00, 1, '0000-00-00 00:00:00', '2015-11-20 19:27:34', 5),
+(52, '0-033-001-124-301-09-02-01-003  ', 'TASAS NACIONALES SCV', '4-2-302-02-01-0002              ', 'A', '', 0.00, 1, '0000-00-00 00:00:00', '2015-12-04 20:15:13', 5),
+(53, '0-033-001-124-301-09-02-01-004  ', 'TASAS INTERNACIONALES SCV', '4-2-302-02-01-0002              ', 'A', '', 0.00, 1, '0000-00-00 00:00:00', '2015-12-04 20:15:13', 5),
+(54, '0-033-001-124-301-09-02-02-001  ', 'ATERRIZAJE Y DESPEGUE DE AERONAVES', '4-2-302-02-01-0002              ', 'A', '', 0.00, 1, '0000-00-00 00:00:00', '2015-12-04 20:15:13', 5),
+(55, '0-033-001-124-301-09-02-02-002  ', 'ESTACIONAMIENTO DE AERONAVES', '4-2-302-02-01-0002              ', 'A', '', 0.00, 1, '0000-00-00 00:00:00', '2015-12-04 20:15:13', 5),
+(56, '0-033-001-124-301-09-02-02-003  ', 'HABILITACION', '4-2-302-02-01-0002              ', 'A', '', 0.00, 1, '0000-00-00 00:00:00', '2015-12-04 20:15:13', 5),
 (57, '0-033-001-124-301-09-02-02-004  ', 'FORMULARIO DOSA', '4-2-302-02-01-0002              ', 'A', '', 0.00, 1, '0000-00-00 00:00:00', '2015-11-20 19:27:34', 5),
 (58, '0-033-001-124-301-09-02-02-005  ', 'JET WAY', '4-2-302-02-01-0002              ', 'A', '', 0.00, 1, '0000-00-00 00:00:00', '2015-11-20 19:27:34', 5),
-(59, '0-033-001-124-301-09-02-02-006  ', 'CARGA', '4-2-302-02-01-0002              ', 'A', '', 0.00, 1, '0000-00-00 00:00:00', '2015-11-20 19:27:34', 5),
+(59, '0-033-001-124-301-09-02-02-006  ', 'CARGA', '4-2-302-02-01-0002              ', 'A', '', 0.00, 1, '0000-00-00 00:00:00', '2015-12-04 20:15:20', 6),
 (60, '0-033-001-124-301-09-02-03-000  ', 'CANON DE ARRENDAMIENTO', '1-1-122-02-01-0003              ', 'A', '', 0.00, 1, '0000-00-00 00:00:00', '2015-08-08 01:50:09', 2),
 (61, '0-033-001-124-301-09-02-04-000  ', 'ESTACIONAMIENTO DE VEHICULOS', '4-2-302-02-01-0004              ', 'A', '', 0.00, 1, '0000-00-00 00:00:00', '2015-08-08 01:51:06', 4),
 (62, '0-033-001-124-301-09-02-05-000  ', 'PUBLICIDAD', '4-2-302-02-01-0005              ', 'A', '', 0.00, 1, '0000-00-00 00:00:00', '2015-08-08 01:50:37', 3),
-(63, '0-033-001-124-301-09-02-06-000  ', 'OTROS INGRESOS COMBUSTIBLE', '1-1-122-02-01-0007              ', 'A', '', 0.00, 1, '0000-00-00 00:00:00', '2015-11-20 19:27:34', 5),
+(63, '0-033-001-124-301-09-02-06-000  ', 'OTROS INGRESOS COMBUSTIBLE', '1-1-122-02-01-0007              ', 'A', '', 0.00, 1, '0000-00-00 00:00:00', '2015-12-04 20:15:13', 5),
 (64, '0-033-001-124-301-09-02-06-001  ', 'TARJETA DE IDENTIFICACION ', '4-2-302-02-01-0006              ', 'A', '', 0.00, 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00', NULL),
-(65, '0-033-001-124-301-09-02-06-002  ', 'OTROS INGRESOS 10% SERVICIOS DE HANDLING ', '4-2-302-02-01-0006              ', 'A', '', 0.00, 1, '0000-00-00 00:00:00', '2015-11-20 19:27:34', 5),
+(65, '0-033-001-124-301-09-02-06-002  ', 'OTROS INGRESOS 10% SERVICIOS DE HANDLING ', '4-2-302-02-01-0006              ', 'A', '', 0.00, 1, '0000-00-00 00:00:00', '2015-12-04 20:15:13', 5),
 (66, '0-033-001-124-301-09-02-06-003  ', 'OTROS INGRESOS CARNET DE CIRCULACION', '4-2-302-02-01-0006              ', 'A', '', 0.00, 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00', NULL),
 (67, '0-033-001-124-301-09-02-06-005  ', ' OTROS INGRESOS', '1-1-122-02-01-0007              ', 'A', '', 0.00, 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00', NULL),
 (68, '0-033-001-124-301-09-02-07-001  ', ' ATERRIZAJE Y DESPEGUE DE AERONAVES CREDITO', '4-2-302-02-01-0002              ', 'A', '', 0.00, 1, '0000-00-00 00:00:00', '2015-08-08 01:51:53', 5),
 (69, '0-033-001-124-301-09-02-07-002  ', 'ESTACIONAMIENTO DE AERONAVES CREDITO', '4-2-302-02-01-0002              ', 'A', '', 0.00, 1, '0000-00-00 00:00:00', '2015-11-20 19:27:34', 5),
-(70, '0-033-001-124-301-09-02-07-003  ', 'HABILITACION CREDITO', '4-2-302-02-01-0002              ', 'A', '', 0.00, 1, '0000-00-00 00:00:00', '2015-11-20 19:27:34', 5),
-(71, '0-033-001-124-301-09-02-07-004  ', 'FOMULARIO DOSA CREDITO', '4-2-302-02-01-0002              ', 'A', '', 0.00, 1, '0000-00-00 00:00:00', '2015-11-20 19:27:34', 5),
-(72, '0-033-001-124-301-09-02-07-005  ', 'JET WAY CREDITO', '4-2-302-02-01-0002              ', 'A', '', 0.00, 1, '0000-00-00 00:00:00', '2015-11-20 19:27:34', 5),
-(73, '0-033-001-124-301-09-02-07-006  ', 'CARGA CREDITO', '4-2-302-02-01-0002              ', 'A', '', 0.00, 1, '0000-00-00 00:00:00', '2015-11-20 19:27:34', 5),
+(70, '0-033-001-124-301-09-02-07-003  ', 'HABILITACION CREDITO', '4-2-302-02-01-0002              ', 'A', '', 0.00, 1, '0000-00-00 00:00:00', '2015-12-04 20:15:13', 5),
+(71, '0-033-001-124-301-09-02-07-004  ', 'FOMULARIO DOSA CREDITO', '4-2-302-02-01-0002              ', 'A', '', 0.00, 1, '0000-00-00 00:00:00', '2015-12-04 20:15:13', 5),
+(72, '0-033-001-124-301-09-02-07-005  ', 'JET WAY CREDITO', '4-2-302-02-01-0002              ', 'A', '', 0.00, 1, '0000-00-00 00:00:00', '2015-12-04 20:15:13', 5),
+(73, '0-033-001-124-301-09-02-07-006  ', 'CARGA CREDITO', '4-2-302-02-01-0002              ', 'A', '', 0.00, 1, '0000-00-00 00:00:00', '2015-12-04 20:15:20', 6),
 (74, '0-033-002-125-302-99-02-01-001  ', 'TASAS NACIONALES MODULO', '1-1-122-03-01-0001              ', 'A', '', 0.00, 2, '0000-00-00 00:00:00', '0000-00-00 00:00:00', NULL),
 (75, '0-033-002-125-302-99-02-01-003  ', 'TASAS NACIONALES SCV ', '1-1-122-03-01-0002              ', 'A', '', 0.00, 2, '0000-00-00 00:00:00', '0000-00-00 00:00:00', NULL),
 (76, '0-033-002-125-302-99-02-02-001  ', 'ATERRIZAJE Y DESPEGUE DE AERONAVES', '1-1-122-03-01-0002              ', 'A', '', 0.00, 2, '0000-00-00 00:00:00', '0000-00-00 00:00:00', NULL),
@@ -728,6 +735,9 @@ CREATE TABLE `despegues` (
   `cobrar_servHandling` int(11) NOT NULL DEFAULT '0',
   `cobrar_habilitacion` int(11) NOT NULL DEFAULT '0',
   `aterrizaje_id` int(10) UNSIGNED NOT NULL,
+  `condicionPago` varchar(11) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `factura_id` int(10) UNSIGNED NOT NULL,
+  `facturado` int(11) NOT NULL DEFAULT '0',
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
@@ -736,8 +746,12 @@ CREATE TABLE `despegues` (
 -- Volcado de datos para la tabla `despegues`
 --
 
-INSERT INTO `despegues` (`id`, `hora`, `fecha`, `aeropuerto_id`, `num_vuelo`, `aeronave_id`, `puerto_id`, `piloto_id`, `tipoMatricula_id`, `nacionalidadVuelo_id`, `cliente_id`, `embarqueAdultos`, `embarqueInfante`, `embarqueTercera`, `transitoAdultos`, `transitoInfante`, `transitoTercera`, `tiempo_estacionamiento`, `numero_puenteAbordaje`, `tiempo_puenteAbord`, `cobrar_estacionamiento`, `cobrar_puenteAbordaje`, `cobrar_Formulario`, `cobrar_AterDesp`, `cobrar_Combustible`, `cobrar_servHandling`, `cobrar_habilitacion`, `aterrizaje_id`, `created_at`, `updated_at`) VALUES
-(28, '00:07:35', '2015-11-30', 1, 444, 51, 2, 11, 3, 1, 63, 0, 0, 0, 0, 0, 0, NULL, NULL, NULL, 1, 1, 1, 1, 0, 0, 0, 18, '2015-11-30 09:07:51', '2015-11-30 09:07:51');
+INSERT INTO `despegues` (`id`, `hora`, `fecha`, `aeropuerto_id`, `num_vuelo`, `aeronave_id`, `puerto_id`, `piloto_id`, `tipoMatricula_id`, `nacionalidadVuelo_id`, `cliente_id`, `embarqueAdultos`, `embarqueInfante`, `embarqueTercera`, `transitoAdultos`, `transitoInfante`, `transitoTercera`, `tiempo_estacionamiento`, `numero_puenteAbordaje`, `tiempo_puenteAbord`, `cobrar_estacionamiento`, `cobrar_puenteAbordaje`, `cobrar_Formulario`, `cobrar_AterDesp`, `cobrar_Combustible`, `cobrar_servHandling`, `cobrar_habilitacion`, `aterrizaje_id`, `condicionPago`, `factura_id`, `facturado`, `created_at`, `updated_at`) VALUES
+(53, '05:50:00', '2015-12-04', 0, 740, 14, 3, 14, 3, 1, 40, 123, 0, 1, 0, 0, 0, 525.00, 1, 2.00, 1, 1, 0, 1, 0, 0, 0, 32, 'Crédito', 20, 0, '2015-12-08 04:20:27', '2015-12-08 05:44:33'),
+(54, '06:00:00', '2015-12-03', 0, 802, 2, 4, 20, 3, 1, 124, 66, 0, 0, 0, 0, 0, 350.00, 1, 2.00, 1, 1, 0, 1, 0, 0, 1, 33, 'Crédito', 22, 0, '2015-12-08 04:21:59', '2015-12-08 05:53:06'),
+(55, '14:30:00', '2015-12-04', 0, 0, 25, 5, 18, 1, 1, 24, 2, 0, 0, 0, 0, 0, 1192.00, 0, 0.00, 1, 0, 0, 1, 0, 0, 0, 34, 'Contado', 21, 0, '2015-12-08 04:23:13', '2015-12-08 05:51:05'),
+(56, '20:54:02', '2015-12-07', 0, 563, 6, 4, 12, 3, 1, 13, 0, 0, 0, 0, 0, 0, 2640.00, 1, 1.00, 1, 1, 0, 0, 0, 0, 1, 35, 'Contado', 0, 0, '2015-12-08 05:54:31', '2015-12-08 05:54:32'),
+(57, '04:51:10', '2015-12-08', 0, 121, 7, 4, 22, 3, 1, 13, 12, 2, 0, 0, 0, 0, 0.00, 0, 0.00, 0, 0, 0, 1, 0, 0, 1, 37, 'Contado', 23, 0, '2015-12-08 13:52:05', '2015-12-08 14:07:57');
 
 -- --------------------------------------------------------
 
@@ -900,10 +914,10 @@ CREATE TABLE `estacionamientos` (
 CREATE TABLE `estacionamiento_aeronaves` (
   `id` int(10) UNSIGNED NOT NULL,
   `tiempoLibreInt` int(11) NOT NULL,
-  `eq_bloqueInt` double(8,2) NOT NULL,
+  `eq_bloqueInt` double(7,5) NOT NULL,
   `minBloqueInt` int(11) NOT NULL,
   `tiempoLibreNac` int(11) NOT NULL,
-  `eq_bloqueNac` double(8,2) NOT NULL,
+  `eq_bloqueNac` double(7,5) NOT NULL,
   `minBloqueNac` int(11) NOT NULL,
   `conceptoCredito_id` int(10) UNSIGNED NOT NULL,
   `conceptoContado_id` int(10) UNSIGNED NOT NULL,
@@ -916,7 +930,7 @@ CREATE TABLE `estacionamiento_aeronaves` (
 --
 
 INSERT INTO `estacionamiento_aeronaves` (`id`, `tiempoLibreInt`, `eq_bloqueInt`, `minBloqueInt`, `tiempoLibreNac`, `eq_bloqueNac`, `minBloqueNac`, `conceptoCredito_id`, `conceptoContado_id`, `created_at`, `updated_at`) VALUES
-(1, 20, 0.05, 20, 45, 0.02, 30, 69, 55, '0000-00-00 00:00:00', '2015-10-22 20:44:51');
+(1, 120, 0.09810, 60, 60, 0.07480, 60, 69, 55, '0000-00-00 00:00:00', '2015-12-08 05:06:40');
 
 -- --------------------------------------------------------
 
@@ -945,9 +959,17 @@ CREATE TABLE `facturadetalles` (
 --
 
 INSERT INTO `facturadetalles` (`id`, `factura_id`, `concepto_id`, `cantidadDes`, `montoDes`, `descuentoPerDes`, `descuentoTotalDes`, `ivaDes`, `recargoPerDes`, `recargoTotalDes`, `totalDes`, `created_at`, `updated_at`) VALUES
-(1, 1, 68, 1, 1000.00, 0.00, 0.00, 12.00, 0.00, 0.00, 1120.00, '2015-10-26 18:12:28', '2015-10-26 18:12:28'),
-(2, 2, 68, 1, 1233.00, 0.00, 0.00, 12.00, 0.00, 0.00, 1380.96, '2015-10-26 18:14:46', '2015-10-26 18:14:46'),
-(3, 3, 68, 1, 123123.00, 0.00, 0.00, 12.00, 0.00, 0.00, 137897.76, '2015-10-26 18:15:33', '2015-10-26 18:15:33');
+(25, 20, 69, 1, 6260.76, 0.00, 0.00, 0.00, 0.00, 0.00, 6260.76, '2015-12-08 05:44:33', '2015-12-08 05:44:33'),
+(26, 20, 68, 1, 3780.00, 0.00, 0.00, 0.00, 0.00, 0.00, 3780.00, '2015-12-08 05:44:33', '2015-12-08 05:44:33'),
+(27, 20, 58, 1, 1542.00, 0.00, 0.00, 0.00, 0.00, 0.00, 1542.00, '2015-12-08 05:44:33', '2015-12-08 05:44:33'),
+(28, 21, 69, 1, 1481.79, 0.00, 0.00, 0.00, 0.00, 0.00, 1481.79, '2015-12-08 05:51:05', '2015-12-08 05:51:05'),
+(29, 21, 68, 1, 367.50, 0.00, 0.00, 0.00, 0.00, 0.00, 367.50, '2015-12-08 05:51:05', '2015-12-08 05:51:05'),
+(30, 22, 69, 1, 2982.65, 0.00, 0.00, 0.00, 0.00, 0.00, 2982.65, '2015-12-08 05:53:06', '2015-12-08 05:53:06'),
+(31, 22, 68, 1, 2887.50, 0.00, 0.00, 0.00, 0.00, 0.00, 2887.50, '2015-12-08 05:53:06', '2015-12-08 05:53:06'),
+(32, 22, 58, 1, 1713.00, 0.00, 0.00, 0.00, 0.00, 0.00, 1713.00, '2015-12-08 05:53:06', '2015-12-08 05:53:06'),
+(33, 22, 56, 1, 2100.00, 0.00, 0.00, 0.00, 0.00, 0.00, 2100.00, '2015-12-08 05:53:06', '2015-12-08 05:53:06'),
+(34, 23, 54, 1, 3202.97, 0.00, 0.00, 0.00, 0.00, 0.00, 3202.97, '2015-12-08 14:07:57', '2015-12-08 14:07:57'),
+(35, 23, 56, 1, 2100.00, 0.00, 0.00, 0.00, 0.00, 0.00, 2100.00, '2015-12-08 14:07:57', '2015-12-08 14:07:57');
 
 -- --------------------------------------------------------
 
@@ -993,6 +1015,7 @@ CREATE TABLE `facturas` (
   `iva` double(8,2) UNSIGNED NOT NULL,
   `recargoTotal` double(8,2) UNSIGNED NOT NULL,
   `total` double(8,2) UNSIGNED NOT NULL,
+  `nroDosa` int(11) DEFAULT NULL,
   `descripcion` text COLLATE utf8_unicode_ci NOT NULL,
   `comentario` text COLLATE utf8_unicode_ci NOT NULL,
   `estado` char(1) COLLATE utf8_unicode_ci NOT NULL,
@@ -1005,10 +1028,29 @@ CREATE TABLE `facturas` (
 -- Volcado de datos para la tabla `facturas`
 --
 
-INSERT INTO `facturas` (`id`, `aeropuerto_id`, `condicionPago`, `nControl`, `nFactura`, `fecha`, `fechaVencimiento`, `cliente_id`, `subtotalNeto`, `descuentoTotal`, `subtotal`, `iva`, `recargoTotal`, `total`, `descripcion`, `comentario`, `estado`, `isImpresa`, `created_at`, `updated_at`) VALUES
-(1, 1, 'Crédito', 123, 123, '2015-10-17', '2015-11-26', 1, 1000.00, 0.00, 1000.00, 120.00, 0.00, 1120.00, 'Prueba', '', '', 0, '2015-10-26 18:12:28', '2015-10-26 18:12:28'),
-(2, 1, 'Crédito', 11111, 1111, '2015-10-31', '2015-12-12', 1, 1233.00, 0.00, 1233.00, 147.96, 0.00, 1380.96, 'adsds', '', '', 0, '2015-10-26 18:14:46', '2015-10-26 18:14:46'),
-(3, 1, 'Crédito', 12312, 13231, '2015-11-07', '2015-12-03', 1, 123123.00, 0.00, 123123.00, 14774.76, 0.00, 137897.76, 'sdfsd', '', '', 0, '2015-10-26 18:15:32', '2015-10-26 18:15:32');
+INSERT INTO `facturas` (`id`, `aeropuerto_id`, `condicionPago`, `nControl`, `nFactura`, `fecha`, `fechaVencimiento`, `cliente_id`, `subtotalNeto`, `descuentoTotal`, `subtotal`, `iva`, `recargoTotal`, `total`, `nroDosa`, `descripcion`, `comentario`, `estado`, `isImpresa`, `created_at`, `updated_at`) VALUES
+(1, 1, 'Crédito', 123, 123, '2015-10-17', '2015-11-26', 1, 1000.00, 0.00, 1000.00, 120.00, 0.00, 1120.00, NULL, 'Prueba', '', '', 0, '2015-10-26 18:12:28', '2015-10-26 18:12:28'),
+(2, 1, 'Crédito', 11111, 1111, '2015-10-31', '2015-12-12', 1, 1233.00, 0.00, 1233.00, 147.96, 0.00, 1380.96, NULL, 'adsds', '', '', 0, '2015-10-26 18:14:46', '2015-10-26 18:14:46'),
+(3, 1, 'Crédito', 12312, 13231, '2015-11-07', '2015-12-03', 1, 123123.00, 0.00, 123123.00, 14774.76, 0.00, 137897.76, NULL, 'sdfsd', '', '', 0, '2015-10-26 18:15:32', '2015-10-26 18:15:32'),
+(4, 1, 'Crédito', 1234, 1234, '2015-12-02', '2016-01-02', 63, 114.50, 0.00, 114.50, 0.00, 0.00, 114.50, NULL, 'bla bla bla', '', '', 0, '2015-12-02 06:06:35', '2015-12-02 06:06:35'),
+(5, 1, 'Crédito', 1122, 1122, '2015-12-02', '2016-01-02', 13, 247.50, 0.00, 247.50, 0.00, 0.00, 247.50, NULL, 'bla2 bla2 bla2', '', '', 0, '2015-12-02 06:12:20', '2015-12-02 06:12:20'),
+(6, 1, 'Crédito', 1111, 2222, '2015-12-03', '2016-01-03', 8, 638.00, 0.00, 638.00, 0.00, 0.00, 638.00, NULL, 'Carga del Mes de Noviembre', '', '', 0, '2015-12-04 03:41:25', '2015-12-04 03:41:25'),
+(7, 1, 'Crédito', 44, 47, '2015-12-03', '2016-01-03', 8, 638.00, 0.00, 638.00, 0.00, 0.00, 638.00, NULL, 'er', '', '', 0, '2015-12-04 03:45:52', '2015-12-04 03:45:52'),
+(9, 1, 'Crédito', 45, 45, '2015-12-04', '2016-01-04', 40, 226.00, 0.00, 226.00, 0.00, 0.00, 226.00, NULL, '5rh', '', '', 0, '2015-12-04 04:56:23', '2015-12-04 04:56:23'),
+(10, 1, 'Crédito', 1111, 111111, '2015-12-04', '2016-01-04', 13, 2100.00, 0.00, 2100.00, 0.00, 0.00, 2100.00, 1111, '1111', '', '', 0, '2015-12-04 21:05:41', '2015-12-04 21:05:41'),
+(11, 1, 'Crédito', 1111, 1111, '2015-12-04', '2016-01-04', 13, 2100.00, 0.00, 2100.00, 0.00, 0.00, 2100.00, 1111, 'hhh', '', '', 0, '2015-12-04 21:06:34', '2015-12-04 21:06:34'),
+(12, 1, 'Crédito', 1111, 11111, '2015-12-04', '2016-01-04', 13, 2100.00, 0.00, 2100.00, 0.00, 0.00, 2100.00, 11111, 'ñññ', '', '', 0, '2015-12-04 21:07:20', '2015-12-04 21:07:20'),
+(13, 1, 'Crédito', 123, 121, '2015-12-04', '2016-01-04', 127, 2100.00, 0.00, 2100.00, 0.00, 0.00, 2100.00, 1414, 'tyutyut', '', '', 0, '2015-12-04 21:11:46', '2015-12-04 21:11:46'),
+(14, 1, 'Crédito', 123, 121, '2015-12-04', '2016-01-04', 127, 2100.00, 0.00, 2100.00, 0.00, 0.00, 2100.00, 1414, 'tyutyut', '', '', 0, '2015-12-04 21:13:06', '2015-12-04 21:13:06'),
+(15, 1, 'Crédito', 123, 121, '2015-12-04', '2016-01-04', 127, 2100.00, 0.00, 2100.00, 0.00, 0.00, 2100.00, 1414, 'tyutyut', '', '', 0, '2015-12-04 21:14:05', '2015-12-04 21:14:05'),
+(16, 1, 'Crédito', 111, 111, '2015-12-07', '2016-01-07', 8, 638302.50, 0.00, 638302.50, 0.00, 0.00, 638302.50, NULL, 'Da', '', '', 0, '2015-12-08 02:01:03', '2015-12-08 02:01:03'),
+(17, 1, 'Crédito', 3333, 33333, '2015-12-07', '2016-01-07', 4, 999999.99, 0.00, 999999.99, 0.00, 0.00, 999999.99, NULL, 'ttttt', '', '', 0, '2015-12-08 02:09:25', '2015-12-08 02:09:25'),
+(18, 1, 'Crédito', 3333, 33333, '2015-12-07', '2016-01-07', 4, 999999.99, 0.00, 999999.99, 0.00, 0.00, 999999.99, NULL, 'ttttt', '', '', 0, '2015-12-08 02:09:33', '2015-12-08 02:09:33'),
+(19, 1, 'Crédito', 111, 11111, '2015-12-07', '2016-01-07', 8, 638302.50, 0.00, 638302.50, 0.00, 0.00, 638302.50, NULL, 'ffef', '', '', 0, '2015-12-08 02:34:49', '2015-12-08 02:34:49'),
+(20, 1, 'Crédito', 1234, 1234, '2015-12-08', '2016-01-08', 40, 11582.76, 0.00, 11582.76, 0.00, 0.00, 11582.76, 1234, 'Factura', '', '', 0, '2015-12-08 05:44:32', '2015-12-08 05:44:32'),
+(21, 1, 'Crédito', 1235, 1235, '2015-12-08', '2016-01-08', 24, 1849.29, 0.00, 1849.29, 0.00, 0.00, 1849.29, 1235, 'Factura', '', '', 0, '2015-12-08 05:51:05', '2015-12-08 05:51:05'),
+(22, 1, 'Crédito', 1236, 1236, '2015-12-08', '2016-01-08', 124, 9683.15, 0.00, 9683.15, 0.00, 0.00, 9683.15, 1236, 'Factura Crédito Con Habilitación', '', '', 0, '2015-12-08 05:53:06', '2015-12-08 05:53:06'),
+(23, 1, 'Contado', 1237, 1237, '2015-12-08', '2016-01-08', 13, 5302.97, 0.00, 5302.97, 0.00, 0.00, 5302.97, 1237, 'factura', '', '', 0, '2015-12-08 14:07:57', '2015-12-08 14:07:57');
 
 -- --------------------------------------------------------
 
@@ -1771,7 +1813,8 @@ INSERT INTO `modulos` (`id`, `nombre`, `descripcion`, `isRetencion`, `isPredeter
 (2, 'CANON', 'ARRENDAMIENTO DE LOCALES COMERCIALES', 0, 0, 1, '2015-08-04 15:40:52', '2015-08-08 01:50:09'),
 (3, 'PUBLICIDAD', 'INGRESOS POR ALQUILER DE ESPACIOS PUBLICITARIOS', 0, 0, 1, '2015-08-08 01:50:37', '2015-08-08 01:50:37'),
 (4, 'ESTACIONAMIENTO', 'INGRESOS POR TICKETS DE ESTACIONAMIENTO DE VEHICULOS', 0, 0, 1, '2015-08-08 01:51:06', '2015-08-08 01:51:06'),
-(5, 'DOSAS', 'MANEJO DE MOVIMIENTOS AERONAUTICOS POR CONTROL DE VUELO', 0, 0, 1, '2015-08-08 01:51:53', '2015-08-08 01:51:53');
+(5, 'DOSAS', 'MANEJO DE MOVIMIENTOS AERONAUTICOS POR CONTROL DE VUELO', 0, 0, 1, '2015-08-08 01:51:53', '2015-08-08 01:51:53'),
+(6, 'CARGA', '', 0, 0, 1, '2015-12-04 20:13:03', '2015-12-04 20:13:03');
 
 -- --------------------------------------------------------
 
@@ -2594,7 +2637,7 @@ CREATE TABLE `precios_aterrizajes_despegues` (
 --
 
 INSERT INTO `precios_aterrizajes_despegues` (`id`, `eq_diurnoNac`, `eq_diurnoInt`, `eq_nocturNac`, `eq_nocturInt`, `conceptoCredito_id`, `conceptoContado_id`, `created_at`, `updated_at`) VALUES
-(1, 0.29, 0.35, 0.35, 1.65, 68, 54, '0000-00-00 00:00:00', '2015-11-30 04:52:43');
+(1, 0.29, 0.85, 0.35, 1.65, 68, 54, '0000-00-00 00:00:00', '2015-12-08 04:29:00');
 
 -- --------------------------------------------------------
 
@@ -2617,7 +2660,7 @@ CREATE TABLE `precios_cargas` (
 --
 
 INSERT INTO `precios_cargas` (`id`, `equivalenteUT`, `toneladaPorBloque`, `conceptoCredito_id`, `conceptoContado_id`, `created_at`, `updated_at`) VALUES
-(1, 0.01, 1.00, 73, 59, '0000-00-00 00:00:00', '2015-11-25 21:01:46');
+(1, 0.01, 1.00, 73, 59, '0000-00-00 00:00:00', '2015-12-08 04:42:51');
 
 -- --------------------------------------------------------
 
@@ -2640,8 +2683,10 @@ CREATE TABLE `puertos` (
 --
 
 INSERT INTO `puertos` (`id`, `nombre`, `siglas`, `estado`, `pais_id`, `created_at`, `updated_at`) VALUES
-(1, 'Arubaaq', 'TNCA', 1, 15, '2015-09-03 01:15:27', '2015-10-14 20:27:33'),
-(2, 'Puerto Ordaz', 'SVPR', 1, 232, '2015-10-07 18:20:30', '2015-10-07 18:20:30');
+(1, 'ARUBA', 'TNCA', 1, 15, '2015-09-03 01:15:27', '2015-12-08 04:07:25'),
+(3, 'SIMÓN BOLIVAR', 'SVMI', 1, 232, '2015-12-08 04:08:06', '2015-12-08 04:08:06'),
+(4, 'BARCELONA', 'SVBC', 1, 232, '2015-12-08 04:08:34', '2015-12-08 04:08:34'),
+(5, 'CHARALLAVE', 'SVCS', 1, 232, '2015-12-08 04:09:05', '2015-12-08 04:09:05');
 
 -- --------------------------------------------------------
 
@@ -2838,7 +2883,7 @@ CREATE TABLE `usuarios` (
 --
 
 INSERT INTO `usuarios` (`id`, `username`, `password`, `fullname`, `estado`, `departamento_id`, `aeropuerto_id`, `cargo_id`, `directo`, `email`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, 'admin', '$2y$10$IiAw5mwzKZwMjPMP7gv64OBUMHL2INfwOYpZaYxbHPPaS1oJComkm', '', 0, NULL, NULL, NULL, '', '', 'jOncICisYYsgty7bbrI2Tnoc5kOMVZaB4kEZpp5zpalMYSmsWsPzvnRcNYgi', '2015-07-31 12:42:36', '2015-11-14 01:21:41'),
+(1, 'admin', '$2y$10$IiAw5mwzKZwMjPMP7gv64OBUMHL2INfwOYpZaYxbHPPaS1oJComkm', '', 0, NULL, NULL, NULL, '', '', '7RAWXVUUPE4tfNZU4ZhhWJcUulWCe1btZ3nSiukdgsrk90HjG9Wx05Jag9rv', '2015-07-31 12:42:36', '2015-12-08 00:42:47'),
 (2, 'supervisor-scv', '$2y$10$hZdmhsjIpdtl0elgxBhg4OIbeTa4EnN6525Gm/ZmtTgrvDCKOZ4Sy', 'Supervisor SCV', 1, 1, 1, 1, '0000', 'saar@gmail.com', 'Ate9WJDGMcl1BpKn382FipyUJxuOIbRWVPySyyEmpC5DtWJM50v3frWp6bKC', '2015-09-02 00:32:49', '2015-09-15 02:58:26'),
 (3, 'recaudacion', '$2y$10$euqvcZN2k7eP6B6gFfbb.eIfKJ7JaUZMHe8hg9ORz5zWD6uKBIrQ.', 'Recaudacion', 1, 1, 1, 1, '1234', 'email@gmail.com', 'B75Y0W3frFNjkXwEqzh6gHgcssFIxBBJf4NGRjoi0brkjHCGUJMSUrK2XiS4', '2015-09-02 01:18:54', '2015-09-02 01:40:19');
 
@@ -3297,7 +3342,7 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT de la tabla `aeronaves`
 --
 ALTER TABLE `aeronaves`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
 --
 -- AUTO_INCREMENT de la tabla `aeropuertos`
 --
@@ -3312,7 +3357,7 @@ ALTER TABLE `ajustes`
 -- AUTO_INCREMENT de la tabla `aterrizajes`
 --
 ALTER TABLE `aterrizajes`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
 --
 -- AUTO_INCREMENT de la tabla `bancos`
 --
@@ -3387,7 +3432,7 @@ ALTER TABLE `departamentos`
 -- AUTO_INCREMENT de la tabla `despegues`
 --
 ALTER TABLE `despegues`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=58;
 --
 -- AUTO_INCREMENT de la tabla `despegue_otros_cargo`
 --
@@ -3442,7 +3487,7 @@ ALTER TABLE `estacionamiento_aeronaves`
 -- AUTO_INCREMENT de la tabla `facturadetalles`
 --
 ALTER TABLE `facturadetalles`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 --
 -- AUTO_INCREMENT de la tabla `facturametadatas`
 --
@@ -3452,7 +3497,7 @@ ALTER TABLE `facturametadatas`
 -- AUTO_INCREMENT de la tabla `facturas`
 --
 ALTER TABLE `facturas`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 --
 -- AUTO_INCREMENT de la tabla `footers`
 --
@@ -3492,7 +3537,7 @@ ALTER TABLE `modelo_aeronaves`
 -- AUTO_INCREMENT de la tabla `modulos`
 --
 ALTER TABLE `modulos`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 --
 -- AUTO_INCREMENT de la tabla `montos_fijos`
 --
@@ -3552,7 +3597,7 @@ ALTER TABLE `precios_cargas`
 -- AUTO_INCREMENT de la tabla `puertos`
 --
 ALTER TABLE `puertos`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 --
 -- AUTO_INCREMENT de la tabla `roles`
 --

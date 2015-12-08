@@ -147,7 +147,6 @@
 								</div>
 							</div>								
 						</div>  
-
 						<!-- Cobros -->
 						<div class="box box-info">
 
@@ -160,6 +159,17 @@
 							</div>		
 											
 							<div class="box-body" >
+									
+								<div class="col-md-12" style="margin-bottom: 20px">
+									<div class="form-inline" >
+										<label style="margin-right: 20px"><strong>Condición de pago</strong></label>
+										<select name="condicionPago" id="condicionPago-select" class="form-control">
+											<option value=""><-- Seleccione --></option>
+											<option value="Contado"> Contado</option>
+											<option value="Crédito"> Crédito</option>
+										</select>
+									</div><!-- /.form group -->
+								</div><!-- /.form group -->
 								<!-- Estacionamiento -->
 								<div class="col-sm-3" >
 									<label>
@@ -178,6 +188,8 @@
 												</div>
 											</div><!-- /.input group -->
 										</div><!-- /.form group -->
+
+
 									</div><!--/. box-body -->
 								</div><!--/. col -->
 
@@ -369,6 +381,7 @@
 							</div> <!-- /. box-body -->
 						</div>
 					</form>
+				</div>
 				<div class="box-footer" align="right">
 					<button class="btn btn-default" type="button" id="cancel-despegue-btn">Cancelar </button>
 					<button class="btn btn-primary" type="submit" id="save-despegue-btn"> Registrar </button>
@@ -510,7 +523,7 @@ $(document).ready(function(){
 		$('#save-despegue-btn').click(function(){
 
 			var data=$('#despegue-form').serializeArray();
-			console.log(data);
+
 
 			var overlay="<div class='overlay'>\
 							<i class='fa fa-refresh fa-spin'></i>\

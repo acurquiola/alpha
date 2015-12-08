@@ -50,6 +50,8 @@ class ViewComposerServiceProvider extends ServiceProvider {
             $view->with(compact('aeropuertos'));
         });
 
+
+
         view()->composer(['cliente.partials.form'], function($view){
             $paises = \App\Pais::lists('nombre','id');
             $view->with(compact('paises'));
@@ -99,7 +101,9 @@ class ViewComposerServiceProvider extends ServiceProvider {
             $view->with(compact('conceptos'));
         });
 
-        view()->composer(['factura.edit', 'factura.create' ], function($view){
+
+        view()->composer(['factura.edit', 'factura.create', 'factura.partials.show' ], function($view){
+
             $route        =\Route::current();
             $params       =$route->parameters();
             $moduloNombre =($params["modulo"]=="Todos")?"%":$params["modulo"];
@@ -108,20 +112,26 @@ class ViewComposerServiceProvider extends ServiceProvider {
             $view->with(compact('clientes', 'conceptos'));
         });
 
-        \View::composer(['reportes.reporteDiario'], function($view){
+        view()->composer(['reportes.reporteClienteReciboMensual', 'reportes.reporteDiario', 'reportes.reporteModuloMetaMensual', 'reportes.reporterFacturadoCobradoMensual', 'reportes.reporteDES900'], function($view){
+            $aeropuertos = \App\Aeropuerto::lists('nombre', 'id');
+            $aeropuertos[0]="Todos";
+            $view->with(compact('aeropuertos'));
+        });
+
+        \View::composer(['reportes.reporteClienteReciboMensual', 'reportes.reporteDiario', 'reportes.reporteModuloMetaMensual', 'reportes.reporterFacturadoCobradoMensual', 'reportes.reporteDES900'], function($view){
             $meses=[
-                "01"=>"01",
-                "02"=>"02",
-                "03"=>"03",
-                "04"=>"04",
-                "05"=>"05",
-                "06"=>"06",
-                "07"=>"07",
-                "08"=>"08",
-                "09"=>"09",
-                "10"=>"10",
-                "11"=>"11",
-                "12"=>"12"];
+                "01"=>"ENERO",
+                "02"=>"FEBRERO",
+                "03"=>"MARZO",
+                "04"=>"ABRIL",
+                "05"=>"MAYO",
+                "06"=>"JUNIO",
+                "07"=>"JULIO",
+                "08"=>"AGOSTO",
+                "09"=>"SEPTIEMBRE",
+                "10"=>"OCTUBRE",
+                "11"=>"NOVIEMBRE",
+                "12"=>"DICIEMBRE"];
 
             $annos=[
                 "2010"=>"2010","2011"=>"2011",

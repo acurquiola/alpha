@@ -8,7 +8,11 @@
 	</div>
 	<label for="condicionPago" class="col-xs-1 control-label"><strong>Cond. de pago<span class="text-danger">*</span></strong> </label>
 	<div class="col-xs-3">
+	@if(!isset($bloqueoDosa))
 		{!! Form::select('condicionPago', ["Crédito" => "Crédito", "Contado"=>"Contado"], null, [ 'class'=>"form-control", $disabled]) !!}
+	@else		
+		{!! Form::text('condicionPago', $condicionPago, [ 'class'=>"form-control", $disabled] ) !!}
+	@endif
 	</div>
 	<label for="nControl" class="col-xs-1 control-label"><strong>N° Control<span class="text-danger">*</span></strong> </label>
 	<div class="col-xs-3">
@@ -25,10 +29,24 @@
 	<div class="col-xs-3">
 		{!! Form::text('fecha', null, [ 'class'=>"form-control", $disabled, "id" =>"fecha"] ) !!}
 	</div>
+
+	@if(!isset($bloqueoDosa) || isset($facturaCarga))
 	<label for="inputEmail3" class="col-xs-1  control-label"><strong>Fecha Venc.<span class="text-danger">*</span> </strong></label>
 	<div class="col-xs-3">
 		{!! Form::text('fechaVencimiento', null, [ 'class'=>"form-control", $disabled, "id" =>"fechaVencimiento"]) !!}
+		@if(isset($facturaCarga))
+					{!! Form::hidden('carga_id', $carga_id) !!}
+		@endif
 	</div>
+	@else
+	<label for="inputEmail3" class="col-xs-1  control-label"><strong>Nro. Dosa<span class="text-danger">*</span> </strong></label>
+	<div class="col-xs-3 ">
+		{!! Form::text('nroDosa', null, [ 'class'=>"form-control", $disabled]) !!}
+		{!! Form::hidden('fechaVencimiento') !!}
+		{!! Form::hidden('despegue_id', $despegue_id) !!}
+	</div>
+	@endif
+
 </div>
 <div class="form-group">
 	<label for="cliente-select" class="control-label col-xs-1"><strong>Cliente<span class="text-danger">*</span></strong></label>

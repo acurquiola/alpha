@@ -19,6 +19,7 @@ class Hangar extends Model {
     {
         return $this->belongsToMany('App\Cliente');
     }
+    
 
 
 }
