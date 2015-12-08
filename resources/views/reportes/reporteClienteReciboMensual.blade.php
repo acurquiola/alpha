@@ -73,7 +73,7 @@
                         @if($recibos->count()>0)
                         @foreach($recibos as $recibo)
                             <tr>
-                                <td>{{$recibo->cobro->factura()->first()->cliente->nombre}}</td>
+                                <td>{{$recibo->cobro->facturas()->first()->cliente->nombre}}</td>
                                 <td>{{$recibo->cobro->id}}</td>
                                 <td>{{$recibo->fecha}}</td>
                                 <td>{{$recibo->fecha}}</td>
