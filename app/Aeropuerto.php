@@ -32,4 +32,25 @@ class Aeropuerto extends Model {
         return $this->hasMany('App\Usuario');
     }
 
+    public function aterrizaje()
+    {
+        return $this->hasMany('App\Aterrizaje');
+    }
+
+    public function despegue()
+    {
+        return $this->hasMany('App\Despegue');
+    }
+
+    public function carga()
+    {
+        return $this->hasMany('App\Carga');
+    }
+
+
+    public function Aeronave()
+    {
+        return $this->hasMany('App\Aeronave');
+    }
+
 }

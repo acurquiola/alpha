@@ -127,6 +127,16 @@
 										</div><!-- /.input group -->
 									</div><!-- /.form group -->
 								</div>
+                <div class="col-md-12" style="margin-bottom: 20px">
+                  <div class="form-inline" >
+                    <label style="margin-right: 20px"><strong>Condición de pago</strong></label>
+                    <select name="condicionPago" id="condicionPago-select" class="form-control">
+                      <option value=""><-- Seleccione --></option>
+                      <option value="Contado"> Contado</option>
+                      <option value="Crédito"> Crédito</option>
+                    </select>
+                  </div><!-- /.form group -->
+                </div><!-- /.form group -->
 
 								<!-- Observaciones --> 
 								<div class="form-group col-md-12" style="margin-top: 20px">
