@@ -175,6 +175,7 @@ class FacturaController extends Controller {
 	{
         $facturaData         =$this->getFacturaDataFromRequest($request);
         $facturaDetallesData =$this->getFacturaDetallesDataFromRequest($request);
+        $facturaData['estado']='P';
         if ($request->has('nroDosa'))
             $facturaData['nroDosa'] = $request->get('nroDosa');
         $factura   =\App\Factura::create($facturaData);

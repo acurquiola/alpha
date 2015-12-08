@@ -131,7 +131,11 @@
 											<td class='text-justify'>{{$factura->id}}</td>
 											<td style="text-align: left">{{$factura->cliente->nombre}}</td>
 											<td style="text-align: left">{{$factura->descripcion}}</td>
-											<td class='text-justify'>Pendiente</td>
+											<td class='text-justify'>
+											    @if($factura->estado=='P')
+											        Pendiente
+                                                @endif
+											</td>
 											<td class='text-justify'>{{$factura->fecha}}</td>
 											<td style="text-align: right">{{$factura->total}}</td>
 											<td>

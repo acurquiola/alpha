@@ -28,8 +28,8 @@
       <file leaf-file-name="CobranzaController.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/Http/Controllers/CobranzaController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-19.615385" vertical-offset="3672" max-vertical-offset="4420">
-              <caret line="250" column="80" selection-start-line="250" selection-start-column="80" selection-end-line="250" selection-end-column="80" />
+            <state vertical-scroll-proportion="-17.0" vertical-offset="1173" max-vertical-offset="4420">
+              <caret line="99" column="97" selection-start-line="99" selection-start-column="97" selection-end-line="99" selection-end-column="97" />
               <folding />
             </state>
           </provider>
@@ -38,7 +38,7 @@
       <file leaf-file-name="2015_07_23_060536_create_facturas_table.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/database/migrations/2015_07_23_060536_create_facturas_table.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="9.807693" vertical-offset="289" max-vertical-offset="1309">
+            <state vertical-scroll-proportion="0.0" vertical-offset="289" max-vertical-offset="1309">
               <caret line="2" column="0" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
               <folding />
             </state>
@@ -48,9 +48,48 @@
       <file leaf-file-name="FacturaController.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/Http/Controllers/FacturaController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-54.26923" vertical-offset="2856" max-vertical-offset="5389">
-              <caret line="255" column="23" selection-start-line="255" selection-start-column="23" selection-end-line="255" selection-end-column="23" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="2703" max-vertical-offset="5406">
+              <caret line="177" column="35" selection-start-line="177" selection-start-column="35" selection-end-line="177" selection-end-column="35" />
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="index.blade.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/resources/views/factura/index.blade.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-19.615385" vertical-offset="1802" max-vertical-offset="4437">
+              <caret line="136" column="54" selection-start-line="136" selection-start-column="54" selection-end-line="136" selection-end-column="54" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="create.blade.php" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/resources/views/cobranza/create.blade.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.37758112" vertical-offset="13616" max-vertical-offset="14841">
+              <caret line="816" column="34" selection-start-line="816" selection-start-column="34" selection-end-line="816" selection-end-column="34" />
+              <folding>
+                <marker date="1449579825639" expanded="true" signature="16993:17001" placeholder="..." />
+                <marker date="1449579825639" expanded="true" signature="17270:17390" placeholder="..." />
+                <marker date="1449579825639" expanded="true" signature="22701:22851" placeholder="..." />
+                <marker date="1449579825639" expanded="false" signature="22927:22939" placeholder="..." />
+                <marker date="1449579825639" expanded="false" signature="23075:23087" placeholder="..." />
+                <marker date="1449579825639" expanded="true" signature="23260:23886" placeholder="..." />
+                <marker date="1449579825639" expanded="true" signature="23319:23876" placeholder="..." />
+                <marker date="1449579825639" expanded="true" signature="23362:23744" placeholder="..." />
+                <marker date="1449579825639" expanded="true" signature="23563:23616" placeholder="..." />
+                <marker date="1449579825639" expanded="true" signature="23662:23731" placeholder="..." />
+                <marker date="1449579825639" expanded="true" signature="25547:25658" placeholder="..." />
+                <marker date="1449579825639" expanded="true" signature="25578:25658" placeholder="..." />
+                <marker date="1449579825639" expanded="true" signature="25846:25984" placeholder="..." />
+                <marker date="1449579825639" expanded="true" signature="26316:27006" placeholder="..." />
+                <marker date="1449579825639" expanded="true" signature="26375:26996" placeholder="..." />
+                <marker date="1449579825639" expanded="true" signature="26418:26864" placeholder="..." />
+                <marker date="1449579825639" expanded="true" signature="26619:26672" placeholder="..." />
+                <marker date="1449579825639" expanded="true" signature="26718:26851" placeholder="..." />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -58,18 +97,18 @@
       <file leaf-file-name="main.blade.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/resources/views/cobranza/main.blade.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-16.346153" vertical-offset="153" max-vertical-offset="1054">
+            <state vertical-scroll-proportion="0.0" vertical-offset="153" max-vertical-offset="1054">
               <caret line="34" column="42" selection-start-line="34" selection-start-column="42" selection-end-line="34" selection-end-column="42" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ViewComposerServiceProvider.php" pinned="false" current-in-tab="true">
+      <file leaf-file-name="ViewComposerServiceProvider.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/Providers/ViewComposerServiceProvider.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.04719764" vertical-offset="1719" max-vertical-offset="2907">
-              <caret line="103" column="0" selection-start-line="103" selection-start-column="0" selection-end-line="103" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="1719" max-vertical-offset="2907">
+              <caret line="133" column="35" selection-start-line="133" selection-start-column="35" selection-end-line="133" selection-end-column="35" />
               <folding />
             </state>
           </provider>
@@ -85,7 +124,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/public/css/general.css" />
         <option value="$PROJECT_DIR$/database/migrations/2015_11_06_135827_create_meta_detalles_table.php" />
         <option value="$PROJECT_DIR$/database/migrations/2015_11_06_135819_create_metas_table.php" />
         <option value="$PROJECT_DIR$/app/Aeropuerto.php" />
@@ -122,7 +160,6 @@
         <option value="$PROJECT_DIR$/resources/views/configuracionPrecios/confOtrosCargos/index.blade.php" />
         <option value="$PROJECT_DIR$/composer.json" />
         <option value="$PROJECT_DIR$/saar.sql" />
-        <option value="$PROJECT_DIR$/resources/views/factura/index.blade.php" />
         <option value="$PROJECT_DIR$/app/Factura.php" />
         <option value="$PROJECT_DIR$/resources/views/pdf/factura.blade.php" />
         <option value="$PROJECT_DIR$/resources/views/reportes/reporteDiario.blade.php" />
@@ -134,8 +171,10 @@
         <option value="$PROJECT_DIR$/resources/views/reportes/reporteClienteReciboMensual.blade.php" />
         <option value="$PROJECT_DIR$/resources/views/cobranza/main.blade.php" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/CobranzaController.php" />
-        <option value="$PROJECT_DIR$/app/Http/Controllers/FacturaController.php" />
         <option value="$PROJECT_DIR$/app/Providers/ViewComposerServiceProvider.php" />
+        <option value="$PROJECT_DIR$/app/Http/Controllers/FacturaController.php" />
+        <option value="$PROJECT_DIR$/resources/views/factura/index.blade.php" />
+        <option value="$PROJECT_DIR$/resources/views/cobranza/create.blade.php" />
       </list>
     </option>
   </component>
@@ -180,6 +219,7 @@
       <sortByType />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -213,6 +253,28 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="views" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="saar" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="saar" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="resources" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="views" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="factura" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -286,7 +348,6 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -325,15 +386,15 @@
       <BehatRunner />
       <method />
     </configuration>
-    <configuration default="true" type="PhpUnitRemoteRunConfigurationType" factoryName="PHPUnit on Server">
-      <method />
-    </configuration>
     <configuration default="true" type="js.build_tools.gulp" factoryName="Gulp.js">
       <node-options />
       <gulpfile />
       <tasks />
       <pass-parent-env-vars>false</pass-parent-env-vars>
       <envs />
+      <method />
+    </configuration>
+    <configuration default="true" type="PhpUnitRemoteRunConfigurationType" factoryName="PHPUnit on Server">
       <method />
     </configuration>
     <list size="0" />
@@ -400,13 +461,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/database/migrations/2015_11_12_163533_create_tasa_cierres_table.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.5952381" vertical-offset="0" max-vertical-offset="816">
-          <caret line="26" column="40" selection-start-line="26" selection-start-column="40" selection-end-line="26" selection-end-column="40" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/database/migrations/2015_11_12_163551_create_ta_tasas_table.php">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.63965267" vertical-offset="187" max-vertical-offset="1020">
@@ -672,7 +726,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="3215" max-vertical-offset="4760">
           <caret line="212" column="89" selection-start-line="212" selection-start-column="89" selection-end-line="212" selection-end-column="89" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -680,7 +733,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.53352356" vertical-offset="51" max-vertical-offset="2805">
           <caret line="25" column="26" selection-start-line="0" selection-start-column="0" selection-end-line="159" selection-end-column="11" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -688,7 +740,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="2.14408" vertical-offset="197" max-vertical-offset="2278">
           <caret line="100" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="128" selection-end-column="11" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -696,7 +747,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="289" max-vertical-offset="2312">
           <caret line="17" column="105" selection-start-line="17" selection-start-column="105" selection-end-line="17" selection-end-column="105" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -704,7 +754,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.8095238" vertical-offset="1258" max-vertical-offset="1989">
           <caret line="117" column="95" selection-start-line="117" selection-start-column="65" selection-end-line="117" selection-end-column="95" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -722,55 +771,81 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.8023599" vertical-offset="867" max-vertical-offset="2414">
           <caret line="83" column="114" selection-start-line="83" selection-start-column="114" selection-end-line="83" selection-end-column="114" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/factura/index.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.50927246" vertical-offset="1836" max-vertical-offset="4369">
-          <caret line="129" column="22" selection-start-line="129" selection-start-column="22" selection-end-line="129" selection-end-column="22" />
-          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/resources/views/cobranza/main.blade.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-16.346153" vertical-offset="153" max-vertical-offset="1054">
+        <state vertical-scroll-proportion="0.0" vertical-offset="153" max-vertical-offset="1054">
           <caret line="34" column="42" selection-start-line="34" selection-start-column="42" selection-end-line="34" selection-end-column="42" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/CobranzaController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-19.615385" vertical-offset="3672" max-vertical-offset="4420">
-          <caret line="250" column="80" selection-start-line="250" selection-start-column="80" selection-end-line="250" selection-end-column="80" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/database/migrations/2015_07_23_060536_create_facturas_table.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="9.807693" vertical-offset="289" max-vertical-offset="1309">
+        <state vertical-scroll-proportion="0.0" vertical-offset="289" max-vertical-offset="1309">
           <caret line="2" column="0" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/FacturaController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-54.26923" vertical-offset="2856" max-vertical-offset="5389">
-          <caret line="255" column="23" selection-start-line="255" selection-start-column="23" selection-end-line="255" selection-end-column="23" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/Providers/ViewComposerServiceProvider.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.04719764" vertical-offset="1719" max-vertical-offset="2907">
-          <caret line="103" column="0" selection-start-line="103" selection-start-column="0" selection-end-line="103" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="1719" max-vertical-offset="2907">
+          <caret line="133" column="35" selection-start-line="133" selection-start-column="35" selection-end-line="133" selection-end-column="35" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/FacturaController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="2703" max-vertical-offset="5406">
+          <caret line="177" column="35" selection-start-line="177" selection-start-column="35" selection-end-line="177" selection-end-column="35" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/CobranzaController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-17.0" vertical-offset="1173" max-vertical-offset="4420">
+          <caret line="99" column="97" selection-start-line="99" selection-start-column="97" selection-end-line="99" selection-end-column="97" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/factura/index.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-19.615385" vertical-offset="1802" max-vertical-offset="4437">
+          <caret line="136" column="54" selection-start-line="136" selection-start-column="54" selection-end-line="136" selection-end-column="54" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/cobranza/create.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.37758112" vertical-offset="13616" max-vertical-offset="14841">
+          <caret line="816" column="34" selection-start-line="816" selection-start-column="34" selection-end-line="816" selection-end-column="34" />
+          <folding>
+            <marker date="1449579825639" expanded="true" signature="16993:17001" placeholder="..." />
+            <marker date="1449579825639" expanded="true" signature="17270:17390" placeholder="..." />
+            <marker date="1449579825639" expanded="true" signature="22701:22851" placeholder="..." />
+            <marker date="1449579825639" expanded="false" signature="22927:22939" placeholder="..." />
+            <marker date="1449579825639" expanded="false" signature="23075:23087" placeholder="..." />
+            <marker date="1449579825639" expanded="true" signature="23260:23886" placeholder="..." />
+            <marker date="1449579825639" expanded="true" signature="23319:23876" placeholder="..." />
+            <marker date="1449579825639" expanded="true" signature="23362:23744" placeholder="..." />
+            <marker date="1449579825639" expanded="true" signature="23563:23616" placeholder="..." />
+            <marker date="1449579825639" expanded="true" signature="23662:23731" placeholder="..." />
+            <marker date="1449579825639" expanded="true" signature="25547:25658" placeholder="..." />
+            <marker date="1449579825639" expanded="true" signature="25578:25658" placeholder="..." />
+            <marker date="1449579825639" expanded="true" signature="25846:25984" placeholder="..." />
+            <marker date="1449579825639" expanded="true" signature="26316:27006" placeholder="..." />
+            <marker date="1449579825639" expanded="true" signature="26375:26996" placeholder="..." />
+            <marker date="1449579825639" expanded="true" signature="26418:26864" placeholder="..." />
+            <marker date="1449579825639" expanded="true" signature="26619:26672" placeholder="..." />
+            <marker date="1449579825639" expanded="true" signature="26718:26851" placeholder="..." />
+          </folding>
         </state>
       </provider>
     </entry>
