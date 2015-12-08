@@ -85,12 +85,12 @@
                                 <td colspan="5" class="text-center">No hay registros para las fechas seleccionadas</td>
                             </tr>
                         @endif
-                        <tr class="bg-gray">
+<!--                         <tr class="bg-gray">
                         <td colspan="2">Totales Recaudado</td>
                             <td class="text-right" id="metaTotal">0</td>
                             <td class="text-right" id="recaudadoTotal">0</td>
                             <td class="text-right" id="diferenciaTotal">0</td>
-                        </tr>
+                        </tr> -->
 
 
 
