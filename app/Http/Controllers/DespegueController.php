@@ -340,11 +340,11 @@ class DespegueController extends Controller {
 			$factura->detalles->push($puenteAbordaje);
 
 		}
-
 		//Ítem de Habilitación
-		if($despegue->cobrar_habilitacion){
+/*		if($despegue->cobrar_habilitacion){
 			$habilitacion = new Facturadetalle();
 			$concepto_id  = CargosVario::first()->habilitacionCredito_id;
+
 			
 			$montoDes     = $eq_derechoHabilitacion * $ut;
 			$cantidadDes  = '1';
@@ -353,7 +353,7 @@ class DespegueController extends Controller {
 			$totalDes     = $montoDes + $montoIva;
 			$habilitacion->fill(compact('concepto_id', 'montoDes', 'cantidadDes', 'iva', 'totalDes'));
 			$factura->detalles->push($habilitacion);
-		}
+		}*/
 
 		return view('factura.facturaAeronautica.create', compact('factura'));
 	}

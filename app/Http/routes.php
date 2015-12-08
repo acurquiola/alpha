@@ -84,7 +84,9 @@ Route::post('contrato/lote',"ContratoController@loteStore");
 Route::resource('contrato', 'ContratoController');
 
 
-
+Route::get('tasas/taquilla', function(){
+    return view('tasas.taquilla');
+});
 
 Route::group(['prefix' => 'administracion/'], function () {
     Route::get('usuario/estadoUser', 'UsuarioController@estadoUser');

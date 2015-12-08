@@ -3,7 +3,7 @@
 <ol class="breadcrumb">
 	<li><a href="{{url('principal')}}">Inicio</a></li>
 	<li><a id="listado-despegues" href="{{action('DespegueController@index')}}">Lista de Despegues</a></li>
-	<li><a id="registro-despegues" class="active">Facturación de Dosa</a></li>
+	<li><a id="registro-despegues" class="active">Creación de Dosa</a></li>
 </ol>
 <div class="row" id="box-wrapper">
 	<!-- left column -->
@@ -12,7 +12,7 @@
 		{!! Form::model($factura, ["url" => action('FacturaController@store'), "method" => "POST", "class" => "form-horizontal"]) !!}
 		<div id="main-box" class="box box-primary">
 			<div class="box-header">
-				<h3 class="box-title">Creación de Factura de Dosa</h3>
+				<h3 class="box-title">Creación Dosa</h3>
 			</div><!-- /.box-header -->
 			<!-- form start -->
 

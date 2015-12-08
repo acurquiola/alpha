@@ -34,12 +34,12 @@ class ReporteController extends Controller {
                     ->where('conceptos.modulo_id', "=",$modulo->id)
                     ->where('facturas.fecha', $primerDiaMes)->sum('facturas.total');
                 foreach($modulo->conceptos as $concepto){
-                    $montos[$primerDiaMes->format('d/m/Y')][$modulo->nombre][$concepto->nompre]=\DB::table('facturas')
-                        ->join('facturadetalles','facturas.id' , '=', 'facturadetalles.factura_id')
+                    $montos[$primerDiaMes->format('d/m/Y')][$modulo->nombre][$concepto->nompre]=\DB::table('facturadetalles')
+                        ->join('facturas','facturas.id' , '=', 'facturadetalles.factura_id')
                         ->join('conceptos','conceptos.id' , '=', 'facturadetalles.concepto_id')
                         ->where('conceptos.modulo_id', "=",$modulo->id)
                         ->where('facturadetalles.concepto_id', $concepto->id)
-                        ->where('facturas.fecha', $primerDiaMes)->sum('facturas.total');
+                        ->where('facturas.fecha', $primerDiaMes)->pluck('facturadetalles.totalDes');
 
 
 

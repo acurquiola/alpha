@@ -1,5 +1,5 @@
- @include('shared.header')
- @include('shared.menu')
+@extends('app')
+@section('content')
 
    <div class="row">
                 <!-- left column -->
@@ -111,9 +111,9 @@
                 </div>
 
               </div>
-  @include('shared.footer')
+@endsection
 
-
+@section('script')
       <script>
 
 function calcularMonto(e,increment){
@@ -204,3 +204,5 @@ calcularMonto(input,0);},500)
 
 
       </script>
+
+      @endsection
