@@ -121,11 +121,36 @@ class ReporteController extends Controller {
         return view('reportes.reporterFacturadoCobradoMensual', compact('montosMeses', 'anno', 'aeropuerto'));
     }
 
+
     public function getReporteDES900(Request $request){
         $mes        =$request->get('mes', \Carbon\Carbon::now()->month);
         $anno       =$request->get('anno',  \Carbon\Carbon::now()->year);
         $aeropuerto =$request->get('aeropuerto',  0);
         $despegues = \App\Despegue::with("factura", "aterrizaje")->where('fecha', 'LIKE', '%-'.$mes.'-%')->get();;
         return view('reportes.reporteDES900', compact('mes', 'anno', 'aeropuerto', 'despegues'));
+
+    public function getReporteClienteReciboMensual(Request $request){
+        $modulos=\App\Modulo::where('aeropuerto_id', session('aeropuerto')->id )->lists('nombre','id');
+        $mes=$request->get('mes', \Carbon\Carbon::now()->month);
+        $anno=$request->get('anno',  \Carbon\Carbon::now()->year);
+        $aeropuerto=$request->get('aeropuerto',  0);
+        $modulo=$request->get('modulo', \App\Modulo::where('aeropuerto_id', session('aeropuerto')->id )->first()->id);
+        $primerDiaMes=\Carbon\Carbon::create($anno, $mes,1)->startOfMonth();
+        $ultimoDiaMes=\Carbon\Carbon::create($anno, $mes,1)->endOfMonth();
+        $recibos=\App\Cobrospago::where('fecha','>=' ,$primerDiaMes)
+                                ->where('fecha','<=' ,$ultimoDiaMes)
+                                ->whereHas('cobro', function($query) use ($aeropuerto, $modulo){
+                                    $query->whereHas('facturas', function($query) use ($aeropuerto, $modulo){
+                                        $query->where('facturas.aeropuerto_id',($aeropuerto==0)?">":"=", $aeropuerto)
+                                                ->whereHas('detalles', function($query)  use ($aeropuerto, $modulo){
+                                                    $query->whereHas('concepto', function($query)  use ($aeropuerto, $modulo){
+                                                        $query->where('modulo_id', $modulo);
+                                                    });
+                                        });
+                                    });
+                                })->orderBy('fecha', 'DESC')
+                                ->get();
+        return view('reportes.reporteClienteReciboMensual', compact('mes', 'anno', 'aeropuerto', 'modulo', 'recibos', 'modulos'));
+
     }
 }

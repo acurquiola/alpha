@@ -15,17 +15,25 @@
                         </div><!-- /.box-tools -->
                 </div>
                 <div class="box-body text-right">
-                    {!! Form::open(["url" => action('ReporteController@getReporterFacturadoCobradoMensual'), "method" => "GET", "class"=>"form-inline"]) !!}
+                    {!! Form::open(["url" => action('ReporteController@getReporteClienteReciboMensual'), "method" => "GET", "class"=>"form-inline"]) !!}
                     <div class="form-group">
-                        <label>Seleccione un aeropuerto:</label>
+                        <label>Modulo:</label>
+                          {!! Form::select('modulo', $modulos, $modulo, ["class"=> "form-control"]) !!}
+                    </div>
+                    <div class="form-group">
+                        <label>Aeropuerto:</label>
                           {!! Form::select('aeropuerto', $aeropuertos, $aeropuerto, ["class"=> "form-control"]) !!}
                     </div>
                     <div class="form-group">
-                        <label>Seleccione un año:</label>
+                        <label>Mes:</label>
+                          {!! Form::select('mes', $meses, $mes, ["class"=> "form-control"]) !!}
+                    </div>
+                    <div class="form-group">
+                        <label>Año:</label>
                           {!! Form::select('anno', $annos, $anno, ["class"=> "form-control"]) !!}
                     </div>
                     <button type="submit" class="btn btn-default">Buscar</button>
-                    <a class="btn btn-default" href="{{action('ReporteController@getReporterFacturadoCobradoMensual')}}">Reset</a>
+                    <a class="btn btn-default" href="{{action('ReporteController@getReporteClienteReciboMensual')}}">Reset</a>
                     {!! Form::close() !!}
                 </div>
             </div>
@@ -40,43 +48,47 @@
                     <div class="row">
                         <div class="col-xs-12">
 
-                        <div class="table-responsive">
+                        <div class="table-responsive" style="max-height: 500px">
                          <table class="table table-hover table-condensed">
                          <thead  class="bg-primary">
                          <tr>
                              <th style="vertical-align: middle" class="text-center">
-                                Mes
+                                Nº
                              </th>
                              <th style="vertical-align: middle" class="text-center">
-                                Facturado
+                                Concepto
                              </th>
                              <th style="vertical-align: middle" class="text-center">
-                                Cobrado
+                                Meta
                              </th>
                              <th style="vertical-align: middle" class="text-center">
-                                Por Cobrar
+                                Recaudado
                              </th>
                              <th style="vertical-align: middle" class="text-center">
-                                Cobro Meses Anteriores
+                                Diferencia
                              </th>
                          </tr>
                          </thead>
                         <tbody>
-                        @foreach($montosMeses as $mes => $montos)
-                        <tr>
-                            <td>{{$mes}}</td>
-                            <td class="text-right facturado">{{$montos["facturado"]}}</td>
-                            <td class="text-right cobrado">{{$montos["cobrado"]}}</td>
-                            <td class="text-right porCobrar">{{$montos["porCobrar"]}}</td>
-                            <td class="text-right cobroAnterior">{{$montos["cobroAnterior"]}}</td>
-                        </tr>
+                        @if($recibos->count()>0)
+                        @foreach($recibos as $recibo)
+                            <tr>
+                                <td>{{$recibo->cobro->factura()->first()->cliente->nombre}}</td>
+                                <td>{{$recibo->cobro->id}}</td>
+                                <td>{{$recibo->fecha}}</td>
+                                <td>{{$recibo->fecha}}</td>
+                            </tr>
                         @endforeach
+                        @else
+                            <tr>
+                                <td colspan="5" class="text-center">No hay registros para las fechas seleccionadas</td>
+                            </tr>
+                        @endif
                         <tr class="bg-gray">
-                            <td>Totales</td>
-                            <td class="text-right" id="facturadoTotal">0</td>
-                            <td class="text-right" id="cobradoTotal">0</td>
-                            <td class="text-right" id="porCobrarTotal">0</td>
-                            <td class="text-right" id="cobroAnteriorTotal">0</td>
+                        <td colspan="2">Totales Recaudado</td>
+                            <td class="text-right" id="metaTotal">0</td>
+                            <td class="text-right" id="recaudadoTotal">0</td>
+                            <td class="text-right" id="diferenciaTotal">0</td>
                         </tr>
 
 
@@ -95,35 +107,29 @@
 
 @endsection
 
-
 @section('script')
 <script>
 $(function(){
 
-    var facturadoTotal=0;
-    $('.facturado').each(function(index,value){
-        facturadoTotal+=parseInt($(value).text().trim());
+    var metaTotal=0;
+    $('.meta').each(function(index,value){
+        metaTotal+=parseInt($(value).text().trim());
     });
 
-    var cobradoTotal=0;
-    $('.cobrado').each(function(index,value){
-        cobradoTotal+=parseInt($(value).text().trim());
+    var recaudadoTotal=0;
+    $('.recaudado').each(function(index,value){
+        recaudadoTotal+=parseInt($(value).text().trim());
     });
 
-    var porCobrarTotal=0;
-    $('.porCobrar').each(function(index,value){
-        porCobrarTotal+=parseInt($(value).text().trim());
+    var diferenciaTotal=0;
+    $('.diferencia').each(function(index,value){
+        diferenciaTotal+=parseInt($(value).text().trim());
     });
 
-    var cobroAnteriorTotal=0;
-    $('.cobroAnterior').each(function(index,value){
-        cobroAnteriorTotal+=parseInt($(value).text().trim());
-    });
+    $('#metaTotal').text(metaTotal);
+    $('#recaudadoTotal').text(recaudadoTotal);
+    $('#diferenciaTotal').text(diferenciaTotal);
 
-    $('#facturadoTotal').text(facturadoTotal);
-    $('#cobradoTotal').text(cobradoTotal);
-    $('#porCobrarTotal').text(porCobrarTotal);
-    $('#cobroAnteriorTotal').text(cobroAnteriorTotal);
 })
 </script>
 

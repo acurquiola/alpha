@@ -813,8 +813,8 @@ $('#save-cobro-btn').click(function(){
 		var o={
 			id:$(value).data('id'),
 			montoAbonado: $(value).find('.saldo-abonado-input').val(),
-			islrpercentage:$(value).find('.retencion-pagar').data('islrModal'),
-			ivapercentage:$(value).find('.retencion-pagar').data('ivaModal')
+			islrpercentage:$(value).data('islrper'),
+			ivapercentage:$(value).data('ivaper')
 		}
 
 		facturas.push(o);
