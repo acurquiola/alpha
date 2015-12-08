@@ -128,15 +128,19 @@ class FacturaController extends Controller {
         $modulo=\App\Modulo::where("nombre","like",$id)->first();
 
 
+
             $modulo->facturas=\App\Factura::select("facturas.*","clientes.nombre as clienteNombre")
                                             ->join('clientes','clientes.id' , '=', 'facturas.cliente_id')
+                                            ->join('facturadetalles','facturas.id' , '=', 'facturadetalles.factura_id')
+                                            ->join('conceptos','conceptos.id' , '=', 'facturadetalles.concepto_id')
+                                            ->where('conceptos.modulo_id', "=", $modulo->id)
                                             ->where('facturas.id', $facturaIdOperator, $facturaId)
                                             ->where('total', $totalOperator, $total)
                                             ->where('fecha', $fechaOperator, $fecha)
                                             ->where('descripcion', 'like', "%$descripcion%")
                                             ->where('clientes.nombre', 'like', "%$clienteNombre%")
                                             ->where('facturas.aeropuerto_id','=', session('aeropuerto')->id)
-                                            ->with('cliente')
+                                            ->with('cliente')->groupBy("facturas.id")
                                             ->orderBy($sortName, $sortType)->paginate(50);
 
         $modulo->facturas->setPath('');
@@ -283,6 +287,7 @@ class FacturaController extends Controller {
                                         ->join('facturadetalles','facturas.id' , '=', 'facturadetalles.factura_id')
                                         ->join('conceptos','conceptos.id' , '=', 'facturadetalles.concepto_id')
                                         ->where('conceptos.modulo_id', "=", $modulo->id)
+                                        ->where('facturas.aeropuerto_id','=', session('aeropuerto')->id)
                                         ->groupBy("facturas.id")->get();
         $modulo->facturas->load('cliente');
         }

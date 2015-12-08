@@ -32,7 +32,7 @@
 					<tbody>
 						@if($modulo->facturas->count()==0)
 						<tr>
-							<td colspan="5">No hay facturas registradas en este módulo</td>
+							<td colspan="7" class="text-center">No hay facturas registradas en este módulo</td>
 						</tr>
 						@endif
 						@foreach($modulo->facturas as $factura)

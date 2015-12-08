@@ -101,7 +101,7 @@ class ViewComposerServiceProvider extends ServiceProvider {
             $view->with(compact('conceptos'));
         });
 
-        view()->composer(['factura.edit', 'factura.create' ], function($view){
+        view()->composer(['factura.edit', 'factura.create', 'factura.partials.show' ], function($view){
             $route        =\Route::current();
             $params       =$route->parameters();
             $moduloNombre =($params["modulo"]=="Todos")?"%":$params["modulo"];
@@ -110,13 +110,13 @@ class ViewComposerServiceProvider extends ServiceProvider {
             $view->with(compact('clientes', 'conceptos'));
         });
 
-        view()->composer(['reportes.reporteDiario', 'reportes.reporteModuloMetaMensual', 'reportes.reporterFacturadoCobradoMensual'], function($view){
+        view()->composer(['reportes.reporteClienteReciboMensual', 'reportes.reporteDiario', 'reportes.reporteModuloMetaMensual', 'reportes.reporterFacturadoCobradoMensual'], function($view){
             $aeropuertos = \App\Aeropuerto::lists('nombre', 'id');
             $aeropuertos[0]="Todos";
             $view->with(compact('aeropuertos'));
         });
 
-        \View::composer(['reportes.reporteDiario', 'reportes.reporteModuloMetaMensual', 'reportes.reporterFacturadoCobradoMensual'], function($view){
+        \View::composer(['reportes.reporteClienteReciboMensual', 'reportes.reporteDiario', 'reportes.reporteModuloMetaMensual', 'reportes.reporterFacturadoCobradoMensual'], function($view){
             $meses=[
                 "01"=>"ENERO",
                 "02"=>"FEBRERO",
