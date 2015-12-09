@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 09-12-2015 a las 16:45:48
+-- Tiempo de generación: 09-12-2015 a las 17:22:25
 -- Versión del servidor: 5.6.20
 -- Versión de PHP: 5.5.15
 
@@ -158,21 +158,7 @@ CREATE TABLE IF NOT EXISTS `aterrizajes` (
   `despego` int(11) NOT NULL DEFAULT '0',
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=40 ;
-
---
--- Volcado de datos para la tabla `aterrizajes`
---
-
-INSERT INTO `aterrizajes` (`id`, `hora`, `fecha`, `aeropuerto_id`, `aeronave_id`, `cliente_id`, `tipoMatricula_id`, `nacionalidadVuelo_id`, `piloto_id`, `num_vuelo`, `puerto_id`, `desembarqueAdultos`, `desembarqueInfante`, `desembarqueTercera`, `desembarqueTransito`, `despego`, `created_at`, `updated_at`) VALUES
-(32, '21:05:00', '2015-12-03', 0, 14, 40, 3, 1, 7, 747, 3, 140, 4, 3, 3, 1, '2015-12-08 04:12:52', '2015-12-08 04:20:27'),
-(33, '00:10:00', '2015-12-03', 0, 2, 124, 3, 1, 9, 803, 4, 68, 2, 5, 0, 1, '2015-12-08 04:15:13', '2015-12-08 04:21:59'),
-(34, '18:38:00', '2015-12-03', 0, 25, 24, 1, 1, 31, 0, 5, 2, 0, 0, 0, 1, '2015-12-08 04:17:18', '2015-12-08 04:23:13'),
-(35, '00:53:39', '2015-12-06', 0, 6, 13, 3, 1, 8, 123, 4, 124, 5, 3, 0, 1, '2015-12-08 05:54:00', '2015-12-08 05:54:32'),
-(36, '20:55:51', '2015-12-07', 0, 6, 13, 3, 2, 6, 1234, 1, 35, 2, 0, 0, 0, '2015-12-08 05:56:06', '2015-12-08 05:56:06'),
-(37, '04:50:44', '2015-12-08', 0, 7, 13, 3, 1, 10, 123, 3, 120, 1, 2, 5, 1, '2015-12-08 13:51:06', '2015-12-08 13:52:05'),
-(38, '15:43:06', '2015-12-08', 0, 3, 124, 3, 1, 8, 420, 3, 15, 15, 15, 0, 0, '2015-12-09 00:43:32', '2015-12-09 00:43:32'),
-(39, '15:54:21', '2015-12-08', 0, 23, 130, 1, 1, 17, 0, 4, 3, 0, 0, 0, 1, '2015-12-09 00:54:49', '2015-12-09 01:29:18');
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=37 ;
 
 -- --------------------------------------------------------
 
@@ -237,23 +223,10 @@ CREATE TABLE IF NOT EXISTS `cargas` (
   `monto_total` double(8,2) NOT NULL,
   `precio_carga` int(10) unsigned NOT NULL,
   `facturado` int(11) NOT NULL DEFAULT '0',
-  `condicionPago` varchar(11) COLLATE utf8_unicode_ci DEFAULT NULL,
   `factura_id` int(10) unsigned NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=7 ;
-
---
--- Volcado de datos para la tabla `cargas`
---
-
-INSERT INTO `cargas` (`id`, `fecha`, `cliente_id`, `aeronave_id`, `aeropuerto_id`, `num_vuelo`, `peso_embarcado`, `peso_desembarcado`, `observaciones`, `monto_total`, `precio_carga`, `facturado`, `condicionPago`, `factura_id`, `created_at`, `updated_at`) VALUES
-(1, '0000-00-00', 4, 5, 1, 432, 123.00, 999999.99, '', 999999.99, 0, 0, 'Crédito', 0, '2015-12-08 09:58:15', '2015-11-30 04:30:47'),
-(2, '2015-11-30', 8, 4, 1, 323, 1212.00, 424323.00, '', 638302.50, 0, 0, 'Crédito', 19, '2015-12-08 09:58:15', '2015-12-08 02:34:49'),
-(3, '2015-11-30', 8, 4, 1, 323, 1212.00, 424323.00, '', 638302.50, 0, 0, 'Crédito', 0, '2015-12-08 09:58:15', '2015-11-30 04:39:36'),
-(4, '2015-11-30', 10, 5, 1, 211, 232.00, 323.00, '', 832.50, 0, 0, 'Crédito', 0, '2015-12-08 09:58:15', '2015-11-30 04:43:57'),
-(5, '2015-12-08', 4, 5, 0, 123, 11.00, 11.00, '', 33.00, 0, 0, 'Contado', 0, '2015-12-08 18:58:47', '2015-12-08 18:58:47'),
-(6, '2015-12-08', 13, 6, 0, 425, 150.00, 1500.00, '', 2475.00, 0, 0, 'Crédito', 25, '2015-12-08 21:56:51', '2015-12-09 02:26:51');
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=5 ;
 
 -- --------------------------------------------------------
 
@@ -359,7 +332,7 @@ INSERT INTO `clientes` (`id`, `codigo`, `cedRifPrefix`, `cedRif`, `nit`, `nombre
 (10, '1375', 'J', '309342428', '', 'AEROECOM, C.A.', 'Aeronáutico', 0, 0, '2011-11-15', 'AV. FRANCISCO DE MIRANDA  TORRE LA PRIMERA PISO 3 OFIC.381. CARACAS.', 'CARACAS', 232, '', '', NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, '2011-11-15 04:30:00', '0000-00-00 00:00:00'),
 (11, '1425', 'J', '307376236', '', 'AEROGUAPARO, C.A.', 'Aeronáutico', 0, 0, '2012-10-19', 'VALENCIA - ESTADO CARABOBO.', '', 232, '', '', NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, '2012-10-19 04:30:00', '0000-00-00 00:00:00'),
 (12, '0082', 'J', '001531297', '', 'AEROPANAMERICANO, C.A', 'Aeronáutico', 0, 0, '2006-02-15', 'AV. TERESA  DE  LA  PARRA  ED. SERPAPROCA  STA.  MONICADTO. FEDERAL', 'CARACAS', 232, '1041', '0286-9511552', NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, '2006-02-15 04:30:00', '0000-00-00 00:00:00'),
-(13, '0004', 'J', '303994911', '81984700', 'AEROPOSTAL ALAS DE VENEZUELA,  C.A.', 'Aeronáutico', 0, 0, '2005-11-16', 'AV. PASEO COLON, URB. LOS CAOBOS , PLAZA  VENEZUELA, TORRE POLAR OESTE.  PISOS 21, 22 Y 23  CARACAS', 'CARACAS', 232, '', '0212-7086211 /7826323', '0212-9510100', NULL, '', NULL, NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, '2005-11-16 04:30:00', '0000-00-00 00:00:00'),
+(13, '0004', 'J', '303994911', '81984700', 'AEROPOSTAL ALAS DE VENEZUELA,  C.A.', 'Aeronáutico', 0, 0, '2005-11-16', 'AV. PASEO COLON, URB. LOS CAOBOS , PLAZA  VENEZUELA, TORRE POLAR OESTE.  PISOS 21, 22 Y 23  CARACAS', 'CARACAS', 232, '', '0212- 7086211 /7826323. FAX: 0212-9510100', NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, '2005-11-16 04:30:00', '0000-00-00 00:00:00'),
 (14, '1338', 'J', '299707554', '', 'AEROPULLMAN 01, C.A.', 'Aeronáutico', 0, 0, '2011-05-25', 'HANGAR  Nº 129, AEROPUERTO CARACAS, VENEZUELA.', '', 232, '', '', NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, '2011-05-25 04:30:00', '0000-00-00 00:00:00'),
 (15, '1400', 'J', '306900926', '', 'AEROQUEST C.A .', 'Aeronáutico', 0, 0, '2012-05-15', 'CARACAS - VENEZUELA.', '', 232, '', '', NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, '2012-05-15 04:30:00', '0000-00-00 00:00:00'),
 (16, '0100', 'J', '314755250', '', 'AEROSERVICIO GUAYANA. R.L.', 'No Aeronáutico', 0, 0, '2007-08-13', 'AV. GUAYANA URB. UNARE II, SECTOR II. AEROPUERTO MANUEL CARLOS PIAR. PTO. ORDAZ.', 'CIUDAD GUAYANA', 232, '8050', '', NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, '2007-08-13 04:30:00', '0000-00-00 00:00:00'),
@@ -739,24 +712,12 @@ CREATE TABLE IF NOT EXISTS `despegues` (
   `cobrar_servHandling` int(11) NOT NULL DEFAULT '0',
   `cobrar_habilitacion` int(11) NOT NULL DEFAULT '0',
   `aterrizaje_id` int(10) unsigned NOT NULL,
-  `condicionPago` varchar(11) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `condicionPago` int(11) DEFAULT NULL,
   `factura_id` int(10) unsigned NOT NULL,
   `facturado` int(11) NOT NULL DEFAULT '0',
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=59 ;
-
---
--- Volcado de datos para la tabla `despegues`
---
-
-INSERT INTO `despegues` (`id`, `hora`, `fecha`, `aeropuerto_id`, `num_vuelo`, `aeronave_id`, `puerto_id`, `piloto_id`, `tipoMatricula_id`, `nacionalidadVuelo_id`, `cliente_id`, `embarqueAdultos`, `embarqueInfante`, `embarqueTercera`, `transitoAdultos`, `transitoInfante`, `transitoTercera`, `tiempo_estacionamiento`, `numero_puenteAbordaje`, `tiempo_puenteAbord`, `cobrar_estacionamiento`, `cobrar_puenteAbordaje`, `cobrar_Formulario`, `cobrar_AterDesp`, `cobrar_Combustible`, `cobrar_servHandling`, `cobrar_habilitacion`, `aterrizaje_id`, `condicionPago`, `factura_id`, `facturado`, `created_at`, `updated_at`) VALUES
-(53, '05:50:00', '2015-12-04', 0, 740, 14, 3, 14, 3, 1, 40, 123, 0, 1, 0, 0, 0, 525.00, 1, 2.00, 1, 1, 0, 1, 0, 0, 0, 32, 'Crédito', 20, 0, '2015-12-08 04:20:27', '2015-12-08 05:44:33'),
-(54, '06:00:00', '2015-12-03', 0, 802, 2, 4, 20, 3, 1, 124, 66, 0, 0, 0, 0, 0, 350.00, 1, 2.00, 1, 1, 0, 1, 0, 0, 1, 33, 'Crédito', 22, 0, '2015-12-08 04:21:59', '2015-12-08 05:53:06'),
-(55, '14:30:00', '2015-12-04', 0, 0, 25, 5, 18, 1, 1, 24, 2, 0, 0, 0, 0, 0, 1192.00, 0, 0.00, 1, 0, 0, 1, 0, 0, 0, 34, 'Contado', 21, 0, '2015-12-08 04:23:13', '2015-12-08 05:51:05'),
-(56, '20:54:02', '2015-12-07', 0, 563, 6, 4, 12, 3, 1, 13, 0, 0, 0, 0, 0, 0, 2640.00, 1, 1.00, 1, 1, 0, 0, 0, 0, 1, 35, 'Contado', 0, 0, '2015-12-08 05:54:31', '2015-12-08 05:54:32'),
-(57, '04:51:10', '2015-12-08', 0, 121, 7, 4, 22, 3, 1, 13, 12, 2, 0, 0, 0, 0, 0.00, 0, 0.00, 0, 0, 0, 1, 0, 0, 1, 37, 'Contado', 23, 0, '2015-12-08 13:52:05', '2015-12-08 14:07:57'),
-(58, '16:25:01', '2015-12-08', 0, 0, 23, 4, NULL, 1, 1, 130, 15, 1, 0, 4, 1, 2, 30.00, 0, 0.00, 1, 0, 1, 1, 0, 0, 0, 39, 'Contado', 24, 0, '2015-12-09 01:29:17', '2015-12-09 01:33:30');
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=57 ;
 
 -- --------------------------------------------------------
 
@@ -957,7 +918,7 @@ CREATE TABLE IF NOT EXISTS `facturadetalles` (
   `totalDes` double(8,2) unsigned NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=40 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=34 ;
 
 --
 -- Volcado de datos para la tabla `facturadetalles`
@@ -972,13 +933,7 @@ INSERT INTO `facturadetalles` (`id`, `factura_id`, `concepto_id`, `cantidadDes`,
 (30, 22, 69, 1, 2982.65, 0.00, 0.00, 0.00, 0.00, 0.00, 2982.65, '2015-12-08 05:53:06', '2015-12-08 05:53:06'),
 (31, 22, 68, 1, 2887.50, 0.00, 0.00, 0.00, 0.00, 0.00, 2887.50, '2015-12-08 05:53:06', '2015-12-08 05:53:06'),
 (32, 22, 58, 1, 1713.00, 0.00, 0.00, 0.00, 0.00, 0.00, 1713.00, '2015-12-08 05:53:06', '2015-12-08 05:53:06'),
-(33, 22, 56, 1, 2100.00, 0.00, 0.00, 0.00, 0.00, 0.00, 2100.00, '2015-12-08 05:53:06', '2015-12-08 05:53:06'),
-(34, 23, 54, 1, 3202.97, 0.00, 0.00, 0.00, 0.00, 0.00, 3202.97, '2015-12-08 14:07:57', '2015-12-08 14:07:57'),
-(35, 23, 56, 1, 2100.00, 0.00, 0.00, 0.00, 0.00, 0.00, 2100.00, '2015-12-08 14:07:57', '2015-12-08 14:07:57'),
-(36, 24, 57, 1, 21.00, 0.00, 0.00, 0.00, 0.00, 0.00, 21.00, '2015-12-09 01:33:30', '2015-12-09 01:33:30'),
-(37, 24, 55, 1, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, '2015-12-09 01:33:30', '2015-12-09 01:33:30'),
-(38, 24, 54, 1, 435.00, 0.00, 0.00, 0.00, 0.00, 0.00, 435.00, '2015-12-09 01:33:30', '2015-12-09 01:33:30'),
-(39, 25, 73, 1, 2475.00, 0.00, 0.00, 0.00, 0.00, 0.00, 2475.00, '2015-12-09 02:26:51', '2015-12-09 02:26:51');
+(33, 22, 56, 1, 2100.00, 0.00, 0.00, 0.00, 0.00, 0.00, 2100.00, '2015-12-08 05:53:06', '2015-12-08 05:53:06');
 
 -- --------------------------------------------------------
 
@@ -1031,7 +986,7 @@ CREATE TABLE IF NOT EXISTS `facturas` (
   `isImpresa` tinyint(1) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=26 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=23 ;
 
 --
 -- Volcado de datos para la tabla `facturas`
@@ -1058,10 +1013,7 @@ INSERT INTO `facturas` (`id`, `aeropuerto_id`, `condicionPago`, `nControl`, `nFa
 (19, 1, 'Crédito', 111, 11111, '2015-12-07', '2016-01-07', 8, 638302.50, 0.00, 638302.50, 0.00, 0.00, 638302.50, NULL, 'ffef', '', '', 0, '2015-12-08 02:34:49', '2015-12-08 02:34:49'),
 (20, 1, 'Crédito', 1234, 1234, '2015-12-08', '2016-01-08', 40, 11582.76, 0.00, 11582.76, 0.00, 0.00, 11582.76, 1234, 'Factura', '', '', 0, '2015-12-08 05:44:32', '2015-12-08 05:44:32'),
 (21, 1, 'Crédito', 1235, 1235, '2015-12-08', '2016-01-08', 24, 1849.29, 0.00, 1849.29, 0.00, 0.00, 1849.29, 1235, 'Factura', '', '', 0, '2015-12-08 05:51:05', '2015-12-08 05:51:05'),
-(22, 1, 'Crédito', 1236, 1236, '2015-12-08', '2016-01-08', 124, 9683.15, 0.00, 9683.15, 0.00, 0.00, 9683.15, 1236, 'Factura Crédito Con Habilitación', '', '', 0, '2015-12-08 05:53:06', '2015-12-08 05:53:06'),
-(23, 1, 'Contado', 1237, 1237, '2015-12-08', '2016-01-08', 13, 5302.97, 0.00, 5302.97, 0.00, 0.00, 5302.97, 1237, 'factura', '', '', 0, '2015-12-08 14:07:57', '2015-12-08 14:07:57'),
-(24, 1, 'Contado', 1111, 1111, '2015-12-08', '2016-01-08', 130, 399.90, 0.00, 399.90, 0.00, 0.00, 399.90, 1111, 'Factura Contado', '', 'P', 0, '2015-12-09 01:33:30', '2015-12-09 01:33:30'),
-(25, 1, 'Crédito', 1111, 1111, '2015-12-08', '2016-01-08', 13, 2475.00, 0.00, 2475.00, 0.00, 0.00, 2475.00, NULL, 'Carga ', '', 'P', 0, '2015-12-09 02:26:51', '2015-12-09 02:26:51');
+(22, 1, 'Crédito', 1236, 1236, '2015-12-08', '2016-01-08', 124, 9683.15, 0.00, 9683.15, 0.00, 0.00, 9683.15, 1236, 'Factura Crédito Con Habilitación', '', '', 0, '2015-12-08 05:53:06', '2015-12-08 05:53:06');
 
 -- --------------------------------------------------------
 
@@ -2117,15 +2069,15 @@ CREATE TABLE IF NOT EXISTS `otros_cargos` (
   `conceptoContado_id` int(10) unsigned NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=3 ;
 
 --
 -- Volcado de datos para la tabla `otros_cargos`
 --
 
 INSERT INTO `otros_cargos` (`id`, `nombre_cargo`, `precio_cargo`, `conceptoCredito_id`, `conceptoContado_id`, `created_at`, `updated_at`) VALUES
-(2, 'hola', 12345.00, 67, 67, '2015-11-25 20:58:07', '2015-11-25 20:58:07'),
-(3, 'nuevo', 1500.00, 67, 67, '2015-12-09 01:05:45', '2015-12-09 01:05:45');
+(1, 'gf', 333.00, 59, 60, '2015-11-25 20:28:06', '2015-11-25 20:28:06'),
+(2, 'hola', 12345.00, 67, 67, '2015-11-25 20:58:07', '2015-11-25 20:58:07');
 
 -- --------------------------------------------------------
 
@@ -3291,7 +3243,7 @@ MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT;
 -- AUTO_INCREMENT de la tabla `aterrizajes`
 --
 ALTER TABLE `aterrizajes`
-MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=40;
+MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=37;
 --
 -- AUTO_INCREMENT de la tabla `bancos`
 --
@@ -3306,7 +3258,7 @@ MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
 -- AUTO_INCREMENT de la tabla `cargas`
 --
 ALTER TABLE `cargas`
-MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=7;
+MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT de la tabla `cargos`
 --
@@ -3366,7 +3318,7 @@ MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 -- AUTO_INCREMENT de la tabla `despegues`
 --
 ALTER TABLE `despegues`
-MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=59;
+MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=57;
 --
 -- AUTO_INCREMENT de la tabla `despegue_otros_cargo`
 --
@@ -3421,7 +3373,7 @@ MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 -- AUTO_INCREMENT de la tabla `facturadetalles`
 --
 ALTER TABLE `facturadetalles`
-MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=40;
+MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=34;
 --
 -- AUTO_INCREMENT de la tabla `facturametadatas`
 --
@@ -3431,7 +3383,7 @@ MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT;
 -- AUTO_INCREMENT de la tabla `facturas`
 --
 ALTER TABLE `facturas`
-MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=26;
+MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=23;
 --
 -- AUTO_INCREMENT de la tabla `footers`
 --
@@ -3491,7 +3443,7 @@ MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
 -- AUTO_INCREMENT de la tabla `otros_cargos`
 --
 ALTER TABLE `otros_cargos`
-MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
+MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT de la tabla `pais`
 --
