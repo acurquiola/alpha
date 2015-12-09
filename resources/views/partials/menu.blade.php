@@ -34,6 +34,7 @@
 
 
 
+		@permission('menu.systas')
 		<li class="treeview {{ (\Request::is('systas/*'))?"active":"" }}">
 			<a href="{{ URL::to('systas/inicio') }}"><i class="fa  fa-plane"></i> Systas</a>
 			<ul class="treeview-menu">
@@ -57,6 +58,7 @@
 
 			</ul>
 		</li>
+		@endpermission
 
 
 

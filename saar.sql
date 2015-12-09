@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 09-12-2015 a las 22:49:37
+-- Tiempo de generación: 09-12-2015 a las 23:00:43
 -- Versión del servidor: 5.6.20
 -- Versión de PHP: 5.5.15
 
@@ -2401,7 +2401,7 @@ CREATE TABLE IF NOT EXISTS `permissions` (
   `model` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=23 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=24 ;
 
 --
 -- Volcado de datos para la tabla `permissions`
@@ -2429,7 +2429,8 @@ INSERT INTO `permissions` (`id`, `name`, `slug`, `description`, `model`, `create
 (19, 'Menú Información', 'menu.informacion', NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
 (20, 'Menú Reportes SCV', 'menu.reporteSCV', NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
 (21, 'Menú Reportes Recaudación', 'menu.reporteRecaudacion', NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-(22, 'Menú Tasas', 'menu.tasas', NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00');
+(22, 'Menú Tasas', 'menu.tasas', NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(23, 'Menú Systas', 'menu.systas', NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -3509,7 +3510,7 @@ MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=241;
 -- AUTO_INCREMENT de la tabla `permissions`
 --
 ALTER TABLE `permissions`
-MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=23;
+MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=24;
 --
 -- AUTO_INCREMENT de la tabla `permission_role`
 --
