@@ -134,7 +134,6 @@ class DespegueController extends Controller {
 		$despegue->cobrar_AterDesp        =$request->input('cobrar_AterDesp', 0);
 		$despegue->cobrar_Combustible     =$request->input('cobrar_Combustible', 0);
 		$despegue->cobrar_servHandling    =$request->input('cobrar_servHandling', 0);	
-		$despegue->condicionPago =$request->input('condicionPago');
 		
 		$hora              = $aterrizaje->hora;
 		$inicioOperaciones = HorariosAeronautico::first()->operaciones_inicio;
