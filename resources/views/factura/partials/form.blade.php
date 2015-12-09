@@ -72,7 +72,7 @@
 
 </div>
 
-@if(!isset($bloqueoDosa))
+@if(!isset($bloqueoDosa)&&!isset($facturaCarga))
 <div class="form-group">
 	<label for="concepto-input" class="control-label col-xs-1"><strong>Concepto<span class="text-danger">*</span></strong></label>
 	<div class="col-xs-4">

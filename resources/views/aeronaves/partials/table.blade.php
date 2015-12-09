@@ -1,4 +1,4 @@
-{{dd($aeronaves)}}<div class="table-responsive">     
+<div class="table-responsive">     
 	<table id="aeronave-table" class="table no-margin">
 		<thead class="bg-primary">
 			<tr>
