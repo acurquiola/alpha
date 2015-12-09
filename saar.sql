@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 09-12-2015 a las 17:22:25
+-- Tiempo de generación: 09-12-2015 a las 20:04:13
 -- Versión del servidor: 5.6.20
 -- Versión de PHP: 5.5.15
 
@@ -712,7 +712,7 @@ CREATE TABLE IF NOT EXISTS `despegues` (
   `cobrar_servHandling` int(11) NOT NULL DEFAULT '0',
   `cobrar_habilitacion` int(11) NOT NULL DEFAULT '0',
   `aterrizaje_id` int(10) unsigned NOT NULL,
-  `condicionPago` int(11) DEFAULT NULL,
+  `condicionPago` varchar(11) COLLATE utf8_unicode_ci DEFAULT NULL,
   `factura_id` int(10) unsigned NOT NULL,
   `facturado` int(11) NOT NULL DEFAULT '0',
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
