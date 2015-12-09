@@ -525,8 +525,7 @@ $(document).ready(function(){
 		$('#save-despegue-btn').click(function(){
 
 			var data=$('#despegue-form').serializeArray();
-
-
+	
 			var overlay="<div class='overlay'>\
 							<i class='fa fa-refresh fa-spin'></i>\
 						</div>";
