@@ -36,8 +36,8 @@
 <tr>
 <td colspan="3">		
 </td>
-<td colspan="5" style="border-bottom: 1px solid black">	
-<strong>			FACTURACIÓN DE CONCEPTOS AERONÁUTICOS</strong> 	
+<td colspan="5" >	
+<strong>FACTURACIÓN DE CONCEPTOS AERONÁUTICOS</strong> 	
 </td>
 <td colspan="2">		
 </td>
@@ -48,12 +48,12 @@
 
 <table>
 <tr>
-<td colspan="4" style="border-bottom: 1px solid black; border-top: 1px solid black; ">		
+<td colspan="4" style="border-bottom: 1px solid black; ">		
 </td>
-<td colspan="4" style="border-bottom: 1px solid black; border-top: 1px solid black; ">	
+<td colspan="4" style="border-bottom: 1px solid black; ">	
 <strong>INFORMACIÓN DEL CLIENTE</strong> 	
 </td>
-<td colspan="2" style="border-bottom: 1px solid black; border-top: 1px solid black; ">		
+<td colspan="2" style="border-bottom: 1px solid black; ">		
 </td>
 </tr>	
 </table>
@@ -72,24 +72,23 @@
 </tr>
 <tr>
 <td  colspan="3">
-<strong>RIF:</strong> {{$factura->cliente->rif}}
+<strong>RIF:</strong> {{($factura->cliente)?$factura->cliente->rif:"N/A"}}
 </td>
 </tr>
 </table>
 
 <table>
 <tr>
-<td colspan="4" style="border-bottom: 1px solid black; border-top: 1px solid black; ">		
+<td colspan="4" style="border-bottom: 1px solid black;">		
 </td>
-<td colspan="4" style="border-bottom: 1px solid black; border-top: 1px solid black; ">	
+<td colspan="4" style="border-bottom: 1px solid black; ">	
 <strong>INFORMACIÓN DE LA AERONAVE</strong> 	
 </td>
-<td colspan="2" style="border-bottom: 1px solid black; border-top: 1px solid black; ">		
+<td colspan="2" style="border-bottom: 1px solid black; ">		
 </td>
 </tr>	
 </table>
 <br>
-
 <br>
 
 <table style="width:100%;">
@@ -114,7 +113,7 @@
 <td colspan="1">
 </td>
 <td  colspan="1">
-{{$despegue->aterrizaje->aeronave->matricula}}
+{{($despegue->aterrizaje->aeronave)?$despegue->aterrizaje->aeronave->matricula:"N/A"}}
 </td>
 <td colspan="2">
 </td>
@@ -124,7 +123,7 @@
 <td colspan="1">
 </td>
 <td  colspan="2">
-{{$despegue->aterrizaje->aeronave->peso}}
+{{$despegue->aterrizaje->aeronave->peso}} Kgs.
 </td>
 </tr>
 </table>
@@ -134,12 +133,12 @@
 
 <table>
 <tr>
-<td colspan="4" style="border-bottom: 1px solid black; border-top: 1px solid black; ">    
+<td colspan="4" style="border-bottom: 1px solid black;">    
 </td>
-<td colspan="4" style="border-bottom: 1px solid black; border-top: 1px solid black; ">  
+<td colspan="4" style="border-bottom: 1px solid black;">  
 <strong>INFORMACIÓN DEL VUELO</strong>   
 </td>
-<td colspan="2" style="border-bottom: 1px solid black; border-top: 1px solid black; ">    
+<td colspan="2" style="border-bottom: 1px solid black;">    
 </td>
 </tr> 
 </table>
@@ -186,7 +185,7 @@
 {{$despegue->aterrizaje->piloto->nombre}}
 </td>
 <td  colspan="3">
-{{$despegue->piloto->nombre}}
+{{($despegue->piloto)?$despegue->piloto->nombre:"N/A"}}
 </td>
 </tr>
 <tr>
@@ -199,7 +198,7 @@
 {{$despegue->aterrizaje->piloto->licencia}}
 </td>
 <td  colspan="3">
-{{$despegue->piloto->licencia}}
+{{($despegue->piloto)?$despegue->piloto->licencia:"N/A"}}
 </td>
 </tr>
 <tr>
@@ -207,12 +206,12 @@
 <strong><u>NRO. VUELO</u></strong>
 </td>
 <td  colspan="2">
-{{$despegue->aterrizaje->num_vuelo}}
+{{($despegue->aterrizaje->num_vuelo)?$despegue->aterrizaje->num_vuelo:"N/A"}}
 </td>
 <td colspan="1">
 </td>
 <td  colspan="3">
-{{$despegue->num_vuelo}}
+{{($despegue->num_vuelo)?$despegue->num_vuelo:"N/A"}}
 </td>
 </tr>
 <tr>
@@ -278,23 +277,27 @@
 <table style="width:100%; border-collapse: collapse; padding:2px">
 <tr>
 <td style="border-top: 1px solid black;border-bottom: 1px solid black;" colspan="1">
+<strong>Nro.</strong>
 </td>
 <td style="border-top: 1px solid black;border-bottom: 1px solid black;" colspan="7">
 <strong>Concepto</strong>
 </td>
 <td style="border-top: 1px solid black;border-bottom: 1px solid black;" colspan="2">
-<strong>Monto</strong>
+<strong>Monto (Bs.)</strong>
 </td>
 </tr>
-@foreach($factura->detalles as $detalle)
+@foreach($factura->detalles as $index => $detalle)
 <tr>
 <td colspan="1" >
+{{$index +1}}
 </td>
-<td colspan="7" >
+<td colspan="5" >
 {{$detalle->concepto->nompre}}
 </td>
-<td colspan="2" >
+<td colspan="3" style="text-align:right">
 {{$detalle->totalDes}}
+</td>
+<td colspan="1">
 </td>
 </tr>
 @endforeach
@@ -303,7 +306,7 @@
 <br>
 @endfor
 </td></tr>
-<tr><td colspan="10" style="border-bottom: 1px solid black;"></td></tr>
+<tr><td colspan="10" ></td></tr>
 <tr>
 <td colspan="6" >
 </td>
@@ -311,7 +314,7 @@
 <strong>TOTAL FACTURADO</strong>
 </td>
 <td colspan="2" style="border-bottom: 1px solid black;border-top: 1px solid black;border-right: 1px solid black;text-align:left" >
-{{$factura->total}}
+<strong> Bs. </strong> {{$factura->total}}  
 </td>
 </tr>
 </table>
@@ -325,7 +328,7 @@
 <table style="width:100%; border-collapse: collapse; padding:2px">
 <tr>
 <td  colspan="5">
-<strong>Operador</strong>
+<strong></strong>
 </td>
 <td  colspan="5">
 </td>

@@ -29,7 +29,7 @@
 						<div class="box-body" id="cargaForm-div">
 							<form id="carga-form">
 								<legend>Información del Vuelo</legend>
-	
+
 								<div class="form-inline col-md-12" style="margin-bottom: 20px">
 									<!-- Fecha  -->
 									<div class="form-group">
@@ -40,26 +40,22 @@
 											<input id="fecha-datepicker" type="text" name="fecha" class="form-control no-vacio" value="{{$today->format('d/m/Y')}}" placeholder="Fecha" />
 										</div><!-- /.input group -->
 									</div><!-- /.form group -->
+									<div class="form-group">
+										<div class="form-inline" style="margin-left: 100px">
+											<label ><strong>Condición de pago</strong></label>
+											<select name="condicionPago" id="condicionPago-select" class="form-control">
+												<option value=""><-- Seleccione --></option>
+												<option value="Contado"> Contado</option>
+												<option value="Crédito"> Crédito</option>
+											</select>
+										</div><!-- /.form group -->
+									</div><!-- /.form group -->
 								</div>
 
 								<div class="form-inline col-md-12">
-									<!-- Cliente-->
-									<div class="form-group">
-										<div class="input-group ">
-											<div class="input-group-addon">
-												<i class="ion ion-person"></i>
-											</div>
-											<select name="cliente_id" id="cliente_id-select" class="form-control cliente no-vacio" style="width: 500px">
-												<option value="">--Cliente--</option>
-												@foreach ($clientes as $index=>$cliente)
-												<option value="{{$index}}"> {{$cliente}}</option>
-												@endforeach
-											</select>
-										</div><!-- /.input group -->
-									</div><!-- /.form group -->
 
 									<!-- Aeronave-->
-									<div class="form-group" style="margin-left: 30px">
+									<div class="form-group" >
 										<div class="input-group ">
 											<div class="input-group-addon">
 												<i class="ion ion-plane"></i>
@@ -72,9 +68,23 @@
 											</select>
 										</div><!-- /.input group -->
 									</div><!-- /.form group -->
+									<!-- Cliente-->
+									<div class="form-group">
+										<div class="input-group" style="margin-left: 30px">
+											<div class="input-group-addon">
+												<i class="ion ion-person"></i>
+											</div>
+											<select name="cliente_id" id="cliente_id-select" class="form-control cliente no-vacio" style="width: 500px">
+												<option value="">--Cliente--</option>
+												@foreach ($clientes as $index=>$cliente)
+												<option value="{{$index}}"> {{$cliente}}</option>
+												@endforeach
+											</select>
+										</div><!-- /.input group -->
+									</div><!-- /.form group -->
 								</div>
 
-								<div class="form-inline col-md-12" style="margin-top: 20px; padding-left: -40px">
+								<div class="form-inline col-md-12" style="margin-top: 20px; margin-right: -20px">
 
 									<!-- Nro Vuelo -->
 									<div class="form-group col-md-3">
@@ -89,30 +99,30 @@
 									<input type="hidden" name="" id="precio_bloque" class="form-control" value="{{$precios_cargas->equivalenteUT}}" autocomplete="off">	
 									<input type="hidden" name="" id="toneladas_bloque" class="form-control" value="{{$precios_cargas->toneladaPorBloque}}" autocomplete="off">	
 									<input type="hidden" name="" id="ut" class="form-control" value="{{$montos_fijos->unidad_tributaria}}" autocomplete="off">	
-								
+
 									
 
 									<!-- Peso de Embarque -->
 									<div class="form-group col-md-4" style="margin-right: 10px" >
 										<label>Peso Embarcado</label>
 										<div class="input-group">
+											<input type="text" name="peso_embarcado" value="0" id="peso_embarcado" placeholder="Peso Embarcado" class="form-control no-vacio"/>
 											<div class="input-group-addon">
 												Kg(s) <i class="ion ion-soup-can-outline"></i>
 											</div>
-											<input type="text" name="peso_embarcado" value="0" id="peso_embarcado" placeholder="Peso Embarcado" class="form-control no-vacio"/>
 										</div><!-- /.input group -->
 										<div class="input-group">
-											<input type="text" disabled value="0" id="peso_embarcado_monto" placeholder="Peso Embarcado" class="form-control"/>
 											<div class="input-group-addon">
 												<i class="fa fa-money"></i> BsF.
 											</div>
+											<input type="text" disabled value="0" id="peso_embarcado_monto" placeholder="Peso Embarcado" class="form-control"/>
 										</div><!-- /.input group -->
 									</div><!-- /.form group -->
 
 
 									<!-- Peso de Desembarque -->
 									<div class="form-group col-md-4">
-											<label>Peso Desembarcado</label>
+										<label>Peso Desembarcado</label>
 										<div class="input-group">
 											<input type="text"  name="peso_desembarcado" value="0" id="peso_desembarcado" placeholder="Peso Desembarcado" class="form-control no-vacio"/>
 											<div class="input-group-addon ">
@@ -127,16 +137,6 @@
 										</div><!-- /.input group -->
 									</div><!-- /.form group -->
 								</div>
-                <div class="col-md-12" style="margin-bottom: 20px">
-                  <div class="form-inline" >
-                    <label style="margin-right: 20px"><strong>Condición de pago</strong></label>
-                    <select name="condicionPago" id="condicionPago-select" class="form-control">
-                      <option value=""><-- Seleccione --></option>
-                      <option value="Contado"> Contado</option>
-                      <option value="Crédito"> Crédito</option>
-                    </select>
-                  </div><!-- /.form group -->
-                </div><!-- /.form group -->
 
 								<!-- Observaciones --> 
 								<div class="form-group col-md-12" style="margin-top: 20px">
@@ -181,49 +181,49 @@
 
 //Función que comprueba que no existen campos sin llenar al momento de enviar el formulario.
 function camposVacios() {
-    var flag=true;
-    $('#cargaForm-div .no-vacio').each(function(index, value){
-        if($(value).val()=='')
-           flag&=false;
-    });
-    if(flag==false){
-        $('#save-carga-btn').attr('disabled','disabled');
-    }else{
-        $('#save-carga-btn').removeAttr('disabled');
-    }
+	var flag=true;
+	$('#cargaForm-div .no-vacio').each(function(index, value){
+		if($(value).val()=='')
+			flag&=false;
+	});
+	if(flag==false){
+		$('#save-carga-btn').attr('disabled','disabled');
+	}else{
+		$('#save-carga-btn').removeAttr('disabled');
+	}
 }
 
 
-	$(document).ready(function(){
+$(document).ready(function(){
 
 		/*
 			Select Chosen
-		 	*/
+			*/
 			$('#cliente_id-select').chosen({width:'400px'});
-			$('#aeronave_id-select').chosen({width:'300px'});
+			$('#aeronave_id-select').chosen({width:'200px'});
 
 		/*
 			Datepicker
 			*/
 
-		$('#fecha-datepicker').datepicker({
-			closeText: 'Cerrar',
-			prevText: '&#x3C;Ant',
-			nextText: 'Sig&#x3E;',
-			currentText: 'Hoy',
-			monthNames: ['Enero','Febrero','Marzo','Abril','Mayo','Junio',
-			'Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'],
-			monthNamesShort: ['Ene','Feb','Mar','Abr','May','Jun',
-			'Jul','Ago','Sep','Oct','Nov','Dic'],
-			dayNames: ['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'],
-			dayNamesShort: ['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'],
-			dayNamesMin: ['D','L','M','M','J','V','S'],
-			weekHeader: 'Sm',
-			firstDay: 1,
-			isRTL: false,
-			showMonthAfterYear: false,
-			yearSuffix: '',
-			dateFormat: 'yy-mm-dd'});
+			$('#fecha-datepicker').datepicker({
+				closeText: 'Cerrar',
+				prevText: '&#x3C;Ant',
+				nextText: 'Sig&#x3E;',
+				currentText: 'Hoy',
+				monthNames: ['Enero','Febrero','Marzo','Abril','Mayo','Junio',
+				'Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'],
+				monthNamesShort: ['Ene','Feb','Mar','Abr','May','Jun',
+				'Jul','Ago','Sep','Oct','Nov','Dic'],
+				dayNames: ['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'],
+				dayNamesShort: ['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'],
+				dayNamesMin: ['D','L','M','M','J','V','S'],
+				weekHeader: 'Sm',
+				firstDay: 1,
+				isRTL: false,
+				showMonthAfterYear: false,
+				yearSuffix: '',
+				dateFormat: 'yy-mm-dd'});
 
 		 /*
 	    	Fecha
@@ -234,7 +234,7 @@ function camposVacios() {
 
 		/*
 			Boton Cancelar
-		 	*/
+			*/
 			$('#cancel-carga-btn').click(function(){
 				$('#cargaForm-div input').val('');
 				$('#cargaForm-div select').val('');
@@ -269,8 +269,8 @@ function camposVacios() {
 				//Cálculo de Monto Total
 				var monto_total             = parseFloat(peso_embarcado_monto) + parseFloat(peso_desembarcado_monto);
 				$('#monto_total').val(monto_total);
-			
-		});
+
+			});
 
 
 		/*  
@@ -278,29 +278,29 @@ function camposVacios() {
             */
             $('#save-carga-btn').click(function(){
 
-                var data=$('#carga-form').serializeArray();                
-                var overlay=    "<div class='overlay'>\
-                <i class='fa fa-refresh fa-spin'></i>\
-                </div>";
-                $('#cargaForm-div').append(overlay);
+            	var data=$('#carga-form').serializeArray();                
+            	var overlay=    "<div class='overlay'>\
+            	<i class='fa fa-refresh fa-spin'></i>\
+            	</div>";
+            	$('#cargaForm-div').append(overlay);
 
-                $.ajax(
-                    {data:data,
-                        method:'post',
-                        url:"{{action('CargaController@store')}}"}
-                        )
-                .always(function(response, status, responseObject){
-                   $('#cargaForm-div .overlay').remove();
-                    if(status=="error"){
-                        if(response.status==422){
-                            alertify.error(processValidation(response.responseJSON));
-                        }
-                    }else{
+            	$.ajax(
+            		{data:data,
+            			method:'post',
+            			url:"{{action('CargaController@store')}}"}
+            			)
+            	.always(function(response, status, responseObject){
+            		$('#cargaForm-div .overlay').remove();
+            		if(status=="error"){
+            			if(response.status==422){
+            				alertify.error(processValidation(response.responseJSON));
+            			}
+            		}else{
 
-                        try{
-                            var respuesta=JSON.parse(responseObject.responseText);
-                            if(respuesta.success==1)
-                            {
+            			try{
+            				var respuesta=JSON.parse(responseObject.responseText);
+            				if(respuesta.success==1)
+            				{
                                 //$('#cargaForm-div input').val('0');
                                 $('#cargaForm-div #num_vuelo').val('');
                                 $('#cargaForm-div select').val('').trigger('chosen:updated');
@@ -310,18 +310,18 @@ function camposVacios() {
                             }
                             else
                             {
-                                alertify.error(respuesta.text);
+                            	alertify.error(respuesta.text);
                             }
                         }
                         catch(e)
                         {
-                            alertify.error("Error procensando la información");
+                        	alertify.error("Error procensando la información");
                         }
                     }
                 })
-            })
+})
 
 
-	})
+})
 </script>
 @endsection

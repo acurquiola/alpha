@@ -38,7 +38,7 @@
 </tr>
 <tr>
 <td  colspan="4">
-<strong>TELÉFONO:</strong> {{$factura->cliente->telefono}}
+<strong>TELÉFONO:</strong> {{$factura->cliente->telefonos}}
 </td>
 <td  colspan="4">
 <strong>CONDICIÓN DE PAGO:</strong> {{$factura->condicionPago}}
@@ -53,19 +53,19 @@
 <table style="width:100%; border-collapse: collapse; padding:2px">
 <tr>
 <td style="border-top: 1px solid black;border-bottom: 1px solid black;" colspan="2">
-<strong>Código</strong>
+<strong>Nro.</strong>
 </td>
 <td style="border-top: 1px solid black;border-bottom: 1px solid black;" colspan="6">
 <strong>Concepto</strong>
 </td>
 <td style="border-top: 1px solid black;border-bottom: 1px solid black;" colspan="2">
-<strong>Monto</strong>
+<strong>Monto (Bs.)</strong>
 </td>
 </tr>
-@foreach($factura->detalles as $detalle)
+@foreach($factura->detalles as $index => $detalle)
 <tr>
 <td colspan="2" >
-{{$detalle->concepto->codpre}}
+{{$index + 1}}
 </td>
 <td colspan="6" >
 {{$detalle->concepto->nompre}}
@@ -86,7 +86,7 @@
 <td colspan="8" >
 </td>
 <td colspan="2" >
-{{$factura->subtotal}}
+Bs. {{$factura->subtotal}}
 </td>
 </tr>
 <tr>
@@ -106,7 +106,7 @@
 <strong>TOTAL GENERAL</strong>
 </td>
 <td colspan="2" style="border-bottom: 1px solid black;border-top: 1px solid black;border-right: 1px solid black;text-align:left" >
-{{$factura->total}}
+<strong>Bs. </strong>{{$factura->total}}
 </td>
 </tr>
 </table>

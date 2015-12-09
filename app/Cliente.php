@@ -38,6 +38,11 @@ class Cliente extends Model {
         return $carbon->format('d/m/Y');
     }
 
+    public function getRifAttribute($fecha)
+    {
+        return $this->attributes['cedRifPrefix'].'-'.$this->attributes['cedRif'];
+    }
+
     public function aterrizaje()
     {
         return $this->hasMany('App\Aterrizaje');

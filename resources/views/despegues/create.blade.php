@@ -51,7 +51,7 @@
 										<input type="text"  name="hora"  id="hora" class="form-control no-vacio" value="{{$today->format('H:i:s')}}"  placeholder="Hora"/>
 									</div><!-- /.input group -->
 								</div>
-								<div class="form-group">
+								<div class="form-group" style="width:207px">
 									<div class="input-group">
 										<div class="input-group-addon">
 											<i class="fa fa-plane"></i>
@@ -59,14 +59,19 @@
 										<input type="text" class="form-control no-vacio" value="{{$aterrizaje->aeronave->matricula}}" placeholder="Matrícula" />
 										<input type="hidden" name="aeronave_id" class="form-control" value="{{$aterrizaje->aeronave_id}}" />
 									</div><!-- /.input group -->
-								</div>
-								<div class="form-group">
-									<div class="input-group">
+								</div>         
+								<div class="form-group" >
+									<div class="input-group" >
 										<div class="input-group-addon">
-											<i class="fa fa-plane"></i>
-										</div>                                        
-										<input id="num_vuelo" type="text" name="num_vuelo" class="form-control no-vacio" placeholder="Número de Vuelo" />
-									</div><!-- /.input group -->
+											<i class="fa fa-paper-plane"></i>
+										</div>
+										<select name="tipoMatricula_id" id="tipoMatricula_id" class="form-control tipo_vuelo no-vacio">
+											<option value="">--Seleccione Tipo de Vuelo--</option>
+											@foreach ($tipoMatriculas as $tipoMatricula)
+												<option value="{{$tipoMatricula->id}}" {{(($aterrizaje->tipoMatricula_id == $tipoMatricula->id)?"selected":"")}}> {{$tipoMatricula->nombre}}</option>
+											@endforeach
+										</select>									
+									</div><!-- /input group -->
 								</div>
 							</div>  
 							<div class="form-inline" style="margin-top: 20px">
@@ -103,19 +108,14 @@
 											@endforeach                                        
 										</select>
 									</div><!-- /.input group -->
-								</div><!-- /.form group -->         
+								</div><!-- /.form group -->
 								<div class="form-group">
 									<div class="input-group">
 										<div class="input-group-addon">
-											<i class="fa fa-paper-plane"></i>
-										</div>
-										<select name="tipoMatricula_id" id="tipoMatricula_id" class="form-control tipo_vuelo no-vacio">
-											<option value="">--Seleccione Tipo de Vuelo--</option>
-											@foreach ($tipoMatriculas as $tipoMatricula)
-												<option value="{{$tipoMatricula->id}}" {{(($aterrizaje->tipoMatricula_id == $tipoMatricula->id)?"selected":"")}}> {{$tipoMatricula->nombre}}</option>
-											@endforeach
-										</select>									
-									</div><!-- /input group -->
+											<i class="fa fa-plane"></i>
+										</div>                                        
+										<input id="num_vuelo" type="text" name="num_vuelo" class="form-control no-vacio" placeholder="Número de Vuelo" />
+									</div><!-- /.input group -->
 								</div>
 							</div> 
 							<div class="form-inline" style="margin-top: 20px">      
@@ -124,7 +124,7 @@
 										<div class="input-group-addon">
 											<i class="fa fa-diamond"></i>
 										</div>                                                                            
-										<select name="cliente_id" class="form-control cliente" style="width: 500px">
+										<select name="cliente_id" class="form-control cliente" style="width: 527px">
 											<option value="">--Seleccione Cliente--</option>
 											@foreach ($clientes as $index=>$cliente)
 											<option value="{{$index}}" {{(($aterrizaje->cliente_id == $index)?"selected":"")}} > {{$cliente}}</option>
@@ -162,7 +162,7 @@
 									
 								<div class="col-md-12" style="margin-bottom: 20px">
 									<div class="form-inline" >
-										<label style="margin-right: 20px"><strong>Condición de pago</strong></label>
+										<label style="margin-right: 20px"><strong>Condición de pago</strong></label>										
 										<select name="condicionPago" id="condicionPago-select" class="form-control">
 											<option value=""><-- Seleccione --></option>
 											<option value="Contado"> Contado</option>
@@ -194,7 +194,7 @@
 								</div><!--/. col -->
 
 								<!-- Puentes de Abordaje -->
-								<div class="col-sm-4" disabled>
+								<div class="col-sm-4">
 									<label>
 										{!! Form::checkbox('cobrar_puenteAbordaje', '1', true) !!}
 										Puentes de Abordaje
@@ -220,7 +220,7 @@
 												<div class="input-group">
 													<input type="text" class="form-control" name="tiempo_puenteAbord"  />
 													<div class="input-group-addon">
-														min
+														horas
 														<i class="ion ion-clock"></i>
 													</div>
 												</div><!-- /.input group -->
@@ -229,16 +229,18 @@
 									</div>
 								</div><!-- /.col -->
 								<div>
-									<label><i class="ion ion-android-plane"> </i> Otros Cargos</label>
 									<div class="box-body">
 										<label>
 											{!! Form::checkbox('cobrar_formulario', '1', true) !!}
 											Formulario
-										</label></br>
-										<label>
+										</label>
+										<label style="margin-left: 30px">
 											{!! Form::checkbox('cobrar_AterDesp', '1', true) !!}
 											Aterrizaje y Despegue
 										</label>
+										</br>
+
+										<label style="margin-top: 30px"><i class="ion ion-android-plane"> </i> Otros Cargos</label>
 										<select name="otros_cargos" id="otros_cargos-select" class="form-control" data-placeholder="Seleccione otros cargos" multiple>
 											<option value="">--Seleccione Otros Cargos--</option>
 											@foreach ($otrosCargos as $otroCargo)
@@ -357,7 +359,7 @@
 									</div><!-- /.form group -->
 
 									<!-- Pasajeros tercera edad -->
-									<div class="form-group  col-md-3 ">
+									<div class="form-group  col-md-3 " style="margin-left: -13px; width: 277px">
 										<label>Tercera Edad:</label>
 										<div class="input-group">
 											<div class="input-group-addon">
@@ -368,9 +370,9 @@
 									</div><!-- /.form group -->
 
 									<!-- Total de Pasajeros -->
-									<div class="form-group ">
-										<label>Total:</label>
-										<div class="input-group col-md-3">
+									<div class="form-group "  >
+										<label><strong>Total:<strong></label>
+										<div class="input-group col-md-2">
 											<div class="input-group-addon">
 												<i class="ion ion-person-stalker"></i>
 											</div>

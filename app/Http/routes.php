@@ -32,6 +32,11 @@ Route::get('principal',["middleware"=>"auth", function(){
     return view('principal');
 }]  );
 
+Route::get('facturaHtml', function(){
+    $factura = \App\Factura::find(24);
+    $despegue = \App\Despegue::with('aterrizaje')->where('factura_id', $factura->id)->first();
+    return view('pdf.dosa', compact('factura', 'despegue'));
+});
 
 //
 //Rutas para el gestor de los Maestros
@@ -53,7 +58,7 @@ Route::group(['prefix' => 'maestros/'], function () {
 
 Route::group(['prefix' => 'operaciones/'], function () {
     Route::get('Despegues/{id}', 'DespegueController@getCrearFactura');
-    Route::get('Cargas/{id}', 'CargaController@getCrearFactura');
+    Route::get('CargasFacturar/{id}', 'CargaController@getCrearFactura');
     Route::group(['prefix' => '{aterrizaje}/'], function () {
         Route::resource('Despegues', 'DespegueController');
     });
@@ -73,6 +78,7 @@ Route::group(['prefix' => 'facturacion/{modulo}/'], function () {
     Route::get('main', 'FacturaController@main');
     Route::resource('factura', 'FacturaController');
 });
+
 
 Route::get('estacionamiento/saveClient', 'EstacionamientoController@saveClient');
 

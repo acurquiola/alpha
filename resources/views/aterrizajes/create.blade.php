@@ -39,7 +39,7 @@
 										<input id="fecha-datepicker" type="text" name="fecha" class="form-control no-vacio" value="{{$today->format('d/m/Y')}}" placeholder="Fecha" />
 									</div><!-- /.input group -->
 								</div>
-								<div class="form-group">
+								<div class="form-group" style="width:130px">
 									<div class="input-group">
 										<div class="input-group-addon">
 											<i class="fa fa-clock-o"></i>
@@ -60,7 +60,7 @@
 										</select>
 									</div><!-- /.input group -->
 								</div>
-								<div class="form-group">
+								<div class="form-group"  style="width:180px">
 									<div class="input-group">
 										<div class="input-group-addon">
 											<i class="fa fa-paper-plane"></i>
@@ -69,7 +69,20 @@
 									</div><!-- /
 									input group -->
 								</div>
-							</div>                        
+								<div class="form-group"  style="width:150px">
+									<div class="input-group">
+										<div class="input-group-addon">
+											<i class="fa fa-info"></i>
+										</div>
+										<select name="tipoMatricula_id" id="tipoMatricula_id" class="form-control tipo_vuelo no-vacio">
+											<option value="">--Tipo de Vuelo--</option>
+											@foreach ($tipoMatriculas as $tipoMatricula)
+											<option value="{{$tipoMatricula->id}}"> {{$tipoMatricula->nombre}}</option>
+											@endforeach
+										</select>
+									</div><!-- /.input group -->
+								</div><!-- /.form group -->                       
+							</div> 
 							<div class="form-inline" style="margin-top: 20px">
 								<div class="form-group">
 									<div class="input-group">
@@ -102,6 +115,21 @@
 								<div class="form-group">
 									<div class="input-group">
 										<div class="input-group-addon">
+											<i class="fa fa-globe"></i>
+										</div>
+										<select name="nacionalidadVuelo_id" class="form-control nacionalidad">
+											<option value="">--Nacionalidad del Vuelo--</option>
+											@foreach ($nacionalidad_vuelos as $nacionalidad_vuelo)
+											<option value="{{$nacionalidad_vuelo->id}}"> {{$nacionalidad_vuelo->nombre}}</option>
+											@endforeach                                        
+										</select>
+									</div><!-- /.input group -->
+								</div><!-- /.form group -->                               
+							</div>
+							<div class="form-inline" style="margin-top: 20px">
+								<div class="form-group">
+									<div class="input-group">
+										<div class="input-group-addon">
 											<i class="fa fa-user"></i>
 										</div>									                                    
 										<select name="piloto_id" id="piloto_id" class="form-control piloto">
@@ -119,9 +147,7 @@
 										</div>
 										<input type="text" class="form-control piloto_ci" data-provide="typeahead" placeholder="C.I del Piloto"/>
 									</div><!-- /.input group -->
-								</div>                               
-							</div>
-							<div class="form-inline" style="margin-top: 20px">
+								</div>   
 								<div class="form-group">
 									<div class="input-group">
 										<div class="input-group-addon">
@@ -129,33 +155,7 @@
 										</div>
 										<input type="text" name="num_vuelo" class="form-control" placeholder="Número de Vuelo"/>
 									</div><!-- /.input group -->
-								</div>
-								<div class="form-group">
-									<div class="input-group">
-										<div class="input-group-addon">
-											<i class="fa fa-info"></i>
-										</div>
-										<select name="tipoMatricula_id" id="tipoMatricula_id" class="form-control tipo_vuelo no-vacio">
-											<option value="">--Seleccione Tipo de Vuelo--</option>
-											@foreach ($tipoMatriculas as $tipoMatricula)
-											<option value="{{$tipoMatricula->id}}"> {{$tipoMatricula->nombre}}</option>
-											@endforeach
-										</select>
-									</div><!-- /.input group -->
-								</div><!-- /.form group -->
-								<div class="form-group">
-									<div class="input-group">
-										<div class="input-group-addon">
-											<i class="fa fa-globe"></i>
-										</div>
-										<select name="nacionalidadVuelo_id" class="form-control nacionalidad">
-											<option value="">--Nacionalidad del Vuelo--</option>
-											@foreach ($nacionalidad_vuelos as $nacionalidad_vuelo)
-											<option value="{{$nacionalidad_vuelo->id}}"> {{$nacionalidad_vuelo->nombre}}</option>
-											@endforeach                                        
-										</select>
-									</div><!-- /.input group -->
-								</div><!-- /.form group -->                              
+								</div>                           
 							</div>
 						</div><!-- /.box-body -->
 					</div><!-- /.box -->
@@ -249,7 +249,8 @@ function camposVacios() {
 
 $(document).ready(function(){
 
-		$('#aeronave_id, #puerto_id').chosen({width:'200px'});
+		$('#aeronave_id').chosen({width:'150px'});
+		$('#puerto_id').chosen({width:'200px'});
 		$('#piloto_id').chosen({width:'300px'});
 
     /* 
