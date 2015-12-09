@@ -230,7 +230,7 @@
                	@endpermission
 
 
-                @permission('menu.informacion|menu.cliente|menu.role|menu.usuario|menu.modulo|menu.concepto'|'menu.preciosSCV')
+                @permission('menu.informacion|menu.cliente|menu.role|menu.usuario|menu.modulo|menu.concepto|menu.preciosSCV')
                 <li class="treeview {{ (\Request::is('administracion*'))?"active":""}}">
                 	<a href="#">
                 		<i class="fa fa-cogs"></i> <span>Administración</span> <i class="fa fa-angle-left pull-right"></i>
