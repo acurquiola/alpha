@@ -36,6 +36,9 @@ class DespegueRequest extends Request {
 				'piloto_id'              => 'required_if:tipoMatricula_id,1',
 				'piloto_id'              => 'required_if:tipoMatricula_id,2',
 				'piloto_id'              => 'required_if:tipoMatricula_id,3',
+				'condicionPago'          => 'required_if:tipoMatricula_id,1',
+				'condicionPago'          => 'required_if:tipoMatricula_id,2',
+				'condicionPago'          => 'required_if:tipoMatricula_id,3',
 				'numero_puenteAbordaje'  => 'required_if:cobrar_puenteAbordaje,1',
 				'tiempo_puenteAbord'     => 'required_if:cobrar_puenteAbordaje,1',
 				'tiempo_estacionamiento' => 'required_if:cobrar_estacionamiento,1'

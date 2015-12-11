@@ -31,7 +31,7 @@
 					<div class="box-body" id="box1">  
 						<form id="aterrizaje-form">                       
 							<div class="form-inline">
-								<div class="form-group">
+								<div class="form-group" style="width:180px">
 									<div class="input-group">
 										<div class="input-group-addon">
 											<i class="fa fa-calendar"></i>
@@ -39,33 +39,47 @@
 										<input id="fecha-datepicker" type="text" name="fecha" class="form-control no-vacio" value="{{$today->format('d/m/Y')}}" placeholder="Fecha" />
 									</div><!-- /.input group -->
 								</div>
-								<div class="form-group" style="width:130px">
+								<div class="form-group"  style="width:150px">
 									<div class="input-group">
 										<div class="input-group-addon">
 											<i class="fa fa-clock-o"></i>
 										</div> 
 										<input type="text"  name="hora"  id="hora" class="form-control no-vacio" value="{{$today->format('H:i:s')}}"  placeholder="Hora"/>
 									</div><!-- /.input group -->
-								</div>
+								</div>								                   
+							</div>                    
+							<div class="form-inline" style="margin-top: 20px" >
 								<div class="form-group">
 									<div class="input-group">
 										<div class="input-group-addon">
 											<i class="fa fa-plane"></i>
 										</div>                                        
 										<select name="aeronave_id" id="aeronave_id" class="form-control aeronave no-vacio">
-											<option value="">--Seleccione Matrícula--</option>
+											<option value=""> Matrícula </option>
 											@foreach ($aeronaves as $aeronave)
-											<option data-modelo="{{$aeronave->modelo_id}}" data-nombremodelo="{{$aeronave->modelo->modelo}}" data-cliente="{{$aeronave->cliente_id}}" data-tipo="{{$aeronave->tipo_id}}" data-tipoV="{{$aeronave->tipo->nombre}}" value="{{$aeronave->id}}"> {{$aeronave->matricula}}</option>
+											<option data-modelo="{{$aeronave->modelo_id}}" data-peso="{{$aeronave->peso}}" data-nombremodelo="{{$aeronave->modelo->modelo}}" data-cliente="{{$aeronave->cliente_id}}" data-tipo="{{$aeronave->tipo_id}}" data-tipoV="{{$aeronave->tipo->nombre}}" value="{{$aeronave->id}}"> {{$aeronave->matricula}}</option>
 											@endforeach
 										</select>
 									</div><!-- /.input group -->
 								</div>
-								<div class="form-group"  style="width:180px">
+								<div class="form-group"  style="width:150px">
 									<div class="input-group">
 										<div class="input-group-addon">
 											<i class="fa fa-paper-plane"></i>
 										</div>
-										<input type="text" class="form-control modeloAeronave" placeholder="Modelo de la Aeronave" disabled />
+										<input type="text" class="form-control modeloAeronave" placeholder="Modelo" disabled />
+									</div><!-- /
+									input group -->
+								</div>
+								<div class="form-group"  style="width:150px">
+									<div class="input-group">
+										<div class="input-group-addon">
+											<i class="fa fa-balance-scale"></i>
+										</div>
+										<input type="text" class="form-control pesoAeronave" placeholder="Peso" disabled />
+										<div class="input-group-addon">
+											Kgs.
+										</div>
 									</div><!-- /
 									input group -->
 								</div>
@@ -75,13 +89,13 @@
 											<i class="fa fa-info"></i>
 										</div>
 										<select name="tipoMatricula_id" id="tipoMatricula_id" class="form-control tipo_vuelo no-vacio">
-											<option value="">--Tipo de Vuelo--</option>
+											<option value="">Tipo de Vuelo</option>
 											@foreach ($tipoMatriculas as $tipoMatricula)
 											<option value="{{$tipoMatricula->id}}"> {{$tipoMatricula->nombre}}</option>
 											@endforeach
 										</select>
 									</div><!-- /.input group -->
-								</div><!-- /.form group -->                       
+								</div><!-- /.form group -->             
 							</div> 
 							<div class="form-inline" style="margin-top: 20px">
 								<div class="form-group">
@@ -89,7 +103,7 @@
 										<div class="input-group-addon">
 											<i class="fa fa-diamond"></i>
 										</div>                                                                            
-										<select name="cliente_id" id="cliente_id" class="form-control cliente" style="width: 500px">
+										<select name="cliente_id" id="cliente_id" class="form-control cliente" style="width: 590px">
 											<option value="">--Seleccione Cliente--</option>
 											@foreach ($clientes as $index=>$cliente)
 											<option value="{{$index}}"> {{$cliente}}</option>
@@ -118,7 +132,7 @@
 											<i class="fa fa-globe"></i>
 										</div>
 										<select name="nacionalidadVuelo_id" class="form-control nacionalidad">
-											<option value="">--Nacionalidad del Vuelo--</option>
+											<option value="">Nacionalidad del Vuelo</option>
 											@foreach ($nacionalidad_vuelos as $nacionalidad_vuelo)
 											<option value="{{$nacionalidad_vuelo->id}}"> {{$nacionalidad_vuelo->nombre}}</option>
 											@endforeach                                        
@@ -249,8 +263,8 @@ function camposVacios() {
 
 $(document).ready(function(){
 
-		$('#aeronave_id').chosen({width:'150px'});
-		$('#puerto_id').chosen({width:'200px'});
+		$('#aeronave_id').chosen({width:'135px'});
+		$('#puerto_id').chosen({width:'300px'});
 		$('#piloto_id').chosen({width:'300px'});
 
     /* 
@@ -289,18 +303,22 @@ $(document).ready(function(){
 		$('body').delegate('.aeronave', 'change', function() {
 			var option       =$(this).find('option:selected');
 			var modelo       =$(this).closest('form').find('.modeloAeronave');
+			var peso       =$(this).closest('form').find('.pesoAeronave');
 			var modeloHidden =$(this).closest('form').find('.modeloAeronaveHidden');
 			var cliente      =$(this).closest('form').find('.cliente');
 			var tipo_vuelo   =$(this).closest('form').find('.tipo_vuelo');
 			if ($(option).val() == ''){
 				$(modelo).val('').attr('disabled', 'disabled');
+				$(peso).val('').attr('disabled', 'disabled');
 				$(tipo_vuelo).val('').attr('disabled', 'disabled');
 				$(cliente).val('').attr('disabled', 'disabled');
 			}else{
 				var modelo_aeronave =$(option).data('nombremodelo');
+				var peso_aeronave =$(option).data('peso');
 				var modelo_id       =$(option).data('modelo');      
 				$(modeloHidden).val(modelo_id);
 				$(modelo).val(modelo_aeronave);
+				$(peso).val(peso_aeronave);
 
 				var tipo=$(option).data('tipo');        
 				$(tipo_vuelo).val(tipo).removeAttr('disabled');

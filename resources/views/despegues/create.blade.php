@@ -160,16 +160,24 @@
 											
 							<div class="box-body" >
 									
-								<div class="col-md-12" style="margin-bottom: 20px">
-									<div class="form-inline" >
-										<label style="margin-right: 20px"><strong>Condición de pago</strong></label>										
-										<select name="condicionPago" id="condicionPago-select" class="form-control">
-											<option value=""><-- Seleccione --></option>
-											<option value="Contado"> Contado</option>
-											<option value="Crédito"> Crédito</option>
-										</select>
-									</div><!-- /.form group -->
-								</div><!-- /.form group -->
+								<div class="col-md-12" style="margin-bottom: 20px">										
+									<div class="form-inline">
+										<!-- Puente Usado -->
+										<div class="form-group">
+											<label><strong>Condición de pago: </strong></label>
+											<div class="input-group">
+												<select name="condicionPago" id="condicionPago-select" class="form-control">
+													<option value="">Seleccione</option>
+													<option value="Contado"> Contado</option>
+													<option value="Crédito"> Crédito</option>
+												</select>
+												<div class="input-group-addon">
+												</div>										
+											</div><!-- /.input group -->
+										</div><!-- /.form group -->
+									</div>
+								</div>
+
 								<!-- Estacionamiento -->
 								<div class="col-sm-3" >
 									<label>

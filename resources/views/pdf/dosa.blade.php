@@ -28,7 +28,6 @@
 </td>
 </tr>
 </table>
-
 <br>
 <br>
 
@@ -61,18 +60,16 @@
 
 <table style="width:100%; border-collapse: collapse; padding:2px">
 <tr>
-<td  colspan="10">
+<td  colspan="7">
 <strong>CLIENTE:</strong> {{$factura->cliente->nombre}}
+</td>
+<td  colspan="3">
+<strong>RIF:</strong> {{($factura->cliente)?$factura->cliente->rif:"N/A"}}
 </td>
 </tr>
 <tr>
 <td  colspan="10">
 <strong>DIRECCIÓN FISCAL:</strong> {{$factura->cliente->direccion}}
-</td>
-</tr>
-<tr>
-<td  colspan="3">
-<strong>RIF:</strong> {{($factura->cliente)?$factura->cliente->rif:"N/A"}}
 </td>
 </tr>
 </table>

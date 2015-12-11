@@ -75,6 +75,7 @@ class PreciosCargaController extends Controller {
 		
 		if($precioCargas)
 		{			
+			dd($precioCargas);
 			return response()->json(array("text"=>'Información Modificada exitósamente',
 										  "precioCargas"=>$precioCargas,
 										  "success"=>1));

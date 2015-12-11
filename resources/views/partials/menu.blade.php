@@ -214,9 +214,11 @@
                 	</a>
                 	<ul class="treeview-menu">
                 		@permission('menu.reporteSCV')
+						<li class="header">Control de Vuelos</li>
                 		<li><a href="{{action('ReporteController@getReporteDES900')}}"><i class="fa fa-folder-o"></i> DES 900</a></li>
                			@endpermission
-                		@permission('menu.reporteRecaudacion')                		
+                		@permission('menu.reporteRecaudacion')   
+						<li class="header">Recaudación</li>             		
                 		<li><a href="{{action('ReporteController@getReporteMensual')}}"><i class="fa fa-folder-o"></i> Recaudación consolidada</a></li>
                 		<li><a href="{{action('ReporteController@getReporteModuloMetaMensual')}}"><i class="fa fa-folder-o"></i> Libro de ventas</a></li>
                 		<li><a href="{{action('ReporteController@getReporterFacturadoCobradoMensual')}}"><i class="fa fa-folder-o"></i> Relación cuentas por cobrar</a></li>

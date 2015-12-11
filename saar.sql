@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 09-12-2015 a las 23:00:43
+-- Tiempo de generación: 11-12-2015 a las 20:20:35
 -- Versión del servidor: 5.6.20
 -- Versión de PHP: 5.5.15
 
@@ -158,7 +158,7 @@ CREATE TABLE IF NOT EXISTS `aterrizajes` (
   `despego` int(11) NOT NULL DEFAULT '0',
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=40 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=45 ;
 
 --
 -- Volcado de datos para la tabla `aterrizajes`
@@ -172,7 +172,12 @@ INSERT INTO `aterrizajes` (`id`, `hora`, `fecha`, `aeropuerto_id`, `aeronave_id`
 (36, '20:55:51', '2015-12-07', 0, 6, 13, 3, 2, 6, 1234, 1, 35, 2, 0, 0, 0, '2015-12-08 05:56:06', '2015-12-08 05:56:06'),
 (37, '04:50:44', '2015-12-08', 0, 7, 13, 3, 1, 10, 123, 3, 120, 1, 2, 5, 1, '2015-12-08 13:51:06', '2015-12-08 13:52:05'),
 (38, '15:43:06', '2015-12-08', 0, 3, 124, 3, 1, 8, 420, 3, 15, 15, 15, 0, 0, '2015-12-09 00:43:32', '2015-12-09 00:43:32'),
-(39, '15:54:21', '2015-12-08', 0, 23, 130, 1, 1, 17, 0, 4, 3, 0, 0, 0, 1, '2015-12-09 00:54:49', '2015-12-09 01:29:18');
+(39, '15:54:21', '2015-12-08', 0, 23, 130, 1, 1, 17, 0, 4, 3, 0, 0, 0, 1, '2015-12-09 00:54:49', '2015-12-09 01:29:18'),
+(40, '12:02:48', '2015-12-11', 0, 8, 13, 3, 1, 8, 425, 4, 25, 2, 1, 0, 1, '2015-12-11 21:04:15', '2015-12-11 21:04:51'),
+(41, '12:07:41', '2015-12-11', 0, 7, 13, 3, 1, 9, 123, 4, 0, 0, 0, 0, 1, '2015-12-11 21:08:01', '2015-12-11 21:08:18'),
+(42, '12:15:06', '2015-12-11', 0, 14, 40, 3, 1, 6, 123, 5, 0, 0, 0, 0, 1, '2015-12-11 21:15:19', '2015-12-11 21:15:54'),
+(43, '21:05:00', '2015-12-03', 0, 14, 40, 3, 1, 10, 123, 3, 0, 0, 0, 0, 1, '2015-12-11 21:35:14', '2015-12-11 21:37:10'),
+(44, '21:05:25', '2015-12-03', 0, 14, 40, 3, 1, 8, 123, 3, 0, 0, 0, 0, 0, '2015-12-11 21:36:25', '2015-12-11 21:36:25');
 
 -- --------------------------------------------------------
 
@@ -744,7 +749,7 @@ CREATE TABLE IF NOT EXISTS `despegues` (
   `facturado` int(11) NOT NULL DEFAULT '0',
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=59 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=63 ;
 
 --
 -- Volcado de datos para la tabla `despegues`
@@ -756,7 +761,11 @@ INSERT INTO `despegues` (`id`, `hora`, `fecha`, `aeropuerto_id`, `num_vuelo`, `a
 (55, '14:30:00', '2015-12-04', 0, 0, 25, 5, 18, 1, 1, 24, 2, 0, 0, 0, 0, 0, 1192.00, 0, 0.00, 1, 0, 0, 1, 0, 0, 0, 34, 'Contado', 21, 0, '2015-12-08 04:23:13', '2015-12-08 05:51:05'),
 (56, '20:54:02', '2015-12-07', 0, 563, 6, 4, 12, 3, 1, 13, 0, 0, 0, 0, 0, 0, 2640.00, 1, 1.00, 1, 1, 0, 0, 0, 0, 1, 35, 'Contado', 0, 0, '2015-12-08 05:54:31', '2015-12-08 05:54:32'),
 (57, '04:51:10', '2015-12-08', 0, 121, 7, 4, 22, 3, 1, 13, 12, 2, 0, 0, 0, 0, 0.00, 0, 0.00, 0, 0, 0, 1, 0, 0, 1, 37, 'Contado', 23, 0, '2015-12-08 13:52:05', '2015-12-08 14:07:57'),
-(58, '16:25:01', '2015-12-08', 0, 0, 23, 4, NULL, 1, 1, 130, 15, 1, 0, 4, 1, 2, 30.00, 0, 0.00, 1, 0, 1, 1, 0, 0, 0, 39, 'Contado', 24, 0, '2015-12-09 01:29:17', '2015-12-09 01:33:30');
+(58, '16:25:01', '2015-12-08', 0, 0, 23, 4, NULL, 1, 1, 130, 15, 1, 0, 4, 1, 2, 30.00, 0, 0.00, 1, 0, 1, 1, 0, 0, 0, 39, 'Contado', 24, 0, '2015-12-09 01:29:17', '2015-12-09 01:33:30'),
+(59, '12:04:20', '2015-12-11', 0, 425, 8, 4, 11, 3, 1, 13, 150, 2, 1, 2, 5, 1, 1.00, 0, 0.00, 1, 0, 1, 1, 0, 0, 0, 40, 'Crédito', 0, 0, '2015-12-11 21:04:50', '2015-12-11 21:04:51'),
+(60, '12:08:05', '2015-12-11', 0, 123, 7, 4, 15, 3, 1, 13, 0, 0, 0, 0, 0, 0, 0.00, 0, 0.00, 1, 0, 1, 1, 0, 0, 0, 41, 'Crédito', 0, 0, '2015-12-11 21:08:18', '2015-12-11 21:08:19'),
+(61, '12:15:25', '2015-12-11', 0, 123, 14, 4, 16, 3, 1, 40, 0, 0, 0, 0, 0, 0, 0.00, 1, 2.00, 1, 1, 1, 1, 0, 0, 0, 42, 'Crédito', 27, 0, '2015-12-11 21:15:54', '2015-12-11 23:27:14'),
+(62, '05:50:00', '2015-12-04', 0, 425, 14, 4, 13, 3, 1, 40, 0, 0, 0, 0, 0, 0, 525.00, 1, 2.00, 1, 1, 1, 1, 0, 0, 0, 43, 'Crédito', 26, 0, '2015-12-11 21:37:10', '2015-12-11 21:39:43');
 
 -- --------------------------------------------------------
 
@@ -957,7 +966,7 @@ CREATE TABLE IF NOT EXISTS `facturadetalles` (
   `totalDes` double(8,2) unsigned NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=40 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=47 ;
 
 --
 -- Volcado de datos para la tabla `facturadetalles`
@@ -978,7 +987,14 @@ INSERT INTO `facturadetalles` (`id`, `factura_id`, `concepto_id`, `cantidadDes`,
 (36, 24, 57, 1, 21.00, 0.00, 0.00, 0.00, 0.00, 0.00, 21.00, '2015-12-09 01:33:30', '2015-12-09 01:33:30'),
 (37, 24, 55, 1, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, '2015-12-09 01:33:30', '2015-12-09 01:33:30'),
 (38, 24, 54, 1, 435.00, 0.00, 0.00, 0.00, 0.00, 0.00, 435.00, '2015-12-09 01:33:30', '2015-12-09 01:33:30'),
-(39, 25, 73, 1, 2475.00, 0.00, 0.00, 0.00, 0.00, 0.00, 2475.00, '2015-12-09 02:26:51', '2015-12-09 02:26:51');
+(39, 25, 73, 1, 2475.00, 0.00, 0.00, 0.00, 0.00, 0.00, 2475.00, '2015-12-09 02:26:51', '2015-12-09 02:26:51'),
+(40, 26, 71, 1, 21.00, 0.00, 0.00, 0.00, 0.00, 0.00, 21.00, '2015-12-11 21:39:42', '2015-12-11 21:39:42'),
+(41, 26, 69, 1, 6462.72, 0.00, 0.00, 0.00, 0.00, 0.00, 6462.72, '2015-12-11 21:39:42', '2015-12-11 21:39:42'),
+(42, 26, 68, 1, 5292.00, 0.00, 0.00, 0.00, 0.00, 0.00, 5292.00, '2015-12-11 21:39:42', '2015-12-11 21:39:42'),
+(43, 26, 72, 1, 1542.00, 0.00, 0.00, 0.00, 0.00, 0.00, 1542.00, '2015-12-11 21:39:43', '2015-12-11 21:39:43'),
+(44, 27, 71, 1, 21.00, 0.00, 0.00, 0.00, 0.00, 0.00, 21.00, '2015-12-11 23:27:14', '2015-12-11 23:27:14'),
+(45, 27, 68, 1, 4428.00, 0.00, 0.00, 0.00, 0.00, 0.00, 4428.00, '2015-12-11 23:27:14', '2015-12-11 23:27:14'),
+(46, 27, 72, 1, 1542.00, 0.00, 0.00, 0.00, 0.00, 0.00, 1542.00, '2015-12-11 23:27:14', '2015-12-11 23:27:14');
 
 -- --------------------------------------------------------
 
@@ -1031,7 +1047,7 @@ CREATE TABLE IF NOT EXISTS `facturas` (
   `isImpresa` tinyint(1) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=26 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=28 ;
 
 --
 -- Volcado de datos para la tabla `facturas`
@@ -1061,7 +1077,9 @@ INSERT INTO `facturas` (`id`, `aeropuerto_id`, `condicionPago`, `nControl`, `nFa
 (22, 1, 'Crédito', 1236, 1236, '2015-12-08', '2016-01-08', 124, 9683.15, 0.00, 9683.15, 0.00, 0.00, 9683.15, 1236, 'Factura Crédito Con Habilitación', '', '', 0, '2015-12-08 05:53:06', '2015-12-08 05:53:06'),
 (23, 1, 'Contado', 1237, 1237, '2015-12-08', '2016-01-08', 13, 5302.97, 0.00, 5302.97, 0.00, 0.00, 5302.97, 1237, 'factura', '', '', 0, '2015-12-08 14:07:57', '2015-12-08 14:07:57'),
 (24, 1, 'Contado', 1111, 1111, '2015-12-08', '2016-01-08', 130, 399.90, 0.00, 399.90, 0.00, 0.00, 399.90, 1111, 'Factura Contado', '', 'P', 0, '2015-12-09 01:33:30', '2015-12-09 01:33:30'),
-(25, 1, 'Crédito', 1111, 1111, '2015-12-08', '2016-01-08', 13, 2475.00, 0.00, 2475.00, 0.00, 0.00, 2475.00, NULL, 'Carga ', '', 'P', 0, '2015-12-09 02:26:51', '2015-12-09 02:26:51');
+(25, 1, 'Crédito', 1111, 1111, '2015-12-08', '2016-01-08', 13, 2475.00, 0.00, 2475.00, 0.00, 0.00, 2475.00, NULL, 'Carga ', '', 'P', 0, '2015-12-09 02:26:51', '2015-12-09 02:26:51'),
+(26, 1, 'Crédito', 1111, 1111, '2015-12-11', '2016-01-11', 40, 13317.72, 0.00, 13317.72, 0.00, 0.00, 13317.72, 111, 'Factura', '', 'P', 0, '2015-12-11 21:39:42', '2015-12-11 21:39:42'),
+(27, 1, 'Crédito', 111, 1111, '2015-12-11', '2016-01-11', 40, 5991.00, 0.00, 5991.00, 0.00, 0.00, 5991.00, 1111, 'klhjkhjk', '', 'P', 0, '2015-12-11 23:27:13', '2015-12-11 23:27:13');
 
 -- --------------------------------------------------------
 
@@ -2657,7 +2675,7 @@ CREATE TABLE IF NOT EXISTS `precios_aterrizajes_despegues` (
 --
 
 INSERT INTO `precios_aterrizajes_despegues` (`id`, `eq_diurnoNac`, `eq_diurnoInt`, `eq_nocturNac`, `eq_nocturInt`, `conceptoCredito_id`, `conceptoContado_id`, `created_at`, `updated_at`) VALUES
-(1, 0.29, 0.85, 0.35, 1.65, 68, 54, '0000-00-00 00:00:00', '2015-12-08 04:29:00');
+(1, 0.41, 0.85, 0.49, 1.65, 68, 54, '0000-00-00 00:00:00', '2015-12-11 21:11:16');
 
 -- --------------------------------------------------------
 
@@ -3300,7 +3318,7 @@ MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT;
 -- AUTO_INCREMENT de la tabla `aterrizajes`
 --
 ALTER TABLE `aterrizajes`
-MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=40;
+MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=45;
 --
 -- AUTO_INCREMENT de la tabla `bancos`
 --
@@ -3375,7 +3393,7 @@ MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 -- AUTO_INCREMENT de la tabla `despegues`
 --
 ALTER TABLE `despegues`
-MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=59;
+MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=63;
 --
 -- AUTO_INCREMENT de la tabla `despegue_otros_cargo`
 --
@@ -3430,7 +3448,7 @@ MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 -- AUTO_INCREMENT de la tabla `facturadetalles`
 --
 ALTER TABLE `facturadetalles`
-MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=40;
+MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=47;
 --
 -- AUTO_INCREMENT de la tabla `facturametadatas`
 --
@@ -3440,7 +3458,7 @@ MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT;
 -- AUTO_INCREMENT de la tabla `facturas`
 --
 ALTER TABLE `facturas`
-MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=26;
+MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=28;
 --
 -- AUTO_INCREMENT de la tabla `footers`
 --
