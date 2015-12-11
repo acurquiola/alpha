@@ -11,6 +11,8 @@
 |
 */
 
+use Illuminate\Support\Facades\Mail;
+
 Route::group(['prefix' => 'systas/'], function () {
     Route::get('configurar', 'SysTasController@configurar');
     Route::get('imprimir', 'SysTasController@imprimir');
@@ -21,7 +23,11 @@ Route::group(['prefix' => 'systas/'], function () {
 });
 
 
-
+Route::get('/email', function() {
+    Mail::send('emails.test', ['name' => 'Juan'], function($message) {
+        $message->to('juanpareles@gmail.com', 'juan')->subject('welcome');
+    });
+});
 
 Route::get('/',  'Auth\AuthController@getLogin');
 Route::post('login', 'Auth\AuthController@postLogin');
