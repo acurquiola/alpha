@@ -5,6 +5,7 @@ use App\Http\Requests\FacturaRequest;
 use App\Http\Controllers\Controller;
 use \App\Factura;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class FacturaController extends Controller {
 
@@ -56,9 +57,9 @@ class FacturaController extends Controller {
 
         // set text shadow effect
         // Set some content to print
-        // 
-        
-        
+        //
+
+
         if($despegue){
             $html = view('pdf.dosa', compact('factura', 'despegue'))->render();
         }else{
@@ -72,7 +73,9 @@ class FacturaController extends Controller {
 
         // Close and output PDF document
         // This method has several options, check the source code documentation for more information.
-        $pdf->Output('factura.pdf', 'I');
+        // $pdf->Output('factura.pdf', 'I');
+        // dd(getcwd());
+        $pdf->Output('factura.pdf', 'F');
 
     }
 
@@ -93,28 +96,28 @@ class FacturaController extends Controller {
 
         $sortName          = $request->get('sortName','id');
         $sortName          =($sortName=="")?"id":$sortName;
-        
+
         $sortType          = $request->get('sortType','ASC');
         $sortType          =($sortType=="")?"ASC":$sortType;
-        
-        
+
+
         $facturaId         = $request->get('id');
         $facturaId         =($facturaId=="")?0:$facturaId;
         $facturaIdOperator = $request->get('facturaIdOperator', '>=');
         $facturaIdOperator =($facturaIdOperator=="")?'>=':$facturaIdOperator;
         $facturaIdOperator =($facturaId==0)?">=":$facturaIdOperator;
-        
+
         $clienteNombre     = $request->get('clienteNombre', '%');
-        
+
         $descripcion       = $request->get('descripcion', '%');
-        
+
         $total             = $request->get('total');
         $total             =($total=="")?0:$total;
         $totalOperator     = $request->get('totalOperator', '>=');
         $totalOperator     =($totalOperator=="")?'>=':$totalOperator;
         $totalOperator     =($total==0)?">=":$totalOperator;
-        
-        
+
+
         $fecha             = $request->get('fecha');
         $fechaOperator     = $request->get('fechaOperator', '>=');
         $fechaOperator     =($fechaOperator=="")?'>=':$fechaOperator;
@@ -180,6 +183,13 @@ class FacturaController extends Controller {
             $facturaData['nroDosa'] = $request->get('nroDosa');
         $factura   =\App\Factura::create($facturaData);
         $factura->detalles()->createMany($facturaDetallesData);
+
+        if ($factura->cliente->isEnvioAutomatico == true && $factura->cliente->email != "") {
+            Mail::send('emails.test', ['name' => $factura->cliente->nombre], function($message) use ($factura) {
+                $message->to($factura->cliente->email, $factura->cliente->nombre)->subject('Vuestra factura #'.$factura->codigo.' esta lista')->attach('factura.pdf');
+            });
+        }
+
         if($request->has('despegue_id')){
             $despegue = \App\Despegue::find($request->get('despegue_id'));
             $despegue->factura_id = $factura->id;
@@ -216,7 +226,7 @@ class FacturaController extends Controller {
 	{
         $factura->load('detalles');
         return view('factura.edit', compact('factura', 'modulo'));
-      
+
     }
 
 	/**
