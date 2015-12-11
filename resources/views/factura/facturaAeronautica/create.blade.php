@@ -37,7 +37,7 @@
 $(document).ready(function(){
 
 	@include('factura.partials.script')
-
+    $('[name="montoDes[]"]').first().trigger('focusout')
 	$('#save-btn').click(function(e){
 
 		e.preventDefault();
