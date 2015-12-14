@@ -17,3 +17,7 @@ input[readonly]{
 .margin-bottom{
     margin-bottom:15x;
 }
+
+.datepicker{
+    z-index:9999!important;
+}
