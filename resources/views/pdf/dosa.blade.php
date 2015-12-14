@@ -239,8 +239,6 @@
 </td>
 </tr>
 </table>
-
-<br>
 <br>
 
 <table style="width:100%; border-collapse: collapse; padding:2px">
