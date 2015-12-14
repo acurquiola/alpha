@@ -15,6 +15,10 @@ class CreacionTablasCobranzas extends Migration {
 		Schema::create('cobros', function(Blueprint $table)
 		{
 			$table->increments('id');
+            $table->integer('cliente_id')->unsigned();
+            $table->foreign('cliente_id')->references('id')->on('clientes');
+            $table->integer('modulo_id')->unsigned()->nullable();
+            $table->foreign('modulo_id')->references('id')->on('modulos');
             $table->text('observacion');
             $table->text('hasrecaudos');
             $table->double('montofacturas',15,2);

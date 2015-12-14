@@ -66,8 +66,8 @@ class CobranzaController extends Controller {
 	 */
 	public function store(Request $request)
 	{
-
-        $cobro=\App\Cobro::create([]);
+        \DB::transaction(function () use ($request) {
+        $cobro=\App\Cobro::create(['cliente_id' => $request->get('cliente_id'), 'modulo_id'=>$request->get('modulo_id')]);
         $facturas=$request->get('facturas',[]);
         $pagos=$request->get('pagos',[]);
 
@@ -160,7 +160,7 @@ class CobranzaController extends Controller {
         $cobro->observacion=$request->get('observacion');
         $cobro->hasrecaudos=$request->get('hasrecaudos');
         $cobro->save();
-
+        });
 
         return ["success"=>1];
 	}

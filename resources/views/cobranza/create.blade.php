@@ -283,6 +283,21 @@
 				<h4 class="modal-title">Selección de retención</h4>
 			</div>
 			<div class="modal-body">
+			    <div class="form-horizontal">
+                    <div class="form-group">
+                        <label for="fecha-modal-input" class="col-sm-2 control-label">Fecha retención</label>
+                        <div class="col-md-4">
+                            <input type="text" class="form-control" id="fecha-retencion-input" autocomplete='off'>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="fecha-modal-input" class="col-sm-2 control-label">Comprobante retención</label>
+                        <div class="col-md-4">
+                            <input type="text" class="form-control" id="comprobante-retencion-input" autocomplete='off'>
+                        </div>
+                    </div>
+			    </div>
+
 				<div class="row" style="margin:15px auto">
 
 					<label class="control-label col-xs-2">Base a pagar</label>
@@ -408,7 +423,7 @@ $(document).ready(function(){
 
 	$('body').delegate('#ajuste-input', 'keyup paste', calculateTotalDepositar);
 
-	$('#fecha-modal-input').datepicker({
+	$('#fecha-modal-input, #fecha-retencion-input').datepicker({
 		closeText: 'Cerrar',
 		prevText: '&#x3C;Ant',
 		nextText: 'Sig&#x3E;',
@@ -496,9 +511,14 @@ $('#accept-retencion-modal-btn').click(function(){
 		isrlModal=$('#islrper-modal-input').val();
 	if($('#ivaper-modal-input').closest('tr').find(':checkbox').prop('checked'))
 		ivaModal=$('#ivaper-modal-input').val();
+
+    var retencionFecha=$('#fecha-retencion-input').val();
+    var retencionComprobante=$('#comprobante-retencion-input').val();
 	$(retencionInput).val(total);
 	$(retencionInput).data('islrModal',isrlModal);
 	$(retencionInput).data('ivaModal',ivaModal);
+    $(retencionInput).data('retencionFecha',retencionFecha);
+    $(retencionInput).data('retencionComprobante',retencionComprobante);
 	var pendiente =$(tr).find('.saldo-pendiente').text();
 	pendiente     =parseFloat(pendiente);
 	$(tr).find('.saldo-pagar').text((pendiente-parseFloat(total)).toFixed(2));
@@ -810,15 +830,27 @@ $('#save-cobro-btn').click(function(){
 	var facturas=[];
 	var trs=$('#cxc-table tbody').find('tr.success, tr.info, tr.warning').not('.ajuste-row');
 	$.each(trs, function(index,value){
+	    var retencionInput=$(value).find('.retencion-pagar');
+	    var isrlModal=$(retencionInput).data('islrModal');
+	    var ivaModal=$(retencionInput).data('ivaModal');
+	    var retencionFecha=$(retencionInput).data('retencionFecha');
+	    var retencionComprobante=$(retencionInput).data('retencionComprobante');
+	    isrlModal=(isrlModal===undefined)?0:isrlModal;
+	    ivaModal=(ivaModal===undefined)?0:ivaModal;
+        retencionFecha=(retencionFecha===undefined)?0:retencionFecha;
+        retencionComprobante=(retencionComprobante===undefined)?0:retencionComprobante;
 		var o={
 			id:$(value).data('id'),
 			montoAbonado: $(value).find('.saldo-abonado-input').val(),
-			islrpercentage:$(value).data('islrper'),
-			ivapercentage:$(value).data('ivaper')
+            islrpercentage:isrlModal,
+			ivapercentage:ivaModal,
+			retencionFecha:retencionFecha,
+			retencionComprobante:retencionComprobante
 		}
 
 		facturas.push(o);
 	});
+
 	var pagos=[];
 	$('#formas-pago-table tbody tr').each(function(index,value){
 		pagos.push($(value).data('object'));

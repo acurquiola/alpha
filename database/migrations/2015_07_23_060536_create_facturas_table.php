@@ -24,6 +24,8 @@ class CreateFacturasTable extends Migration {
             $table->date('fechaVencimiento');
             $table->integer('cliente_id')->unsigned();
             $table->foreign('cliente_id')->references('id')->on('clientes');
+            $table->integer('modulo_id')->unsigned()->nullable();
+            $table->foreign('modulo_id')->references('id')->on('modulos');
             $table->float('subtotalNeto')->unsigned();
             $table->float('descuentoTotal')->unsigned();
             $table->float('subtotal')->unsigned();
