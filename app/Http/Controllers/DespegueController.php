@@ -264,6 +264,7 @@ class DespegueController extends Controller {
 		}
 
 		//Ítem de Estacionamiento.
+
 		if($despegue->cobrar_estacionamiento == '1'){
 			$estacionamiento = new Facturadetalle();
 			$nacionalidad    = $despegue->nacionalidadVuelo_id;
@@ -292,13 +293,15 @@ class DespegueController extends Controller {
 
 			$tiempo_estacionamiento = $despegue->tiempo_estacionamiento;
 			$tiempoAFacturar        = ($tiempo_estacionamiento - $minutosLibre)/$minutosBloque;
+
 			if($tiempoAFacturar > 0){
-				$auxTiempo = explode('.', $tiempoAFacturar);		
+/*				$auxTiempo = explode('.', $tiempoAFacturar);
 				if($auxTiempo[1] > 0){
 					$tiempoAFacturar = $auxTiempo[0]+1;
 				}else{
 					$tiempoAFacturar = $tiempoAFacturar;
-				}
+				}*/
+                $tiempoAFacturar=ceil($tiempoAFacturar);
 				$equivalente            = ($eq_bloque * $ut);
 				$montoDes               = $equivalente * $tiempoAFacturar * $peso_aeronave;
 				$cantidadDes            = '1';
@@ -311,6 +314,7 @@ class DespegueController extends Controller {
 		}
 
 		//Ítem de Aterrizaje y Despegue
+
 		if($despegue->cobrar_AterDesp == '1'){
 			$aterrizajeDespegue = new Facturadetalle();
 			$nacionalidad       = $despegue->nacionalidadVuelo_id;
@@ -422,6 +426,12 @@ class DespegueController extends Controller {
 			$factura->detalles->push($habilitacion);
 		}
 
-		return view('factura.facturaAeronautica.create', compact('factura', 'condicionPago'))->with(['despegue_id'=>$despegue->id, 'tipoAterrizaje'=>$tipoAterrizaje]);
+        $view=view('factura.facturaAeronautica.create', compact('factura', 'condicionPago'))->with(['despegue_id'=>$despegue->id]);
+
+        if(isset($tipoAterrizaje))
+            $view->with(['tipoAterrizaje'=>$tipoAterrizaje]);
+
+        return $view;
+
 	}
 }

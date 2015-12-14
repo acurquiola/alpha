@@ -50,6 +50,7 @@ class CobranzaController extends Controller {
         $clientes=\App\Cliente::join('facturas','facturas.cliente_id' , '=', 'clientes.id')
             ->join('facturadetalles','facturas.id' , '=', 'facturadetalles.factura_id')
         ->join('conceptos','conceptos.id' , '=', 'facturadetalles.concepto_id')
+        ->where('facturas.aeropuerto_id','=', session('aeropuerto')->id)
         ->where('conceptos.modulo_id', $idOperator, $id)
         ->where('facturas.estado','=','P')
         ->orderBy('clientes.nombre')
@@ -66,8 +67,8 @@ class CobranzaController extends Controller {
 	 */
 	public function store(Request $request)
 	{
-
-        $cobro=\App\Cobro::create([]);
+        \DB::transaction(function () use ($request) {
+        $cobro=\App\Cobro::create(['cliente_id' => $request->get('cliente_id'), 'modulo_id'=>$request->get('modulo_id')]);
         $facturas=$request->get('facturas',[]);
         $pagos=$request->get('pagos',[]);
 
@@ -160,7 +161,7 @@ class CobranzaController extends Controller {
         $cobro->observacion=$request->get('observacion');
         $cobro->hasrecaudos=$request->get('hasrecaudos');
         $cobro->save();
-
+        });
 
         return ["success"=>1];
 	}
@@ -224,6 +225,7 @@ class CobranzaController extends Controller {
             ->join('clientes','facturas.cliente_id' , '=', 'clientes.id')
             ->join('facturadetalles','facturas.id' , '=', 'facturadetalles.factura_id')
             ->join('conceptos','conceptos.id' , '=', 'facturadetalles.concepto_id')
+            ->where('facturas.aeropuerto_id','=', session('aeropuerto')->id)
             ->where('conceptos.modulo_id', $idOperator, $id)
             ->where('clientes.codigo', '=', $codigo)
             ->where('facturas.estado','=','P')

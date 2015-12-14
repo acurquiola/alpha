@@ -41,25 +41,6 @@ class Factura extends Model {
         return $this->hasOne('App\Carga');
     }
 
-    public function getSubtotalNetoAttribute($value){
-        return number_format($value,2);
-    }
-    public function getDescuentoTotalAttribute($value){
-        return number_format($value,2);
-    }
-    public function getSubtotalAttribute($value){
-        return number_format($value,2);
-    }
-
-    public function getIvaAttribute($value){
-        return number_format($value,2);
-    }
-    public function getRecargoTotalAttribute($value){
-        return number_format($value,2);
-    }
-    public function getTotalAttribute($value){
-        return number_format($value,2);
-    }
     public function setFechaAttribute($fecha)
     {
         $this->attributes['fecha']=\Carbon\Carbon::createFromFormat('d/m/Y', $fecha);

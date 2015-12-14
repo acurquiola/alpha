@@ -16,8 +16,15 @@ class FacturaController extends Controller {
     }
 
 
-    public function getPrint($modulo, Factura $factura){
-
+    /**
+     * @param $factura
+     * @param string $output
+     * I = imprimir en el explorador
+     * F =  guardar en un archivo
+     *
+     *
+     */
+    protected function crearFactura($factura, $output= 'I', $dir='facturas/'){
         $despegue = \App\Despegue::with('aterrizaje')->where('factura_id', $factura->id)->first();
 
         $factura->load('detalles');
@@ -73,9 +80,22 @@ class FacturaController extends Controller {
 
         // Close and output PDF document
         // This method has several options, check the source code documentation for more information.
-        // $pdf->Output('factura.pdf', 'I');
-        // dd(getcwd());
-        $pdf->Output('factura.pdf', 'F');
+        if($output=='I')
+        $pdf->Output($factura->id."factura.pdf", $output);
+        else{
+            $path=$dir.$factura->id."factura.pdf";
+            $pdf->Output($path, $output);
+            return $path;
+        }
+
+
+
+    }
+
+
+    public function getPrint($modulo, Factura $factura){
+
+        $this->crearFactura($factura);
 
     }
 
@@ -183,10 +203,14 @@ class FacturaController extends Controller {
             $facturaData['nroDosa'] = $request->get('nroDosa');
         $factura   =\App\Factura::create($facturaData);
         $factura->detalles()->createMany($facturaDetallesData);
-
-        if ($factura->cliente->isEnvioAutomatico == true && $factura->cliente->email != "") {
-            Mail::send('emails.test', ['name' => $factura->cliente->nombre], function($message) use ($factura) {
-                $message->to($factura->cliente->email, $factura->cliente->nombre)->subject('Vuestra factura #'.$factura->codigo.' esta lista')->attach('factura.pdf');
+        $cliente=$factura->cliente;
+        if ($cliente && $cliente->isEnvioAutomatico == true && $cliente->email != "") {
+            $path=$this->crearFactura($factura, 'F');
+            Mail::send('emails.test', ['name' => $cliente->nombre], function($message) use ($factura, $cliente, $path) {
+                $message
+                    ->to($cliente->email, $cliente->nombre)
+                    ->subject('Vuestra factura #'.$factura->codigo.' esta lista')
+                    ->attach($path);
             });
         }
 

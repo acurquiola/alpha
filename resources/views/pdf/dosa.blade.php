@@ -262,7 +262,7 @@
 {{$detalle->concepto->nompre}}
 </td>
 <td colspan="3" style="text-align:right">
-{{$detalle->totalDes}}
+{{number_format($detalle->totalDes,2)}}
 </td>
 <td colspan="1">
 </td>
@@ -281,7 +281,7 @@
 <strong>TOTAL FACTURADO</strong>
 </td>
 <td colspan="2" style="border-bottom: 1px solid black;border-top: 1px solid black;border-right: 1px solid black;text-align:left" >
-<strong> Bs. </strong> {{$factura->total}}  
+<strong> Bs. </strong> {{number_format($factura->total,2)}}  
 </td>
 </tr>
 </table>
