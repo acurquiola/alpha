@@ -97,7 +97,7 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        {!! Form::number('diaGeneracion', null, [ 'class'=>"form-control", $disabled , 'placeholder'=>'Introduzca el día del mes (1-31)']) !!}
+                                        {!! Form::text('diaGeneracion', null, ['type'=>'number', 'class'=>"form-control", $disabled , 'placeholder'=>'Introduzca el día del mes (1-31)']) !!}
                                     </div>
                                 </div>
                             </div>
