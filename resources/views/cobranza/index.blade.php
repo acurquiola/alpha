@@ -53,8 +53,7 @@
                                                     <td>
                                                         <div class='btn-group  btn-group-sm' role='group' aria-label='...'>
                                                             <a class='btn btn-primary' href='{{action('CobranzaController@show', [$modulo->nombre,$cobro->id])}}'><span class='glyphicon glyphicon-eye-open'></span></a>
-                                                            <a class='btn btn-warning' href='{{action('CobranzaController@edit', [$modulo->nombre,$cobro->id])}}'><span class='glyphicon glyphicon-pencil' ></span></a>
-                                                            <button class='btn btn-danger delete-contrato-btn' data-id="{{$cobro->id}}"><span class='glyphicon glyphicon-remove'></span></button>
+                                                            <button class='btn btn-danger delete-cobro-btn' data-id="{{$cobro->id}}"><span class='glyphicon glyphicon-remove'></span></button>
                                                         </div>
                                                     </td>
                                                 </tr>
@@ -78,14 +77,42 @@
 
 
 @endsection
-@section('script')
-
 <script>
 
+$(document).ready(function(){
+
+$('.delete-cobro-btn').click(function(){
+        var tr=$(this).closest('tr');
+        var id=$(this).data("id");
+        var url="{{url('cobranza/'.$modulo->nombre.'/cobro')}}/"+id;
+                alertify.confirm("Desea eliminar el cobro seleccionado?", function (e) {
+            if (e) {
+        $.
+        ajax({url: url,
+              method:"DELETE"})
+        .done(function(response, status, responseObject){
+            try{
+                var obj= JSON.parse(responseObject.responseText);
+                if(obj.success==1){
+                    $(tr).remove();
+                    alertify.success(obj.text);
+                }else{
+                alertify.error(obj.text);
+                }
+            }catch(e){
+            console.log(e);
+            alertify.error("Error en el servidor");
+            }
+        })
+            }
+                });
+
+})
 
 
+
+})
 
 </script>
-
 
 @endsection

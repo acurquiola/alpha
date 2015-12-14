@@ -32,9 +32,19 @@ class CreacionTablasCobranzas extends Migration {
             $table->foreign('factura_id')->references('id')->on('facturas');
             $table->integer('cobro_id')->unsigned();
             $table->foreign('cobro_id')->references('id')->on('cobros');
+            $table->string('retencionFecha');
+            $table->string('retencionComprobante');
             $table->double('monto',15,2);
+            $table->double('base', 15,2);
+            $table->double('iva', 15,2);
+            $table->double('islrpercentage');
+            $table->double('ivapercentage');
+            $table->double('retencion', 15,2);
+            $table->double('total', 15,2);
             $table->timestamps();
         });
+
+
         Schema::create('cobrospagos', function(Blueprint $table)
         {
             $table->increments('id');
@@ -46,6 +56,7 @@ class CreacionTablasCobranzas extends Migration {
             $table->foreign('cuenta_id')->references('id')->on('bancoscuentas');
             $table->string('ncomprobante', 150);
             $table->double('monto', 15, 2);
+
             $table->integer('cobro_id')->unsigned();
             $table->foreign('cobro_id')->references('id')->on('cobros');
             $table->timestamps();

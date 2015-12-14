@@ -21,8 +21,11 @@
         <div class="col-md-12">
             <div class="box box-primary">
                 <div class="box-header">
+                   {!! Form::open(["url" => action("ReporteController@postExportReport"), "id" =>"export-form", "target"=>"_blank"]) !!}
+                    {!! Form::hidden('table') !!}
                     <h3 class="box-title">Reporte</h3>
-                    <span class="pull-right"><button class="btn btn-primary"><span class="glyphicon glyphicon-file"></span> Exportar</button></span>
+                    <span class="pull-right"><button type="button" class="btn btn-primary" id="export-btn"><span class="glyphicon glyphicon-file"></span> Exportar</button></span>
+                    {!! Form::close() !!}
                 </div>
                 <div class="box-body" >
                     <div class="row">
@@ -102,5 +105,29 @@
     </div>
 </div>
 
+
+@endsection
+
+@section('script')
+<script>
+
+$(function(){
+
+
+
+    $('#export-btn').click(function(e){
+        var table=$('table').clone();
+        $(table).find('td, th').filter(function() {
+          return $(this).css('display') == 'none';
+        }).remove();
+        $(table).find('tr').filter(function() {
+          return $(this).find('td,th').length == 0;
+        }).remove();
+        var tableHtml= $(table)[0].outerHTML;
+        $('[name=table]').val(tableHtml);
+        $('#export-form').submit();
+    })
+});
+</script>
 
 @endsection
