@@ -37,8 +37,11 @@
         <div class="col-md-12">
             <div class="box box-primary">
                 <div class="box-header">
+                    {!! Form::open(["url" => action("ReporteController@postExportReport"), "id" =>"export-form", "target"=>"_blank"]) !!}
+                    {!! Form::hidden('table') !!}
                     <h3 class="box-title">Reporte</h3>
-                    <span class="pull-right"><button class="btn btn-primary"><span class="glyphicon glyphicon-file"></span> Exportar</button></span>
+                    <span class="pull-right"><button type="button" class="btn btn-primary" id="export-btn"><span class="glyphicon glyphicon-file"></span> Exportar</button></span>
+                    {!! Form::close() !!}
                 </div>
                 <div class="box-body" >
                     <div class="row">
@@ -74,9 +77,9 @@
                         @foreach($montoModulos as $moduloNombre => $conceptos)
                             @foreach($conceptos as $concepto => $monto)
                                 @if($concepto=="total")
-                                    <td class="text-right" main data-parent="{{$moduloNombre}}">{{$monto}}</td>
+                                    <td style="text-align:right" main data-parent="{{$moduloNombre}}">{{$monto}}</td>
                                 @else
-                                    <td class="text-right" details data-parent="{{$moduloNombre}}" style="display:none">{{$monto}}</td>
+                                    <td details data-parent="{{$moduloNombre}}" style="display:none;text-align:right">{{$monto}}</td>
                                 @endif
                             @endforeach
                         @endforeach
@@ -88,9 +91,9 @@
                         @foreach($montosTotales as $moduloNombre => $conceptos)
                             @foreach($conceptos as $concepto => $monto)
                                 @if($concepto=="total")
-                                    <td class="text-right" main data-parent="{{$moduloNombre}}">{{$monto}}</td>
+                                    <td style="text-align:right" main data-parent="{{$moduloNombre}}">{{$monto}}</td>
                                 @else
-                                    <td class="text-right" details data-parent="{{$moduloNombre}}" style="display:none">{{$monto}}</td>
+                                    <td  details data-parent="{{$moduloNombre}}" style="display:none;text-align:right">{{$monto}}</td>
                                 @endif
                             @endforeach
                         @endforeach
@@ -116,6 +119,23 @@
 <script>
 
 $(function(){
+
+
+
+$('#export-btn').click(function(e){
+    var table=$('table').clone();
+    $(table).find('td, th').filter(function() {
+      return $(this).css('display') == 'none';
+    }).remove();
+    $(table).find('tr').filter(function() {
+      return $(this).find('td,th').length == 0;
+    }).remove();
+    $(table).find('th').css({'border-bottom':'1px solid black','border-top':'1px solid black', 'font-weight': 'bold'})
+    $(table).find('tr:last td').css({'border-bottom':'1px solid black','border-top':'1px solid black', 'font-weight': 'bold'})
+    var tableHtml= $(table)[0].outerHTML;
+    $('[name=table]').val(tableHtml);
+    $('#export-form').submit();
+})
 
 
 $('th[expandible]').click(function(){

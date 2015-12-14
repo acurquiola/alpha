@@ -133,6 +133,6 @@ Route::group(['prefix' => 'reporte/'], function () {
 
     Route::get('reporterDES900', 'ReporteController@getReporteDES900');
     Route::get('reporteClienteReciboMensual', 'ReporteController@getReporteClienteReciboMensual');
-
+    Route::post('exportReport', "ReporteController@postExportReport");
 });
 

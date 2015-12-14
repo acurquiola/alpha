@@ -121,6 +121,71 @@ class ReporteController extends Controller {
         return view('reportes.reporterFacturadoCobradoMensual', compact('montosMeses', 'anno', 'aeropuerto'));
     }
 
+    public function postExportReport(Request $request){
+
+        $table=$request->get('table');
+
+
+
+
+        $pdf = new \TCPDF('L', PDF_UNIT, 'legal', true, 'UTF-8', false);
+
+        $pdf->setPrintHeader(false);
+        $pdf->setPrintFooter(false);
+
+        // set default monospaced font
+        $pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
+
+        // set margins
+        $pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
+
+        // set some language-dependent strings (optional)
+        if (@file_exists(dirname(__FILE__).'/lang/eng.php')) {
+            require_once(dirname(__FILE__).'/lang/eng.php');
+            $pdf->setLanguageArray($l);
+        }
+
+        // ---------------------------------------------------------
+
+        // set default font subsetting mode
+        $pdf->setFontSubsetting(true);
+
+        // Set font
+        // dejavusans is a UTF-8 Unicode font, if you only need to
+        // print standard ASCII chars, you can use core fonts like
+        // helvetica or times to reduce file size.
+        $pdf->SetFont('dejavusans', '', 8, '', true);
+
+        // Add a page
+        // This method has several options, check the source code documentation for more information.
+        $pdf->AddPage();
+
+        // set text shadow effect
+        // Set some content to print
+        //
+
+
+        $html = view('pdf.generic', compact('table'))->render();
+
+
+        // Print text using writeHTMLCell()
+        $pdf->writeHTML($html);
+
+        // ---------------------------------------------------------
+
+        // Close and output PDF document
+        // This method has several options, check the source code documentation for more information.
+
+        $pdf->Output("reporte.pdf", 'I');
+
+
+
+
+
+    }
+
+
+
 
     public function getReporteDES900(Request $request){
         $mes        =$request->get('mes', \Carbon\Carbon::now()->month);

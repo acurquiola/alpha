@@ -136,7 +136,18 @@ class CobranzaController extends Controller {
             $facturaMetadata->retencion+=$retencion;
             $facturaMetadata->total+=$abonadoReal;
             $facturaMetadata->save();
-            $cobro->facturas()->attach([$factura->id => ['monto' => $f["montoAbonado"]]]);
+            $cobro->facturas()
+            ->attach([$factura->id => 
+                ['monto' => $f["montoAbonado"],
+                'base' => $base,
+                'iva' => $iva,
+                'islrpercentage' => $f["islrpercentage"],
+                'ivapercentage' => $f["ivapercentage"],
+                'retencion' => $retencion,
+                'total' => $abonadoReal,
+                'retencionFecha' => $f["retencionFecha"],
+                'retencionComprobante' => $f["retencionComprobante"],
+                ]]);
             if($facturaMetadata->total==(float)str_replace(",","",$factura->total)){
                 $factura->estado="C";
                 $factura->save();
@@ -207,7 +218,43 @@ class CobranzaController extends Controller {
 	 */
 	public function destroy($id)
 	{
-		//
+        \DB::transaction(function () use ($request) {
+        
+
+        $cobro=\App\Cobro::find($id);
+        $facturas=$cobro->facturas();
+
+
+        foreach($facturas as $factura){
+
+            $facturaMetadata=$factura->metadata;
+            $facturaMetadata->ncobros--;
+            $facturaMetadata->montopagado-=$factura->pivot->monto;
+            $facturaMetadata->basepagado-=$factura->pivot->base;
+            $facturaMetadata->ivapagado-=$factura->pivot->iva;
+            $facturaMetadata->retencion-=$factura->pivot->retencion;
+            $facturaMetadata->total-=$factura->pivot->total;
+            $facturaMetadata->save();
+
+            if($facturaMetadata->total!=(float)str_replace(",","",$factura->total)){
+                $factura->estado="P";
+                $factura->save();
+            }
+
+            $cobro->detach($factura->id);
+        }
+
+
+        foreach($cobro->pagos() as $p){
+            $p->delete();
+        }
+        foreach($cobro->ajustes() as $a){
+            $a->delete();
+        }
+        $cobro->delete();
+        });
+
+        return ["success"=>1];
 	}
 
 
