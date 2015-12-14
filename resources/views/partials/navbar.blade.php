@@ -14,7 +14,7 @@
       <ul class="nav navbar-nav hidden-xs">
           <li>
               <a href="#">
-                {{session("aeropuerto")->siglas}}
+                {{session("aeropuerto")->nombre}}
               </a>
           </li>
       </ul>
