@@ -24,6 +24,7 @@ class DatabaseSeeder extends Seeder {
 
 
 		Model::reguard();
+		$this->call('AeropuertosTableSeeder');
 	}
 
 }
