@@ -25,7 +25,7 @@ class ViewComposerServiceProvider extends ServiceProvider {
 
 		view()->composer(['partials.navbar', 'partials.menu'], function($view){
             $user      =\Auth::user();
-            $userName  =ucwords($user->userName);
+            $userName  =ucwords($user->username);
             $createdAt =$user->created_at;
             $view->with(compact('userName', 'createdAt'));
         });
