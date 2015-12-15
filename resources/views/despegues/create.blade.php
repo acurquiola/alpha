@@ -41,6 +41,7 @@
 											<i class="fa fa-calendar"></i>
 										</div>
 										<input id="fecha-datepicker" type="text" name="fecha" class="form-control no-vacio" value="{{$today->format('d/m/Y')}}" placeholder="Fecha" />
+										<input type="hidden" name="aeropuerto_id" value="{{session('aeropuerto')->id}}"></input>
 									</div><!-- /.input group -->
 								</div>
 								<div class="form-group">
