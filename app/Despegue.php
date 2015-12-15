@@ -44,7 +44,6 @@ class Despegue extends Model {
         return $this->belongsTo('App\Aeronave');
     }
 
-
     public function cliente()
     {
         return $this->belongsTo('App\Cliente');
