@@ -11,6 +11,7 @@ class PermissionRoleTableSeeder extends Seeder {
 	 */
 	public function run()
 	{
+		\DB::table('permission_role')->delete();
         
 		\DB::table('permission_role')->insert(array (
 			0 => 
@@ -284,6 +285,46 @@ class PermissionRoleTableSeeder extends Seeder {
 				'role_id' => 1,
 				'created_at' => '2015-12-09 21:35:30',
 				'updated_at' => '2015-12-09 21:35:30',
+			),
+			34 => 
+			array (
+				'id' => 67,
+				'permission_id' => 15,
+				'role_id' => 2,
+				'created_at' => '2015-12-16 13:44:07',
+				'updated_at' => '2015-12-16 13:44:07',
+			),
+			35 => 
+			array (
+				'id' => 68,
+				'permission_id' => 17,
+				'role_id' => 2,
+				'created_at' => '2015-12-16 13:44:07',
+				'updated_at' => '2015-12-16 13:44:07',
+			),
+			36 => 
+			array (
+				'id' => 69,
+				'permission_id' => 16,
+				'role_id' => 2,
+				'created_at' => '2015-12-16 13:44:07',
+				'updated_at' => '2015-12-16 13:44:07',
+			),
+			37 => 
+			array (
+				'id' => 70,
+				'permission_id' => 20,
+				'role_id' => 2,
+				'created_at' => '2015-12-16 13:44:07',
+				'updated_at' => '2015-12-16 13:44:07',
+			),
+			38 => 
+			array (
+				'id' => 71,
+				'permission_id' => 23,
+				'role_id' => 2,
+				'created_at' => '2015-12-16 13:44:07',
+				'updated_at' => '2015-12-16 13:44:07',
 			),
 		));
 	}

@@ -11,6 +11,7 @@ class PuertosTableSeeder extends Seeder {
 	 */
 	public function run()
 	{
+		\DB::table('puertos')->delete();
         
 		\DB::table('puertos')->insert(array (
 			0 => 
@@ -52,6 +53,16 @@ class PuertosTableSeeder extends Seeder {
 				'pais_id' => 232,
 				'created_at' => '2015-12-07 23:39:05',
 				'updated_at' => '2015-12-07 23:39:05',
+			),
+			4 => 
+			array (
+				'id' => 6,
+				'nombre' => 'VALENCIA',
+				'siglas' => 'SVVA',
+				'estado' => 1,
+				'pais_id' => 232,
+				'created_at' => '2015-12-16 13:50:01',
+				'updated_at' => '2015-12-16 13:50:01',
 			),
 		));
 	}

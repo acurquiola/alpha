@@ -1,7 +1,7 @@
 @extends('app')
 @section('content')
 <div class="row">
-	<section class="col-lg-11">
+	<section class="col-lg-10">
 		<!-- Content Header (Page header) -->
 
 		<ol class="breadcrumb">
