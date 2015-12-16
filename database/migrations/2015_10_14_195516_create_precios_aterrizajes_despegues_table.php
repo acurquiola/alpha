@@ -19,6 +19,8 @@ class CreatePreciosAterrizajesDespeguesTable extends Migration {
 			$table->float('eq_diurnoInt');
 			$table->float('eq_nocturNac');
 			$table->float('eq_nocturInt');
+			$table->integer('aeropuerto_id')->unsigned();
+			$table->foreign('aeropuerto_id')->references('id')->on('aeropuertos');
 			$table->integer('conceptoCredito_id')->unsigned();
 			$table->foreign('conceptoCredito_id')->references('id')->on('conceptos');
 			$table->integer('conceptoContado_id')->unsigned();

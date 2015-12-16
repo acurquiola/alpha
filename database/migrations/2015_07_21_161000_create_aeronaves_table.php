@@ -27,6 +27,8 @@ class CreateAeronavesTable extends Migration {
             $table->foreign('cliente_id')->references('id')->on('clientes');
             $table->integer('hangar_id')->unsigned()->nullable();
             $table->foreign('hangar_id')->references('id')->on('hangars');
+			$table->integer('aeropuerto_id')->unsigned();
+			$table->foreign('aeropuerto_id')->references('id')->on('aeropuertos');
             $table->timestamps();
 		});
 

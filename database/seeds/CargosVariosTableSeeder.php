@@ -21,6 +21,7 @@ class CargosVariosTableSeeder extends Seeder {
 				'eq_derechoHabilitacion' => 14,
 				'eq_usoAbordajeSinHab' => 5.13999999999999968025576890795491635799407958984375,
 				'eq_usoAbordajeConHab' => 5.70999999999999996447286321199499070644378662109375,
+				'aeropuerto_id' => 1,
 				'formularioCredito_id' => 71,
 				'formularioContado_id' => 57,
 				'habilitacionCredito_id' => 70,

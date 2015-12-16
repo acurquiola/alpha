@@ -19,6 +19,8 @@ class CreateCargosVariosTable extends Migration {
 			$table->float('eq_derechoHabilitacion');
 			$table->float('eq_usoAbordajeSinHab');
 			$table->float('eq_usoAbordajeConHab');
+			$table->integer('aeropuerto_id')->unsigned();
+			$table->foreign('aeropuerto_id')->references('id')->on('aeropuertos');
 			$table->integer('formularioCredito_id')->unsigned();
 			$table->foreign('formularioCredito_id')->references('id')->on('conceptos');
 			$table->integer('formularioContado_id')->unsigned();

@@ -11,6 +11,7 @@
 						<label>Minutos Libres: </label>
 						<div class="input-group">
 							{!! Form::text('tiempoLibreInt', null, [ 'class'=>"form-control tiempoLibreInt","placeholder"=>"Minutos libres de cargo"]) !!}
+					<input type="hidden" name="aeropuerto_id" value="{{session('aeropuerto')->id}}"></input>
 							<div class="input-group-addon">
 								min <i class="fa fa-clock-o"></i>
 							</div>

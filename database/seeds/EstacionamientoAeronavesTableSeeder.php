@@ -22,6 +22,7 @@ class EstacionamientoAeronavesTableSeeder extends Seeder {
 				'tiempoLibreNac' => 60,
 				'eq_bloqueNac' => 0.0748000000000000053734794391857576556503772735595703125,
 				'minBloqueNac' => 60,
+				'aeropuerto_id' => 1,
 				'conceptoCredito_id' => 69,
 				'conceptoContado_id' => 55,
 				'created_at' => '0000-00-00 00:00:00',

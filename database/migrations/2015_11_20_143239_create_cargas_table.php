@@ -20,7 +20,7 @@ class CreateCargasTable extends Migration {
 			$table->foreign('cliente_id')->references('id')->on('clientes');
 			$table->integer('aeronave_id')->unsigned();
 			$table->foreign('aeronave_id')->references('id')->on('aeronaves');
-			$table->integer('aeropuerto_id')->unsigned()->nullable();
+			$table->integer('aeropuerto_id')->unsigned();
 			$table->foreign('aeropuerto_id')->references('id')->on('aeropuertos');
 			$table->integer('num_vuelo')->nullable();
 			$table->float('peso_embarcado');

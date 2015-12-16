@@ -17,7 +17,9 @@ class CreateHorariosAeronauticosTable extends Migration {
 			$table->time('operaciones_inicio');
 			$table->time('operaciones_fin');
 			$table->time('sol_salida');
-			$table->time('sol_puesta');			
+			$table->time('sol_puesta');
+			$table->integer('aeropuerto_id')->unsigned();
+			$table->foreign('aeropuerto_id')->references('id')->on('aeropuertos');		
 			$table->timestamps();
 		});
 	}

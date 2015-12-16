@@ -20,6 +20,7 @@ class PreciosAterrizajesDespeguesTableSeeder extends Seeder {
 				'eq_diurnoInt' => 0.84999999999999997779553950749686919152736663818359375,
 				'eq_nocturNac' => 0.4899999999999999911182158029987476766109466552734375,
 				'eq_nocturInt' => 1.649999999999999911182158029987476766109466552734375,
+				'aeropuerto_id' => 1,
 				'conceptoCredito_id' => 68,
 				'conceptoContado_id' => 54,
 				'created_at' => '0000-00-00 00:00:00',

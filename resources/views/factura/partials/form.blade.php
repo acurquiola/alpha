@@ -172,7 +172,12 @@
 <div class="form-group">
 	<label for="descripcion" class="col-xs-1 control-label"><strong>Descripción<span class="text-danger">*</span></strong></label>
 	<div class="col-xs-11">
-		{!! Form::textarea('descripcion', null, [ 'style'=>'padding-top:4px' ,'class'=>"form-control", $disabled , 'rows'=>"5", 'cols'=>"", "placeholder" => "Descripción de la factura"]) !!}
+	@if(isset($facturaCarga))
+		{!! Form::textarea('descripcion', "Facturación de Carga", [ 'style'=>'padding-top:4px' ,'class'=>"form-control", $disabled , 'rows'=>"5", 'cols'=>"", "placeholder" => "Descripción de la factura"]) !!}
+	@else
+		{!! Form::textarea('descripcion', (isset($bloqueoDosa))?"Facturación por Derechos Aeronáuticos":null, [ 'style'=>'padding-top:4px' ,'class'=>"form-control", $disabled , 'rows'=>"5", 'cols'=>"", "placeholder" => "Descripción de la factura"]) !!}
+	@endif
+
 	</div>
 </div>
 <div class="form-group">

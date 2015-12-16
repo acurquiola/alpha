@@ -13,6 +13,7 @@
 						Equivalente: 
 					</div>
 					{!! Form::text('equivalenteUT', null, [ 'class'=>"form-control equivalenteUT","placeholder"=>"Equivalente de la UT"]) !!}
+					<input type="hidden" name="aeropuerto_id" value="{{session('aeropuerto')->id}}"></input>
 				</div><!-- /.input group -->
 			</div><!-- /.form group -->	
 			<!-- Precio -->

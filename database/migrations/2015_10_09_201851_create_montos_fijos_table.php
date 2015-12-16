@@ -17,6 +17,8 @@ class CreateMontosFijosTable extends Migration {
 			$table->increments('id');
 			$table->float('unidad_tributaria');
 			$table->float('dolar_oficial');
+			$table->integer('aeropuerto_id')->unsigned();
+			$table->foreign('aeropuerto_id')->references('id')->on('aeropuertos');
 			$table->timestamps();
 		});
 	}

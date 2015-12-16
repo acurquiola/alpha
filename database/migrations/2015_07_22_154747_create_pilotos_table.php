@@ -23,6 +23,8 @@ class CreatePilotosTable extends Migration {
             $table->string('telefono');
             $table->string('licencia');
             $table->integer('estado')->default(0);
+			$table->integer('aeropuerto_id')->unsigned();
+			$table->foreign('aeropuerto_id')->references('id')->on('aeropuertos');
             $table->timestamps();
 		});
 	}

@@ -18,6 +18,7 @@ class PreciosCargasTableSeeder extends Seeder {
 				'id' => 1,
 				'equivalenteUT' => 0.01000000000000000020816681711721685132943093776702880859375,
 				'toneladaPorBloque' => 1,
+				'aeropuerto_id' => 1,
 				'conceptoCredito_id' => 73,
 				'conceptoContado_id' => 59,
 				'created_at' => '0000-00-00 00:00:00',
