@@ -38,7 +38,7 @@ class CobranzaController extends Controller {
 	 */
 	public function create($moduloName)
 	{
-
+        dd($moduloName);
         $idOperator=">=";
         $id=0;
         if($moduloName!="Todos"){

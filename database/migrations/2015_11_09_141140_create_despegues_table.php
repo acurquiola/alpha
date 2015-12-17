@@ -54,6 +54,7 @@ class CreateDespeguesTable extends Migration {
 			$table->foreign('factura_id')->references('id')->on('facturas');
 			$table->string('condicionPago')->nullable();
 			$table->integer('facturado')->default(0);
+			$table->integer('pagado')->default(0);
 
 			$table->timestamps();
 		});
