@@ -21,6 +21,15 @@
     var recargoTotalDoc=0;
     var total=0;
 
+    $('.nControlPrefix-list li').click(function(e){
+        e.preventDefault();
+        var value=$(this).text();
+        var max=$(this).data('max');
+        var formGroup=$(this).closest('.form-group');
+        $(formGroup).find('.nControlPrefix-text').text(value);
+        $(formGroup).find('.nControlPrefix-input').val(value);
+        $('#nControl').val()
+    })
 
     $('#concepto-table tbody tr').each(function(index, value){
     var cantidadVal=$(value).find('.cantidad-input').val();
@@ -151,7 +160,7 @@ $('#advance-search-modal .modal-body').delegate('.operator-list li', 'click', fu
     $('#advance-search-modal .modal-body').delegate('#cliente-filter-btn', 'click', function(e){
     e.preventDefault();
     var container=$(this).closest('.box-body');
-    console.log(container,$(container).find('input[name="sortName"]').val());
+
     var getParametersString="?";
     var getParametersObject={
          sortName : $(container).find('input[name="sortName"]').val(),

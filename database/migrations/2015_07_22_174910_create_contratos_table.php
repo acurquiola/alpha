@@ -71,8 +71,8 @@ class CreateContratosTable extends Migration {
 	 */
 	public function down()
 	{
-        Schema::drop('conceptos');
 		Schema::drop('contratos');
+        Schema::drop('conceptos');
 	}
 
 }

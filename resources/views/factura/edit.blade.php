@@ -10,8 +10,8 @@
 	<!-- left column -->
 	<div class="col-md-12">
 		<!-- general form elements -->
-		{!! Form::model($factura, ["url" => action("FacturaController@update",['modulo'=>'DOSAS' 'factura'=>$factura->id]), "method" => "PUT", "class" => "form-horizontal"]) !!}
-		{{dd($modulo)}}
+		{!! Form::model($factura, ["url" => action("FacturaController@update",['modulo'=>$modulo, 'factura'=>$factura->id]), "method" => "PUT", "class" => "form-horizontal"]) !!}
+
 		<div id="main-box" class="box box-primary">
 			<div class="box-header">
 				<h3 class="box-title">Creación de Factura</h3>
@@ -75,7 +75,7 @@
 			var form=$(this).closest('form');
 			var data=$(form).serializeArray();
 			addLoadingOverlay('#main-box');
-			$.ajax({url:'{{action('FacturaController@update', ['modulo'=>$modulo,'factura'=>$factura->id])}}',
+			$.ajax({url:'{{action('FacturaController@update', ['modulo'=>$modulo,'factura'=>$factura->nFactura])}}',
 				method:'PUT',
 				data:data}).always(function(response, status, responseObject){
 					if(status=="error"){
@@ -91,6 +91,7 @@
 							alertify.confirm("Desea imprimir la factura?", function (e) {
 								if (e) {
 									alertify.log("Se emitió orden de impresión");
+									window.open(object.impresion, '_blank');
 								}
 								setTimeout(
 									function()

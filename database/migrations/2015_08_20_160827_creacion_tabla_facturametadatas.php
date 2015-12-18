@@ -16,7 +16,7 @@ class CreacionTablaFacturametadatas extends Migration {
 		{
 			$table->increments('id');
             $table->integer('factura_id')->unsigned();
-            $table->foreign('factura_id')->references('id')->on('facturas');
+            $table->foreign('factura_id')->references('nfactura')->on('facturas')->onDelete('cascade');
             $table->integer('ncobros')->unsigned();
             $table->integer('ncuotas')->unsigned();
             $table->double('montoiniciocuota', 15,2);

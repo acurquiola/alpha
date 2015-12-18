@@ -1,19 +1,39 @@
 <?php namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Factura extends Model {
 
+    use SoftDeletes;
+
+    const NCONTROLDEFAULTPREFIX= ['A','B','C','D'];
+
+    protected $primaryKey = 'nFactura';
+
     protected $guarded = array();
+
+    public static function getNControlMax($searchPrefix=null){
+        $nControlSearchPrefix=($searchPrefix==null)?self::NCONTROLDEFAULTPREFIX:$searchPrefix;
+        $nControlprefixMax=[];
+        foreach($nControlSearchPrefix as $prefix){
+            $nControlprefixMax[$prefix]=(\DB::
+                table('facturas')
+                    ->where('nControlPrefix',$prefix)
+                    ->groupby('nControlPrefix')
+                    ->max('nControl')+1);
+        }
+        return $nControlprefixMax;
+    }
 
     public function detalles()
     {
-        return $this->hasMany('App\Facturadetalle');
+        return $this->hasMany('App\Facturadetalle', 'factura_id', 'nFactura');
     }
 
     public function metadata()
     {
-        return $this->hasOne('App\Facturametadata');
+        return $this->hasOne('App\Facturametadata', 'factura_id', 'nFactura');
     }
 
     public function cliente()
@@ -23,7 +43,17 @@ class Factura extends Model {
 
     public function cobros()
     {
-        return $this->belongsToMany('App\Cobro')->withPivot('monto')-> withTimestamps();
+        return $this->belongsToMany('App\Cobro', 'cobro_factura', 'factura_id', 'cobro_id')
+            ->withPivot('monto',
+                'retencionFecha',
+                'retencionComprobante',
+                'base',
+                'iva',
+                'islrpercentage',
+                'ivapercentage',
+                'retencion',
+                'total')
+            ->withTimestamps();
     }
 
     public function aeropuerto()
@@ -33,12 +63,12 @@ class Factura extends Model {
 
     public function despegue()
     {
-        return $this->hasOne('App\Despegue');
+        return $this->hasOne('App\Despegue', 'factura_id', 'nFactura');
     }
 
     public function carga()
     {
-        return $this->hasOne('App\Carga');
+        return $this->hasOne('App\Carga', 'factura_id', 'nFactura');
     }
 
     public function setFechaAttribute($fecha)

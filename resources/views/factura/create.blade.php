@@ -54,7 +54,7 @@
 $(document).ready(function(){
 
 	@include('factura.partials.script')
-	console.log($('#concepto-select option'));
+
 	if($('#concepto-select option').length==2){
 		$('#concepto-select').val($('#concepto-select option:last').val()).trigger('chosen:updated');
 		$('#add-conceptop-btn').trigger('click');
@@ -72,6 +72,7 @@ $(document).ready(function(){
 		if($('#concepto-table tbody tr').length==0){
 			alertify.error("Debe seleccionar un conceptos");
 			return;
+			return;
 		}
 		if(parseFloat($('#total-doc-input').val())<=0){
 			alertify.error("El total no puede ser menor o igual a cero");
@@ -80,8 +81,9 @@ $(document).ready(function(){
 
 		var form=$(this).closest('form');
 		var data=$(form).serializeArray();
+
 		addLoadingOverlay('#main-box');
-		$.ajax({url:'{{action('FacturaController@store')}}',
+		$.ajax({url:'{{action('FacturaController@store', [$modulo])}}',
 			method:'POST',
 			data:data}).always(function(response, status, responseObject){
 				if(status=="error"){
@@ -96,6 +98,7 @@ $(document).ready(function(){
 						alertify.success("La factura se ha creado con exito");
 						alertify.confirm("Desea imprimir la factura?", function (e) {
 							if (e) {
+							    window.open(object.impresion, '_blank');
 								alertify.log("Se emitio orden de impresion");
 							}
 							setTimeout(

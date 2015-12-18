@@ -1,5 +1,9 @@
 @extends('app')
 @section('content')
+<ol class="breadcrumb">
+	<li><a href="{{url('principal')}}">Inicio</a></li>
+	<li><a class="active">Cobranza Principal</a></li>
+</ol>
 <div class="row" id="box-wrapper">
 	<!-- left column -->
 	<div class="col-md-6">

@@ -24,11 +24,75 @@ class CobranzaController extends Controller {
 	 *
 	 * @return Response
 	 */
-	public function index($moduloNombre)
+	public function index($moduloNombre, Request $request)
 	{
+
+        $sortName          = $request->get('sortName','id');
+        $sortName          =($sortName=="")?"id":$sortName;
+
+        $sortType          = $request->get('sortType','ASC');
+        $sortType          =($sortType=="")?"ASC":$sortType;
+
+
+        $cobroId         = $request->get('id');
+        $cobroId         =($cobroId=="")?0:$cobroId;
+        $cobroIdOperator = $request->get('facturaIdOperator', '>=');
+        $cobroIdOperator =($cobroIdOperator=="")?'>=':$cobroIdOperator;
+        $cobroIdOperator =($cobroId==0)?">=":$cobroIdOperator;
+
+        $clienteNombre     = $request->get('clienteNombre', '%');
+
+        $observacion      = $request->get('observacion', '%');
+
+        $pagado             = $request->get('pagado');
+        $pagado             =($pagado=="")?0:$pagado;
+        $pagadoOperator     = $request->get('pagadoOperator', '>=');
+        $pagadoOperator     =($pagadoOperator=="")?'>=':$pagadoOperator;
+        $pagadoOperator     =($pagado==0)?">=":$pagadoOperator;
+
+        $depositado             = $request->get('depositado');
+        $depositado             =($depositado=="")?0:$depositado;
+        $depositadoOperator     = $request->get('depositadoOperator', '>=');
+        $depositadoOperator     =($depositadoOperator=="")?'>=':$depositadoOperator;
+        $depositadoOperator     =($depositado==0)?">=":$depositadoOperator;
+
+        $fecha             = $request->get('fecha');
+        $fechaOperator     = $request->get('fechaOperator', '>=');
+        $fechaOperator     =($fechaOperator=="")?'>=':$fechaOperator;
+        if($fecha==""){
+            $fecha         ='0000-00-00';
+            $fechaOperator ='>=';
+        }else{
+            $fecha=\Carbon\Carbon::createFromFormat('d/m/Y', $fecha);
+        }
+
+
+
+        \Input::merge([ 'fechaOperator'     =>$fechaOperator,
+            'cobroIdOperator' =>$cobroIdOperator,
+            'pagadoOperator'     =>$pagadoOperator,
+            'depositadoOperator'     =>$depositadoOperator,
+            'sortName'          =>$sortName,
+            'sortType'          =>$sortType]);
+
         $modulo=\App\Modulo::where("nombre","like",$moduloNombre)->first();
-        $cobros=\App\Cobro::where('modulo_id','=',$modulo->id)->get();
-		return view('cobranza.index', compact('cobros','modulo'));
+
+        $cobros=\App\Cobro::select("cobros.*","clientes.nombre as clienteNombre")
+            ->join('clientes','clientes.id' , '=', 'cobros.cliente_id')
+            ->where('cobros.modulo_id', "=", $modulo->id)
+            ->where('cobros.id', $cobroIdOperator, $cobroId)
+            ->where('montodepositado', $depositadoOperator, $depositado)
+            ->where('montofacturas', $pagadoOperator, $pagado)
+            ->where('cobros.created_at', $fechaOperator, $fecha)
+            ->where('observacion', 'like', "%$observacion%")
+            ->where('clientes.nombre', 'like', "%$clienteNombre%")
+            ->where('cobros.aeropuerto_id','=', session('aeropuerto')->id)
+            ->with('cliente')
+            ->orderBy($sortName, $sortType)->paginate(50);
+
+        $cobros->setPath('');
+
+		return view('cobranza.index', compact('cobros','modulo'))->withInput(\Input::all());
 	}
 
 	/**
@@ -38,7 +102,6 @@ class CobranzaController extends Controller {
 	 */
 	public function create($moduloName)
 	{
-        dd($moduloName);
         $idOperator=">=";
         $id=0;
         if($moduloName!="Todos"){
@@ -48,7 +111,7 @@ class CobranzaController extends Controller {
         }
 
         $clientes=\App\Cliente::join('facturas','facturas.cliente_id' , '=', 'clientes.id')
-            ->join('facturadetalles','facturas.id' , '=', 'facturadetalles.factura_id')
+            ->join('facturadetalles','facturas.nFactura' , '=', 'facturadetalles.factura_id')
         ->join('conceptos','conceptos.id' , '=', 'facturadetalles.concepto_id')
         ->where('facturas.aeropuerto_id','=', session('aeropuerto')->id)
         ->where('conceptos.modulo_id', $idOperator, $id)
@@ -68,13 +131,16 @@ class CobranzaController extends Controller {
 	public function store(Request $request)
 	{
         \DB::transaction(function () use ($request) {
-        $cobro=\App\Cobro::create(['cliente_id' => $request->get('cliente_id'), 'modulo_id'=>$request->get('modulo_id')]);
+        $cobro=\App\Cobro::create([
+            'cliente_id' => $request->get('cliente_id'),
+            'modulo_id'=>$request->get('modulo_id'),
+            'aeropuerto_id' => session('aeropuerto')->id]);
         $facturas=$request->get('facturas',[]);
         $pagos=$request->get('pagos',[]);
 
         foreach($facturas as $f){
-            $factura=\App\Factura::find($f["id"]);
-            $facturaMetadata=\App\Facturametadata::firstOrCreate(["factura_id"=>$factura->id]);
+            $factura=\App\Factura::find($f["nFactura"]);
+            $facturaMetadata=\App\Facturametadata::firstOrCreate(["factura_id"=>$factura->nFactura]);
             $facturaMetadata->ncobros++;
             /**
              * En el request me llega los porcentajes del iva e isrl que fueron usados en la retencion
@@ -137,7 +203,7 @@ class CobranzaController extends Controller {
             $facturaMetadata->total+=$abonadoReal;
             $facturaMetadata->save();
             $cobro->facturas()
-            ->attach([$factura->id => 
+            ->attach([$factura->nFactura =>
                 ['monto' => $f["montoAbonado"],
                 'base' => $base,
                 'iva' => $iva,
@@ -183,9 +249,11 @@ class CobranzaController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function show($id)
+	public function show($moduloNombre, $id)
 	{
-        return view('cobranza.show');
+        $cobro=\App\Cobro::find($id);
+        $cobro->load('facturas', 'pagos', 'ajustes', 'cliente');
+        return view('cobranza.show', compact('cobro'));
 	}
 
 	/**
@@ -216,45 +284,31 @@ class CobranzaController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function destroy($id)
+	public function destroy($moduloNombre,  $id)
 	{
-        \DB::transaction(function () use ($request) {
-        
 
-        $cobro=\App\Cobro::find($id);
-        $facturas=$cobro->facturas();
+        \DB::transaction(function () use ($moduloNombre, $id) {
+            $cobro=\App\Cobro::find($id);
+            $facturas=$cobro->facturas;
+            foreach($facturas as $factura){
+                $facturaMetadata=$factura->metadata;
+                $facturaMetadata->ncobros--;
+                $facturaMetadata->montopagado-=$factura->pivot->monto;
+                $facturaMetadata->basepagado-=$factura->pivot->base;
+                $facturaMetadata->ivapagado-=$factura->pivot->iva;
+                $facturaMetadata->retencion-=$factura->pivot->retencion;
+                $facturaMetadata->total-=$factura->pivot->total;
+                $facturaMetadata->save();
 
-
-        foreach($facturas as $factura){
-
-            $facturaMetadata=$factura->metadata;
-            $facturaMetadata->ncobros--;
-            $facturaMetadata->montopagado-=$factura->pivot->monto;
-            $facturaMetadata->basepagado-=$factura->pivot->base;
-            $facturaMetadata->ivapagado-=$factura->pivot->iva;
-            $facturaMetadata->retencion-=$factura->pivot->retencion;
-            $facturaMetadata->total-=$factura->pivot->total;
-            $facturaMetadata->save();
-
-            if($facturaMetadata->total!=(float)str_replace(",","",$factura->total)){
-                $factura->estado="P";
-                $factura->save();
+                if($facturaMetadata->total!=(float)str_replace(",","",$factura->total)){
+                    $factura->estado="P";
+                    $factura->save();
+                }
             }
-
-            $cobro->detach($factura->id);
-        }
-
-
-        foreach($cobro->pagos() as $p){
-            $p->delete();
-        }
-        foreach($cobro->ajustes() as $a){
-            $a->delete();
-        }
-        $cobro->delete();
+            $cobro->delete();
         });
 
-        return ["success"=>1];
+        return ["success"=>1, "text"=>"El cobro se ha eliminado con exito"];
 	}
 
 
@@ -270,13 +324,13 @@ class CobranzaController extends Controller {
         $cliente=\App\Cliente::where("codigo","=", $codigo)->get()->first();
         $facturas=\App\Factura::select("facturas.*")
             ->join('clientes','facturas.cliente_id' , '=', 'clientes.id')
-            ->join('facturadetalles','facturas.id' , '=', 'facturadetalles.factura_id')
+            ->join('facturadetalles','facturas.nFactura' , '=', 'facturadetalles.factura_id')
             ->join('conceptos','conceptos.id' , '=', 'facturadetalles.concepto_id')
             ->where('facturas.aeropuerto_id','=', session('aeropuerto')->id)
             ->where('conceptos.modulo_id', $idOperator, $id)
             ->where('clientes.codigo', '=', $codigo)
             ->where('facturas.estado','=','P')
-            ->groupBy("facturas.id")->get();
+            ->groupBy("facturas.nFactura")->get();
         $facturas->load('metadata');
 
         $ajusteCliente= \DB::table('ajustes')
@@ -293,12 +347,12 @@ class CobranzaController extends Controller {
         $modulos=\App\Modulo::where("nombre","like",$id)->orderBy("nombre")->get();
         foreach($modulos as $modulo){
             $modulo->facturas=\App\Factura::select("facturas.*")
-                ->join('facturadetalles','facturas.id' , '=', 'facturadetalles.factura_id')
+                ->join('facturadetalles','facturas.nFactura' , '=', 'facturadetalles.factura_id')
                 ->join('conceptos','conceptos.id' , '=', 'facturadetalles.concepto_id')
                 ->where('conceptos.modulo_id', "=", $modulo->id)
                 ->where('facturas.estado','=','P')
                 ->where('facturas.aeropuerto_id','=', session('aeropuerto')->id)
-                ->groupBy("facturas.id")->get();
+                ->groupBy("facturas.nFactura")->get();
             $modulo->facturas->load('cliente', 'metadata');
         }
         return $modulos;
