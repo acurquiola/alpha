@@ -44,10 +44,10 @@ class DatabaseSeeder extends Seeder {
 		$this->call('PuertosTableSeeder');
 		$this->call('BancosTableSeeder');
 		$this->call('BancoscuentasTableSeeder');
+		$this->call('AterrizajesTableSeeder');
 
 		Model::reguard();
 		
-		$this->call('AterrizajesTableSeeder');
 	}
 
 }

@@ -11,7 +11,6 @@ class AterrizajesTableSeeder extends Seeder {
 	 */
 	public function run()
 	{
-		\DB::table('aterrizajes')->delete();
         
 		\DB::table('aterrizajes')->insert(array (
 			0 => 
