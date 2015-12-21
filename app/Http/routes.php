@@ -65,6 +65,7 @@ Route::group(['prefix' => 'maestros/'], function () {
 Route::group(['prefix' => 'operaciones/'], function () {
     Route::get('Despegues/{id}', 'DespegueController@getCrearFactura');
     Route::get('CargasFacturar/{id}', 'CargaController@getCrearFactura');
+    Route::get('FacturarAdicional/{id}', 'AterrizajeController@getCrearFactura');
     Route::group(['prefix' => '{aterrizaje}/'], function () {
         Route::resource('Despegues', 'DespegueController');
     });

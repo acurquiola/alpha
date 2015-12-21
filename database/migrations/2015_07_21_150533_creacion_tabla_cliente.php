@@ -87,7 +87,7 @@ class CreacionTablaCliente extends Migration {
             $table->dropColumn('aeropuerto_id');
         });
 		Schema::dropIfExists('clientes');
-        Schema::dropIfExists('aeropuertos');
+
 	}
 
 }

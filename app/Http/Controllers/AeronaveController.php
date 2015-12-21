@@ -66,6 +66,7 @@ class AeronaveController extends Controller {
 									->where('tipo_id', $tipoOperator, $tipo_id)
 									->where('modelo_id', $modeloOperator, $modelo_id)
 									->where('cliente_id', $clienteOperador, $cliente_id)
+									->where('aeropuerto_id', '=', session('aeropuerto')->id)
 									->where('hangar_id', $hangarOperator, $hangar_id);
 
 		if($hangar_id==0){

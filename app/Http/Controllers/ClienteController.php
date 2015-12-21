@@ -112,7 +112,7 @@ class ClienteController extends Controller {
             if($cliente->delete())
                 return ["success"=>1, "text"=>"El cliente se ha eliminado con exito"];
         }catch(\Exception $e){
-            return ["success"=>0, "text"=>"No se pudo eliminar el cliente.<br>Consulte un administrador.<br> Error:".$e->getCode().""];
+            return ["success"=>0, "text"=>"No se pudo eliminar el cliente.<br>Consulte un administrador.<br> Error:".$e->getCode()];
 
         }
 

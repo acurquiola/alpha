@@ -1,5 +1,10 @@
 @extends('app')
 @section('content')
+<ol class="breadcrumb">
+  <li><a href="{{url('principal')}}">Inicio</a></li>
+  <li><a href="{{ URL::to('cobranza/Todos/main') }}">Cobranza</a></li>
+  <li><a class="active">Cobranza - {{$moduloName}}</a></li>
+</ol>
 <div class="row" id="box-wrapper">
 	<!-- left column -->
 	<div class="col-md-12">
@@ -689,7 +694,7 @@ $('#cliente-select').chosen({width: "100%"}).change(function(){
 			if(!isRetencionEditable)
 				retencion=(base*metadata.islrpercentage+iva*metadata.ivapercentage)/100;
 
-			trs+='<tr data-id="'+value.id+'" data-is-retencion-editable="'+isRetencionEditable+'" \
+			trs+='<tr data-nfactura="'+value.nFactura+'" data-is-retencion-editable="'+isRetencionEditable+'" \
 			data-islrper="'+metadata.islrpercentage+'" data-ivaper="'+metadata.ivapercentage+'"\
 			data-base="'+base+'" data-iva="'+iva+'" >\
 			<td><p class="form-control-static">'+value.nFactura+'</p></td>\
@@ -840,7 +845,7 @@ $('#save-cobro-btn').click(function(){
         retencionFecha=(retencionFecha===undefined)?0:retencionFecha;
         retencionComprobante=(retencionComprobante===undefined)?0:retencionComprobante;
 		var o={
-			id:$(value).data('id'),
+			nFactura:$(value).data('nfactura'),
 			montoAbonado: $(value).find('.saldo-abonado-input').val(),
             islrpercentage:isrlModal,
 			ivapercentage:ivaModal,

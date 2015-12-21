@@ -35,9 +35,14 @@
                     <td class ='cliente_id-td'>{{(($despegue->cliente)?$despegue->cliente->nombre:"No asignado")}}</td> 
                     <td>
                          @if($despegue->factura_id != NULL)
-                        <a target="_blank" class='btn btn-default  btn-sm' href='{{action('FacturaController@getPrint', ["modulo"=>"DOSAS", $despegue->factura_id])}}'>
-                              <span class='glyphicon glyphicon-print'></span>
-                        </a>
+                             <a target="_blank" class='btn btn-default  btn-sm' href='{{action('FacturaController@getPrint', ["modulo"=>"DOSAS", $despegue->factura_id])}}'>
+                                   <span class='glyphicon glyphicon-print'></span>
+                             </a>
+                              @if($despegue->condicionPago == 'Contado' && $despegue->pagado == 0)
+                                  <a class='btn btn-primary  btn-sm' href='{{action('CobranzaController@create', ["modulo"=>"DOSAS", $despegue->id, "scv"=>true])}}'>
+                                        <span class='fa fa-money'></span>
+                                  </a>
+                              @endif
                          @endif
                          <button class='btn btn-success btn-sm verDespegue-btn'><span class='glyphicon glyphicon-eye-open' title='Ver Información'></span></button>
                          @if($despegue->factura_id == NULL)

@@ -23,15 +23,17 @@ class CreacionTablasCobranzas extends Migration {
             $table->text('hasrecaudos');
             $table->double('montofacturas',15,2);
             $table->double('montodepositado',15,2);
+            $table->integer('aeropuerto_id')->unsigned();
+            $table->foreign('aeropuerto_id')->references('id')->on('aeropuertos');
 			$table->timestamps();
 		});
         Schema::create('cobro_factura', function(Blueprint $table)
         {
             $table->increments('id');
             $table->integer('factura_id')->unsigned();
-            $table->foreign('factura_id')->references('id')->on('facturas');
+            $table->foreign('factura_id')->references('nFactura')->on('facturas');
             $table->integer('cobro_id')->unsigned();
-            $table->foreign('cobro_id')->references('id')->on('cobros');
+            $table->foreign('cobro_id')->references('id')->on('cobros')->onDelete('cascade');
             $table->string('retencionFecha');
             $table->string('retencionComprobante');
             $table->double('monto',15,2);
@@ -58,7 +60,7 @@ class CreacionTablasCobranzas extends Migration {
             $table->double('monto', 15, 2);
 
             $table->integer('cobro_id')->unsigned();
-            $table->foreign('cobro_id')->references('id')->on('cobros');
+            $table->foreign('cobro_id')->references('id')->on('cobros')->onDelete('cascade');
             $table->timestamps();
         });
         Schema::create('ajustes', function(Blueprint $table)
@@ -67,7 +69,7 @@ class CreacionTablasCobranzas extends Migration {
             $table->integer('cliente_id')->unsigned();
             $table->foreign('cliente_id')->references('id')->on('clientes');
             $table->integer('cobro_id')->unsigned();
-            $table->foreign('cobro_id')->references('id')->on('cobros');
+            $table->foreign('cobro_id')->references('id')->on('cobros')->onDelete('cascade');
             $table->double('monto', 15, 2);
             $table->timestamps();
         });

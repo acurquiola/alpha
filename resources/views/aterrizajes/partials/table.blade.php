@@ -25,6 +25,9 @@
                          <a href="{{  action('DespegueController@create', [$aterrizaje->id])}}">
                               <button class='btn btn-success btn-sm darSalida-btn'><i class='fa fa-plane' title='Dar Salida'></i></button>
                          </a>
+                         <a href="{{  action('FacturaController@create')}}">
+                              <button class='btn btn-info btn-sm cargoAdicional-btn'><i class='fa fa-plus' title='Facturar Cargo Adicional'></i></button>
+                         </a>
                          <button class='btn btn-warning btn-sm editarAterrizaje-btn' data-id='{{$aterrizaje->id}}' ><i class='fa fa-edit' title='Editar Información'></i></button>
                          <button class='btn btn-danger  btn-sm eliminarAterrizaje-btn' data-id='{{$aterrizaje->id}}' ><i class='fa fa-trash' title='Eliminar Registro'></i></button>
                     </td>

@@ -19,7 +19,16 @@ class Cobro extends Model {
 
     public function facturas()
     {
-        return $this->belongsToMany('App\Factura')->withPivot('monto')-> withTimestamps();
+        return $this->belongsToMany('App\Factura', 'cobro_factura', 'cobro_id', 'factura_id')
+            ->withPivot('monto',
+            'retencionFecha',
+            'retencionComprobante',
+            'base',
+            'iva',
+            'islrpercentage',
+            'ivapercentage',
+            'retencion',
+            'total')-> withTimestamps();
     }
 
     public function getCreatedAtAttribute($fecha)
@@ -31,6 +40,10 @@ class Cobro extends Model {
     }
 
     public function cliente(){
-        return $this->facturas()->first()->cliente;
+        return $this->belongsTo('App\Cliente');
+    }
+
+    public function modulo(){
+        return $this->belongsTo('App\Modulo');
     }
 }

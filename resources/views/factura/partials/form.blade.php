@@ -14,15 +14,34 @@
 		{!! Form::text('condicionPago', $condicionPago, [ 'class'=>"form-control", $disabled] ) !!}
 	@endif
 	</div>
-	<label for="nControl" class="col-xs-1 control-label"><strong>N° Control<span class="text-danger">*</span></strong> </label>
+	<label for="nControl" class="col-xs-1 control-label"><strong>N° Control <abbr title="Número tentativo puede cambiar al almacenar">?</abbr></strong> </label>
 	<div class="col-xs-3">
-		{!! Form::text('nControl', null, [ 'class'=>"form-control", $disabled,"data-empty"=>"false", "data-type"=>"int", "data-name"=>"Número de control"]) !!}
+
+
+				<div class="form-group">
+                    {!! Form::hidden('nControlPrefix', ($factura->nControlPrefix)?$factura->nControlPrefix:\App\Factura::NCONTROLDEFAULTPREFIX[0], ['id' => 'nControlPrefix', 'class' => 'nControlPrefix-input', 'autocomplete'=>'off']) !!}
+					<div class="input-group">
+						<div class="input-group-btn">
+							<button style="max-height:37px" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="nControlPrefix-text">{{($factura->nControlPrefix)?$factura->nControlPrefix:\App\Factura::NCONTROLDEFAULTPREFIX[0]}}</span></button>
+							<ul class="dropdown-menu nControlPrefix-list">
+							    @foreach($nControlprefixMax as $prefix => $prefixMax)
+								    <li data-max="{{$prefixMax}}"><a href="#">{{$prefix}}</a></li>
+                                @endforeach
+							</ul>
+						</div>
+		                {!! Form::text('nControl', ($factura->nControl)?$factura->nControl:$nControlprefixMax[\App\Factura::NCONTROLDEFAULTPREFIX[0]], [ 'id' => 'nControl', 'class'=>"form-control", $disabled,"data-empty"=>"false", "data-type"=>"int", "data-name"=>"Número de control", 'style' => 'padding-left:2px']) !!}
+					</div>
+				</div>
+
+
+
+
 	</div>
 </div>
 <div class="form-group">
-	<label for="nFactura" class="col-xs-1 control-label"><strong>N° Factura<span class="text-danger">*</span></strong> </label>
+	<label for="nFactura" class="col-xs-1 control-label"><strong>N° Factura <abbr title="Número tentativo puede cambiar al almacenar">?</abbr></strong> </label>
 	<div class="col-xs-3">
-		{!! Form::text('nFactura', null, [ 'class'=>"form-control", $disabled,"data-empty"=>"false", "data-type"=>"int", "data-name"=>"Número de factura"]) !!}
+		{!! Form::text('nFactura', $facturaMax, [ 'class'=>"form-control", "disabled","data-empty"=>"false", "data-type"=>"int", "data-name"=>"Número de factura"]) !!}
 	</div>
 
 	<label for="inputEmail3" class="col-xs-1  control-label"><strong>Fecha<span class="text-danger">*</span> </strong></label>
@@ -54,7 +73,11 @@
 		<select id="cliente-select" class="form-control" name="cliente_id" autocomplete="off" @if(!isset($bloqueoDosa)) readonly @endif>
 			<option value="0" > --Seleccione un cliente-- </option>
 			@foreach($clientes as $c)
-			<option {{($c->id==$factura->cliente_id)?"selected":""}} value="{{$c->id}}" data-nombre="{{$c->nombre}}" data-ced-rif="{{$c->cedRif}}" data-ced-rif-prefix="{{$c->cedRifPrefix}}">{{$c->codigo}}</option>
+			<option {{($c->id==$factura->cliente_id)?"selected":""}}
+			value="{{$c->id}}"
+			data-nombre="{{$c->nombre}}"
+			data-ced-rif="{{$c->cedRif}}"
+			data-ced-rif-prefix="{{$c->cedRifPrefix}}">{{$c->codigo}} | {{$c->nombre}}</option>
 			@endforeach
 		</select>
 	</div>
@@ -172,7 +195,12 @@
 <div class="form-group">
 	<label for="descripcion" class="col-xs-1 control-label"><strong>Descripción<span class="text-danger">*</span></strong></label>
 	<div class="col-xs-11">
-		{!! Form::textarea('descripcion', null, [ 'style'=>'padding-top:4px' ,'class'=>"form-control", $disabled , 'rows'=>"5", 'cols'=>"", "placeholder" => "Descripción de la factura"]) !!}
+	@if(isset($facturaCarga))
+		{!! Form::textarea('descripcion', "Facturación de Carga", [ 'style'=>'padding-top:4px' ,'class'=>"form-control", $disabled , 'rows'=>"5", 'cols'=>"", "placeholder" => "Descripción de la factura"]) !!}
+	@else
+		{!! Form::textarea('descripcion', (isset($bloqueoDosa))?"Facturación por Derechos Aeronáuticos":null, [ 'style'=>'padding-top:4px' ,'class'=>"form-control", $disabled , 'rows'=>"5", 'cols'=>"", "placeholder" => "Descripción de la factura"]) !!}
+	@endif
+
 	</div>
 </div>
 <div class="form-group">

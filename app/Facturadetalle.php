@@ -1,6 +1,7 @@
 <?php namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Facturadetalle extends Model {
 
@@ -8,7 +9,7 @@ class Facturadetalle extends Model {
 
     public function factura()
     {
-        return $this->belongsTo('App\Factura');
+        return $this->belongsTo('App\Factura', 'factura_id', 'nFactura');
     }
     public function concepto()
     {

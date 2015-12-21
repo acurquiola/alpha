@@ -20,6 +20,7 @@ class HorariosAeronauticosTableSeeder extends Seeder {
 				'operaciones_fin' => '23:59:00',
 				'sol_salida' => '05:00:00',
 				'sol_puesta' => '17:30:00',
+				'aeropuerto_id' => 1,
 				'created_at' => '0000-00-00 00:00:00',
 				'updated_at' => '0000-00-00 00:00:00',
 			),

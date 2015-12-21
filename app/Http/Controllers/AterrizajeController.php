@@ -74,6 +74,7 @@ class AterrizajeController extends Controller {
 													->where('aeronave_id', $aeronaveOperador, $aeronave_id)
 													->where('tipoMatricula_id', $tipoMatriculaOperador, $tipoMatricula_id)
 													->where('puerto_id', $puertoOperador, $puerto_id)
+													->where('aeropuerto_id', '=', session('aeropuerto')->id)
 													->where('cliente_id', $clienteOperador, $cliente_id);
 
 											if($puerto_id==''){
@@ -94,7 +95,7 @@ class AterrizajeController extends Controller {
 		}
 		else
 			{
-				$aterrizajes         = Aterrizaje::where('despego', '=', '0')->paginate(7);
+				$aterrizajes         = Aterrizaje::where('despego', '=', '0')->where('aeropuerto_id', '=', session('aeropuerto')->id)->paginate(7);
 				$puertos             = Puerto::all();
 				$pilotos             = Piloto::all();
 				$nacionalidad_vuelos = NacionalidadVuelo::all();
@@ -249,7 +250,7 @@ class AterrizajeController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	    public function destroy($id)
+	public function destroy($id)
     {
         if(\App\Aterrizaje::destroy($id)){
             return ["success"=>1, "text" => "Aterrizaje eliminado con éxito."];

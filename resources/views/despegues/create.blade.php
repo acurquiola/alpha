@@ -162,7 +162,7 @@
 									
 								<div class="col-md-12" style="margin-bottom: 20px">										
 									<div class="form-inline">
-										<!-- Puente Usado -->
+										<!-- Condición de Pago -->
 										<div class="form-group">
 											<label><strong>Condición de pago: </strong></label>
 											<div class="input-group">
@@ -212,19 +212,12 @@
 										<div class="form-inline">
 											<!-- Puente Usado -->
 											<div class="form-group">
-												<label>Número: </label>
 												<div class="input-group">
 													<div class="input-group-addon">
 														#
 													</div>
 													<input type="number"  class="form-control" name="numero_puenteAbordaje" />
 												</div><!-- /.input group -->
-											</div><!-- /.form group -->
-										</div>
-										<div class="form-inline">
-											<!-- Tiempo de Uso -->
-											<div class="form-group">
-												<label>Tiempo: </label>
 												<div class="input-group">
 													<input type="text" class="form-control" name="tiempo_puenteAbord"  />
 													<div class="input-group-addon">

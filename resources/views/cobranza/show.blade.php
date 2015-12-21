@@ -17,7 +17,7 @@
                     </div><!-- /.box-header -->
                     <!-- form start -->
                     <div class="box-body">
-
+                        <h3>{{$cobro->cliente->codigo}} <small>{{$cobro->cliente->nombre}}</small></h3>
                     </div><!-- /.box-body -->
                   </div><!-- /.box -->
                 </div>

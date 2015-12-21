@@ -41,6 +41,7 @@ class HangarController extends Controller {
 			$hangares= Hangar::with("aeropuerto", "clientes", "aeronaves")
 									->where('aeropuerto_id', $aeropuertoOperador, $aeropuerto_id)
 									->where('nombre', 'like', '%'.$nombre.'%')
+									->where('aeropuerto_id', session('aeropuerto')->id)
 									->orderBy($sortName, $sortType)
 									->paginate(7);
 			return view('hangares.partials.table', compact('hangares'));

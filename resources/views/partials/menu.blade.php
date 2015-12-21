@@ -181,7 +181,7 @@
 
 
 				@permission('menu.contrato|menu.factura|menu.cobranza')
-				<li class="treeview {{ (\Request::is('contrato*') or \Request::is('factura*') or \Request::is('cobro*'))?"active":""}}">
+				<li class="treeview {{ (\Request::is('contrato*') or \Request::is('factura*') or \Request::is('cobranza*'))?"active":""}}">
 					<a href="#">
 						<i class="fa fa-money"></i> <span>Recaudación</span> <i class="fa fa-angle-left pull-right"></i>
 					</a>

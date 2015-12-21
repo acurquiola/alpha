@@ -10,6 +10,7 @@
 						<label>Inicio de las Operaciones: </label>
 						<div class="input-group">
 							{!! Form::text('operaciones_inicio', null, [ 'class'=>"form-control operaciones_inicio","placeholder"=>"Hora en formato HH:MM:SS"]) !!}
+					<input type="hidden" name="aeropuerto_id" value="{{session('aeropuerto')->id}}"></input>
 							<div class="input-group-addon">
 								<i class="fa fa-clock-o"></i>
 							</div>

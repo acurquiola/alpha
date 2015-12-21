@@ -13,6 +13,7 @@
 						<i class="fa fa-money"></i> BsF. 
 					</div>
 						{!! Form::text('unidad_tributaria', null, [ 'class'=>"form-control unidad_tributaria","placeholder"=>"Unidad Tributaria (BsF)"]) !!}
+					<input type="hidden" name="aeropuerto_id" value="{{session('aeropuerto')->id}}"></input>
 				</div><!-- /.input group -->
 			</div><!-- /.form group -->					
 		</div><!-- /.box-body -->

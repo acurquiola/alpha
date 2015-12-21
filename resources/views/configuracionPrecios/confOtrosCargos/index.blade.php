@@ -14,6 +14,7 @@
 								<i class="fa fa-angle-right"></i>
 							</div>
 							<input type="text"  name="nombre_cargo" class="form-control nombre_cargo"  placeholder="Nombre del Cargo"/>
+					<input type="hidden" name="aeropuerto_id" value="{{session('aeropuerto')->id}}"></input>
 						</div><!-- /.input group -->
 					</div>						
 					<button type="submit" id="filtrar-btn" class="btn btn-primary pull-right" style="margin-left: 20px"><i class="fa fa-filter"></i></button>

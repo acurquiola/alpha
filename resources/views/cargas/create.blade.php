@@ -38,39 +38,33 @@
 												<i class="fa fa-calendar"></i>
 											</div>
 											<input id="fecha-datepicker" type="text" name="fecha" class="form-control no-vacio" value="{{$today->format('d/m/Y')}}" placeholder="Fecha" />
+											<input type="hidden" name="aeropuerto_id" value="{{session('aeropuerto')->id}}"></input>
 										</div><!-- /.input group -->
 									</div><!-- /.form group -->
 									<div class="form-group">
 										<div class="form-inline" style="margin-left: 100px">
-											<label ><strong>Condición de pago</strong></label>
-											<select name="condicionPago" id="condicionPago-select" class="form-control">
-												<option value=""><-- Seleccione --></option>
-												<option value="Contado"> Contado</option>
-												<option value="Crédito"> Crédito</option>
-											</select>
+											<!-- Condición de Pago -->
+											<div class="form-group">
+												<label><strong>Condición de pago: </strong></label>
+												<div class="input-group">
+													<select name="condicionPago" id="condicionPago-select" class="form-control">
+														<option value="">Seleccione</option>
+														<option value="Contado"> Contado</option>
+														<option value="Crédito"> Crédito</option>
+													</select>
+													<div class="input-group-addon">
+													</div>										
+												</div><!-- /.input group -->
+											</div><!-- /.form group -->
 										</div><!-- /.form group -->
 									</div><!-- /.form group -->
 								</div>
 
 								<div class="form-inline col-md-12">
 
-									<!-- Aeronave-->
-									<div class="form-group" >
-										<div class="input-group ">
-											<div class="input-group-addon">
-												<i class="ion ion-plane"></i>
-											</div>
-											<select name="aeronave_id" id="aeronave_id-select" class="form-control aeronave no-vacio">
-												<option value="">--Seleccione Matrícula--</option>
-												@foreach ($aeronaves as $aeronave)
-												<option data-modelo="{{$aeronave->modelo_id}}" data-nombremodelo="{{$aeronave->modelo->modelo}}" data-cliente="{{$aeronave->cliente_id}}" data-tipo="{{$aeronave->tipo_id}}" data-tipoV="{{$aeronave->tipo->nombre}}" value="{{$aeronave->id}}"> {{$aeronave->matricula}}</option>
-												@endforeach
-											</select>
-										</div><!-- /.input group -->
-									</div><!-- /.form group -->
 									<!-- Cliente-->
 									<div class="form-group">
-										<div class="input-group" style="margin-left: 30px">
+										<div class="input-group">
 											<div class="input-group-addon">
 												<i class="ion ion-person"></i>
 											</div>
@@ -86,15 +80,6 @@
 
 								<div class="form-inline col-md-12" style="margin-top: 20px; margin-right: -20px">
 
-									<!-- Nro Vuelo -->
-									<div class="form-group col-md-3">
-										<div class="input-group">
-											<div class="input-group-addon">
-												#
-											</div>
-											<input type="text" name="num_vuelo" placeholder="Número de Vuelo" class="form-control no-vacio" />
-										</div><!-- /.input group -->
-									</div><!-- /.form group -->
 
 									<input type="hidden" name="" id="precio_bloque" class="form-control" value="{{$precios_cargas->equivalenteUT}}" autocomplete="off">	
 									<input type="hidden" name="" id="toneladas_bloque" class="form-control" value="{{$precios_cargas->toneladaPorBloque}}" autocomplete="off">	
@@ -258,11 +243,11 @@ $(document).ready(function(){
 				//Cálculo del equivalente a cobrar
 				var equivalente             = parseFloat(ut)*parseFloat(eq_carga);
 				
-				//Cáldulo del Precio del Peso embarcado
+				//Cálculo del Precio del Peso embarcado
 				var peso_embarcado_monto    = (parseFloat(peso_embarcado)/bloque)*parseFloat(equivalente);
 				$('#peso_embarcado_monto').val(peso_embarcado_monto);
 				
-				//Cáldulo del Precio del Peso embarcado
+				//Cálculo del Precio del Peso embarcado
 				var peso_desembarcado_monto = (parseFloat(peso_desembarcado)/bloque)*parseFloat(equivalente);
 				$('#peso_desembarcado_monto').val(peso_desembarcado_monto);
 				

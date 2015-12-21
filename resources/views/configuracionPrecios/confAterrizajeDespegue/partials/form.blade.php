@@ -45,6 +45,7 @@
 						<i class="fa fa-money"></i> BsF. 
 					</div>
 					<input type="text" id="eq_nocturInt-input" class="form-control" disabled />
+					<input type="hidden" name="aeropuerto_id" value="{{session('aeropuerto')->id}}"></input>
 				</div><!-- /.input group -->
 			</div><!-- /.form group -->		
 		</div><!-- /.box-body -->

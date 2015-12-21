@@ -17,6 +17,7 @@
 						{!! Form::hidden('sortType', null, []) !!}
 						<div class="form-group">
 							<input type="text" class="form-control" name="matricula"  placeholder="Matrícula">
+                            <input type="hidden" name="aeropuerto_id" value="{{session('aeropuerto')->id}}"></input>
 						</div>
 						<div class="form-group">
 							<input type="text" class="form-control" name="peso" placeholder="Peso">

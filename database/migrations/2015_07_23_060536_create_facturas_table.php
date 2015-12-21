@@ -14,12 +14,12 @@ class CreateFacturasTable extends Migration {
 	{
 		Schema::create('facturas', function(Blueprint $table)
 		{
-			$table->increments('id');
+			$table->increments('nFactura');
             $table->integer('aeropuerto_id')->unsigned();
             $table->foreign('aeropuerto_id')->references('id')->on('aeropuertos');
             $table->enum('condicionPago', ['Crédito', 'Contado']);
+            $table->enum('nControlPrefix', ['A','B','C','D']);
             $table->integer('nControl')->unsigned();
-            $table->integer('nFactura')->unsigned();
             $table->date('fecha');
             $table->date('fechaVencimiento');
             $table->integer('cliente_id')->unsigned();
@@ -38,13 +38,14 @@ class CreateFacturasTable extends Migration {
             $table->char("estado",1);
             $table->boolean('isImpresa');
 			$table->timestamps();
+            $table->softDeletes();
 		});
 
         Schema::create('facturadetalles', function(Blueprint $table)
         {
             $table->increments('id');
             $table->integer('factura_id')->unsigned();
-            $table->foreign('factura_id')->references('id')->on('facturas');
+            $table->foreign('factura_id')->references('nFactura')->on('facturas');
             $table->integer('concepto_id')->unsigned();
             $table->foreign('concepto_id')->references('id')->on('conceptos');
             $table->integer('cantidadDes')->unsigned();

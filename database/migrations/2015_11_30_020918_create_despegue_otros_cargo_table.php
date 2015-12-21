@@ -31,7 +31,7 @@ class CreateDespegueOtrosCargoTable extends Migration {
 	 */
 	public function down()
 	{
-		//
+        Schema::drop('despegue_otros_cargo');
 	}
 
 }
