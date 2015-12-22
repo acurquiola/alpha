@@ -163,14 +163,14 @@ class CargaController extends Controller {
 	{
 		//Información general de la factura a crear.
 
-		$carga   = Carga::find($id);
-		$factura = new Factura();
-		$modulo  = \App\Modulo::find(6)->nombre;
-		$ut      = MontosFijo::first()->unidad_tributaria;
+		$carga         = Carga::find($id);
+		$factura       = new Factura();
+		$modulo        = \App\Modulo::find(6)->nombre;
+		$ut            = MontosFijo::first()->unidad_tributaria;
 		$condicionPago = $carga->condicionPago;
 
-		$factura->fill(['aeropuerto_id' 	  => $carga->aeropuerto_id,
-			                  	'cliente_id'  => $carga->cliente_id]);
+		$factura->fill(['aeropuerto_id' => $carga->aeropuerto_id,
+			               'cliente_id'   => $carga->cliente_id]);
 		
 		$factura->detalles = new Collection();
 

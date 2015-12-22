@@ -59,18 +59,18 @@ class DespegueController extends Controller {
 			$puertoOperador            =($puerto_id=="")?">":"=";
 
 			\Input::merge([
-				'sortName'=>$sortName,
-				'sortType'=>$sortType]);
+			              'sortName'=>$sortName,
+			              'sortType'=>$sortType]);
 
 			$aeronave = Aterrizaje::with("aeronave")
-									->where('aeronave_id', '=', $aeronave_id)->get();
+			->where('aeronave_id', '=', $aeronave_id)->get();
 
 			$despegues = Despegue::with("puerto", "piloto", "tipo")
-									->where('fecha', 'like', $fecha)
-									->where('hora', 'like', $hora)
-									->where('num_vuelo', 'like', $num_vuelo)
-									->where('puerto_id', $puertoOperador, $puerto_id)
-									->where('aeropuerto_id', session('aeropuerto')->id);
+			->where('fecha', 'like', $fecha)
+			->where('hora', 'like', $hora)
+			->where('num_vuelo', 'like', $num_vuelo)
+			->where('puerto_id', $puertoOperador, $puerto_id)
+			->where('aeropuerto_id', session('aeropuerto')->id);
 
 			if($puerto_id==''){
 				$despegues=$despegues->orWhere('puerto_id','=' , null);
@@ -123,11 +123,12 @@ class DespegueController extends Controller {
 	 */
 	public function store(DespegueRequest $request)
 	{
-		$despegue                         = Despegue::create($request->except("nacionalidadVuelo_id", "piloto_id", "puerto_id", "cliente_id", "cobrar_estacionamiento", "cobrar_puenteAbordaje", "cobrar_Formulario", "cobrar_AterDesp", "cobrar_Combustible", "cobrar_servHandling", "cobrar_habilitacion"));
+		$despegue                         = Despegue::create($request->except("nacionalidadVuelo_id", "piloto_id", "puerto_id", "cliente_id", "cobrar_estacionamiento", "cobrar_puenteAbordaje", "cobrar_Formulario", "cobrar_AterDesp", "cobrar_Combustible", "cobrar_servHandling", "cobrar_habilitacion", "cobrar_carga"));
 		$aterrizaje                       = Aterrizaje::find($request->get("aterrizaje_id"));
 		$aterrizaje->despegue()->save($despegue);
 		$aterrizaje->update(["despego"    =>"1"]);
 
+		dd($despegue->all());
 		$despegue->cobrar_estacionamiento =$request->input('cobrar_estacionamiento', 0);
 		$despegue->cobrar_puenteAbordaje  =$request->input('cobrar_puenteAbordaje', 0);
 		$despegue->cobrar_Formulario      =$request->input('cobrar_Formulario', 1);
@@ -135,6 +136,7 @@ class DespegueController extends Controller {
 		$despegue->cobrar_AterDesp        =$request->input('cobrar_AterDesp', 0);
 		$despegue->cobrar_Combustible     =$request->input('cobrar_Combustible', 0);
 		$despegue->cobrar_servHandling    =$request->input('cobrar_servHandling', 0);	
+		$despegue->cobrar_carga           =$request->input('cobrar_carga', 0);	
 
 		
 		$hora              = $aterrizaje->hora;
@@ -167,7 +169,7 @@ class DespegueController extends Controller {
 			$despegue->save();
 
 			return response()->json(array("text"   =>'Despegue registrado exitósamente',
-										  "success"=>1));
+			                        "success"=>1));
 		}
 		else
 		{
@@ -220,16 +222,16 @@ class DespegueController extends Controller {
 	}
 
 	public function getCrearFactura($id)
-
 	{
 		//Información general de la factura a crear.
 		$despegue      = Despegue::find($id);
+		dd($despegue);
 		$factura       = new Factura();
 		$modulo        = \App\Modulo::find(5)->nombre;
 		$ut            = MontosFijo::where('aeropuerto_id', session('aeropuerto')->id)->first()->unidad_tributaria;
 		$condicionPago = $despegue->condicionPago;
-		$peso = ($despegue->aterrizaje->aeronave->peso)/1000;
-		$entero = explode('.', $peso);
+		$peso          = ($despegue->aterrizaje->aeronave->peso)/1000;
+		$entero        = explode('.', $peso);
 		if(isset($entero[1])){
 			if($entero[1] > 0){
 				$peso_aeronave = $entero[0]+1;
@@ -240,7 +242,7 @@ class DespegueController extends Controller {
 		
 		
 		$factura->fill(['aeropuerto_id' => $despegue->aeropuerto_id,
-				         'cliente_id'   => $despegue->cliente_id]);
+		               'cliente_id'   => $despegue->cliente_id]);
 
 		$factura->detalles = new Collection();
 
@@ -249,12 +251,12 @@ class DespegueController extends Controller {
 			$formulario        = new Facturadetalle();
 			$eq_formulario     = CargosVario::where('aeropuerto_id', session('aeropuerto')->id)->first()->eq_formulario;
 			switch ($condicionPago) {
-			    case 'Contado':
-			        $concepto_id  = CargosVario::where('aeropuerto_id', session('aeropuerto')->id)->first()->formularioContado_id;
-			        break;
-			    case 'Crédito':
-			        $concepto_id  = CargosVario::where('aeropuerto_id', session('aeropuerto')->id)->first()->formularioCredito_id;
-			        break;
+				case 'Contado':
+				$concepto_id  = CargosVario::where('aeropuerto_id', session('aeropuerto')->id)->first()->formularioContado_id;
+				break;
+				case 'Crédito':
+				$concepto_id  = CargosVario::where('aeropuerto_id', session('aeropuerto')->id)->first()->formularioCredito_id;
+				break;
 			}
 			$montoDes          = $eq_formulario * $ut;
 			$cantidadDes       = '1';
@@ -272,25 +274,25 @@ class DespegueController extends Controller {
 			$nacionalidad    = $despegue->nacionalidadVuelo_id;
 
 			switch ($condicionPago) {
-			    case 'Contado':
-			        $concepto_id     = EstacionamientoAeronave::where('aeropuerto_id', session('aeropuerto')->id)->first()->conceptoContado_id;
-			        break;
-			    case 'Crédito':
-			        $concepto_id     = EstacionamientoAeronave::where('aeropuerto_id', session('aeropuerto')->id)->first()->conceptoCredito_id;
-			        break;
+				case 'Contado':
+				$concepto_id     = EstacionamientoAeronave::where('aeropuerto_id', session('aeropuerto')->id)->first()->conceptoContado_id;
+				break;
+				case 'Crédito':
+				$concepto_id     = EstacionamientoAeronave::where('aeropuerto_id', session('aeropuerto')->id)->first()->conceptoCredito_id;
+				break;
 			}
 
 			switch ($nacionalidad) {
-			    case 1:
-			        $minutosLibre  = EstacionamientoAeronave::where('aeropuerto_id', session('aeropuerto')->id)->first()->tiempoLibreNac;
-					$eq_bloque     = EstacionamientoAeronave::where('aeropuerto_id', session('aeropuerto')->id)->first()->eq_bloqueNac;
-					$minutosBloque = EstacionamientoAeronave::where('aeropuerto_id', session('aeropuerto')->id)->first()->minBloqueNac;
-			        break;
-			    case 2:
-			        $minutosLibre  = EstacionamientoAeronave::where('aeropuerto_id', session('aeropuerto')->id)->first()->tiempoLibreInt;
-					$eq_bloque     = EstacionamientoAeronave::where('aeropuerto_id', session('aeropuerto')->id)->first()->eq_bloqueInt;
-					$minutosBloque = EstacionamientoAeronave::where('aeropuerto_id', session('aeropuerto')->id)->first()->minBloqueInt;
-			        break;
+				case 1:
+				$minutosLibre  = EstacionamientoAeronave::where('aeropuerto_id', session('aeropuerto')->id)->first()->tiempoLibreNac;
+				$eq_bloque     = EstacionamientoAeronave::where('aeropuerto_id', session('aeropuerto')->id)->first()->eq_bloqueNac;
+				$minutosBloque = EstacionamientoAeronave::where('aeropuerto_id', session('aeropuerto')->id)->first()->minBloqueNac;
+				break;
+				case 2:
+				$minutosLibre  = EstacionamientoAeronave::where('aeropuerto_id', session('aeropuerto')->id)->first()->tiempoLibreInt;
+				$eq_bloque     = EstacionamientoAeronave::where('aeropuerto_id', session('aeropuerto')->id)->first()->eq_bloqueInt;
+				$minutosBloque = EstacionamientoAeronave::where('aeropuerto_id', session('aeropuerto')->id)->first()->minBloqueInt;
+				break;
 			}
 
 			$tiempo_estacionamiento = $despegue->tiempo_estacionamiento;
@@ -303,7 +305,7 @@ class DespegueController extends Controller {
 				}else{
 					$tiempoAFacturar = $tiempoAFacturar;
 				}*/
-                $tiempoAFacturar=ceil($tiempoAFacturar);
+				$tiempoAFacturar=ceil($tiempoAFacturar);
 				$equivalente            = ($eq_bloque * $ut);
 				$montoDes               = $equivalente * $tiempoAFacturar * $peso_aeronave;
 				$cantidadDes            = '1';
@@ -325,36 +327,36 @@ class DespegueController extends Controller {
 			$puestaSol          = HorariosAeronautico::where('aeropuerto_id', session('aeropuerto')->id)->first()->sol_puesta;
 
 			switch ($condicionPago) {
-			    case 'Contado':
-			        $concepto_id     = PreciosAterrizajesDespegue::where('aeropuerto_id', session('aeropuerto')->id)->first()->conceptoContado_id;
-			        break;
-			    case 'Crédito':
-			        $concepto_id     = PreciosAterrizajesDespegue::where('aeropuerto_id', session('aeropuerto')->id)->first()->conceptoCredito_id;
-			        break;
+				case 'Contado':
+				$concepto_id     = PreciosAterrizajesDespegue::where('aeropuerto_id', session('aeropuerto')->id)->first()->conceptoContado_id;
+				break;
+				case 'Crédito':
+				$concepto_id     = PreciosAterrizajesDespegue::where('aeropuerto_id', session('aeropuerto')->id)->first()->conceptoCredito_id;
+				break;
 			}
 
 
 			if ($hora > $salidaSol && $hora < $puestaSol){
 				switch ($nacionalidad) {
-			    case 1:
+					case 1:
 					$eq_aterDesp     = PreciosAterrizajesDespegue::where('aeropuerto_id', session('aeropuerto')->id)->first()->eq_diurnoNac;
 					$tipoAterrizaje  = 'Diuno Nacional';
-			        break;
-			    case 2:
+					break;
+					case 2:
 					$eq_aterDesp     = PreciosAterrizajesDespegue::where('aeropuerto_id', session('aeropuerto')->id)->first()->eq_diurnoInt;
 					$tipoAterrizaje  = 'Nocturno Nacional';
-			        break;
+					break;
 				}
 			}else{
 				switch ($nacionalidad) {
-			    case 1:
+					case 1:
 					$eq_aterDesp     = PreciosAterrizajesDespegue::where('aeropuerto_id', session('aeropuerto')->id)->first()->eq_nocturNac;
 					$tipoAterrizaje  = 'Diuno Internacional';
-			        break;
-			    case 2:
+					break;
+					case 2:
 					$eq_aterDesp     = PreciosAterrizajesDespegue::where('aeropuerto_id', session('aeropuerto')->id)->first()->eq_nocturInt;
 					$tipoAterrizaje  = 'Nocturno Internacional';
-			        break;
+					break;
 				}
 
 			}
@@ -377,12 +379,12 @@ class DespegueController extends Controller {
 
 
 			switch ($condicionPago) {
-			    case 'Contado':
-			        $concepto_id     = CargosVario::where('aeropuerto_id', session('aeropuerto')->id)->first()->abordajeContado_id;
-			        break;
-			    case 'Crédito':
-			        $concepto_id     = CargosVario::where('aeropuerto_id', session('aeropuerto')->id)->first()->abordajeCredito_id;
-			        break;
+				case 'Contado':
+				$concepto_id     = CargosVario::where('aeropuerto_id', session('aeropuerto')->id)->first()->abordajeContado_id;
+				break;
+				case 'Crédito':
+				$concepto_id     = CargosVario::where('aeropuerto_id', session('aeropuerto')->id)->first()->abordajeCredito_id;
+				break;
 			}
 
 			if ($hora > $inicioOperaciones && $hora < $finOperaciones){
@@ -403,6 +405,31 @@ class DespegueController extends Controller {
 			$factura->detalles->push($puenteAbordaje);
 
 		}
+		
+		//Ítem de Puentes de Abordaje.
+		if($despegue->cobrar_carga == '1'){
+
+			$carga    = new Facturadetalle();		
+			
+			switch ($condicionPago) {
+				case 'Contado':
+				$concepto_id     = PrecioCarga::where('aeropuerto_id', session('aeropuerto')->id)->first()->conceptoContado_id;
+				break;
+				case 'Crédito':
+				$concepto_id     = PrecioCarga::where('aeropuerto_id', session('aeropuerto')->id)->first()->conceptoCredito_id;
+				break;
+			}
+			
+			$montoDes          = $carga->monto_total;
+			$cantidadDes       = '1';
+			$iva               = Concepto::find($concepto_id)->iva;
+			$montoIva          = ($iva * $montoDes)/100 ;
+			$totalDes          = $montoDes + $montoIva;
+			$carga->fill(compact('concepto_id', 'montoDes', 'cantidadDes', 'iva', 'totalDes'));
+			$factura->detalles->push($carga);
+
+		}
+
 		//Ítem de Habilitación
 
 		if($despegue->cobrar_habilitacion){
@@ -411,12 +438,12 @@ class DespegueController extends Controller {
 
 
 			switch ($condicionPago) {
-			    case 'Contado':
-					$concepto_id            = CargosVario::where('aeropuerto_id', session('aeropuerto')->id)->first()->habilitacionContado_id;
-			        break;
-			    case 'Crédito':
-					$concepto_id            = CargosVario::where('aeropuerto_id', session('aeropuerto')->id)->first()->habilitacionCredito_id;
-			        break;
+				case 'Contado':
+				$concepto_id            = CargosVario::where('aeropuerto_id', session('aeropuerto')->id)->first()->habilitacionContado_id;
+				break;
+				case 'Crédito':
+				$concepto_id            = CargosVario::where('aeropuerto_id', session('aeropuerto')->id)->first()->habilitacionCredito_id;
+				break;
 			}
 
 			$montoDes     = $eq_derechoHabilitacion * $ut;
@@ -428,12 +455,12 @@ class DespegueController extends Controller {
 			$factura->detalles->push($habilitacion);
 		}
 
-        $view=view('factura.facturaAeronautica.create', compact('factura', 'condicionPago'))->with(['despegue_id'=>$despegue->id]);
+		$view=view('factura.facturaAeronautica.create', compact('factura', 'condicionPago'))->with(['despegue_id'=>$despegue->id]);
 
-        if(isset($tipoAterrizaje))
-            $view->with(['tipoAterrizaje'=>$tipoAterrizaje]);
+		if(isset($tipoAterrizaje))
+			$view->with(['tipoAterrizaje'=>$tipoAterrizaje]);
 
-        return $view;
+		return $view;
 
 	}
 }
