@@ -285,11 +285,13 @@ class DespegueController extends Controller {
 			        $minutosLibre  = EstacionamientoAeronave::where('aeropuerto_id', session('aeropuerto')->id)->first()->tiempoLibreNac;
 					$eq_bloque     = EstacionamientoAeronave::where('aeropuerto_id', session('aeropuerto')->id)->first()->eq_bloqueNac;
 					$minutosBloque = EstacionamientoAeronave::where('aeropuerto_id', session('aeropuerto')->id)->first()->minBloqueNac;
+					$tiempoEstacionamiento = 'Tiempo Libre: '.($minutosLibre/60).' ';
 			        break;
 			    case 2:
 			        $minutosLibre  = EstacionamientoAeronave::where('aeropuerto_id', session('aeropuerto')->id)->first()->tiempoLibreInt;
 					$eq_bloque     = EstacionamientoAeronave::where('aeropuerto_id', session('aeropuerto')->id)->first()->eq_bloqueInt;
 					$minutosBloque = EstacionamientoAeronave::where('aeropuerto_id', session('aeropuerto')->id)->first()->minBloqueInt;
+					$tiempoEstacionamiento = 'Tiempo Libre: '.($minutosLibre/60).' ';
 			        break;
 			}
 
@@ -297,12 +299,6 @@ class DespegueController extends Controller {
 			$tiempoAFacturar        = ($tiempo_estacionamiento - $minutosLibre)/$minutosBloque;
 
 			if($tiempoAFacturar > 0){
-/*				$auxTiempo = explode('.', $tiempoAFacturar);
-				if($auxTiempo[1] > 0){
-					$tiempoAFacturar = $auxTiempo[0]+1;
-				}else{
-					$tiempoAFacturar = $tiempoAFacturar;
-				}*/
                 $tiempoAFacturar=ceil($tiempoAFacturar);
 				$equivalente            = ($eq_bloque * $ut);
 				$montoDes               = $equivalente * $tiempoAFacturar * $peso_aeronave;
@@ -432,6 +428,8 @@ class DespegueController extends Controller {
 
         if(isset($tipoAterrizaje))
             $view->with(['tipoAterrizaje'=>$tipoAterrizaje]);
+        if(isset($tiempoEstacionamiento))
+            $view->with(['tiempoEstacionamiento'=>$tiempoEstacionamiento]);
 
         return $view;
 
