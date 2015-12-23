@@ -40,27 +40,6 @@
 							<div class="form-group">
 								<div class="input-group">
 									<div class="input-group-addon">
-										<i class="fa fa-flag-o"></i>
-									</div>
-									<input type="text" name="num_vuelo" class="form-control" style="width: 100px" placeholder="Número de Vuelo"/>
-								</div><!-- /.input group -->
-							</div>
-							<div class="form-group">
-								<div class="input-group">
-									<div class="input-group-addon">
-										<i class="fa fa-plane"></i>
-									</div>                                        
-									<select name="aeronave_id" id="aeronave_id-select" class="form-control aeronave">
-										<option value="">--Matrícula--</option>
-										@foreach ($aeronaves as $aeronave)
-										<option data-modelo="{{$aeronave->modelo_id}}" data-nombremodelo="{{$aeronave->modelo->modelo}}" data-cliente="{{$aeronave->cliente_id}}" data-tipo="{{$aeronave->tipo_id}}" data-tipoV="{{$aeronave->tipo->nombre}}" value="{{$aeronave->id}}"> {{$aeronave->matricula}}</option>
-										@endforeach
-									</select>
-								</div><!-- /.input group -->
-							</div> 
-							<div class="form-group">
-								<div class="input-group">
-									<div class="input-group-addon">
 										<i class="fa fa-diamond"></i>
 									</div>                                                                            
 									<select name="cliente_id" id="cliente_id-select" class="form-control cliente" >

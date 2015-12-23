@@ -231,18 +231,10 @@ class DespegueController extends Controller {
 		$ut            = MontosFijo::where('aeropuerto_id', session('aeropuerto')->id)->first()->unidad_tributaria;
 		$condicionPago = $despegue->condicionPago;
 		$peso          = ($despegue->aterrizaje->aeronave->peso)/1000;
-		$entero        = explode('.', $peso);
-		if(isset($entero[1])){
-			if($entero[1] > 0){
-				$peso_aeronave = $entero[0]+1;
-			}
-		}else{
-			$peso_aeronave = $peso;
-		}
-		
+		$peso_aeronave = ceil($peso);
 		
 		$factura->fill(['aeropuerto_id' => $despegue->aeropuerto_id,
-		               'cliente_id'   => $despegue->cliente_id]);
+		                 'cliente_id'   => $despegue->cliente_id]);
 
 		$factura->detalles = new Collection();
 
