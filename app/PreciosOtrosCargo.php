@@ -17,4 +17,9 @@ class PerciosOtrosCargo extends Model {
         return $this->hasMany('App\OtrosCargos');
     }
 
+    public function despegue()
+    {
+        return $this->hasMany('App\Despegue');
+    }
+
 }

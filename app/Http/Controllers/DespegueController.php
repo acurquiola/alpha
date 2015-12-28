@@ -109,7 +109,7 @@ class DespegueController extends Controller {
 		$nacionalidad_vuelos = NacionalidadVuelo::all();
 		$aeronaves           = Aeronave::all();
 		$tipoMatriculas      = TipoMatricula::all();
-		$otrosCargos         = OtrosCargo::all();
+		$otrosCargos         = OtrosCargo::lists('nombre_cargo', 'id');
 		$today               = Carbon::now();
 		$today->timezone     = 'America/Caracas';
 
@@ -127,8 +127,6 @@ class DespegueController extends Controller {
 		$aterrizaje                       = Aterrizaje::find($request->get("aterrizaje_id"));
 		$aterrizaje->despegue()->save($despegue);
 		$aterrizaje->update(["despego"    =>"1"]);
-
-		dd($despegue->all());
 		$despegue->cobrar_estacionamiento =$request->input('cobrar_estacionamiento', 0);
 		$despegue->cobrar_puenteAbordaje  =$request->input('cobrar_puenteAbordaje', 0);
 		$despegue->cobrar_Formulario      =$request->input('cobrar_Formulario', 1);
@@ -225,7 +223,6 @@ class DespegueController extends Controller {
 	{
 		//Información general de la factura a crear.
 		$despegue      = Despegue::find($id);
-		dd($despegue);
 		$factura       = new Factura();
 		$modulo        = \App\Modulo::find(5)->nombre;
 		$ut            = MontosFijo::where('aeropuerto_id', session('aeropuerto')->id)->first()->unidad_tributaria;
