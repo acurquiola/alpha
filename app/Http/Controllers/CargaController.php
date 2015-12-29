@@ -47,6 +47,7 @@ class CargaController extends Controller {
 			$cargas= CArga::with("cliente")
 										->where('fecha', 'like', '%'.$fecha.'%')
 										->where('cliente_id', $clienteOperador, $cliente_id)
+										->where('aeropuerto_id', session('aeropuerto')->id)
 										->orderBy($sortName, $sortType)
 										->paginate(7);
 

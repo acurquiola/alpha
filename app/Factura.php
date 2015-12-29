@@ -41,6 +41,11 @@ class Factura extends Model {
         return $this->belongsTo('App\Cliente');
     }
 
+    public function aterrizaje()
+    {
+        return $this->belongsTo('App\Aterrizaje');
+    }
+
     public function cobros()
     {
         return $this->belongsToMany('App\Cobro', 'cobro_factura', 'factura_id', 'cobro_id')

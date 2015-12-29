@@ -33,6 +33,8 @@ class CreateFacturasTable extends Migration {
             $table->float('recargoTotal')->unsigned();
             $table->float('total')->unsigned();
             $table->integer('nroDosa')->nulleable();
+            $table->integer('aterrizaje_id')->nulleable();
+            $table->foreign('aterrizaje_id')->references('id')->on('aterrizajes');
             $table->text('descripcion');
             $table->text('comentario');
             $table->char("estado",1);

@@ -64,10 +64,11 @@ class Despegue extends Model {
         return $this->belongsTo('App\Factura', 'factura_id', 'nFactura');
     }
 
-
     public function otros_cargos()
     {
-        return $this->belongsTo('App\OtrosCargo');
+        return $this->belongsToMany('App\OtrosCargo', 'despegue_otros_cargo', 'despegue_id', 'otrosCargo_id')
+                    ->withPivot('monto')
+                    ->withTimestamps();
     }
 
 }

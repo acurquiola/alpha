@@ -243,11 +243,11 @@
 
 									<div class="form-group" style="margin-left: 20px">
 										<label>
-											{!! Form::checkbox('cobrar_otrosCargos', '0', false) !!}
+											{!! Form::checkbox('cobrar_otrosCargos', '1', true) !!}
 											Otros Cargos
 										</label>
 										<br> 
-										{!! Form::select('otroCargo_id[]', $otrosCargos, null, [ 'class'=>"form-control chosen-select otrosCargos-select", "multiple"=>"true",  "autocomplete"=>"off", 'id'=>"otros_cargos-select"]) !!}
+										{!! Form::select('otrosCargo_id[]', $otrosCargos, null, [ 'class'=>"form-control chosen-select otrosCargos-select", "multiple"=>"true",  "autocomplete"=>"off", 'id'=>"otros_cargos-select"]) !!}
 									</div><!-- /.form group -->
 								</div>
 								<hr>
@@ -522,7 +522,6 @@ $(document).ready(function(){
 
 		var data=$('#despegue-form').serializeArray();
 		console.log(data);
-		return;
 		var overlay="<div class='overlay'>\
 		<i class='fa fa-refresh fa-spin'></i>\
 	</div>";
