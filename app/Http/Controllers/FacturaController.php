@@ -184,7 +184,13 @@ class FacturaController extends Controller {
 	 */
 	public function create($modulo,Factura $factura)
 	{
-		return view('factura.create', compact('factura', 'modulo'));
+
+        $modulo_id= \App\Modulo::where('nombre', $modulo)->where('aeropuerto_id', session('aeropuerto')->id)->first();
+        if(!$modulo_id){
+            return response("No se consiguio el modulo '$modulo' en el aeropuerto de sesion", 500);
+        }
+        $modulo_id=$modulo_id->id;
+		return view('factura.create', compact('factura', 'modulo', 'modulo_id'));
 	}
 
 	/**
@@ -200,7 +206,6 @@ class FacturaController extends Controller {
             $facturaData = $this->getFacturaDataFromRequest($request);
             $facturaDetallesData = $this->getFacturaDetallesDataFromRequest($request);
             $facturaData['estado'] = 'P';
-            $facturaData['modulo_id'] = \App\Modulo::where("nombre","like",$moduloNombre)->first()->id;
             if ($request->has('nroDosa'))
                 $facturaData['nroDosa'] = $request->get('nroDosa');
             $factura = \App\Factura::create($facturaData);
@@ -299,6 +304,7 @@ class FacturaController extends Controller {
 
     protected function getFacturaDataFromRequest($request){
         return  $request->only('aeropuerto_id',
+                                'modulo_id',
                                 'condicionPago',
                                 'nControlPrefix',
                                 'nControl',

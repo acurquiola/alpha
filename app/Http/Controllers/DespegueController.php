@@ -135,7 +135,7 @@ class DespegueController extends Controller {
 		$despegue->cobrar_AterDesp        =$request->input('cobrar_AterDesp', 0);	
 		$despegue->cobrar_carga           =$request->input('cobrar_carga', 0);	
 		$despegue->cobrar_otrosCargos     =$request->input('cobrar_otrosCargos', 0);
-		$otrosCargos =$request->input('otrosCargo_id');
+		$otrosCargos =$request->input('otrosCargo_id', []);
 		foreach ($otrosCargos as $oc) {
 			$precio[] = \App\OtrosCargo::where('id', $oc)->first()->precio_cargo;
 		}
@@ -480,7 +480,13 @@ class DespegueController extends Controller {
 			$factura->detalles->push($habilitacion);
 		}
 */
-		$view=view('factura.facturaAeronautica.create', compact('factura', 'condicionPago'))->with(['despegue_id'=>$despegue->id]);
+        $modulo= \App\Modulo::where('nombre','DOSAS')->where('aeropuerto_id', session('aeropuerto')->id)->first();
+        if(!$modulo){
+            return response("No se consiguio el modulo 'DOSAS' en el aeropuerto de sesion", 500);
+        }
+        $modulo_id=$modulo->id;
+
+		$view=view('factura.facturaAeronautica.create', compact('factura', 'condicionPago', 'modulo_id'))->with(['despegue_id'=>$despegue->id]);
 
 		if(isset($tipoAterrizaje))
 			$view->with(['tipoAterrizaje'=>$tipoAterrizaje]);

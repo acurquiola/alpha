@@ -181,8 +181,12 @@ class CargaController extends Controller {
 		$cobrarCarga->fill(compact('concepto_id', 'montoDes', 'cantidadDes', 'iva', 'totalDes'));
 		$factura->detalles->push($cobrarCarga);
 
-
-		return view('factura.facturaCarga.create', compact('factura', 'condicionPago'))->with(['carga_id'=>$carga->id]);
+        $modulo= \App\Modulo::where('nombre','CARGA')->where('aeropuerto_id', session('aeropuerto')->id)->first();
+        if(!$modulo){
+            return response("No se consiguio el modulo 'CARGA' en el aeropuerto de sesion", 500);
+        }
+        $modulo_id=$modulo->id;
+		return view('factura.facturaCarga.create', compact('factura', 'condicionPago', 'modulo_id'))->with(['carga_id'=>$carga->id]);
 
 	}
 
