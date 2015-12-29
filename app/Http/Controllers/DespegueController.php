@@ -453,7 +453,7 @@ class DespegueController extends Controller {
 
 		//Ítem de Habilitación
 
-		/*if($despegue->cobrar_otrosCargos == '1'){
+		if($despegue->cobrar_otrosCargos == '1'){
 			$otrosCargos           = new Facturadetalle();
 
 			switch ($condicionPago) {
@@ -479,7 +479,7 @@ class DespegueController extends Controller {
 			$habilitacion->fill(compact('concepto_id', 'condicionPago', 'montoDes', 'cantidadDes', 'iva', 'totalDes'));
 			$factura->detalles->push($habilitacion);
 		}
-*/
+
         $modulo= \App\Modulo::where('nombre','DOSAS')->where('aeropuerto_id', session('aeropuerto')->id)->first();
         if(!$modulo){
             return response("No se consiguio el modulo 'DOSAS' en el aeropuerto de sesion", 500);
