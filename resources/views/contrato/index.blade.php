@@ -77,7 +77,7 @@
                                     <div class="media">
                                         <div class="pull-right media-right">
                                             <div class="btn-group-vertical  btn-group-xs" role="group" aria-label="...">
-                                                <a class="btn btn-primary" href="{{ URL::to('contrato/create') }}">&nbsp;<span class="glyphicon glyphicon-plus"></span>&nbsp;</a>
+                                                <a class="btn btn-primary" href="{{ action('ContratoController@create') }}">&nbsp;<span class="glyphicon glyphicon-plus"></span>&nbsp;</a>
                                             </div>
                                         </div>
                                         <div class="media-body">

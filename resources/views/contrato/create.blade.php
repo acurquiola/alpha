@@ -11,29 +11,29 @@
                 <div class="box-header">
                     <h3 class="box-title">Formulario de contratos</h3>
                 </div>
-                {!! Form::model($contrato, ["url" => "contrato", "method" => "POST", "enctype" => "multipart/form-data"]) !!}
+                {!! Form::open(["action" => 'ContratoController@store', "method" => "POST", "enctype" => "multipart/form-data"]) !!}
                     @include('contrato.partials.form', ["SubmitBtnText"=>"Crear", "disabled" =>""])
                 {!! Form::close() !!}
             </div>
         </div>
     </div>
-            <div class="modal fade" id="advance-search-modal">
-              <div class="modal-dialog modal-lg">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title">Busqueda avanzada de cliente</h4>
-                  </div>
-                  <div class="modal-body">
+    <div class="modal fade" id="advance-search-modal">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">Busqueda avanzada de cliente</h4>
+          </div>
+          <div class="modal-body">
 
 
-              </div>
-              <div class="modal-footer">
-                <button type="submit" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-              </div>
-            </div><!-- /.modal-content -->
-          </div><!-- /.modal-dialog -->
-        </div><!-- /.modal -->
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 @endsection
 
 @section('script')
