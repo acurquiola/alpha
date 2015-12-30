@@ -7,14 +7,15 @@ class Factura extends Model {
 
     use SoftDeletes;
 
-    const NCONTROLDEFAULTPREFIX= ['A','B','C','D'];
-
+    static public function NCONTROLDEFAULTPREFIX(){
+        return ['A','B','C','D'];
+    }
     protected $primaryKey = 'nFactura';
 
     protected $guarded = array();
 
     public static function getNControlMax($searchPrefix=null){
-        $nControlSearchPrefix=($searchPrefix==null)?self::NCONTROLDEFAULTPREFIX:$searchPrefix;
+        $nControlSearchPrefix=($searchPrefix==null)?self::NCONTROLDEFAULTPREFIX():$searchPrefix;
         $nControlprefixMax=[];
         foreach($nControlSearchPrefix as $prefix){
             $nControlprefixMax[$prefix]=(\DB::
@@ -39,6 +40,11 @@ class Factura extends Model {
     public function cliente()
     {
         return $this->belongsTo('App\Cliente');
+    }
+
+    public function aterrizaje()
+    {
+        return $this->belongsTo('App\Aterrizaje');
     }
 
     public function cobros()

@@ -146,6 +146,6 @@
     </div><!-- /.box-body -->
     @if($disabled!="disabled")
     <div class="box-footer text-right">
-        <button class="btn btn-primary"> {{$SubmitBtnText}} </button>
+        <button type="submit" class="btn btn-primary"> {{$SubmitBtnText}} </button>
     </div>
     @endif

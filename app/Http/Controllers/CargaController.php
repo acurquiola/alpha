@@ -36,12 +36,6 @@ class CargaController extends Controller {
 			$fecha            = $request->get('fecha', '%');
 			$fecha            =($fecha=="")?"%":$fecha;		
 			
-			$num_vuelo        = $request->get('num_vuelo', '%');
-			$num_vuelo        =($num_vuelo=="")?"%":$num_vuelo;
-			
-			$aeronave_id      = $request->get('aeronave_id', 0);
-			$aeronaveOperador =($aeronave_id=="")?">":"=";
-			
 			$cliente_id       = $request->get('cliente_id', 0);
 			$clienteOperador  =($cliente_id=="")?">":"=";
 			
@@ -50,11 +44,10 @@ class CargaController extends Controller {
 	            'sortName'=>$sortName,
 	            'sortType'=>$sortType]);
 		
-			$cargas= CArga::with("cliente", "aeronave")
+			$cargas= CArga::with("cliente")
 										->where('fecha', 'like', '%'.$fecha.'%')
-										->where('num_vuelo', 'like', '%'.$num_vuelo.'%')
-										->where('aeronave_id', $aeronaveOperador, $aeronave_id)
 										->where('cliente_id', $clienteOperador, $cliente_id)
+										->where('aeropuerto_id', session('aeropuerto')->id)
 										->orderBy($sortName, $sortType)
 										->paginate(7);
 
@@ -64,9 +57,8 @@ class CargaController extends Controller {
 		{
 
 			$clientes  = Cliente::all();
-			$aeronaves = Aeronave::all();
 			
-			return view('cargas.index', compact('clientes', 'aeronaves'));
+			return view('cargas.index', compact('clientes'));
 		}
 		
 	}
@@ -78,7 +70,6 @@ class CargaController extends Controller {
 	 */
 	public function create()
 	{
-		$aeronaves      = Aeronave::all();
 		$today          = Carbon::now();
 		$precios_cargas = PreciosCarga::first();
 		$montos_fijos   = MontosFijo::first();
@@ -92,11 +83,9 @@ class CargaController extends Controller {
 	 */
 	public function store(CargaRequest $request)
 	{
-		$carga = Carga::create($request->except('precio_carga'));
+		$carga = Carga::create($request->all());
 
 		if ($carga){
-			$precio_carga        = PreciosCarga::first();
-			$carga->precio_carga = $precio_carga;
 			return response()->json(array("text"=>'Registro almacenado con éxito',
 																	  "success"=>1));
 		}
@@ -126,7 +115,6 @@ class CargaController extends Controller {
 	public function edit($id)
 	{
 		$carga          = Carga::find($id);
-		$aeronaves      = Aeronave::all();
 		$today          = Carbon::now();
 		$precios_cargas = PreciosCarga::first();
 		$montos_fijos   = MontosFijo::first();
@@ -163,14 +151,14 @@ class CargaController extends Controller {
 	{
 		//Información general de la factura a crear.
 
-		$carga   = Carga::find($id);
-		$factura = new Factura();
-		$modulo  = \App\Modulo::find(6)->nombre;
-		$ut      = MontosFijo::first()->unidad_tributaria;
+		$carga         = Carga::find($id);
+		$factura       = new Factura();
+		$modulo        = \App\Modulo::find(6)->nombre;
+		$ut            = MontosFijo::first()->unidad_tributaria;
 		$condicionPago = $carga->condicionPago;
 
-		$factura->fill(['aeropuerto_id' 	  => $carga->aeropuerto_id,
-			                  	'cliente_id'  => $carga->cliente_id]);
+		$factura->fill(['aeropuerto_id' => $carga->aeropuerto_id,
+			               'cliente_id'   => $carga->cliente_id]);
 		
 		$factura->detalles = new Collection();
 
@@ -193,8 +181,12 @@ class CargaController extends Controller {
 		$cobrarCarga->fill(compact('concepto_id', 'montoDes', 'cantidadDes', 'iva', 'totalDes'));
 		$factura->detalles->push($cobrarCarga);
 
-
-		return view('factura.facturaCarga.create', compact('factura', 'condicionPago'))->with(['carga_id'=>$carga->id]);
+        $modulo= \App\Modulo::where('nombre','CARGA')->where('aeropuerto_id', session('aeropuerto')->id)->first();
+        if(!$modulo){
+            return response("No se consiguio el modulo 'CARGA' en el aeropuerto de sesion", 500);
+        }
+        $modulo_id=$modulo->id;
+		return view('factura.facturaCarga.create', compact('factura', 'condicionPago', 'modulo_id'))->with(['carga_id'=>$carga->id]);
 
 	}
 

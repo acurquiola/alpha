@@ -49,17 +49,17 @@ class CreacionTablasBancosCuentas extends Migration {
 	 */
 	public function down()
 	{
-        Schema::table('estacionamientoOpTarjetas', function(Blueprint $table)
+        Schema::table('estacionamientooptarjetas', function(Blueprint $table)
         {
             $table->dropForeign("estacionamientooptarjetas_banco_id_foreign");
             $table->dropForeign("estacionamientooptarjetas_bancosCuenta_id_foreign");
         });
-        Schema::table('estacionamientoOpTicketsDepositos', function(Blueprint $table)
+        Schema::table('estacionamientoopticketsdepositos', function(Blueprint $table)
         {
             $table->dropForeign("estacionamientoopticketsdepositos_banco_id_foreign");
             $table->dropForeign("estacionamientoopticketsdepositos_bancosCuenta_id_foreign");
         });
-        Schema::dropIfExists('bancosCuentas');
+        Schema::dropIfExists('bancoscuentas');
 		Schema::dropIfExists('bancos');
 	}
 

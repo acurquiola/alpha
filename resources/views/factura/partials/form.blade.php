@@ -3,6 +3,7 @@
 
 	<label for="aeropuerto_id" class="col-xs-1  control-label"><strong>Aeropuerto<span class="text-danger">*</span></strong> </label>
 	<div class="col-xs-3">
+        {!! Form::hidden('modulo_id', ($factura->modulo_id)?$factura->modulo_id:$modulo_id,[ 'class'=>"form-control", "readonly"=>"true"]) !!}
 		{!! Form::hidden('aeropuerto_id', session('aeropuerto')->id,[ 'class'=>"form-control", "readonly"=>"true"]) !!}
 		{!! Form::text(null, session('aeropuerto')->nombre,[ 'class'=>"form-control", "readonly"=>"true"]) !!}
 	</div>
@@ -19,17 +20,17 @@
 
 
 				<div class="form-group">
-                    {!! Form::hidden('nControlPrefix', ($factura->nControlPrefix)?$factura->nControlPrefix:\App\Factura::NCONTROLDEFAULTPREFIX[0], ['id' => 'nControlPrefix', 'class' => 'nControlPrefix-input', 'autocomplete'=>'off']) !!}
+                    {!! Form::hidden('nControlPrefix', ($factura->nControlPrefix)?$factura->nControlPrefix:\App\Factura::NCONTROLDEFAULTPREFIX()[0], ['id' => 'nControlPrefix', 'class' => 'nControlPrefix-input', 'autocomplete'=>'off']) !!}
 					<div class="input-group">
 						<div class="input-group-btn">
-							<button style="max-height:37px" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="nControlPrefix-text">{{($factura->nControlPrefix)?$factura->nControlPrefix:\App\Factura::NCONTROLDEFAULTPREFIX[0]}}</span></button>
+							<button style="max-height:37px" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="nControlPrefix-text">{{($factura->nControlPrefix)?$factura->nControlPrefix:\App\Factura::NCONTROLDEFAULTPREFIX()[0]}}</span></button>
 							<ul class="dropdown-menu nControlPrefix-list">
 							    @foreach($nControlprefixMax as $prefix => $prefixMax)
 								    <li data-max="{{$prefixMax}}"><a href="#">{{$prefix}}</a></li>
                                 @endforeach
 							</ul>
 						</div>
-		                {!! Form::text('nControl', ($factura->nControl)?$factura->nControl:$nControlprefixMax[\App\Factura::NCONTROLDEFAULTPREFIX[0]], [ 'id' => 'nControl', 'class'=>"form-control", $disabled,"data-empty"=>"false", "data-type"=>"int", "data-name"=>"Número de control", 'style' => 'padding-left:2px']) !!}
+		                {!! Form::text('nControl', ($factura->nControl)?$factura->nControl:$nControlprefixMax[\App\Factura::NCONTROLDEFAULTPREFIX()[0]], [ 'id' => 'nControl', 'class'=>"form-control", $disabled,"data-empty"=>"false", "data-type"=>"int", "data-name"=>"Número de control", 'style' => 'padding-left:2px']) !!}
 					</div>
 				</div>
 

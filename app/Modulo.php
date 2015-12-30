@@ -36,4 +36,19 @@ class Modulo extends Model {
         return $this->hasManyThrough('App\Concepto', 'App\Factura');
     }
 
+    public function contratos()
+    {
+        return $this->hasManyThrough('App\Contrato', 'App\Concepto', 'modulo_id', 'concepto_id');
+    }
+
+    public function tieneContratosVigentes()
+    {
+        $hoy = \Carbon\Carbon::now();
+        $contratosPosibles = $this->contratos()->where('fechaInicio', '<=' ,$hoy)->where('fechaVencimiento', '>=', $hoy)->count();
+        if ($contratosPosibles) {
+            return true;
+        }
+        return false;
+    }
+
 }

@@ -11,4 +11,11 @@ class OtrosCargo extends Model {
         return $this->belongsTo('App\Concepto');
     }
 
+    public function despegue()
+    {
+        return $this->belongsToMany('App\Despegue', 'despegue_otros_cargo', 'otrosCargo_id', 'despegue_id')
+                    ->withPivot('monto')
+                    ->withTimestamps();
+    }
+
 }

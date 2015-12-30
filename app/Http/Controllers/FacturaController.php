@@ -16,6 +16,11 @@ class FacturaController extends Controller {
     }
 
 
+    public function automatica($moduloNombre) {
+        $modulo = \App\Modulo::where("nombre","like",$moduloNombre)->first();
+        return view('factura.automatica', compact('modulo'));
+    }
+
     /**
      * @param $factura
      * @param string $output
@@ -160,17 +165,17 @@ class FacturaController extends Controller {
 
 
 
-            $modulo->facturas=\App\Factura::select("facturas.*","clientes.nombre as clienteNombre")
-                                            ->join('clientes','clientes.id' , '=', 'facturas.cliente_id')
-                                            ->where('facturas.modulo_id', "=", $modulo->id)
-                                            ->where('facturas.nFactura', $facturaIdOperator, $facturaId)
-                                            ->where('total', $totalOperator, $total)
-                                            ->where('fecha', $fechaOperator, $fecha)
-                                            ->where('descripcion', 'like', "%$descripcion%")
-                                            ->where('clientes.nombre', 'like', "%$clienteNombre%")
-                                            ->where('facturas.aeropuerto_id','=', session('aeropuerto')->id)
-                                            ->with('cliente')->groupBy("facturas.nFactura")
-                                            ->orderBy($sortName, $sortType)->paginate(50);
+        $modulo->facturas=\App\Factura::select("facturas.*","clientes.nombre as clienteNombre")
+                                        ->join('clientes','clientes.id' , '=', 'facturas.cliente_id')
+                                        ->where('facturas.modulo_id', "=", $modulo->id)
+                                        ->where('facturas.nFactura', $facturaIdOperator, $facturaId)
+                                        ->where('total', $totalOperator, $total)
+                                        ->where('fecha', $fechaOperator, $fecha)
+                                        ->where('descripcion', 'like', "%$descripcion%")
+                                        ->where('clientes.nombre', 'like', "%$clienteNombre%")
+                                        ->where('facturas.aeropuerto_id','=', session('aeropuerto')->id)
+                                        ->with('cliente')->groupBy("facturas.nFactura")
+                                        ->orderBy($sortName, $sortType)->paginate(50);
 
         $modulo->facturas->setPath('');
 
@@ -184,7 +189,13 @@ class FacturaController extends Controller {
 	 */
 	public function create($modulo,Factura $factura)
 	{
-		return view('factura.create', compact('factura', 'modulo'));
+
+        $modulo_id= \App\Modulo::where('nombre', $modulo)->where('aeropuerto_id', session('aeropuerto')->id)->first();
+        if(!$modulo_id){
+            return response("No se consiguio el modulo '$modulo' en el aeropuerto de sesion", 500);
+        }
+        $modulo_id=$modulo_id->id;
+		return view('factura.create', compact('factura', 'modulo', 'modulo_id'));
 	}
 
 	/**
@@ -200,7 +211,6 @@ class FacturaController extends Controller {
             $facturaData = $this->getFacturaDataFromRequest($request);
             $facturaDetallesData = $this->getFacturaDetallesDataFromRequest($request);
             $facturaData['estado'] = 'P';
-            $facturaData['modulo_id'] = \App\Modulo::where("nombre","like",$moduloNombre)->first()->id;
             if ($request->has('nroDosa'))
                 $facturaData['nroDosa'] = $request->get('nroDosa');
             $factura = \App\Factura::create($facturaData);
@@ -299,6 +309,7 @@ class FacturaController extends Controller {
 
     protected function getFacturaDataFromRequest($request){
         return  $request->only('aeropuerto_id',
+                                'modulo_id',
                                 'condicionPago',
                                 'nControlPrefix',
                                 'nControl',

@@ -23,8 +23,6 @@ class CargaRequest extends Request {
 	{
         return [
 			'cliente_id'        => 'required',
-			'aeronave_id'       => 'required',
-			'num_vuelo'         => 'required|numeric',
 			'peso_embarcado'    => 'required|numeric',
 			'peso_desembarcado' => 'required|numeric',
 			'monto_total'       => 'required|numeric'

@@ -261,4 +261,8 @@ class AterrizajeController extends Controller {
 
     }
 
+    public function getCrearFactura($id)
+    {
+    	return view('factura.facturaAeronautica.create');
+    }
 }

@@ -18,30 +18,28 @@
 		<!-- Main content -->
 		<section class="content ">
 
-			<div id="despegueForm-div">
+			<div class="box box-primary">
 
-				<div class="box box-primary">
-
-					<div class="box-header">
-						<h5>
-							<i class="fa fa-plane"></i>
-							Información del vuelo
-						</h5>
-					</div>
+				<div class="box-header">
+					<h5>
+						<i class="fa fa-plane"></i>
+						Información del vuelo
+					</h5>
+				</div>
+				<div class="box-body">
 					<form id="despegue-form">                       
-						<div class="box-body">
-							<input id="fechaAterrizaje" type="hidden" class="form-control" value="{{$aterrizaje->fecha}}"/>
-							<input id="horaAterrizaje" type="hidden" class="form-control" value="{{$aterrizaje->hora}}"/>
-							<input type="hidden" name="aterrizaje_id" class="form-control" value="{{$aterrizaje->id}}" />
+						<input id="fechaAterrizaje" type="hidden" class="form-control" value="{{$aterrizaje->fecha}}"/>
+						<input id="horaAterrizaje" type="hidden" class="form-control" value="{{$aterrizaje->hora}}"/>
+						<input type="hidden" name="aterrizaje_id" class="form-control" value="{{$aterrizaje->id}}" />
 
-							<div class="form-inline" style="margin-top: 20px">
-								<div class="form-group">
-									<div class="input-group">
-										<div class="input-group-addon">
-											<i class="fa fa-calendar"></i>
-										</div>
-										<input id="fecha-datepicker" type="text" name="fecha" class="form-control no-vacio" value="{{$today->format('d/m/Y')}}" placeholder="Fecha" />
-										<input type="hidden" name="aeropuerto_id" value="{{session('aeropuerto')->id}}"></input>									</div><!-- /.input group -->
+						<div class="form-inline" style="margin-top: 20px">
+							<div class="form-group">
+								<div class="input-group">
+									<div class="input-group-addon">
+										<i class="fa fa-calendar"></i>
+									</div>
+									<input id="fecha-datepicker" type="text" name="fecha" class="form-control no-vacio" value="{{$today->format('d/m/Y')}}" placeholder="Fecha" />
+									<input type="hidden" name="aeropuerto_id" value="{{session('aeropuerto')->id}}"></input>									</div><!-- /.input group -->
 								</div>
 								<div class="form-group">
 									<div class="input-group">
@@ -68,7 +66,7 @@
 										<select name="tipoMatricula_id" id="tipoMatricula_id" class="form-control tipo_vuelo no-vacio">
 											<option value="">--Seleccione Tipo de Vuelo--</option>
 											@foreach ($tipoMatriculas as $tipoMatricula)
-												<option value="{{$tipoMatricula->id}}" {{(($aterrizaje->tipoMatricula_id == $tipoMatricula->id)?"selected":"")}}> {{$tipoMatricula->nombre}}</option>
+											<option value="{{$tipoMatricula->id}}" {{(($aterrizaje->tipoMatricula_id == $tipoMatricula->id)?"selected":"")}}> {{$tipoMatricula->nombre}}</option>
 											@endforeach
 										</select>									
 									</div><!-- /input group -->
@@ -145,126 +143,123 @@
 										</select>
 									</div><!-- /.input group -->
 								</div>
-							</div>								
-						</div>  
-						<!-- Cobros -->
-						<div class="box box-info">
+							</div>	
+							<hr>
+							<h5>
+								<i class="fa fa-money"></i>
+								Cobros
+								<small>Conceptos a facturar</small>
+							</h5>	
 
-							<div class="box-header">
-								<h5>
-									<i class="fa fa-money"></i>
-									Cobros
-									<small>Conceptos a facturar</small>
-								</h5>
-							</div>		
-											
-							<div class="box-body" >
+							<div class="form-inline  pull-right">
+								<!-- Condición de Pago -->
+								<div class="form-group">
+									<label><strong>Condición de pago: </strong></label>
+									<div class="input-group">
+										<select name="condicionPago" id="condicionPago-select" class="form-control">
+											<option value="">Seleccione</option>
+											<option value="Contado"> Contado</option>
+											<option value="Crédito"> Crédito</option>
+										</select>
+										<div class="input-group-addon">
+										</div>                    
+									</div><!-- /.input group -->
+								</div><!-- /.form group -->
+							</div>  
+							<br>            
+							<div class="form-inline">
+								<div class="form-group" >
 									
-								<div class="col-md-12" style="margin-bottom: 20px">										
-									<div class="form-inline">
-										<!-- Condición de Pago -->
-										<div class="form-group">
-											<label><strong>Condición de pago: </strong></label>
-											<div class="input-group">
-												<select name="condicionPago" id="condicionPago-select" class="form-control">
-													<option value="">Seleccione</option>
-													<option value="Contado"> Contado</option>
-													<option value="Crédito"> Crédito</option>
-												</select>
-												<div class="input-group-addon">
-												</div>										
-											</div><!-- /.input group -->
-										</div><!-- /.form group -->
-									</div>
-								</div>
-
-								<!-- Estacionamiento -->
-								<div class="col-sm-3" >
+									<label>
+										{!! Form::checkbox('cobrar_formulario', '1', true) !!}
+										Formulario
+									</label>
+									<br>
+									<br>
+									<label >
+										{!! Form::checkbox('cobrar_AterDesp', '1', true) !!}
+										Aterrizaje y Despegue
+									</label>
+								</div><!-- /.form group -->
+								<!-- Tiempo de Estacionamiento-->
+								<div class="form-group " style="margin-left: 30px">
 									<label>
 										{!! Form::checkbox('cobrar_estacionamiento', '1', true) !!}
 										Estacionamiento
-									</label>
-									<div class="box-body" id="estacionamiento-box">
-										<!-- Tiempo de Estacionamiento-->
-										<div class="form-group ">
-											<label>Tiempo: </label>
-											<div class="input-group">
-												<input type="text" class="form-control" id="tiempo_estacionamiento" name="tiempo_estacionamiento" readonly />
-												<div class="input-group-addon">
-													min
-													<i class="ion ion-clock"></i>
-												</div>
-											</div><!-- /.input group -->
-										</div><!-- /.form group -->
+									</label> 
+									<br> 
+									<label>Tiempo: </label>
+									<div class="input-group" style="width: 150px">
+										<input type="text" class="form-control" id="tiempo_estacionamiento" name="tiempo_estacionamiento" readonly />
+										<div class="input-group-addon">
+											min
+											<i class="ion ion-clock"></i>
+										</div>
+									</div><!-- /.input group -->
+								</div><!-- /.form group -->  
 
-
-									</div><!--/. box-body -->
-								</div><!--/. col -->
-
-								<!-- Puentes de Abordaje -->
-								<div class="col-sm-4">
+								<div class="form-group" style="margin-left: 20px">
 									<label>
-										{!! Form::checkbox('cobrar_puenteAbordaje', '1', true) !!}
+										{!! Form::checkbox('cobrar_puenteAbordaje','1', true) !!}
 										Puentes de Abordaje
 									</label>
-									<div class="box-body" id="puenteAbordaje-box">
-
-										<div class="form-inline">
-											<!-- Puente Usado -->
-											<div class="form-group">
-												<div class="input-group">
-													<div class="input-group-addon">
-														#
-													</div>
-													<input type="number"  class="form-control" name="numero_puenteAbordaje" />
-												</div><!-- /.input group -->
-												<div class="input-group">
-													<input type="text" class="form-control" name="tiempo_puenteAbord"  />
-													<div class="input-group-addon">
-														horas
-														<i class="ion ion-clock"></i>
-													</div>
-												</div><!-- /.input group -->
-											</div><!-- /.form group -->
+									<br> 
+									<div class="input-group" style="width:100px">
+										<div class="input-group-addon">
+											#
 										</div>
-									</div>
-								</div><!-- /.col -->
-								<div>
-									<div class="box-body">
-										<label>
-											{!! Form::checkbox('cobrar_formulario', '1', true) !!}
-											Formulario
-										</label>
-										<label style="margin-left: 30px">
-											{!! Form::checkbox('cobrar_AterDesp', '1', true) !!}
-											Aterrizaje y Despegue
-										</label>
-										</br>
+										<input type="number" class="form-control" min="1" name="numero_puenteAbordaje" />
+									</div><!-- /.input group -->
+									<div class="input-group" style="width:140px">
+										<input type="number" class="form-control"  min="1" name="tiempo_puenteAbord"  />
+										<div class="input-group-addon">
+											horas
+											<i class="ion ion-clock"></i>
+										</div>
+									</div><!-- /.input group -->
+								</div><!-- /.form group --> 
 
-										<label style="margin-top: 30px"><i class="ion ion-android-plane"> </i> Otros Cargos</label>
-										<select name="otros_cargos" id="otros_cargos-select" class="form-control" data-placeholder="Seleccione otros cargos" multiple>
-											<option value="">--Seleccione Otros Cargos--</option>
-											@foreach ($otrosCargos as $otroCargo)
-											<option value="{{$otroCargo->id}}"> {{$otroCargo->nombre_cargo}}</option>
-											@endforeach
-										</select>
-									</div>						
+
+								<div class="form-inline" style="margin-top: 20px">
+									<label>
+										{!! Form::checkbox('cobrar_carga', '1', true) !!}
+										Carga
+									</label>
+									<div class="form-group">
+										<br> 
+										<div class="input-group" style="width:170px; margin-right: 10px">
+											<input type="text" name="peso_embarcado" placeholder="Embarcado" id="peso_embarcado" placeholder="Peso Embarcado" class="form-control no-vacio"/>
+											<div class="input-group-addon">
+												Kg(s) <i class="ion ion-soup-can-outline"></i>
+											</div>
+										</div><!-- /.input group -->
+										<div class="input-group" style="width:190px">
+											<input type="text"  name="peso_desembarcado" placeholder="Desembarcado" id="peso_desembarcado" placeholder="Peso Desembarcado" class="form-control no-vacio"/>
+											<div class="input-group-addon ">
+												Kg(s) <i class="ion ion-soup-can-outline"></i>
+											</div>
+										</div><!-- /.input group -->
+									</div><!-- /.form group -->
+
+									<div class="form-group" style="margin-left: 20px">
+										<label>
+											{!! Form::checkbox('cobrar_otrosCargos', '1', true) !!}
+											Otros Cargos
+										</label>
+										<br> 
+										{!! Form::select('otrosCargo_id[]', $otrosCargos, null, [ 'class'=>"form-control chosen-select otrosCargos-select", "multiple"=>"true",  "autocomplete"=>"off", 'id'=>"otros_cargos-select"]) !!}
+									</div><!-- /.form group -->
 								</div>
-							</div> <!-- /. box-body -->
-						</div>	
-						<div class="box box-warning">
-							<div class="box-header">
+								<hr>
 								<h5>
-									<i class="fa fa-plane"></i>
-									Transportados
-									<small>Cantidad de Pasajeros</small>
+									<i class="fa fa-user"></i>
+									Pasajeros
+									<small>Embarcados y en Tránsito</small>
 								</h5>
-							</div>
-							<div class="box-body">
-								<label><i class="ion ion-android-plane"> </i> Embarcados</label>
-								<div class="box-body">
+								<div class="form-inline">
+									<label><i class="ion ion-android-plane col-md-2"> </i><strong> EMBARCADOS</strong></label>
 									<!-- Pasajeros adultos -->
-									<div class="form-group col-md-3">
+									<div class="form-group">
 										<label>Adultos:</label>
 										<div class="input-group">
 											<div class="input-group-addon">
@@ -275,7 +270,7 @@
 									</div><!-- /.form group -->
 
 									<!-- Pasajeros Infantes-->
-									<div class="form-group col-md-3">
+									<div class="form-group">
 										<label>Infantes:</label>
 										<div class="input-group">
 											<div class="input-group-addon">
@@ -289,7 +284,7 @@
 									<!-- Pasajeros tercera edad -->
 									<div class="form-group ">
 										<label>Tercera Edad:</label>
-										<div class="input-group col-md-3">
+										<div class="input-group">
 											<div class="input-group-addon">
 												<i class="ion ion-person-stalker"></i>
 											</div>
@@ -297,11 +292,13 @@
 										</div><!-- /.input group -->
 									</div><!-- /.form group -->
 								</div>
-								<label><i class="ion ion-android-plane"> </i> En Tránsito</label>
-								<div class="box-body">
+								<br>
+								<div class="form-inline">
+
+									<label><i class="ion ion-android-plane col-md-2"> </i><strong>EN TRÁNSITO</strong></label>
 
 									<!-- Pasajeros adultos -->
-									<div class="form-group col-md-3">
+									<div class="form-group">
 										<label>Adultos:</label>
 										<div class="input-group">
 											<div class="input-group-addon">
@@ -312,7 +309,7 @@
 									</div><!-- /.form group -->
 
 									<!-- Pasajeros Infantes-->
-									<div class="form-group col-md-3">
+									<div class="form-group">
 										<label>Infantes:</label>
 										<div class="input-group">
 											<div class="input-group-addon">
@@ -324,9 +321,9 @@
 
 
 									<!-- Pasajeros tercera edad -->
-									<div class="form-group ">
+									<div class="form-group  ">
 										<label>Tercera Edad:</label>
-										<div class="input-group col-md-3">
+										<div class="input-group">
 											<div class="input-group-addon">
 												<i class="ion ion-person-stalker"></i>
 											</div>
@@ -334,11 +331,11 @@
 										</div><!-- /.input group -->
 									</div><!-- /.form group -->
 								</div>
-								<label><i class="ion ion-android-plane"> </i> Total</label>
-								<div class="box-body">
-
+								<br>
+								<div class="form-inline">
+									<label style="margin-right: 25px"><i class="ion ion-android-plane col-md-2" > </i><strong>TOTALES</strong></label>
 									<!-- Pasajeros adultos -->
-									<div class="form-group col-md-3">
+									<div class="form-group ">
 										<label>Adultos:</label>
 										<div class="input-group">
 											<div class="input-group-addon">
@@ -349,7 +346,7 @@
 									</div><!-- /.form group -->
 
 									<!-- Pasajeros Infantes-->
-									<div class="form-group col-md-3">
+									<div class="form-group ">
 										<label>Infantes:</label>
 										<div class="input-group">
 											<div class="input-group-addon">
@@ -360,7 +357,7 @@
 									</div><!-- /.form group -->
 
 									<!-- Pasajeros tercera edad -->
-									<div class="form-group  col-md-3 " style="margin-left: -13px; width: 277px">
+									<div class="form-group" >
 										<label>Tercera Edad:</label>
 										<div class="input-group">
 											<div class="input-group-addon">
@@ -371,19 +368,17 @@
 									</div><!-- /.form group -->
 
 									<!-- Total de Pasajeros -->
-									<div class="form-group "  >
-										<label><strong>Total:<strong></label>
-										<div class="input-group col-md-2">
-											<div class="input-group-addon">
-												<i class="ion ion-person-stalker"></i>
-											</div>
+									<div class="form-group">
+
+										<label>Total:</label>
+										<div class="input-group" style="width:80px">
 											<input type="number" value="0" disabled class="form-control" />
 										</div><!-- /.input group -->
 									</div><!-- /.form group -->
 								</div>
-							</div> <!-- /. box-body -->
-						</div>
-					</form>
+							</div>
+						</form>
+					</div> <!-- /. box-body -->					
 				</div>
 				<div class="box-footer" align="right">
 					<button class="btn btn-default" type="button" id="cancel-despegue-btn">Cancelar </button>
@@ -419,7 +414,7 @@ function calcularDiferenciaMinutos(){
 	var fecha             = $('#fechaAterrizaje').val();
 	var hora              = $('#horaAterrizaje').val();
 	var fecha_hora        = fecha+' '+hora;
-	
+
 	var fechaActual       = $('#fecha-datepicker').val();
 	var horaActual        = $('#hora').val();
 	var fecha_hora_actual = fechaActual+' '+horaActual;
@@ -434,138 +429,138 @@ function calcularDiferenciaMinutos(){
 $(document).ready(function(){
 
 
-		$('#otros_cargos-select').chosen({width:'40%'});
+	$('#otros_cargos-select').chosen({width:'200%'});
 
-	/* 
-		Condiciones en los campos de los formularios
-		*/
+/* 
+	Condiciones en los campos de los formularios
+	*/
 
-		$('#aterrizajeForm-div input').keyup(function()
-		{
-			camposVacios();
-		});
+	$('#aterrizajeForm-div input').keyup(function()
+	{
+		camposVacios();
+	});
 
-		$('#aterrizajeForm-div select').change(function()
-		{
-			camposVacios();	
-		});
+	$('#aterrizajeForm-div select').change(function()
+	{
+		camposVacios();	
+	});
 
-	/*
-		Fecha
-		*/
-		var d= new Date();
-		var today=$.datepicker.formatDate('d/m/yy', new Date());
-		var h=d.getHours();
-		var m=d.getMinutes();
-		var s=d.getSeconds();
-		if (m<'10'){
-			m='0'+m;
-		}
-		var time=h+':'+m+':'+s;
-		
-
-	/*
-		Campos Automáticos.
-
-		*/
-		$('body').delegate('.puerto', 'change', function() {
-			var option       =$(this).find('option:selected');
-			var nacionalidad =$(this).closest('form').find('.nacionalidad');
-
-			if ($(option).val() == ''){
-				$(nacionalidad).val('').attr('disabled', 'disabled');
-			}else{
-				var nac_vuelo=$(option).data('nacionalidad');
-				if (nac_vuelo == '232'){
-					$(nacionalidad).val('1');
-				}else{
-					$(nacionalidad).val('2');
-				}
-			}               
-		});
-
-		$('#fecha-datepicker').change(calcularDiferenciaMinutos).trigger('change');
-		$('#hora').keyup(calcularDiferenciaMinutos);
-
-
-	/*
-		Datepicker
-		*/
-
-		$('#fecha-datepicker').datepicker({
-			closeText: 'Cerrar',
-			prevText: '&#x3C;Ant',
-			nextText: 'Sig&#x3E;',
-			currentText: 'Hoy',
-			monthNames: ['Enero','Febrero','Marzo','Abril','Mayo','Junio',
-			'Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'],
-			monthNamesShort: ['Ene','Feb','Mar','Abr','May','Jun',
-			'Jul','Ago','Sep','Oct','Nov','Dic'],
-			dayNames: ['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'],
-			dayNamesShort: ['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'],
-			dayNamesMin: ['D','L','M','M','J','V','S'],
-			weekHeader: 'Sm',
-			firstDay: 1,
-			isRTL: false,
-			showMonthAfterYear: false,
-			yearSuffix: '',
-			dateFormat: 'yy-mm-dd'});
-
-		$('#cancel-despegue-btn').click(function(){
-			$('#despegueForm-div input').val('');
-			$('#despegueForm-div select').val('');
-			$('#despegueForm-div #fecha-datepicker').val(today);
-			$('#despegueForm-div #hora').val(time);
-		})
-
-	/*
-		Registro de despegue
-
-		*/
-		
-		$('#save-despegue-btn').click(function(){
-
-			var data=$('#despegue-form').serializeArray();
+/*
+	Fecha
+	*/
+	var d= new Date();
+	var today=$.datepicker.formatDate('d/m/yy', new Date());
+	var h=d.getHours();
+	var m=d.getMinutes();
+	var s=d.getSeconds();
+	if (m<'10'){
+		m='0'+m;
+	}
+	var time=h+':'+m+':'+s;
 	
-			var overlay="<div class='overlay'>\
-							<i class='fa fa-refresh fa-spin'></i>\
-						</div>";
-		$('.box-body').append(overlay);
 
+/*
+	Campos Automáticos.
 
-		$.ajax(
-			{data:data,
-				method:'post',
-				url:"{{action('DespegueController@store')}}"}
-				)
-		.always(function(response, status, responseObject){
-			$('.box-body .overlay').remove();
-			if(status=="error"){
-				if(response.status==422){
-					alertify.error(processValidation(response.responseJSON));
-				}
+	*/
+	$('body').delegate('.puerto', 'change', function() {
+		var option       =$(this).find('option:selected');
+		var nacionalidad =$(this).closest('form').find('.nacionalidad');
+
+		if ($(option).val() == ''){
+			$(nacionalidad).val('').attr('disabled', 'disabled');
+		}else{
+			var nac_vuelo=$(option).data('nacionalidad');
+			if (nac_vuelo == '232'){
+				$(nacionalidad).val('1');
 			}else{
+				$(nacionalidad).val('2');
+			}
+		}               
+	});
 
-				try{
-					var respuesta=JSON.parse(responseObject.responseText);
-					if(respuesta.success==1)
-					{
-						$('#save-despegue-btn').attr('disabled','disabled');
-						alertify.success(respuesta.text);
-						window.location="{{action('DespegueController@index')}}";
-					}
-					else
-					{
-						alertify.error(respuesta.text);
-					}
-				}
-				catch(e)
+	$('#fecha-datepicker').change(calcularDiferenciaMinutos).trigger('change');
+	$('#hora').keyup(calcularDiferenciaMinutos);
+
+
+/*
+	Datepicker
+	*/
+
+	$('#fecha-datepicker').datepicker({
+		closeText: 'Cerrar',
+		prevText: '&#x3C;Ant',
+		nextText: 'Sig&#x3E;',
+		currentText: 'Hoy',
+		monthNames: ['Enero','Febrero','Marzo','Abril','Mayo','Junio',
+		'Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'],
+		monthNamesShort: ['Ene','Feb','Mar','Abr','May','Jun',
+		'Jul','Ago','Sep','Oct','Nov','Dic'],
+		dayNames: ['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'],
+		dayNamesShort: ['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'],
+		dayNamesMin: ['D','L','M','M','J','V','S'],
+		weekHeader: 'Sm',
+		firstDay: 1,
+		isRTL: false,
+		showMonthAfterYear: false,
+		yearSuffix: '',
+		dateFormat: 'yy-mm-dd'});
+
+	$('#cancel-despegue-btn').click(function(){
+		$('#despegueForm-div input').val('');
+		$('#despegueForm-div select').val('');
+		$('#despegueForm-div #fecha-datepicker').val(today);
+		$('#despegueForm-div #hora').val(time);
+	})
+
+/*
+	Registro de despegue
+
+	*/
+	
+	$('#save-despegue-btn').click(function(){
+
+		var data=$('#despegue-form').serializeArray();
+		console.log(data);
+		var overlay="<div class='overlay'>\
+		<i class='fa fa-refresh fa-spin'></i>\
+	</div>";
+	$('.box-body').append(overlay);
+
+
+	$.ajax(
+		{data:data,
+			method:'post',
+			url:"{{action('DespegueController@store')}}"}
+			)
+	.always(function(response, status, responseObject){
+		$('.box-body .overlay').remove();
+		if(status=="error"){
+			if(response.status==422){
+				alertify.error(processValidation(response.responseJSON));
+			}
+		}else{
+
+			try{
+				var respuesta=JSON.parse(responseObject.responseText);
+				if(respuesta.success==1)
 				{
-					alertify.error("Error procensando la información");
+					$('#save-despegue-btn').attr('disabled','disabled');
+					alertify.success(respuesta.text);
+					window.location="{{action('DespegueController@index')}}";
+				}
+				else
+				{
+					alertify.error(respuesta.text);
 				}
 			}
-		})
+			catch(e)
+			{
+				alertify.error("Error procensando la información");
+			}
+		}
 	})
+})
 });
 
 </script>

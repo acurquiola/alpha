@@ -57,6 +57,11 @@ class Aterrizaje extends Model {
 		return $this->hasOne('App\Despegue');
 	}
 
+	public function factura()
+	{
+		return $this->hasMany('App\Factura');
+	}
+
 	public function aeropuerto()
     {
         return $this->belongsTo('App\Aeropuerto');
