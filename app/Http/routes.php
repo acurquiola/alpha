@@ -83,6 +83,7 @@ Route::group(['prefix' => 'cobranza/{modulo}/'], function () {
 Route::group(['prefix' => 'facturacion/{modulo}/'], function () {
     Route::get('print/{factura}', 'FacturaController@getPrint');
     Route::get('main', 'FacturaController@main');
+    Route::get('automatica', 'FacturaController@automatica');
     Route::resource('factura', 'FacturaController');
 });
 

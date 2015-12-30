@@ -16,6 +16,11 @@ class FacturaController extends Controller {
     }
 
 
+    public function automatica($moduloNombre) {
+        $modulo = \App\Modulo::where("nombre","like",$moduloNombre)->first();
+        return view('factura.automatica', compact('modulo'));
+    }
+
     /**
      * @param $factura
      * @param string $output
@@ -160,17 +165,17 @@ class FacturaController extends Controller {
 
 
 
-            $modulo->facturas=\App\Factura::select("facturas.*","clientes.nombre as clienteNombre")
-                                            ->join('clientes','clientes.id' , '=', 'facturas.cliente_id')
-                                            ->where('facturas.modulo_id', "=", $modulo->id)
-                                            ->where('facturas.nFactura', $facturaIdOperator, $facturaId)
-                                            ->where('total', $totalOperator, $total)
-                                            ->where('fecha', $fechaOperator, $fecha)
-                                            ->where('descripcion', 'like', "%$descripcion%")
-                                            ->where('clientes.nombre', 'like', "%$clienteNombre%")
-                                            ->where('facturas.aeropuerto_id','=', session('aeropuerto')->id)
-                                            ->with('cliente')->groupBy("facturas.nFactura")
-                                            ->orderBy($sortName, $sortType)->paginate(50);
+        $modulo->facturas=\App\Factura::select("facturas.*","clientes.nombre as clienteNombre")
+                                        ->join('clientes','clientes.id' , '=', 'facturas.cliente_id')
+                                        ->where('facturas.modulo_id', "=", $modulo->id)
+                                        ->where('facturas.nFactura', $facturaIdOperator, $facturaId)
+                                        ->where('total', $totalOperator, $total)
+                                        ->where('fecha', $fechaOperator, $fecha)
+                                        ->where('descripcion', 'like', "%$descripcion%")
+                                        ->where('clientes.nombre', 'like', "%$clienteNombre%")
+                                        ->where('facturas.aeropuerto_id','=', session('aeropuerto')->id)
+                                        ->with('cliente')->groupBy("facturas.nFactura")
+                                        ->orderBy($sortName, $sortType)->paginate(50);
 
         $modulo->facturas->setPath('');
 

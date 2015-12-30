@@ -49,6 +49,8 @@ class CreateContratosTable extends Migration {
             $table->integer('mesesReanudacion');
             $table->boolean('isGeneracionAutomaticaFactura');
             $table->integer('diaGeneracion');
+            $table->text('consideracion');
+
 
             /**
              * Extra

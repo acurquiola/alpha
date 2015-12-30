@@ -1,6 +1,5 @@
- @include('shared.header')
- @include('shared.menu')
-
+@extends('app')
+@section('content')
 
  <div class="row" id="box-wrapper">
  	<!-- left column -->
@@ -25,32 +24,17 @@
  										<div class="form-group">
  											<label for="active-input">Año</label>
  											<select class="form-control">
- 												<option>2015</option>
- 												<option>2014</option>
- 												<option>2013</option>
- 												<option>2012</option>
- 												<option>2011</option>
- 												<option>2010</option>
- 												<option>2009</option>
- 												<option>2008</option>
- 												<option>...</option>
+	 											@foreach ($annos as $anno)
+	 												<option>{{ $anno }}</option>
+	 											@endforeach
  											</select>
  										</div>
  										<div class="form-group">
  											<label for="active-input">Mes</label>
  											<select class="form-control">
- 												<option>Enero</option>
- 												<option>Febrero</option>
- 												<option>Marzo</option>
- 												<option>Abril</option>
- 												<option>Mayo</option>
- 												<option>Junio</option>
- 												<option>Julio</option>
- 												<option>Agosto</option>
- 												<option>Septiembre</option>
- 												<option>Octubre</option>
- 												<option>Noviembre</option>
- 												<option>Diciembre</option>
+ 												@foreach ($meses as $mes)
+	 												<option>{{ $mes }}</option>
+	 											@endforeach
  											</select>
  										</div>
  										<div class="form-group" id="clientes-wrapper">
@@ -87,10 +71,10 @@
  											</div>
 
  										</div>
-           <div class="form-group">
-            <label for="active-input">N/C</label>
-            <input class="form-control" id="nc-general-input"/>
-           </div>
+ 										<div class="form-group">
+ 											<label for="active-input">N/C</label>
+ 											<input class="form-control" id="nc-general-input"/>
+ 										</div>
  										<button type="submit" class="btn btn-default" id="generar-btn">Generar</button>
 
  									</div>
@@ -122,7 +106,7 @@
  					</div>
 
 
- 					
+
  				</div>
  			</div><!-- /.box-body -->
  			<div class="box-footer">
@@ -132,35 +116,37 @@
  	</div>
  </div>
 
- @include('shared.footer')
-
+@endsection
+@section('script')
 
  <script>
 
- $(document).ready(function(){
+ 	$(document).ready(function(){
 
- 	$('#generar-btn').click(function(){
- 		$('#fac-table tbody tr').remove();
- 		var tr="";
-var nc=parseInt($('#nc-general-input').val());
-nc=isNaN(nc)?"":nc;
- 		$('#clientes-wrapper').find('[type=checkbox]:checked').each(function(){
+ 		$('#generar-btn').click(function(){
+ 			$('#fac-table tbody tr').remove();
+ 			var tr="";
+ 			var nc=parseInt($('#nc-general-input').val());
+ 			nc=isNaN(nc)?"":nc;
+ 			$('#clientes-wrapper').find('[type=checkbox]:checked').each(function(){
 
- 			tr+=" <tr> <td class='text-justify'>0000000</td><td class='text-justify'><input class='form-control nc-input' autocomplete='off' value='"+((nc=="")?"":(nc++))+"'/> </td> <td class='text-justify'>"+$(this).val()+"</td> <td class='text-justify'>0000000</td> <td class='text-justify'>00-00-0000</td> <td class='text-justify'>00-00-0000</td> <td> <div class='btn-group  btn-group-sm' role='group' aria-label='...'> <a class='btn btn-primary' href=''><span class='glyphicon glyphicon-eye-open'></span></a> <button class='btn btn-danger eliminar-btn'><span class='glyphicon glyphicon-remove'></span></button> </div> </td> </tr>";
- 		});
+ 				tr+=" <tr> <td class='text-justify'>0000000</td><td class='text-justify'><input class='form-control nc-input' autocomplete='off' value='"+((nc=="")?"":(nc++))+"'/> </td> <td class='text-justify'>"+$(this).val()+"</td> <td class='text-justify'>0000000</td> <td class='text-justify'>00-00-0000</td> <td class='text-justify'>00-00-0000</td> <td> <div class='btn-group  btn-group-sm' role='group' aria-label='...'> <a class='btn btn-primary' href=''><span class='glyphicon glyphicon-eye-open'></span></a> <button class='btn btn-danger eliminar-btn'><span class='glyphicon glyphicon-remove'></span></button> </div> </td> </tr>";
+ 			});
 
- 		$('#fac-table tbody').append(tr);
- 	})
+ 			$('#fac-table tbody').append(tr);
+ 		})
 
- 	$('#fac-table').delegate('.eliminar-btn','click',function(){
- 		$(this).closest('tr').remove();
- 	})
+ 		$('#fac-table').delegate('.eliminar-btn','click',function(){
+ 			$(this).closest('tr').remove();
+ 		})
 
- 	$('#guardar-btn').click(function(){
- 		confirm("Desea imprimir las facturas?");
- 	})
+ 		$('#guardar-btn').click(function(){
+ 			confirm("Desea imprimir las facturas?");
+ 		})
 
- });
+ 	});
 
 
- </script>
+</script>
+
+@endsection

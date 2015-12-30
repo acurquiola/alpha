@@ -55,8 +55,10 @@
                                   {!! Form::text('fechaVencimiento', array_get($input, 'fechaVencimiento'), ['id'=>'fvencimiento-datepicker', 'class'=>"form-control", 'placeholder'=>'Fecha de vencimiento', 'style' => 'padding-left:2px']) !!}
                               </div>
                         </div>
-                        <button type="submit" class="btn btn-default">Buscar</button>
-                        <a class="btn btn-default" href="contrato">Reset</a>
+                        <div class="form-group margin">
+                            <button type="submit" class="btn btn-default">Buscar</button>
+                            <a class="btn btn-default" href="contrato">Reset</a>
+                        </div>
                     {!! Form::close() !!}
                 </div>
             </div>
@@ -179,26 +181,30 @@ $(document).ready(function(){
     yearSuffix: '',
     dateFormat: "dd/mm/yy"});
 
-$('.delete-contrato-btn').click(function(){
+    $('.delete-contrato-btn').click(function(){
         var tr=$(this).closest('tr');
         var id=$(this).data("id");
         var url="{{url('contrato')}}/"+id;
-        $.
-        ajax({url: url,
-              method:"DELETE"})
-        .done(function(response, status, responseObject){
-            try{
-                var obj= JSON.parse(responseObject.responseText);
-                if(obj.success==1){
-                    $(tr).remove();
-                    alertify.success(obj.text);
-                }
-            }catch(e){
-            console.log(e);
-            alertify.error("Error en el servidor");
+        alertify.confirm("¿Está seguro que esea eliminar el contrato seleccionado?", function (e) {
+            if (e) {
+                $.
+                ajax({url: url,
+                      method:"DELETE"})
+                .done(function(response, status, responseObject){
+                    try{
+                        var obj= JSON.parse(responseObject.responseText);
+                        if(obj.success==1){
+                            $(tr).remove();
+                            alertify.success(obj.text);
+                        }
+                    }catch(e){
+                    console.log(e);
+                    alertify.error("Error en el servidor");
+                    }
+                })
             }
-        })
-})
+        });
+    })
 
 $('#show-modal').on('show.bs.modal', function (e) {
   var id=$(e.relatedTarget).data("id");

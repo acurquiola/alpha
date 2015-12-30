@@ -74,10 +74,10 @@
 				<button type="submit" class="btn btn-default">Buscar</button>
 				<a class="btn btn-default" href="{{action('FacturaController@index',[$modulo->nombre])}}">Reset</a>
 				{!! Form::close() !!}
-				
-				
 
-				
+
+
+
 				{{--                       --}}
 			</div>
 		</div>
@@ -87,9 +87,11 @@
 		<div class="box box-primary">
 			<div class="box-header with-border">
 				<h3 class="box-title">Facturas de {{$modulo->nombre}}</h3>
-				<div class="box-tools pull-right">
-					<a class="btn btn-primary btn-sm" href="{{ URL::to('factura/automatica') }}">Generación automática de facturas</a>
-				</div>
+				@if ($modulo->tieneContratosVigentes())
+					<div class="box-tools pull-right">
+						<a class="btn btn-primary btn-sm" href="{{ action('FacturaController@automatica',[$modulo->nombre]) }}">Generación automática de facturas</a>
+					</div>
+				@endif
 			</div><!-- /.box-header -->
 			<!-- form start -->
 
