@@ -17,6 +17,24 @@
 					</button>
 				</div><!-- /.box-tools -->
 			</div>
+            <div class="box-body text-right">
+                {!! Form::open(["url" => action('ReporteController@getReporteDES900'), "method" => "GET", "class"=>"form-inline"]) !!}
+                <div class="form-group">
+                    <label>Indique el día:</label>
+					<input type="text" class="form-control" name="dia" placeholder="Día">
+                </div>
+                <div class="form-group">
+                    <label>Seleccione un mes:</label>
+                      {!! Form::select('mes', $meses, $mes, ["class"=> "form-control"]) !!}
+                </div>
+                <div class="form-group">
+                    <label>Seleccione un año:</label>
+                      {!! Form::select('anno', $annos, $anno, ["class"=> "form-control"]) !!}
+                </div>
+                <button type="submit" class="btn btn-default">Buscar</button>
+                <a class="btn btn-default" href="{{action('ReporteController@getReporteDES900')}}">Reset</a>
+                {!! Form::close() !!}
+            </div>
 		</div>
 	</div>
 	<div class="col-md-12">
@@ -41,14 +59,14 @@
 								<thead  class="bg-primary">
 									<tr>
 										<th colspan="4" rowspan="2" style="vertical-align: middle" class="text-center">GENERAL</th>
-										<th colspan="7" style="vertical-align: middle" class="text-center">ATERRIZAJE</th>
-										<th colspan="7" style="vertical-align: middle" class="text-center">DESPEGUE</th>
+										<th colspan="8" style="vertical-align: middle" class="text-center">ATERRIZAJE</th>
+										<th colspan="8" style="vertical-align: middle" class="text-center">DESPEGUE</th>
 									</tr>
 									<tr>
 										<th colspan="5"></th>
-										<th colspan="2" class="text-center">Pasajeros</th>
+										<th colspan="3" class="text-center">Desembarque</th>
 										<th colspan="5"></th>
-										<th colspan="2" class="text-center">Pasajeros</th>
+										<th colspan="3" class="text-center">Embarque</th>
 									</tr>
 									<tr>
 										<th >Día</th>
@@ -61,16 +79,18 @@
 										<th >Fecha</th>
 										<th >Hora</th>
 										<th >Procedencia</th>
-										<th >Desembarque</th>
+										<th >Pasajeros</th>
 										<th >Tránsito</th>
+										<th >Carga</th>
 
 										<th >Piloto</th>
 										<th >N°Vuelo</th>
 										<th >Fecha</th>
 										<th >Hora</th>
 										<th >Procedencia</th>
-										<th >Desembarque</th>
+										<th >Pasajeros</th>
 										<th >Tránsito</th>
+										<th >Carga</th>
 									</tr>
 								</thead>
 								<tbody>
@@ -80,6 +100,7 @@
 										<td>{{($despegue->factura)?$despegue->factura->nroDosa:"N/A"}}</td>
 										<td>{{$despegue->aterrizaje->aeronave->modelo->modelo}}</td>
 										<td>{{$despegue->aterrizaje->aeronave->matricula}}</td>
+
 										<td>{{($despegue->aterrizaje->piloto)?$despegue->aterrizaje->piloto->nombre:"N/A"}}</td>
 										<td>{{($despegue->aterrizaje->num_vuelo)?$despegue->aterrizaje->num_vuelo:"N/A"}}</td>
 										<td>{{$despegue->aterrizaje->fecha}}</td>
@@ -87,6 +108,8 @@
 										<td>{{($despegue->aterrizaje->puerto)?$despegue->aterrizaje->puerto->nombre:"N/A"}}</td>
 										<td>{{$despegue->aterrizaje->desembarqueAdultos+$despegue->aterrizaje->desembarqueInfante+$despegue->aterrizaje->desembarqueTercera}}</td>
 										<td>{{$despegue->aterrizaje->desembarqueTransito}}</td>
+										<td>{{$despegue->peso_desembarcado}}</td>
+
 										<td>{{($despegue->piloto)?$despegue->piloto->nombre:"N/A"}}</td>
 										<td>{{($despegue->num_vuelo)?$despegue->num_vuelo:"N/A"}}</td>
 										<td>{{$despegue->fecha}}</td>
@@ -94,6 +117,7 @@
 										<td>{{($despegue->puerto)?$despegue->puerto->nombre:"N/A"}}</td>
 										<td>{{$despegue->embarqueAdultos+$despegue->embarqueInfante+$despegue->embarqueTercera}}</td>
 										<td>{{$despegue->transitoAdultos+$despegue->transitoInfante+$despegue->transitoTercera}}</td>                                 
+										<td>{{$despegue->peso_embarcado}}</td>
 									</tr>
 									@endforeach
 								</tbody>
