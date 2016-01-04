@@ -57,7 +57,7 @@
 										<select name="aeronave_id" id="aeronave_id" class="form-control aeronave no-vacio">
 											<option value=""> Matrícula </option>
 											@foreach ($aeronaves as $aeronave)
-											<option data-modelo="{{$aeronave->modelo_id}}" data-peso="{{$aeronave->peso}}" data-nombremodelo="{{$aeronave->modelo->modelo}}" data-cliente="{{$aeronave->cliente_id}}" data-tipo="{{$aeronave->tipo_id}}" data-tipoV="{{$aeronave->tipo->nombre}}" value="{{$aeronave->id}}"> {{$aeronave->matricula}}</option>
+											<option data-modelo="{{$aeronave->modelo_id}}" data-nacionalidad="{{$aeronave->nacionalidad_id}}" data-peso="{{$aeronave->peso}}" data-nombremodelo="{{$aeronave->modelo->modelo}}" data-cliente="{{$aeronave->cliente_id}}" data-tipo="{{$aeronave->tipo_id}}" data-tipoV="{{$aeronave->tipo->nombre}}" value="{{$aeronave->id}}"> {{$aeronave->matricula}}</option>
 											@endforeach
 										</select>
 									</div><!-- /.input group -->
@@ -307,6 +307,7 @@ $(document).ready(function(){
 			var modeloHidden =$(this).closest('form').find('.modeloAeronaveHidden');
 			var cliente      =$(this).closest('form').find('.cliente');
 			var tipo_vuelo   =$(this).closest('form').find('.tipo_vuelo');
+			var nacionalidad   =$(this).closest('form').find('.nacionalidad');
 			if ($(option).val() == ''){
 				$(modelo).val('').attr('disabled', 'disabled');
 				$(peso).val('').attr('disabled', 'disabled');
@@ -315,7 +316,7 @@ $(document).ready(function(){
 			}else{
 				var modelo_aeronave =$(option).data('nombremodelo');
 				var peso_aeronave =$(option).data('peso');
-				var modelo_id       =$(option).data('modelo');      
+				var modelo_id       =$(option).data('modelo');       
 				$(modeloHidden).val(modelo_id);
 				$(modelo).val(modelo_aeronave);
 				$(peso).val(peso_aeronave);

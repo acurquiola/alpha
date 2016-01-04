@@ -211,7 +211,7 @@ class AterrizajeController extends Controller {
 	public function update($id, AterrizajeRequest $request)
 	{
 		$aterrizaje = Aterrizaje::find($id);
-		$aterrizaje = Aterrizaje::update($request->except("nacionalidadVuelo_id", "piloto_id", "puerto_id", "cliente_id"));
+		$aterrizaje->update($request->except("nacionalidadVuelo_id", "piloto_id", "puerto_id", "cliente_id"));
 
 		if($aterrizaje)
 		{
@@ -220,18 +220,13 @@ class AterrizajeController extends Controller {
 			$puertoID  =$puerto=Puerto::find($request->get("puerto_id"));
 			$pilotoID  =$piloto=Piloto::find($request->get("piloto_id"));
 			$clienteID =$cliente=Cliente::find($request->get("cliente_id"));
-            /**
-             *
-             *
-             * $nacionalida no esta definido antes, te va a explotar aqui
-             *
-             */
-			if($nacionalida){
-				$nacID     =$nacionalidad->id;
-				$puertoID  =$puerto->id;
-				$pilotoID  =$piloto->id;
-				$clienteID =$cliente->id;
-			}
+
+			
+			$nacID     =($nacID)?$nacionalidad->id:NULL;
+			$puertoID  =($puertoID)?$puerto->id:NULL;
+			$pilotoID  =($pilotoID)?$piloto->id:NULL;
+			$clienteID =($clienteID)?$cliente->id:NULL;
+
 
 			$aterrizaje->nacionalidadVuelo_id =$nacID;
 			$aterrizaje->puerto_id            =$puertoID;
@@ -239,13 +234,12 @@ class AterrizajeController extends Controller {
 			$aterrizaje->cliente_id           =$clienteID;
 			$aterrizaje->save();
 
-			return response()->json(array("text"=>'Aterrizaje modificado exitósamente',
-										  "aterrizaje"=>$aterrizaje->load("nacionalidad_vuelo", "tipo", "aeronave", "puerto", "piloto"),
-										  "success"=>1));
+			return response()->json(array("text"		 =>'Aterrizaje registrado exitósamente',
+									      "success"      =>1));
 		}
 		else
 		{
-			response()->json(array("text"=>'Error modificando el registro',"success"=>0));
+			response()->json(array("text"=>'Error registrando el aterrizaje',"success"=>0));
 		}
 	}
 
