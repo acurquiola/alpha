@@ -188,9 +188,10 @@ class ReporteController extends Controller {
 
 
     public function getReporteDES900(Request $request){
+        $dia        =$request->get('dia', \Carbon\Carbon::now()->day);
         $mes        =$request->get('mes', \Carbon\Carbon::now()->month);
         $anno       =$request->get('anno',  \Carbon\Carbon::now()->year);
-        $aeropuerto =$request->get('aeropuerto',  0);
+        $aeropuerto =session('aeropuerto');
         $despegues = \App\Despegue::with("factura", "aterrizaje")->where('fecha', 'LIKE', '%-'.$mes.'-%')->get();;
         return view('reportes.reporteDES900', compact('mes', 'anno', 'aeropuerto', 'despegues'));
     }

@@ -184,9 +184,16 @@ class DespegueController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function show($id)
+	public function show(Despegue $despegue)
 	{
-		//
+		$aterrizaje          = Aterrizaje::with("aeronave", "puerto")->where('id', $aterrizaje)->first();
+		$puertos             = Puerto::all();
+		$pilotos             = Piloto::all();
+		$nacionalidad_vuelos = NacionalidadVuelo::all();
+		$aeronaves           = Aeronave::all();
+		$tipoMatriculas      = TipoMatricula::all();
+		$otrosCargos         = OtrosCargo::lists('nombre_cargo', 'id');
+        return view("despegues.partials.show", compact("aterrizaje", "otrosCargos", "nacionalidad_vuelos", "tipoMatriculas", "aeronaves", "puertos", "pilotos"));
 	}
 
 	/**
@@ -197,7 +204,14 @@ class DespegueController extends Controller {
 	 */
 	public function edit($id)
 	{
-		//
+		$aterrizaje          = Aterrizaje::with("aeronave", "puerto")->where('id', $aterrizaje)->first();
+		$puertos             = Puerto::all();
+		$pilotos             = Piloto::all();
+		$nacionalidad_vuelos = NacionalidadVuelo::all();
+		$aeronaves           = Aeronave::all();
+		$tipoMatriculas      = TipoMatricula::all();
+		$otrosCargos         = OtrosCargo::lists('nombre_cargo', 'id');
+        return view("despegues.partials.edit", compact("aterrizaje", "otrosCargos", "nacionalidad_vuelos", "tipoMatriculas", "aeronaves", "puertos", "pilotos"));
 	}
 
 	/**
@@ -208,7 +222,59 @@ class DespegueController extends Controller {
 	 */
 	public function update($id)
 	{
-		//
+		$despegue   = Despegue::find($id);
+		$despegue   = Despegue::update($request->except("nacionalidadVuelo_id", "piloto_id", "puerto_id", "cliente_id", "cobrar_estacionamiento", "cobrar_puenteAbordaje", "cobrar_Formulario", "cobrar_AterDesp", "cobrar_habilitacion", "cobrar_carga", "cobrar_otrosCargos", "otrosCargo_id"));
+		$aterrizaje = Aterrizaje::find($request->get("aterrizaje_id"));
+		$aterrizaje->despegue()->save($despegue);
+		$aterrizaje->update(["despego"    =>"1"]);
+		$despegue->cobrar_estacionamiento =$request->input('cobrar_estacionamiento', 0);
+		$despegue->cobrar_puenteAbordaje  =$request->input('cobrar_puenteAbordaje', 0);
+		$despegue->cobrar_Formulario      =$request->input('cobrar_Formulario', 1);
+		$despegue->cobrar_AterDesp        =$request->input('cobrar_AterDesp', 0);
+		$despegue->cobrar_AterDesp        =$request->input('cobrar_AterDesp', 0);	
+		$despegue->cobrar_carga           =$request->input('cobrar_carga', 0);	
+		$despegue->cobrar_otrosCargos     =$request->input('cobrar_otrosCargos', 0);
+		$otrosCargos =$request->input('otrosCargo_id', []);
+		foreach ($otrosCargos as $oc) {
+			$precio[] = \App\OtrosCargo::where('id', $oc)->first()->precio_cargo;
+		}
+		$despegue->otros_cargos()->sync($otrosCargos, array('precio'));
+		
+		$hora              = $aterrizaje->hora;
+		$inicioOperaciones = HorariosAeronautico::first()->operaciones_inicio;
+		$finOperaciones    = HorariosAeronautico::first()->operaciones_fin;
+
+		if ($hora > $inicioOperaciones && $hora < $finOperaciones){
+			$despegue->cobrar_habilitacion  = '0';
+		}else{
+			$despegue->cobrar_habilitacion  = '1';
+		}
+		if($despegue)
+		{
+
+			$nacID     =$nacionalidad=NacionalidadVuelo::find($request->get("nacionalidadVuelo_id"));
+			$puertoID  =$puerto=Puerto::find($request->get("puerto_id"));
+			$pilotoID  =$piloto=Piloto::find($request->get("piloto_id"));
+			$clienteID =$cliente=Cliente::find($request->get("cliente_id"));
+			
+			$nacID     =($nacID)?$nacionalidad->id:NULL;
+			$puertoID  =($puertoID)?$puerto->id:NULL;
+			$pilotoID  =($pilotoID)?$piloto->id:NULL;
+			$clienteID =($clienteID)?$cliente->id:NULL;
+			
+			$despegue->nacionalidadVuelo_id =$nacID;
+			$despegue->puerto_id            =$puertoID;
+			$despegue->piloto_id            =$pilotoID;
+			$despegue->cliente_id           =$clienteID;
+			$despegue->save();
+
+			return response()->json(array("text"   =>'Despegue modificado exitósamente',
+			                       				"success"=>1));
+		}
+		else
+		{
+			response()->json(array("text"=>'Error modificando el despegue',"success"=>0));
+		}
 	}
 
 	/**
@@ -232,9 +298,12 @@ class DespegueController extends Controller {
 		$condicionPago = $despegue->condicionPago;
 		$peso          = ($despegue->aterrizaje->aeronave->peso)/1000;
 		$peso_aeronave = ceil($peso);
+		$nroDosa = Factura::where('nroDosa', '<>', 'NULL')->orderBy('nroDosa', 'DESC')->first()->nroDosa;
+		$nroDosa = $nroDosa + 1;
 		
 		$factura->fill(['aeropuerto_id' => $despegue->aeropuerto_id,
-		                 'cliente_id'   => $despegue->cliente_id]);
+										'cliente_id'    => $despegue->cliente_id,
+										'nroDosa'       => $nroDosa]);
 
 		$factura->detalles = new Collection();
 
