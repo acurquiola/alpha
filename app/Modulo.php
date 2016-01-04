@@ -43,7 +43,7 @@ class Modulo extends Model {
 
     public function tieneContratosVigentes()
     {
-        $hoy = \Carbon\Carbon::now();
+        $hoy = \Carbon\Carbon::now()->lastOfMonth();
         $contratosPosibles = $this->contratos()->where('fechaInicio', '<=' ,$hoy)->where('fechaVencimiento', '>=', $hoy)->count();
         if ($contratosPosibles) {
             return true;

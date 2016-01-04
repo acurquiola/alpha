@@ -5,6 +5,7 @@ use App\Http\Requests\FacturaRequest;
 use App\Http\Controllers\Controller;
 use \App\Factura;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Mail;
 
 class FacturaController extends Controller {
@@ -15,12 +16,67 @@ class FacturaController extends Controller {
         $this->middleware('auth');
     }
 
+    public function postContratosStoreAutomatica($moduloNombre, Request $request){
+        $facturasDb=new Collection([]);
+        $facturas=$request->get('facturas');
+        dd($facturas);
+        foreach($facturas as $factura){
+            \DB::transaction(function () use ($factura, $moduloNombre, &$facturasDb) {
+                $f = new \App\Factura();
+                $f->aeropuerto_id=session('aeropuerto')->id;
+                $f->condicionPago='Crédito';
+                $f->nControlPrefix = $factura["nControlPrefix"];
+                $f->nControl = $factura["nControl"];
+                $f->fecha = $factura["fecha"];
+                $f->fechaVenecimiento = $factura["fechaVenecimiento"];
+                $f->cliente_id = $factura["cliente_id"];
+                $f->modulo_id = $factura["modulo_id"];
+                $f->contrato_id = $factura["contrato_id"];
+                $subtotal = ($factura->monto / (1 + floatval(config('app.iva')) / 100));
+                $f->subtotalNeto = $subtotal;
+                $f->descuentoTotal = 0;
+                $f->subtotal = $subtotal;
+                $f->iva = $factura->monto - $subtotal;
+                $f->recargoTotal = 0;
+                $f->total = 0;
+                $f->estado='P';
+                if($f->save()){
+                    $f->detalles()->create([
+                                            "concepto_id" => $factura["concepto_id"],
+                                            "cantidadDes" => "1",
+                                            "montoDes" => $subtotal,
+                                            "descuentoPerDes" => 0,
+                                            "descuentoTotalDes" =>0,
+                                            "ivaDes" => config('app.iva'),
+                                            "recargoPerDes" => 0,
+                                            "recargoTotalDes" =>0,
+                                            "totalDes" => $f->total
+                                            ]);
+                    $facturasDb.push($f);
+                }
 
-    public function automatica($moduloNombre) {
-        $modulo = \App\Modulo::where("nombre","like",$moduloNombre)->first();
-        return view('factura.automatica', compact('modulo'));
+            });
+
+        }
     }
 
+    public function automatica($moduloNombre) {
+        $fecha=\Carbon\Carbon::now()->lastOfMonth();
+        $modulo = \App\Modulo::where("nombre","like",$moduloNombre)->where('aeropuerto_id', session('aeropuerto')->id)->first();
+        $contratos=$modulo->contratos()->where('fechaInicio', '<=' ,$fecha)->where('fechaVencimiento', '>=', $fecha)->with('cliente')->get();
+        return view('factura.automatica', compact('modulo', 'fecha', 'contratos'));
+    }
+
+    public function postContratosByFecha($moduloNombre, Request $request){
+        $year=$request->get('year');
+        $month=$request->get('month');
+        $modulo = \App\Modulo::where("nombre","like",$moduloNombre)->where('aeropuerto_id', session('aeropuerto')->id)->first();
+        $fecha=\Carbon\Carbon::create($year, $month, 1)->lastOfMonth();
+        $contratos=$modulo->contratos()->where('fechaInicio', '<=' ,$fecha)->where('fechaVencimiento', '>=', $fecha)->with('cliente')->get();
+
+        return view('factura.partials.automaticaContratos', compact('contratos', 'fecha'));
+
+    }
     /**
      * @param $factura
      * @param string $output
@@ -161,7 +217,7 @@ class FacturaController extends Controller {
                         'sortName'          =>$sortName,
                         'sortType'          =>$sortType]);
 
-        $modulo=\App\Modulo::where("nombre","like",$moduloNombre)->first();
+        $modulo=\App\Modulo::where("nombre","like",$moduloNombre)->where('aeropuerto_id', session('aeropuerto')->id)->first();
 
 
 
@@ -190,11 +246,11 @@ class FacturaController extends Controller {
 	public function create($modulo,Factura $factura)
 	{
 
-        $modulo_id= \App\Modulo::where('nombre', $modulo)->where('aeropuerto_id', session('aeropuerto')->id)->first();
-        if(!$modulo_id){
+        $modulo= \App\Modulo::where('nombre', $modulo)->where('aeropuerto_id', session('aeropuerto')->id)->first();
+        if(!$modulo){
             return response("No se consiguio el modulo '$modulo' en el aeropuerto de sesion", 500);
         }
-        $modulo_id=$modulo_id->id;
+        $modulo_id=$modulo->id;
 		return view('factura.create', compact('factura', 'modulo', 'modulo_id'));
 	}
 
@@ -248,10 +304,11 @@ class FacturaController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function show($id,Factura $factura)
+	public function show($moduloId,Factura $factura)
 	{
+        $modulo= \App\Modulo::where('nombre', $moduloId)->where('aeropuerto_id', session('aeropuerto')->id)->first();
         $factura->load('detalles');
-		return view('factura.partials.show', compact('factura'));
+		return view('factura.partials.show', compact('factura', 'modulo'));
 	}
 
 	/**

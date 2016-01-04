@@ -18,7 +18,7 @@ class CreateFacturasTable extends Migration {
                   $table->integer('aeropuerto_id')->unsigned();
                   $table->foreign('aeropuerto_id')->references('id')->on('aeropuertos');
                   $table->enum('condicionPago', ['Crédito', 'Contado']);
-                  $table->enum('nControlPrefix', ['A','B','C','D']);
+                  $table->string('nControlPrefix', 100);
                   $table->integer('nControl')->unsigned();
                   $table->date('fecha');
                   $table->date('fechaVencimiento');

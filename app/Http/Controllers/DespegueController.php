@@ -534,6 +534,7 @@ class DespegueController extends Controller {
 				break;
 			}
 
+
 			$cargos = $despegue->otros_cargos()->get();
 
 			$precioTotal = 0;
@@ -541,6 +542,7 @@ class DespegueController extends Controller {
 					$precio = \App\OtrosCargo::where('id', $oc->id)->first()->precio_cargo;
 					$precioTotal = $precio + $precioTotal;
 				}
+
 
 			$montoDes     = $precioTotal;
 			$cantidadDes  = '1';
@@ -557,7 +559,7 @@ class DespegueController extends Controller {
         }
         $modulo_id=$modulo->id;
 
-		$view=view('factura.facturaAeronautica.create', compact('factura', 'condicionPago', 'modulo_id'))->with(['despegue_id'=>$despegue->id]);
+		$view=view('factura.facturaAeronautica.create', compact('factura', 'condicionPago', 'modulo_id', 'modulo'))->with(['despegue_id'=>$despegue->id]);
 
 		if(isset($tipoAterrizaje))
 			$view->with(['tipoAterrizaje'=>$tipoAterrizaje]);

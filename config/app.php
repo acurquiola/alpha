@@ -1,7 +1,8 @@
 <?php
 
 return [
-
+    //Esta variable fue añadida. Permite colocar el iva pord efecto de la aplicacion
+    'iva' => 12,
 	/*
 	|--------------------------------------------------------------------------
 	| Application Debug Mode

@@ -8,8 +8,9 @@ class Factura extends Model {
     use SoftDeletes;
 
     static public function NCONTROLDEFAULTPREFIX(){
-        return ['A','B','C','D'];
+        return \App\Modulo::where('aeropuerto_id', session('aeropuerto')->id)->groupby('numeroControlPrefix')->get()->fetch('numeroControlPrefix')->toArray();
     }
+
     protected $primaryKey = 'nFactura';
 
     protected $guarded = array();
@@ -65,6 +66,11 @@ class Factura extends Model {
     public function aeropuerto()
     {
         return $this->belongsTo('App\Aeropuerto');
+    }
+
+    public function modulo()
+    {
+        return $this->belongsTo('App\Modulo');
     }
 
     public function despegue()

@@ -3,7 +3,7 @@
 <ol class="breadcrumb">
 	<li><a href="{{url('principal')}}">Inicio</a></li>
 	<li><a href="{{action('FacturaController@main', ["Todos"])}}">Facturación Principal</a></li>
-	<li><a href="{{action('FacturaController@index',["modulo"=>$modulo])}}">Facturación {{$modulo}}</a></li>
+	<li><a href="{{action('FacturaController@index',["modulo"=>$modulo->nombre])}}">Facturación {{$modulo->nombre}}</a></li>
 	<li><a class="active">Creación de factura</a></li>
 </ol>
 <div class="row" id="box-wrapper">
@@ -83,7 +83,7 @@ $(document).ready(function(){
 		var data=$(form).serializeArray();
 
 		addLoadingOverlay('#main-box');
-		$.ajax({url:'{{action('FacturaController@store', [$modulo])}}',
+		$.ajax({url:'{{action('FacturaController@store', [$modulo->nombre])}}',
 			method:'POST',
 			data:data}).always(function(response, status, responseObject){
 				if(status=="error"){
@@ -104,7 +104,7 @@ $(document).ready(function(){
 							setTimeout(
 								function()
 								{
-									location.replace("{{($modulo=="Todos")?action('FacturaController@main',["modulo"=>$modulo]):action('FacturaController@index', ["modulo"=>$modulo])}}");
+									location.replace("{{($modulo->nombre=="Todos")?action('FacturaController@main',["modulo"=>$modulo->nombre]):action('FacturaController@index', ["modulo"=>$modulo->nombre])}}");
 								}, 2000);
 
 						});

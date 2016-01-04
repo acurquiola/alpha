@@ -20,17 +20,12 @@
 
 
 				<div class="form-group">
-                    {!! Form::hidden('nControlPrefix', ($factura->nControlPrefix)?$factura->nControlPrefix:\App\Factura::NCONTROLDEFAULTPREFIX()[0], ['id' => 'nControlPrefix', 'class' => 'nControlPrefix-input', 'autocomplete'=>'off']) !!}
+                    {!! Form::hidden('nControlPrefix', ($factura->nControlPrefix)?$factura->nControlPrefix:$modulo->numeroControlPrefix, ['id' => 'nControlPrefix', 'class' => 'nControlPrefix-input', 'autocomplete'=>'off']) !!}
 					<div class="input-group">
 						<div class="input-group-btn">
-							<button style="max-height:37px" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="nControlPrefix-text">{{($factura->nControlPrefix)?$factura->nControlPrefix:\App\Factura::NCONTROLDEFAULTPREFIX()[0]}}</span></button>
-							<ul class="dropdown-menu nControlPrefix-list">
-							    @foreach($nControlprefixMax as $prefix => $prefixMax)
-								    <li data-max="{{$prefixMax}}"><a href="#">{{$prefix}}</a></li>
-                                @endforeach
-							</ul>
+							<button style="max-height:37px" type="button" class="btn btn-default"><span class="nControlPrefix-text">{{$modulo->numeroControlPrefix}}</span></button>
 						</div>
-		                {!! Form::text('nControl', ($factura->nControl)?$factura->nControl:$nControlprefixMax[\App\Factura::NCONTROLDEFAULTPREFIX()[0]], [ 'id' => 'nControl', 'class'=>"form-control", $disabled,"data-empty"=>"false", "data-type"=>"int", "data-name"=>"Número de control", 'style' => 'padding-left:2px']) !!}
+		                {!! Form::text('nControl', ($factura->nControl)?$factura->nControl:$nControlprefixMax[$modulo->numeroControlPrefix], [ 'id' => 'nControl', 'class'=>"form-control", $disabled,"data-empty"=>"false", "data-type"=>"int", "data-name"=>"Número de control", 'style' => 'padding-left:2px']) !!}
 					</div>
 				</div>
 

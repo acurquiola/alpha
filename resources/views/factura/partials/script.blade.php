@@ -21,15 +21,15 @@
     var recargoTotalDoc=0;
     var total=0;
 
-    $('.nControlPrefix-list li').click(function(e){
-        e.preventDefault();
-        var value=$(this).text();
-        var max=$(this).data('max');
-        var formGroup=$(this).closest('.form-group');
-        $(formGroup).find('.nControlPrefix-text').text(value);
-        $(formGroup).find('.nControlPrefix-input').val(value);
-        $('#nControl').val()
-    })
+    {{--$('.nControlPrefix-list li').click(function(e){--}}
+        {{--e.preventDefault();--}}
+        {{--var value=$(this).text();--}}
+        {{--var max=$(this).data('max');--}}
+        {{--var formGroup=$(this).closest('.form-group');--}}
+        {{--$(formGroup).find('.nControlPrefix-text').text(value);--}}
+        {{--$(formGroup).find('.nControlPrefix-input').val(value);--}}
+        {{--$('#nControl').val()--}}
+    {{--})--}}
 
     $('#concepto-table tbody tr').each(function(index, value){
     var cantidadVal=$(value).find('.cantidad-input').val();
@@ -251,7 +251,7 @@ $('#advance-search-modal .modal-body').delegate('.operator-list li', 'click', fu
      <td><input class="form-control monto-input text-right" value="'+costo+'" name="montoDes[]" autocomplete="off" /> </td>\
      <td><input class="form-control descuentoPer-input text-right" value="0" name="descuentoPerDes[]" autocomplete="off" /></td>\
      <td><input class="form-control descuentoTotal-input text-right" value="0" name="descuentoTotalDes[]" autocomplete="off" /></td>\
-     <td><input class="form-control iva-input text-right" value="12" name="ivaDes[]" autocomplete="off" /></td>\
+     <td><input class="form-control iva-input text-right" value="{{config('app.iva')}}" name="ivaDes[]" autocomplete="off" /></td>\
      <td><input class="form-control recargoPer-input text-right" value="0" name="recargoPerDes[]" autocomplete="off" /></td>\
      <td><input class="form-control recargoTotal-input text-right" value="0" name="recargoTotalDes[]" autocomplete="off" /></td>\
      <td><input class="form-control total-input text-right" value="0" readonly name="totalDes[]" autocomplete="off" /></td>\
