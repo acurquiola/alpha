@@ -15,6 +15,8 @@ class Factura extends Model {
 
     protected $guarded = array();
 
+    protected $dates = ['fecha', 'fechaVencimiento'];
+
     public static function getNControlMax($searchPrefix=null){
         $nControlSearchPrefix=($searchPrefix==null)?self::NCONTROLDEFAULTPREFIX():$searchPrefix;
         $nControlprefixMax=[];
@@ -90,8 +92,10 @@ class Factura extends Model {
     public function getFechaAttribute($fecha)
     {
         $carbon=\Carbon\Carbon::now();
-        if(!is_null($fecha) && $fecha!="" )
+        if(!is_null($fecha) && $fecha!="" && is_string($fecha))
             $carbon= \Carbon\Carbon::createFromFormat('Y-m-d', $fecha);
+        if(is_a($fecha, 'Carbon'))
+            $carbon=$fecha;
         return $carbon->format('d/m/Y');
     }
     public function setFechaVencimientoAttribute($fecha)
@@ -101,8 +105,24 @@ class Factura extends Model {
     public function getFechaVencimientoAttribute($fecha)
     {
         $carbon=\Carbon\Carbon::now()->addMonth();
-        if(!is_null($fecha) && $fecha!="" )
+        if(!is_null($fecha) && $fecha!="" && is_string($fecha))
             $carbon= \Carbon\Carbon::createFromFormat('Y-m-d', $fecha);
+        if(is_a($fecha, 'Carbon'))
+            $carbon=$fecha;
+        return $carbon->format('d/m/Y');
+    }
+
+    public function setFechaControlContratoAttribute($fecha)
+    {
+        $this->attributes['fechaControlContrato']=\Carbon\Carbon::createFromFormat('d/m/Y', $fecha);
+    }
+    public function getFechaControlContratoAttribute($fecha)
+    {
+        $carbon=\Carbon\Carbon::now();
+        if(!is_null($fecha) && $fecha!="" && is_string($fecha))
+            $carbon= \Carbon\Carbon::createFromFormat('Y-m-d', $fecha);
+        if(is_a($fecha, 'Carbon'))
+            $carbon=$fecha;
         return $carbon->format('d/m/Y');
     }
 }

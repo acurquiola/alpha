@@ -49,7 +49,7 @@
                          <a href="{{  action('DespegueController@getCrearFactura', [$despegue->id])}}">
                               <button class='btn btn-info btn-sm facturarDespegue-btn'><span class='fa fa-credit-card' title='Crear Dosa'></span></button>
                          </a>
-                         <button class='btn btn-warning  btn-sm editarDespegue-btn'><span class='glyphicon glyphicon-pencil' title='Editar Registro'></span></button>
+                         <button class='btn btn-warning  btn-sm editarDespegue-btn' data-id='{{$despegue->id}}'><span class='glyphicon glyphicon-pencil' title='Editar Registro'></span></button>
                          @endif
                     </td>
                </tr>   

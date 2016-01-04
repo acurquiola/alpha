@@ -13,10 +13,12 @@ class Carga extends Model {
 
 	public function getFechaAttribute($fecha)
 	{
-		$carbon=\Carbon\Carbon::now();
-		if(!is_null($fecha) && $fecha!="" )
-			$carbon= \Carbon\Carbon::createFromFormat('Y-m-d', $fecha);
-		return $carbon->format('d/m/Y');
+        $carbon=\Carbon\Carbon::now();
+        if(!is_null($fecha) && $fecha!="" && is_string($fecha))
+            $carbon= \Carbon\Carbon::createFromFormat('Y-m-d', $fecha);
+        if(is_a($fecha, 'Carbon'))
+            $carbon=$fecha;
+        return $carbon->format('d/m/Y');
 	}
 
 	public function aeronave()

@@ -125,20 +125,15 @@
 											@endforeach
 										</select>
 									</div><!-- /.input group -->
-								</div>
+								</div>    
 								<div class="form-group">
 									<div class="input-group">
 										<div class="input-group-addon">
-											<i class="fa fa-globe"></i>
+											<i class="fa fa-flag-o"></i>
 										</div>
-										<select name="nacionalidadVuelo_id" class="form-control nacionalidad">
-											<option value="">Nacionalidad del Vuelo</option>
-											@foreach ($nacionalidad_vuelos as $nacionalidad_vuelo)
-											<option value="{{$nacionalidad_vuelo->id}}"> {{$nacionalidad_vuelo->nombre}}</option>
-											@endforeach                                        
-										</select>
+										<input type="text" name="num_vuelo" class="form-control" placeholder="Número de Vuelo"/>
 									</div><!-- /.input group -->
-								</div><!-- /.form group -->                               
+								</div>                          
 							</div>
 							<div class="form-inline" style="margin-top: 20px">
 								<div class="form-group">
@@ -161,15 +156,7 @@
 										</div>
 										<input type="text" class="form-control piloto_ci" data-provide="typeahead" placeholder="C.I del Piloto"/>
 									</div><!-- /.input group -->
-								</div>   
-								<div class="form-group">
-									<div class="input-group">
-										<div class="input-group-addon">
-											<i class="fa fa-flag-o"></i>
-										</div>
-										<input type="text" name="num_vuelo" class="form-control" placeholder="Número de Vuelo"/>
-									</div><!-- /.input group -->
-								</div>                           
+								</div>                            
 							</div>
 						</div><!-- /.box-body -->
 					</div><!-- /.box -->

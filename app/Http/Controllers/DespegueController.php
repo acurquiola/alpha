@@ -186,6 +186,7 @@ class DespegueController extends Controller {
 	 */
 	public function show(Despegue $despegue)
 	{
+		$despegue            = Despegue::with("aeronave", "puerto")->where('id', $despegue)->first();
 		$aterrizaje          = Aterrizaje::with("aeronave", "puerto")->where('id', $aterrizaje)->first();
 		$puertos             = Puerto::all();
 		$pilotos             = Piloto::all();
@@ -193,7 +194,7 @@ class DespegueController extends Controller {
 		$aeronaves           = Aeronave::all();
 		$tipoMatriculas      = TipoMatricula::all();
 		$otrosCargos         = OtrosCargo::lists('nombre_cargo', 'id');
-        return view("despegues.partials.show", compact("aterrizaje", "otrosCargos", "nacionalidad_vuelos", "tipoMatriculas", "aeronaves", "puertos", "pilotos"));
+        return view("despegues.partials.show", compact("despegue", "aterrizaje", "otrosCargos", "nacionalidad_vuelos", "tipoMatriculas", "aeronaves", "puertos", "pilotos"));
 	}
 
 	/**
@@ -204,6 +205,7 @@ class DespegueController extends Controller {
 	 */
 	public function edit($id)
 	{
+		$despegue            = Despegue::with("aeronave", "puerto")->where('id', $despegue)->first();
 		$aterrizaje          = Aterrizaje::with("aeronave", "puerto")->where('id', $aterrizaje)->first();
 		$puertos             = Puerto::all();
 		$pilotos             = Piloto::all();
@@ -211,7 +213,7 @@ class DespegueController extends Controller {
 		$aeronaves           = Aeronave::all();
 		$tipoMatriculas      = TipoMatricula::all();
 		$otrosCargos         = OtrosCargo::lists('nombre_cargo', 'id');
-        return view("despegues.partials.edit", compact("aterrizaje", "otrosCargos", "nacionalidad_vuelos", "tipoMatriculas", "aeronaves", "puertos", "pilotos"));
+        return view("despegues.partials.edit", compact("despegue","aterrizaje", "otrosCargos", "nacionalidad_vuelos", "tipoMatriculas", "aeronaves", "puertos", "pilotos"));
 	}
 
 	/**
@@ -298,12 +300,19 @@ class DespegueController extends Controller {
 		$condicionPago = $despegue->condicionPago;
 		$peso          = ($despegue->aterrizaje->aeronave->peso)/1000;
 		$peso_aeronave = ceil($peso);
-		$nroDosa = Factura::where('nroDosa', '<>', 'NULL')->orderBy('nroDosa', 'DESC')->first()->nroDosa;
-		$nroDosa = $nroDosa + 1;
+		$dosa = Factura::all()->count();
+		if ($dosa>0){
+			$nroDosa = Factura::where('nroDosa', '<>', 'NULL')->orderBy('nroDosa', 'DESC')->first()->nroDosa;
+			if($nroDosa != NULL){
+				$nroDosa = $nroDosa + 1;
+			}
+		}else{
+			$nroDosa = '1';
+		}	
 		
 		$factura->fill(['aeropuerto_id' => $despegue->aeropuerto_id,
-										'cliente_id'    => $despegue->cliente_id,
-										'nroDosa'       => $nroDosa]);
+						'cliente_id'    => $despegue->cliente_id,
+						'nroDosa'       => $nroDosa]);
 
 		$factura->detalles = new Collection();
 

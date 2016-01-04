@@ -84,6 +84,7 @@ Route::group(['prefix' => 'facturacion/{modulo}/'], function () {
     Route::get('print/{factura}', 'FacturaController@getPrint');
     Route::get('main', 'FacturaController@main');
     Route::post('contratosByFecha', 'FacturaController@postContratosByFecha');
+    Route::get('automatica/resultados','FacturaController@getContratosAutomaticaResult');
     Route::post('contratosStoreAutomatica', 'FacturaController@postContratosStoreAutomatica');
     Route::get('automatica', 'FacturaController@automatica');
     Route::resource('factura', 'FacturaController');
@@ -136,6 +137,7 @@ Route::group(['prefix' => 'reporte/'], function () {
     Route::get('reporterFacturadoCobradoMensual', 'ReporteController@getReporterFacturadoCobradoMensual');
 
     Route::get('reporterDES900', 'ReporteController@getReporteDES900');
+    Route::get('reporterCuadreCaja', 'ReporteController@getReporteCuadreCaja');
     Route::get('reporteClienteReciboMensual', 'ReporteController@getReporteClienteReciboMensual');
     Route::post('exportReport', "ReporteController@postExportReport");
 });

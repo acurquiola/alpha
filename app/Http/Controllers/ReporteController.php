@@ -188,12 +188,27 @@ class ReporteController extends Controller {
 
 
     public function getReporteDES900(Request $request){
-        $dia        =$request->get('dia', \Carbon\Carbon::now()->day);
-        $mes        =$request->get('mes', \Carbon\Carbon::now()->month);
-        $anno       =$request->get('anno',  \Carbon\Carbon::now()->year);
+        $diaDesde        =$request->get('diaDesde', \Carbon\Carbon::now()->day);
+        $mesDesde        =$request->get('mesDesde', \Carbon\Carbon::now()->month);
+        $annoDesde       =$request->get('annoDesde',  \Carbon\Carbon::now()->year);
+        $diaHasta        =$request->get('diaHasta', \Carbon\Carbon::now()->day);
+        $mesHasta        =$request->get('mesHasta', \Carbon\Carbon::now()->month);
+        $annoHasta       =$request->get('annoHasta',  \Carbon\Carbon::now()->year);
         $aeropuerto =session('aeropuerto');
-        $despegues = \App\Despegue::with("factura", "aterrizaje")->where('fecha', 'LIKE', '%-'.$mes.'-%')->get();;
-        return view('reportes.reporteDES900', compact('mes', 'anno', 'aeropuerto', 'despegues'));
+        $despegues = \App\Despegue::with("factura", "aterrizaje")->whereBetween('fecha', array($annoDesde.'-'.$mesDesde.'-'.$diaDesde,  $annoHasta.'-'.$mesHasta.'-'.$diaHasta) )->where('aeropuerto_id', session('aeropuerto')->id)->get();
+        return view('reportes.reporteDES900', compact('diaDesde', 'mesDesde', 'annoDesde', 'diaHasta', 'mesHasta', 'annoHasta', 'aeropuerto', 'despegues'));
+    }
+
+    public function getReporteCuadreCaja(Request $request){
+        $diaDesde        =$request->get('diaDesde', \Carbon\Carbon::now()->day);
+        $mesDesde        =$request->get('mesDesde', \Carbon\Carbon::now()->month);
+        $annoDesde       =$request->get('annoDesde',  \Carbon\Carbon::now()->year);
+        $diaHasta        =$request->get('diaHasta', \Carbon\Carbon::now()->day);
+        $mesHasta        =$request->get('mesHasta', \Carbon\Carbon::now()->month);
+        $annoHasta       =$request->get('annoHasta',  \Carbon\Carbon::now()->year);
+        $aeropuerto =session('aeropuerto');
+        $facturas = \App\Factura::whereBetween('fecha', array($annoDesde.'-'.$mesDesde.'-'.$diaDesde,  $annoHasta.'-'.$mesHasta.'-'.$diaHasta) )->where('aeropuerto_id', session('aeropuerto')->id)->get();
+        return view('reportes.reporteCuadreCaja', compact('diaDesde', 'mesDesde', 'annoDesde', 'diaHasta', 'mesHasta', 'annoHasta', 'aeropuerto', 'facturas'));
     }
 
     public function getReporteClienteReciboMensual(Request $request){

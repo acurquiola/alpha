@@ -186,7 +186,7 @@ class CargaController extends Controller {
             return response("No se consiguio el modulo 'CARGA' en el aeropuerto de sesion", 500);
         }
         $modulo_id=$modulo->id;
-		return view('factura.facturaCarga.create', compact('factura', 'condicionPago', 'modulo_id'))->with(['carga_id'=>$carga->id]);
+		return view('factura.facturaCarga.create', compact('factura', 'condicionPago', 'modulo_id', 'modulo'))->with(['carga_id'=>$carga->id]);
 
 	}
 

@@ -128,7 +128,7 @@ class ViewComposerServiceProvider extends ServiceProvider {
             $view->with(compact('aeropuertos'));
         });
 
-        \View::composer(['reportes.reporteClienteReciboMensual', 'reportes.reporteDiario', 'reportes.reporteModuloMetaMensual', 'reportes.reporterFacturadoCobradoMensual', 'reportes.reporteDES900', 'factura.automatica'], function($view){
+        \View::composer(['reportes.reporteClienteReciboMensual', 'reportes.reporteDiario', 'reportes.reporteModuloMetaMensual', 'reportes.reporterFacturadoCobradoMensual', 'reportes.reporteDES900','reportes.reporteCuadreCaja', 'factura.automatica'], function($view){
             $meses=[
                 "01"=>"ENERO",
                 "02"=>"FEBRERO",
