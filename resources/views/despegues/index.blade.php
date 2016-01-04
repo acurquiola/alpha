@@ -97,7 +97,7 @@
 
 	 	<!-- Modal de edición -->
 
-	 	<div class="modal fade" id="show-modal" tabindex="-1" role="dialog" aria-labelledby="editarAterrizaje-modalLabel" aria-hidden="true">
+	 	<div class="modal fade" id="show-modal" tabindex="-1" role="dialog" aria-labelledby="editarDespegue-modalLabel" aria-hidden="true">
 	 		<div class="modal-dialog">
 	 			<div class="modal-content">
 	 				<div class="modal-header" id="titulo-div-modal">
@@ -108,7 +108,7 @@
 	 				</div>
 	 				<div class="modal-footer">
 	 					<button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-	 					<button id="save-aterrizaje-btn-modal" type="button" class="btn btn-primary" data-dismiss="modal">Guardar</button>
+	 					<button id="save-despegue-btn-modal" type="button" class="btn btn-primary" data-dismiss="modal">Guardar</button>
 	 				</div>
 	 			</div>
 	 		</div> <!-- /.Modal-dialog-->

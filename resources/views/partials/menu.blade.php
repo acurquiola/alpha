@@ -216,6 +216,7 @@
                 		@permission('menu.reporteSCV')
 						<li class="header">Control de Vuelos</li>
                 		<li><a href="{{action('ReporteController@getReporteDES900')}}"><i class="fa fa-folder-o"></i> DES 900</a></li>
+                		<li><a href="{{action('ReporteController@getReporteCuadreCaja')}}"><i class="fa fa-folder-o"></i> Cuadre de Caja</a></li>
                			@endpermission
                 		@permission('menu.reporteRecaudacion')   
 						<li class="header">Recaudación</li>             		
