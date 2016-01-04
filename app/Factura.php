@@ -92,9 +92,11 @@ class Factura extends Model {
     public function getFechaAttribute($fecha)
     {
         $carbon=\Carbon\Carbon::now();
-        if(!is_null($fecha) && $fecha!="" )
-            $carbon= $fecha;
-        return $fecha->format('d/m/Y');
+        if(!is_null($fecha) && $fecha!="" && is_string($fecha))
+            $carbon= \Carbon\Carbon::createFromFormat('Y-m-d', $fecha);
+        if(is_a($fecha, 'Carbon'))
+            $carbon=$fecha;
+        return $carbon->format('d/m/Y');
     }
     public function setFechaVencimientoAttribute($fecha)
     {
@@ -103,8 +105,10 @@ class Factura extends Model {
     public function getFechaVencimientoAttribute($fecha)
     {
         $carbon=\Carbon\Carbon::now()->addMonth();
-        if(!is_null($fecha) && $fecha!="" )
-            $carbon= $fecha;
+        if(!is_null($fecha) && $fecha!="" && is_string($fecha))
+            $carbon= \Carbon\Carbon::createFromFormat('Y-m-d', $fecha);
+        if(is_a($fecha, 'Carbon'))
+            $carbon=$fecha;
         return $carbon->format('d/m/Y');
     }
 
@@ -114,8 +118,11 @@ class Factura extends Model {
     }
     public function getFechaControlContratoAttribute($fecha)
     {
-        if(!is_null($fecha) && $fecha!="" )
-            return $fecha->format('d/m/Y');
-        return "";
+        $carbon=\Carbon\Carbon::now();
+        if(!is_null($fecha) && $fecha!="" && is_string($fecha))
+            $carbon= \Carbon\Carbon::createFromFormat('Y-m-d', $fecha);
+        if(is_a($fecha, 'Carbon'))
+            $carbon=$fecha;
+        return $carbon->format('d/m/Y');
     }
 }

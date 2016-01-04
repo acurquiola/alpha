@@ -13,8 +13,10 @@ class Contrato extends Model {
     public function getFechaInicioAttribute($fecha)
     {
         $carbon=\Carbon\Carbon::now();
-        if(!is_null($fecha) && $fecha!="" )
+        if(!is_null($fecha) && $fecha!="" && is_string($fecha))
             $carbon= \Carbon\Carbon::createFromFormat('Y-m-d', $fecha);
+        if(is_a($fecha, 'Carbon'))
+            $carbon=$fecha;
         return $carbon->format('d/m/Y');
     }
     public function setFechaVencimientoAttribute($fecha)
@@ -24,8 +26,10 @@ class Contrato extends Model {
     public function getFechaVencimientoAttribute($fecha)
     {
         $carbon=\Carbon\Carbon::now();
-        if(!is_null($fecha) && $fecha!="" )
+        if(!is_null($fecha) && $fecha!="" && is_string($fecha))
             $carbon= \Carbon\Carbon::createFromFormat('Y-m-d', $fecha);
+        if(is_a($fecha, 'Carbon'))
+            $carbon=$fecha;
         return $carbon->format('d/m/Y');
     }
 

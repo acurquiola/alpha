@@ -23,12 +23,12 @@
 					<div class="col-xs-12">
                         <table class="table text-center">
                             <thead class="bg-primary">
-                                <th># Factura"</th>
-                                <th>Cliente"</th>
-                                <th>Descripción"</th>
+                                <th># Factura</th>
+                                <th>Cliente</th>
+                                <th>Descripción</th>
                                 <th>Estado</th>
-                                <th>Fecha de Emisión"</th>
-                                <th>Total"</th>
+                                <th>Fecha de Emisión</th>
+                                <th>Total</th>
                                 <th>Acción</th>
                             </thead>
                             <tbody>
