@@ -298,12 +298,19 @@ class DespegueController extends Controller {
 		$condicionPago = $despegue->condicionPago;
 		$peso          = ($despegue->aterrizaje->aeronave->peso)/1000;
 		$peso_aeronave = ceil($peso);
-		$nroDosa = Factura::where('nroDosa', '<>', 'NULL')->orderBy('nroDosa', 'DESC')->first()->nroDosa;
-		$nroDosa = $nroDosa + 1;
+		$dosa = Factura::all()->count();
+		if ($dosa>0){
+			$nroDosa = Factura::where('nroDosa', '<>', 'NULL')->orderBy('nroDosa', 'DESC')->first()->nroDosa;
+			if($nroDosa != NULL){
+				$nroDosa = $nroDosa + 1;
+			}
+		}else{
+			$nroDosa = '1';
+		}	
 		
 		$factura->fill(['aeropuerto_id' => $despegue->aeropuerto_id,
-										'cliente_id'    => $despegue->cliente_id,
-										'nroDosa'       => $nroDosa]);
+						'cliente_id'    => $despegue->cliente_id,
+						'nroDosa'       => $nroDosa]);
 
 		$factura->detalles = new Collection();
 
