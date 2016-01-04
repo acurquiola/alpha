@@ -451,7 +451,7 @@ class DespegueController extends Controller {
 		}
 
 
-		//Ítem de Habilitación
+		//Ítem de Otros Cargos
 
 		if($despegue->cobrar_otrosCargos == '1'){
 			$otrosCargos           = new Facturadetalle();
@@ -465,19 +465,21 @@ class DespegueController extends Controller {
 				break;
 			}
 
-			$otrosCargos[] = $despegue->otros_cargos()->get();
-			dd($otrosCargos);
-			foreach ($otrosCargos as $index => $oc) {
-				$precio = \App\OtrosCargo::where('id', $oc)->first()->precio_cargo;
-			}
+			$cargos = $despegue->otros_cargos()->get();
+
+			$precioTotal = 0;
+				foreach ($cargos as $oc) {
+					$precio = \App\OtrosCargo::where('id', $oc->id)->first()->precio_cargo;
+					$precioTotal = $precio + $precioTotal;
+				}
 
 			$montoDes     = $precioTotal;
 			$cantidadDes  = '1';
 			$iva          = Concepto::find($concepto_id)->iva;
 			$montoIva     = ($iva * $montoDes)/100 ;
 			$totalDes     = $montoDes + $montoIva;
-			$habilitacion->fill(compact('concepto_id', 'condicionPago', 'montoDes', 'cantidadDes', 'iva', 'totalDes'));
-			$factura->detalles->push($habilitacion);
+			$otrosCargos->fill(compact('concepto_id', 'condicionPago', 'montoDes', 'cantidadDes', 'iva', 'totalDes'));
+			$factura->detalles->push($otrosCargos);
 		}
 
         $modulo= \App\Modulo::where('nombre','DOSAS')->where('aeropuerto_id', session('aeropuerto')->id)->first();
