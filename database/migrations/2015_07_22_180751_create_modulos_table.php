@@ -17,6 +17,7 @@ class CreateModulosTable extends Migration {
 			$table->increments('id');
             $table->string('nombre', 100);
             $table->text('descripcion');
+            $table->string('numeroControlPrefix', 100);
             $table->boolean('isRetencion');
             $table->boolean('isPredeterminado');
             $table->integer('aeropuerto_id')->unsigned();

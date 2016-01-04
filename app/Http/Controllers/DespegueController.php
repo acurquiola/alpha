@@ -464,13 +464,24 @@ class DespegueController extends Controller {
 				$concepto_id            = OtrosCargo::where('aeropuerto_id', session('aeropuerto')->id)->first()->conceptoCredito_id;
 				break;
 			}
-
+            /**
+             *
+             *
+             * no se que intentas hacer aqui >>
+             * $otrosCargos es facturadetalle, no puedes asignarle algo asi con []
+             *
+             */
 			$otrosCargos[] = $despegue->otros_cargos()->get();
 			dd($otrosCargos);
 			foreach ($otrosCargos as $index => $oc) {
 				$precio = \App\OtrosCargo::where('id', $oc)->first()->precio_cargo;
 			}
-
+            /**
+             *
+             *
+             * $precioTotal no esta definido antes, te va a explotar aqui
+             *
+             */
 			$montoDes     = $precioTotal;
 			$cantidadDes  = '1';
 			$iva          = Concepto::find($concepto_id)->iva;
@@ -486,7 +497,7 @@ class DespegueController extends Controller {
         }
         $modulo_id=$modulo->id;
 
-		$view=view('factura.facturaAeronautica.create', compact('factura', 'condicionPago', 'modulo_id'))->with(['despegue_id'=>$despegue->id]);
+		$view=view('factura.facturaAeronautica.create', compact('factura', 'condicionPago', 'modulo_id', 'modulo'))->with(['despegue_id'=>$despegue->id]);
 
 		if(isset($tipoAterrizaje))
 			$view->with(['tipoAterrizaje'=>$tipoAterrizaje]);

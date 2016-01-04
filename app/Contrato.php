@@ -37,4 +37,13 @@ class Contrato extends Model {
     {
         return $this->belongsTo('App\Cliente');
     }
+    public function facturas()
+    {
+        return $this->hasMany('App\Factura');
+    }
+    public function hasFacturaByFecha($year, $month){
+        $fechaInicio=\Carbon\Carbon::create($year, $month, 1);
+        $fechaFin=\Carbon\Carbon::create($year, $month, 1)->lastOfMonth();
+        return $this->facturas()->where('fecha', '>=' ,$fechaInicio)->where('fecha', '<=', $fechaFin)->count();
+    }
 }

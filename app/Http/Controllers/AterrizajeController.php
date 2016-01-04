@@ -220,7 +220,12 @@ class AterrizajeController extends Controller {
 			$puertoID  =$puerto=Puerto::find($request->get("puerto_id"));
 			$pilotoID  =$piloto=Piloto::find($request->get("piloto_id"));
 			$clienteID =$cliente=Cliente::find($request->get("cliente_id"));
-
+            /**
+             *
+             *
+             * $nacionalida no esta definido antes, te va a explotar aqui
+             *
+             */
 			if($nacionalida){
 				$nacID     =$nacionalidad->id;
 				$puertoID  =$puerto->id;
@@ -261,8 +266,13 @@ class AterrizajeController extends Controller {
 
     }
 
-    public function getCrearFactura($id)
+    public function getCrearFactura($aterrizajeId)
     {
-    	return view('factura.facturaAeronautica.create');
+        $modulo= \App\Modulo::where('nombre','DOSAS')->where('aeropuerto_id', session('aeropuerto')->id)->first();
+        if(!$modulo){
+            return response("No se consiguio el modulo 'DOSAS' en el aeropuerto de sesion", 500);
+        }
+        $modulo_id=$modulo->id;
+    	return view('factura.facturaAeronautica.create', compact('modulo', 'modulo_id'));
     }
 }

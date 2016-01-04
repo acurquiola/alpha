@@ -9,9 +9,9 @@
 	<div class="col-md-6">
 		<h3>Facturación</h3>
 	</div>
-	<div class="col-md-6 text-right" style="margin-top:15px">
-		<a class="btn btn-danger" href="{{ URL::to('facturacion/Todos/factura/create') }}" >Crear factura</a>
-	</div>
+	{{--<div class="col-md-6 text-right" style="margin-top:15px">--}}
+		{{--<a class="btn btn-danger" href="{{ URL::to('facturacion/Todos/factura/create') }}" >Crear factura</a>--}}
+	{{--</div>--}}
 </div>
 <div class="row" id="box-wrapper">
 	<!-- left column -->

@@ -117,7 +117,7 @@ class ViewComposerServiceProvider extends ServiceProvider {
             $view->with(compact('facturaMax'));
         });
 
-        view()->composer(['factura.partials.form'], function($view){
+        view()->composer(['factura.partials.form', 'factura.automatica'], function($view){
             $nControlprefixMax=\App\Factura::getNControlMax();
             $view->with(compact('nControlprefixMax'));
         });
