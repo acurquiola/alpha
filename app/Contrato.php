@@ -13,8 +13,10 @@ class Contrato extends Model {
     public function getFechaInicioAttribute($fecha)
     {
         $carbon=\Carbon\Carbon::now();
-        if(!is_null($fecha) && $fecha!="" )
+        if(!is_null($fecha) && $fecha!="" && is_string($fecha))
             $carbon= \Carbon\Carbon::createFromFormat('Y-m-d', $fecha);
+        if(is_a($fecha, 'Carbon'))
+            $carbon=$fecha;
         return $carbon->format('d/m/Y');
     }
     public function setFechaVencimientoAttribute($fecha)
@@ -24,8 +26,10 @@ class Contrato extends Model {
     public function getFechaVencimientoAttribute($fecha)
     {
         $carbon=\Carbon\Carbon::now();
-        if(!is_null($fecha) && $fecha!="" )
+        if(!is_null($fecha) && $fecha!="" && is_string($fecha))
             $carbon= \Carbon\Carbon::createFromFormat('Y-m-d', $fecha);
+        if(is_a($fecha, 'Carbon'))
+            $carbon=$fecha;
         return $carbon->format('d/m/Y');
     }
 
@@ -44,6 +48,6 @@ class Contrato extends Model {
     public function hasFacturaByFecha($year, $month){
         $fechaInicio=\Carbon\Carbon::create($year, $month, 1);
         $fechaFin=\Carbon\Carbon::create($year, $month, 1)->lastOfMonth();
-        return $this->facturas()->where('fecha', '>=' ,$fechaInicio)->where('fecha', '<=', $fechaFin)->count();
+        return $this->facturas()->where('fechaControlContrato', '>=' ,$fechaInicio)->where('fechaControlContrato', '<=', $fechaFin)->count();
     }
 }

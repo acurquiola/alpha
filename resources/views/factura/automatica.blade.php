@@ -47,7 +47,7 @@
                                                 @include('factura.partials.automaticaContratos', compact('contratos', 'fecha'))
                                             </div>
  										</div>
-                                        <label for="active-input">N/C</label>
+                                        <label for="active-input">Número de control</label>
  										<div class="form-group">
                                             <div class="input-group">
                                                 <div class="input-group-btn">
@@ -98,11 +98,18 @@
 
 @endsection
 @section('script')
-
  <script>
+    function tooltipOnDisabledChecks(){
+      $('input[type="checkbox"][disabled]').each(function(index, value){
+        $(value).closest('label').tooltip({
+            title: "Ya existe una factura automatica para este contrato en la fecha seleccionada."
+        })
+      })
+
+    }
 
  	$(document).ready(function(){
-
+        tooltipOnDisabledChecks()
         $('.search-parm-select').change(function(){
             var year=$("#year-select").val();
             var month=$("#month-select").val();
@@ -117,6 +124,7 @@
                     checkboxClass: 'icheckbox_flat-blue',
                     radioClass: 'iradio_flat-blue'
                   });
+                    tooltipOnDisabledChecks()
                 }
                 else
                     console.log(data, status);
@@ -132,6 +140,7 @@
  			nc=isNaN(nc)?"":nc;
  			$('#contratos-wrapper').find('[type=checkbox]:checked').each(function(){
  			var monto=$(this).data('monto');
+            var fechaControlContrato=$(this).data('fechaControlContrato');
  			var finicio=$(this).data('finicio');
  			var ffin=$(this).data('ffin');
             var concepto_id=$(this).data('concepto_id');
@@ -141,8 +150,9 @@
  				 "data-concepto_id='" + concepto_id+"' "+
  				 "data-n-control-prefix='{{$modulo->numeroControlPrefix}}' "+
  				 "data-n-control='"+nc+"' "+
+                 "data-fecha-control-contrato='" + fechaControlContrato+"' "+
  				 "data-fecha='" + finicio+"' "+
- 				 "data-fecha-venecimiento='" + ffin+"' "+
+ 				 "data-fecha-vencimiento='" + ffin+"' "+
  				 "data-cliente_id='" + cliente_id+"' "+
  				 "data-contrato_id='" + contrato_id+"' "+
                  "data-modulo_id='{{$modulo->id}}' "+
@@ -195,10 +205,12 @@
                 }).always(function(data, status){
                 	removeLoadingOverlay('#main-box');
                     if(status!="error"){
-
+                        location.replace("{{action('FacturaController@getContratosAutomaticaResult', [$modulo->nombre])}}")
                     }
-                    else
+                    else{
+                        alertify.error("Se produjo un error en el servidor.");
                         console.log(data, status);
+                    }
                 })
  		})
 
