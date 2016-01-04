@@ -84,6 +84,7 @@ Route::group(['prefix' => 'facturacion/{modulo}/'], function () {
     Route::get('print/{factura}', 'FacturaController@getPrint');
     Route::get('main', 'FacturaController@main');
     Route::post('contratosByFecha', 'FacturaController@postContratosByFecha');
+    Route::get('automatica/resultados','FacturaController@getContratosAutomaticaResult');
     Route::post('contratosStoreAutomatica', 'FacturaController@postContratosStoreAutomatica');
     Route::get('automatica', 'FacturaController@automatica');
     Route::resource('factura', 'FacturaController');

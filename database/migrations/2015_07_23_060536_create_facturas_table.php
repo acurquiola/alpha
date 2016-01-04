@@ -22,6 +22,7 @@ class CreateFacturasTable extends Migration {
                   $table->integer('nControl')->unsigned();
                   $table->date('fecha');
                   $table->date('fechaVencimiento');
+                  $table->date('fechaControlContrato')->nullable();
                   $table->integer('cliente_id')->unsigned();
                   $table->foreign('cliente_id')->references('id')->on('clientes');
                   $table->integer('modulo_id')->unsigned()->nullable();

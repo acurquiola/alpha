@@ -19,7 +19,6 @@ class FacturaController extends Controller {
     public function postContratosStoreAutomatica($moduloNombre, Request $request){
         $facturasDb=new Collection([]);
         $facturas=$request->get('facturas');
-        dd($facturas);
         foreach($facturas as $factura){
             \DB::transaction(function () use ($factura, $moduloNombre, &$facturasDb) {
                 $f = new \App\Factura();
@@ -27,18 +26,19 @@ class FacturaController extends Controller {
                 $f->condicionPago='Crédito';
                 $f->nControlPrefix = $factura["nControlPrefix"];
                 $f->nControl = $factura["nControl"];
+                $f->fechaControlContrato=$factura["fechaControlContrato"];
                 $f->fecha = $factura["fecha"];
-                $f->fechaVenecimiento = $factura["fechaVenecimiento"];
+                $f->fechaVencimiento = $factura["fechaVencimiento"];
                 $f->cliente_id = $factura["cliente_id"];
                 $f->modulo_id = $factura["modulo_id"];
                 $f->contrato_id = $factura["contrato_id"];
-                $subtotal = ($factura->monto / (1 + floatval(config('app.iva')) / 100));
+                $subtotal = ($factura['monto'] / (1 + floatval(config('app.iva')) / 100));
                 $f->subtotalNeto = $subtotal;
                 $f->descuentoTotal = 0;
                 $f->subtotal = $subtotal;
-                $f->iva = $factura->monto - $subtotal;
+                $f->iva = $factura['monto'] - $subtotal;
                 $f->recargoTotal = 0;
-                $f->total = 0;
+                $f->total = $factura['monto'];
                 $f->estado='P';
                 if($f->save()){
                     $f->detalles()->create([
@@ -52,14 +52,22 @@ class FacturaController extends Controller {
                                             "recargoTotalDes" =>0,
                                             "totalDes" => $f->total
                                             ]);
-                    $facturasDb.push($f);
+                    $facturasDb->push($f);
                 }
 
             });
-
         }
-    }
+        session()->put('facturasAutomaticas', $facturasDb);
+        return;
 
+    }
+    public function getContratosAutomaticaResult($moduloNombre, Request $request){
+        $facturas=session()->get('facturasAutomaticas');
+        $modulo = \App\Modulo::where("nombre","like",$moduloNombre)->where('aeropuerto_id', session('aeropuerto')->id)->first();
+        if(!$facturas)
+            return response("Esta pagina ha expirado. Consulte las facturas por medio del modulo de facturacion correspondiente.", 500);
+        return view('factura.automaticaResult', ["facturas" => $facturas, "modulo" => $modulo]);
+    }
     public function automatica($moduloNombre) {
         $fecha=\Carbon\Carbon::now()->lastOfMonth();
         $modulo = \App\Modulo::where("nombre","like",$moduloNombre)->where('aeropuerto_id', session('aeropuerto')->id)->first();

@@ -44,6 +44,6 @@ class Contrato extends Model {
     public function hasFacturaByFecha($year, $month){
         $fechaInicio=\Carbon\Carbon::create($year, $month, 1);
         $fechaFin=\Carbon\Carbon::create($year, $month, 1)->lastOfMonth();
-        return $this->facturas()->where('fecha', '>=' ,$fechaInicio)->where('fecha', '<=', $fechaFin)->count();
+        return $this->facturas()->where('fechaControlContrato', '>=' ,$fechaInicio)->where('fechaControlContrato', '<=', $fechaFin)->count();
     }
 }
