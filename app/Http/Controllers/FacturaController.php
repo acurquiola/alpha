@@ -277,6 +277,8 @@ class FacturaController extends Controller {
             $facturaData['estado'] = 'P';
             if ($request->has('nroDosa'))
                 $facturaData['nroDosa'] = $request->get('nroDosa');
+            if ($request->has('aterrizaje_id'))
+                $facturaData['aterrizaje_id'] = $request->get('aterrizaje_id');
             $factura = \App\Factura::create($facturaData);
             $factura->detalles()->createMany($facturaDetallesData);
             $cliente = $factura->cliente;

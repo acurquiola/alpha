@@ -55,12 +55,15 @@
 		{!! Form::hidden('despegue_id', $despegue_id) !!}
 	</div>
 	@endif
+	@if(isset($cargosAdicionales))		
+		{!! Form::hidden('aterrizaje_id', $aterrizaje_id) !!}
+	@endif
 
 </div>
 <div class="form-group">
 	<label for="cliente-select" class="control-label col-xs-1"><strong>Cliente<span class="text-danger">*</span></strong></label>
 	<div class="col-xs-4">
-		<select id="cliente-select" class="form-control" name="cliente_id" autocomplete="off" @if(!isset($bloqueoDosa)) readonly @endif>
+		<select id="cliente-select" class="form-control" name="cliente_id" autocomplete="off" @if(!isset($bloqueoDosa, $cargosAdicionales)) readonly @endif>
 			<option value="0" > --Seleccione un cliente-- </option>
 			@foreach($clientes as $c)
 			<option {{($c->id==$factura->cliente_id)?"selected":""}}
@@ -71,7 +74,7 @@
 				@endforeach
 			</select>
 		</div>
-		@if($disabled!="disabled" && !isset($bloqueoDosa))
+		@if($disabled!="disabled" && !isset($bloqueoDosa, $cargosAdicionales))
 		<div class="col-xs-1">
 			<button type="button" class="btn btn-primary" id="advance-search-btn" data-toggle="modal" data-target="#advance-search-modal"> <span class="glyphicon glyphicon-search"></span></button>
 		</div>
@@ -187,10 +190,11 @@
 		<div class="col-xs-11">
 			@if(isset($facturaCarga))
 			{!! Form::textarea('descripcion', "Facturación de Carga", [ 'style'=>'padding-top:4px' ,'class'=>"form-control", $disabled , 'rows'=>"5", 'cols'=>"", "placeholder" => "Descripción de la factura"]) !!}
+			@elseif(isset($cargosAdicionales))
+			{!! Form::textarea('descripcion', "Facturación por Derechos Aeronáuticos Adicionales", [ 'style'=>'padding-top:4px' ,'class'=>"form-control", $disabled , 'rows'=>"5", 'cols'=>"", "placeholder" => "Descripción de la factura"]) !!}
 			@else
 			{!! Form::textarea('descripcion', (isset($bloqueoDosa))?"Facturación por Derechos Aeronáuticos":null, [ 'style'=>'padding-top:4px' ,'class'=>"form-control", $disabled , 'rows'=>"5", 'cols'=>"", "placeholder" => "Descripción de la factura"]) !!}
 			@endif
-
 		</div>
 	</div>
 	<div class="form-group">

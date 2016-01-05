@@ -1,6 +1,5 @@
 @extends('app')
 @section('content')
-
 <div class="row">
 	<section class="col-lg-12">
 		<!-- Content Header (Page header) -->
@@ -78,7 +77,7 @@
 										<div class="input-group-addon">
 											<i class="fa fa-map-marker"></i>
 										</div>	
-										<input id="procedencia" type="text" class="form-control no-vacio" value="{{($aterrizaje->puerto)?$aterrizaje->puerto->nombre:'N/A'}}" placeholder="Procedencia" />
+										<input id="procedencia" type="text" class="form-control no-vacio" readonly value="{{($aterrizaje->puerto)?$aterrizaje->puerto->nombre:'N/A'}}" placeholder="Procedencia" />
 									</div><!-- /.input group -->
 								</div>
 								<div class="form-group">
@@ -99,12 +98,7 @@
 										<div class="input-group-addon">
 											<i class="fa fa-globe"></i>
 										</div>
-										<select name="nacionalidadVuelo_id" class="form-control nacionalidad">
-											<option value="">--Nacionalidad del Vuelo--</option>
-											@foreach ($nacionalidad_vuelos as $nacionalidad_vuelo)
-											<option value="{{$nacionalidad_vuelo->id}}"> {{$nacionalidad_vuelo->nombre}}</option>
-											@endforeach                                        
-										</select>
+										<input id="nacionalidadVuelo_id" type="text" class="form-control" readonly value="{{($aterrizaje->nacionalidad_vuelo)?$aterrizaje->nacionalidad_vuelo->nombre:'N/A'}}" placeholder="Nacionalidad" />
 									</div><!-- /.input group -->
 								</div><!-- /.form group -->
 								<div class="form-group">
