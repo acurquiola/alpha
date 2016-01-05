@@ -10,7 +10,7 @@ class Meta extends Model {
     {
         $carbon=\Carbon\Carbon::now();
         if(!is_null($fecha) && $fecha!="" && is_string($fecha))
-            $carbon= \Carbon\Carbon::createFromFormat('Y-m-d', $fecha);
+            $carbon= \Carbon\Carbon::createFromFormat('Y-m-d', trim($fecha, " 00:00:00"));
         if(is_a($fecha, 'Carbon'))
             $carbon=$fecha;
         return $carbon->format('d/m/Y');
@@ -24,7 +24,7 @@ class Meta extends Model {
     {
         $carbon=\Carbon\Carbon::now();
         if(!is_null($fecha) && $fecha!="" && is_string($fecha))
-            $carbon= \Carbon\Carbon::createFromFormat('Y-m-d', $fecha);
+            $carbon= \Carbon\Carbon::createFromFormat('Y-m-d', trim($fecha, " 00:00:00"));
         if(is_a($fecha, 'Carbon'))
             $carbon=$fecha;
         return $carbon->format('d/m/Y');
