@@ -73,6 +73,13 @@ class Kernel extends ConsoleKernel {
                     }
                 });
             }
+            $contratos=\App\Contrato::where('fechaVencimiento', $hoy)
+                ->where('isReanudacionAutomatica', true)->get();
+            foreach($contratos as $contrato){
+                $meses=$contrato->mesesReanudacion;
+                $nuevaFecha=\Carbon\Carbon::now()->addMonth($meses);
+                $contrato->update(['fechaVencimiento' => $nuevaFecha]);
+            }
         })->daily();
 	}
 
