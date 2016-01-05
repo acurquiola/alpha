@@ -13,6 +13,8 @@ use App\NacionalidadVuelo;
 use App\Aeronave;
 use App\TipoMatricula;
 use App\Cliente;
+use App\Factura;
+use App\Concepto;
 
 use Carbon\Carbon;
 
@@ -58,7 +60,7 @@ class AterrizajeController extends Controller {
             'sortType'=>$sortType]);
 
 
-		$aterrizajes = Aterrizaje::with("puerto", "piloto", "nacionalidad_vuelo", "aeronave" , "cliente", "tipo")
+		$aterrizajes = Aterrizaje::with("puerto", "piloto", "nacionalidad_vuelo", "aeronave" , "cliente", "tipo", "factura")
 									->where('despego', '=', '0')
 									->where(function($query) use ($fecha,	$hora,
 									  $num_vuelo, $aeronaveOperador,
@@ -272,11 +274,21 @@ class AterrizajeController extends Controller {
 
     public function getCrearFactura($aterrizajeId)
     {
-        $modulo= \App\Modulo::where('nombre','DOSAS')->where('aeropuerto_id', session('aeropuerto')->id)->first();
-        if(!$modulo){
-            return response("No se consiguio el modulo 'DOSAS' en el aeropuerto de sesion", 500);
-        }
-        $modulo_id=$modulo->id;
-    	return view('factura.facturaAeronautica.create', compact('modulo', 'modulo_id'));
+    	$aterrizaje = Aterrizaje::find($aterrizajeId);
+			$factura       = new Factura();
+			$modulo        = \App\Modulo::find(5)->nombre;
+			$conceptos = Concepto::where('aeropuerto_id', session('aeropuerto')->id)->where('modulo_id', '5')->get();
+
+
+			$factura->fill(['aeropuerto_id' => $aterrizaje->aeropuerto_id,
+				               'cliente_id'   => $aterrizaje->cliente_id]);
+
+      $modulo= \App\Modulo::where('nombre','DOSAS')->where('aeropuerto_id', session('aeropuerto')->id)->first();
+      if(!$modulo){
+          return response("No se consiguio el modulo 'DOSAS' en el aeropuerto de sesion", 500);
+      }
+      $modulo_id=$modulo->id;
+			return view('factura.facturaCargosAdicionales.create', compact('factura', 'modulo_id', 'modulo', 'conceptos'))->with(["aterrizaje_id"=>$aterrizaje->id]);
+
     }
 }

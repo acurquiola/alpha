@@ -102,7 +102,7 @@ class ViewComposerServiceProvider extends ServiceProvider {
         });
 
 
-        view()->composer(['factura.edit', 'factura.create', 'factura.partials.show' ], function($view){
+        view()->composer(['factura.edit', 'factura.create', 'factura.partials.show'], function($view){
 
             $route        =\Route::current();
             $params       =$route->parameters();
@@ -112,9 +112,14 @@ class ViewComposerServiceProvider extends ServiceProvider {
             $view->with(compact('clientes', 'conceptos'));
         });
 
-        view()->composer(['factura.partials.form'], function($view){
+        view()->composer(['factura.partials.form', 'factura.facturaAeronautica.create', 'factura.facturaCarga.create'], function($view){
             $facturaMax=(\DB::table('facturas')->max('nFactura')+1);
             $view->with(compact('facturaMax'));
+        });
+
+        view()->composer(['factura.facturaAeronautica.create', 'factura.facturaCarga.create'], function($view){
+            $facturaMaxPreview=(\DB::table('facturas')->max('nFactura'));
+            $view->with(compact('facturaMaxPreview'));
         });
 
         view()->composer(['factura.partials.form', 'factura.automatica'], function($view){

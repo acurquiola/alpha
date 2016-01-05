@@ -104,7 +104,7 @@ class DespegueController extends Controller {
 	 */
 	public function create($aterrizaje)
 	{
-		$aterrizaje          = Aterrizaje::with("aeronave", "puerto")->where('id', $aterrizaje)->first();
+		$aterrizaje          = Aterrizaje::with("aeronave", "puerto", "nacionalidad_vuelo")->where('id', $aterrizaje)->first();
 		$puertos             = Puerto::all();
 		$pilotos             = Piloto::all();
 		$nacionalidad_vuelos = NacionalidadVuelo::all();
@@ -153,17 +153,14 @@ class DespegueController extends Controller {
 		if($despegue)
 		{
 
-			$nacID     =$nacionalidad=NacionalidadVuelo::find($request->get("nacionalidadVuelo_id"));
 			$puertoID  =$puerto=Puerto::find($request->get("puerto_id"));
 			$pilotoID  =$piloto=Piloto::find($request->get("piloto_id"));
 			$clienteID =$cliente=Cliente::find($request->get("cliente_id"));
 			
-			$nacID     =($nacID)?$nacionalidad->id:NULL;
 			$puertoID  =($puertoID)?$puerto->id:NULL;
 			$pilotoID  =($pilotoID)?$piloto->id:NULL;
 			$clienteID =($clienteID)?$cliente->id:NULL;
 			
-			$despegue->nacionalidadVuelo_id =$nacID;
 			$despegue->puerto_id            =$puertoID;
 			$despegue->piloto_id            =$pilotoID;
 			$despegue->cliente_id           =$clienteID;
@@ -300,15 +297,17 @@ class DespegueController extends Controller {
 		$condicionPago = $despegue->condicionPago;
 		$peso          = ($despegue->aterrizaje->aeronave->peso)/1000;
 		$peso_aeronave = ceil($peso);
-		$dosa = Factura::all()->count();
-		if ($dosa>0){
-			$nroDosa = Factura::where('nroDosa', '<>', 'NULL')->orderBy('nroDosa', 'DESC')->first()->nroDosa;
-			if($nroDosa != NULL){
-				$nroDosa = $nroDosa + 1;
-			}
-		}else{
-			$nroDosa = '1';
-		}	
+		$nroDosa = '1';
+		$facturas = Factura::all()->count();
+		if ($facturas>0){
+					$dosas = Factura::where('nroDosa', '<>', 'NULL')->count();
+					if($dosas>0){
+						$nroDosa = Factura::where('nroDosa', '<>', 'NULL')->orderBy('nroDosa', 'DESC')->first()->nroDosa;
+						if($nroDosa != NULL){
+							$nroDosa = $nroDosa + 1;
+						}
+					}
+				}
 		
 		$factura->fill(['aeropuerto_id' => $despegue->aeropuerto_id,
 						'cliente_id'    => $despegue->cliente_id,
@@ -341,7 +340,7 @@ class DespegueController extends Controller {
 
 		if($despegue->cobrar_estacionamiento == '1'){
 			$estacionamiento = new Facturadetalle();
-			$nacionalidad    = $despegue->nacionalidadVuelo_id;
+			$nacionalidad    = $despegue->aterrizaje->nacionalidadVuelo_id;
 
 			switch ($condicionPago) {
 				case 'Contado':
@@ -387,7 +386,7 @@ class DespegueController extends Controller {
 
 		if($despegue->cobrar_AterDesp == '1'){
 			$aterrizajeDespegue = new Facturadetalle();
-			$nacionalidad       = $despegue->nacionalidadVuelo_id;
+			$nacionalidad       = $despegue->aterrizaje->nacionalidadVuelo_id;
 			$hora               = $despegue->aterrizaje->hora;
 			$salidaSol          = HorariosAeronautico::where('aeropuerto_id', session('aeropuerto')->id)->first()->sol_salida;
 			$puestaSol          = HorariosAeronautico::where('aeropuerto_id', session('aeropuerto')->id)->first()->sol_puesta;

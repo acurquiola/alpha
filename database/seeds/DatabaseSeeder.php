@@ -39,12 +39,12 @@ class DatabaseSeeder extends Seeder {
 		$this->call('PreciosAterrizajesDespeguesTableSeeder');
 		$this->call('PreciosCargasTableSeeder');
 		$this->call('MontosFijosTableSeeder');
-		$this->call('OtrosCargosTableSeeder');
+		//$this->call('OtrosCargosTableSeeder');
 		$this->call('PilotosTableSeeder');
 		$this->call('PuertosTableSeeder');
 		$this->call('BancosTableSeeder');
 		$this->call('BancoscuentasTableSeeder');
-		$this->call('AterrizajesTableSeeder');
+		//$this->call('AterrizajesTableSeeder');
 
 		Model::reguard();
 		
