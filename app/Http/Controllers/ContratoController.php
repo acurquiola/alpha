@@ -178,6 +178,7 @@ class ContratoController extends Controller {
 
     public function loteStore(Request $request)
     {
+
         $contratoIds=$request->get('id', []);
         $montos=$request->get('monto');
         foreach($contratoIds as $index => $id){
