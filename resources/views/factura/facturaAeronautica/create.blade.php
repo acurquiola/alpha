@@ -22,9 +22,9 @@
 
 			</div><!-- /.box-body -->
 			<div class="box-footer text-right">
-				<a target="_blank" class='btn btn-success' href='{{action('FacturaController@getPrint', ["modulo"=>"DOSAS", $facturaMaxPreview])}}'>
+<!-- 				<a target="_blank" class='btn btn-success' href='{{action('FacturaController@getPrint', ["modulo"=>"DOSAS", $facturaMax])}}'>
                Vista Previa
-         </a>
+         </a> -->
 				<button type="submit" class="btn btn-primary" id="save-btn">Guardar</button>
 			</div>
 		</div><!-- /.box -->
