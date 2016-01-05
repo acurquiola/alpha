@@ -18,9 +18,14 @@ class EstacionamientoController extends Controller {
      */
     public function index()
 	{
+        $aeropuerto=session('aeropuerto');
         $clientes=\App\Cliente::all();
-        $estacionamiento=\App\Estacionamiento::find(1);
-        $estacionamiento->load("conceptos");
+        $estacionamiento=$aeropuerto->estacionamiento;
+        if(!$estacionamiento)
+            $estacionamiento=$aeropuerto->estacionamiento()->create(["nTaquillas" => 1, "nTurnos" => 1]);
+        if($estacionamiento->conceptos()->count()==0){
+            $estacionamiento->conceptos()->create(["nombre" => "generico", "costo" => 0]);
+        }
         $bancos=\App\Banco::with("cuentas")->get();
         return view('estacionamiento/index', compact('estacionamiento', 'bancos', 'clientes'));
 	}

@@ -316,27 +316,25 @@ class CobranzaController extends Controller {
         $idOperator=">=";
         $id=0;
         if($moduloName!="Todos"){
-            $modulo=\App\Modulo::where("nombre","like",$moduloName)->orderBy("nombre")->first();
+            $modulo=\App\Modulo::where("nombre","like",$moduloName)
+                ->where('aeropuerto_id', session('aeropuerto')->id)
+                ->first();
             $id=$modulo->id;
             $idOperator="=";
         }
         $codigo=$request->get('codigo');
         $cliente=\App\Cliente::where("codigo","=", $codigo)->get()->first();
-        $facturas=\App\Factura::select("facturas.*")
-            ->join('clientes','facturas.cliente_id' , '=', 'clientes.id')
-            ->join('facturadetalles','facturas.nFactura' , '=', 'facturadetalles.factura_id')
-            ->join('conceptos','conceptos.id' , '=', 'facturadetalles.concepto_id')
-            ->where('facturas.aeropuerto_id','=', session('aeropuerto')->id)
-            ->where('conceptos.modulo_id', $idOperator, $id)
-            ->where('clientes.codigo', '=', $codigo)
+        if(!$cliente)
+            return ["facturas"=>[], "ajuste"=> []];
+        $facturas=\App\Factura::with('metadata')
+            ->where('cliente_id', $cliente->id)
+            ->where('modulo_id', $idOperator, $id)
+            ->where('aeropuerto_id', session('aeropuerto')->id)
             ->where('facturas.estado','=','P')
             ->groupBy("facturas.nFactura")->get();
-        $facturas->load('metadata');
-
         $ajusteCliente= \DB::table('ajustes')
             ->where('cliente_id', $cliente->id)
             ->sum('monto');
-
 
         return ["facturas"=>$facturas, "ajuste"=> $ajusteCliente];
     }

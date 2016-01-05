@@ -1,134 +1,127 @@
 @extends('app')
 @section('content')
 
- <div class="row" id="box-wrapper">
-  <!-- left column -->
-  <div class="col-md-12">
-    <!-- general form elements -->
-    <div class="box box-primary">
-      <div class="box-header">
-        <h3 class="box-title">Estacionamiento</h3>
-      </div><!-- /.box-header -->
-      <!-- form start -->
-      <div class="box-body">
-        <div class="row">
-          <div class="col-xs-3 col-md-2">
-            <label>Seleccione modo de carga</label>
-            </div>
-              <div class="col-xs-2 col-md-1 text-center">
-                <label class="radio-inline">
-                  <input type="radio" name="date-radio" id="dia-radio" checked autocomplete="off"> Dia
-                </label>
-              </div>
-              <div class="col-xs-2 col-md-1 text-center">
-                <label class="radio-inline">
-                  <input type="radio" name="date-radio" id="rango-radio" autocomplete="off"> Rango
-                </label>
-              </div>
-            <div class="col-xs-4 col-md-7">
-                <div class="form-horizontal">
-                    <div class="form-group" id="dia-div">
-                      <div class="col-xs-8 col-xs-offset-2  text-center">
-                        <div class="input-group">
-                          <input type="text" id="dia-datepicker" class="form-control" placeholder="Seleccione un dia." autocomplete="off">
-                          <div class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></div>
+    <div class="row" id="box-wrapper">
+        <!-- left column -->
+        <div class="col-md-12">
+            <!-- general form elements -->
+            <div class="box box-primary">
+                <div class="box-header">
+                    <h3 class="box-title">Estacionamiento</h3>
+                </div><!-- /.box-header -->
+                <!-- form start -->
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-xs-3 col-md-2">
+                            <label>Seleccione modo de carga</label>
                         </div>
-                      </div>
+                        <div class="col-xs-2 col-md-1 text-center">
+                            <label class="radio-inline">
+                                <input type="radio" name="date-radio" id="dia-radio" checked autocomplete="off"> Dia
+                            </label>
+                        </div>
+                        <div class="col-xs-2 col-md-1 text-center">
+                            <label class="radio-inline">
+                                <input type="radio" name="date-radio" id="rango-radio" autocomplete="off"> Rango
+                            </label>
+                        </div>
+                        <div class="col-xs-4 col-md-7">
+                            <div class="form-horizontal">
+                                <div class="form-group" id="dia-div">
+                                    <div class="col-xs-8 col-xs-offset-2  text-center">
+                                        <div class="input-group">
+                                            <input type="text" id="dia-datepicker" class="form-control" placeholder="Seleccione un dia." autocomplete="off">
+                                            <div class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group" style="display:none" id="rango-div">
+                                    <div class="col-xs-6 text-center">
+                                        <div class="input-group">
+                                            <input type="text" id="inicial-datepicker" class="form-control" placeholder="Seleccione el dia inicial." autocomplete="off">
+                                            <div class="input-group-addon"><span class="glyphicon glyphicon-calendar" ></span></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-6 text-center">
+                                        <div class="input-group">
+                                            <input type="text" id="final-datepicker" class="form-control" placeholder="Seleccione el dia final." autocomplete="off">
+                                            <div class="input-group-addon"><span class="glyphicon glyphicon-calendar" ></span></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-1 col-md-1">
+                            <button class="btn btn-default pull-right" id="date-select-panel-btn"><span class="hidden-sm">Aceptar</span> <span class="glyphicon glyphicon-share-alt"></span></button>
+                        </div>
                     </div>
-                    <div class="form-group" style="display:none" id="rango-div">
-                      <div class="col-xs-6 text-center">
-                        <div class="input-group">
-                          <input type="text" id="inicial-datepicker" class="form-control" placeholder="Seleccione el dia inicial." autocomplete="off">
-                          <div class="input-group-addon"><span class="glyphicon glyphicon-calendar" ></span></div>
+                </div><!-- /.box-body -->
+            </div><!-- /.box -->
+        </div>
+    </div>
+
+    <div class="modal fade" id="estacionamiento-cliente-modal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Gestión de usuarios de estacionamiento</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <label for="modal-nombre-input" class="col-sm-2 control-label">RIF</label>
+                            <div class="col-sm-10">
+                                <select class="form-control" id="modal-rif-select">
+                                    <option value="" data-nombre=""> -- Seleccione un Ced/RIF -- </option>
+                                    @foreach($clientes as $cliente)
+                                        <option value="{{$cliente->id}}" data-nombre="{{$cliente->nombre}}">{{$cliente->cedRifPrefix.$cliente->cedRif}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
                         </div>
-                      </div>
-                      <div class="col-xs-6 text-center">
-                        <div class="input-group">
-                          <input type="text" id="final-datepicker" class="form-control" placeholder="Seleccione el dia final." autocomplete="off">
-                          <div class="input-group-addon"><span class="glyphicon glyphicon-calendar" ></span></div>
+                        <div class="form-group">
+                            <label for="modal-nombre-input" class="col-sm-2 control-label">Nombre</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="modal-nombre-input" placeholder="Nombre del cliente" readonly>
+                            </div>
                         </div>
-                      </div>
+                        <div class="form-group">
+                            <label for="modal-cantidad-input" class="col-sm-2 control-label">Cantidad</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="modal-cantidad-input" placeholder="Cantidad de tarjetas por mes">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="modal-costoUnidad-input" class="col-sm-2 control-label">Costo unidad</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="modal-costoUnidad-input" placeholder="Costo de una tarjeta">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="modal-fechaSuscripcion-input" class="col-sm-2 control-label">Fecha de suscripcion</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="modal-fechaSuscripcion-input">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-10">
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" id="modal-isActivo-check"> Activo
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-xs-1 col-md-1">
-                <button class="btn btn-default pull-right" id="date-select-panel-btn"><span class="hidden-sm">Aceptar</span> <span class="glyphicon glyphicon-share-alt"></span></button>
-            </div>
-        </div>
-      </div><!-- /.box-body -->
-
-    </div><!-- /.box -->
-  </div>
-</div>
-
-<div class="modal fade" id="estacionamiento-cliente-modal">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title">Gestión de usuarios de estacionamiento</h4>
-      </div>
-      <div class="modal-body">
-
-<div class="form-horizontal">
-
-  <div class="form-group">
-    <label for="modal-nombre-input" class="col-sm-2 control-label">RIF</label>
-        <div class="col-sm-10">
-    <select class="form-control" id="modal-rif-select">
-    <option value="" data-nombre=""> -- Seleccione un Ced/RIF -- </option>
-    @foreach($clientes as $cliente)
-        <option value="{{$cliente->id}}" data-nombre="{{$cliente->nombre}}">{{$cliente->cedRifPrefix.$cliente->cedRif}}</option>
-    @endforeach
-    </select>
-      </div>
-  </div>
-
-  <div class="form-group">
-    <label for="modal-nombre-input" class="col-sm-2 control-label">Nombre</label>
-    <div class="col-sm-10">
-      <input type="text" class="form-control" id="modal-nombre-input" placeholder="Nombre del cliente" readonly>
-    </div>
-  </div>
-  <div class="form-group">
-    <label for="modal-cantidad-input" class="col-sm-2 control-label">Cantidad</label>
-    <div class="col-sm-10">
-      <input type="text" class="form-control" id="modal-cantidad-input" placeholder="Cantidad de tarjetas por mes">
-    </div>
-  </div>
-    <div class="form-group">
-      <label for="modal-costoUnidad-input" class="col-sm-2 control-label">Costo unidad</label>
-      <div class="col-sm-10">
-        <input type="text" class="form-control" id="modal-costoUnidad-input" placeholder="Costo de una tarjeta">
-      </div>
-    </div>
-        <div class="form-group">
-          <label for="modal-fechaSuscripcion-input" class="col-sm-2 control-label">Fecha de suscripcion</label>
-          <div class="col-sm-10">
-            <input type="text" class="form-control" id="modal-fechaSuscripcion-input">
-          </div>
-        </div>
-  <div class="form-group">
-    <div class="col-sm-offset-2 col-sm-10">
-      <div class="checkbox">
-        <label>
-          <input type="checkbox" id="modal-isActivo-check"> Activo
-        </label>
-      </div>
-    </div>
-  </div>
-
-</div>
-
-
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-        <button type="button" class="btn btn-primary" id="modal-save-client-btn">Guardar</button>
-      </div>
-    </div><!-- /.modal-content -->
-  </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-primary" id="modal-save-client-btn">Guardar</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
 
 @endsection
 @section('script')
