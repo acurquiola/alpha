@@ -52,8 +52,6 @@ class AeronaveController extends Controller {
 		$hangar_id           = $request->get('hangar_id', 0);
 		$hangarOperador      =($hangar_id=="")?">":"=";
 
-		$hangar_id            = $request->get('hangar_id', 0);
-		$hangarOperator       =($hangar_id=="")?">":"=";
 		 \Input::merge([
             'sortName'=>$sortName,
             'sortType'=>$sortType]);
@@ -66,8 +64,8 @@ class AeronaveController extends Controller {
 									->where('tipo_id', $tipoOperator, $tipo_id)
 									->where('modelo_id', $modeloOperator, $modelo_id)
 									->where('cliente_id', $clienteOperador, $cliente_id)
-									->where('aeropuerto_id', '=', session('aeropuerto')->id)
-									->where('hangar_id', $hangarOperator, $hangar_id);
+									->where('hangar_id', $hangarOperador, $hangar_id);
+
 
 		if($hangar_id==0){
 			$aeronaves=$aeronaves->orWhere('hangar_id','=' , null);
@@ -76,8 +74,7 @@ class AeronaveController extends Controller {
 			$aeronaves=$aeronaves->orWhere('cliente_id','=' , null);
 		}
 		$aeronaves=		$aeronaves->orderBy($sortName, $sortType)
-									->paginate(7);
-
+									->paginate();
 
 		return view('aeronaves.partials.table', compact('aeronaves'));
 		}

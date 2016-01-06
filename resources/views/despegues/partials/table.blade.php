@@ -45,6 +45,7 @@
                               @endif
                          @endif
                          <button class='btn btn-success btn-sm verDespegue-btn'><span class='glyphicon glyphicon-eye-open' title='Ver Información'></span></button>
+                         {{var_dump($despegue->factura_id == NULL)}}
                          @if($despegue->factura_id == NULL)
                          <a href="{{  action('DespegueController@getCrearFactura', [$despegue->id])}}">
                               <button class='btn btn-info btn-sm facturarDespegue-btn'><span class='fa fa-credit-card' title='Crear Dosa'></span></button>
