@@ -203,7 +203,7 @@
 <td colspan="1">
 </td>
 <td  colspan="3">
-<strong>Embarcados/Desembarcados</strong>
+<strong>Desembarcados/Embarcados</strong>
 </td>
 <td  colspan="3">
 {{$despegue->aterrizaje->desembarqueAdultos+$despegue->aterrizaje->desembarqueInfante+$despegue->aterrizaje->desembarqueTercera}}

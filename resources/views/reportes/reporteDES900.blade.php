@@ -96,7 +96,7 @@
 										<th >N°Vuelo</th>
 										<th >Fecha</th>
 										<th >Hora</th>
-										<th >Procedencia</th>
+										<th >Destino</th>
 										<th >Pasajeros</th>
 										<th >Tránsito</th>
 										<th >Carga</th>

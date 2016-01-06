@@ -41,7 +41,7 @@ class ViewComposerServiceProvider extends ServiceProvider {
         });
 
         view()->composer(['aeronaves.partials.form', 'aeronaves.index', 'aterrizajes.index', 'aterrizajes.create', 'aterrizajes.partials.form', 'aterrizajes.partials.edit', 'aterrizajes.partials.show', 'despegues.index', 'despegues.create', 'despegues.partials.form', 'despegues.partials.edit', 'despegues.partials.show', 'cargas.index', 'cargas.create', 'cargas.partials.edit', 'cargas.partials.form', 'cargas.partials.show' ], function($view){
-            $clientes= \App\Cliente::where("tipo","=", "Aeronáutico")->lists('nombre', 'id');
+            $clientes= \App\Cliente::where("tipo","=", "Aeronáutico")->orWhere("tipo","=", "Mixto")->lists('nombre', 'id');
             $view->with(compact('clientes'));
         });
 
