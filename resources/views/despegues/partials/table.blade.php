@@ -39,7 +39,7 @@
                                    <span class='glyphicon glyphicon-print'></span>
                              </a>
                               @if($despegue->condicionPago == 'Contado' && $despegue->pagado == 0)
-                                  <a class='btn btn-primary  btn-sm' href='{{action('CobranzaController@create', ["modulo"=>"DOSAS", $despegue->id, "scv"=>true])}}'>
+                                  <a class='btn btn-primary  btn-sm' href='{{action('DespegueController@getGenerarCobranza', [$despegue->id])}}'>
                                         <span class='fa fa-money'></span>
                                   </a>
                               @endif

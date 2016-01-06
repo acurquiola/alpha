@@ -574,4 +574,28 @@ class DespegueController extends Controller {
 		return $view;
 
 	}
+
+	public function getGenerarCobranza($id){
+
+        $despegue = Despegue::find($id);
+		$idOperator=">=";
+        $id=0;
+        $moduloName='DOSAS';
+        $modulo=\App\Modulo::where("nombre","like",$moduloName)->orderBy("nombre")->first();
+        $id=$modulo->id;
+        $idOperator="=";
+        $factura_id = $despegue->factura_id;
+        $factura = Factura::with("cliente")->find($factura_id);
+
+        $clientes=\App\Cliente::join('facturas','facturas.cliente_id' , '=', 'clientes.id')
+            ->join('facturadetalles','facturas.nFactura' , '=', 'facturadetalles.factura_id')
+        ->join('conceptos','conceptos.id' , '=', 'facturadetalles.concepto_id')
+        ->where('facturas.aeropuerto_id','=', session('aeropuerto')->id)
+        ->where('conceptos.modulo_id', $idOperator, $id)
+        ->where('facturas.estado','=','P')
+        ->orderBy('clientes.nombre')
+        ->groupBy("clientes.id")->get();
+        $bancos=\App\Banco::with('cuentas')->get();
+        return view('cobranza.cobranzaSCV.create',compact('factura', 'clientes','moduloName', 'bancos','id'));
+	}
 }
