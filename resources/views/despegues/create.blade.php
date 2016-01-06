@@ -132,7 +132,7 @@
 										<select name="piloto_id" id="piloto_id" class="form-control piloto">
 											<option value="">--Seleccione Piloto--</option>
 											@foreach ($pilotos as $piloto)
-											<option value="{{$piloto->id}}"> {{$piloto->nombre}}</option>
+											<option value="{{$piloto->id}}" {{(($aterrizaje->piloto_id == $piloto->id)?"selected":"")}}> {{$piloto->nombre}}</option>
 											@endforeach
 										</select>
 									</div><!-- /.input group -->
@@ -424,6 +424,7 @@ $(document).ready(function(){
 
 
 	$('#otros_cargos-select').chosen({width:'200%'});
+	$('#piloto-select').chosen({width:'50%'});
 
 /* 
 	Condiciones en los campos de los formularios
