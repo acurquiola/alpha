@@ -85,7 +85,7 @@
 										<div class="input-group-addon">
 											<i class="fa fa-map-marker"></i>
 										</div> 								
-										<select name="puerto_id" class="form-control puerto">
+										<select name="puerto_id" class="form-control puerto" id="puerto_id-select">
 											<option value="">--Seleccione Destino--</option>
 											@foreach ($puertos as $puerto)
 											<option  data-nacionalidad="{{$puerto->pais_id}}" value="{{$puerto->id}}"> {{$puerto->nombre}}</option>
@@ -98,7 +98,7 @@
 										<div class="input-group-addon">
 											<i class="fa fa-globe"></i>
 										</div>
-										<input id="nacionalidadVuelo_id" type="text" class="form-control" readonly value="{{($aterrizaje->nacionalidad_vuelo)?$aterrizaje->nacionalidad_vuelo->nombre:'N/A'}}" placeholder="Nacionalidad" />
+										<input id="nacionalidadVuelo_id" name="nacionalidadVuelo_id" type="text" class="form-control" readonly value="{{($aterrizaje->nacionalidad_vuelo)?$aterrizaje->nacionalidad_vuelo->nombre:'N/A'}}" placeholder="Nacionalidad" />
 									</div><!-- /.input group -->
 								</div><!-- /.form group -->
 								<div class="form-group">
@@ -129,7 +129,7 @@
 										<div class="input-group-addon">
 											<i class="fa fa-plane"></i>
 										</div>    
-										<select name="piloto_id" id="piloto_id" class="form-control piloto">
+										<select name="piloto_id" id="piloto_id-select" class="form-control piloto">
 											<option value="">--Seleccione Piloto--</option>
 											@foreach ($pilotos as $piloto)
 											<option value="{{$piloto->id}}" {{(($aterrizaje->piloto_id == $piloto->id)?"selected":"")}}> {{$piloto->nombre}}</option>
@@ -138,6 +138,7 @@
 									</div><!-- /.input group -->
 								</div>
 							</div>	
+							@if($aterrizaje->tipoMatricula_id!="4")         
 							<hr>
 							<h5>
 								<i class="fa fa-money"></i>
@@ -151,16 +152,24 @@
 									<label><strong>Condición de pago: </strong></label>
 									<div class="input-group">
 										<select name="condicionPago" id="condicionPago-select" class="form-control">
-											<option value="">Seleccione</option>
+										@if($aterrizaje->tipoMatricula_id=="1")
+											<option value="Contado" selected> Contado</option>
+											<option value="Crédito"> Crédito</option>
+										@elseif($aterrizaje->tipoMatricula_id=="2"||$aterrizaje->tipoMatricula_id=="3")
+											<option value="Contado" > Contado</option>
+											<option value="Crédito" selected> Crédito</option>
+										@else
+											<option value=""> Seleccione</option>
 											<option value="Contado"> Contado</option>
 											<option value="Crédito"> Crédito</option>
+										@endif		
 										</select>
 										<div class="input-group-addon">
 										</div>                    
 									</div><!-- /.input group -->
 								</div><!-- /.form group -->
 							</div>  
-							<br>            
+							<br>   
 							<div class="form-inline">
 								<div class="form-group" >
 									
@@ -177,10 +186,17 @@
 								</div><!-- /.form group -->
 								<!-- Tiempo de Estacionamiento-->
 								<div class="form-group " style="margin-left: 30px">
-									<label>
-										{!! Form::checkbox('cobrar_estacionamiento', '1', true) !!}
-										Estacionamiento
-									</label> 
+									@if($aterrizaje->aeronave->hangar_id != NULL)
+										<label>
+											{!! Form::checkbox('cobrar_estacionamiento',true, null) !!}
+											Estacionamiento
+										</label>
+									@else
+										<label>
+											{!! Form::checkbox('cobrar_estacionamiento', '1', true) !!}
+											Estacionamiento
+										</label>
+									@endif 
 									<br> 
 									<label>Tiempo: </label>
 									<div class="input-group" style="width: 150px">
@@ -193,10 +209,17 @@
 								</div><!-- /.form group -->  
 
 								<div class="form-group" style="margin-left: 20px">
-									<label>
-										{!! Form::checkbox('cobrar_puenteAbordaje','1', true) !!}
-										Puentes de Abordaje
-									</label>
+									@if($aterrizaje->tipoMatricula_id=='3')
+										<label>
+											{!! Form::checkbox('cobrar_puenteAbordaje','1', true) !!}
+											Puentes de Abordaje
+										</label>
+									@else									
+										<label>
+											{!! Form::checkbox('cobrar_puenteAbordaje',true, null) !!}
+											Puentes de Abordaje
+										</label>
+									@endif
 									<br> 
 									<div class="input-group" style="width:100px">
 										<div class="input-group-addon">
@@ -215,10 +238,17 @@
 
 
 								<div class="form-inline" style="margin-top: 20px">
-									<label>
-										{!! Form::checkbox('cobrar_carga', '1', true) !!}
-										Carga
-									</label>
+									@if($aterrizaje->cliente_id=="13")
+										<label>
+											{!! Form::checkbox('cobrar_carga', '1', true) !!}
+											Carga
+										</label>
+									@else
+										<label>
+											{!! Form::checkbox('cobrar_carga', true, null) !!}
+											Carga
+										</label>
+									@endif
 									<div class="form-group">
 										<br> 
 										<div class="input-group" style="width:170px; margin-right: 10px">
@@ -237,7 +267,7 @@
 
 									<div class="form-group" style="margin-left: 20px">
 										<label>
-											{!! Form::checkbox('cobrar_otrosCargos', '1', true) !!}
+											{!! Form::checkbox('cobrar_otrosCargos', true, null) !!}
 											Otros Cargos
 										</label>
 										<br> 
@@ -371,6 +401,7 @@
 									</div><!-- /.form group -->
 								</div>
 							</div>
+							@endif
 						</form>
 					</div> <!-- /. box-body -->					
 				</div>
@@ -424,7 +455,8 @@ $(document).ready(function(){
 
 
 	$('#otros_cargos-select').chosen({width:'200%'});
-	$('#piloto-select').chosen({width:'50%'});
+	$('#piloto_id-select').chosen({width:'150%'});
+	$('#puerto_id-select').chosen({width:'100%'});
 
 /* 
 	Condiciones en los campos de los formularios

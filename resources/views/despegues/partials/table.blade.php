@@ -34,22 +34,26 @@
                     <td class ='matricula-td'>{{$despegue->aterrizaje->aeronave->matricula}}</td>
                     <td class ='cliente_id-td'>{{(($despegue->cliente)?$despegue->cliente->nombre:"No asignado")}}</td> 
                     <td>
-                         @if($despegue->factura_id != NULL)
-                             <a target="_blank" class='btn btn-default  btn-sm' href='{{action('FacturaController@getPrint', ["modulo"=>"DOSAS", $despegue->factura_id])}}'>
-                                   <span class='glyphicon glyphicon-print'></span>
-                             </a>
-                              @if($despegue->condicionPago == 'Contado' && $despegue->pagado == 0)
-                                  <a class='btn btn-primary  btn-sm' href='{{action('DespegueController@getGenerarCobranza', [$despegue->id])}}'>
-                                        <span class='fa fa-money'></span>
-                                  </a>
+                         @if($despegue->tipoMatricula_id == '4')
+                              <button class='btn btn-success btn-sm verDespegue-btn'><span class='glyphicon glyphicon-eye-open' title='Ver Información'></span></button>
+                         @else
+                              @if($despegue->factura_id != NULL)
+                                       <a target="_blank" class='btn btn-default  btn-sm' href='{{action('FacturaController@getPrint', ["modulo"=>"DOSAS", $despegue->factura_id])}}'>
+                                             <span class='glyphicon glyphicon-print'></span>
+                                       </a>
+                                        @if($despegue->condicionPago == 'Contado' && $despegue->pagado == 0)
+                                            <a class='btn btn-primary  btn-sm' href='{{action('DespegueController@getGenerarCobranza', [$despegue->id])}}'>
+                                                  <span class='fa fa-money'></span>
+                                            </a>
+                                        @endif
+                                   @endif
+                                   <button class='btn btn-success btn-sm verDespegue-btn'><span class='glyphicon glyphicon-eye-open' title='Ver Información'></span></button>
+                                   @if($despegue->factura_id == NULL)
+                                   <a href="{{  action('DespegueController@getCrearFactura', [$despegue->id])}}">
+                                        <button class='btn btn-info btn-sm facturarDespegue-btn'><span class='fa fa-credit-card' title='Crear Dosa'></span></button>
+                                   </a>
+                                   <button class='btn btn-warning  btn-sm editarDespegue-btn' data-id='{{$despegue->id}}'><span class='glyphicon glyphicon-pencil' title='Editar Registro'></span></button>
                               @endif
-                         @endif
-                         <button class='btn btn-success btn-sm verDespegue-btn'><span class='glyphicon glyphicon-eye-open' title='Ver Información'></span></button>
-                         @if($despegue->factura_id == NULL)
-                         <a href="{{  action('DespegueController@getCrearFactura', [$despegue->id])}}">
-                              <button class='btn btn-info btn-sm facturarDespegue-btn'><span class='fa fa-credit-card' title='Crear Dosa'></span></button>
-                         </a>
-                         <button class='btn btn-warning  btn-sm editarDespegue-btn' data-id='{{$despegue->id}}'><span class='glyphicon glyphicon-pencil' title='Editar Registro'></span></button>
                          @endif
                     </td>
                </tr>   
