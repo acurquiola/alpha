@@ -26,16 +26,10 @@ class AterrizajeRequest extends Request {
 				'fecha'               => 'required',
 				'hora'                => 'required',
 				'tipoMatricula_id'    => 'required',
-				'cliente_id'          => 'required_if:tipoMatricula_id,1',
-				'cliente_id'          => 'required_if:tipoMatricula_id,2',
-				'cliente_id'          => 'required_if:tipoMatricula_id,3',
-				'puerto_id'           => 'required_if:tipoMatricula_id,1',
-				'puerto_id'           => 'required_if:tipoMatricula_id,2',
-				'puerto_id'           => 'required_if:tipoMatricula_id,3',
-				'piloto_id'           => 'required_if:tipoMatricula_id,1',
-				'piloto_id'           => 'required_if:tipoMatricula_id,2',
-				'piloto_id'           => 'required_if:tipoMatricula_id,3',
-				'num_vuelo'           => 'required_if:tipoMatricula_id,3',
+				'cliente_id'          => 'required_if:tipoMatricula_id,1|required_if:tipoMatricula_id,2|required_if:tipoMatricula_id,3',
+				'puerto_id'           => 'required_if:tipoMatricula_id,1|required_if:tipoMatricula_id,2|required_if:tipoMatricula_id,3',
+				'piloto_id'           => 'required_if:tipoMatricula_id,1|required_if:tipoMatricula_id,2|required_if:tipoMatricula_id,3',
+				'num_vuelo'           => 'required_if:tipoMatricula_id,2|required_if:tipoMatricula_id,3',
         ];
 	}
 }

@@ -22,26 +22,20 @@ class DespegueRequest extends Request {
 	public function rules()
 	{
 		return [
-				'aeronave_id'            => 'required',
-				'fecha'                  => 'required',
-				'hora'                   => 'required',
-				'tipoMatricula_id'       => 'required',
-				'num_vuelo'              => 'required_if:tipoMatricula_id,3',
-				'cliente_id'             => 'required_if:tipoMatricula_id,1',
-				'cliente_id'             => 'required_if:tipoMatricula_id,2',
-				'cliente_id'             => 'required_if:tipoMatricula_id,3',
-				'puerto_id'              => 'required_if:tipoMatricula_id,1',
-				'puerto_id'              => 'required_if:tipoMatricula_id,2',
-				'puerto_id'              => 'required_if:tipoMatricula_id,3',
-				'piloto_id'              => 'required_if:tipoMatricula_id,1',
-				'piloto_id'              => 'required_if:tipoMatricula_id,2',
-				'piloto_id'              => 'required_if:tipoMatricula_id,3',
-				'condicionPago'          => 'required_if:tipoMatricula_id,1',
-				'condicionPago'          => 'required_if:tipoMatricula_id,2',
-				'condicionPago'          => 'required_if:tipoMatricula_id,3',
-				'numero_puenteAbordaje'  => 'required_if:cobrar_puenteAbordaje,1',
-				'tiempo_puenteAbord'     => 'required_if:cobrar_puenteAbordaje,1',
-				'tiempo_estacionamiento' => 'required_if:cobrar_estacionamiento,1'
+				'aeronave_id'           => 'required',
+				'fecha'                 => 'required',
+				'hora'                  => 'required',
+				'tipoMatricula_id'      => 'required',
+				'num_vuelo'             => 'required_if:tipoMatricula_id,2|required_if:tipoMatricula_id,3',
+				'cliente_id'            => 'required_if:tipoMatricula_id,1|required_if:tipoMatricula_id,2|required_if:tipoMatricula_id,3',
+				'puerto_id'             => 'required_if:tipoMatricula_id,1|required_if:tipoMatricula_id,2|required_if:tipoMatricula_id,3',
+				'piloto_id'             => 'required_if:tipoMatricula_id,1|required_if:tipoMatricula_id,2|required_if:tipoMatricula_id,3',
+				'condicionPago'         => 'required_if:tipoMatricula_id,1|required_if:tipoMatricula_id,2|required_if:tipoMatricula_id,3',
+				'numero_puenteAbordaje' => 'required_if:cobrar_puenteAbordaje,1',
+				'tiempo_puenteAbord'    => 'required_if:cobrar_puenteAbordaje,1',
+				'peso_embarcado'        => 'required_if:cobrar_carga,1',
+				'peso_desembarcado'     => 'required_if:cobrar_carga,1',
+				'otrosCargo_id[]'       => 'required_if:cobrar_otrosCargos,1'
 		];
 	}
 

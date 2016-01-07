@@ -219,7 +219,7 @@ class DespegueController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function update($id)
+	public function update($id, DespegueRequest $request)
 	{
 		$despegue   = Despegue::find($id);
 		$despegue   = Despegue::update($request->except("nacionalidadVuelo_id", "piloto_id", "puerto_id", "cliente_id", "cobrar_estacionamiento", "cobrar_puenteAbordaje", "cobrar_Formulario", "cobrar_AterDesp", "cobrar_habilitacion", "cobrar_carga", "cobrar_otrosCargos", "otrosCargo_id"));
@@ -431,6 +431,7 @@ class DespegueController extends Controller {
 			$iva               = Concepto::find($concepto_id)->iva;
 			$montoIva          = ($iva * $montoDes)/100 ;
 			$totalDes          = $montoDes + $montoIva;
+			$descripcionAterrizaje = '- Aterrizaje '.$tipoAterrizaje;
 			$aterrizajeDespegue->fill(compact('concepto_id', 'condicionPago',  'montoDes', 'cantidadDes', 'iva', 'totalDes'));
 			$factura->detalles->push($aterrizajeDespegue);
 		}
@@ -569,8 +570,8 @@ class DespegueController extends Controller {
 
 		$view=view('factura.facturaAeronautica.create', compact('factura', 'condicionPago', 'modulo_id', 'modulo'))->with(['despegue_id'=>$despegue->id]);
 
-		if(isset($tipoAterrizaje))
-			$view->with(['tipoAterrizaje'=>$tipoAterrizaje]);
+		if(isset($descripcionAterrizaje))
+			$view->with(['descripcionAterrizaje'=>$descripcionAterrizaje]);
 		return $view;
 
 	}

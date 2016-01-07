@@ -193,7 +193,7 @@
 			@elseif(isset($cargosAdicionales))
 			{!! Form::textarea('descripcion', "Facturación por Derechos Aeronáuticos Adicionales", [ 'style'=>'padding-top:4px' ,'class'=>"form-control", $disabled , 'rows'=>"5", 'cols'=>"", "placeholder" => "Descripción de la factura"]) !!}
 			@else
-			{!! Form::textarea('descripcion', (isset($bloqueoDosa))?"Facturación por Derechos Aeronáuticos":null, [ 'style'=>'padding-top:4px' ,'class'=>"form-control", $disabled , 'rows'=>"5", 'cols'=>"", "placeholder" => "Descripción de la factura"]) !!}
+			{!! Form::textarea('descripcion', (isset($bloqueoDosa))?"Facturación por Derechos Aeronáuticos: $descripcionAterrizaje, ":null, [ 'style'=>'padding-top:4px' ,'class'=>"form-control", $disabled , 'rows'=>"5", 'cols'=>"", "placeholder" => "Descripción de la factura"]) !!}
 			@endif
 		</div>
 	</div>

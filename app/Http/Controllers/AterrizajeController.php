@@ -137,7 +137,6 @@ class AterrizajeController extends Controller {
 	 */
 	public function store(AterrizajeRequest $request)
 	{
-
 		$aterrizaje = Aterrizaje::create($request->except("nacionalidadVuelo_id", "piloto_id", "puerto_id", "cliente_id"));
 
 		if($aterrizaje)
@@ -255,7 +254,7 @@ class AterrizajeController extends Controller {
 			}
 			$aterrizaje->save();
 
-			return response()->json(array("text"		 =>'Aterrizaje registrado exitósamente',
+			return response()->json(array("text"		 =>'Aterrizaje modificado exitósamente',
 									      "success"      =>1));
 		}
 		else

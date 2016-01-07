@@ -22,12 +22,12 @@ class FacturaRequest extends Request {
 	public function rules()
 	{
 		return [
-			'aeropuerto_id' =>'required',
-            'condicionPago' =>'required',
-            'fecha' =>'required',
-            'fechaVencimiento' =>'required',
-            'descripcion' =>'required',
-            'cliente_id' =>'required',
+			'aeropuerto_id'    =>'required',
+			'condicionPago'    =>'required',
+			'fecha'            =>'required',
+			'fechaVencimiento' =>'required',
+			'descripcion'      =>'required',
+			'cliente_id'       =>'required',
 		];
 	}
 

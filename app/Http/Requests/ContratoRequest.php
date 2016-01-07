@@ -26,14 +26,14 @@ class ContratoRequest extends Request {
         if($contrato)
             $id=$contrato->id;
         return [
-            'nContrato' => 'required|unique:contratos,nContrato,'.$id,
-            'concepto_id' => 'required',
-            'cliente_id' => 'required',
-            'monto' => 'required|numeric|min:1',
-            'fechaInicio' => 'required',
-            'fechaVencimiento' => 'required',
-            'diaGeneracion' => 'required_with:isGeneracionAutomaticaFactura|integer|between:0,31',
-            'mesesReanudacion' => 'required_with:isReanudacionAutomatica',
+			'nContrato'        => 'required|unique:contratos,nContrato,'.$id,
+			'concepto_id'      => 'required',
+			'cliente_id'       => 'required',
+			'monto'            => 'required|numeric|min:1',
+			'fechaInicio'      => 'required',
+			'fechaVencimiento' => 'required',
+			'diaGeneracion'    => 'required_with:isGeneracionAutomaticaFactura|integer|between:0,31',
+			'mesesReanudacion' => 'required_with:isReanudacionAutomatica',
         ];
 
 	}
