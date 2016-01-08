@@ -52,7 +52,7 @@
                                         <button class='btn btn-info btn-sm facturarDespegue-btn'><span class='fa fa-credit-card' title='Crear Dosa'></span></button>
                                    </a>
                                    <button class='btn btn-success btn-sm verDespegue-btn'><span class='glyphicon glyphicon-eye-open' title='Ver Información'></span></button>
-                                   <button class='btn btn-warning  btn-sm editarDespegue-btn' data-id='{{$despegue->id}}'><span class='glyphicon glyphicon-pencil' title='Editar Registro'></span></button>
+                                   <button class='btn btn-warning  btn-sm editarDespegue-btn' data-id='{{$despegue->id}}' data-aterrizajeID='{{$despegue->aterrizaje_id}}'><span class='glyphicon glyphicon-pencil' title='Editar Registro'></span></button>
                               @endif
                          @endif
                     </td>

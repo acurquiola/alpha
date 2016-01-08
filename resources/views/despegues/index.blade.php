@@ -242,17 +242,42 @@ function getTable(url){
 
 
 	    /*
+            Mostrar un registro
+
+            */      
+            
+            //Mostrar la información en un modal para editar
+
+            $('body').delegate('.verDespegue-btn', 'click', function(){
+                var fila = $(this).closest('tr');
+                var id   = $(fila).data('id');
+                var url  ='{{action('DespegueController@show', ["::"])}}';
+                url      =url.replace("::", id)
+
+                $.ajax({
+                    method: 'get',
+                    url: url})
+                .always(function(text, status, responseObject){
+                    $('#show-modal .modal-body').html(text);
+                    $('#show-modal').modal('show');
+                })
+            })
+
+
+	    /*
             Modificar un registro
 
             */      
             
             //Mostrar la información en un modal para editar
 
-            $('body').delegate('.editarAterrizaje-btn', 'click', function(){
+            $('body').delegate('.editarDespegue-btn', 'click', function(){
                 var fila = $(this).closest('tr');
                 var id   = $(fila).data('id');
-                var url  ='{{action('AterrizajeController@edit', ["::"])}}';
-                url      =url.replace("::", id)
+                var aterrizaje_id   = $(fila).data('aterrizajeid');
+                var url  ='{{action('DespegueController@edit', ["Despegues"=>"-", "aterrizaje"=>"::"])}}';
+                url      =url.replace("::", aterrizaje_id)
+                url      =url.replace("-", id)
 
                 $.ajax({
                     method: 'get',
@@ -265,7 +290,7 @@ function getTable(url){
 
             //Editar la información
             
-            $('#save-aterrizaje-btn-modal').click(function(){
+            $('#save-despegue-btn-modal').click(function(){
 
                 var data =$('#show-modal form').serializeArray()
                 var url  =$('#show-modal form').attr('action')
