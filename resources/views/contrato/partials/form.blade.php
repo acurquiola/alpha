@@ -14,7 +14,7 @@
                     <div class="row">
                         <div class="col-md-8 col-md-offset-2">
                             <div class="form-group">
-                                <label for="numero-input">Número de Contrato<span class="text-danger">*</span></label>
+                                <label for="numero-input">Número de Punto de Cuenta<span class="text-danger">*</span></label>
                                 {!! Form::text('nContrato', null, [ 'class'=>"form-control", $disabled]) !!}
                             </div>
                       <div class="form-group row">
