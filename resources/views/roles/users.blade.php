@@ -18,13 +18,13 @@
                     <div class="box-body"  id="container">
                         <h5>Usuarios</h5>
                         <div class='form-group'>
-<div class='col-xs-6 text-center'>
-<label><strong>Por Asignar</strong></label>
-</div>
+                            <div class='col-xs-6 text-center'>
+                                <label><strong>Por Asignar</strong></label>
+                            </div>
 
-<div class='col-xs-6 text-center'>
-<label><strong>Asignados</strong></label>
-</div>
+                            <div class='col-xs-6 text-center'>
+                                <label><strong>Asignados</strong></label>
+                            </div>
                             <div class='col-xs-12'>
                                 {!! Form::select('usuarios[]',$usuarios, $rol->users->lists('id'), [ 'id'=>'usuarios-select', 'class'=>"form-control", 'multiple', 'autocomplete'=>'off']) !!}
                             </div>
