@@ -4,21 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "1073ccd78859a26b96525f3ad43e03ac",
-    "content-hash": "0da163a44851dade5e7583e0cde1fee4",
+    "hash": "297d32ad11d6149f711676527452a355",
     "packages": [
         {
             "name": "bican/roles",
-            "version": "1.7.1",
+            "version": "1.6.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/romanbican/roles.git",
-                "reference": "5922d8c136f829d7799aca7869a8139011059961"
+                "reference": "df4cd2c81f32edb2740e5bf82e76019d6a661f3e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/romanbican/roles/zipball/5922d8c136f829d7799aca7869a8139011059961",
-                "reference": "5922d8c136f829d7799aca7869a8139011059961",
+                "url": "https://api.github.com/repos/romanbican/roles/zipball/df4cd2c81f32edb2740e5bf82e76019d6a661f3e",
+                "reference": "df4cd2c81f32edb2740e5bf82e76019d6a661f3e",
                 "shasum": ""
             },
             "require": {
@@ -48,7 +47,7 @@
                 "permissions",
                 "roles"
             ],
-            "time": "2015-05-18 11:41:07"
+            "time": "2015-04-04 10:17:14"
         },
         {
             "name": "classpreloader/classpreloader",
@@ -2249,16 +2248,16 @@
         },
         {
             "name": "phpspec/phpspec",
-            "version": "2.4.0",
+            "version": "2.4.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpspec/phpspec.git",
-                "reference": "1d3938e6d9ffb1bd4805ea8ddac62ea48767f358"
+                "reference": "5528ce1e93a1efa090c9404aba3395c329b4e6ed"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpspec/phpspec/zipball/1d3938e6d9ffb1bd4805ea8ddac62ea48767f358",
-                "reference": "1d3938e6d9ffb1bd4805ea8ddac62ea48767f358",
+                "url": "https://api.github.com/repos/phpspec/phpspec/zipball/5528ce1e93a1efa090c9404aba3395c329b4e6ed",
+                "reference": "5528ce1e93a1efa090c9404aba3395c329b4e6ed",
                 "shasum": ""
             },
             "require": {
@@ -2323,7 +2322,7 @@
                 "testing",
                 "tests"
             ],
-            "time": "2015-11-29 02:03:49"
+            "time": "2016-01-01 10:17:54"
         },
         {
             "name": "phpspec/prophecy",
