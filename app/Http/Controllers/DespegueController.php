@@ -183,8 +183,8 @@ class DespegueController extends Controller {
 	 */
 	public function show(Despegue $despegue)
 	{
-		$despegue            = Despegue::with("aeronave", "puerto")->where('id', $despegue)->first();
-		$aterrizaje          = Aterrizaje::with("aeronave", "puerto")->where('id', $aterrizaje)->first();
+		$despegue            = Despegue::find($despegue);
+		$aterrizaje          = Aterrizaje::with("aeronave", "puerto")->where('id', $despegue->aterrizaje_id)->first();
 		$puertos             = Puerto::all();
 		$pilotos             = Piloto::all();
 		$nacionalidad_vuelos = NacionalidadVuelo::all();
@@ -202,8 +202,8 @@ class DespegueController extends Controller {
 	 */
 	public function edit($id)
 	{
-		$despegue            = Despegue::with("aeronave", "puerto")->where('id', $despegue)->first();
-		$aterrizaje          = Aterrizaje::with("aeronave", "puerto")->where('id', $aterrizaje)->first();
+		$despegue            = Despegue::find($id);
+		$aterrizaje          = Aterrizaje::all();
 		$puertos             = Puerto::all();
 		$pilotos             = Piloto::all();
 		$nacionalidad_vuelos = NacionalidadVuelo::all();
@@ -300,14 +300,14 @@ class DespegueController extends Controller {
 		$nroDosa = '1';
 		$facturas = Factura::all()->count();
 		if ($facturas>0){
-					$dosas = Factura::where('nroDosa', '<>', 'NULL')->count();
-					if($dosas>0){
-						$nroDosa = Factura::where('nroDosa', '<>', 'NULL')->orderBy('nroDosa', 'DESC')->first()->nroDosa;
-						if($nroDosa != NULL){
-							$nroDosa = $nroDosa + 1;
-						}
-					}
+			$dosas = Factura::where('nroDosa', '<>', 'NULL')->count();
+			if($dosas>0){
+				$nroDosa = Factura::where('nroDosa', '<>', 'NULL')->orderBy('nroDosa', 'DESC')->first()->nroDosa;
+				if($nroDosa != NULL){
+					$nroDosa = $nroDosa + 1;
 				}
+			}
+		}
 		
 		$factura->fill(['aeropuerto_id' => $despegue->aeropuerto_id,
 						'cliente_id'    => $despegue->cliente_id,

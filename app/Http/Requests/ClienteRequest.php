@@ -33,7 +33,6 @@ class ClienteRequest extends Request {
 			'cedRifPrefix'   =>   	   'unique_with:clientes,cedRif,'.$id.'=id',
 			'tipo'           =>        'required',
 			'email'          =>        'required_with:isEnvioAutomatico',
-			'hangars'        =>        'required_if:tipo,Aeronáutico,Mixto',
 			'email'          =>        'email',
 			'islrpercentage' =>        'required_with:isContribuyente',
 			'ivapercentage'  =>        'required_with:isContribuyente',
