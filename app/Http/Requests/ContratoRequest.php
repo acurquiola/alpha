@@ -29,7 +29,7 @@ class ContratoRequest extends Request {
 			'nContrato'        => 'required|unique:contratos,nContrato,'.$id,
 			'concepto_id'      => 'required',
 			'cliente_id'       => 'required',
-			'monto'            => 'required|numeric|min:1',
+			'monto'            => 'required',
 			'fechaInicio'      => 'required',
 			'fechaVencimiento' => 'required',
 			'diaGeneracion'    => 'required_with:isGeneracionAutomaticaFactura|integer|between:0,31',

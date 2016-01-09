@@ -71,7 +71,7 @@
 {{$detalle->concepto->nompre}}
 </td>
 <td colspan="2" >
-{{$detalle->totalDes}}
+{{$traductor->format($detalle->totalDes)}}
 </td>
 </tr>
 @endforeach
@@ -86,17 +86,17 @@
 <td colspan="8" >
 </td>
 <td colspan="2" >
-Bs. {{$factura->subtotal}}
+Bs. {{$traductor->format($factura->subtotal)}}
 </td>
 </tr>
 <tr>
 <td colspan="6" >
 </td>
 <td colspan="2" >
-<strong>IVA</strong> {{$factura->iva}}
+<strong>IVA</strong> ({{$traductor->format($factura->iva*100)}}%)
 </td>
 <td colspan="2" >
-{{$factura->iva*$factura->subtotal/100}}
+{{$traductor->format($factura->iva*$factura->subtotal)}}
 </td>
 </tr>
 <tr>
@@ -106,7 +106,21 @@ Bs. {{$factura->subtotal}}
 <strong>TOTAL GENERAL</strong>
 </td>
 <td colspan="2" style="border-bottom: 1px solid black;border-top: 1px solid black;border-right: 1px solid black;text-align:left" >
-<strong>Bs. </strong>{{$factura->total}}
+<strong>Bs. </strong>{{number_format($factura->total,2)}}
+</td>
+</tr>
+<tr>
+<td colspan="6" >
+MONTO EN LETRAS:
+</td>
+<td colspan="4">
+</td>
+</tr>
+<tr>
+<td colspan="6" >
+SON: {{$traductor->numtoletras($factura->total)}}
+</td>
+<td colspan="4">
 </td>
 </tr>
 </table>

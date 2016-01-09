@@ -38,12 +38,16 @@ Route::get('principal',["middleware"=>"auth", function(){
     return view('principal');
 }]  );
 
-Route::get('facturaHtml', function(){
-    $factura = \App\Factura::find(24);
-    $despegue = \App\Despegue::with('aterrizaje')->where('factura_id', $factura->id)->first();
-    return view('pdf.dosa', compact('factura', 'despegue'));
-});
-
+//Route::get('facturaHtml', function(){
+//    $factura = \App\Factura::find(24);
+//    $despegue = \App\Despegue::with('aterrizaje')->where('factura_id', $factura->id)->first();
+//    return view('pdf.dosa', compact('factura', 'despegue'));
+//});
+//Route::get('facturaPdf', function(){
+//    $factura = \App\Factura::first();
+//
+//    return view('pdf.factura', compact('factura'));
+//});
 //
 //Rutas para el gestor de los Maestros
 //
