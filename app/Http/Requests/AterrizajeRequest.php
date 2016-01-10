@@ -20,7 +20,11 @@ class AterrizajeRequest extends Request {
 	 * @return array
 	 */
 	public function rules()
-	{		
+	{			
+		$id       =null;
+		$aterrizajeID =$this->route()->getParameter('aterrizaje');
+		if($aterrizajeID)
+			$id       =$aterrizajeID;
 		return [
 				'aeronave_id'         => 'required',
 				'fecha'               => 'required',

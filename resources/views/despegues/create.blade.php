@@ -48,7 +48,7 @@
 										<input type="text"  name="hora"  id="hora" class="form-control no-vacio" value="{{$today->format('H:i:s')}}"  placeholder="Hora"/>
 									</div><!-- /.input group -->
 								</div>
-								<div class="form-group" style="width:207px">
+								<div class="form-group" style="width:180px">
 									<div class="input-group">
 										<div class="input-group-addon">
 											<i class="fa fa-plane"></i>
@@ -86,7 +86,7 @@
 											<i class="fa fa-map-marker"></i>
 										</div> 								
 										<select name="puerto_id" class="form-control puerto" id="puerto_id-select">
-											<option value="">--Seleccione Destino--</option>
+											<option value="">--Destino--</option>
 											@foreach ($puertos as $puerto)
 											<option  data-nacionalidad="{{$puerto->pais_id}}" value="{{$puerto->id}}"> {{$puerto->nombre}}</option>
 											@endforeach
@@ -116,7 +116,7 @@
 										<div class="input-group-addon">
 											<i class="fa fa-diamond"></i>
 										</div>                                                                            
-										<select name="cliente_id" class="form-control cliente" style="width: 527px">
+										<select name="cliente_id" class="form-control cliente" id="cliente_id-select" style="width: 527px">
 											<option value="">--Seleccione Cliente--</option>
 											@foreach ($clientes as $index=>$cliente)
 											<option value="{{$index}}" {{(($aterrizaje->cliente_id == $index)?"selected":"")}} > {{$cliente}}</option>
@@ -454,9 +454,10 @@ function calcularDiferenciaMinutos(){
 $(document).ready(function(){
 
 
-	$('#otros_cargos-select').chosen({width:'200%'});
-	$('#piloto_id-select').chosen({width:'150%'});
-	$('#puerto_id-select').chosen({width:'100%'});
+	$('#otros_cargos-select').chosen({width:'350px'});
+	$('#piloto_id-select').chosen({width:'200px'});
+	$('#puerto_id-select').chosen({width:'140px'});
+	$('#cliente_id-select').chosen({width:'500px'});
 
 /* 
 	Condiciones en los campos de los formularios

@@ -128,7 +128,7 @@
                     @foreach($factura->detalles as $detalle)
 
                     <tr>
-                        <td style="text-align: left"><input type="hidden" name="concepto_id[]" value="{{$detalle->concepto_id}}" autocomplete="off" />{{$traductor->format($detalle->concepto->nompre)}}</td>
+                        <td style="text-align: left"><input type="hidden" name="concepto_id[]" value="{{$detalle->concepto_id}}" autocomplete="off" />{{$detalle->concepto->nompre}}</td>
                         <td><input {{$disabled}} {{(!$factura->isImpresa)?"":"readonly"}} class="form-control cantidad-input text-right" value="{{$traductor->format($detalle->cantidadDes)}}" name="cantidadDes[]"  autocomplete="off" /></td>
                         <td><input {{$disabled}} {{(!$factura->isImpresa)?"":"readonly"}}  class="form-control monto-input text-right" value="{{$traductor->format($detalle->montoDes)}}" name="montoDes[]"  autocomplete="off" /> </td>
                         <td><input {{$disabled}} {{(!$factura->isImpresa)?"":"readonly"}}  class="form-control descuentoPer-input text-right" value="{{$traductor->format($detalle->descuentoPerDes)}}" name="descuentoPerDes[]"  autocomplete="off" /></td>
