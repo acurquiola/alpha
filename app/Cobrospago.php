@@ -24,4 +24,19 @@ class Cobrospago extends Model {
             $carbon=$fecha;
         return $carbon->format('d/m/Y');
     }
+
+
+    protected function parseDecimal($numero, $attr){
+        if(is_string($numero)){
+            $numero=preg_replace ( '/\./i', "", $numero );
+            $numero=preg_replace ( '/\,/i', ".", $numero );
+            $numero=floatval($numero);
+        }
+        $this->attributes[$attr]=$numero;
+    }
+
+    public function setMontoAttribute($numero)
+    {
+        $this->parseDecimal($numero,'monto');
+    }
 }

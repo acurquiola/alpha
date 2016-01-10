@@ -49,4 +49,19 @@ class Contrato extends Model {
         $fechaFin=\Carbon\Carbon::create($year, $month, 1)->lastOfMonth();
         return $this->facturas()->where('fechaControlContrato', $fechaFin)->count();
     }
+
+    protected function parseDecimal($numero, $attr){
+        if(is_string($numero)){
+            $numero=preg_replace ( '/\./i', "", $numero );
+            $numero=preg_replace ( '/\,/i', ".", $numero );
+            $numero=floatval($numero);
+        }
+        $this->attributes[$attr]=$numero;
+    }
+
+    public function setMontoAttribute($numero)
+    {
+        $this->parseDecimal($numero,'monto');
+    }
+
 }

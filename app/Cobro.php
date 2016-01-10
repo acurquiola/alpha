@@ -46,4 +46,24 @@ class Cobro extends Model {
     public function modulo(){
         return $this->belongsTo('App\Modulo');
     }
+
+
+    protected function parseDecimal($numero, $attr){
+        if(is_string($numero)){
+            $numero=preg_replace ( '/\./i', "", $numero );
+            $numero=preg_replace ( '/\,/i', ".", $numero );
+            $numero=floatval($numero);
+        }
+        $this->attributes[$attr]=$numero;
+    }
+
+    public function setMontofacturasAttribute($numero)
+    {
+        $this->parseDecimal($numero,'montofacturas');
+    }
+
+    public function setMontodepositadoAttribute($numero)
+    {
+        $this->parseDecimal($numero,'montodepositado');
+    }
 }

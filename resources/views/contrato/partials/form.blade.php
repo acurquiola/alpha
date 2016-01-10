@@ -49,7 +49,7 @@
                                     <label for="monto-input">Monto<span class="text-danger">*</span></label>
                                 </div>
                                 <div class="col-md-8" >
-                                    {!! Form::text('monto', null, [ 'class'=>"form-control", $disabled]) !!}
+                                    {!! Form::text('monto', $traductor->format($contrato->monto), [ 'class'=>"form-control", $disabled]) !!}
                                 </div>
                                 <div class="col-md-3 col-md-offset-1"  style="padding:0px">
                                     {!! Form::select('montoTipo',["Mensual"=>"Mensual","Anual"=>"Anual"], null, [ 'class'=>"form-control", $disabled]) !!}

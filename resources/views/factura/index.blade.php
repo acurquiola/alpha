@@ -141,7 +141,7 @@
                                                 @endif
 											</td>
 											<td class='text-justify'>{{$factura->fecha}}</td>
-											<td style="text-align: right">{{$factura->total}}</td>
+											<td style="text-align: right">{{$traductor->format($factura->total)}}</td>
 											<td>
 												<div class='btn-group  btn-group-sm' role='group' aria-label='...'>
 													<button class='btn btn-primary' data-id="{{$factura->nFactura}}" data-toggle="modal" data-target="#show-modal"><span class='glyphicon glyphicon-eye-open'></span></button>
@@ -233,28 +233,31 @@
 			var tr=$(this).closest('tr');
 			var id=$(this).data("id");
 			var url="{{url('facturacion/'.$modulo->nombre.'/factura')}}/"+id;
-			$.
-			ajax({url: url,
-				method:"DELETE"})
-			.done(function(response, status, responseObject){
-				try{
-					var obj= JSON.parse(responseObject.responseText);
-					if(obj.success==1){
-						$(tr).remove();
-						alertify.success(obj.text);
-					}else if(obj.success==0)
-					    alertify.error(obj.text);
-				}catch(e){
-					console.log(e);
-					alertify.error("Error en el servidor");
-				}
-			})
+            alertify.confirm("¿Está seguro que desea anular la factura seleccionada?", function (e) {
+                if (e) {
+                    $.
+                    ajax({url: url,
+                        method:"DELETE"})
+                    .done(function(response, status, responseObject){
+                        try{
+                            var obj= JSON.parse(responseObject.responseText);
+                            if(obj.success==1){
+                                $(tr).remove();
+                                alertify.success(obj.text);
+                            }else if(obj.success==0)
+                                alertify.error(obj.text);
+                        }catch(e){
+                            console.log(e);
+                            alertify.error("Error en el servidor");
+                        }
+                    })
+			    }
 
-		})
+		    })
 
 
-	});
-
+	    });
+    })
 
 </script>
 

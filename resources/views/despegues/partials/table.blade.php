@@ -22,7 +22,7 @@
           </thead>
 
                @foreach($despegues as $despegue)
-               <tr data-id='{{$despegue->id}}'  data-aterrizaje='{{$despegue->aterrizaje_id}}'>
+               <tr data-id='{{$despegue->id}}' data-aterrizaje='{{$despegue->aterrizaje_id}}'>
                     <td class ='horaFecha-td'>{{$despegue->fecha}} {{$despegue->hora}}</td>
                     <td class ='puerto_id-td'>{{(($despegue->puerto)?$despegue->puerto->siglas:"No disponible")}}</td>
                     <td class ='num_vuelo-td'>{{(($despegue->num_vuelo)?$despegue->num_vuelo:"N/A")}}</td>

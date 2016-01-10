@@ -4,7 +4,19 @@ use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
 class Kernel extends ConsoleKernel {
-
+    protected $meses=[
+        "1"=>"ENERO",
+        "2"=>"FEBRERO",
+        "3"=>"MARZO",
+        "4"=>"ABRIL",
+        "5"=>"MAYO",
+        "6"=>"JUNIO",
+        "7"=>"JULIO",
+        "8"=>"AGOSTO",
+        "9"=>"SEPTIEMBRE",
+        "10"=>"OCTUBRE",
+        "11"=>"NOVIEMBRE",
+        "12"=>"DICIEMBRE"];
 	/**
 	 * The Artisan commands provided by your application.
 	 *
@@ -58,6 +70,10 @@ class Kernel extends ConsoleKernel {
                     $f->recargoTotal = 0;
                     $f->total = $monto;
                     $f->estado='P';
+                    if($modulo->nombre=="CANON"){
+                        $hoy=\Carbon\Carbon::now();
+                        $f->descripcion="PERIODO ".$this->meses[$hoy->month]." $hoy->year  PATENTE: 2010-AG1845";
+                    }
                     if($f->save()){
                         $f->detalles()->create([
                             "concepto_id" => $concepto->id,
