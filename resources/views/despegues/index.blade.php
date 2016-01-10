@@ -230,7 +230,7 @@ function getTable(url){
 		Datepicker
 		*/
 
-		$('body #fecha-datepicker-modal').datepicker({
+		$('body form #fecha-datepicker-modal').datepicker({
 			closeText: 'Cerrar',
 			prevText: '&#x3C;Ant',
 			nextText: 'Sig&#x3E;',

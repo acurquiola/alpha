@@ -15,12 +15,8 @@
 <div class="form-group">
 	<label for="aeronave_id-modal" class="col-sm-2 control-label">Aeronave</label>
 	<div class="col-sm-10">
-		<select class="form-control no-vacio aeronave" readonly name="aeronave_id" required>
-			<option value="">--Seleccione Aeronave--</option>
-			@foreach ($aeronaves as $aeronave)
-			<option data-modelo="{{$aeronave->modelo_id}}" data-nombremodelo="{{$aeronave->modelo->modelo}}" data-cliente="{{$aeronave->cliente_id}}" data-tipo="{{$aeronave->tipo_id}}" data-tipoV="{{$aeronave->tipo->nombre}}" value="{{$aeronave->id}}" {{(($despegue->aeronave_id == $aeronave->id)?"selected":"")}}> {{$aeronave->matricula}}</option>
-			@endforeach           
-		</select>
+		<input type="text" class="form-control" value="{{$despegue->aeronave->matricula}}" readonly="" placeholder="Matrícula" />
+		{!! Form::hidden('aeronave_id', null ,[ 'class'=>"form-control hora",  'readonly'=>'readonly', "placeholder"=>"Hora"]) !!}
 	</div>
 </div>
 <div class="form-group">
@@ -124,7 +120,7 @@
 			<br> 
 			<label>Tiempo: </label>
 			<div class="input-group" style="width: 150px">
-				{!! Form::text('tiempo_estacionamiento', ($despegue->tiempo_estacionamiento)?$despegue->tiempo_estacionamiento:'', [ 'class'=>"form-control num_vuelo",  "placeholder"=>"Número de Vuelo"]) !!}
+				{!! Form::text('tiempo_estacionamiento', ($despegue->tiempo_estacionamiento)?$despegue->tiempo_estacionamiento:'', [ 'id'=>'tiempo_estacionamiento-input', 'class'=>"form-control tiempo_estacionamiento",  "placeholder"=>"Número de Vuelo"]) !!}
 				<div class="input-group-addon">
 					min
 					<i class="ion ion-clock"></i>

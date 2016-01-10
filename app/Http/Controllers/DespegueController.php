@@ -222,21 +222,58 @@ class DespegueController extends Controller {
 	 */
 	public function update($aterrizaje, $id, DespegueRequest $request)
 	{
-		$despegue   = Despegue::find($id);
+		$despegue     = Despegue::find($id);
 		$despegue->update($request->except("nacionalidadVuelo_id", "piloto_id", "puerto_id", "cliente_id", "cobrar_estacionamiento", "cobrar_puenteAbordaje", "cobrar_Formulario", "cobrar_AterDesp", "cobrar_habilitacion", "cobrar_carga"));
-		$despegue->cobrar_estacionamiento =$request->input('cobrar_estacionamiento', 0);
-		$despegue->cobrar_puenteAbordaje  =$request->input('cobrar_puenteAbordaje', 0);
-		$despegue->cobrar_Formulario      =$request->input('cobrar_Formulario', 1);
-		$despegue->cobrar_AterDesp        =$request->input('cobrar_AterDesp', 0);
-		$despegue->cobrar_AterDesp        =$request->input('cobrar_AterDesp', 0);	
-		$despegue->cobrar_carga           =$request->input('cobrar_carga', 0);	
-		$despegue->cobrar_otrosCargos     =$request->input('cobrar_otrosCargos', 0);
-		/*$otrosCargos =$request->input('otrosCargo_id', []);
-		foreach ($otrosCargos as $oc) {
-			$precio[] = \App\OtrosCargo::where('id', $oc)->first()->precio_cargo;
-		}
-		$despegue->otros_cargos()->sync($otrosCargos, array('precio'));
-		*/
+			
+			$cobrarAterrizaje      =$request->input('cobrar_AterDesp');
+			$cobrarFormulario      =$request->input('cobrar_Formulario');
+			$cobrarPuentes         =$request->input('cobrar_puenteAbordaje');
+			$cobrarEstacionamiento =$request->input('cobrar_estacionamiento');
+			$cobrarCarga           =$request->input('cobrar_carga');
+			
+			$cobrarAterrizaje      =($cobrarAterrizaje)?1:0;
+			$cobrarFormulario      =($cobrarFormulario)?1:0;
+			$cobrarPuentes         =($cobrarPuentes)?1:0;
+			$cobrarEstacionamiento =($cobrarEstacionamiento)?1:0;
+			$cobrarCarga           =($cobrarCarga)?1:0;
+			
+			$despegue->cobrar_AterDesp        =$cobrarAterrizaje;
+			$despegue->cobrar_Formulario      =$cobrarFormulario;
+			$despegue->cobrar_puenteAbordaje  =$cobrarPuentes;
+			$despegue->cobrar_estacionamiento =$cobrarEstacionamiento;
+			$despegue->cobrar_carga           =$cobrarCarga;
+
+			if($cobrarEstacionamiento == 1){
+
+				$fechaAterrizaje       = $despegue->aterrizaje->fecha;
+				$fechaAterrizaje       = Carbon::createFromFormat('d/m/Y', $fechaAterrizaje);
+				$fechaAterrizaje       = $fechaAterrizaje->format('Y-m-d');
+				$horaAterrizaje        = $despegue->aterrizaje->hora;
+				$fecha_hora_aterrizaje = $fechaAterrizaje.' '.$horaAterrizaje;
+				
+				
+				$fechaDespegue         = $despegue->fecha;
+				$fechaDespegue         = Carbon::createFromFormat('d/m/Y', $fechaDespegue);
+				$fechaDespegue         = $fechaDespegue->format('Y-m-d');
+				$horaDespegue          = $despegue->hora;
+				$fecha_hora_despegue   = $fechaDespegue.' '.$horaDespegue;
+				
+				$startTime             = Carbon::parse($fecha_hora_aterrizaje);
+				$finishTime            = Carbon::parse($fecha_hora_despegue);
+
+				$totalDuration = $finishTime->diffInMinutes($startTime);
+				
+				$despegue->tiempo_estacionamiento = $totalDuration;
+			}
+
+
+			//$despegue->cobrar_otrosCargos     =$request->input('cobrar_otrosCargos', 0);
+			/*$otrosCargos =$request->input('otrosCargo_id', []);
+			foreach ($otrosCargos as $oc) {
+				$precio[] = \App\OtrosCargo::where('id', $oc)->first()->precio_cargo;
+			}
+			$despegue->otros_cargos()->sync($otrosCargos, array('precio'));
+			*/
 		if($despegue)
 		{
 

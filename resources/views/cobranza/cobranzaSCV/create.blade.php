@@ -30,7 +30,8 @@
 									data-islr="{{$cliente->islrpercentage}}"
 									data-iva="{{$cliente->ivapercentage}}"
 									data-is-contribuyente="{{$cliente->isContribuyente}}"
-									value="{{(($cliente->codigo==$factura->cliente->codigo)?$cliente->codigo:"")}}">
+									value="{{$cliente->codigo}}">
+									{{$cliente->codigo}} | {{$cliente->nombre}}
 								</option>
 								@endforeach
 							</select>

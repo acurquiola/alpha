@@ -51,9 +51,9 @@
 	<label for="hangar_id" class="col-sm-2 control-label">Hangar</label>
 	<div class="col-sm-10">
 		<select class="form-control" id="hangar_id-select" name="hangar_id" >
-			<option value=''>No dispone</option>
-			@foreach ($hangars as $index=>$hangar)
-			<option value="{{$index}}"> {{$hangar}}</option>
+			<option value=""> No Dispone</option>
+			@foreach ($hangares as $index=>$hangar)
+			<option value="{{$index}}" {{(($aeronave->hangar_id == $index)?"selected":"No Dispone")}}> {{$hangar}}</option>
 			@endforeach
 		</select>
 	</div>
