@@ -181,7 +181,7 @@ class DespegueController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function show(Despegue $despegue)
+	public function show($id)
 	{
 		$despegue            = Despegue::find($despegue);
 		$aterrizaje          = Aterrizaje::with("aeronave", "puerto")->where('id', $despegue->aterrizaje_id)->first();
@@ -200,9 +200,9 @@ class DespegueController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function edit($id)
+	public function edit(id)
 	{
-		$despegue            = Despegue::find($id);
+		$despegue            = Despegue::find($despegue);
 		$aterrizaje          = Aterrizaje::all();
 		$puertos             = Puerto::all();
 		$pilotos             = Piloto::all();

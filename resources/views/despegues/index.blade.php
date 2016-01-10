@@ -272,12 +272,12 @@ function getTable(url){
             //Mostrar la información en un modal para editar
 
             $('body').delegate('.editarDespegue-btn', 'click', function(){
-                var fila = $(this).closest('tr');
-                var id   = $(fila).data('id');
-                var aterrizaje_id   = $(fila).data('aterrizajeid');
-                var url  ='{{action('DespegueController@edit', ["Despegues"=>"-", "aterrizaje"=>"::"])}}';
-                url      =url.replace("::", aterrizaje_id)
-                url      =url.replace("-", id)
+				var fila          = $(this).closest('tr');
+				var id            = $(fila).data('id');
+				var aterrizaje_id = $(fila).data('aterrizaje');
+				var url           ='{{action('DespegueController@edit', ["::"])}}';
+				url               =url.replace("::", aterrizaje_id)
+                console.log(url);
 
                 $.ajax({
                     method: 'get',
