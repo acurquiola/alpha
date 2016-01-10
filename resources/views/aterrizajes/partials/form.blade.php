@@ -70,7 +70,7 @@
 <div class="form-group" >
 	<label for="num_vuelo" class="col-sm-2 control-label" >Número de Vuelo</label>
 	<div class="col-sm-10">
-		{!! Form::text('num_vuelo', 'N/A', [ 'class'=>"form-control num_vuelo",  "placeholder"=>"Número de Vuelo"]) !!}
+		{!! Form::text('num_vuelo', ($aterrizaje->num_vuelo)?$aterrizaje->num_vuelo:'N/A', [ 'class'=>"form-control num_vuelo",  "placeholder"=>"Número de Vuelo"]) !!}
 	</div>
 </div>
 <h5><i align="center" class="fa fa-plane"></i>Desembarque</h5>

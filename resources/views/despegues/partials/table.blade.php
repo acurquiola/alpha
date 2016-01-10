@@ -22,7 +22,7 @@
           </thead>
 
                @foreach($despegues as $despegue)
-               <tr data-id='{{$despegue->id}}'>
+               <tr data-id='{{$despegue->id}}' data-aterrizaje='{{$despegue->aterrizaje_id}}'>
                     <td class ='horaFecha-td'>{{$despegue->fecha}} {{$despegue->hora}}</td>
                     <td class ='puerto_id-td'>{{(($despegue->puerto)?$despegue->puerto->siglas:"No disponible")}}</td>
                     <td class ='num_vuelo-td'>{{(($despegue->num_vuelo)?$despegue->num_vuelo:"N/A")}}</td>
@@ -52,7 +52,7 @@
                                         <button class='btn btn-info btn-sm facturarDespegue-btn'><span class='fa fa-credit-card' title='Crear Dosa'></span></button>
                                    </a>
                                    <button class='btn btn-success btn-sm verDespegue-btn'><span class='glyphicon glyphicon-eye-open' title='Ver Información'></span></button>
-                                   <button class='btn btn-warning  btn-sm editarDespegue-btn' data-id='{{$despegue->id}}' data-aterrizajeID='{{$despegue->aterrizaje_id}}'><span class='glyphicon glyphicon-pencil' title='Editar Registro'></span></button>
+                                   <button class='btn btn-warning  btn-sm editarDespegue-btn' data-id='{{$despegue->id}}'><span class='glyphicon glyphicon-pencil' title='Editar Registro'></span></button>
                               @endif
                          @endif
                     </td>

@@ -181,17 +181,17 @@ class DespegueController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function show(Despegue $despegue)
+
+	public function show( $aterrizaje, $id)
 	{
-		$despegue            = Despegue::find($despegue);
-		$aterrizaje          = Aterrizaje::with("aeronave", "puerto")->where('id', $despegue->aterrizaje_id)->first();
+		$despegue            = Despegue::find($id);
 		$puertos             = Puerto::all();
 		$pilotos             = Piloto::all();
 		$nacionalidad_vuelos = NacionalidadVuelo::all();
 		$aeronaves           = Aeronave::all();
 		$tipoMatriculas      = TipoMatricula::all();
 		$otrosCargos         = OtrosCargo::lists('nombre_cargo', 'id');
-        return view("despegues.partials.show", compact("despegue", "aterrizaje", "otrosCargos", "nacionalidad_vuelos", "tipoMatriculas", "aeronaves", "puertos", "pilotos"));
+        return view("despegues.partials.show", compact("despegue", "otrosCargos", "nacionalidad_vuelos", "tipoMatriculas", "aeronaves", "puertos", "pilotos"));
 	}
 
 	/**
@@ -200,17 +200,18 @@ class DespegueController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function edit($id)
+
+	public function edit($aterrizaje, $id)
 	{
 		$despegue            = Despegue::find($id);
-		$aterrizaje          = Aterrizaje::all();
 		$puertos             = Puerto::all();
+		$clientes             = Cliente::all();
 		$pilotos             = Piloto::all();
 		$nacionalidad_vuelos = NacionalidadVuelo::all();
 		$aeronaves           = Aeronave::all();
 		$tipoMatriculas      = TipoMatricula::all();
 		$otrosCargos         = OtrosCargo::lists('nombre_cargo', 'id');
-        return view("despegues.partials.edit", compact("despegue","aterrizaje", "otrosCargos", "nacionalidad_vuelos", "tipoMatriculas", "aeronaves", "puertos", "pilotos"));
+        return view("despegues.partials.edit", compact("despegue", "otrosCargos", "nacionalidad_vuelos", "tipoMatriculas", "aeronaves", "puertos", "pilotos"));
 	}
 
 	/**
@@ -219,13 +220,10 @@ class DespegueController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function update($id, DespegueRequest $request)
+	public function update($aterrizaje, $id, DespegueRequest $request)
 	{
 		$despegue   = Despegue::find($id);
-		$despegue   = Despegue::update($request->except("nacionalidadVuelo_id", "piloto_id", "puerto_id", "cliente_id", "cobrar_estacionamiento", "cobrar_puenteAbordaje", "cobrar_Formulario", "cobrar_AterDesp", "cobrar_habilitacion", "cobrar_carga", "cobrar_otrosCargos", "otrosCargo_id"));
-		$aterrizaje = Aterrizaje::find($request->get("aterrizaje_id"));
-		$aterrizaje->despegue()->save($despegue);
-		$aterrizaje->update(["despego"    =>"1"]);
+		$despegue->update($request->except("nacionalidadVuelo_id", "piloto_id", "puerto_id", "cliente_id", "cobrar_estacionamiento", "cobrar_puenteAbordaje", "cobrar_Formulario", "cobrar_AterDesp", "cobrar_habilitacion", "cobrar_carga"));
 		$despegue->cobrar_estacionamiento =$request->input('cobrar_estacionamiento', 0);
 		$despegue->cobrar_puenteAbordaje  =$request->input('cobrar_puenteAbordaje', 0);
 		$despegue->cobrar_Formulario      =$request->input('cobrar_Formulario', 1);
@@ -233,21 +231,12 @@ class DespegueController extends Controller {
 		$despegue->cobrar_AterDesp        =$request->input('cobrar_AterDesp', 0);	
 		$despegue->cobrar_carga           =$request->input('cobrar_carga', 0);	
 		$despegue->cobrar_otrosCargos     =$request->input('cobrar_otrosCargos', 0);
-		$otrosCargos =$request->input('otrosCargo_id', []);
+		/*$otrosCargos =$request->input('otrosCargo_id', []);
 		foreach ($otrosCargos as $oc) {
 			$precio[] = \App\OtrosCargo::where('id', $oc)->first()->precio_cargo;
 		}
 		$despegue->otros_cargos()->sync($otrosCargos, array('precio'));
-		
-		$hora              = $aterrizaje->hora;
-		$inicioOperaciones = HorariosAeronautico::first()->operaciones_inicio;
-		$finOperaciones    = HorariosAeronautico::first()->operaciones_fin;
-
-		if ($hora > $inicioOperaciones && $hora < $finOperaciones){
-			$despegue->cobrar_habilitacion  = '0';
-		}else{
-			$despegue->cobrar_habilitacion  = '1';
-		}
+		*/
 		if($despegue)
 		{
 

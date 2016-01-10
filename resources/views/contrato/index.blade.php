@@ -185,7 +185,7 @@ $(document).ready(function(){
         var tr=$(this).closest('tr');
         var id=$(this).data("id");
         var url="{{url('contrato')}}/"+id;
-        alertify.confirm("¿Está seguro que esea eliminar el contrato seleccionado?", function (e) {
+        alertify.confirm("¿Está seguro que desea eliminar el contrato seleccionado?", function (e) {
             if (e) {
                 $.
                 ajax({url: url,

@@ -38,12 +38,16 @@ Route::get('principal',["middleware"=>"auth", function(){
     return view('principal');
 }]  );
 
-Route::get('facturaHtml', function(){
-    $factura = \App\Factura::find(24);
-    $despegue = \App\Despegue::with('aterrizaje')->where('factura_id', $factura->id)->first();
-    return view('pdf.dosa', compact('factura', 'despegue'));
-});
-
+//Route::get('facturaHtml', function(){
+//    $factura = \App\Factura::find(24);
+//    $despegue = \App\Despegue::with('aterrizaje')->where('factura_id', $factura->id)->first();
+//    return view('pdf.dosa', compact('factura', 'despegue'));
+//});
+//Route::get('facturaPdf', function(){
+//    $factura = \App\Factura::first();
+//
+//    return view('pdf.factura', compact('factura'));
+//});
 //
 //Rutas para el gestor de los Maestros
 //
@@ -67,8 +71,11 @@ Route::group(['prefix' => 'operaciones/'], function () {
     Route::get('DespeguesCobrar/{id}', 'DespegueController@getGenerarCobranza');
     Route::get('CargasFacturar/{id}', 'CargaController@getCrearFactura');
     Route::get('FacturarAdicional/{id}', 'AterrizajeController@getCrearFactura');
+    //Route::PUT('Despegue/update/{id}', 'AterrizajeController@update');
     Route::group(['prefix' => '{aterrizaje}/'], function () {
-        Route::resource('Despegues', 'DespegueController');
+        Route::get('Despegues/index', 'DespegueController@index');
+        Route::get('Despegues/create', 'DespegueController@create');
+        Route::post('Despegues/store', 'DespegueController@store');
     });
     Route::resource('Aterrizajes', 'AterrizajeController');
     Route::resource('Cargas', 'CargaController');

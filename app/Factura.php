@@ -126,4 +126,43 @@ class Factura extends Model {
             $carbon=$fecha;
         return $carbon->format('d/m/Y');
     }
+
+    protected function parseDecimal($numero, $attr){
+        if(is_string($numero)){
+            $numero=preg_replace ( '/\./i', "", $numero );
+            $numero=preg_replace ( '/\,/i', ".", $numero );
+            $numero=floatval($numero);
+        }
+        $this->attributes[$attr]=$numero;
+    }
+
+    public function setSubtotalNetoAttribute($numero)
+    {
+        $this->parseDecimal($numero,'subtotalNeto');
+    }
+
+    public function setDescuentoTotalAttribute($numero)
+    {
+        $this->parseDecimal($numero,'descuentoTotal');
+    }
+
+    public function setSubtotalAttribute($numero)
+    {
+        $this->parseDecimal($numero,'subtotal');
+    }
+
+    public function setIvaAttribute($numero)
+    {
+        $this->parseDecimal($numero,'iva');
+    }
+
+    public function setRecargoTotalAttribute($numero)
+    {
+        $this->parseDecimal($numero,'recargoTotal');
+    }
+
+    public function setTotalAttribute($numero)
+    {
+        $this->parseDecimal($numero,'total');
+    }
 }

@@ -86,6 +86,16 @@
 										<td>{{$factura->total}}</td>
 									</tr>
 									@endforeach
+
+			                        <tr class="bg-gray">
+			                        	<td>Total</td>
+			                        	<td> </td>
+			                        	<td> </td>
+			                        	<td> </td>
+			                        	<td> </td>
+			                        	<td>{{$facturasTotal}}</td>
+			                        
+			                        </tr>
 								</tbody>
 							</table>
 						</div>

@@ -307,7 +307,7 @@ function getTable(url){
 
                 var data =$('#show-modal form').serializeArray()
                 var url  =$('#show-modal form').attr('action')
-                console.log(data);
+                console.log(url);
                 $.ajax({data:data,
                     method:'PUT',
                     url:url})

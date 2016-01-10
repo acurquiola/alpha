@@ -23,6 +23,16 @@ class ViewComposerServiceProvider extends ServiceProvider {
            return "Mostrando: ".(($page->currentPage()-1)*$page->perPage()+1)." - ".(($page->currentPage()-1)*$page->perPage()+$page->count())." de ".$page->total();
         });
 
+        view()->composer(['*'], function($view){
+            /**
+             * tiene dos metodos
+             * numtoletras(numero) => trnasforma numero en letras
+             * format(numero) => transforma los decimales a español
+             */
+            $traductor=new \App\Library\Converter();
+            $view->with(compact('traductor'));
+        });
+
 		view()->composer(['partials.navbar', 'partials.menu'], function($view){
             $user      =\Auth::user();
             $userName  =ucwords($user->username);

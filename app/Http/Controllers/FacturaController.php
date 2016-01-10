@@ -9,7 +9,19 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Mail;
 
 class FacturaController extends Controller {
-
+    protected $meses=[
+    "1"=>"ENERO",
+    "2"=>"FEBRERO",
+    "3"=>"MARZO",
+    "4"=>"ABRIL",
+    "5"=>"MAYO",
+    "6"=>"JUNIO",
+    "7"=>"JULIO",
+    "8"=>"AGOSTO",
+    "9"=>"SEPTIEMBRE",
+    "10"=>"OCTUBRE",
+    "11"=>"NOVIEMBRE",
+    "12"=>"DICIEMBRE"];
 
     public function __construct()
     {
@@ -19,7 +31,9 @@ class FacturaController extends Controller {
     public function postContratosStoreAutomatica($moduloNombre, Request $request){
         $facturasDb=new Collection([]);
         $facturas=$request->get('facturas');
+
         foreach($facturas as $factura){
+
             \DB::transaction(function () use ($factura, $moduloNombre, &$facturasDb) {
                 $f = new \App\Factura();
                 $f->aeropuerto_id=session('aeropuerto')->id;
@@ -40,6 +54,11 @@ class FacturaController extends Controller {
                 $f->recargoTotal = 0;
                 $f->total = $factura['monto'];
                 $f->estado='P';
+
+                if($moduloNombre=="CANON"){
+                    $hoy=\Carbon\Carbon::createFromFormat('d/m/Y',$factura["fechaControlContrato"]) ;
+                    $f->descripcion="PERIODO ".$this->meses[$hoy->month]." $hoy->year  PATENTE: 2010-AG1845";
+                }
                 if($f->save()){
                     $f->detalles()->create([
                                             "concepto_id" => $factura["concepto_id"],
@@ -91,81 +110,63 @@ class FacturaController extends Controller {
      * I = imprimir en el explorador
      * F =  guardar en un archivo
      *
-     *
+     * @return pdf
      */
     protected function crearFactura($factura, $output= 'I', $dir='facturas/'){
         $despegue = \App\Despegue::with('aterrizaje')->where('factura_id', $factura->nFactura)->first();
-
         $factura->load('detalles');
         //return view('pdf.factura', compact('factura'));
         // create new PDF document
-        $pdf = new \TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
-
+        $pdf = new \TCPDF('P', PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
         $pdf->setPrintHeader(false);
         $pdf->setPrintFooter(false);
-
         // set default monospaced font
         $pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
-
         // set margins
         $pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
-
         // set some language-dependent strings (optional)
         if (@file_exists(dirname(__FILE__).'/lang/eng.php')) {
             require_once(dirname(__FILE__).'/lang/eng.php');
             $pdf->setLanguageArray($l);
         }
-
         // ---------------------------------------------------------
-
         // set default font subsetting mode
         $pdf->setFontSubsetting(true);
-
         // Set font
         // dejavusans is a UTF-8 Unicode font, if you only need to
         // print standard ASCII chars, you can use core fonts like
         // helvetica or times to reduce file size.
         $pdf->SetFont('dejavusans', '', 9, '', true);
-
         // Add a page
         // This method has several options, check the source code documentation for more information.
         $pdf->AddPage();
-
         // set text shadow effect
         // Set some content to print
         //
-
-
         if($despegue){
-            $html = view('pdf.dosa', compact('factura', 'despegue'))->render();
+            $html = view('pdf.dosa', compact('factura', 'despegue', 'traductor'))->render();
         }else{
-            $html = view('pdf.factura', compact('factura'))->render();
+            $html = view('pdf.factura', compact('factura', 'traductor'))->render();
         }
-
         // Print text using writeHTMLCell()
         $pdf->writeHTML($html);
-
         // ---------------------------------------------------------
-
         // Close and output PDF document
         // This method has several options, check the source code documentation for more information.
+        ob_end_clean();
         if($output=='I')
-        $pdf->Output($factura->nFactura."factura.pdf", $output);
+            $pdf->Output($factura->nFactura."factura.pdf", $output);
         else{
             $path=$dir.$factura->nFactura."factura.pdf";
             $pdf->Output($path, $output);
             return $path;
         }
-
-
-
+        $factura->update(["isImpresa"=> true]);
     }
 
 
     public function getPrint($modulo, Factura $factura){
-
-        $this->crearFactura($factura);
-
+      return $this->crearFactura($factura);
     }
 
 
@@ -253,7 +254,10 @@ class FacturaController extends Controller {
 	 */
 	public function create($modulo,Factura $factura)
 	{
-
+        if($modulo=="CANON"){
+            $hoy=\Carbon\Carbon::now();
+            $factura->descripcion="PERIODO ".$this->meses[$hoy->month]." $hoy->year  PATENTE: 2010-AG1845";
+        }
         $modulo= \App\Modulo::where('nombre', $modulo)->where('aeropuerto_id', session('aeropuerto')->id)->first();
         if(!$modulo){
             return response("No se consiguio el modulo '$modulo' en el aeropuerto de sesion", 500);
@@ -330,8 +334,14 @@ class FacturaController extends Controller {
 	public function edit($modulo, Factura $factura)
 	{
 
+        $modulo= \App\Modulo::where('nombre', $modulo)->where('aeropuerto_id', session('aeropuerto')->id)->first();
+        if(!$modulo){
+            return response("No se consiguio el modulo '$modulo' en el aeropuerto de sesion", 500);
+        }
+        $modulo_id=$modulo->id;
         $factura->load('detalles');
-        return view('factura.edit', compact('factura', 'modulo'));
+
+        return view('factura.edit', compact('factura', 'modulo', 'modulo_id'));
     }
 
 	/**
@@ -367,9 +377,9 @@ class FacturaController extends Controller {
         }
 
         if($factura->delete())
-            return ["success"=>1, "text"=>"La factura se ha eliminado con exito"];
+            return ["success"=>1, "text"=>"La factura se ha anulado con exito."];
         else
-            return ["success"=>0, "text"=>"No se pudo eliminar la factura con exito"];
+            return ["success"=>0, "text"=>"No se pudo anular la factura."];
 	}
 
 

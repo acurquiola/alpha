@@ -33,15 +33,16 @@
 
     $('#concepto-table tbody tr').each(function(index, value){
     var cantidadVal=$(value).find('.cantidad-input').val();
-    var cantidad=parseInt(cantidadVal);
+    if(cantidadVal!=""){
+    var cantidad=parseInt(commaToNum(cantidadVal));
     cantidad=isNaN(cantidad)?0:cantidad;
-    if(cantidadVal!="")
-        $(value).find('.cantidad-input').val(cantidad.toFixed(2));
+        $(value).find('.cantidad-input').val(numToComma(cantidad));
+        }
     var montoVal=$(value).find('.monto-input').val();
-    var monto=parseFloat(montoVal);
+    var monto=parseFloat(commaToNum(montoVal));
     monto=isNaN(monto)?0:monto;
     if(montoVal!="")
-        $(value).find('.monto-input').val(monto.toFixed(2));
+        $(value).find('.monto-input').val(numToComma(monto));
     var subtotalNetoRow=cantidad*monto;
     subtotalNeto+=subtotalNetoRow;
     var descuentoPer=$(value).find('.descuentoPer-input')[0];
@@ -51,22 +52,22 @@
     switch(input){
 
         case descuentoTotal:
-        var descuentoTotalVal=parseFloat($(descuentoTotal).val());
+        var descuentoTotalVal=parseFloat(commaToNum($(descuentoTotal).val()));
                     descuentoTotalVal=isNaN(descuentoTotalVal)?0:descuentoTotalVal;
-        $(descuentoPer).val((100*descuentoTotalVal/subtotalNetoRow).toFixed(2));
-                    $(descuentoTotal).val(descuentoTotalVal.toFixed(2));
+        $(descuentoPer).val(numToComma(100*descuentoTotalVal/subtotalNetoRow));
+                    $(descuentoTotal).val(numToComma(descuentoTotalVal));
         break;
 
                 default:
-                    var descuentoPerVal=parseFloat($(descuentoPer).val());
+                    var descuentoPerVal=parseFloat(commaToNum($(descuentoPer).val()));
                     descuentoPerVal=isNaN(descuentoPerVal)?0:descuentoPerVal;
-                    $(descuentoTotal).val((descuentoPerVal*subtotalNetoRow/100).toFixed(2));
-                    $(descuentoPer).val(descuentoPerVal.toFixed(2));
+                    $(descuentoTotal).val(numToComma(descuentoPerVal*subtotalNetoRow/100));
+                    $(descuentoPer).val(numToComma(descuentoPerVal));
                 break;
 
     }
 
-    descuentoTotalDoc+=descuentoTotalRow=parseFloat($(descuentoTotal).val());
+    descuentoTotalDoc+=descuentoTotalRow=parseFloat(commaToNum($(descuentoTotal).val()));
     var subtotalRow=subtotalNetoRow-descuentoTotalRow;
     subtotal+=subtotalRow;
         var recargoPer=$(value).find('.recargoPer-input')[0];
@@ -74,39 +75,39 @@
         switch(input){
 
             case recargoTotal:
-                var recargoTotalVal=parseFloat($(recargoTotal).val());
+                var recargoTotalVal=parseFloat(commaToNum($(recargoTotal).val()));
                             recargoTotalVal=isNaN(recargoTotalVal)?0:recargoTotalVal;
-                $(recargoPer).val((100*recargoTotalVal/subtotalRow).toFixed(2));
-                            $(recargoTotal).val(recargoTotalVal.toFixed(2));
+                $(recargoPer).val(numToComma(100*recargoTotalVal/subtotalRow));
+                            $(recargoTotal).val(numToComma(recargoTotalVal));
             break;
 
         default:
-            var recargoPerVal=parseFloat($(recargoPer).val());
+            var recargoPerVal=parseFloat(commaToNum($(recargoPer).val()));
                         recargoPerVal=isNaN(recargoPerVal)?0:recargoPerVal;
-            $(recargoTotal).val((recargoPerVal*subtotalRow/100).toFixed(2));
-                        $(recargoPer).val(recargoPerVal.toFixed(2));
+            $(recargoTotal).val(numToComma(recargoPerVal*subtotalRow/100));
+                        $(recargoPer).val(numToComma(recargoPerVal));
         break;
         }
         var ivaVal=$(value).find('.iva-input').val();
-    var ivaInput=parseFloat(ivaVal);
+    var ivaInput=parseFloat(commaToNum(ivaVal));
     ivaInput=isNaN(ivaInput)?0:ivaInput;
     if(ivaVal!="")
-        $(value).find('.iva-input').val(ivaInput.toFixed(2));
+        $(value).find('.iva-input').val(numToComma(ivaInput));
     var ivaRow=subtotalRow*ivaInput/100;
     iva+=ivaRow;
-    var recargoTotalRow=parseFloat($(recargoTotal).val());
+    var recargoTotalRow=parseFloat(commaToNum($(recargoTotal).val()));
     recargoTotalDoc+=recargoTotalRow;
     var totalRow=subtotalRow+ivaRow+recargoTotalRow;
-    $(value).find('.total-input').val(totalRow.toFixed(2));
+    $(value).find('.total-input').val(numToComma(totalRow));
     total+=totalRow;
 
     })
-    $("#subtotalNeto-doc-input").val(subtotalNeto.toFixed(2));
-    $("#descuentoTotal-doc-input").val(descuentoTotalDoc.toFixed(2));
-    $("#subtotal-doc-input").val(subtotal.toFixed(2));
-    $("#iva-doc-input").val(iva.toFixed(2));
-    $("#recargoTotal-doc-input").val(recargoTotalDoc.toFixed(2));
-    $("#total-doc-input").val(total.toFixed(2));
+    $("#subtotalNeto-doc-input").val(numToComma(subtotalNeto));
+    $("#descuentoTotal-doc-input").val(numToComma(descuentoTotalDoc));
+    $("#subtotal-doc-input").val(numToComma(subtotal));
+    $("#iva-doc-input").val(numToComma(iva));
+    $("#recargoTotal-doc-input").val(numToComma(recargoTotalDoc));
+    $("#total-doc-input").val(numToComma(total));
 
     },500);
 
@@ -192,7 +193,7 @@ $('#advance-search-modal .modal-body').delegate('.operator-list li', 'click', fu
     })
 
 
-  $('#fechaVencimiento, #fecha').datepicker({
+  $('#fechaVencimiento:not([readonly]), #fecha:not([readonly])').datepicker({
     closeText: 'Cerrar',
     prevText: '&#x3C;Ant',
     nextText: 'Sig&#x3E;',
@@ -241,20 +242,20 @@ $('#advance-search-modal .modal-body').delegate('.operator-list li', 'click', fu
         var option=$('#concepto-select option[value="'+conceptoId+'"]');
         var conceptoNombre=$(option).text();
         var costo=$(option).data('costo');
-
+        var iva=$(option).data('iva');
 
 
 
     $('#concepto-table tbody').append('<tr>\
      <td style="text-align: left"><input type="hidden" name="concepto_id[]" value="'+conceptoId+'" autocomplete="off" />'+conceptoNombre+'</td>\
      <td><input class="form-control cantidad-input text-right" value="1" name="cantidadDes[]" autocomplete="off" /></td>\
-     <td><input class="form-control monto-input text-right" value="'+costo+'" name="montoDes[]" autocomplete="off" /> </td>\
-     <td><input class="form-control descuentoPer-input text-right" value="0" name="descuentoPerDes[]" autocomplete="off" /></td>\
-     <td><input class="form-control descuentoTotal-input text-right" value="0" name="descuentoTotalDes[]" autocomplete="off" /></td>\
-     <td><input class="form-control iva-input text-right" value="{{config('app.iva')}}" name="ivaDes[]" autocomplete="off" /></td>\
-     <td><input class="form-control recargoPer-input text-right" value="0" name="recargoPerDes[]" autocomplete="off" /></td>\
-     <td><input class="form-control recargoTotal-input text-right" value="0" name="recargoTotalDes[]" autocomplete="off" /></td>\
-     <td><input class="form-control total-input text-right" value="0" readonly name="totalDes[]" autocomplete="off" /></td>\
+     <td><input class="form-control monto-input text-right" value="'+numToComma(costo)+'" name="montoDes[]" autocomplete="off" /> </td>\
+     <td><input class="form-control descuentoPer-input text-right" value="0,00" name="descuentoPerDes[]" autocomplete="off" /></td>\
+     <td><input class="form-control descuentoTotal-input text-right" value="0,00" name="descuentoTotalDes[]" autocomplete="off" /></td>\
+     <td><input class="form-control iva-input text-right" value="'+numToComma(iva)+'" name="ivaDes[]" autocomplete="off" /></td>\
+     <td><input class="form-control recargoPer-input text-right" value="0,00" name="recargoPerDes[]" autocomplete="off" /></td>\
+     <td><input class="form-control recargoTotal-input text-right" value="0,00" name="recargoTotalDes[]" autocomplete="off" /></td>\
+     <td><input class="form-control total-input text-right" value="0,00" readonly name="totalDes[]" autocomplete="off" /></td>\
      <td><button class="btn btn-danger eliminar-concepto-btn"><span class="glyphicon glyphicon-remove"></span></button></td>\
      </tr>')
 

@@ -41,5 +41,18 @@ class Concepto extends Model {
     {
         return $this->hasOne('App\OtrosCargo');
     }
+    protected function parseDecimal($numero, $attr){
+        if(is_string($numero)){
+            $numero=preg_replace ( '/\./i', "", $numero );
+            $numero=preg_replace ( '/\,/i', ".", $numero );
+            $numero=floatval($numero);
+        }
+        $this->attributes[$attr]=$numero;
+    }
+
+    public function setIvaAttribute($numero)
+    {
+        $this->parseDecimal($numero,'iva');
+    }
 
 }
