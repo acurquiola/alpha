@@ -73,9 +73,7 @@ Route::group(['prefix' => 'operaciones/'], function () {
     Route::get('FacturarAdicional/{id}', 'AterrizajeController@getCrearFactura');
     //Route::PUT('Despegue/update/{id}', 'AterrizajeController@update');
     Route::group(['prefix' => '{aterrizaje}/'], function () {
-        Route::get('Despegues/index', 'DespegueController@index');
-        Route::get('Despegues/create', 'DespegueController@create');
-        Route::post('Despegues/store', 'DespegueController@store');
+        Route::resource('Despegues', 'DespegueController');
     });
     Route::resource('Aterrizajes', 'AterrizajeController');
     Route::resource('Cargas', 'CargaController');
