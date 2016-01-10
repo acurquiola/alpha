@@ -308,9 +308,17 @@ class DespegueController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function destroy($id)
+	public function destroy($aterrizaje, $id)
 	{
-		//
+		$despegue = Despegue::find($id);
+		$aterrizaje = Aterrizaje::find($despegue->aterrizaje_id);
+        if(\App\Aterrizaje::destroy($id)){
+        	$aterrizaje->update(['despego'=>'0']);
+            return ["success"=>1, "text" => "Despegue eliminado con éxito."];
+        }else{
+            return ["success"=>0, "text" => "Error eliminando el registro."];
+        }
+
 	}
 
 	public function getCrearFactura($id)

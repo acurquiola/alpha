@@ -53,6 +53,7 @@
                                    </a>
                                    <button class='btn btn-success btn-sm verDespegue-btn'><span class='glyphicon glyphicon-eye-open' title='Ver Información'></span></button>
                                    <button class='btn btn-warning  btn-sm editarDespegue-btn' data-id='{{$despegue->id}}'><span class='glyphicon glyphicon-pencil' title='Editar Registro'></span></button>
+                                   <button class='btn btn-danger  btn-sm eliminarDespegue-btn' data-id='{{$despegue->id}}'><span class='glyphicon glyphicon-trash' title='Eliminar Registro'></span></button>
                               @endif
                          @endif
                     </td>

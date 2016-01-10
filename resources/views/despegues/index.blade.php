@@ -444,7 +444,16 @@ function getTable(url){
             Eliminar registro
             */
             
-            $('body').delegate('.eliminarAterrizaje-btn', 'click', function(){
+            $('body').delegate('.eliminarDespegue-btn', 'click', function(){
+				var fila          = $(this).closest('tr');
+				var id            = $(fila).data('id');
+				var aterrizaje    = $(fila).data('aterrizaje');
+				var aterrizaje_id = $(fila).data('aterrizaje');
+            var url ="{{action('DespegueController@index')}}/"+aterrizaje_id+id;
+                url      =url.replace("::", aterrizaje_id)
+                url      =url.replace("-", id)
+
+
             var tr  =$(this).closest('tr');
             console.log(tr)
             var id  =$(this).data('id');
