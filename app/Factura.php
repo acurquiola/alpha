@@ -47,7 +47,7 @@ class Factura extends Model {
 
     public function aterrizaje()
     {
-        return $this->belongsTo('App\Aterrizaje');
+        return $this->belongsTo('App\Aterrizaje',  'factura_id', 'nFactura');
     }
 
     public function cobros()
@@ -77,7 +77,7 @@ class Factura extends Model {
 
     public function despegue()
     {
-        return $this->hasOne('App\Despegue', 'factura_id', 'nFactura');
+        return $this->hasOne('App\Despegue');
     }
 
     public function carga()

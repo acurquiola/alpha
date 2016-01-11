@@ -91,7 +91,8 @@ class AterrizajeController extends Controller {
 
 
 		$aterrizajes=	$aterrizajes->orderBy($sortName, $sortType)
-									->paginate(7);
+									->orderBy('hora', 'DESC')
+									->paginate(10);
 
 		return view('aterrizajes.partials.table', compact('aterrizajes'));
 		}
