@@ -452,10 +452,44 @@ function getTable(url){
                 url      =url.replace("::", aterrizaje)
                 url      =url.replace("-", id)
             
-            // confirm dialog
-            alertify.confirm("¿Realmente desea eliminar este registro?", function (e) {
-                if (e) {        
+	            // confirm dialog
+	            alertify.confirm("¿Realmente desea eliminar este registro?", function (e) {
+	                if (e) {        
 
+	                    $.
+	                    ajax({url: url,
+	                        method:"DELETE"})
+	                    .done(function(response, status, responseObject){
+	                        try{
+	                            var obj= JSON.parse(responseObject.responseText);
+	                            if(obj.success==1){
+	                                $(tr).remove();
+	                                $('#filtrar-btn').trigger('click');
+	                                alertify.success(obj.text);
+	                            }
+	                        }catch(e){
+	                            console.log(e);
+	                            alertify.error('Error procesando la información');
+	                        }
+
+	                    })
+	                } 
+	            })
+	        })
+	    });
+
+        /*   
+            Anular registro
+            */
+            
+            $('body').delegate('.anular-factura-btn', 'click', function(){
+				var tr=$(this).closest('tr');
+				var id=$(this).data("id");
+				var url="{{url('facturacion/DOSAS/factura')}}/"+id;
+            
+	            // confirm dialog
+            alertify.confirm("¿Está seguro que desea anular la dosa seleccionada?", function (e) {
+	                if (e) {
                     $.
                     ajax({url: url,
                         method:"DELETE"})
@@ -464,18 +498,17 @@ function getTable(url){
                             var obj= JSON.parse(responseObject.responseText);
                             if(obj.success==1){
                                 $(tr).remove();
-                                $('#filtrar-btn').trigger('click');
                                 alertify.success(obj.text);
-                            }
+                            }else if(obj.success==0)
+                                alertify.error(obj.text);
                         }catch(e){
                             console.log(e);
-                            alertify.error('Error procesando la información');
+                            alertify.error("Error en el servidor");
                         }
-
                     })
-                } 
-            })
-        })
-    });
+			    }
+	            })
+	        });
+
 </script>
 @endsection
