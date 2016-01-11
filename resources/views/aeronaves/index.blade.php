@@ -12,7 +12,7 @@
 				</div><!-- /.box-header -->
 				<div class="box-body">
 
-					<form class="form-inline">
+					<form class="form-inline" id="form-filter">
 						{!! Form::hidden('sortName', null, []) !!}
 						{!! Form::hidden('sortType', null, []) !!}
 						<div class="form-group">
@@ -137,32 +137,31 @@
                                 @endforeach
  							</select>
  						</div>
- 					</div>
- 					<br/>
- 					<div class="input-group" >
- 						<span class="input-group-addon"><i class="ion ion-android-arrow-dropright"></i></span>
- 						<div class="form-group" style="margin-top: 12px">
- 							<select class="form-control no-vacio cliente" id="cliente_id-select"  name="cliente_id" required>
- 								<option value=''>--Seleccione Cliente--</option>
+     					<div class="input-group">
+     						<span class="input-group-addon"><i class="ion ion-android-arrow-dropright"></i></span>
+     						<div class="form-group" style="margin-top: 8px"> 
+                                <label class="input-control">Selccionar Hangar </label>
+     							<select class="form-control" id="hangar_id-select" name="hangar_id" >
+     								<option value=''>No dispone</option>
+     								@foreach ($hangars as $index=>$hangar)
+     								<option value="{{$index}}"> {{$hangar}}</option>
+     								@endforeach
+     							</select>
+     						</div>
+     					</div>
+                    </div>
+                    <br/>
+                    <div class="input-group" >
+                        <span class="input-group-addon"><i class="ion ion-android-arrow-dropright"></i></span>
+                        <div class="form-group" style="margin-top: 12px">
+                            <select class="form-control no-vacio cliente" id="cliente_id-select"  name="cliente_id" required>
+                                <option value=''>--Seleccione Cliente--</option>
                                 @foreach  ($clientes as $index=>$cliente)
                                 <option value="{{$index}}"> {{$cliente}}</option> 
- 								@endforeach
- 							</select>
- 						</div>
- 					</div>
- 					<br/>
- 					<div class="input-group">
- 						<span class="input-group-addon"><i class="ion ion-android-arrow-dropright"></i></span>
- 						<div class="form-group" style="margin-top: 8px"> 
-                            <label class="input-control">Selccionar Hangar </label>
- 							<select class="form-control" id="hangar_id-select" name="hangar_id" >
- 								<option value=''>No dispone</option>
- 								@foreach ($hangars as $index=>$hangar)
- 								<option value="{{$index}}"> {{$hangar}}</option>
- 								@endforeach
- 							</select>
- 						</div>
- 					</div>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
  				</form>
  			</div><!-- /.box-body -->
  			<div class="box-footer" align="right">
@@ -270,7 +269,10 @@
             Select
             */
 
-    		$('#cliente_id-flt, #nacionalidad_id-flt, #hangar_id-flt, #tipo_id-flt, #modelo_id-flt, #cliente_id-select, #hangar_id-select, #tipo_id-select, #nacionalidad-select, #modelo_id-select').chosen({width:'100%'});
+            $('#cliente_id-flt').chosen({width:'400px'});
+            $('#nacionalidad_id-flt,#tipo_id-flt, #modelo_id-flt').chosen({width:'150px'});
+            $('#hangar_id-flt').chosen({width:'100px'});
+    		$('#cliente_id-select, #hangar_id-select, #tipo_id-select, #nacionalidad-select, #modelo_id-select').chosen({width:'200px'});
 
     		$('#modelo_id-select').chosen({width: "100%"}).change(function(){
     			var peso =$('#modelo_id-select').data('peso');
@@ -289,24 +291,25 @@
            });          
 
 
+            /*  
+            Listar los registros 
+            */
 
-	   /*	
-	    	Listar los registros 
-	    	*/
-	    	$('#filtrar-btn').click(function(e){
-	    		e.preventDefault();
-	    		var data=$(this).closest('form').serialize();
-	    		getTable("{{action('AeronaveController@index')}}?"+data);
-	    	}).trigger('click');
+            $('#filtrar-btn').click(function(e){
+                e.preventDefault();
+                var data=$(this).closest('form').serialize();
+                getTable("{{action('AeronaveController@index')}}?"+data);
+
+            }).trigger('click');
 
 
-	    	$('#table-wrapper').delegate('.pagination li a', 'click', function(e){
-	    		e.preventDefault();
+            $('#table-wrapper').delegate('.pagination li a', 'click', function(e){
+                e.preventDefault();
 
-    	    //Hay que quitar el slash antes del ?, no se como no generarlo pero replace resuelve.
-    	    
-    	    getTable($(this).attr('href').replace("/?", "?"));
-    	})
+            //Hay que quitar el slash antes del ?, no se como no generarlo pero replace resuelve.
+            //
+            getTable($(this).attr('href').replace("/?", "?"));
+        })
 
         /*   
             Eliminar registro

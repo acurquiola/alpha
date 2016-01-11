@@ -25,68 +25,61 @@ class AeronaveController extends Controller {
 	public function index(Request $request)
 	{
 		if($request->ajax()){
-		$sortName             = $request->get('sortName','matricula');
-		$sortName             =($sortName=="")?"matricula":$sortName;
+			$sortName             = $request->get('sortName','matricula');
+			$sortName             =($sortName=="")?"matricula":$sortName;
+			
+			$sortType             = $request->get('sortType','ASC');
+			$sortType             =($sortType=="")?"ASC":$sortType;
+			
+			$matricula            = $request->get('matricula', '%');
+			$matricula            =($matricula=="")?"%":$matricula;
+			
+			$nacionalidad_id      = $request->get('nacionalidad_id', 0);
+			$nacionalidadOperador =($nacionalidad_id=="")?">":"=";
 
-		$sortType             = $request->get('sortType','ASC');
-		$sortType             =($sortType=="")?"ASC":$sortType;
+			$tipo_id              = $request->get('tipo_id', 0);
+			$tipoOperador         =($tipo_id=="")?">":"=";
+			
+			$modelo_id            = $request->get('modelo_id', 0);
+			$modeloOperador       =($modelo_id=="")?">":"=";
 
-		$matricula            = $request->get('matricula', '%');
-		$matricula            =($matricula=="")?"%":$matricula;
+			$peso                 = $request->get('peso', '%');
+			$peso                 =($peso=="")?"%":$peso;
+			
+			$cliente_id           = $request->get('cliente_id', 0);
+			$clienteOperador      =($cliente_id=="")?">":"=";
+			
+			$hangar_id            = $request->get('hangar_id', 0);
+			$hangarOperador       =($hangar_id=="")?">":"=";
+			\Input::merge([
+				'sortName'=>$sortName,
+				'sortType'=>$sortType]);
 
-		$peso                 = $request->get('peso', '%');
-		$peso                 =($peso=="")?"%":$peso;
-
-		$nacionalidad_id      = $request->get('nacionalidad_id', 0);
-		$nacionalidadOperator =($nacionalidad_id=="")?">":"=";
-
-		$tipo_id              = $request->get('tipo_id', 0);
-		$tipoOperator         =($tipo_id=="")?">":"=";
-
-		$modelo_id            = $request->get('modelo_id', 0);
-		$modeloOperator       =($modelo_id=="")?">":"=";
-
-		$cliente_id           = $request->get('cliente_id', 0);
-		$clienteOperador      =($cliente_id=="")?">":"=";
-
-		$hangar_id           = $request->get('hangar_id', 0);
-		$hangarOperador      =($hangar_id=="")?">":"=";
-
-		 \Input::merge([
-            'sortName'=>$sortName,
-            'sortType'=>$sortType]);
-
-
-		$aeronaves = Aeronave::with("tipo","cliente", "hangar", "modelo", "nacionalidad")
-									->where('matricula', 'like', $matricula)
-									->where('peso', 'like', $peso)
-									->where('nacionalidad_id', $nacionalidadOperator, $nacionalidad_id)
-									->where('tipo_id', $tipoOperator, $tipo_id)
-									->where('modelo_id', $modeloOperator, $modelo_id)
-									->where('cliente_id', $clienteOperador, $cliente_id)
-									->where('hangar_id', $hangarOperador, $hangar_id);
+			$aeronaves= Aeronave::where('matricula', $matricula)
+							->where('nacionalidad_id', $nacionalidadOperador, $nacionalidad_id)
+							->where('tipo_id', $tipoOperador, $tipo_id)
+							->where('modelo_id', $modeloOperador, $modelo_id)
+							->where('peso', 'like', $peso)
+							->where('cliente_id', $clienteOperador, $cliente_id);
+			if($hangar_id==''){
+				$aeronaves=$aeronaves->orWhere('hangar_id','=' , null);
+			}
+			$aeronaves=$aeronaves->orderBy($sortName, $sortType)
+							 ->paginate(7);
 
 
-		if($hangar_id==0){
-			$aeronaves=$aeronaves->orWhere('hangar_id','=' , null);
-		}
-		if($cliente_id==''){
-			$aeronaves=$aeronaves->orWhere('cliente_id','=' , null);
-		}
-		$aeronaves=		$aeronaves->orderBy($sortName, $sortType)
-									->paginate();
 
-		return view('aeronaves.partials.table', compact('aeronaves'));
+			return view('aeronaves.partials.table', compact('aeronaves'));
 		}
 		else
-		{
-			$paises                  = Aeronave::all();
+		{	$aeronaves               = Aeronave::all();
 			$modelo_aeronaves        = ModeloAeronave::all();
 			$tipo_matriculas         = TipoMatricula::all();
 			$clientes                = Cliente::all();
 			$nacionalidad_matriculas = NacionalidadMatricula::all();
 
-		return view('aeronaves.index', compact('paises', 'modelo_aeronaves', 'tipo_matriculas', 'clientes','nacionalidad_matriculas'));
+		return view('aeronaves.index', compact('aeronaves', 'modelo_aeronaves', 'tipo_matriculas', 'clientes','nacionalidad_matriculas'));
+		
 		}
 	}
 

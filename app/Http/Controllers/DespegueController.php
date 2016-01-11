@@ -77,6 +77,7 @@ class DespegueController extends Controller {
 				$despegues=$despegues->orWhere('puerto_id','=' , null);
 			}
 			$despegues=	$despegues->orderBy($sortName, $sortType)
+			->orderBy('hora', 'DESC')
 			->paginate(7);
 			return view('despegues.partials.table', compact('despegues', 'aeronave'));
 		}

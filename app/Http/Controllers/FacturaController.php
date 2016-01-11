@@ -240,7 +240,7 @@ class FacturaController extends Controller {
                                         ->where('clientes.nombre', 'like', "%$clienteNombre%")
                                         ->where('facturas.aeropuerto_id','=', session('aeropuerto')->id)
                                         ->with('cliente')->groupBy("facturas.nFactura")
-                                        ->orderBy($sortName, $sortType)->paginate(50);
+                                        ->orderBy($sortName, $sortType)->paginate(10);
 
         $modulo->facturas->setPath('');
 

@@ -65,7 +65,7 @@
 				<form id="piloto-form">
 					<div class="input-group">
 						<span class="input-group-addon"><i class="ion ion-android-arrow-dropright"></i></span>
-						<input type="text" class="form-control no-vacio" name="nombre" placeholder="Nombre y Apellido" id="nombre-input">
+						<input type="text" class="form-control no-vacio" name="nombre" placeholder="Apellido y Nombre" id="nombre-input">
 					</div>
 					<br/>
 					<div class="input-group" >
