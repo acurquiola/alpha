@@ -120,7 +120,7 @@
 			<br> 
 			<label>Tiempo: </label>
 			<div class="input-group" style="width: 150px">
-				{!! Form::text('tiempo_estacionamiento', ($despegue->tiempo_estacionamiento)?$despegue->tiempo_estacionamiento:'', [ 'id'=>'tiempo_estacionamiento-input', 'class'=>"form-control tiempo_estacionamiento",  "placeholder"=>"Número de Vuelo"]) !!}
+				{!! Form::text('tiempo_estacionamiento', ($despegue->tiempo_estacionamiento)?$despegue->tiempo_estacionamiento:'', [ 'id'=>'tiempo_estacionamiento-input', 'class'=>"form-control tiempo_estacionamiento", 'disabled'=>'disabled', "placeholder"=>"Número de Vuelo"]) !!}
 				<div class="input-group-addon">
 					min
 					<i class="ion ion-clock"></i>

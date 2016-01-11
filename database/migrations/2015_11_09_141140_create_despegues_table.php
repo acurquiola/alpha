@@ -53,7 +53,7 @@ class CreateDespeguesTable extends Migration {
 			$table->integer('otrosCargo_id')->unsigned()->nullable();
 			$table->foreign('otrosCargo_id')->references('id')->on('otros_cargos');
 			$table->integer('aterrizaje_id')->unsigned();
-			$table->foreign('aterrizaje_id')->references('id')->on('aterrizajes');
+			$table->foreign('aterrizaje_id')->references('id')->on('aterrizajes')->onDelete('cascade');
 			$table->integer('factura_id')->nullable()->unsigned();
 			$table->foreign('factura_id')->references('nFactura')->on('facturas');
 			$table->string('condicionPago')->nullable();

@@ -339,10 +339,8 @@ function getTable(url){
             
             $('body').delegate('.eliminarAterrizaje-btn', 'click', function(){
             var tr  =$(this).closest('tr');
-            console.log(tr)
             var id  =$(this).data('id');
             var url ="{{action('AterrizajeController@index')}}/"+id;
-            
             // confirm dialog
             alertify.confirm("¿Realmente desea  eliminar este registro?", function (e) {
                 if (e) {        

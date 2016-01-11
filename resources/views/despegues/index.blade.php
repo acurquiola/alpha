@@ -445,22 +445,15 @@ function getTable(url){
             */
             
             $('body').delegate('.eliminarDespegue-btn', 'click', function(){
-				var fila          = $(this).closest('tr');
-				var id            = $(fila).data('id');
-				var aterrizaje    = $(fila).data('aterrizaje');
-				var aterrizaje_id = $(fila).data('aterrizaje');
-            var url ="{{action('DespegueController@index')}}/"+aterrizaje_id+id;
-                url      =url.replace("::", aterrizaje_id)
+				var tr         = $(this).closest('tr');
+				var id         = $(this).data('id');
+				var aterrizaje = $(tr).data('aterrizaje');
+                var url  ='{{action('DespegueController@index', ["aterrizaje"=>"::"])}}/'+id;
+                url      =url.replace("::", aterrizaje)
                 url      =url.replace("-", id)
-
-
-            var tr  =$(this).closest('tr');
-            console.log(tr)
-            var id  =$(this).data('id');
-            var url ="{{action('AterrizajeController@index')}}/"+id;
             
             // confirm dialog
-            alertify.confirm("¿Realmente desea  eliminar este registro?", function (e) {
+            alertify.confirm("¿Realmente desea eliminar este registro?", function (e) {
                 if (e) {        
 
                     $.

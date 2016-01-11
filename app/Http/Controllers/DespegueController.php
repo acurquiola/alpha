@@ -223,7 +223,7 @@ class DespegueController extends Controller {
 	public function update($aterrizaje, $id, DespegueRequest $request)
 	{
 		$despegue     = Despegue::find($id);
-		$despegue->update($request->except("nacionalidadVuelo_id", "piloto_id", "puerto_id", "cliente_id", "cobrar_estacionamiento", "cobrar_puenteAbordaje", "cobrar_Formulario", "cobrar_AterDesp", "cobrar_habilitacion", "cobrar_carga"));
+		$despegue->update($request->except("nacionalidadVuelo_id", "piloto_id", "puerto_id", "cliente_id", "cobrar_estacionamiento", "cobrar_puenteAbordaje", "cobrar_Formulario", "cobrar_AterDesp", "cobrar_habilitacion", "cobrar_carga", "tiempo_estacionamiento"));
 			
 			$cobrarAterrizaje      =$request->input('cobrar_AterDesp');
 			$cobrarFormulario      =$request->input('cobrar_Formulario');
@@ -252,7 +252,7 @@ class DespegueController extends Controller {
 				$fecha_hora_aterrizaje = $fechaAterrizaje.' '.$horaAterrizaje;
 				
 				
-				$fechaDespegue         = $despegue->fecha;
+				$fechaDespegue         = $request->fecha;
 				$fechaDespegue         = Carbon::createFromFormat('d/m/Y', $fechaDespegue);
 				$fechaDespegue         = $fechaDespegue->format('Y-m-d');
 				$horaDespegue          = $despegue->hora;
@@ -310,9 +310,9 @@ class DespegueController extends Controller {
 	 */
 	public function destroy($aterrizaje, $id)
 	{
-		$despegue = Despegue::find($id);
-		$aterrizaje = Aterrizaje::find($despegue->aterrizaje_id);
-        if(\App\Aterrizaje::destroy($id)){
+		$despegue   = Despegue::find($id);
+		$aterrizaje = Aterrizaje::find($aterrizaje);
+        if(\App\Despegue::destroy($id)){
         	$aterrizaje->update(['despego'=>'0']);
             return ["success"=>1, "text" => "Despegue eliminado con éxito."];
         }else{
