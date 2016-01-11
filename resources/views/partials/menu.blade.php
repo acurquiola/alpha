@@ -208,25 +208,30 @@
 	                    </ul>
                 </li>-->
                 @permission('menu.reporteSCV|menu.reporteRecaudacion')
-                <li class="treeview">
+                <li class="treeview {{ (\Request::is('reporte*'))?"active":""}}">
                 	<a href="#">
                 		<i class="fa fa-signal"></i> <span>Reportes</span>  <i class="fa fa-angle-left pull-right"></i>
                 	</a>
                 	<ul class="treeview-menu">
                 		@permission('menu.reporteSCV')
 						<li class="header">Control de Vuelos</li>
-                		<li><a href="{{action('ReporteController@getReporteDES900')}}"><i class="fa fa-folder-o"></i> DES 900</a></li>
-                		<li><a href="{{action('ReporteController@getReporteCuadreCaja')}}"><i class="fa fa-folder-o"></i> Cuadre de Caja</a></li>
-               			@endpermission
+						<li {{ (\Request::is('reporte/reporterDES900*'))?"class=active":"" }}><a href="{{ URL::to('reporte/reporterDES900') }}"><i class="fa fa-folder-o"></i> DES 900</a></li>
+						<li {{ (\Request::is('reporte/reporterCuadreCaja*'))?"class=active":"" }}><a href="{{ URL::to('reporte/reporterCuadreCaja') }}"><i class="fa fa-folder-o"></i> Cuadre de Caja</a></li>
+                		@endpermission
                 		@permission('menu.reporteRecaudacion')   
-						<li class="header">Recaudación</li>             		
-                		<li><a href="{{action('ReporteController@getReporteMensual')}}"><i class="fa fa-folder-o"></i> Recaudación consolidada</a></li>
-                		<li><a href="{{action('ReporteController@getReporteModuloMetaMensual')}}"><i class="fa fa-folder-o"></i> Libro de ventas</a></li>
+						<li class="header">Recaudación</li>     
+						<li {{ (\Request::is('reporte/mensual*'))?"class=active":"" }}><a href="{{ URL::to('reporte/mensual') }}"><i class="fa fa-folder-o"></i> Recaudación consolidada</a></li>        		
+						<li {{ (\Request::is('reporte/reporterFacturadoCobradoMensual*'))?"class=active":"" }}><a href="{{ URL::to('reporte/reporterFacturadoCobradoMensual') }}"><i class="fa fa-folder-o"></i> Relación cuentas por cobrar</a></li>        		
+						<li {{ (\Request::is('reporte/reporteClienteReciboMensual*'))?"class=active":"" }}><a href="{{ URL::to('reporte/reporteClienteReciboMensual') }}"><i class="fa fa-folder-o"></i> Relación facturado/cobrado</a></li>        		
+						<li {{ (\Request::is('reporte/reporteModuloMetaMensual*'))?"class=active":"" }}><a href="{{ URL::to('reporte/reporteModuloMetaMensual') }}"><i class="fa fa-folder-o"></i> Libro de ventas</a></li>        		
+                		
+                	<!-- 	<li><a href="{{action('ReporteController@getReporteMensual')}}"><i class="fa fa-folder-o"></i> Recaudación consolidada</a></li>
                 		<li><a href="{{action('ReporteController@getReporterFacturadoCobradoMensual')}}"><i class="fa fa-folder-o"></i> Relación cuentas por cobrar</a></li>
-                		<li><a href="#"><i class="fa fa-folder-o"></i> Relación facturado/cobrado</a></li>
                 		<li><a href="{{action('ReporteController@getReporteClienteReciboMensual')}}"><i class="fa fa-folder-o"></i> Relación facturado/cobrado</a></li>
+                		<li><a href="{{action('ReporteController@getReporteModuloMetaMensual')}}"><i class="fa fa-folder-o"></i> Libro de ventas</a></li>
+                		<li><a href="#"><i class="fa fa-folder-o"></i> Relación facturado/cobrado</a></li>
                 		<li><a href="#"><i class="fa fa-folder-o"></i> Relación de contratos</a></li>
-                		<li><a href="#"><i class="fa fa-folder-o"></i> Listado facturas emitidas</a></li>
+                		<li><a href="#"><i class="fa fa-folder-o"></i> Listado facturas emitidas</a></li> -->
                 		@endpermission
                 	</ul>
                 </li>
