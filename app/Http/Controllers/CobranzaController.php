@@ -13,9 +13,9 @@ class CobranzaController extends Controller {
         $this->middleware('auth');
     }
 
-    public function main($id){
-        $id=($id=="Todos")?"%":$id;
-        $modulos=$this->getModulos($id);
+    public function main($moduloNombre){
+        $moduloNombre=($moduloNombre=="Todos")?"%":$moduloNombre;
+        $modulos=$this->getModulos($moduloNombre);
         return view('cobranza.main', compact('modulos'));
     }
 
@@ -341,18 +341,8 @@ class CobranzaController extends Controller {
 
 
 
-    protected function getModulos($id){
-        $modulos=\App\Modulo::where("nombre","like",$id)->orderBy("nombre")->get();
-        foreach($modulos as $modulo){
-            $modulo->facturas=\App\Factura::select("facturas.*")
-                ->join('facturadetalles','facturas.nFactura' , '=', 'facturadetalles.factura_id')
-                ->join('conceptos','conceptos.id' , '=', 'facturadetalles.concepto_id')
-                ->where('conceptos.modulo_id', "=", $modulo->id)
-                ->where('facturas.estado','=','P')
-                ->where('facturas.aeropuerto_id','=', session('aeropuerto')->id)
-                ->groupBy("facturas.nFactura")->get();
-            $modulo->facturas->load('cliente', 'metadata');
-        }
+    protected function getModulos($moduloNombre){
+        $modulos=session('aeropuerto')->modulos()->where("nombre","like",$moduloNombre)->orderBy("nombre")->get();
         return $modulos;
     }
 

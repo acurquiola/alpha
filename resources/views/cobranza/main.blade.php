@@ -39,13 +39,13 @@
 							<td colspan="7" class="text-center">No hay facturas registradas en este módulo</td>
 						</tr>
 						@endif
-						@foreach($modulo->facturas as $factura)
+						@foreach($modulo->facturas()->where('estado', 'P')->orderBy('fecha', 'DESC')->limit(15)->get() as $factura)
 						<tr>
 							<td>{{$factura->nFacturaPrefix}}-{{$factura->nFactura}}</td>
 							<td style="text-align:left">{{$factura->cliente->nombre}}</td>
 							<td style="text-align:left">{{$factura->descripcion}}</td>
-							<td style="text-align:right">{{$factura->total}}</td>
-							<td style="text-align:right">{{$factura->total-(($factura->metadata)?$factura->metadata->total:0)}}</td>
+							<td style="text-align:right">{{$traductor->format($factura->total)}}</td>
+							<td style="text-align:right">{{$traductor->format($factura->total-(($factura->metadata)?$factura->metadata->total:0))}}</td>
 							<td style="text-align:right">{{$factura->fecha}}</td>
 							<td >{{$factura->fechaVencimiento}}</td>
 						</tr>
