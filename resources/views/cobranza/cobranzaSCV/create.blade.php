@@ -1,9 +1,9 @@
 @extends('app')
 @section('content')
 <ol class="breadcrumb">
-  <li><a href="{{url('principal')}}">Inicio</a></li>
-  <li><a href="{{ URL::to('cobranza/Todos/main') }}">Cobranza</a></li>
-  <li><a class="active">Cobranza - {{$moduloName}}</a></li>
+	<li><a href="{{url('principal')}}">Inicio</a></li>
+	<li><a id="listado-despegues" href="{{action('DespegueController@index')}}">Lista de Despegues</a></li>
+	<li><a class="active">Registro de Pago</a></li>
 </ol>
 <div class="row" id="box-wrapper">
 	<!-- left column -->
@@ -18,226 +18,204 @@
 				<div class="form-horizontal">
 					<div class="form-group">
 						<label for="cliente-select" class="control-label col-xs-1">Cliente</label>
+						<input class="form-control" type="hidden" id="cliente-codigo" value="{{$cliente->codigo}}">
+						<input class="form-control" type="hidden" id="despegue-input" value="{{$despegue->id}}">
 						<div class="col-xs-5">					
 							<select class="form-control" id="cliente-select" autocomplete="off">
-								<option value="">--Seleccione una opcion--</option>
-								@foreach($clientes as $cliente)
 								<option
-									data-id="{{$cliente->cliente_id}}"
-									data-nombre="{{$cliente->nombre}}"
-									data-ced-rif="{{$cliente->cedRif}}"
-									data-ced-rif-prefix="{{$cliente->cedRifPrefix}}"
-									data-islr="{{$cliente->islrpercentage}}"
-									data-iva="{{$cliente->ivapercentage}}"
-									data-is-contribuyente="{{$cliente->isContribuyente}}"
-									value="{{$cliente->codigo}}">
-									{{$cliente->codigo}} | {{$cliente->nombre}}
-								</option>
-								@endforeach
-							</select>
-						</div>
-						<div class="col-xs-3">
-							<input class="form-control" id="cliente_nombre-input" readonly autocomplete="off">
-						</div>
-						<div class="col-xs-3">
-							<input class="form-control" id="cliente_cedRif-input" readonly autocomplete="off">
+								data-id="{{$cliente->cliente_id}}"
+								data-nombre="{{$cliente->nombre}}"
+								data-ced-rif="{{$cliente->cedRif}}"
+								data-ced-rif-prefix="{{$cliente->cedRifPrefix}}"
+								data-islr="{{$cliente->islrpercentage}}"
+								data-iva="{{$cliente->ivapercentage}}"
+								data-is-contribuyente="{{$cliente->isContribuyente}}"
+								value="{{$cliente->codigo}}">
+								{{$cliente->codigo}} | {{$cliente->nombre}}
+							</option>
+						</select>
+					</div>
+					<div class="col-xs-3">
+						<input class="form-control" id="cliente_nombre-input" value="{{$cliente->nombre}}" readonly autocomplete="off">
+					</div>
+					<div class="col-xs-3">
+						<input class="form-control" id="cliente_cedRif-input" value="{{$cliente->cedRifPrefix}}{{$cliente->cedRif}}" readonly autocomplete="off">
+					</div>
+				</div>
+			</div>
+
+			<div class="table-responsive" id="cxc-table-wrapper" style="margin-top:15px; margin-bottom:15px">
+				<table class="table table-condensed text-center" id="cxc-table">
+					<thead class="bg-primary">
+						<th style="min-width:120px"># Fac/Doc</th>
+						<th style="min-width:120px">Fecha emisión</th>
+						<th style="min-width:120px">Monto documento</th>
+						<th style="min-width:120px">Saldo Cancelado</th>
+						<th style="min-width:120px">Saldo Pendiente</th>
+
+						<th style="min-width:120px">Retencion</th>
+						<th style="min-width:120px">Saldo a pagar</th>
+						<th style="min-width:120px">Saldo Abonado</th>
+						<th style="min-width:120px">Saldo Restante</th>
+						<th style="min-width:200px">Acción</th>
+					</thead>
+					<tbody>
+					</tbody>
+				</table>
+			</div>
+
+
+			<div class="row">
+				<div class="col-xs-12">
+					<label>Leyenda:[<span class="text-success">Pago completo</span> | <span class="text-info">Sobrepagado</span> | <span class="text-warning">Pago parcial</span> | <span class="text-danger">Error en saldo ingresado</span>]</label>
+
+
+				</div>
+			</div>
+
+			<h5>Formas de pago</h5>
+
+			<div class="row"> 
+				<div class="col-xs-12 text-right"> 
+					<button class="btn btn-primary register-payment-btn"><span class="glyphicon glyphicon-plus"></span> Registrar pago</button> 
+				</div> 
+			</div> 
+			<div class="table-responsive" style="margin-top:15px;margin-bottom:15px">
+				<table id="formas-pago-table" class="table table-condensed text-center">
+					<thead class="bg-primary">
+						<th>Fecha</th>
+						<th>Banco</th> 
+						<th>Cuenta</th>
+						<th>Forma de pago</th>
+						<th>#Deposito/#Lote</th>
+						<th>Monto</th>
+						<th>Acción</th>
+					</thead> 
+					<tbody>
+
+					</tbody>
+				</table>
+			</div>
+
+			<div class="row">
+				<div class="col-xs-12">
+					<div class="form-horizontal">
+						<div class="form-group">
+							<label for="inputEmail3" class="col-sm-2 control-label">Observaciones</label>
+							<div class="col-sm-9">
+								<textarea id="observaciones-documento" class="form-control" row="5"></textarea>
+							</div>
 						</div>
 					</div>
 				</div>
-				<h5>Cuentas por cobrar</h5>
-				<div class="row">
-					<div class="col-xs-2 col-xs-offset-8 text-right">
-						<select class="form-control" id="type-rows-cxc-table-wrapper-select">
-							<option value="t">Todas</option>
-							<option value="s">Seleccionadas</option>
-							<option value="n">No seleccionadas</option>
-							<option>Vencidas??</option>
-						</select>
-					</div>
-					<div class="col-xs-2 text-right">
-						<select class="form-control" id="max-rows-cxc-table-wrapper-select" autocomplete="off">
-							<option>5</option>
-							<option>10</option>
-							<option>25</option>
-							<option>50</option>
-						</select>
+			</div>
+			<div class="row">
+				<div class="col-xs-12">
+					<div class="form-horizontal">
+						<div class="form-group">
+							<label for="total-a-pagar-doc-input" class="col-sm-2 control-label">Total a cobrar</label>
+							<div class="col-sm-2">
+								<input autocomplete="off" type="text" class="form-control" id="total-a-pagar-doc-input" readonly value="0.00">
+							</div>
+							<label for="total-diferencia-doc-input" class="col-sm-2 control-label">Diferencia</label>
+							<div class="col-sm-2">
+								<input autocomplete="off" type="text" class="form-control" id="total-diferencia-doc-input" readonly value="0.00">
+							</div>
+							<label for="total-a-depositar-doc-input" class="col-sm-2 control-label">Total depositado</label>
+							<div class="col-sm-2">
+								<input autocomplete="off" type="text" class="form-control" id="total-a-depositar-doc-input" readonly value="0.00">
+							</div>
+						</div>
 					</div>
 				</div>
+			</div>
 
-<!--Poner un input pegado al boton de retencion que muestre el total de retencion
-	Poner subtotal de la operacion del saldo abonado y la retencion -->
-	            <div class="table-responsive" id="cxc-table-wrapper" style="margin-top:15px; margin-bottom:15px">
-		            <table class="table table-condensed text-center" id="cxc-table">
-			            <thead class="bg-primary">
-				            <th style="min-width:120px"># Fac/Doc</th>
-				            <th style="min-width:120px">Fecha emisión</th>
-				            <th style="min-width:120px">Monto documento</th>
-				            <th style="min-width:120px">Saldo Cancelado</th>
-				            <th style="min-width:120px">Saldo Pendiente</th>
-
-				            <th style="min-width:120px">Retencion</th>
-				            <th style="min-width:120px">Saldo a pagar</th>
-				            <th style="min-width:120px">Saldo Abonado</th>
-				            <th style="min-width:120px">Saldo Restante</th>
-				            <th style="min-width:200px">Acción</th>
-			            </thead>
-			            <tbody>
-			            </tbody>
-		            </table>
-	            </div>
-
-
-	            <div class="row">
-		            <div class="col-xs-12">
-			            <label>Leyenda:[<span class="text-success">Pago completo</span> | <span class="text-info">Sobrepagado</span> | <span class="text-warning">Pago parcial</span> | <span class="text-danger">Error en saldo ingresado</span>]</label>
-
-
-		            </div>
-	            </div>
-
-	            <h5>Formas de pago</h5>
-
-	            <div class="row"> 
-		            <div class="col-xs-12 text-right"> 
-			            <button class="btn btn-primary register-payment-btn"><span class="glyphicon glyphicon-plus"></span> Registrar pago</button> 
-		            </div> 
-	            </div> 
-	            <div class="table-responsive" style="margin-top:15px;margin-bottom:15px">
-		            <table id="formas-pago-table" class="table table-condensed text-center">
-			            <thead class="bg-primary">
-				            <th>Fecha</th>
-				            <th>Banco</th> 
-				            <th>Cuenta</th>
-				            <th>Forma de pago</th>
-				            <th>#Deposito/#Lote</th>
-				            <th>Monto</th>
-				            <th>Acción</th>
-			            </thead> 
-			            <tbody>
-
-			            </tbody>
-		            </table>
-	            </div>
-
-	            <div class="row">
-		            <div class="col-xs-12">
-			            <div class="form-horizontal">
-				            <div class="form-group">
-					            <label for="inputEmail3" class="col-sm-2 control-label">Observaciones</label>
-					            <div class="col-sm-9">
-						            <textarea id="observaciones-documento" class="form-control" row="5"></textarea>
-					            </div>
-				            </div>
-			            </div>
-		            </div>
-	            </div>
-	            <div class="row">
-		            <div class="col-xs-12">
-			            <div class="form-horizontal">
-				            <div class="form-group">
-					            <label for="total-a-pagar-doc-input" class="col-sm-2 control-label">Total a cobrar</label>
-					            <div class="col-sm-2">
-						            <input autocomplete="off" type="text" class="form-control" id="total-a-pagar-doc-input" readonly value="0.00">
-					            </div>
-					            <label for="total-diferencia-doc-input" class="col-sm-2 control-label">Diferencia</label>
-					            <div class="col-sm-2">
-						            <input autocomplete="off" type="text" class="form-control" id="total-diferencia-doc-input" readonly value="0.00">
-					            </div>
-					            <label for="total-a-depositar-doc-input" class="col-sm-2 control-label">Total depositado</label>
-					            <div class="col-sm-2">
-						            <input autocomplete="off" type="text" class="form-control" id="total-a-depositar-doc-input" readonly value="0.00">
-					            </div>
-				            </div>
-			            </div>
-		            </div>
-	            </div>
-
-            </div><!-- /.box-body -->
-            <div class="box-footer">
+		</div><!-- /.box-body -->
+		<div class="box-footer">
             <!--                 Se debe validar que el monto a cobrar y el monto depositado sean iguales, mostrar un alert de confirmacion
-            -->               
-                <div class="row">
-	                <div class="col-xs-6">
-		                <div class="checkbox">
-			                <label>
-				                <input type="checkbox" checked id="hasrecaudos-check"> Recaudos conciliados
-			                </label>
-		                </div>
-	                </div>
-	                <div class="col-xs-6 text-right">
-		                <button  class="btn btn-primary" id="save-cobro-btn">Guardar</button>
-	                </div>
-                </div><!-- /.box -->
-            </div>
-        </div>
+        -->               
+        <div class="row">
+        	<div class="col-xs-6">
+        		<div class="checkbox">
+        			<label>
+        				<input type="checkbox" checked id="hasrecaudos-check"> Recaudos conciliados
+        			</label>
+        		</div>
+        	</div>
+        	<div class="col-xs-6 text-right">
+        		<button  class="btn btn-primary" id="save-cobro-btn">Guardar</button>
+        	</div>
+        </div><!-- /.box -->
     </div>
+</div>
+</div>
 </div>
 
 <div class="modal fade" id="register-payment-modal" tabindex="-1" role="dialog" aria-labelledby="register-payment-modal" aria-hidden="true" data-backdrop="static">
-    <div class="modal-dialog">     
-	    <div class="modal-content">      
-		    <div class="modal-header">
-			    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Cancelar</span></button>         
-			    <h4 class="modal-title">Registrar una forma de pago</h4>       
-		    </div>
-		    <div class="modal-body">       
-			    <div class="form-horizontal">
-				    <div class="form-group">
-					    <label for="forma-modal-input" class="col-sm-2 control-label">Forma de pago</label>
-					    <div class="col-md-10">
-						    <select class="form-control" id="forma-modal-input">
-							    <option value="D">Deposito</option>
-							    <option value="NC">Nota de Crédito</option>
-						    </select>
-					    </div>
-				    </div>
-				    <div class="form-group">
-					    <label for="fecha-modal-input" class="col-sm-2 control-label">Fecha</label>
-					    <div class="col-md-10">
-						    <input type="text" class="form-control" id="fecha-modal-input" autocomplete='off'>
-					    </div>
-				    </div>
-				    <div class="form-group">
-					    <label for="banco-modal-input" class="col-sm-2 control-label">Banco</label>
-					    <div class="col-md-10">
-						    <select id="banco-modal-input" class="form-control">
-							    @foreach($bancos as $banco)
+	<div class="modal-dialog">     
+		<div class="modal-content">      
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Cancelar</span></button>         
+				<h4 class="modal-title">Registrar una forma de pago</h4>       
+			</div>
+			<div class="modal-body">       
+				<div class="form-horizontal">
+					<div class="form-group">
+						<label for="forma-modal-input" class="col-sm-2 control-label">Forma de pago</label>
+						<div class="col-md-10">
+							<select class="form-control" id="forma-modal-input">
+								<option value="D">Deposito</option>
+								<option value="NC">Nota de Crédito</option>
+							</select>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="fecha-modal-input" class="col-sm-2 control-label">Fecha</label>
+						<div class="col-md-10">
+							<input type="text" class="form-control" id="fecha-modal-input" autocomplete='off'>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="banco-modal-input" class="col-sm-2 control-label">Banco</label>
+						<div class="col-md-10">
+							<select id="banco-modal-input" class="form-control">
+								@foreach($bancos as $banco)
 
-							    <option value="{{$banco->id}}" data-cuentas='{!!$banco->cuentas!!}' >{{$banco->nombre}}</option>
+								<option value="{{$banco->id}}" data-cuentas='{!!$banco->cuentas!!}' >{{$banco->nombre}}</option>
 
-							    @endforeach
-						    </select>
-					    </div>
-				    </div>
-				    <div class="form-group">
-					    <label for="cuenta-modal-input" class="col-sm-2 control-label">Cuenta</label>
-					    <div class="col-md-10">
-						    <select id="cuenta-modal-input" class="form-control">
+								@endforeach
+							</select>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="cuenta-modal-input" class="col-sm-2 control-label">Cuenta</label>
+						<div class="col-md-10">
+							<select id="cuenta-modal-input" class="form-control">
 
-						    </select>
-					    </div>
-				    </div>
-				    <div class="form-group">
-					    <label for="deposito-modal-input" class="col-sm-2 control-label">#Deposito/#Lote</label>
-					    <div class="col-md-10">
-						    <input type="text" class="form-control" id="deposito-modal-input" autocomplete='off'>
-					    </div>
-				    </div>
+							</select>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="deposito-modal-input" class="col-sm-2 control-label">#Deposito/#Lote</label>
+						<div class="col-md-10">
+							<input type="text" class="form-control" id="deposito-modal-input" autocomplete='off'>
+						</div>
+					</div>
 
-				    <div class="form-group">
-					    <label for="monto-modal-input" class="col-sm-2 control-label">Monto</label>
-					    <div class="col-md-10">
-						    <input type="text" class="form-control" id="monto-modal-input" autocomplete='off'>
-					    </div>
-				    </div>
-			    </div>
-		    </div>    
-		    <div class="modal-footer">       
-			    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>      
-			    <button type="button" class="btn btn-primary" id="accept-deposito-modal-btn">Aceptar</button>
-		    </div>
-	    </div>  
-    </div> 
+					<div class="form-group">
+						<label for="monto-modal-input" class="col-sm-2 control-label">Monto</label>
+						<div class="col-md-10">
+							<input type="text" class="form-control" id="monto-modal-input" autocomplete='off'>
+						</div>
+					</div>
+				</div>
+			</div>    
+			<div class="modal-footer">       
+				<button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>      
+				<button type="button" class="btn btn-primary" id="accept-deposito-modal-btn">Aceptar</button>
+			</div>
+		</div>  
+	</div> 
 </div>
 
 <div class="modal fade" id="cuota-modal">
@@ -287,20 +265,20 @@
 				<h4 class="modal-title">Selección de retención</h4>
 			</div>
 			<div class="modal-body">
-			    <div class="form-horizontal">
-                    <div class="form-group">
-                        <label for="fecha-modal-input" class="col-sm-2 control-label">Fecha retención</label>
-                        <div class="col-md-4">
-                            <input type="text" class="form-control" id="fecha-retencion-input" autocomplete='off'>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="fecha-modal-input" class="col-sm-2 control-label">Comprobante retención</label>
-                        <div class="col-md-4">
-                            <input type="text" class="form-control" id="comprobante-retencion-input" autocomplete='off'>
-                        </div>
-                    </div>
-			    </div>
+				<div class="form-horizontal">
+					<div class="form-group">
+						<label for="fecha-modal-input" class="col-sm-2 control-label">Fecha retención</label>
+						<div class="col-md-4">
+							<input type="text" class="form-control" id="fecha-retencion-input" autocomplete='off'>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="fecha-modal-input" class="col-sm-2 control-label">Comprobante retención</label>
+						<div class="col-md-4">
+							<input type="text" class="form-control" id="comprobante-retencion-input" autocomplete='off'>
+						</div>
+					</div>
+				</div>
 
 				<div class="row" style="margin:15px auto">
 
@@ -516,13 +494,13 @@ $('#accept-retencion-modal-btn').click(function(){
 	if($('#ivaper-modal-input').closest('tr').find(':checkbox').prop('checked'))
 		ivaModal=$('#ivaper-modal-input').val();
 
-    var retencionFecha=$('#fecha-retencion-input').val();
-    var retencionComprobante=$('#comprobante-retencion-input').val();
+	var retencionFecha=$('#fecha-retencion-input').val();
+	var retencionComprobante=$('#comprobante-retencion-input').val();
 	$(retencionInput).val(total);
 	$(retencionInput).data('islrModal',isrlModal);
 	$(retencionInput).data('ivaModal',ivaModal);
-    $(retencionInput).data('retencionFecha',retencionFecha);
-    $(retencionInput).data('retencionComprobante',retencionComprobante);
+	$(retencionInput).data('retencionFecha',retencionFecha);
+	$(retencionInput).data('retencionComprobante',retencionComprobante);
 	var pendiente =$(tr).find('.saldo-pendiente').text();
 	pendiente     =parseFloat(pendiente);
 	$(tr).find('.saldo-pagar').text((pendiente-parseFloat(total)).toFixed(2));
@@ -614,10 +592,15 @@ $('#cuota-modal').on('hidden.bs.modal', function (e) {
 	$('#cxc-table tr.hasModalCuotaOpen').removeClass('hasModalCuotaOpen');
 })
 
-$('#cliente-select').chosen({width: "100%"}).change(function(){
+
+if ($('#cliente-select').val() != ""){
+	$('#cliente-select').chosen({width: "100%"});
+	var codigoCliente =$('#cliente-codigo').val();
+	$('#cliente-select').val(codigoCliente).trigger('change');
 	$('#total-a-pagar-doc-input').val("0.00");
 	var option =$('#cliente-select option:selected');
 	var value  =$(option).val();
+	var despegue  =$('#despegue-input').val();
 	var nombre =$(option).data('nombre');
 	var cedRif =$(option).data('cedRifPrefix')+$(option).data('cedRif');
 	iva        =0;
@@ -629,9 +612,10 @@ $('#cliente-select').chosen({width: "100%"}).change(function(){
 
 	$('#cliente_nombre-input').val(((nombre)?nombre:""));
 	$('#cliente_cedRif-input').val(((cedRif)?cedRif:""));
+
 	addLoadingOverlay('#main-box');
 	$.ajax({
-		url:"{{action('CobranzaController@getFacturasClientes', [$moduloName])}}",
+		url:"{{action('DespegueController@getDosaClientes', [$despegue])}}",
 		data:{codigo:value}
 	}).done(function(response, status, responseObject){
 		try{
@@ -730,12 +714,13 @@ $('#cliente-select').chosen({width: "100%"}).change(function(){
 		</tr>'
 
 	})
-$('#cxc-table tbody').html(trs);
-}catch(e){console.log(e)}
-removeLoadingOverlay('#main-box');
-$('#max-rows-cxc-table-wrapper-select').trigger('change');
-})
-});
+	$('#cxc-table tbody').html(trs);
+	}catch(e){console.log(e)}
+		removeLoadingOverlay('#main-box');
+		$('#max-rows-cxc-table-wrapper-select').trigger('change');
+		$('.pay-all-btn').trigger('click');
+	})
+};
 
 
 $('#max-rows-cxc-table-wrapper-select').change(function(){
@@ -794,17 +779,17 @@ $('#type-rows-cxc-table-wrapper-select').change(function(){
 	var value=$(this).val();
 	switch(value) {
 		case "t":
-		    $('#cxc-table tr:gt(0)').show();
+		$('#cxc-table tr:gt(0)').show();
 		break;
 		case "s":
-		    var filas=$('#cxc-table tr:gt(0)');
-	    	$(filas).hide();
-	    	$(filas).filter('.info,.warning,.success,.danger').show();
+		var filas=$('#cxc-table tr:gt(0)');
+		$(filas).hide();
+		$(filas).filter('.info,.warning,.success,.danger').show();
 		break;
 		case "n":
-	    	var filas=$('#cxc-table tr:gt(0)');
-	    	$(filas).hide();
-	    	$(filas).filter(':not(.info,.warning,.success)').show();
+		var filas=$('#cxc-table tr:gt(0)');
+		$(filas).hide();
+		$(filas).filter(':not(.info,.warning,.success)').show();
 		break;
 	} 
 
@@ -834,19 +819,19 @@ $('#save-cobro-btn').click(function(){
 	var facturas=[];
 	var trs=$('#cxc-table tbody').find('tr.success, tr.info, tr.warning').not('.ajuste-row');
 	$.each(trs, function(index,value){
-	    var retencionInput=$(value).find('.retencion-pagar');
-	    var isrlModal=$(retencionInput).data('islrModal');
-	    var ivaModal=$(retencionInput).data('ivaModal');
-	    var retencionFecha=$(retencionInput).data('retencionFecha');
-	    var retencionComprobante=$(retencionInput).data('retencionComprobante');
-	    isrlModal=(isrlModal===undefined)?0:isrlModal;
-	    ivaModal=(ivaModal===undefined)?0:ivaModal;
-        retencionFecha=(retencionFecha===undefined)?0:retencionFecha;
-        retencionComprobante=(retencionComprobante===undefined)?0:retencionComprobante;
+		var retencionInput=$(value).find('.retencion-pagar');
+		var isrlModal=$(retencionInput).data('islrModal');
+		var ivaModal=$(retencionInput).data('ivaModal');
+		var retencionFecha=$(retencionInput).data('retencionFecha');
+		var retencionComprobante=$(retencionInput).data('retencionComprobante');
+		isrlModal=(isrlModal===undefined)?0:isrlModal;
+		ivaModal=(ivaModal===undefined)?0:ivaModal;
+		retencionFecha=(retencionFecha===undefined)?0:retencionFecha;
+		retencionComprobante=(retencionComprobante===undefined)?0:retencionComprobante;
 		var o={
 			nFactura:$(value).data('nfactura'),
 			montoAbonado: $(value).find('.saldo-abonado-input').val(),
-            islrpercentage:isrlModal,
+			islrpercentage:isrlModal,
 			ivapercentage:ivaModal,
 			retencionFecha:retencionFecha,
 			retencionComprobante:retencionComprobante

@@ -209,6 +209,7 @@ class ReporteController extends Controller {
         $aeropuerto =session('aeropuerto');
         $facturas = \App\Factura::whereBetween('fecha', array($annoDesde.'-'.$mesDesde.'-'.$diaDesde,  $annoHasta.'-'.$mesHasta.'-'.$diaHasta) )
                                 ->where('aeropuerto_id', session('aeropuerto')->id)
+                                ->where('nroDosa', '<>', 'NULL')
                                 ->get();
 
         $facturasTotal = \App\Factura::whereBetween('fecha', array($annoDesde.'-'.$mesDesde.'-'.$diaDesde,  $annoHasta.'-'.$mesHasta.'-'.$diaHasta) )

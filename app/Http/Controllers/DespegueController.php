@@ -614,24 +614,57 @@ class DespegueController extends Controller {
 	public function getGenerarCobranza($id){
 
         $despegue = Despegue::find($id);
+        $factura = $despegue->factura;
+        $cliente = $factura->cliente;
 		$idOperator=">=";
         $id=0;
         $moduloName='DOSAS';
         $modulo=\App\Modulo::where("nombre","like",$moduloName)->orderBy("nombre")->first();
         $id=$modulo->id;
         $idOperator="=";
-        $factura_id = $despegue->factura_id;
-        $factura = Factura::with("cliente")->find($factura_id);
-
+/*
         $clientes=\App\Cliente::join('facturas','facturas.cliente_id' , '=', 'clientes.id')
             ->join('facturadetalles','facturas.nFactura' , '=', 'facturadetalles.factura_id')
         ->join('conceptos','conceptos.id' , '=', 'facturadetalles.concepto_id')
+        ->where('facturas.nFactura','=',$despegue->factura_id)
         ->where('facturas.aeropuerto_id','=', session('aeropuerto')->id)
         ->where('conceptos.modulo_id', $idOperator, $id)
         ->where('facturas.estado','=','P')
+        ->where('facturas.cliente_id','=',$cliente->id)
         ->orderBy('clientes.nombre')
-        ->groupBy("clientes.id")->get();
+        ->groupBy("clientes.id")->get();*/
         $bancos=\App\Banco::with('cuentas')->get();
-        return view('cobranza.cobranzaSCV.create',compact('factura', 'clientes','moduloName', 'bancos','id'));
+        return view('cobranza.cobranzaSCV.create',compact('factura', 'cliente','moduloName', 'bancos','id', 'despegue'));
 	}
+
+
+
+    public function getDosaClientes($id, Request $request){
+    	$dosa = Despegue::find($id)->factura;
+        $idOperator=">=";
+        $id=0;
+        $modulo=\App\Modulo::where("nombre","like",'DOSAS')
+            ->where('aeropuerto_id', session('aeropuerto')->id)
+            ->first();
+        $id=$modulo->id;
+        $idOperator="=";
+        $codigo=$request->get('codigo');
+        $cliente=\App\Cliente::where("codigo","=", $codigo)->get()->first();
+        if(!$cliente)
+            return ["facturas"=>[], "ajuste"=> []];
+        $facturas=\App\Factura::with('metadata')
+            ->where('cliente_id', $cliente->id)
+            ->where('modulo_id', $idOperator, $id)
+            ->where('aeropuerto_id', session('aeropuerto')->id)
+            ->where('facturas.estado','=','P')
+            ->where('facturas.condicionPago','=','Contado')
+            ->where('facturas.nFactura','=', $dosa->nFactura)
+            ->groupBy("facturas.nFactura")->get();
+        $ajusteCliente= \DB::table('ajustes')
+            ->where('cliente_id', $cliente->id)
+            ->sum('monto');
+
+        return ["facturas"=>$facturas, "ajuste"=> $ajusteCliente];
+    }
+
 }
