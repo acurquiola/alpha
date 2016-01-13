@@ -32,6 +32,7 @@ Route::get('/email', function() {
 Route::get('/',  'Auth\AuthController@getLogin');
 Route::post('login', 'Auth\AuthController@postLogin');
 Route::get('logout', 'Auth\AuthController@getLogout');
+Route::get('logoutRemember', 'Auth\AuthController@getLogoutRemember');
 
 
 Route::get('principal',["middleware"=>"auth", function(){

@@ -36,7 +36,7 @@ class AuthController extends Controller {
 		$this->auth = $auth;
 		$this->registrar = $registrar;
 
-		$this->middleware('guest', ['except' => 'getLogout']);
+		$this->middleware('guest', ['except' => ['getLogout', 'getLogoutRemember']]);
 	}
 
     /**
@@ -79,7 +79,7 @@ class AuthController extends Controller {
 
     public function getLogout(Guard $auth)
     {
-$errors=null;
+        $errors=null;
         if(\Session::has('errors')){
             $errors = \Session::get('errors')->all();
         }
@@ -90,6 +90,14 @@ $errors=null;
     }
 
 
+    public function getLogoutRemember(Guard $auth)
+    {
+        $errors=["Tu sesión ha expirado."];
+        session()->put('url.intended', \URL::previous());
+        session()->forget('aeropuerto');
+        $auth->logout();
+        return redirect('/')->withErrors($errors);
+    }
 
 
 

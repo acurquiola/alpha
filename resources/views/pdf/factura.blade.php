@@ -77,10 +77,11 @@
 @endforeach
 
 <tr> <td colspan="10">
-@for($i=0; $i<34-$factura->detalles->count();$i++)
+@for($i=0; $i<33-$factura->detalles->count();$i++)
 <br>
 @endfor
 </td></tr>
+<tr><td colspan="10">{{$factura->descripcion}}</td></tr>
 <tr><td colspan="10" style="border-bottom: 1px solid black;"></td></tr>
 <tr>
 <td colspan="8" >
@@ -93,10 +94,10 @@ Bs. {{$traductor->format($factura->subtotal)}}
 <td colspan="6" >
 </td>
 <td colspan="2" >
-<strong>IVA</strong> ({{$traductor->format($factura->iva*100)}}%)
+<strong>IVA</strong> ({{$traductor->format(($factura->iva>0)?12:0)}}%)
 </td>
 <td colspan="2" >
-{{$traductor->format($factura->iva*$factura->subtotal)}}
+Bs. {{$traductor->format($factura->iva)}}
 </td>
 </tr>
 <tr>
@@ -106,7 +107,7 @@ Bs. {{$traductor->format($factura->subtotal)}}
 <strong>TOTAL GENERAL</strong>
 </td>
 <td colspan="2" style="border-bottom: 1px solid black;border-top: 1px solid black;border-right: 1px solid black;text-align:left" >
-<strong>Bs. </strong>{{number_format($factura->total,2)}}
+<strong>Bs. </strong>{{$traductor->format($factura->total)}}
 </td>
 </tr>
 <tr>
