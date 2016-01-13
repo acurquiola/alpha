@@ -17,7 +17,7 @@
     </div>
   </div>
   <div class="form-group">
-    <label for="nControlPrefix" class="col-sm-2 control-label">Prefijo de factura</label>
+    <label for="nControlPrefix" class="col-sm-2 control-label">Prefijo de control</label>
     <div class="col-sm-10">
       {!! Form::text('nControlPrefix', null, ['class'=>"form-control", $disabled, "placeholder"=>"Prefijo del numero de control usado del Módulo"]) !!}
     </div>

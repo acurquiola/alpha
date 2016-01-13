@@ -44,7 +44,7 @@ class ModuloController extends Controller {
 	 */
 	public function store(ModuloRequest $request)
 	{
-        $attrs=$request->only('nombre', 'descripcion', 'numeroControlPrefix');
+        $attrs=$request->only('nombre', 'descripcion', 'nControlPrefix', 'nFacturaPrefix');
         $attrs["aeropuerto_id"]=session('aeropuerto')->id;
         $modulo=\App\Modulo::create($attrs);
         $conceptos=$request->get('conceptos',[]);
@@ -90,7 +90,7 @@ class ModuloController extends Controller {
 	public function update($id, ModuloRequest $request)
 	{
         $modulo=\App\Modulo::find($id);
-        $modulo->update($request->only('nombre', 'descripcion', 'numeroControlPrefix'));
+        $modulo->update($request->only('nombre', 'descripcion', 'nControlPrefix', 'nFacturaPrefix'));
         $invalidConcepts=collect([]);
         $validConcepts=$modulo->conceptos->filter(function($item) use ($invalidConcepts){
             if($item->facturadetalles()->count()>0){
