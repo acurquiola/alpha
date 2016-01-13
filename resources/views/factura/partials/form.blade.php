@@ -17,20 +17,27 @@
 	</div>
 	<label for="nControl" class="col-xs-1 control-label"><strong>N° Control</strong> </label>
 	<div class="col-xs-3">
-        {!! Form::hidden('nControlPrefix', ($factura->nControlPrefix)?$factura->nControlPrefix:$modulo->numeroControlPrefix, ['id' => 'nControlPrefix', 'class' => 'nControlPrefix-input', 'autocomplete'=>'off', (!$factura->isImpresa)?"":"readonly"]) !!}
+        {!! Form::hidden('nControlPrefix', ($factura->nControlPrefix)?$factura->nControlPrefix:$modulo->nControlPrefix, ['id' => 'nControlPrefix', 'class' => 'nControlPrefix-input', 'autocomplete'=>'off', (!$factura->isImpresa)?"":"readonly"]) !!}
         <div class="input-group">
             <div class="input-group-btn">
-                <button style="max-height:37px" type="button" class="btn btn-default"><span class="nControlPrefix-text">{{$modulo->numeroControlPrefix}}</span></button>
+                <button style="max-height:37px" type="button" class="btn btn-default"><span class="nControlPrefix-text">{{$modulo->nControlPrefix}}</span></button>
             </div>
-            {!! Form::text('nControl', ($factura->nControl)?$factura->nControl:$nControlprefixMax[$modulo->numeroControlPrefix], [ 'id' => 'nControl', 'class'=>"form-control", $disabled,"data-empty"=>"false", "data-type"=>"int", "data-name"=>"Número de control", 'style' => 'padding-left:2px', (!$factura->isImpresa)?"":"readonly"]) !!}
+            {!! Form::text('nControl', ($factura->nControl)?$factura->nControl:$factura->getMaxWith('nControlPrefix', 'nControl', $modulo->nControlPrefix), [ 'id' => 'nControl', 'class'=>"form-control", $disabled,"data-empty"=>"false", "data-type"=>"int", "data-name"=>"Número de control", 'style' => 'padding-left:2px', (!$factura->isImpresa)?"":"readonly"]) !!}
         </div>
 	</div>
 </div>
 <div class="form-group">
 	<label for="nFactura" class="col-xs-1 control-label"><strong>N° Factura <abbr title="Número tentativo puede cambiar al almacenar">?</abbr></strong> </label>
-	<div class="col-xs-3">
-		{!! Form::text('nFactura', $facturaMax, [ 'class'=>"form-control", "disabled","data-empty"=>"false", "data-type"=>"int", "data-name"=>"Número de factura", (!$factura->isImpresa)?"":"readonly"]) !!}
-	</div>
+    <div class="col-xs-3">
+        {!! Form::hidden('nFacturaPrefix', ($factura->nFacturaPrefix)?$factura->nFacturaPrefix:$modulo->nFacturaPrefix, ['id' => 'nFacturaPrefix', 'class' => 'nFacturaPrefix-input', 'autocomplete'=>'off', (!$factura->isImpresa)?"":"readonly"]) !!}
+        <div class="input-group">
+            <div class="input-group-btn">
+                <button style="max-height:37px" type="button" class="btn btn-default"><span class="nFacturaPrefix-text">{{$modulo->nFacturaPrefix}}</span></button>
+            </div>
+            {!! Form::text('nFactura', ($factura->nFactura)?$factura->nFactura:$factura->getMaxWith('nFacturaPrefix', 'nFactura', $modulo->nFacturaPrefix), [ 'id' => 'nFactura', 'class'=>"form-control", "data-empty"=>"false", "data-type"=>"int", "data-name"=>"Número de factura", 'style' => 'padding-left:2px', "disabled"]) !!}
+        </div>
+    </div>
+
 
 	<label for="inputEmail3" class="col-xs-1  control-label"><strong>Fecha<span class="text-danger">*</span> </strong></label>
 	<div class="col-xs-3">

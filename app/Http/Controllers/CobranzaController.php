@@ -139,8 +139,8 @@ class CobranzaController extends Controller {
         $pagos=$request->get('pagos',[]);
 
         foreach($facturas as $f){
-            $factura=\App\Factura::find($f["nFactura"]);
-            $facturaMetadata=\App\Facturametadata::firstOrCreate(["factura_id"=>$factura->nFactura]);
+            $factura=\App\Factura::find($f["id"]);
+            $facturaMetadata=\App\Facturametadata::firstOrCreate(["factura_id"=>$factura->id]);
             $facturaMetadata->ncobros++;
             /**
              * En el request me llega los porcentajes del iva e isrl que fueron usados en la retencion

@@ -33,7 +33,7 @@ class Modulo extends Model {
 
     public function facturas()
     {
-        return $this->hasManyThrough('App\Concepto', 'App\Factura');
+        return $this->hasMany('App\Factura');
     }
 
     public function contratos()

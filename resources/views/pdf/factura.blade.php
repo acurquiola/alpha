@@ -3,7 +3,7 @@
 <td  colspan="8">
 </td>
 <td  colspan="2">
-<strong>FACTURA:</strong> {{$factura->nFactura}}
+<strong>FACTURA:</strong> {{$factura->nFacturaPrefix}}-{{$factura->nFactura}}
 </td>
 </tr>
 <tr>

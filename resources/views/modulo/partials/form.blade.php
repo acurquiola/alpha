@@ -17,11 +17,19 @@
     </div>
   </div>
   <div class="form-group">
-    <label for="descripcion" class="col-sm-2 control-label">Prefijo de factura</label>
+    <label for="nControlPrefix" class="col-sm-2 control-label">Prefijo de factura</label>
     <div class="col-sm-10">
-      {!! Form::text('numeroControlPrefix', null, ['class'=>"form-control", $disabled, "placeholder"=>"Prefijo del numero de control usado del Módulo"]) !!}
+      {!! Form::text('nControlPrefix', null, ['class'=>"form-control", $disabled, "placeholder"=>"Prefijo del numero de control usado del Módulo"]) !!}
     </div>
   </div>
+    <div class="form-group">
+      <label for="nFacturaPrefix" class="col-sm-2 control-label">Prefijo de factura</label>
+      <div class="col-sm-10">
+        {!! Form::text('nFacturaPrefix', null, ['class'=>"form-control", $disabled, "placeholder"=>"Prefijo del numero de factura usado del Módulo"]) !!}
+      </div>
+    </div>
+
+
   <div class="form-group">
                              <div class='col-xs-6 text-center'>
                               <label><strong>Conceptos sin módulos</strong></label>

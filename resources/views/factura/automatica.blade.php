@@ -51,9 +51,9 @@
  										<div class="form-group">
                                             <div class="input-group">
                                                 <div class="input-group-btn">
-                                                    <button style="max-height:37px" type="button" class="btn btn-default"><span class="nControlPrefix-text">{{$modulo->numeroControlPrefix}}</span></button>
+                                                    <button style="max-height:37px" type="button" class="btn btn-default"><span class="nControlPrefix-text">{{$modulo->nControlPrefix}}</span></button>
                                                 </div>
- 											    <input class="form-control" id="nc-general-input" value="{{$nControlprefixMax[$modulo->numeroControlPrefix]}}"/>
+ 											    <input class="form-control" id="nc-general-input" value="{{\App\Factura::getMaxWith('nControlPrefix', 'nControl', $modulo->nControlPrefix)}}"/>
                                             </div>
  										</div>
  										<button type="submit" class="btn btn-default" id="generar-btn">Generar</button>
@@ -148,7 +148,8 @@
             var contrato_id=$(this).data('contrato_id');
  				tr+=" <tr " +
  				 "data-concepto_id='" + concepto_id+"' "+
- 				 "data-n-control-prefix='{{$modulo->numeroControlPrefix}}' "+
+                 "data-n-factura-prefix='{{$modulo->nFacturaPrefix}}' "+
+ 				 "data-n-control-prefix='{{$modulo->nControlPrefix}}' "+
  				 "data-n-control='"+nc+"' "+
                  "data-fecha-control-contrato='" + fechaControlContrato+"' "+
  				 "data-fecha='" + finicio+"' "+
@@ -161,7 +162,7 @@
                         "<td class='text-justify'>" +
                             '<div class="input-group">'+
                                 '<div class="input-group-btn">'+
-                                    '<button style="max-height:37px" type="button" class="btn btn-default"><span class="nControlPrefix-text">{{$modulo->numeroControlPrefix}}</span></button>'+
+                                    '<button style="max-height:37px" type="button" class="btn btn-default"><span class="nControlPrefix-text">{{$modulo->nControlPrefix}}</span></button>'+
                                 '</div>'+
                                 "<input class='form-control nc-input' autocomplete='off' value='"+((nc=="")?"":(nc++))+"'/> " +
                             "</div>"+

@@ -38,6 +38,7 @@ class FacturaController extends Controller {
                 $f = new \App\Factura();
                 $f->aeropuerto_id=session('aeropuerto')->id;
                 $f->condicionPago='Crédito';
+                $f->nFacturaPrefix = $factura["nFacturaPrefix"];
                 $f->nControlPrefix = $factura["nControlPrefix"];
                 $f->nControl = $factura["nControl"];
                 $f->fechaControlContrato=$factura["fechaControlContrato"];
@@ -113,7 +114,7 @@ class FacturaController extends Controller {
      * @return pdf
      */
     protected function crearFactura($factura, $output= 'I', $dir='facturas/'){
-        $despegue = \App\Despegue::with('aterrizaje')->where('factura_id', $factura->nFactura)->first();
+        $despegue = \App\Despegue::with('aterrizaje')->where('factura_id', $factura->id)->first();
         $factura->load('detalles');
         //return view('pdf.factura', compact('factura'));
         // create new PDF document
@@ -155,9 +156,9 @@ class FacturaController extends Controller {
         // This method has several options, check the source code documentation for more information.
         ob_end_clean();
         if($output=='I')
-            $pdf->Output($factura->nFactura."factura.pdf", $output);
+            $pdf->Output($factura->id."factura.pdf", $output);
         else{
-            $path=$dir.$factura->nFactura."factura.pdf";
+            $path=$dir.$factura->id."factura.pdf";
             $pdf->Output($path, $output);
             return $path;
         }
@@ -170,9 +171,9 @@ class FacturaController extends Controller {
     }
 
 
-    public function main($nFactura){
-        $nFactura      =($nFactura=="Todos")?"%":$nFactura;
-        $modulos =$this->getModulos($nFactura);
+    public function main($moduloNombre){
+        $moduloNombre      =($moduloNombre=="Todos")?"%":$moduloNombre;
+        $modulos =$this->getModulos($moduloNombre);
         return view('factura.main', compact('modulos'));
     }
 
@@ -298,15 +299,15 @@ class FacturaController extends Controller {
 
             if ($request->has('despegue_id')) {
                 $despegue = \App\Despegue::find($request->get('despegue_id'));
-                $despegue->factura_id = $factura->nFactura;
+                $despegue->factura_id = $factura->id;
                 $despegue->save();
             }
             if ($request->has('carga_id')) {
                 $carga = \App\Carga::find($request->get('carga_id'));
-                $carga->factura_id = $factura->nFactura;
+                $carga->factura_id = $factura->id;
                 $carga->save();
             }
-            $impresion=action('FacturaController@getPrint', [$moduloNombre, $factura->nFactura]);
+            $impresion=action('FacturaController@getPrint', [$moduloNombre, $factura->id]);
         });
         return ["success" => 1, "impresion" => $impresion];
 
@@ -360,7 +361,7 @@ class FacturaController extends Controller {
             $factura->detalles()->delete();
             $factura->detalles()->createMany($facturaDetallesData);
         });
-        return ["success" => 1, "impresion" => action('FacturaController@getPrint', [$moduloNombre, $factura->nFactura])];
+        return ["success" => 1, "impresion" => action('FacturaController@getPrint', [$moduloNombre, $factura->id])];
 
     }
 
@@ -388,6 +389,7 @@ class FacturaController extends Controller {
         return  $request->only('aeropuerto_id',
                                 'modulo_id',
                                 'condicionPago',
+                                'nFacturaPrefix',
                                 'nControlPrefix',
                                 'nControl',
                                 'fecha',
@@ -432,13 +434,7 @@ class FacturaController extends Controller {
     }
 
      protected function getModulos($moduloNombre){
-        $modulos=\App\Modulo::where("nombre","like",$moduloNombre)->orderBy("nombre")->get();
-        foreach($modulos as $modulo){
-            $modulo->facturas=\App\Factura::where('facturas.modulo_id', "=", $modulo->id)
-                                            ->where('facturas.aeropuerto_id','=', session('aeropuerto')->id)
-                                            ->groupBy("facturas.nFactura")->get();
-            $modulo->facturas->load('cliente');
-        }
+        $modulos=session('aeropuerto')->modulos()->where("nombre","like",$moduloNombre)->orderBy("nombre")->get();
          return $modulos;
     }
 

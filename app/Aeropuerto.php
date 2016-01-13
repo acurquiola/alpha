@@ -53,4 +53,8 @@ class Aeropuerto extends Model {
         return $this->hasMany('App\Aeronave');
     }
 
+    public function modulos()
+    {
+        return $this->hasMany('App\Modulo');
+    }
 }

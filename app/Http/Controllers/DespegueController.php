@@ -658,8 +658,8 @@ class DespegueController extends Controller {
             ->where('aeropuerto_id', session('aeropuerto')->id)
             ->where('facturas.estado','=','P')
             ->where('facturas.condicionPago','=','Contado')
-            ->where('facturas.nFactura','=', $dosa->nFactura)
-            ->groupBy("facturas.nFactura")->get();
+            ->where('facturas.id','=', $dosa->id)
+            ->groupBy("facturas.id")->get();
         $ajusteCliente= \DB::table('ajustes')
             ->where('cliente_id', $cliente->id)
             ->sum('monto');

@@ -31,7 +31,7 @@ class CreacionTablasCobranzas extends Migration {
         {
             $table->increments('id');
             $table->integer('factura_id')->unsigned();
-            $table->foreign('factura_id')->references('nFactura')->on('facturas');
+            $table->foreign('factura_id')->references('id')->on('facturas');
             $table->integer('cobro_id')->unsigned();
             $table->foreign('cobro_id')->references('id')->on('cobros')->onDelete('cascade');
             $table->string('retencionFecha');

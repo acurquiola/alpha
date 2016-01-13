@@ -52,6 +52,7 @@ class Kernel extends ConsoleKernel {
                     $f = new \App\Factura();
                     $f->aeropuerto_id=$contrato->concepto->aeropuerto_id;
                     $f->condicionPago='Crédito';
+                    $f->nFacturaPrefix = $modulo->nFacturaPrefix;
                     $f->nControlPrefix = $modulo->numeroControlPrefix;
                     //este numero de control no se puede calcular
                     $f->nControl = "";

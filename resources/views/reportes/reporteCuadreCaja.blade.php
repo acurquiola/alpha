@@ -80,7 +80,7 @@
 									<tr title="{{$factura->fecha}}">
 										<td>{{$factura->nControl}}</td>
 										<td>{{$factura->nroDosa}}</td>
-										<td>{{$factura->nFactura}}</td>
+										<td>{{$factura->nFacturaPrefix}}-{{$factura->nFactura}}</td>
 										<td>{{$factura->cliente->nombre}}</td>
 										<td>{{$factura->fecha}}</td>
 										<td>{{$factura->total}}</td>

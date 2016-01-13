@@ -14,10 +14,12 @@ class CreateFacturasTable extends Migration {
 	{
 		Schema::create('facturas', function(Blueprint $table)
 		{
-			$table->increments('nFactura');
+                  $table->increments('id');
                   $table->integer('aeropuerto_id')->unsigned();
                   $table->foreign('aeropuerto_id')->references('id')->on('aeropuertos');
                   $table->enum('condicionPago', ['Crédito', 'Contado']);
+                  $table->string('nFacturaPrefix', 100);
+                  $table->integer('nFactura')->unsigned();
                   $table->string('nControlPrefix', 100);
                   $table->integer('nControl')->unsigned();
                   $table->date('fecha');
@@ -50,7 +52,7 @@ Schema::create('facturadetalles', function(Blueprint $table)
 {
       $table->increments('id');
       $table->integer('factura_id')->unsigned();
-      $table->foreign('factura_id')->references('nFactura')->on('facturas');
+      $table->foreign('factura_id')->references('id')->on('facturas');
       $table->integer('concepto_id')->unsigned();
       $table->foreign('concepto_id')->references('id')->on('conceptos');
       $table->integer('cantidadDes')->unsigned();

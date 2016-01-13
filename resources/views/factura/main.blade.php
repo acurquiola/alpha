@@ -42,11 +42,11 @@
 						@endif
 						@foreach($modulo->facturas as $factura)
 						<tr>
-							<td>{{$factura->nFactura}}</td>
+							<td>{{$factura->nFacturaPrefix}}-{{$factura->nFactura}}</td>
 							<td style="text-align: left">{{$factura->cliente->nombre}}</td>
 							<td style="text-align: left">{{$factura->descripcion}}</td>
 							<td>{{$factura->fecha}}</td>
-							<td style="text-align: right">{{$factura->total}}</td>
+							<td style="text-align: right">{{$traductor->format($factura->total)}}</td>
 
 
 						</tr>

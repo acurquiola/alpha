@@ -22,9 +22,18 @@
 
 			</div><!-- /.box-body -->
 			<div class="box-footer text-right">
-				<a target="_blank" class='btn btn-success' href='{{action('FacturaController@getPrint', ["modulo"=>"DOSAS", $facturaMax])}}'>
-		               Vista Previa
-		        </a>
+			    {{--
+
+			     Te comente esta linea porque la funcion de print debe recibir un id de factura valido para mostrar el contenido,
+
+			     Lo que pudieras hacer es hacer otro metodo y que no busque la facturea en la bd sino que construya el pdf
+
+			     en base a lo que se le paso del formulario
+
+			    --}}
+				{{--<a target="_blank" class='btn btn-success' href='{{action('FacturaController@getPrint', ["modulo"=>"DOSAS", $factura->id])}}'>--}}
+		               {{--Vista Previa--}}
+		        {{--</a>--}}
 				<button type="submit" class="btn btn-primary" id="save-btn">Guardar</button>
 			</div>
 		</div><!-- /.box -->

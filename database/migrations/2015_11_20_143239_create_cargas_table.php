@@ -26,7 +26,7 @@ class CreateCargasTable extends Migration {
 			$table->float('monto_total');	
 			$table->integer('facturado')->default(0);		
 			$table->integer('factura_id')->unsigned()->nullable();
-			$table->foreign('factura_id')->references('nFactura')->on('facturas');
+			$table->foreign('factura_id')->references('id')->on('facturas');
 			$table->string('condicionPago')->nullable();
 			$table->timestamps();
 	

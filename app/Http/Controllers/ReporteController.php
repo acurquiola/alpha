@@ -33,6 +33,7 @@ class ReporteController extends Controller {
                     ->where('conceptos.modulo_id', "=",$modulo->id)
                     ->where('facturas.fecha', $primerDiaMes)
                     ->where('facturas.aeropuerto_id',($aeropuerto==0)?">":"=" ,$aeropuerto)
+                    ->where('facturas.deleted_at', null)
                     ->sum('facturas.total');
                 foreach($modulo->conceptos as $concepto){
                     $montos[$primerDiaMes->format('d/m/Y')][$modulo->nombre][$concepto->nompre]=\DB::table('facturadetalles')
@@ -42,6 +43,7 @@ class ReporteController extends Controller {
                         ->where('facturadetalles.concepto_id', $concepto->id)
                         ->where('facturas.fecha', $primerDiaMes)
                         ->where('facturas.aeropuerto_id',($aeropuerto==0)?">":"=" ,$aeropuerto)
+                        ->where('facturas.deleted_at', null)
                         ->pluck('facturadetalles.totalDes');
                 }
                 if(!isset($montosTotales[$modulo->nombre]))
@@ -76,6 +78,7 @@ class ReporteController extends Controller {
                 ->where('facturas.fecha','>=' ,$primerDiaMes)
                 ->where('facturas.fecha','<=' ,$ultimoDiaMes)
                 ->where('facturas.aeropuerto_id',($aeropuerto==0)?">":"=" ,$aeropuerto)
+                ->where('facturas.deleted_at', null)
                 ->sum('facturas.total');
         }
         return view('reportes.reporteModuloMetaMensual', compact('montos', 'mes', 'anno', 'aeropuerto'));
@@ -103,6 +106,7 @@ class ReporteController extends Controller {
                 $facturas=\App\Factura::where('facturas.fecha','>=' ,$diaMes->startOfMonth()->toDateTimeString())
                 ->where('facturas.fecha','<=' ,$diaMes->endOfMonth()->toDateTimeString())
                 ->where('facturas.aeropuerto_id',($aeropuerto==0)?">":"=" ,$aeropuerto)
+                ->where('facturas.deleted_at', null)
                 ->get();
             $montosMeses[$meses[$diaMes->month]]=[
                     "facturado"=>0,
@@ -208,6 +212,7 @@ class ReporteController extends Controller {
         $annoHasta       =$request->get('annoHasta',  \Carbon\Carbon::now()->year);
         $aeropuerto =session('aeropuerto');
         $facturas = \App\Factura::whereBetween('fecha', array($annoDesde.'-'.$mesDesde.'-'.$diaDesde,  $annoHasta.'-'.$mesHasta.'-'.$diaHasta) )
+                                ->where('facturas.deleted_at', null)
                                 ->where('aeropuerto_id', session('aeropuerto')->id)
                                 ->where('nroDosa', '<>', 'NULL')
                                 ->get();
@@ -232,6 +237,7 @@ class ReporteController extends Controller {
                                 ->whereHas('cobro', function($query) use ($aeropuerto, $modulo){
                                     $query->whereHas('facturas', function($query) use ($aeropuerto, $modulo){
                                         $query->where('facturas.aeropuerto_id',($aeropuerto==0)?">":"=", $aeropuerto)
+                                              ->where('facturas.deleted_at', null)
                                                 ->whereHas('detalles', function($query)  use ($aeropuerto, $modulo){
                                                     $query->whereHas('concepto', function($query)  use ($aeropuerto, $modulo){
                                                         $query->where('modulo_id', $modulo);

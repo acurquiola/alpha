@@ -75,7 +75,7 @@
 			var form=$(this).closest('form');
 			var data=$(form).serializeArray();
 			addLoadingOverlay('#main-box');
-			$.ajax({url:'{{action('FacturaController@update', ['modulo'=>$modulo->nombre,'factura'=>$factura->nFactura])}}',
+			$.ajax({url:'{{action('FacturaController@update', ['modulo'=>$modulo->nombre,'factura'=>$factura->id])}}',
 				method:'PUT',
 				data:data}).always(function(response, status, responseObject){
 					if(status=="error"){

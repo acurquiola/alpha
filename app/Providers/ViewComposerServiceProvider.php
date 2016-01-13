@@ -122,21 +122,6 @@ class ViewComposerServiceProvider extends ServiceProvider {
             $view->with(compact('clientes', 'conceptos'));
         });
 
-        view()->composer(['factura.partials.form', 'factura.facturaAeronautica.create', 'factura.facturaCarga.create'], function($view){
-            $facturaMax=(\DB::table('facturas')->max('nFactura')+1);
-            $view->with(compact('facturaMax'));
-        });
-
-        view()->composer(['factura.facturaAeronautica.create', 'factura.facturaCarga.create'], function($view){
-            $facturaMaxPreview=(\DB::table('facturas')->max('nFactura'));
-            $view->with(compact('facturaMaxPreview'));
-        });
-
-        view()->composer(['factura.partials.form', 'factura.automatica'], function($view){
-            $nControlprefixMax=\App\Factura::getNControlMax();
-            $view->with(compact('nControlprefixMax'));
-        });
-
         view()->composer(['reportes.reporteClienteReciboMensual', 'reportes.reporteDiario', 'reportes.reporteModuloMetaMensual', 'reportes.reporterFacturadoCobradoMensual', 'reportes.reporteDES900'], function($view){
             $aeropuertos = \App\Aeropuerto::lists('nombre', 'id');
             $aeropuertos[0]="Todos";

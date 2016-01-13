@@ -130,7 +130,7 @@
 									<tbody>
 										@foreach($modulo->facturas as $factura)
 										<tr>
-											<td class='text-justify'>{{$factura->nFactura}}</td>
+											<td class='text-justify'>{{$factura->nFacturaPrefix}}-{{$factura->nFactura}}</td>
 											<td style="text-align: left">{{$factura->cliente->nombre}}</td>
 											<td style="text-align: left">{{$factura->descripcion}}</td>
 											<td class='text-justify'>
@@ -144,10 +144,10 @@
 											<td style="text-align: right">{{$traductor->format($factura->total)}}</td>
 											<td>
 												<div class='btn-group  btn-group-sm' role='group' aria-label='...'>
-													<button class='btn btn-primary' data-id="{{$factura->nFactura}}" data-toggle="modal" data-target="#show-modal"><span class='glyphicon glyphicon-eye-open'></span></button>
-													<a class='btn btn-warning' href='{{url('facturacion/'.$modulo->nombre.'/factura/'.$factura->nFactura.'/edit')}}'><span class='glyphicon glyphicon-pencil' ></span></a>
-													<button class='btn btn-danger eliminar-factura-btn' data-id="{{$factura->nFactura}}"><span class='glyphicon glyphicon-remove'></span></button>
-													<a target="_blank" class='btn btn-default' href='{{action('FacturaController@getPrint', [$modulo->nombre, $factura->nFactura])}}'><span class='glyphicon glyphicon-print' ></span></a>
+													<button class='btn btn-primary' data-id="{{$factura->id}}" data-toggle="modal" data-target="#show-modal"><span class='glyphicon glyphicon-eye-open'></span></button>
+													<a class='btn btn-warning' href='{{url('facturacion/'.$modulo->nombre.'/factura/'.$factura->id.'/edit')}}'><span class='glyphicon glyphicon-pencil' ></span></a>
+													<button class='btn btn-danger eliminar-factura-btn' data-id="{{$factura->id}}"><span class='glyphicon glyphicon-remove'></span></button>
+													<a target="_blank" class='btn btn-default' href='{{action('FacturaController@getPrint', [$modulo->nombre, $factura->id])}}'><span class='glyphicon glyphicon-print' ></span></a>
 
 												</div>
 											</td>

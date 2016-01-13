@@ -7,37 +7,38 @@ class Factura extends Model {
 
     use SoftDeletes;
 
-    static public function NCONTROLDEFAULTPREFIX(){
-        return \App\Modulo::where('aeropuerto_id', session('aeropuerto')->id)->groupby('numeroControlPrefix')->get()->fetch('numeroControlPrefix')->toArray();
+    public static function boot()
+    {
+        parent::boot();
+        static::creating(function($model)
+        {
+                $model->attributes["nFactura"]=$model->getMaxWith(
+                                                                "nFacturaPrefix",
+                                                                "nFactura",
+                                                                $model->attributes["nFacturaPrefix"]);
+        });
+
     }
 
-    protected $primaryKey = 'nFactura';
 
     protected $guarded = array();
 
     protected $dates = ['fecha', 'fechaVencimiento'];
 
-    public static function getNControlMax($searchPrefix=null){
-        $nControlSearchPrefix=($searchPrefix==null)?self::NCONTROLDEFAULTPREFIX():$searchPrefix;
-        $nControlprefixMax=[];
-        foreach($nControlSearchPrefix as $prefix){
-            $nControlprefixMax[$prefix]=(\DB::
-                table('facturas')
-                    ->where('nControlPrefix',$prefix)
-                    ->groupby('nControlPrefix')
-                    ->max('nControl')+1);
-        }
-        return $nControlprefixMax;
+    public static function getMaxWith($prefixColumn, $column, $searchPrefix){
+        $aeropuertoSigla=session('aeropuerto')->siglas;
+        $max=config("facturas.$column.$aeropuertoSigla.$searchPrefix");
+        return max($max,\DB::table('facturas')->where($prefixColumn,$searchPrefix)->groupby($prefixColumn)->max($column)+1);
     }
 
     public function detalles()
     {
-        return $this->hasMany('App\Facturadetalle', 'factura_id', 'nFactura');
+        return $this->hasMany('App\Facturadetalle');
     }
 
     public function metadata()
     {
-        return $this->hasOne('App\Facturametadata', 'factura_id', 'nFactura');
+        return $this->hasOne('App\Facturametadata');
     }
 
     public function cliente()
@@ -47,7 +48,7 @@ class Factura extends Model {
 
     public function aterrizaje()
     {
-        return $this->belongsTo('App\Aterrizaje',  'factura_id', 'nFactura');
+        return $this->belongsTo('App\Aterrizaje');
     }
 
     public function cobros()
@@ -82,7 +83,7 @@ class Factura extends Model {
 
     public function carga()
     {
-        return $this->hasOne('App\Carga', 'factura_id', 'nFactura');
+        return $this->hasOne('App\Carga');
     }
 
     public function setFechaAttribute($fecha)

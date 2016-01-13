@@ -17,6 +17,7 @@ class AeropuertosTableSeeder extends Seeder {
 			array (
 				'id' => 1,
 				'nombre' => 'PZO',
+                'siglas' => 'PZO',
 				'created_at' => '2015-07-31 08:14:28',
 				'updated_at' => '2015-07-31 08:14:28',
 			),
@@ -24,6 +25,7 @@ class AeropuertosTableSeeder extends Seeder {
 			array (
 				'id' => 2,
 				'nombre' => 'CBL',
+                'siglas' => 'CBL',
 				'created_at' => '0000-00-00 00:00:00',
 				'updated_at' => '0000-00-00 00:00:00',
 			),
@@ -31,6 +33,7 @@ class AeropuertosTableSeeder extends Seeder {
 			array (
 				'id' => 3,
 				'nombre' => 'SEU',
+                'siglas' => 'SEU',
 				'created_at' => '0000-00-00 00:00:00',
 				'updated_at' => '0000-00-00 00:00:00',
 			),
