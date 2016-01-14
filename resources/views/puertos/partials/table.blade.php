@@ -9,6 +9,13 @@
                </tr>
           </thead>
           <tbody>
+               @if($totalPuertos==0)
+               <tr>
+                    <td colspan="7" class="text-center">No se consiguió ningún registro</td>
+               </tr>
+               @else           
+                    <h6 class="table-info pull-right">Total de Registros: {{$totalPuertos}}</h6>
+               @endif
                @foreach($puertos as $puerto)
                <tr data-id='{{$puerto->id}}'>
                     <td class='nombre-td'>{{$puerto->nombre}}</td>
@@ -21,7 +28,6 @@
                     </td>
                </tr>   
                @endforeach
-               <h6 class="table-info pull-right">Total de Registros: {{$puerto->count()}}</h6>
           </tbody>
      </table>
 </div><!-- /.table-responsive -->

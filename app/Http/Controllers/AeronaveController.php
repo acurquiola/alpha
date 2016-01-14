@@ -64,12 +64,13 @@ class AeronaveController extends Controller {
 			if($hangar_id==''){
 				$aeronaves=$aeronaves->orWhere('hangar_id','=' , null);
 			}
+			$totalAeronaves = $aeronaves->count();
 			$aeronaves=$aeronaves->orderBy($sortName, $sortType)
 							 ->paginate(7);
 
 
 
-			return view('aeronaves.partials.table', compact('aeronaves'));
+			return view('aeronaves.partials.table', compact('aeronaves', 'totalAeronaves'));
 		}
 		else
 		{	$aeronaves               = Aeronave::all();

@@ -44,11 +44,12 @@ class ModeloAeronaveController extends Controller {
 									->where('modelo', 'like', '%'.$modelo.'%')
 									->where('peso_maximo', 'like', $peso_maximo)
 									->where('tipo_id', $tipoOperator, $tipo_id)
-									->orderBy($sortName, $sortType)
-									->paginate(7);
+									->orderBy($sortName, $sortType);
+		$totalModelosAeronaves = $modelos->count();
+		$modelos               = $modelos->paginate(7);
 
 
-		return view('modelosAeronaves.partials.table', compact('modelos'));
+		return view('modelosAeronaves.partials.table', compact('modelos', 'totalModelosAeronaves'));
 		}else{
 
 		$tipos = TipoAeronave::all();

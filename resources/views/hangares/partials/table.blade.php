@@ -10,6 +10,11 @@
                </tr>
           </thead>
           <tbody>
+               @if($hangares->count()==0)
+               <tr>
+                    <td colspan="7" class="text-center">No se consiguió ningún registro</td>
+               </tr>
+               @endif
                @foreach($hangares as $hangar)
                <tr data-id='{{$hangar->id}}'>
                     <td class='aeropuerto_id-td'>{{$hangar->aeropuerto->nombre}}</td>

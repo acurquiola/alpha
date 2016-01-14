@@ -45,8 +45,13 @@
 								<div class="input-group">
 									<div class="input-group-addon">
 										<i class="fa fa-plane"></i>
-									</div>                                        
-									<input type="text"  name="aeronave_id" class="form-control"  placeholder="Matrícula"/>
+									</div> 
+									<select name="aeronave_id" id="aeronave_id" class="form-control aeronave no-vacio">
+										<option value=""> Matrícula </option>
+										@foreach ($aeronaves as $aeronave)
+										<option data-modelo="{{$aeronave->modelo_id}}" data-nacionalidad="{{$aeronave->nacionalidad_id}}" data-peso="{{$aeronave->peso}}" data-nombremodelo="{{$aeronave->modelo->modelo}}" data-cliente="{{$aeronave->cliente_id}}" data-tipo="{{$aeronave->tipo_id}}" data-tipoV="{{$aeronave->tipo->nombre}}" value="{{$aeronave->id}}"> {{$aeronave->matricula}}</option>
+										@endforeach
+									</select>								
 								</div><!-- /.input group -->
 							</div>
 							<div class="form-group">
@@ -126,8 +131,6 @@ function getTable(url){
 	$('#table-wrapper').load(url)
 
 }
-
-
 
 
 	$(document).ready(function() {
@@ -256,7 +259,6 @@ function getTable(url){
 	    		e.preventDefault();
 	    		var data=$(this).closest('form').serialize();
 	    		getTable("{{action('DespegueController@index')}}?"+data);
-	    		console.log(data);
 	    	}).trigger('click');
 
 

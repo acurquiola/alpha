@@ -42,10 +42,10 @@ class PuertoController extends Controller {
 									->where('nombre', 'like', '%'.$nombre.'%')
 									->where('siglas', 'like', $siglas)
 									->where('pais_id', $paisOperator, $pais_id)
-									->orderBy($sortName, $sortType)
-									->paginate(7);
-
-		return view('puertos.partials.table', compact('puertos'));
+									->orderBy($sortName, $sortType);
+		$totalPuertos = $puertos->count();
+		$puertos= $puertos->paginate(7);
+		return view('puertos.partials.table', compact('puertos', 'totalPuertos'));
 		}
 		else
 		{

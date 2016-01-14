@@ -20,6 +20,11 @@
                     <th>Opciones</th>
                </tr>
           </thead>
+               @if($despegues->count()==0)
+               <tr>
+                    <td colspan="11" class="text-center">No se consiguió ningún registro</td>
+               </tr>
+               @endif
 
                @foreach($despegues as $despegue)
                <tr data-id='{{$despegue->id}}' data-aterrizaje='{{$despegue->aterrizaje_id}}'>

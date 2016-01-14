@@ -13,6 +13,13 @@
                </tr>
           </thead>
           <tbody>
+               @if($totalAeronaves==0)
+               <tr>
+                    <td colspan="8" class="text-center">No se consiguió ningun registro</td>
+               </tr>
+               @else           
+                    <h6 class="table-info pull-right">Total de Registros: {{$totalAeronaves}}</h6>
+               @endif
                @foreach($aeronaves as $aeronave)
                <tr data-id='{{$aeronave->id}}'>
                     <td class ='matricula-td'>{{$aeronave->matricula}}</td>
@@ -28,8 +35,6 @@
                     </td>
                </tr>   
                @endforeach
-                    <h6 class="table-info pull-right">Total de Registros: {{$aeronave->count()}}</h6>
-
           </tbody>
      </table>
 </div><!-- /.table-responsive -->

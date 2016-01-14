@@ -11,6 +11,11 @@
                     <th>Opciones</th>
                </tr>
           </thead>
+               @if($cargas->count()==0)
+               <tr>
+                    <td colspan="7" class="text-center">No se consiguió ningún registro</td>
+               </tr>
+               @endif
                @foreach($cargas as $carga)
                <tr data-id='{{$carga->id}}'>
                     <td class ='fecha-td'>{{$carga->fecha}}</td>

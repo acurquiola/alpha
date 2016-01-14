@@ -53,12 +53,14 @@ class PilotoController extends Controller {
 			if($telefono==''){
 				$pilotos=$pilotos->orWhere('telefono','=' , null);
 			}
+			$totalPilotos = $pilotos->count();
 			$pilotos=$pilotos->orderBy($sortName, $sortType)
 							 ->paginate(7);
 
 
 
-			return view('pilotos.partials.table', compact('pilotos'));
+
+			return view('pilotos.partials.table', compact('pilotos', 'totalPilotos'));
 		}
 		else
 		{			

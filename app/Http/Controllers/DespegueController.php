@@ -67,23 +67,24 @@ class DespegueController extends Controller {
 			->where('aeronave_id', '=', $aeronave_id)->get();
 
 			$despegues = Despegue::with("puerto", "piloto", "tipo")
-			->where('fecha', 'like', $fecha)
-			->where('hora', 'like', $hora)
-			->where('num_vuelo', 'like', $num_vuelo)
-			->where('puerto_id', $puertoOperador, $puerto_id)
-			->where('aeropuerto_id', session('aeropuerto')->id);
+											->where('fecha', 'like', $fecha)
+											->where('hora', 'like', $hora)
+											->where('num_vuelo', 'like', $num_vuelo)
+											->where('aeronave_id', $aeronaveOperador, $aeronave_id)
+											->where('aeropuerto_id', session('aeropuerto')->id);
 
-			if($puerto_id==''){
-				$despegues=$despegues->orWhere('puerto_id','=' , null);
-			}
-			$despegues=	$despegues->orderBy($sortName, $sortType)
-			->orderBy('hora', 'DESC')
-			->paginate(10);
+											if($puerto_id==''){
+												$despegues=$despegues->orWhere('puerto_id','=' , null);
+											}
+											$despegues=	$despegues->orderBy($sortName, $sortType)
+											->orderBy('hora', 'DESC')
+											->paginate(10);
 			return view('despegues.partials.table', compact('despegues', 'aeronave'));
 		}
 		else
 		{
 			$aterrizajes         = Aterrizaje::all();
+			$aeronaves         = Aeronave::all();
 			$puertos             = Puerto::all();
 			$pilotos             = Piloto::all();
 			$nacionalidad_vuelos = NacionalidadVuelo::all();

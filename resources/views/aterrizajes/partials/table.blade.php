@@ -13,6 +13,11 @@
                </tr>
           </thead>
           <tbody>
+               @if($aterrizajes->count()==0)
+               <tr>
+                    <td colspan="7" class="text-center">No se consiguió ningún registro</td>
+               </tr>
+               @endif
                @foreach($aterrizajes as $aterrizaje)
                <tr data-id='{{$aterrizaje->id}}'>
                     <td class ='fecha-td'>{{$aterrizaje->fecha }}</td>
