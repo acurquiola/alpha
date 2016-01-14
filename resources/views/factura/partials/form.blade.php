@@ -34,7 +34,7 @@
             <div class="input-group-btn">
                 <button style="max-height:37px" type="button" class="btn btn-default"><span class="nFacturaPrefix-text">{{$modulo->nFacturaPrefix}}</span></button>
             </div>
-            {!! Form::text('nFactura', ($factura->nFactura)?$factura->nFactura:$factura->getMaxWith('nFacturaPrefix', 'nFactura', $modulo->nFacturaPrefix), [ 'id' => 'nFactura', 'class'=>"form-control", "data-empty"=>"false", "data-type"=>"int", "data-name"=>"Número de factura", 'style' => 'padding-left:2px', "disabled"]) !!}
+            {!! Form::text('nFactura', ($factura->nFactura)?$factura->nFactura:$factura->getMaxWith('nFacturaPrefix', 'nFactura', $modulo->nFacturaPrefix), [ 'id' => 'nFactura', 'class'=>"form-control", "data-empty"=>"false", "data-type"=>"int", "data-name"=>"Número de factura", 'style' => 'padding-left:2px', $disabled]) !!}
         </div>
     </div>
 

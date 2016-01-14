@@ -20,19 +20,19 @@
 						<label for="cliente-select" class="control-label col-xs-1">Cliente</label>
 						<input class="form-control" type="hidden" id="cliente-codigo" value="{{$cliente->codigo}}">
 						<input class="form-control" type="hidden" id="despegue-input" value="{{$despegue->id}}">
-						<div class="col-xs-5">					
+						<div class="col-xs-5">	
 							<select class="form-control" id="cliente-select" autocomplete="off">
 								<option
-								data-id="{{$cliente->cliente_id}}"
-								data-nombre="{{$cliente->nombre}}"
-								data-ced-rif="{{$cliente->cedRif}}"
-								data-ced-rif-prefix="{{$cliente->cedRifPrefix}}"
-								data-islr="{{$cliente->islrpercentage}}"
-								data-iva="{{$cliente->ivapercentage}}"
-								data-is-contribuyente="{{$cliente->isContribuyente}}"
-								value="{{$cliente->codigo}}">
-								{{$cliente->codigo}} | {{$cliente->nombre}}
-							</option>
+									data-id="{{$cliente->id}}"
+									data-nombre="{{$cliente->nombre}}"
+									data-ced-rif="{{$cliente->cedRif}}"
+									data-ced-rif-prefix="{{$cliente->cedRifPrefix}}"
+									data-islr="{{$cliente->islrpercentage}}"
+									data-iva="{{$cliente->ivapercentage}}"
+									data-is-contribuyente="{{$cliente->isContribuyente}}"
+									value="{{$cliente->codigo}}">
+									{{$cliente->codigo}} | {{$cliente->nombre}}
+								</option>
 						</select>
 					</div>
 					<div class="col-xs-3">
@@ -166,6 +166,7 @@
 							<select class="form-control" id="forma-modal-input">
 								<option value="D">Deposito</option>
 								<option value="NC">Nota de Crédito</option>
+								<option value="T">Transferencia</option>
 							</select>
 						</div>
 					</div>
@@ -844,6 +845,7 @@ $('#save-cobro-btn').click(function(){
 	$('#formas-pago-table tbody tr').each(function(index,value){
 		pagos.push($(value).data('object'));
 	})
+	var id="5";
 
 	addLoadingOverlay('#main-box');
 	$.ajax({
@@ -864,7 +866,7 @@ $('#save-cobro-btn').click(function(){
 		try{
 			var response=JSON.parse(jx.responseText);
 			if(response.success){
-				alertify.success("El pago se efectuo con exito.");
+				alertify.success("El pago se efectuó con éxito.");
 				setTimeout(
 					function()
 					{

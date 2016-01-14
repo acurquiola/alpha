@@ -189,6 +189,7 @@
 						    <select class="form-control" id="forma-modal-input">
 							    <option value="D">Deposito</option>
 							    <option value="NC">Nota de credito</option>
+								<option value="T">Transferencia</option>
 						    </select>
 					    </div>
 				    </div>

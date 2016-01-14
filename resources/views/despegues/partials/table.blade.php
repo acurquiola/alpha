@@ -42,8 +42,8 @@
                                        <a target="_blank" class='btn btn-default  btn-sm' href='{{action('FacturaController@getPrint', ["modulo"=>"DOSAS", $despegue->factura_id])}}'>
                                              <span class='glyphicon glyphicon-print'></span>
                                        </a>
-                                        @if($despegue->condicionPago == 'Contado' && $despegue->pagado == 0)
-                                            <a class='btn btn-primary  btn-sm' href='{{action('DespegueController@getGenerarCobranza', [$despegue->id])}}'>
+                                        @if($despegue->condicionPago == 'Contado')
+                                            <a class='btn btn-primary  btn-sm'  href='{{action('DespegueController@getGenerarCobranza', [$despegue->id])}}' @if($despegue->factura->estado == 'C') disabled @endif >
                                                   <span class='fa fa-money'></span>
                                             </a>
                                         @endif
