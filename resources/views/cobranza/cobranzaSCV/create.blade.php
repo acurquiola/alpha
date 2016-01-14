@@ -870,7 +870,7 @@ $('#save-cobro-btn').click(function(){
 				setTimeout(
 					function()
 					{
-						location.reload();
+						window.location="{{action('DespegueController@index')}}";
 					}, 2000);
 			}
 

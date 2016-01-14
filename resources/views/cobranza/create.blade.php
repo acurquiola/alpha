@@ -881,7 +881,7 @@ $('#save-cobro-btn').click(function(){
 		try{
 			var response=JSON.parse(jx.responseText);
 			if(response.success){
-				alertify.success("El pago se efectuo con exito.");
+				alertify.success("El pago se efectuó con éxito.");
 				setTimeout(
 					function()
 					{
