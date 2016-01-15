@@ -138,7 +138,7 @@ class CobranzaController extends Controller {
         $facturas=$request->get('facturas',[]);
         $pagos=$request->get('pagos',[]);
         foreach($facturas as $f){
-            $factura=\App\Factura::find($f["nFactura"]);
+            $factura=\App\Factura::find($f["id"]);
             $facturaMetadata=\App\Facturametadata::firstOrCreate(["factura_id"=>$factura->id]);
             $facturaMetadata->ncobros++;
             /**
