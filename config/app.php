@@ -148,7 +148,7 @@ return [
         'App\Providers\ViewComposerServiceProvider',
         'Bican\Roles\RolesServiceProvider',
         'Felixkiss\UniqueWithValidator\UniqueWithValidatorServiceProvider',
-        'Orangehill\Iseed\IseedServiceProvider',
+        'Orangehill\Iseed\IseedServiceProvider'
 	],
 
 	/*

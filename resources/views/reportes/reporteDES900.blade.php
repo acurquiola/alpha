@@ -64,20 +64,21 @@
 					<div class="col-xs-12">
 
 						<div class="table-responsive" style="max-height: 500px">
-							<table class="table table-hover table-condensed">
+							<table class="table table-bordered table-striped">
 								<thead  class="bg-primary">
 									<tr>
 										<th colspan="4" rowspan="2" style="vertical-align: middle" class="text-center">GENERAL</th>
-										<th colspan="8" style="vertical-align: middle" class="text-center">ATERRIZAJE</th>
+										<th colspan="9" style="vertical-align: middle" class="text-center">ATERRIZAJE</th>
 										<th colspan="8" style="vertical-align: middle" class="text-center">DESPEGUE</th>
 									</tr>
 									<tr>
 										<th colspan="5"></th>
-										<th colspan="3" class="text-center">Desembarque</th>
+										<th colspan="2" class="text-center"><b>Desembarque</b></th>
+										<th colspan="2" class="text-center"><b>Tránsito</b></th>
 										<th colspan="5"></th>
-										<th colspan="3" class="text-center">Embarque</th>
+										<th colspan="2" class="text-center">Embarque</th>
 									</tr>
-									<tr>
+									<tr align="center">
 										<th >Día</th>
 										<th >N° Dosa</th>
 										<th >Modelo</th>
@@ -88,8 +89,9 @@
 										<th >Fecha</th>
 										<th >Hora</th>
 										<th >Procedencia</th>
-										<th >Pasajeros</th>
-										<th >Tránsito</th>
+										<th >Pass</th>
+										<th >Carga</th>
+										<th >Pass</th>
 										<th >Carga</th>
 
 										<th >Piloto</th>
@@ -97,14 +99,13 @@
 										<th >Fecha</th>
 										<th >Hora</th>
 										<th >Destino</th>
-										<th >Pasajeros</th>
-										<th >Tránsito</th>
+										<th >Pass</th>
 										<th >Carga</th>
 									</tr>
 								</thead>
 								<tbody>
 									@foreach($despegues as $despegue)
-									<tr title="{{$despegue->fecha}}">
+									<tr title="{{$despegue->fecha}}" align="center">
 										<td>{{$despegue->fecha}}</td>
 										<td>{{($despegue->factura)?$despegue->factura->nroDosa:"N/A"}}</td>
 										<td>{{$despegue->aterrizaje->aeronave->modelo->modelo}}</td>
@@ -116,8 +117,9 @@
 										<td>{{$despegue->aterrizaje->hora}}</td>
 										<td>{{($despegue->aterrizaje->puerto)?$despegue->aterrizaje->puerto->nombre:"N/A"}}</td>
 										<td>{{$despegue->aterrizaje->desembarqueAdultos+$despegue->aterrizaje->desembarqueInfante+$despegue->aterrizaje->desembarqueTercera}}</td>
-										<td>{{$despegue->aterrizaje->desembarqueTransito}}</td>
 										<td>{{$despegue->peso_desembarcado}}</td>
+										<td>{{$despegue->aterrizaje->desembarqueTransito}}</td>
+										<td>{{$despegue->peso_embarcado}}</td>
 
 										<td>{{($despegue->piloto)?$despegue->piloto->nombre:"N/A"}}</td>
 										<td>{{($despegue->num_vuelo)?$despegue->num_vuelo:"N/A"}}</td>
@@ -125,7 +127,6 @@
 										<td>{{$despegue->hora}}</td>
 										<td>{{($despegue->puerto)?$despegue->puerto->nombre:"N/A"}}</td>
 										<td>{{$despegue->embarqueAdultos+$despegue->embarqueInfante+$despegue->embarqueTercera}}</td>
-										<td>{{$despegue->transitoAdultos+$despegue->transitoInfante+$despegue->transitoTercera}}</td>                                 
 										<td>{{$despegue->peso_embarcado}}</td>
 									</tr>
 									@endforeach
