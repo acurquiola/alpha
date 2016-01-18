@@ -122,7 +122,6 @@
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
-
 @endsection
 @section('script')
 
@@ -162,7 +161,7 @@ function tableConstructorDefault(nTaquillas, nTurnos, conceptos){
     $.each(conceptos, function(index,value){
         table+='<tr><td data-id="'+value.id+'" class="concepto-tickets-td" style="vertical-align: middle">'+value.nombre+'</td>' +
          '<td class="costo-tickets-td" style="vertical-align: middle">'
-                      +value.costo+'</td>';
+                      +numToComma(value.costo)+'</td>';
         for(var k=0;k<nTaquillas; k++)
         for(var j=0;j<nTurnos; j++)
             table+='<td style="vertical-align: middle" ><input \
@@ -216,9 +215,9 @@ function tableConstructor(object){
     <tbody>';
     var conceptoId=null;
     $.each(object.tickets, function(index,value){
-        if(conceptoId!=null && conceptoId!=value.estacionamientoconcepto_id)
+        if(conceptoId!=null && conceptoId!=value.econcepto_id)
             table+='</tr>';
-        if(conceptoId==null || conceptoId!=value.estacionamientoconcepto_id)
+        if(conceptoId==null || conceptoId!=value.econcepto_id)
         table+='<tr><td data-id="'+value.id+'" class="concepto-tickets-td" style="vertical-align: middle">'
         +value.concepto.nombre+'</td>'+
         '<td class="costo-tickets-td" style="vertical-align: middle">'
@@ -232,7 +231,7 @@ function tableConstructor(object){
              data-turno="'+value.turno+'" \
              class="form-control text-right monto-tickets-input" readonly value="'+value.monto+'" /></td>';
 
-        conceptoId=value.estacionamientoconcepto_id;
+        conceptoId=value.econcepto_id;
 
     })
     table+='</tbody>\
@@ -302,7 +301,7 @@ function calcularTotalTarjetas(box){
      var trs=$(box).find('.tarjeta-table tbody tr:not(.control-row)');
      var total=0;
      $.each(trs, function(index, value){
-        total+= parseFloat($(value).find('.tarjeta-total-tr-td').text());
+        total+= commaToNum($(value).find('.tarjeta-total-tr-td').text());
      })
 
      $(box).find('.total-tarjetas-box').text(total);
@@ -313,23 +312,23 @@ function calcularTotalTickets(box){
      var trs=$(box).find('.pago-tickets-table tbody tr:not(.control-row)');
      var total=0;
      $.each(trs, function(index, value){
-        total+= parseFloat($(value).find('.tickets-total-tr-td').text());
+        total+= commaToNum($(value).find('.tickets-total-tr-td').text());
      })
 
-     $(box).find('.total-depositado-box').text((total+parseFloat($(box).find('.total-tarjetas-box').text())).toFixed(2));
+     $(box).find('.total-depositado-box').text(numToComma(total+commaToNum($(box).find('.total-tarjetas-box').text())));
 
  }
 
  function calcularTotal(box){
-     var total=parseFloat($(box).find('.total-tarjetas-box').text())+parseFloat($(box).find('.total-tickets-box:eq(0)').text());
-     $(box).find('.total-box').text(total.toFixed(2));
+     var total=commaToNum($(box).find('.total-tarjetas-box').text())+commaToNum($(box).find('.total-tickets-box:eq(0)').text());
+     $(box).find('.total-box').text(numToComma(total));
  }
 
  function checkDepositadoEqualsTotalTickets(box){
     var totalInput=$(box).find('.total-tickets-box');
     var depositadoInput=$(box).find('.depositado-tickets-box');
-     var total=parseFloat($(totalInput).val());
-     var depositado=parseFloat($(depositadoInput).val());
+     var total=commaToNum($(totalInput).val());
+     var depositado=commaToNum($(depositadoInput).val());
     depositado=isNaN(depositado)?0:depositado;
     if(total<=depositado){
 
@@ -348,7 +347,7 @@ function tableTarjetasConstructor(object){
        '<td>'+value.cantidad.toFixed(2)+'</td> '+
        '<td>'+value.banco.nombre+'</td>'+
        '<td>'+value.banco_cuenta.descripcion+'</td>'+
-       '<td class="tarjeta-total-tr-td" style="text-align: right" >'+value.total.toFixed(2)+'</td>' +
+       '<td class="tarjeta-total-tr-td" style="text-align: right" >'+numToComma(value.total)+'</td>' +
        '<td>'+value.deposito+'</td>' +
        '</tr>';
 
@@ -364,7 +363,7 @@ function tableTicketsConstructor(object){
        '<td>'+value.fecha+'</td>' +
        '<td>'+value.banco.nombre+'</td> ' +
        '<td>'+value.banco_cuenta.descripcion+'</td>' +
-       '<td class="tickets-total-tr-td" style="text-align: right">'+value.total.toFixed(2)+'</td>' +
+       '<td class="tickets-total-tr-td" style="text-align: right">'+numToComma(value.total)+'</td>' +
        '<td>'+value.deposito+'</td>' +
        '</tr>';
 
@@ -594,11 +593,11 @@ $(document).ready(function(){
    +'</td> <td data-id="'+clienteId+'">'
    +cliente
    +'</td> <td  style="text-align:right">'
-   +cantidad.toFixed(2)+'</td> <td  data-id="'+bancoId+'">'
+   +numToComma(cantidad)+'</td> <td  data-id="'+bancoId+'">'
    +banco+'</td> <td data-id="'+cuentaId+'">'
    +cuenta
    +'</td> <td class="tarjeta-total-tr-td"  style="text-align:right">'
-   +total.toFixed(2)
+   +numToComma(total)
    +'</td> <td>'
    +deposito
    +'</td> <td><button class="btn btn-danger delete-tarjeta" ><span class="glyphicon glyphicon-minus"></span></button></td> </tr>';
@@ -635,7 +634,7 @@ calcularTotal(box);
       var bancoId=$(tr).find('.pago-tickets-banco-select').val();
          var cuenta=$(tr).find('.pago-tickets-cuenta-select option:selected').text();
          var cuentaId=$(tr).find('.pago-tickets-cuenta-select').val();
-   var monto=parseFloat($(tr).find('.monto-tickets-input').val());
+   var monto=commaToNum($(tr).find('.monto-tickets-input').val());
    monto=isNaN(monto)?0:monto;
    var deposito=$(tr).find('.deposito-tickets-input').val();
        $(tr).find('input').val("");
@@ -645,7 +644,7 @@ calcularTotal(box);
    +banco+'</td> <td data-id="'+cuentaId+'">'
    +cuenta
    +'</td> <td class="tickets-total-tr-td" style="text-align:right">'
-   +monto.toFixed(2)
+   +numToComma(monto)
    +'</td> <td>'
    +deposito
    +'</td> <td><button class="btn btn-danger delete-ticket" ><span class="glyphicon glyphicon-minus"></span></button></td> </tr>';
@@ -658,11 +657,11 @@ calcularTotalTickets(box);
 calcularTotalTickets(box);
  })
 
-$('body').delegate('.cantidad-tickets-input','keyup',function(){
+$('body').delegate('.cantidad-tickets-input','focusout paste',function(){
 var box=$(this).closest('.box');
 var data=$(this).data();
 var tr=$(this).closest('tr');
-var monto=parseFloat($(tr).find('.costo-tickets-td').text());
+var monto=commaToNum($(tr).find('.costo-tickets-td').text());
 var totalInput=$(tr).find('.monto-tickets-input[data-turno="'+data.turno+'"][data-taquilla="'+data.taquilla+'"]');
 var cantidadText=$(this).val();
 var cantidad=parseInt(cantidadText);
@@ -670,21 +669,21 @@ var cantidad=parseInt(cantidadText);
 if(cantidadText!="" && (isNaN(cantidad) || cantidad!=cantidadText))
     alertify.error("La cantidad debe ser un numero entero");
 cantidad=isNaN(cantidad)?0:cantidad;
-$(totalInput).val((monto*cantidad).toFixed(2));
+$(totalInput).val(numToComma(monto*cantidad));
 var total=0;
 $(box).find('.monto-tickets-input[data-turno="'+data.turno+'"][data-taquilla="'+data.taquilla+'"]').each(function(){
-    var m=parseFloat($(this).val());
+    var m=commaToNum($(this).val());
     total+= isNaN(m)?0:m;
 })
 
-$(box).find('.total-tickets-td[data-turno="'+data.turno+'"][data-taquilla="'+data.taquilla+'"]').html("<strong>"+total.toFixed(2)+"</strong>");
+$(box).find('.total-tickets-td[data-turno="'+data.turno+'"][data-taquilla="'+data.taquilla+'"]').html("<strong>"+numToComma(total)+"</strong>");
 var totalBox=0;
 $(box).find('.total-tickets-td').each(function(){
 
-        var m=parseFloat($(this).text());
+        var m=commaToNum($(this).text());
         totalBox+= isNaN(m)?0:m;
 })
-$(box).find('.total-tickets-box').text(totalBox.toFixed(2)).val(totalBox.toFixed(2));
+$(box).find('.total-tickets-box').text(numToComma(totalBox)).val(numToComma(totalBox));
 calcularTotal(box);
 })
 
@@ -698,10 +697,10 @@ $('body').delegate('.tarjeta-banco-select, .pago-tickets-banco-select', 'change'
 
 $('body').delegate('.tarjeta-cantidad-input', 'keyup', function(){
     var tr=$(this).closest('tr');
-    var costoUnidad=parseFloat($(tr).find('.tarjeta-cliente-select option:selected').data('costoUnidad'));
+    var costoUnidad=commaToNum($(tr).find('.tarjeta-cliente-select option:selected').data('costoUnidad'));
     var cantidad=$(this).val();
     cantidad=isNaN(cantidad)?0:cantidad;
-    $(tr).find('.tarjeta-total-input').val((costoUnidad*cantidad).toFixed(2));
+    $(tr).find('.tarjeta-total-input').val(numToComma(costoUnidad*cantidad));
 })
 
 
@@ -763,8 +762,8 @@ $('body').delegate('.consolidar-btn', 'click', function(){
     var fechaBox= $(box).find('.fecha-box').text();
     var totalBox= $(box).find('.total-box').text();
     var depositadoBox= $(box).find('.total-depositado-box').text();
-    totalBox=parseFloat(totalBox);
-    depositadoBox=parseFloat(depositadoBox);
+    totalBox=commaToNum(totalBox);
+    depositadoBox=commaToNum(depositadoBox);
     if(totalBox!=depositadoBox){
         alertify.error("El valor depositado no es igual al total del dia");
         return;
@@ -783,15 +782,15 @@ $('body').delegate('.consolidar-btn', 'click', function(){
 
             var cantidad=parseInt($(value).find('.cantidad-tickets-input[data-turno="'+turno+'"][data-taquilla="'+taquilla+'"]').val());
             cantidad=isNaN(cantidad)?0:cantidad;
-            var monto=parseFloat($(value).find('.monto-tickets-input[data-turno="'+turno+'"][data-taquilla="'+taquilla+'"]').val());
+            var monto=commaToNum($(value).find('.monto-tickets-input[data-turno="'+turno+'"][data-taquilla="'+taquilla+'"]').val());
             monto=isNaN(monto)?0:monto;
             tickets.push({
-                estacionamientoconcepto_id: concepto,
+                econcepto_id: concepto,
                 taquilla:taquilla,
                 turno:turno,
-                costo:costo,
-                cantidad:cantidad,
-                monto:monto
+                costo:commaToNum(costo),
+                cantidad:commaToNum(cantidad),
+                monto:commaToNum(monto)
             });
 
             }
@@ -812,7 +811,7 @@ $('body').delegate('.consolidar-btn', 'click', function(){
         fecha:pagoTicketsFecha,
         banco_id:pagoTicketsBanco,
         bancoscuenta_id:pagoTicketsCuenta,
-        total:pagoTicketsTotal,
+        total:commaToNum(pagoTicketsTotal),
         deposito:pagoTicketsDeposito
         })
     });
@@ -830,24 +829,24 @@ $('body').delegate('.consolidar-btn', 'click', function(){
         tarjetas.push({
         fecha:fecha,
         estacionamientocliente_id:cliente,
-        cantidad:cantidad,
+        cantidad:commaToNum(cantidad),
         banco_id:banco,
         bancoscuenta_id:cuenta,
-        total:total,
+        total:commaToNum(total),
         deposito:deposito
         })
 
         })
 
         $.ajax({
-        url: '{{URL::to('estacionamiento/store')}}',
+        url: '{{action('EstacionamientoController@store')}}',
         method:'POST',
         context:box,
         data:{
         fecha:fechaBox,
         nTaquillas:nTaquillas,
         nTurnos:nTurnos,
-        total:totalBox,
+        total:commaToNum(totalBox),
         depositado:depositadoBox,
         estacionamientooptickets:tickets,
         estacionamientoopticketsdepositos:depositoTickets,

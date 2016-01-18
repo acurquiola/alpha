@@ -44,7 +44,7 @@ class EstacionamientoController extends Controller {
 	public function store(Request $request)
 	{
 
-        $estacionamientoOp=\App\Estacionamientoop::create($request->only('fecha', 'nTaquillas', 'nTurnos', 'total', 'depositado'));
+        $estacionamientoOp=session('aeropuerto')->estacionamiento->operaciones()->create($request->only('fecha', 'nTaquillas', 'nTurnos', 'total', 'depositado'));
         $estacionamientoOp->tickets()->createMany($request->get("estacionamientooptickets"));
         if($request->has("estacionamientoopticketsdepositos"))
         $estacionamientoOp->depositos()->createMany($request->get("estacionamientoopticketsdepositos"));
@@ -77,16 +77,19 @@ class EstacionamientoController extends Controller {
          * asi que usamos la libreria de Carbon para transformarla
          */
         $fecha=\Carbon\Carbon::createFromFormat('d/m/Y', $request->get("fecha"))->toDateString();
-        /**
-         * Buscamos el primer registro que coincida con la fecha.
-         */
-        $estacinamiento=\App\Estacionamientoop::where('fecha', $fecha)->first();
+
+        $aeropuerto=session('aeropuerto');
+
+        $estacionamiento=$aeropuerto->estacionamiento;
+
+        $estacinamientoop=$estacionamiento->operaciones()->where('fecha', $fecha)->first();
+
         /**
          * Luego mandamos a buscar todas las relaciones si se encontro un registro. Ya que hay que dibujar la tabla de tickets
          * se ordena por concepto>taquilla>turno para hacer mas facil el foreach
          */
-        if($estacinamiento)
-        $estacinamiento->load([
+        if($estacinamientoop)
+            $estacinamientoop->load([
                                 'tickets' => function ($query) {
                                     $query->orderBy('estacionamientoConcepto_id', 'asc')
                                     ->orderBy('taquilla', 'asc')->orderBy('turno', 'asc');
@@ -98,7 +101,7 @@ class EstacionamientoController extends Controller {
          * Se devuelve el objecto encontrado
          * Laravel lo transforma automaticamente a JSON
          */
-        return $estacinamiento;
+        return $estacinamientoop;
 	}
 
 	/**

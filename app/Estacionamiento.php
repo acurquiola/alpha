@@ -25,4 +25,8 @@ class Estacionamiento extends Model {
     {
         return $this->hasMany('App\Estacionamientocliente', 'estacionamiento_id');
     }
+
+    public function operaciones(){
+        return $this->hasMany('App\Estacionamientoop', 'estacionamiento_id');
+    }
 }

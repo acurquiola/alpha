@@ -7,15 +7,13 @@ function numToComma(number){
         number=parseFloat(number);
         number=isNaN(number)?0:number;
     }
-    console.log((number).toFixed(4),number.toLocaleString('es',{minimumFractionDigits:2}))
     return number.toLocaleString('es',{minimumFractionDigits:2});
 }
 function commaToNum(string){
-    if(typeof number === "number")
+    if(typeof string === "number")
         string+="";
     if(string=="")
         string="0";
-    console.log("commaToNum", string, Number(string.replace(/\./g, "").replace(',', ".")));
     return Number(string.replace(/\./g, "").replace(',', "."));
 }
 

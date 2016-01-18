@@ -4,7 +4,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Estacionamientoopticket extends Model {
 
-    protected $fillable = ['estacionamientoconcepto_id', 'taquilla', 'turno', 'costo', 'cantidad', 'monto'];
+    protected $fillable = ['econcepto_id', 'taquilla', 'turno', 'costo', 'cantidad', 'monto'];
 
     protected $hidden = ['created_at', 'updated_at'];
 
@@ -15,7 +15,7 @@ class Estacionamientoopticket extends Model {
 
     public function concepto()
     {
-        return $this->belongsTo('App\Estacionamientoconcepto', 'estacionamientoconcepto_id');
+        return $this->belongsTo('App\Estacionamientoconcepto', 'econcepto_id');
     }
 
     public function operacion()
