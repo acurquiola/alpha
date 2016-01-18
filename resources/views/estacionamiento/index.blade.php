@@ -551,7 +551,7 @@ $(document).ready(function(){
                                                      updateClientesSelect();
                                                      calcularTotalTarjetas(this);
                                                      calcularTotal(this);
-                                           $(this).find('.cantidad-tickets-input').trigger('keyup');
+                                           $(this).find('.cantidad-tickets-input').trigger('paste');
                     }catch(e){
                     console.log(e);
                     }

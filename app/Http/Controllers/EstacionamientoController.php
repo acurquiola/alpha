@@ -91,7 +91,7 @@ class EstacionamientoController extends Controller {
         if($estacinamientoop)
             $estacinamientoop->load([
                                 'tickets' => function ($query) {
-                                    $query->orderBy('estacionamientoConcepto_id', 'asc')
+                                    $query->orderBy('econcepto_id', 'asc')
                                     ->orderBy('taquilla', 'asc')->orderBy('turno', 'asc');
                                 },
                                 'tickets.concepto', 'tarjetas', 'tarjetas.banco', 'tarjetas.cliente',
