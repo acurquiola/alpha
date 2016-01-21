@@ -124,7 +124,7 @@
 					<th style="min-width:90">% IVA</th>
 					<th style="min-width:90">% Recargo</th>
 					<th style="min-width:90">Monto Recargo</th>
-					<th style="min-width:90">Monto Total</th>
+					<th style="min-width:180px">Monto Total</th>
 					@if($disabled!="disabled" && !isset($bloqueoDosa) && !$factura->isImpresa)<th style="min-width:90">Acción</th>@endif
 				</tr>
 			</thead>
