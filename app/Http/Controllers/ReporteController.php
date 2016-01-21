@@ -187,103 +187,73 @@ class ReporteController extends Controller {
         return view('reportes.reporteClienteReciboMensual', compact('mes', 'anno', 'aeropuerto', 'modulo', 'recibos', 'modulos'));
 
     } 
-    //Page header
-    public function Header() {
-        // Logo
-        $image_file ="{{asset('/imgs/gobernacion.png')}}";
-        $this->Image($image_file, 10, 10, 15, '', 'PNG', '', 'T', false, 300, '', false, false, 0, false, false, false);
-        // Set font
-        $this->SetFont('helvetica', 'B', 20);
-        // Title
-        $this->Cell(0, 15, '<< TCPDF Example 003 >>', 0, false, 'C', 0, '', 0, false, 'M', 'M');
-    }
 
-    // Page footer
-    public function Footer() {
-        // Position at 15 mm from bottom
-        $this->SetY(-15);
-        // Set font
-        $this->SetFont('helvetica', 'I', 8);
-        // Page number
-        $this->Cell(0, 10, 'Page '.$this->getAliasNumPage().'/'.$this->getAliasNbPages(), 0, false, 'C', 0, '', 0, false, 'T', 'M');
-    }
+ public function postExportReport(Request $request){
 
-    public function postExportReport(Request $request){
+       $table=$request->get('table');
 
-        $table=$request->get('table');
+       $pdf = new \TCPDF('L', PDF_UNIT, 'legal', true, 'UTF-8', false);
 
+       $pdf->setPrintHeader(false);
 
-        $pdf = new \TCPDF('L', PDF_UNIT, 'legal', true, 'UTF-8', false);
+       $pdf->setPrintFooter(false);
 
-        // set default header data
-        $pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, PDF_HEADER_TITLE, PDF_HEADER_STRING);
+       // set default monospaced font
 
+       $pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
 
-        // set header and footer fonts
-        $pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
-        $pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
+       // set margins
 
+       $pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
 
-        // set default monospaced font
-        $pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
+       // set some language-dependent strings (optional)
 
-        // set margins
-        $pdf->SetMargins(1, 20,-20);
+       if (@file_exists(dirname(__FILE__).'/lang/eng.php')) {
 
-        // set some language-dependent strings (optional)
-        if (@file_exists(dirname(__FILE__).'/lang/eng.php')) {
-            require_once(dirname(__FILE__).'/lang/eng.php');
-            $pdf->setLanguageArray($l);
-        }
+           require_once(dirname(__FILE__).'/lang/eng.php');
 
-        // ---------------------------------------------------------
+           $pdf->setLanguageArray($l);
 
-        // set default font subsetting mode
-        $pdf->setFontSubsetting(true);
+       }
 
-        // Set font
-        // dejavusans is a UTF-8 Unicode font, if you only need to
-        // print standard ASCII chars, you can use core fonts like
-        // helvetica or times to reduce file size.
-        $pdf->SetFont('dejavusans', '', 8, '', true);
+       // --------------------------------------------------------       // set default font subsetting mode
 
-        // Add a page
-        // This method has several options, check the source code documentation for more information.
-        $pdf->AddPage();
+       $pdf->setFontSubsetting(true);
 
-        $img="{{asset('/imgs/gobernacion.png')}}";
+       // Set font
 
+       // dejavusans is a UTF-8 Unicode font, if you only need to
 
-        // set text shadow effect
-        $html = view('pdf.generic', compact('table'))->render();
-        $html = '    <div class="container" id="alineacion">
-        <small>
-            <div class="pull-left" style="margin-top: 10px;" >
-                <img src="http://localhost/saar/public/imgs/gobernacion.png" width="100px"/>
-            </div>
+       // print standard ASCII chars, you can use core fonts like
 
-            <div class="pull-right" style="margin-top: 10px;" >
-                <img src="http://localhost/saar/public/imgs/logos.png" width="100px"/>
-            </div>
-        </small>
-    </div>'.$html;
-     // dd($html);
+       // helvetica or times to reduce file size.
 
+       $pdf->SetFont('dejavusans', '', 8, '', true);
 
-        // Print text using writeHTMLCell()
-        $pdf->writeHTML($html);
+       // Add a page
 
-        // ---------------------------------------------------------
+       // This method has several options, check the source code documentation for more information.
 
-        // Close and output PDF document
-        // This method has several options, check the source code documentation for more information.
+       $pdf->AddPage();
 
-        $pdf->Output("reporte.pdf", 'I');
+       // set text shadow effect
 
+       // Set some content to print
 
+       //
 
+       $html = view('pdf.generic', compact('table'))->render();
 
+       // Print text using writeHTMLCell()
 
-    }
+       $pdf->writeHTML($html);
+
+       // --------------------------------------------------------       // Close and output PDF document
+
+       // This method has several options, check the source code documentation for more information.
+
+       $pdf->Output("reporte.pdf", 'I');
+
+   }
 
 }
