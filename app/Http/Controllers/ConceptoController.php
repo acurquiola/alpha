@@ -43,7 +43,7 @@ class ConceptoController extends Controller {
      */
     public function store(ConceptoRequest $request)
     {
-        \App\Concepto::create($request->only('nombre'));
+        \App\Concepto::create($request->only('nombre', 'condicionPago'));
 
         return redirect("administracion/concepto");
 
@@ -82,7 +82,7 @@ class ConceptoController extends Controller {
     public function update($id, ConceptoRequest $request)
     {
         $concepto=\App\Concepto::find($id);
-        $concepto->update($request->only('nompre', 'iva'));
+        $concepto->update($request->only('nompre', 'iva', 'condicionPago'));
 
         return redirect("administracion/concepto")->with('status','El concepto fue actualizado con �xito.');
     }

@@ -10,9 +10,9 @@
 	<label for="condicionPago" class="col-xs-1 control-label"><strong>Cond. de pago<span class="text-danger">*</span></strong> </label>
 	<div class="col-xs-3">
 		@if(!isset($bloqueoDosa))
-		{!! Form::select('condicionPago', ["Crédito" => "Crédito", "Contado"=>"Contado"], null, [ 'class'=>"form-control", $disabled, (!$factura->isImpresa)?"":"readonly"]) !!}
+		{!! Form::select('condicionPago', ["Crédito" => "Crédito", "Contado"=>"Contado"], null, [ 'id' =>'condicionPago', 'class'=>"form-control", $disabled, (!$factura->isImpresa)?"":"readonly"]) !!}
 		@else		
-		{!! Form::text('condicionPago', $condicionPago, [ 'class'=>"form-control", $disabled] ) !!}
+		{!! Form::text('condicionPago', $condicionPago, [ 'id' =>'condicionPago', 'class'=>"form-control", $disabled] ) !!}
 		@endif
 	</div>
 	<label for="nControl" class="col-xs-1 control-label"><strong>N° Control</strong> </label>
@@ -41,13 +41,13 @@
 
 	<label for="inputEmail3" class="col-xs-1  control-label"><strong>Fecha<span class="text-danger">*</span> </strong></label>
 	<div class="col-xs-3">
-		{!! Form::text('fecha', null, [ 'class'=>"form-control", $disabled, "id" =>"fecha"] ) !!}
+		{!! Form::text('fecha', null, [ 'class'=>"form-control", $disabled, "id" =>"fecha", "autocomplete"=>"off"] ) !!}
 	</div>
 
 	@if(!isset($bloqueoDosa) || isset($facturaCarga))
 	<label for="inputEmail3" class="col-xs-1  control-label"><strong>Fecha Venc.<span class="text-danger">*</span> </strong></label>
 	<div class="col-xs-3">
-		{!! Form::text('fechaVencimiento', null, [ 'class'=>"form-control", $disabled, "id" =>"fechaVencimiento"]) !!}
+		{!! Form::text('fechaVencimiento', null, [ 'class'=>"form-control", $disabled, "id" =>"fechaVencimiento", "autocomplete"=>"off"]) !!}
 		@if(isset($facturaCarga))
 		{!! Form::hidden('carga_id', $carga_id) !!}
 		@endif
@@ -100,7 +100,7 @@
 			<select id="concepto-select" class="form-control">
 				<option value="0" > --Seleccione un concepto-- </option>
 				@foreach($conceptos as $c)
-				<option value="{{$c->id}}" data-costo="{{$c->costo}}" data-iva="{{$c->iva}}">{{$c->nompre}}</option>
+				    <option condicionPago="{{$c->condicionPago}}" value="{{$c->id}}" data-costo="{{$c->costo}}" data-iva="{{$c->iva}}">{{$c->nompre}}</option>
 				@endforeach
 			</select>
 		</div>

@@ -55,7 +55,7 @@ $(document).ready(function(){
 
 	@include('factura.partials.script')
 
-	if($('#concepto-select option').length==2){
+	if($('#concepto-select option:not(.inactive)').length==1){
 		$('#concepto-select').val($('#concepto-select option:last').val()).trigger('chosen:updated');
 		$('#add-conceptop-btn').trigger('click');
 	}

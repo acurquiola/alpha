@@ -118,7 +118,7 @@ class ViewComposerServiceProvider extends ServiceProvider {
             $params       =$route->parameters();
             $moduloNombre =($params["modulo"]=="Todos")?"%":$params["modulo"];
             $modulo       =\App\Modulo::where("nombre", "like", $moduloNombre)->where("aeropuerto_id","=", session('aeropuerto')->id)->lists("id");
-            $conceptos    =\App\Concepto::select('nompre', 'id', 'iva')->whereIn("modulo_id",$modulo)->orderBy('nompre', 'ASC')->get();
+            $conceptos    =\App\Concepto::select('nompre', 'id', 'iva', 'condicionPago')->whereIn("modulo_id",$modulo)->orderBy('nompre', 'ASC')->get();
             $view->with(compact('clientes', 'conceptos'));
         });
 

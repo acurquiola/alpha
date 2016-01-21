@@ -1,5 +1,13 @@
 
 
+    $('#condicionPago').change(function(){
+        var value=$(this).val();
+        $('#concepto-select').val('');
+        $('#concepto-select option').addClass('inactive').hide();
+        $('#concepto-select option[condicionPago="'+value+'"], #concepto-select option[condicionPago="Ambas"]').removeClass('inactive').show();
+        $('#concepto-select').trigger('chosen:updated');
+    }).trigger('change');
+
     var ajaxClienteTableStartUrl='{{url('administracion/cliente')}}';
     var timeOut=null;
     function getClientTable(url){$('#advance-search-modal .modal-body').load(url, function(){$.AdminLTE.boxWidget.activate();});}
@@ -30,6 +38,7 @@
         {{--$(formGroup).find('.nControlPrefix-input').val(value);--}}
         {{--$('#nControl').val()--}}
     {{--})--}}
+
 
     $('#concepto-table tbody tr').each(function(index, value){
     var cantidadVal=$(value).find('.cantidad-input').val();
@@ -212,7 +221,9 @@ $('#advance-search-modal .modal-body').delegate('.operator-list li', 'click', fu
     yearSuffix: '',
     dateFormat: "dd/mm/yy"});
 
-
+  $('#fecha:not([readonly])').on('changeDate', function(e){
+    $('#fechaVencimiento').val(moment(e.date).add(1, 'M').format("DD/MM/YYYY"));
+  });
 
 
 

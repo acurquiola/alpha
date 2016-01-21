@@ -24,6 +24,7 @@ class FacturaRequest extends Request {
 		return [
 			'aeropuerto_id'    =>'required',
 			'condicionPago'    =>'required',
+            'nControl'         =>'required',
 			'fecha'            =>'required',
 			'fechaVencimiento' =>'required',
 			'descripcion'      =>'required',

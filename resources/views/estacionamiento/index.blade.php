@@ -1,6 +1,149 @@
 @extends('app')
 @section('content')
 
+   <div class="row">
+      <div class="col-sm-4"></div>
+      <div class="col-sm-8" style="margin-bottom: 50px;">
+         <div class="row">
+            <div class="col-md-12">
+               <h2>See if you can drag these wireframe images into the correct workflow order</h2>
+            </div>
+         </div>
+         <div class="row">
+            <div class="col-xs-4">
+               <div class="person">
+                  <div class="person-header full-image" style="background-image: url(img/guitar.jpg);">
+                     <div class="person-header_title">
+                        <h4>Thomas</h4>
+                        <span>Software developer</span>
+                     </div>
+                     <div class="person-header_mask"></div>
+                  </div>
+                  <div class="person-content">
+                     <p>Overview</p>
+                     <p>Recent university graduate with a degree in engineering, starting his first internship at an IT company, wants to further his skills after work on an accessible platform</p>
+                  </div>
+               </div>
+            </div>
+            <div class="col-xs-4">
+               <div class="person">
+                  <div class="person-header full-image" style="background-image: url(img/guitar.jpg);">
+                     <div class="person-header_title">
+                        <h4>Genevieve</h4>
+                        <span>Veterinarian</span>
+                     </div>
+                     <div class="person-header_mask"></div>
+                  </div>
+                  <div class="person-content">
+                     <p>Overview</p>
+                     <p>Works full-time at an animal shelter, hopes to use the internet as a way to reach out to potential adoptees, struggles with keeping track of online communications</p>
+                  </div>
+               </div>
+            </div>
+            <div class="col-xs-4">
+               <div class="person" id="box2drop">
+                  <div class="person-header full-image" style="background-image: url(img/guitar.jpg);">
+                     <div class="person-header_title">
+                        <h4>Michael</h4>
+                        <span>Fitness advisor</span>
+                     </div>
+                     <div class="person-header_mask"></div>
+                  </div>
+                  <div class="person-content">
+                     <p>Overview</p>
+                     <p>Believes that a combination of exercise and diet is the key to health, dedicated to counting calories, likes to be inspired by other wellness professionals</p>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <div id="personSort" class="row" class="ui-sortable">
+            <div id="2" class="col-xs-4">
+               <div class="person-description" id="box1">
+                  <p>The Digital Business Academy, an online learning platform with free courses about tech</p>
+               </div>
+            </div>
+            <div id="3" class="col-xs-4">
+               <div class="person-description" id="box2">
+                  <p>FitLife, a mobile app that tracks your physical activity and keeps a journal of your meals</p>
+               </div>
+            </div>
+            <div id="1" class="col-xs-4">
+               <div class="person-description" id="box3">
+                  <p>SquareSpace, easy to use platform to create a blog, e-commerce, web gallery, and more</p>
+               </div>
+            </div>
+         </div>
+         <div class="row">
+            <div class="col-xs-4">
+               <div class="person" id="box3drop">
+                  <div class="person-header full-image" style="background-image: url(img/guitar.jpg);">
+                     <div class="person-header_title">
+                        <h4>Jessica</h4>
+                        <span>Style blogger</span>
+                     </div>
+                     <div class="person-header_mask"></div>
+                  </div>
+                  <div class="person-content">
+                     <p>Overview</p>
+                     <p>Started a fashion blog when she was 18, has a large following on social media networks, looking for ways to expand her online brand and community</p>
+                  </div>
+               </div>
+            </div>
+            <div class="col-xs-4">
+               <div class="person">
+                  <div class="person-header full-image" style="background-image: url(img/guitar.jpg);">
+                     <div class="person-header_title">
+                        <h4>Robbie</h4>
+                        <span>Traveler</span>
+                     </div>
+                     <div class="person-header_mask"></div>
+                  </div>
+                  <div class="person-content">
+                     <p>Overview</p>
+                     <p>Travels the world while working remotely, makes mistakes with keeping track of time zones and deadlines, constantly on the move from country to country</p>
+                  </div>
+               </div>
+            </div>
+            <div class="col-xs-4">
+               <div class="person" id="box1drop">
+                  <div class="person-header full-image" style="background-image: url(img/guitar.jpg);">
+                     <div class="person-header_title">
+                        <h4>Annabelle</h4>
+                        <span>Boutique owner</span>
+                     </div>
+                     <div class="person-header_mask"></div>
+                  </div>
+                  <div class="person-content">
+                     <p>Overview</p>
+                     <p>Small shop owner recently gaining a lot of attention, wants to open an online store but has no technology experience, insufficient funds to hire a dedicated developer</p>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     <div class="row" id="box-wrapper">
         <!-- left column -->
         <div class="col-md-12">
