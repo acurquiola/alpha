@@ -185,18 +185,18 @@ class FacturaController extends Controller {
 	public function index($moduloNombre, Request $request)
 	{
 
-        $sortName          = $request->get('sortName','nFactura');
-        $sortName          =($sortName=="")?"nFactura":$sortName;
+        $sortName          = $request->get('sortName','id');
+        $sortName          =($sortName=="")?"id":$sortName;
 
-        $sortType          = $request->get('sortType','ASC');
-        $sortType          =($sortType=="")?"ASC":$sortType;
+        $sortType          = $request->get('sortType','DESC');
+        $sortType          =($sortType=="")?"DESC":$sortType;
 
 
-        $facturaId         = $request->get('nFactura');
-        $facturaId         =($facturaId=="")?0:$facturaId;
-        $facturaIdOperator = $request->get('facturaIdOperator', '>=');
-        $facturaIdOperator =($facturaIdOperator=="")?'>=':$facturaIdOperator;
-        $facturaIdOperator =($facturaId==0)?">=":$facturaIdOperator;
+        $nFactura         = $request->get('nFactura');
+        $nFactura         =($nFactura=="")?0:$nFactura;
+        $nFacturaOperator = $request->get('nFacturaOperator', '>=');
+        $nFacturaOperator =($nFacturaOperator=="")?'>=':$nFacturaOperator;
+        $nFacturaOperator =($nFactura==0)?">=":$nFacturaOperator;
 
         $clienteNombre     = $request->get('clienteNombre', '%');
 
@@ -222,7 +222,7 @@ class FacturaController extends Controller {
 
 
         \Input::merge([ 'fechaOperator'     =>$fechaOperator,
-                        'facturaIdOperator' =>$facturaIdOperator,
+                        'nFacturaOperator' =>$nFacturaOperator,
                         'totalOperator'     =>$totalOperator,
                         'sortName'          =>$sortName,
                         'sortType'          =>$sortType]);
@@ -234,7 +234,7 @@ class FacturaController extends Controller {
         $modulo->facturas=\App\Factura::select("facturas.*","clientes.nombre as clienteNombre")
                                         ->join('clientes','clientes.id' , '=', 'facturas.cliente_id')
                                         ->where('facturas.modulo_id', "=", $modulo->id)
-                                        ->where('facturas.nFactura', $facturaIdOperator, $facturaId)
+                                        ->where('facturas.nFactura', $nFacturaOperator, $nFactura)
                                         ->where('total', $totalOperator, $total)
                                         ->where('fecha', $fechaOperator, $fecha)
                                         ->where('descripcion', 'like', "%$descripcion%")
@@ -434,7 +434,8 @@ class FacturaController extends Controller {
     }
 
      protected function getModulos($moduloNombre){
-        $modulos=session('aeropuerto')->modulos()->where("nombre","like",$moduloNombre)->orderBy("nombre")->get();
+        $modulos=session('aeropuerto')->
+        modulos()->where("nombre","like",$moduloNombre)->orderBy("nombre")->get();
          return $modulos;
     }
 

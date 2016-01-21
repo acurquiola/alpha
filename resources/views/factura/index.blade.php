@@ -20,10 +20,10 @@
 				{!! Form::hidden('sortType', array_get( $input, 'sortType'), []) !!}
 				<div class="form-group">
 					{{-- por los momentos lo colocare en id pero debe ser el numero de factura --}}
-					{!! Form::hidden('facturaIdOperator', array_get( $input, 'facturaIdOperator'), ['id' => 'facturaIdOperator', 'class' => 'operator-input', 'autocomplete'=>'off']) !!}
+					{!! Form::hidden('nFacturaOperator', array_get( $input, 'nFacturaOperator'), ['id' => 'nFacturaOperator', 'class' => 'operator-input', 'autocomplete'=>'off']) !!}
 					<div class="input-group">
 						<div class="input-group-btn">
-							<button style="max-height:37px" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="operator-text">{{array_get( $input, 'facturaIdOperator')}}</span></button>
+							<button style="max-height:37px" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="operator-text">{{array_get( $input, 'nFacturaOperator')}}</span></button>
 							<ul class="dropdown-menu operator-list">
 								<li><a href="#">>=</a></li>
 								<li><a href="#"><=</a></li>

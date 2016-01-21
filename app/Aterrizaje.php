@@ -16,7 +16,7 @@ class Aterrizaje extends Model {
 	{
 		$carbon=\Carbon\Carbon::now();
 		if(!is_null($fecha) && $fecha!="" )
-			$carbon= \Carbon\Carbon::createFromFormat('Y-m-d', trim($fecha, " 00:00:00"));
+			$carbon= \Carbon\Carbon::createFromFormat('Y-m-d', str_replace( " 00:00:00", "", $fecha));
 		return $carbon->format('d/m/Y');
 	}
 

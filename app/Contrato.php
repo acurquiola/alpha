@@ -14,7 +14,7 @@ class Contrato extends Model {
     {
         $carbon=\Carbon\Carbon::now();
         if(!is_null($fecha) && $fecha!="" && is_string($fecha))
-            $carbon= \Carbon\Carbon::createFromFormat('Y-m-d', trim($fecha, " 00:00:00"));
+            $carbon= \Carbon\Carbon::createFromFormat('Y-m-d', str_replace( " 00:00:00", "", $fecha));
         if(is_a($fecha, 'Carbon'))
             $carbon=$fecha;
         return $carbon->format('d/m/Y');
@@ -27,7 +27,7 @@ class Contrato extends Model {
     {
         $carbon=\Carbon\Carbon::now();
         if(!is_null($fecha) && $fecha!="" && is_string($fecha))
-            $carbon= \Carbon\Carbon::createFromFormat('Y-m-d', trim($fecha, " 00:00:00"));
+            $carbon= \Carbon\Carbon::createFromFormat('Y-m-d', str_replace( " 00:00:00", "", $fecha));
         if(is_a($fecha, 'Carbon'))
             $carbon=$fecha;
         return $carbon->format('d/m/Y');
