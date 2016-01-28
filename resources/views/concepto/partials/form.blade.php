@@ -24,7 +24,7 @@
       </div>
     </div>
     <div class="form-group">
-        <label for="iva" class="col-sm-2 control-label">IVA</label>
+        <label for="iva" class="col-sm-2 control-label">Condición de pago</label>
         <div class="col-sm-10">
 		{!! Form::select('condicionPago', ["Ambas" => "Ambas", "Crédito" => "Crédito", "Contado"=>"Contado"], null, [ 'class'=>"form-control", $disabled]) !!}
 

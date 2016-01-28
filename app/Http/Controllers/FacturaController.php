@@ -198,6 +198,12 @@ class FacturaController extends Controller {
         $nFacturaOperator =($nFacturaOperator=="")?'>=':$nFacturaOperator;
         $nFacturaOperator =($nFactura==0)?">=":$nFacturaOperator;
 
+        $nControl         = $request->get('nControl');
+        $nControl         =($nControl=="")?0:$nControl;
+        $nControlOperator = $request->get('nControlOperator', '>=');
+        $nControlOperator =($nControlOperator=="")?'>=':$nControlOperator;
+        $nControlOperator =($nControl==0)?">=":$nControlOperator;
+        
         $clienteNombre     = $request->get('clienteNombre', '%');
 
         $descripcion       = $request->get('descripcion', '%');
@@ -223,6 +229,7 @@ class FacturaController extends Controller {
 
         \Input::merge([ 'fechaOperator'     =>$fechaOperator,
                         'nFacturaOperator' =>$nFacturaOperator,
+                        'nControlOperator' =>$nControlOperator,
                         'totalOperator'     =>$totalOperator,
                         'sortName'          =>$sortName,
                         'sortType'          =>$sortType]);
@@ -234,6 +241,7 @@ class FacturaController extends Controller {
         $modulo->facturas=\App\Factura::select("facturas.*","clientes.nombre as clienteNombre")
                                         ->join('clientes','clientes.id' , '=', 'facturas.cliente_id')
                                         ->where('facturas.modulo_id', "=", $modulo->id)
+                                        ->where('facturas.nControl', $nControlOperator, $nControl)
                                         ->where('facturas.nFactura', $nFacturaOperator, $nFactura)
                                         ->where('total', $totalOperator, $total)
                                         ->where('fecha', $fechaOperator, $fecha)

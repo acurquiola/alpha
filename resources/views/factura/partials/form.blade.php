@@ -194,17 +194,17 @@
 		<label for="descripcion" class="col-xs-2 control-label"><strong>Descripción<span class="text-danger">*</span></strong></label>
 		<div class="col-xs-10">
 			@if(isset($facturaCarga))
-			{!! Form::textarea('descripcion', "Facturación de Carga", [ 'style'=>'padding-top:4px' ,'class'=>"form-control", $disabled , 'rows'=>"5", 'cols'=>"", "placeholder" => "Descripción de la factura"]) !!}
+			{!! Form::textarea('descripcion', "Facturación de Carga", [ 'style'=>'padding-top:4px' ,'class'=>"form-control", $disabled , 'rows'=>"2", 'cols'=>"", "placeholder" => "Descripción de la factura"]) !!}
 			@elseif(isset($cargosAdicionales))
-			{!! Form::textarea('descripcion', "Facturación por Derechos Aeronáuticos Adicionales", [ 'style'=>'padding-top:4px' ,'class'=>"form-control", $disabled , 'rows'=>"5", 'cols'=>"", "placeholder" => "Descripción de la factura"]) !!}
+			{!! Form::textarea('descripcion', "Facturación por Derechos Aeronáuticos Adicionales", [ 'style'=>'padding-top:4px' ,'class'=>"form-control", $disabled , 'rows'=>"2", 'cols'=>"", "placeholder" => "Descripción de la factura"]) !!}
 			@else
-			{!! Form::textarea('descripcion', (isset($bloqueoDosa))?"Facturación por Derechos Aeronáuticos":null, [ 'style'=>'padding-top:4px' ,'class'=>"form-control", $disabled , 'rows'=>"5", 'cols'=>"", "placeholder" => "Descripción de la factura"]) !!}
+			{!! Form::textarea('descripcion', (isset($bloqueoDosa))?"Facturación por Derechos Aeronáuticos":null, [ 'style'=>'padding-top:4px' ,'class'=>"form-control", $disabled , 'rows'=>"2", 'cols'=>"", "placeholder" => "Descripción de la factura"]) !!}
 			@endif
 		</div>
 	</div>
 	<div class="form-group">
 		<label for="comentario" class="col-xs-2 control-label"><strong>Comentario</strong></label>
 		<div class="col-xs-10">
-			{!! Form::textarea('comentario', null, [ 'style'=>'padding-top:4px' ,'class'=>"form-control", $disabled , 'rows'=>"5", 'cols'=>"", "placeholder" => "Uso interno"]) !!}
+			{!! Form::textarea('comentario', null, [ 'style'=>'padding-top:4px' ,'class'=>"form-control", $disabled , 'rows'=>"2", 'cols'=>"", "placeholder" => "Uso interno"]) !!}
 		</div>
 	</div>

@@ -6,7 +6,7 @@ class Estacionamiento extends Model {
 
 
 
-    protected $fillable = ['nTurnos', 'nTaquillas'];
+    protected $fillable = ['nTurnos', 'nTaquillas', 'tarjetacosto'];
 
     protected $hidden = ['created_at', 'updated_at'];
 
@@ -28,5 +28,20 @@ class Estacionamiento extends Model {
 
     public function operaciones(){
         return $this->hasMany('App\Estacionamientoop', 'estacionamiento_id');
+    }
+
+
+    protected function parseDecimal($numero, $attr){
+        if(is_string($numero)){
+            $numero=preg_replace ( '/\./i', "", $numero );
+            $numero=preg_replace ( '/\,/i', ".", $numero );
+            $numero=floatval($numero);
+        }
+        $this->attributes[$attr]=$numero;
+    }
+
+    public function setTarjetacostoAttribute($numero)
+    {
+        $this->parseDecimal($numero,'tarjetacosto');
     }
 }

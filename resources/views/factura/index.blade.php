@@ -34,6 +34,21 @@
 					</div>
 				</div>
 				<div class="form-group">
+					{{-- por los momentos lo colocare en id pero debe ser el numero de factura --}}
+					{!! Form::hidden('nControlOperator', array_get( $input, 'nControlOperator'), ['id' => 'nControlOperator', 'class' => 'operator-input', 'autocomplete'=>'off']) !!}
+					<div class="input-group">
+						<div class="input-group-btn">
+							<button style="max-height:37px" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="operator-text">{{array_get( $input, 'nControlOperator')}}</span></button>
+							<ul class="dropdown-menu operator-list">
+								<li><a href="#">>=</a></li>
+								<li><a href="#"><=</a></li>
+								<li><a href="#">=</a></li>
+							</ul>
+						</div>
+						{!! Form::text('nControl', array_get( $input, 'nControl'), [ 'class'=>"form-control", 'style' => 'padding-left:2px', 'placeholder'=>'Número de control', 'style'=>'max-width:112px']) !!}
+					</div>
+				</div>
+				<div class="form-group">
 					{!! Form::text('clienteNombre', array_get( $input, 'clienteNombre'), [ 'class'=>"form-control", 'placeholder'=>'Cliente', 'style'=>'max-width:100px']) !!}
 				</div>
 				<div class="form-group">
@@ -120,6 +135,7 @@
 								<table class="table text-center">
 									<thead class="bg-primary">
 										{!!Html::sortableColumnTitle("# Factura", "nFactura")!!}
+										{!!Html::sortableColumnTitle("# Control", "nControl")!!}
 										{!!Html::sortableColumnTitle("Cliente", "clienteNombre")!!}
 										{!!Html::sortableColumnTitle("Descripción", "descripcion")!!}
 										<th>Estado</th>
@@ -131,6 +147,7 @@
 										@foreach($modulo->facturas as $factura)
 										<tr>
 											<td class='text-justify'>{{$factura->nFacturaPrefix}}-{{$factura->nFactura}}</td>
+											<td class='text-justify'>{{$factura->nControlPrefix}}-{{$factura->nControl}}</td>
 											<td style="text-align: left">{{$factura->cliente->nombre}}</td>
 											<td style="text-align: left">{{$factura->descripcion}}</td>
 											<td class='text-justify'>

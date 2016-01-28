@@ -91,6 +91,10 @@
                                         {!! Form::text('estacionamiento[nTaquillas]', $estacionamiento->nTaquillas , ["class" => "form-control"]) !!}
                                     </div>
                                     <div class="form-group">
+                                        <label for="nTaquillas-input">Costo de tarjeta</label>
+                                        {!! Form::text('estacionamiento[tarjetacosto]', $traductor->format($estacionamiento->tarjetacosto) , ["class" => "form-control", 'id'=> 'tarjeta_costo']) !!}
+                                    </div>
+                                    <div class="form-group">
                                         <label for="cliente-input">Portón</label>
                                         <div class="input-group">
                                             <input type="text" class="form-control" id="porton-input" autocomplete="off">
@@ -298,7 +302,9 @@ $(document).ready(function(){
 
 
 
-
+    $('#tarjeta_costo').focusout(function(){
+        $(this).val(numToComma($(this).val()))
+    })
 
 
     $('#new-meta-tab').delegate('.add-concepto-meta-btn','click',function(){
