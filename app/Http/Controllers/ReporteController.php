@@ -186,9 +186,81 @@ class ReporteController extends Controller {
                                 ->get();
         return view('reportes.reporteClienteReciboMensual', compact('mes', 'anno', 'aeropuerto', 'modulo', 'recibos', 'modulos'));
 
-    } 
+    }
 
- public function postExportReport(Request $request){
+    public function getReporteListadoFacturas(Request $request){
+
+        $modulos      =\App\Modulo::lists('nombre','id');
+        $view=view('reportes.reporteListadoFacturas',compact('modulos'));
+        if($request->isMethod("post")){
+            $facturas=\App\Factura::select('facturas.*');
+
+            $aeropuerto   =$request->get('aeropuerto');
+            $modulo       =$request->get('modulo');
+            if($aeropuerto==0){
+                //como se van a mostrar todos los nombres de los modulos de todos los aeropuertos
+                //debo buscar por nimbre en vez de id
+                $moduloO=\App\Modulo::find($modulo);
+                $facturas->where('facturas.aeropuerto_id', ">", $aeropuerto);
+                $facturas->join('modulos','modulos.id' , '=', 'facturas.modulo_id');
+                $facturas->where('modulos.nombre', 'like', "%$moduloO->nombre%");
+
+            }else{
+                $facturas->where('facturas.aeropuerto_id', $aeropuerto);
+                $facturas->where('facturas.modulo_id', $modulo);
+            }
+            $desde= $request->get('desde');
+            if($desde!="")
+                $desdeC        =\Carbon\Carbon::createFromFormat('d/m/Y', $desde);
+            else
+                $desdeC        =\Carbon\Carbon::minValue();
+            $facturas->where('facturas.fecha', '>=', $desdeC);
+
+            $hasta= $request->get('hasta');
+            if($desde!="")
+                $hastaC        =\Carbon\Carbon::createFromFormat('d/m/Y', $hasta);
+            else
+                $hastaC        =\Carbon\Carbon::maxValue();
+            $facturas->where('facturas.fecha', '<=', $hastaC);
+
+            $nFactura     =$request->get('nFactura');
+            if($nFactura!="")
+            $facturas->where('facturas.nFactura', $nFactura);
+
+            $rif          =$request->get('rif');
+            $nombre       =$request->get('nombre');
+            $facturas->join('clientes','clientes.id' , '=', 'facturas.cliente_id');
+
+            if($nombre!="")
+                $facturas->where('clientes.nombre', 'like', "%$nombre%");
+            if($rif!="")
+                $facturas->where('clientes.nombre', 'like', "%$rif%");
+
+
+            $estatus      =$request->get('estatus');
+            if($estatus=="A"){
+                $facturas->onlyTrashed();
+            }else{
+                $facturas->where('facturas.estado', 'like',$estatus);
+            }
+
+
+            //dd($facturas->toSql(), $facturas->getBindings());
+            $facturas=$facturas->orderBy('fecha', 'DESC')->get();
+
+
+
+            $view->with( compact('facturas', 'aeropuerto', 'modulo', 'desde', 'hasta', 'nFactura', 'rif', 'nombre', 'estatus'));
+
+
+        }
+
+
+        return $view;
+
+    }
+
+    public function postExportReport(Request $request){
 
        $table=$request->get('table');
 
