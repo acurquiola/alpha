@@ -28,15 +28,16 @@
                     <td class ='num_vuelo-td'>{{(($aterrizaje->num_vuelo)?$aterrizaje->num_vuelo:"N/A")}}</td>
                     <td class ='cliente_id-td'>{{(($aterrizaje->cliente)?$aterrizaje->cliente->nombre:"No asignado")}}</td>
                     <td>
-                         <a href="{{  action('DespegueController@create', [$aterrizaje->id])}}">
-                              <button class='btn btn-success btn-sm darSalida-btn'><i class='fa fa-plane' title='Dar Salida'></i></button>
-                         </a>
-
-                         <a href="{{  action('AterrizajeController@getCrearFactura', [$aterrizaje->id])}}">
-                              <button class='btn btn-info btn-sm cargoAdicional-btn'><i class='fa fa-plus' title='Facturar Cargo Adicional'></i></button>
-                         </a>
-                         <button class='btn btn-warning btn-sm editarAterrizaje-btn' data-id='{{$aterrizaje->id}}' ><i class='fa fa-edit' title='Editar Información'></i></button>
-                         <button class='btn btn-danger  btn-sm eliminarAterrizaje-btn' data-id='{{$aterrizaje->id}}' ><i class='fa fa-trash' title='Eliminar Registro'></i></button>
+                         <div class='btn-group  btn-group-sm' role='group' aria-label='...'>
+                              <a href="{{  action('DespegueController@create', [$aterrizaje->id])}}">
+                                   <button class='btn btn-success btn-sm darSalida-btn'><i class='fa fa-plane' title='Dar Salida'></i></button>
+                              </a>
+                              <a href="{{  action('AterrizajeController@getCrearFactura', [$aterrizaje->id])}}">
+                                   <button class='btn btn-info btn-sm cargoAdicional-btn'><i class='fa fa-plus' title='Facturar Cargo Adicional'></i></button>
+                              </a>
+                              <button class='btn btn-warning btn-sm editarAterrizaje-btn' data-id='{{$aterrizaje->id}}' ><i class='fa fa-edit' title='Editar Información'></i></button>
+                              <button class='btn btn-danger  btn-sm eliminarAterrizaje-btn' data-id='{{$aterrizaje->id}}' ><i class='fa fa-trash' title='Eliminar Registro'></i></button>
+                         </div>
                     </td>
                </tr>   
                @endforeach

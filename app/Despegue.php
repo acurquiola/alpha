@@ -63,7 +63,7 @@ class Despegue extends Model {
 
     public function factura()
     {
-        return $this->belongsTo('App\Factura', 'factura_id', 'nFactura');
+        return $this->belongsTo('App\Factura');
     }
 
     public function otros_cargos()

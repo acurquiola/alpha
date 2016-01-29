@@ -39,11 +39,11 @@
                     <td class ='matricula-td'>{{$despegue->aterrizaje->aeronave->matricula}}</td>
                     <td class ='cliente_id-td'>{{(($despegue->cliente)?$despegue->cliente->nombre:"No asignado")}}</td> 
                     <td>
-                     <div class='btn-group  btn-group-sm' role='group' aria-label='...'>
                          @if($despegue->tipoMatricula_id == '4')
-                              <button class='btn btn-success btn-sm verDespegue-btn'><span class='glyphicon glyphicon-eye-open' title='Ver Información'></span></button>
-                         @else
-                              @if($despegue->factura_id != NULL)
+                                   <button class='btn btn-success btn-sm verDespegue-btn'><span class='glyphicon glyphicon-eye-open' title='Ver Información'></span></button>
+                              @else
+                              <div class='btn-group  btn-group-sm' role='group' aria-label='...'>
+                                   @if($despegue->factura_id != NULL)
                                        <a target="_blank" class='btn btn-default  btn-sm' href='{{action('FacturaController@getPrint', ["modulo"=>"DOSAS", $despegue->factura_id])}}'>
                                              <span class='glyphicon glyphicon-print'></span>
                                        </a>
@@ -57,14 +57,14 @@
                                         @endif -->
                                    @endif
                                    @if($despegue->factura_id == NULL)
-                                   <a href="{{  action('DespegueController@getCrearFactura', [$despegue->id])}}">
-                                        <button class='btn btn-info btn-sm facturarDespegue-btn'><span class='fa fa-credit-card' title='Crear Dosa'></span></button>
-                                   </a>
-                                   <button class='btn btn-warning  btn-sm editarDespegue-btn' data-id='{{$despegue->id}}'><span class='glyphicon glyphicon-pencil' title='Editar Registro'></span></button>
-                                   <button class='btn btn-danger  btn-sm eliminarDespegue-btn' data-id='{{$despegue->id}}'><span class='glyphicon glyphicon-trash' title='Eliminar Registro'></span></button>
-                              @endif
+                                        <a href="{{  action('DespegueController@getCrearFactura', [$despegue->id])}}">
+                                             <button class='btn btn-info btn-sm facturarDespegue-btn'><span class='fa fa-credit-card' title='Crear Dosa'></span></button>
+                                        </a>
+                                        <button class='btn btn-warning  btn-sm editarDespegue-btn' data-id='{{$despegue->id}}'><span class='glyphicon glyphicon-pencil' title='Editar Registro'></span></button>
+                                        <button class='btn btn-danger  btn-sm eliminarDespegue-btn' data-id='{{$despegue->id}}'><span class='glyphicon glyphicon-trash' title='Eliminar Registro'></span></button>
+                                   @endif
+                              </div>
                          @endif
-                         </div>
                     </td>
                </tr>   
                @endforeach
