@@ -2,6 +2,7 @@
 
 use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Session\TokenMismatchException;
 
 class Handler extends ExceptionHandler {
 
@@ -36,6 +37,13 @@ class Handler extends ExceptionHandler {
 	 */
 	public function render($request, Exception $e)
 	{
+
+        if ($e instanceof TokenMismatchException) {
+            if($request->ajax())
+                return response('Reload page', 498);
+            return back();
+        }
+
         $aux=$e;
         do {
            if($aux instanceof \Bican\Roles\Exceptions\RoleNotFoundException)

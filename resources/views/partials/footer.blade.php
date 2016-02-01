@@ -57,7 +57,9 @@ $.widget.bridge('uibutton', $.ui.button);
 <script src=" {{ asset('/dist/js/pages/dashboard.js') }}" type="text/javascript"></script>
 <script type="text/javascript">
 $.ajaxSetup({
-   headers: { 'X-CSRF-Token' : $('meta[name=_token]').attr('content') }
+   headers: { 'X-CSRF-Token' : $('meta[name=_token]').attr('content') },
+   error: function(data, textStatus, jqXHR) { if(data.status == 498){ location.reload(); }}
+
 });
 </script>
 </body>

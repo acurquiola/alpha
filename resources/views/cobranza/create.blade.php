@@ -89,7 +89,7 @@
 	            <div class="form-group pull-right">
 		            <label for="total-a-pagar-doc-input" class="col-sm-6 control-label"><h5>Total a cobrar</h5></label>
 		            <div class="col-sm-6">
-			            <input autocomplete="off" type="text" class="form-control" id="total-a-pagar-doc-input" style="font-weight: bold;" readonly value="0.00">
+			            <input autocomplete="off" type="text" class="form-control total-a-pagar-doc-input" style="font-weight: bold;" readonly value="0.00">
 		            </div>
 	            </div>
 
@@ -144,7 +144,7 @@
 				            <div class="form-group">
 					            <label for="total-a-pagar-doc-input" class="col-sm-2 control-label">Total a cobrar</label>
 					            <div class="col-sm-2">
-						            <input autocomplete="off" type="text" class="form-control" id="total-a-pagar-doc-input" readonly value="0.00">
+						            <input autocomplete="off" type="text" class="form-control total-a-pagar-doc-input" readonly value="0.00">
 					            </div>
 					            <label for="total-diferencia-doc-input" class="col-sm-2 control-label">Diferencia</label>
 					            <div class="col-sm-2">
@@ -415,7 +415,7 @@ function calculateTotalPagar(){
 	$.each(trs, function(index,value){
 		total+=parseFloat($(value).find('.saldo-abonado-input').val());
 	})
-	$('#total-a-pagar-doc-input').val(total.toFixed(2));
+	$('.total-a-pagar-doc-input').val(total.toFixed(2));
 	$('#total-diferencia-doc-input').val((parseFloat($('#total-a-depositar-doc-input').val())-total).toFixed(2));
 }
 
@@ -429,7 +429,7 @@ function calculateTotalDepositar(){
 		total +=parseFloat(o.monto);
 	})
 	$('#total-a-depositar-doc-input').val(total.toFixed(2));
-	$('#total-diferencia-doc-input').val((total-parseFloat($('#total-a-pagar-doc-input').val())).toFixed(2));
+	$('#total-diferencia-doc-input').val((total-parseFloat($('.total-a-pagar-doc-input').first().val())).toFixed(2));
 }
 $(document).ready(function(){
 
@@ -515,10 +515,11 @@ $('#banco-modal-input').change(function(){
 
 $('#accept-retencion-modal-btn').click(function(){
 	var tr             =$('tr.retencion');
-	var total          = $('#total-modal-input').val();
+	var total          =$('#total-modal-input').val();
 	var retencionInput =$(tr).find('.retencion-pagar');
 	var isrlModal      =0;
 	var ivaModal       =0;
+
 	if($('#islrper-modal-input').closest('tr').find(':checkbox').prop('checked'))
 		isrlModal=$('#islrper-modal-input').val();
 	if($('#ivaper-modal-input').closest('tr').find(':checkbox').prop('checked'))
@@ -534,8 +535,9 @@ $('#accept-retencion-modal-btn').click(function(){
 	var pendiente =$(tr).find('.saldo-pendiente').text();
 	pendiente     =parseFloat(pendiente);
 	$(tr).find('.saldo-pagar').text((pendiente-parseFloat(total)).toFixed(2));
-	var saldoAbonadoText =$(tr).find('.saldo-abonado-input').val();
-	var saldoAbonado     =parseFloat(saldoAbonadoText);
+	$(tr).find('.saldo-abonado-input').val("");
+	var saldoAbonadoText ="";
+	var saldoAbonado     =0;
 	var saldoPendiente   =parseFloat($(tr).find('.saldo-pagar').text());
 	checkRowCondition(tr, saldoAbonado, saldoPendiente,saldoAbonadoText);
 	$('#retencion-modal').modal('hide');
@@ -623,7 +625,7 @@ $('#cuota-modal').on('hidden.bs.modal', function (e) {
 })
 
 $('#cliente-select').chosen({width: "100%"}).change(function(){
-	$('#total-a-pagar-doc-input').val("0.00");
+	$('.total-a-pagar-doc-input').val("0.00");
 	var option =$('#cliente-select option:selected');
 	var value  =$(option).val();
 	var nombre =$(option).data('nombre');
@@ -692,18 +694,19 @@ $('#cliente-select').chosen({width: "100%"}).change(function(){
 				};
 				isRetencionEditable=true;
 			}
+
 			metadata.islrpercentage =isNaN(parseFloat(metadata.islrpercentage))?0:metadata.islrpercentage;
 			metadata.ivapercentage  =isNaN(parseFloat(metadata.ivapercentage))?0:metadata.ivapercentage;
 			var pendiente           =parseFloat(value.total.toString().replace(/,/g, ''))-metadata.total;
 			var base                =parseFloat(value.subtotalNeto.toString().replace(/,/g, ''))-metadata.basepagado;
-			var iva                 =parseFloat(value.iva.toString().replace(/,/g, ''))-metadata.ivapagado;
+			var ivaPagado           =parseFloat(value.iva.toString().replace(/,/g, ''))-metadata.ivapagado;
 
 			if(!isRetencionEditable)
-				retencion=(base*metadata.islrpercentage+iva*metadata.ivapercentage)/100;
+				retencion=(base*metadata.islrpercentage+ivaPagado*metadata.ivapercentage)/100;
 
 			trs+='<tr data-id="'+value.id+'" data-is-retencion-editable="'+isRetencionEditable+'" \
 			data-islrper="'+metadata.islrpercentage+'" data-ivaper="'+metadata.ivapercentage+'"\
-			data-base="'+base+'" data-iva="'+iva+'" >\
+			data-base="'+base+'" data-iva="'+ivaPagado+'" >\
 			<td><p class="form-control-static">'+value.nFacturaPrefix+'-'+value.nFactura+'</p></td>\
 			<td><p class="form-control-static">'+value.fecha+'</p></td>\
 			<td class="monto-documento"><p class="form-control-static">'+value.total+'</p></td>\
@@ -820,7 +823,7 @@ $('#type-rows-cxc-table-wrapper-select').change(function(){
 
 $('#save-cobro-btn').click(function(){
 
-	var pagar     =parseFloat($('#total-a-pagar-doc-input').val());
+	var pagar     =parseFloat($('.total-a-pagar-doc-input').first().val());
 	var depositar =parseFloat($('#total-a-depositar-doc-input').val());
 	var ajuste    =parseFloat($('#ajuste-input').val());
 	ajuste        =isNaN(ajuste)?0:ajuste;
@@ -875,7 +878,7 @@ $('#save-cobro-btn').click(function(){
 			facturas:facturas,
 			pagos:pagos,
 			cliente_id: $('#cliente-select option:selected').data("id"),
-			totalFacturas:$('#total-a-pagar-doc-input').val() ,
+			totalFacturas:$('.total-a-pagar-doc-input').first().val() ,
 			totalDepositado:$('#total-a-depositar-doc-input').val(),
 			observacion:$('#observaciones-documento').val(),
 			hasrecaudos:$('#hasrecaudos-check').prop('checked'),

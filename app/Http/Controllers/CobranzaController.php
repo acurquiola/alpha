@@ -30,8 +30,8 @@ class CobranzaController extends Controller {
         $sortName          = $request->get('sortName','id');
         $sortName          =($sortName=="")?"id":$sortName;
 
-        $sortType          = $request->get('sortType','ASC');
-        $sortType          =($sortType=="")?"ASC":$sortType;
+        $sortType          = $request->get('sortType','DESC');
+        $sortType          =($sortType=="")?"DESC":$sortType;
 
 
         $cobroId         = $request->get('id');
