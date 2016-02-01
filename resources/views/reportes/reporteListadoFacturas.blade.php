@@ -28,7 +28,16 @@
                     <div class="form-group">
                         <label class="col-md-1 control-label"><strong>Modulo</strong></label>
                         <div class="col-md-6">
-                            {!! Form::select('modulo', $modulos, isset($modulo)?$modulo:null, ["class"=> "form-control", "autocomplete" => "off"]) !!}
+                            <select autocomplete="off" class="form-control" id="modulo-select" name="modulo">
+                                @foreach($modulos as $m)
+                                    <option data-aeropuerto="{{$m->aeropuerto->id}}"
+                                    value="{{$m->id}}"
+                                    @if(isset($modulo) && $modulo==$m->id)
+                                        selected
+                                    @endif
+                                    >{{$m->nombre}}</option>
+                                @endforeach
+                            </select>
                         </div>
                     </div>
 
@@ -51,7 +60,18 @@
                     <div class="form-group">
                         <label class="col-md-1 control-label"><strong>Cliente</strong></label>
                         <div class="col-md-6">
-                            {!! Form::text('rif', isset($rif)?$rif:null, ["class"=> "form-control", "placeholder" => "RIF", "autocomplete" => "off"]) !!}
+                          {!! Form::hidden('cedRifPrefix', isset($cedRifPrefix)?$cedRifPrefix:'V', ['id' => 'cedRifPrefix', 'class' => 'operator-input', 'autocomplete'=>'off']) !!}
+                          <div class="input-group">
+                              <div class="input-group-btn">
+                                <button style="max-height:37px" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="operator-text">{{$cedRifPrefix or "V"}}</span></button>
+                                <ul class="dropdown-menu operator-list">
+                                  <li><a href="#">V</a></li>
+                                  <li><a href="#">E</a></li>
+                                  <li><a href="#">J</a></li>
+                                </ul>
+                              </div>
+                              {!! Form::text('cedRif', isset($cedRif)?$cedRif:null, [ 'class'=>"form-control", 'style'=>'padding-left:2px']) !!}
+                          </div>
                         </div>
                     </div>
                     <div class="form-group">
@@ -131,7 +151,7 @@
                             @if(count($facturas)>0)
                             @foreach($facturas as $index => $factura)
                                 <tr>
-                                    <td>{{$index}}</td>
+                                    <td>{{$index+1}}</td>
                                     <td>{{$factura->fecha}}</td>
                                     <td>{{$factura->nFacturaPrefix}}-{{$factura->nFactura}}</td>
                                     <td>{{$factura->cliente->cedRifPrefix}}-{{$factura->cliente->cedRif}}</td>
@@ -204,13 +224,15 @@ $('#export-btn').click(function(e){
 })
 
 $('[name=aeropuerto]').change(function(e){
-    var value=$(this).value();
-    if(value==0){
+    var value=$(this).val();
         $('[name=modulo] option').show();
-    }else{
-        
-    }
-
+    if(value!=0)
+        $('[name=modulo] option[data-aeropuerto!='+value+']').hide();
+    var $options=$('[name=modulo] option:visible');
+    if($options.length>0)
+        $('[name=modulo]').val($options.first().attr('value'));
+    else
+        $('[name=modulo]').val('');
 
 }).change();
 </script>

@@ -190,7 +190,7 @@ class ReporteController extends Controller {
 
     public function getReporteListadoFacturas(Request $request){
 
-        $modulos      =\App\Modulo::lists('nombre','id');
+        $modulos      =\App\Modulo::all();
         $view=view('reportes.reporteListadoFacturas',compact('modulos'));
         if($request->isMethod("post")){
             $facturas=\App\Factura::select('facturas.*');
@@ -227,14 +227,20 @@ class ReporteController extends Controller {
             if($nFactura!="")
             $facturas->where('facturas.nFactura', $nFactura);
 
-            $rif          =$request->get('rif');
+            $cedRif         =$request->get('cedRif');
+            $cedRifPrefix   =$request->get('cedRifPrefix');
+
+
+
             $nombre       =$request->get('nombre');
             $facturas->join('clientes','clientes.id' , '=', 'facturas.cliente_id');
 
             if($nombre!="")
                 $facturas->where('clientes.nombre', 'like', "%$nombre%");
-            if($rif!="")
-                $facturas->where('clientes.nombre', 'like', "%$rif%");
+            if($cedRif!=""){
+                $facturas->where('clientes.cedRif', 'like', "%$cedRif%");
+                $facturas->where('clientes.cedRifPrefix', $cedRifPrefix);
+            }
 
 
             $estatus      =$request->get('estatus');
