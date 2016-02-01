@@ -134,8 +134,8 @@
                                                     <td class='text-justify'>{{$cobro->id}}</td>
                                                     <td style="text-align: left">{{$cobro->cliente->nombre}}</td>
                                                     <td>{{$cobro->created_at}}</td>
-                                                    <td style="text-align: right">{{$cobro->montofacturas}}</td>
-                                                    <td style="text-align: right">{{$cobro->montodepositado}}</td>
+                                                    <td style="text-align: right">{{$traductor->format($cobro->montofacturas)}}</td>
+                                                    <td style="text-align: right">{{$traductor->format($cobro->montodepositado)}}</td>
                                                     <td class='text-justify'>{{$cobro->observacion}}</td>
                                                     <td>
                                                         <div class='btn-group  btn-group-sm' role='group' aria-label='...'>

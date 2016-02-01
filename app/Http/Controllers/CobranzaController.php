@@ -138,7 +138,9 @@ class CobranzaController extends Controller {
         $facturas=$request->get('facturas',[]);
         $pagos=$request->get('pagos',[]);
         foreach($facturas as $f){
+
             $factura=\App\Factura::find($f["id"]);
+
             $facturaMetadata=\App\Facturametadata::firstOrCreate(["factura_id"=>$factura->id]);
             $facturaMetadata->ncobros++;
             /**
@@ -213,7 +215,7 @@ class CobranzaController extends Controller {
                 'retencionFecha' => $f["retencionFecha"],
                 'retencionComprobante' => $f["retencionComprobante"],
                 ]]);
-            if($facturaMetadata->total==(float)str_replace(",","",$factura->total)){
+            if($facturaMetadata->total==$factura->total){
                 $factura->estado="C";
                 $factura->save();
             }
@@ -233,7 +235,6 @@ class CobranzaController extends Controller {
                                         "cliente_id" => $request->get("cliente_id")]);
 
         }
-        $cobro->modulo_id=$request->get('modulo_id');
         $cobro->observacion=$request->get('observacion');
         $cobro->hasrecaudos=$request->get('hasrecaudos');
         $cobro->save();
@@ -252,7 +253,7 @@ class CobranzaController extends Controller {
 	{
         $cobro=\App\Cobro::find($id);
         $cobro->load('facturas', 'pagos', 'ajustes', 'cliente');
-        return view('cobranza.show', compact('cobro'));
+        return view('cobranza.show', compact('cobro', 'moduloNombre'));
 	}
 
 	/**
