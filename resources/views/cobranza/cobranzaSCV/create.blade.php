@@ -679,7 +679,7 @@ if ($('#cliente-select').val() != ""){
 			if(!isRetencionEditable)
 				retencion=(base*metadata.islrpercentage+iva*metadata.ivapercentage)/100;
 
-			trs+='<tr data-nfactura="'+value.id+'" data-is-retencion-editable="'+isRetencionEditable+'" \
+			trs+='<tr data-id="'+value.id+'" data-is-retencion-editable="'+isRetencionEditable+'" \
 			data-islrper="'+metadata.islrpercentage+'" data-ivaper="'+metadata.ivapercentage+'"\
 			data-base="'+base+'" data-iva="'+iva+'" >\
 			<td><p class="form-control-static">'+value.nFacturaPrefix+'-'+value.nFactura+'</p></td>\
