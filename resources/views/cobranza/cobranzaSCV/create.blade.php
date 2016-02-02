@@ -48,6 +48,7 @@
 				<table class="table table-condensed text-center" id="cxc-table">
 					<thead class="bg-primary">
 						<th style="min-width:120px"># Fac/Doc</th>
+						<th style="min-width:120px"># Control</th>
 						<th style="min-width:120px">Fecha emisión</th>
 						<th style="min-width:120px">Monto documento</th>
 						<th style="min-width:120px">Saldo Cancelado</th>
@@ -678,10 +679,11 @@ if ($('#cliente-select').val() != ""){
 			if(!isRetencionEditable)
 				retencion=(base*metadata.islrpercentage+iva*metadata.ivapercentage)/100;
 
-			trs+='<tr data-nfactura="'+value.nFactura+'" data-is-retencion-editable="'+isRetencionEditable+'" \
+			trs+='<tr data-nfactura="'+value.id+'" data-is-retencion-editable="'+isRetencionEditable+'" \
 			data-islrper="'+metadata.islrpercentage+'" data-ivaper="'+metadata.ivapercentage+'"\
 			data-base="'+base+'" data-iva="'+iva+'" >\
-			<td><p class="form-control-static">'+value.nFactura+'</p></td>\
+			<td><p class="form-control-static">'+value.nFacturaPrefix+'-'+value.nFactura+'</p></td>\
+			<td><p class="form-control-static">'+value.nControlPrefix+'-'+value.nControl+'</p></td>\
 			<td><p class="form-control-static">'+value.fecha+'</p></td>\
 			<td class="monto-documento"><p class="form-control-static">'+value.total+'</p></td>\
 			<td><p class="form-control-static">'+metadata.total+'</p></td>\
@@ -830,7 +832,7 @@ $('#save-cobro-btn').click(function(){
 		retencionFecha=(retencionFecha===undefined)?0:retencionFecha;
 		retencionComprobante=(retencionComprobante===undefined)?0:retencionComprobante;
 		var o={
-			nFactura:$(value).data('nfactura'),
+			id:$(value).data('id'),
 			montoAbonado: $(value).find('.saldo-abonado-input').val(),
 			islrpercentage:isrlModal,
 			ivapercentage:ivaModal,
@@ -846,8 +848,9 @@ $('#save-cobro-btn').click(function(){
 		pagos.push($(value).data('object'));
 	})
 	var id="5";
+	console.log(facturas);
 
-	addLoadingOverlay('#main-box');
+	//addLoadingOverlay('#main-box');
 	$.ajax({
 		method:'POST',
 		data:{

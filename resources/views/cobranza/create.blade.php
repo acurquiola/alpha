@@ -71,6 +71,7 @@
 		            <table class="table table-condensed text-center" id="cxc-table">
 			            <thead class="bg-primary">
 				            <th style="min-width:120px"># Fac/Doc</th>
+				            <th style="min-width:120px"># Control</th>
 				            <th style="min-width:120px">Fecha emisión</th>
 				            <th style="min-width:120px">Monto documento</th>
 				            <th style="min-width:120px">Saldo Cancelado</th>
@@ -711,6 +712,7 @@ $('#cliente-select').chosen({width: "100%"}).change(function(){
 			data-islrper="'+metadata.islrpercentage+'" data-ivaper="'+metadata.ivapercentage+'"\
 			data-base="'+base+'" data-iva="'+ivaPagado+'" >\
 			<td><p class="form-control-static">'+value.nFacturaPrefix+'-'+value.nFactura+'</p></td>\
+			<td><p class="form-control-static">'+value.nControlPrefix+'-'+value.nControl+'</p></td>\
 			<td><p class="form-control-static">'+value.fecha+'</p></td>\
 			<td class="monto-documento"><p class="form-control-static">'+numToComma(value.total)+'</p></td>\
 			<td><p class="form-control-static">'+numToComma(+metadata.total)+'</p></td>\

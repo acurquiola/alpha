@@ -136,9 +136,9 @@ class CobranzaController extends Controller {
             'modulo_id'=>$request->get('modulo_id'),
             'aeropuerto_id' => session('aeropuerto')->id]);
         $facturas=$request->get('facturas',[]);
+        dd($facturas);
         $pagos=$request->get('pagos',[]);
         foreach($facturas as $f){
-
             $factura=\App\Factura::find($f["id"]);
 
             $facturaMetadata=\App\Facturametadata::firstOrCreate(["factura_id"=>$factura->id]);
