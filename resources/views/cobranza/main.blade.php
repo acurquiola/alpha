@@ -18,14 +18,16 @@
 		<!-- general form elements -->
 		<div class="box box-primary">
 			<div class="box-header">
-				<h3 class="box-title">{{$modulo->nombre}} <a class="btn btn-default" href="{{ action('CobranzaController@index', [$modulo->nombre]) }}"><span class="glyphicon glyphicon-search"></span></a></h3>
-				<span clasS="pull-right"><a class="btn btn-primary"  href="{{action('CobranzaController@create', [$modulo->nombre]) }}">Cobrar</a></span>
+				<h3 class="box-title">{{$modulo->nombre}}</h3>
+				<span class="pull-right"><a class="btn btn-primary"  href="{{action('CobranzaController@create', [$modulo->nombre]) }}">Cobrar</a></span>
+				<span class="pull-right" ><a class="btn btn-success"  style="margin-right: 5px" href="{{ action('CobranzaController@index', [$modulo->nombre]) }}">Consultar</a></span>
 			</div><!-- /.box-header -->
 			<!-- form start -->
 			<div class="box-body">
 				<table class="table text-center">
 					<thead class="bg-primary">
 						<th># Factura</th>
+						<th># Control</th>
 						<th>Cliente</th>
 						<th>Descripción</th>
 						<th>Monto documento</th>
@@ -42,6 +44,7 @@
 						@foreach($modulo->facturas()->where('estado', 'P')->orderBy('id', 'DESC')->limit(15)->get() as $factura)
 						<tr>
 							<td>{{$factura->nFacturaPrefix}}-{{$factura->nFactura}}</td>
+							<td>{{$factura->nControlPrefix}}-{{$factura->nControl}}</td>
 							<td style="text-align:left">{{$factura->cliente->nombre}}</td>
 							<td style="text-align:left">{{$factura->descripcion}}</td>
 							<td style="text-align:right">{{$traductor->format($factura->total)}}</td>

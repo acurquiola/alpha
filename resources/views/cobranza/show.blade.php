@@ -26,6 +26,7 @@
                                 <thead>
                                     <tr>
                                         <th># Factura</th>
+                                        <th># Control</th>
                                         <th>Fecha de retención</th>
                                         <th>Comprobante de retención</th>
                                         <th class="text-right">Total</th>
@@ -41,6 +42,7 @@
                                 @foreach($cobro->facturas as $factura)
                                     <tr>
                                         <td>{{$factura->nFacturaPrefix}}-{{$factura->nFactura}}</td>
+                                        <td>{{$factura->nControlPrefix}}-{{$factura->nControl}}</td>
                                         <td>{{$factura->pivot->retencionFecha}}</td>
                                         <td>{{$factura->pivot->retencionComprobante}}</td>
                                         <td class="text-right">{{$traductor->format($factura->pivot->total)}}</td>
