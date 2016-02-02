@@ -330,7 +330,7 @@ class CobranzaController extends Controller {
             ->where('modulo_id', $idOperator, $id)
             ->where('aeropuerto_id', session('aeropuerto')->id)
             ->where('facturas.estado','=','P')
-            ->groupBy("facturas.nFactura")->get();
+            ->groupBy("facturas.id")->get();
         $ajusteCliente= \DB::table('ajustes')
             ->where('cliente_id', $cliente->id)
             ->sum('monto');
