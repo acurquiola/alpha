@@ -404,6 +404,7 @@ class DespegueController extends Controller {
 			$tiempo_estacionamiento = $despegue->tiempo_estacionamiento;
 			$tiempoAFacturar        = ($tiempo_estacionamiento - $minutosLibre)/$minutosBloque;
 
+
 			if($tiempoAFacturar > 0){
                 $tiempoAFacturar=ceil($tiempoAFacturar);
 
@@ -461,7 +462,6 @@ class DespegueController extends Controller {
 				}
 
 			}
-
 			$montoDes          = $eq_aterDesp * $ut * $peso_aeronave;
 			$cantidadDes       = '1';
 			$iva               = Concepto::find($concepto_id)->iva;

@@ -46,7 +46,7 @@
 									<div class="input-group-addon">
 										<i class="fa fa-plane"></i>
 									</div> 
-									<select name="aeronave_id" id="aeronave_id" class="form-control aeronave no-vacio">
+									<select name="aeronave_id" id="aeronave_id-flt" class="form-control aeronave no-vacio">
 										<option value=""> Matrícula </option>
 										@foreach ($aeronaves as $aeronave)
 										<option data-modelo="{{$aeronave->modelo_id}}" data-nacionalidad="{{$aeronave->nacionalidad_id}}" data-peso="{{$aeronave->peso}}" data-nombremodelo="{{$aeronave->modelo->modelo}}" data-cliente="{{$aeronave->cliente_id}}" data-tipo="{{$aeronave->tipo_id}}" data-tipoV="{{$aeronave->tipo->nombre}}" value="{{$aeronave->id}}"> {{$aeronave->matricula}}</option>
@@ -139,6 +139,7 @@ function getTable(url){
 		$('body #aeronave_id-modal').chosen({width:'135px'});
 		$('body #puerto_id-modal').chosen({width:'300px'});
 		$('body #piloto_id-modal').chosen({width:'300px'});
+		$('#aeronave_id-flt').chosen({width:'120px'});
 
     /* 
 		Condiciones en los campos de los formularios

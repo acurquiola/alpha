@@ -17,7 +17,8 @@
 	</div>
 	<label for="nControl" class="col-xs-1 control-label"><strong>N° Control</strong> </label>
 	<div class="col-xs-3">
-        {!! Form::hidden('nControlPrefix', ($factura->nControlPrefix)?$factura->nControlPrefix:$modulo->nControlPrefix, ['id' => 'nControlPrefix', 'class' => 'nControlPrefix-input', 'autocomplete'=>'off', (!$factura->isImpresa)?"":"readonly"]) !!}
+	 <!-- (!$factura->isImpresa)?"":"readonly" -->
+        {!! Form::hidden('nControlPrefix', ($factura->nControlPrefix)?$factura->nControlPrefix:$modulo->nControlPrefix, ['id' => 'nControlPrefix', 'class' => 'nControlPrefix-input', 'autocomplete'=>'off']) !!}
         <div class="input-group">
             <div class="input-group-btn">
                 <button style="max-height:37px" type="button" class="btn btn-default"><span class="nControlPrefix-text">{{$modulo->nControlPrefix}}</span></button>
@@ -29,7 +30,7 @@
 <div class="form-group">
 	<label for="nFactura" class="col-xs-1 control-label"><strong>N° Factura <abbr title="Número tentativo puede cambiar al almacenar">?</abbr></strong> </label>
     <div class="col-xs-3">
-        {!! Form::hidden('nFacturaPrefix', ($factura->nFacturaPrefix)?$factura->nFacturaPrefix:$modulo->nFacturaPrefix, ['id' => 'nFacturaPrefix', 'class' => 'nFacturaPrefix-input', 'autocomplete'=>'off', (!$factura->isImpresa)?"":"readonly"]) !!}
+        {!! Form::hidden('nFacturaPrefix', ($factura->nFacturaPrefix)?$factura->nFacturaPrefix:$modulo->nFacturaPrefix, ['id' => 'nFacturaPrefix', 'class' => 'nFacturaPrefix-input', 'autocomplete'=>'off']) !!}
         <div class="input-group">
             <div class="input-group-btn">
                 <button style="max-height:37px" type="button" class="btn btn-default"><span class="nFacturaPrefix-text">{{$modulo->nFacturaPrefix}}</span></button>
