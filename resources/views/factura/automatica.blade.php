@@ -41,8 +41,15 @@
 	 											@endforeach
  											</select>
  										</div>
- 										<div class="form-group">
- 											<label for="Femision-input">Seleccione las facturas a crear (Numero Contrato | Codigo Cliente | Nombre Cliente)</label>
+ 										<div class="row form-group">
+                                            <div class="col-md-8">
+                                                <label for="Femision-input">Seleccione las facturas a crear (Numero Contrato | Codigo Cliente | Nombre Cliente)</label>
+                                            </div>
+                                            <div class="col-md-4 text-right">
+                                                <button type="button" class="btn btn-default" id="select-all-btn">Seleccionar todos</button>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
                                             <div id="contratos-wrapper">
                                                 @include('factura.partials.automaticaContratos', compact('contratos', 'fecha'))
                                             </div>
@@ -131,7 +138,15 @@
             })
         });
 
+        $('#select-all-btn').click(function(){
+            var $unCheckedChecks=$('#contratos-wrapper [type=checkbox]:not(:disabled):not(:checked)');
+            console.log($unCheckedChecks);
+            if($unCheckedChecks.length==0)
+                $('#contratos-wrapper [type=checkbox]:not(:disabled)').iCheck('uncheck');
+            else
+                $('#contratos-wrapper [type=checkbox]:not(:disabled)').iCheck('check');
 
+        });
 
  		$('#generar-btn').click(function(){
  			$('#fac-table tbody tr').remove();
