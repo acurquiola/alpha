@@ -24,17 +24,19 @@
                         <table class="table text-center">
                             <thead class="bg-primary">
                                 <th># Factura</th>
+                                <th># Control</th>
                                 <th>Cliente</th>
                                 <th>Descripción</th>
                                 <th>Estado</th>
                                 <th>Fecha de Emisión</th>
-                                <th>Total</th>
+                                <th class="text-right">Total</th>
                                 <th>Acción</th>
                             </thead>
                             <tbody>
                                 @foreach($facturas as $factura)
                                 <tr>
-                                    <td class='text-justify'>{{$factura->nFactura}}</td>
+                                    <td class='text-justify'>{{$factura->nFacturaPrefix}}-{{$factura->nFactura}}</td>
+                                    <td class='text-justify'>{{$factura->nControlPrefix}}-{{$factura->nControl}}</td>
                                     <td style="text-align: left">{{$factura->cliente->nombre}}</td>
                                     <td style="text-align: left">{{$factura->descripcion}}</td>
                                     <td class='text-justify'>

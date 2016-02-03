@@ -35,27 +35,28 @@ class FacturaController extends Controller {
         foreach($facturas as $factura){
 
             \DB::transaction(function () use ($factura, $moduloNombre, &$facturasDb) {
-                $f                       = new \App\Factura();
-                $f->aeropuerto_id        =session('aeropuerto')->id;
-                $f->condicionPago        ='Crédito';
-                $f->nFacturaPrefix       = $factura["nFacturaPrefix"];
-                $f->nFacturaPrefix       = $factura["nFacturaPrefix"];
-                $f->nControlPrefix       = $factura["nControlPrefix"];
-                $f->nControl             = $factura["nControl"];
-                $f->fechaControlContrato =$factura["fechaControlContrato"];
-                $f->fecha                = $factura["fecha"];
-                $f->fechaVencimiento     = $factura["fechaVencimiento"];
-                $f->cliente_id           = $factura["cliente_id"];
-                $f->modulo_id            = $factura["modulo_id"];
-                $f->contrato_id          = $factura["contrato_id"];
-                $subtotal                = ($factura['monto'] / (1 + floatval(config('app.iva')) / 100));
-                $f->subtotalNeto         = $subtotal;
-                $f->descuentoTotal       = 0;
-                $f->subtotal             = $subtotal;
-                $f->iva                  = $factura['monto'] - $subtotal;
-                $f->recargoTotal         = 0;
-                $f->total                = $factura['monto'];
-                $f->estado               ='P';
+                //no muy eficiente porque todas estas facturas tienen el mismo concepto pero bueno :/
+                $concepto=\App\Concepto::find($factura["concepto_id"]);
+                $f = new \App\Factura();
+                $f->aeropuerto_id=session('aeropuerto')->id;
+                $f->condicionPago='Crédito';
+                $f->nFacturaPrefix = $factura["nFacturaPrefix"];
+                $f->nControlPrefix = $factura["nControlPrefix"];
+                $f->nControl = $factura["nControl"];
+                $f->fechaControlContrato=$factura["fechaControlContrato"];
+                $f->fecha = $factura["fecha"];
+                $f->fechaVencimiento = $factura["fechaVencimiento"];
+                $f->cliente_id = $factura["cliente_id"];
+                $f->modulo_id = $factura["modulo_id"];
+                $f->contrato_id = $factura["contrato_id"];
+                $subtotal = ($factura['monto'] / (1 + $concepto->iva / 100));
+                $f->subtotalNeto = $subtotal;
+                $f->descuentoTotal = 0;
+                $f->subtotal = $subtotal;
+                $f->iva = $factura['monto'] - $subtotal;
+                $f->recargoTotal = 0;
+                $f->total = $factura['monto'];
+                $f->estado='P';
 
                 if($moduloNombre=="CANON"){
                     $hoy=\Carbon\Carbon::createFromFormat('d/m/Y',$factura["fechaControlContrato"]) ;
@@ -68,7 +69,7 @@ class FacturaController extends Controller {
                                             "montoDes" => $subtotal,
                                             "descuentoPerDes" => 0,
                                             "descuentoTotalDes" =>0,
-                                            "ivaDes" => config('app.iva'),
+                                            "ivaDes" => $concepto->iva,
                                             "recargoPerDes" => 0,
                                             "recargoTotalDes" =>0,
                                             "totalDes" => $f->total

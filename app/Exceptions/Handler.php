@@ -41,7 +41,7 @@ class Handler extends ExceptionHandler {
         if ($e instanceof TokenMismatchException) {
             if($request->ajax())
                 return response('Reload page', 498);
-            return back();
+            return back()->withErrors([['El token de seguridad ha expirado. Por favor intente de nuevo']]);
         }
 
         $aux=$e;
