@@ -105,11 +105,12 @@ Route::get('estacionamiento/getClients', 'EstacionamientoController@getClients')
 
 Route::resource('estacionamiento', 'EstacionamientoController');
 
-Route::get('contrato/lote',"ContratoController@lote");
-Route::post('contrato/lote',"ContratoController@loteStore");
-Route::resource('contrato', 'ContratoController');
-
-
+Route::group(['prefix' => 'contrato'], function () {
+    Route::get('/lote',"ContratoController@lote");
+    Route::post('/lote',"ContratoController@loteStore");
+    Route::resource('', 'ContratoController');
+    Route::post('/renovar',"ContratoController@postRenovarContratos");
+});
 Route::get('tasas/taquilla', function(){
     return view('tasas.taquilla');
 });

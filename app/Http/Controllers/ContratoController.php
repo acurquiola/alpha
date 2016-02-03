@@ -14,6 +14,22 @@ class ContratoController extends Controller {
         $this->middleware('auth');
     }
 
+
+    public function postRenovarContratos(){
+
+        $hoy=\Carbon\Carbon::now();
+        $contratos=\App\Contrato::where('isReanudacionAutomatica', true)->get();
+        foreach($contratos as $contrato){
+            $meses=$contrato->mesesReanudacion;
+            $fechaVencimiento=\Carbon\Carbon::createFromFormat('d/m/Y', $contrato->fechaVencimiento);
+            while($fechaVencimiento<$hoy)
+                $fechaVencimiento=$fechaVencimiento->addMonth($meses);
+            $contrato->update(['fechaVencimiento' => $fechaVencimiento->format('d/m/Y')]);
+        }
+        return ["success"=>1, "text"=> "Los contratos se han actualizado con exito."];
+    }
+
+
 	/**
 	 * Display a listing of the resource.
 	 *
