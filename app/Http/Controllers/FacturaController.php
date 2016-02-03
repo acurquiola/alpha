@@ -35,26 +35,27 @@ class FacturaController extends Controller {
         foreach($facturas as $factura){
 
             \DB::transaction(function () use ($factura, $moduloNombre, &$facturasDb) {
-                $f = new \App\Factura();
-                $f->aeropuerto_id=session('aeropuerto')->id;
-                $f->condicionPago='Crédito';
-                $f->nFacturaPrefix = $factura["nFacturaPrefix"];
-                $f->nControlPrefix = $factura["nControlPrefix"];
-                $f->nControl = $factura["nControl"];
-                $f->fechaControlContrato=$factura["fechaControlContrato"];
-                $f->fecha = $factura["fecha"];
-                $f->fechaVencimiento = $factura["fechaVencimiento"];
-                $f->cliente_id = $factura["cliente_id"];
-                $f->modulo_id = $factura["modulo_id"];
-                $f->contrato_id = $factura["contrato_id"];
-                $subtotal = ($factura['monto'] / (1 + floatval(config('app.iva')) / 100));
-                $f->subtotalNeto = $subtotal;
-                $f->descuentoTotal = 0;
-                $f->subtotal = $subtotal;
-                $f->iva = $factura['monto'] - $subtotal;
-                $f->recargoTotal = 0;
-                $f->total = $factura['monto'];
-                $f->estado='P';
+                $f                       = new \App\Factura();
+                $f->aeropuerto_id        =session('aeropuerto')->id;
+                $f->condicionPago        ='Crédito';
+                $f->nFacturaPrefix       = $factura["nFacturaPrefix"];
+                $f->nFacturaPrefix       = $factura["nFacturaPrefix"];
+                $f->nControlPrefix       = $factura["nControlPrefix"];
+                $f->nControl             = $factura["nControl"];
+                $f->fechaControlContrato =$factura["fechaControlContrato"];
+                $f->fecha                = $factura["fecha"];
+                $f->fechaVencimiento     = $factura["fechaVencimiento"];
+                $f->cliente_id           = $factura["cliente_id"];
+                $f->modulo_id            = $factura["modulo_id"];
+                $f->contrato_id          = $factura["contrato_id"];
+                $subtotal                = ($factura['monto'] / (1 + floatval(config('app.iva')) / 100));
+                $f->subtotalNeto         = $subtotal;
+                $f->descuentoTotal       = 0;
+                $f->subtotal             = $subtotal;
+                $f->iva                  = $factura['monto'] - $subtotal;
+                $f->recargoTotal         = 0;
+                $f->total                = $factura['monto'];
+                $f->estado               ='P';
 
                 if($moduloNombre=="CANON"){
                     $hoy=\Carbon\Carbon::createFromFormat('d/m/Y',$factura["fechaControlContrato"]) ;
@@ -294,7 +295,9 @@ class FacturaController extends Controller {
                 $facturaData['aterrizaje_id'] = $request->get('aterrizaje_id');
             $factura = \App\Factura::create($facturaData);
             $factura->detalles()->createMany($facturaDetallesData);
-            $cliente = $factura->cliente;
+            $cliente = $factura->cliente;               
+            $factura->nFactura = $request->nFactura;
+            $factura->save();
             if ($cliente && $cliente->isEnvioAutomatico == true && $cliente->email != "") {
                 $path = $this->crearFactura($factura, 'F');
                 Mail::send('emails.test', ['name' => $cliente->nombre], function ($message) use ($factura, $cliente, $path) {
@@ -307,7 +310,7 @@ class FacturaController extends Controller {
 
             if ($request->has('despegue_id')) {
                 $despegue = \App\Despegue::find($request->get('despegue_id'));
-                $despegue->factura_id = $factura->id;
+                $despegue->factura_id = $factura->id; 
                 $despegue->save();
             }
             if ($request->has('carga_id')) {

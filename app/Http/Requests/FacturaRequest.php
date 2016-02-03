@@ -21,10 +21,15 @@ class FacturaRequest extends Request {
 	 */
 	public function rules()
 	{
+		$id       =null;
+		$facturaID =$this->route()->getParameter('factura');
+		if($facturaID)
+			$id       =$facturaID;
 		return [
+			'nFactura'         =>'required|unique:facturas,nFactura,'.$id,
 			'aeropuerto_id'    =>'required',
 			'condicionPago'    =>'required',
-            'nControl'         =>'required',
+			'nControl'         =>'required',
 			'fecha'            =>'required',
 			'fechaVencimiento' =>'required',
 			'descripcion'      =>'required',
