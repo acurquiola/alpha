@@ -220,10 +220,12 @@ $('#renovar-contratos-btn').click(function(){
         "Todo contrato que este vencido se le sumara sus meses de renovación hasta que su fecha de vencimiento ya no este expirada." +
         "Estos cambios son irreversibles. Desea realizar la operación? ", function (e) {
             if (e) {
+            addLoadingOverlay('.box');
                 $.
                 ajax({url: "{{action('ContratoController@postRenovarContratos')}}",
                       method:"POST"})
-                .done(function(response, status, responseObject){
+                .always(function(response, status, responseObject){
+                    removeLoadingOverlay('.box');
                     try{
                         var obj= JSON.parse(responseObject.responseText);
                         if(obj.success==1){

@@ -240,21 +240,27 @@
             $trs.each(function(index, value){
                 facturas.push($(value).data());
             })
-	        addLoadingOverlay('#main-box');
-                $.ajax({
+
+            alertify.confirm("Las facturas emitidas se crearan con el iva denotado en el modulo de concepto." +
+            "Esta seguro de su seleccion?", function (e) {
+                if (e) {
+                    addLoadingOverlay('#main-box');
+                    $.ajax({
                     method:'POST',
                     url:"{{action('FacturaController@postContratosStoreAutomatica', [$modulo->nombre])}}",
                     data:{facturas:facturas}
-                }).always(function(data, status){
-                	removeLoadingOverlay('#main-box');
-                    if(status!="error"){
-                        location.replace("{{action('FacturaController@getContratosAutomaticaResult', [$modulo->nombre])}}")
-                    }
-                    else{
-                        alertify.error("Se produjo un error en el servidor.");
-                        console.log(data, status);
-                    }
-                })
+                    }).always(function(data, status){
+                        removeLoadingOverlay('#main-box');
+                        if(status!="error"){
+                            location.replace("{{action('FacturaController@getContratosAutomaticaResult', [$modulo->nombre])}}")
+                        }
+                        else{
+                            alertify.error("Se produjo un error en el servidor.");
+                            console.log(data, status);
+                        }
+                    })
+                }
+            });
  		})
         $('[data-toggle="tooltip"]').tooltip()
  	});
