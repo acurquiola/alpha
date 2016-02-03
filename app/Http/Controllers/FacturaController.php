@@ -35,6 +35,8 @@ class FacturaController extends Controller {
         foreach($facturas as $factura){
 
             \DB::transaction(function () use ($factura, $moduloNombre, &$facturasDb) {
+                //no muy eficiente porque todas estas facturas tienen el mismo concepto pero bueno :/
+                $concepto=\App\Concepto::find($factura["concepto_id"]);
                 $f = new \App\Factura();
                 $f->aeropuerto_id=session('aeropuerto')->id;
                 $f->condicionPago='Crédito';
@@ -47,7 +49,7 @@ class FacturaController extends Controller {
                 $f->cliente_id = $factura["cliente_id"];
                 $f->modulo_id = $factura["modulo_id"];
                 $f->contrato_id = $factura["contrato_id"];
-                $subtotal = ($factura['monto'] / (1 + floatval(config('app.iva')) / 100));
+                $subtotal = ($factura['monto'] / (1 + $concepto->iva / 100));
                 $f->subtotalNeto = $subtotal;
                 $f->descuentoTotal = 0;
                 $f->subtotal = $subtotal;
@@ -67,7 +69,7 @@ class FacturaController extends Controller {
                                             "montoDes" => $subtotal,
                                             "descuentoPerDes" => 0,
                                             "descuentoTotalDes" =>0,
-                                            "ivaDes" => config('app.iva'),
+                                            "ivaDes" => $concepto->iva,
                                             "recargoPerDes" => 0,
                                             "recargoTotalDes" =>0,
                                             "totalDes" => $f->total
