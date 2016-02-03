@@ -289,18 +289,26 @@ class CobranzaController extends Controller {
             $cobro=\App\Cobro::find($id);
             $facturas=$cobro->facturas;
             foreach($facturas as $factura){
-                $facturaMetadata=$factura->metadata;
-                $facturaMetadata->ncobros--;
-                $facturaMetadata->montopagado-=$factura->pivot->monto;
-                $facturaMetadata->basepagado-=$factura->pivot->base;
-                $facturaMetadata->ivapagado-=$factura->pivot->iva;
-                $facturaMetadata->retencion-=$factura->pivot->retencion;
-                $facturaMetadata->total-=$factura->pivot->total;
-                $facturaMetadata->save();
 
-                if($facturaMetadata->total!=(float)str_replace(",","",$factura->total)){
-                    $factura->estado="P";
-                    $factura->save();
+                $facturaMetadata=$factura->metadata;
+                if($facturaMetadata){
+                    $facturaMetadata->ncobros--;
+                    if($facturaMetadata->ncobros==0){
+                        $facturaMetadata->delete();
+                        $factura->estado="P";
+                        $factura->save();
+                    }else{
+                        $facturaMetadata->montopagado-=$factura->pivot->monto;
+                        $facturaMetadata->basepagado-=$factura->pivot->base;
+                        $facturaMetadata->ivapagado-=$factura->pivot->iva;
+                        $facturaMetadata->retencion-=$factura->pivot->retencion;
+                        $facturaMetadata->total-=$factura->pivot->total;
+                        $facturaMetadata->save();
+                        if($facturaMetadata->total!=$factura->total){
+                            $factura->estado="P";
+                            $factura->save();
+                        }
+                    }
                 }
             }
             $cobro->delete();
