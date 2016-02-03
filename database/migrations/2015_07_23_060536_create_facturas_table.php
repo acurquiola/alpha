@@ -31,12 +31,12 @@ class CreateFacturasTable extends Migration {
                   $table->foreign('modulo_id')->references('id')->on('modulos');
                   $table->integer('contrato_id')->unsigned()->nullable();
                   $table->foreign('contrato_id')->references('id')->on('contratos');
-                  $table->float('subtotalNeto')->unsigned();
-                  $table->float('descuentoTotal')->unsigned();
-                  $table->float('subtotal')->unsigned();
-                  $table->float('iva')->unsigned();
-                  $table->float('recargoTotal')->unsigned();
-                  $table->float('total')->unsigned();
+                  $table->double('subtotalNeto', 20,2)->unsigned();
+                  $table->double('descuentoTotal', 20,2)->unsigned();
+                  $table->double('subtotal', 20,2)->unsigned();
+                  $table->double('iva', 20,2)->unsigned();
+                  $table->double('recargoTotal', 20,2)->unsigned();
+                  $table->double('total', 20,2)->unsigned();
                   $table->integer('nroDosa')->nullable();
                   $table->integer('aterrizaje_id')->unsigned()->nullable();
                   $table->foreign('aterrizaje_id')->references('id')->on('aterrizajes');
