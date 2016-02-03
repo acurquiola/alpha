@@ -63,6 +63,20 @@
  											    <input class="form-control" id="nc-general-input" value="{{\App\Factura::getMaxWith('nControlPrefix', 'nControl', $modulo->nControlPrefix)}}"/>
                                             </div>
  										</div>
+ 										<div class="form-group">
+                                            <div class="input-group">
+                                                <div class="input-group-btn">
+                                                    <button style="max-height:37px" type="button" class="btn btn-default"><span class="nControlPrefix-text">{{$modulo->nFacturaPrefix}}</span></button>
+                                                </div>
+ 											    <input readonly 
+ 											    class="form-control" 
+ 											    id="nf-general-input" 
+ 											    value="{{\App\Factura::getMaxWith('nFacturaPrefix', 'nFactura', $modulo->nFacturaPrefix)}}"
+ 											     data-toggle="tooltip" 
+ 											     data-placement="top" 
+ 											     title="El numero de factura es solo informativo. Ya que puede variar cuando se cree una factura."/>
+                                            </div>
+ 										</div>
  										<button type="submit" class="btn btn-default" id="generar-btn">Generar</button>
 
  									</div>
@@ -76,9 +90,10 @@
 
  						<table class="table text-center" id="fac-table">
  							<thead>
+ 							    <th>Numero de factura</th>
  								<th>Numero de control</th>
  								<th>Numero de contrato</th>
- 								<th>Monto</th>
+ 								<th class="text-right">Monto</th>
  								<th>Fecha de emision</th>
  								<th>Fecha de vencimiento</th>
  								<th>Acción</th>
@@ -153,6 +168,8 @@
  			var tr="";
  			var nc=parseInt($('#nc-general-input').val());
  			nc=isNaN(nc)?"":nc;
+ 			var nf=parseInt($('#nf-general-input').val());
+ 			nf=isNaN(nf)?"":nf;
  			$('#contratos-wrapper').find('[type=checkbox]:checked').each(function(){
  			var monto=$(this).data('monto');
             var fechaControlContrato=$(this).data('fechaControlContrato');
@@ -164,6 +181,7 @@
  				tr+=" <tr " +
  				 "data-concepto_id='" + concepto_id+"' "+
                  "data-n-factura-prefix='{{$modulo->nFacturaPrefix}}' "+
+ 				 "data-n-factura='"+nf+"' "+
  				 "data-n-control-prefix='{{$modulo->nControlPrefix}}' "+
  				 "data-n-control='"+nc+"' "+
                  "data-fecha-control-contrato='" + fechaControlContrato+"' "+
@@ -172,20 +190,28 @@
  				 "data-cliente_id='" + cliente_id+"' "+
  				 "data-contrato_id='" + contrato_id+"' "+
                  "data-modulo_id='{{$modulo->id}}' "+
-                 "data-monto='" + monto+"' "+
+                 "data-monto='" + numToComma(monto)+"' "+
  				     ">" +
+                        "<td class='text-justify'>" +
+                            '<div class="input-group">'+
+                                '<div class="input-group-btn">'+
+                                    '<button style="max-height:37px" type="button" class="btn btn-default"><span class="nControlPrefix-text">{{$modulo->nFacturaPrefix}}</span></button>'+
+                                '</div>'+
+                                "<input readonly class='form-control nf-input' autocomplete='off' value='"+((nf=="")?"":(nf++))+"' data-toggle='tooltip' data-placement='top' title='El numero de factura es solo informativo. Ya que puede variar cuando se cree una factura.'/> " +
+                            "</div>"+
+                        "</td>" +
                         "<td class='text-justify'>" +
                             '<div class="input-group">'+
                                 '<div class="input-group-btn">'+
                                     '<button style="max-height:37px" type="button" class="btn btn-default"><span class="nControlPrefix-text">{{$modulo->nControlPrefix}}</span></button>'+
                                 '</div>'+
-                                "<input class='form-control nc-input' autocomplete='off' value='"+((nc=="")?"":(nc++))+"'/> " +
+                                "<input readonly class='form-control nc-input' autocomplete='off' value='"+((nc=="")?"":(nc++))+"'/> " +
                             "</div>"+
                         "</td>" +
                         " <td class='text-justify'>"+
                             $(this).val()+
                         "</td> " +
-                        "<td class='text-justify'>"+monto+"</td>" +
+                        "<td class='text-right'>"+numToComma(monto)+"</td>" +
                         " <td class='text-justify'>"+finicio+"</td>" +
                         " <td class='text-justify'>"+ffin+"</td>" +
                         " <td>" +
@@ -197,6 +223,7 @@
  			});
 
  			$('#fac-table tbody').append(tr);
+ 			$('[data-toggle="tooltip"]').tooltip()
  		})
 
  		$('#fac-table').delegate('.eliminar-btn','click',function(){
@@ -229,7 +256,7 @@
                     }
                 })
  		})
-
+        $('[data-toggle="tooltip"]').tooltip()
  	});
 
 
