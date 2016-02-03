@@ -349,7 +349,7 @@ class FacturaController extends Controller {
 
         $modulo= \App\Modulo::where('nombre', $modulo)->where('aeropuerto_id', session('aeropuerto')->id)->first();
         if(!$modulo){
-            return response("No se consiguio el modulo '$modulo' en el aeropuerto de sesion", 500);
+            return response("No se consiguió el modulo '$modulo' en el aeropuerto de sesion", 500);
         }
         $modulo_id=$modulo->id;
         $factura->load('detalles');
@@ -365,13 +365,16 @@ class FacturaController extends Controller {
 	 */
 	public function update($moduloNombre, Factura $factura, FacturaRequest $request)
 	{
-
         \DB::transaction(function () use ($moduloNombre, $factura, $request) {
             $facturaData = $this->getFacturaDataFromRequest($request);
             $facturaDetallesData = $this->getFacturaDetallesDataFromRequest($request);
-            $factura->update($facturaData);
+            $factura->update($facturaData);          
             $factura->detalles()->delete();
-            $factura->detalles()->createMany($facturaDetallesData);
+            $factura->detalles()->createMany($facturaDetallesData);         
+            $factura->nFactura = $request->nFactura;
+            $factura->save();
+
+
         });
         return ["success" => 1, "impresion" => action('FacturaController@getPrint', [$moduloNombre, $factura->id])];
 

@@ -24,7 +24,7 @@ class FacturaRequest extends Request {
 		$id       =null;
 		$facturaID =$this->route()->getParameter('factura');
 		if($facturaID)
-			$id       =$facturaID;
+			$id       =$facturaID->id;
 		return [
 			'nFactura'         =>'required|unique:facturas,nFactura,'.$id,
 			'aeropuerto_id'    =>'required',
@@ -36,5 +36,4 @@ class FacturaRequest extends Request {
 			'cliente_id'       =>'required',
 		];
 	}
-
 }
