@@ -296,7 +296,9 @@ class FacturaController extends Controller {
                 $facturaData['aterrizaje_id'] = $request->get('aterrizaje_id');
             $factura = \App\Factura::create($facturaData);
             $factura->detalles()->createMany($facturaDetallesData);
-            $cliente = $factura->cliente;
+            $cliente = $factura->cliente;               
+            $factura->nFactura = $request->nFactura;
+            $factura->save();
             if ($cliente && $cliente->isEnvioAutomatico == true && $cliente->email != "") {
                 $path = $this->crearFactura($factura, 'F');
                 Mail::send('emails.test', ['name' => $cliente->nombre], function ($message) use ($factura, $cliente, $path) {
@@ -309,7 +311,7 @@ class FacturaController extends Controller {
 
             if ($request->has('despegue_id')) {
                 $despegue = \App\Despegue::find($request->get('despegue_id'));
-                $despegue->factura_id = $factura->id;
+                $despegue->factura_id = $factura->id; 
                 $despegue->save();
             }
             if ($request->has('carga_id')) {
@@ -347,7 +349,7 @@ class FacturaController extends Controller {
 
         $modulo= \App\Modulo::where('nombre', $modulo)->where('aeropuerto_id', session('aeropuerto')->id)->first();
         if(!$modulo){
-            return response("No se consiguio el modulo '$modulo' en el aeropuerto de sesion", 500);
+            return response("No se consiguió el modulo '$modulo' en el aeropuerto de sesion", 500);
         }
         $modulo_id=$modulo->id;
         $factura->load('detalles');
@@ -363,13 +365,16 @@ class FacturaController extends Controller {
 	 */
 	public function update($moduloNombre, Factura $factura, FacturaRequest $request)
 	{
-
         \DB::transaction(function () use ($moduloNombre, $factura, $request) {
             $facturaData = $this->getFacturaDataFromRequest($request);
             $facturaDetallesData = $this->getFacturaDetallesDataFromRequest($request);
-            $factura->update($facturaData);
+            $factura->update($facturaData);          
             $factura->detalles()->delete();
-            $factura->detalles()->createMany($facturaDetallesData);
+            $factura->detalles()->createMany($facturaDetallesData);         
+            $factura->nFactura = $request->nFactura;
+            $factura->save();
+
+
         });
         return ["success" => 1, "impresion" => action('FacturaController@getPrint', [$moduloNombre, $factura->id])];
 

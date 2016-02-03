@@ -222,8 +222,8 @@
 					    <label for="cuenta-modal-input" class="col-sm-2 control-label">Cuenta</label>
 					    <div class="col-md-10">
 						    <select id="cuenta-modal-input" class="form-control">
-
-						    </select>
+								<option value=''>Seleccione</option>
+						    </select>		
 					    </div>
 				    </div>
 				    <div class="form-group">
@@ -514,6 +514,8 @@ $('#banco-modal-input').change(function(){
 	$.each(cuentas,function(index,value){
 		options+="<option value='"+value.id+"'>"+value.descripcion+"</option>";
 	})
+	var seleccione = "<option>Seleccione</option>\ ";
+	options=seleccione+options;
 	$('#cuenta-modal-input').html(options);
 }).trigger('change');
 
