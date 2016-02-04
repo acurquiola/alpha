@@ -1,37 +1,30 @@
 <?php namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\DateConverterTrait;
 
 class Meta extends Model {
+
+    use DateConverterTrait;
 
     protected $guarded = [];
 
     public function getFechaInicioAttribute($fecha)
     {
-        $carbon=\Carbon\Carbon::now();
-        if(!is_null($fecha) && $fecha!="" && is_string($fecha))
-            $carbon= \Carbon\Carbon::createFromFormat('Y-m-d', str_replace( " 00:00:00", "", $fecha));
-        if(is_a($fecha, 'Carbon'))
-            $carbon=$fecha;
-        return $carbon->format('d/m/Y');
+        return $this->getFecha($fecha);
     }
     public function setFechaInicioAttribute($fecha)
     {
-        $this->attributes['fecha_inicio']=\Carbon\Carbon::createFromFormat('d/m/Y', $fecha);
+        $this->setFecha($fecha,'fecha_inicio');
     }
 
     public function getFechaFinAttribute($fecha)
     {
-        $carbon=\Carbon\Carbon::now();
-        if(!is_null($fecha) && $fecha!="" && is_string($fecha))
-            $carbon= \Carbon\Carbon::createFromFormat('Y-m-d', str_replace( " 00:00:00", "", $fecha));
-        if(is_a($fecha, 'Carbon'))
-            $carbon=$fecha;
-        return $carbon->format('d/m/Y');
+        return $this->getFecha($fecha);
     }
     public function setFechaFinAttribute($fecha)
     {
-        $this->attributes['fecha_fin']=\Carbon\Carbon::createFromFormat('d/m/Y', $fecha);
+        $this->setFecha($fecha,'fecha_fin');
     }
 
     public function detalles()

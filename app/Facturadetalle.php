@@ -2,8 +2,11 @@
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Traits\DecimalConverterTrait;
 
 class Facturadetalle extends Model {
+
+    use DecimalConverterTrait;
 
     protected $guarded = array();
 
@@ -14,15 +17,6 @@ class Facturadetalle extends Model {
     public function concepto()
     {
         return $this->belongsTo('App\Concepto');
-    }
-
-    protected function parseDecimal($numero, $attr){
-        if(is_string($numero)){
-            $numero=preg_replace ( '/\./i', "", $numero );
-            $numero=preg_replace ( '/\,/i', ".", $numero );
-            $numero=floatval($numero);
-        }
-        $this->attributes[$attr]=$numero;
     }
 
     public function setCantidadDesAttribute($numero)

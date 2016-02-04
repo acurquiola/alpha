@@ -10,6 +10,7 @@
             data-finicio="{{$fecha->format('d/m/Y')}}"
             data-ffin="{{$fecha->copy()->addMonth()->format('d/m/Y')}}"
             data-concepto_id="{{$contrato->concepto_id}}"
+            data-concepto-iva="{{$contrato->concepto->iva}}"
             data-cliente_id="{{$contrato->cliente_id}}"
             data-contrato_id="{{$contrato->id}}"
             > {{$contrato->nContrato}} | {{$contrato->cliente->codigo}} | {{$contrato->cliente->nombre}}

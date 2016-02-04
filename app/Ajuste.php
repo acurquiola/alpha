@@ -1,8 +1,11 @@
 <?php namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\DecimalConverterTrait;
 
 class Ajuste extends Model {
+
+    use DecimalConverterTrait;
 
     protected $guarded = array();
 
@@ -14,5 +17,10 @@ class Ajuste extends Model {
     public function cobro()
     {
         return $this->belongsTo('App\Cobro');
+    }
+
+    public function setMontoAttribute($numero)
+    {
+        $this->parseDecimal($numero,'monto');
     }
 }

@@ -7,8 +7,12 @@ use \App\Factura;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Mail;
+use App\Traits\DecimalConverterTrait;
 
 class FacturaController extends Controller {
+
+    use DecimalConverterTrait;
+
     protected $meses=[
     "1"=>"ENERO",
     "2"=>"FEBRERO",
@@ -41,6 +45,7 @@ class FacturaController extends Controller {
                 $f->aeropuerto_id        =session('aeropuerto')->id;
                 $f->condicionPago        ='Crédito';
                 $f->nFacturaPrefix       = $factura["nFacturaPrefix"];
+                $f->nFactura             = $factura["nFactura"];
                 $f->nControlPrefix       = $factura["nControlPrefix"];
                 $f->nControl             = $factura["nControl"];
                 $f->fechaControlContrato =$factura["fechaControlContrato"];
@@ -50,15 +55,15 @@ class FacturaController extends Controller {
                 $f->modulo_id            = $factura["modulo_id"];
                 $f->contrato_id          = $factura["contrato_id"];
                // $subtotal                = ($factura['monto'] / (1 + $concepto->iva / 100));
-                $subtotal                = $factura['monto'];
+                $subtotal                = $this->parseDecimal($factura['monto']);
                 $f->subtotalNeto         = $subtotal;
                 $f->descuentoTotal       = 0;
                 $f->subtotal             = $subtotal;
                 //$f->iva                  = $factura['monto'] - $subtotal;
-                $f->iva                  = ($factura['monto']*($concepto->iva/100));
+                $f->iva                  = ($subtotal*($concepto->iva/100));
                 $f->recargoTotal         = 0;
                 //$f->total                = $factura['monto'];
-                $f->total                = (($factura['monto']*($concepto->iva/100))+$factura['monto']);
+                $f->total                = (($subtotal*($concepto->iva/100))+$subtotal);
                 $f->estado               ='P';
 
                 if($moduloNombre=="CANON"){
@@ -408,6 +413,7 @@ class FacturaController extends Controller {
                                 'modulo_id',
                                 'condicionPago',
                                 'nFacturaPrefix',
+                                'nFactura',
                                 'nControlPrefix',
                                 'nControl',
                                 'fecha',

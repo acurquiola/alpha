@@ -63,18 +63,16 @@
  											    <input class="form-control" id="nc-general-input" value="{{\App\Factura::getMaxWith('nControlPrefix', 'nControl', $modulo->nControlPrefix)}}"/>
                                             </div>
  										</div>
+ 										<label for="active-input">Número de factura</label>
  										<div class="form-group">
                                             <div class="input-group">
                                                 <div class="input-group-btn">
                                                     <button style="max-height:37px" type="button" class="btn btn-default"><span class="nControlPrefix-text">{{$modulo->nFacturaPrefix}}</span></button>
                                                 </div>
- 											    <input readonly 
+ 											    <input
  											    class="form-control" 
  											    id="nf-general-input" 
- 											    value="{{\App\Factura::getMaxWith('nFacturaPrefix', 'nFactura', $modulo->nFacturaPrefix)}}"
- 											     data-toggle="tooltip" 
- 											     data-placement="top" 
- 											     title="El numero de factura es solo informativo. Ya que puede variar cuando se cree una factura."/>
+ 											    value="{{\App\Factura::getMaxWith('nFacturaPrefix', 'nFactura', $modulo->nFacturaPrefix)}}"/>
                                             </div>
  										</div>
  										<button type="submit" class="btn btn-default" id="generar-btn">Generar</button>
@@ -94,6 +92,7 @@
  								<th>Numero de control</th>
  								<th>Numero de contrato</th>
  								<th class="text-right">Monto</th>
+ 								<th class="text-right">Monto + IVA</th>
  								<th>Fecha de emision</th>
  								<th>Fecha de vencimiento</th>
  								<th>Acción</th>
@@ -178,6 +177,7 @@
             var concepto_id=$(this).data('concepto_id');
             var cliente_id=$(this).data('cliente_id');
             var contrato_id=$(this).data('contrato_id');
+            var iva=$(this).data('conceptoIva');
  				tr+=" <tr " +
  				 "data-concepto_id='" + concepto_id+"' "+
                  "data-n-factura-prefix='{{$modulo->nFacturaPrefix}}' "+
@@ -197,7 +197,7 @@
                                 '<div class="input-group-btn">'+
                                     '<button style="max-height:37px" type="button" class="btn btn-default"><span class="nControlPrefix-text">{{$modulo->nFacturaPrefix}}</span></button>'+
                                 '</div>'+
-                                "<input readonly class='form-control nf-input' autocomplete='off' value='"+((nf=="")?"":(nf++))+"' data-toggle='tooltip' data-placement='top' title='El numero de factura es solo informativo. Ya que puede variar cuando se cree una factura.'/> " +
+                                "<input class='form-control nf-input' autocomplete='off' value='"+((nf=="")?"":(nf++))+"' data-toggle='tooltip' data-placement='top' title='El numero de factura es solo informativo. Ya que puede variar cuando se cree una factura.'/> " +
                             "</div>"+
                         "</td>" +
                         "<td class='text-justify'>" +
@@ -212,8 +212,9 @@
                             $(this).val()+
                         "</td> " +
                         "<td class='text-right'>"+numToComma(monto)+"</td>" +
-                        " <td class='text-justify'>"+finicio+"</td>" +
-                        " <td class='text-justify'>"+ffin+"</td>" +
+                        "<td class='text-right'>"+numToComma(monto*iva/100+monto)+"</td>" +
+                        " <td class='text-justify'><input class='form-control datepicker finicio' value='"+finicio+"' /></td>" +
+                        " <td class='text-justify'><input class='form-control datepicker ffin' value='"+ffin+"'/></td>" +
                         " <td>" +
                             " <div class='btn-group  btn-group-sm' role='group' aria-label='...'>" +
                                 " <button class='btn btn-danger eliminar-btn'><span class='glyphicon glyphicon-remove'></span></button>" +
@@ -224,6 +225,27 @@
 
  			$('#fac-table tbody').append(tr);
  			$('[data-toggle="tooltip"]').tooltip()
+ 			  $('.datepicker').datepicker({
+                closeText: 'Cerrar',
+                prevText: '&#x3C;Ant',
+                nextText: 'Sig&#x3E;',
+                currentText: 'Hoy',
+                monthNames: ['Enero','Febrero','Marzo','Abril','Mayo','Junio',
+                'Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'],
+                monthNamesShort: ['Ene','Feb','Mar','Abr','May','Jun',
+                'Jul','Ago','Sep','Oct','Nov','Dic'],
+                dayNames: ['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'],
+                dayNamesShort: ['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'],
+                dayNamesMin: ['D','L','M','M','J','V','S'],
+                weekHeader: 'Sm',
+                firstDay: 1,
+                isRTL: false,
+                showMonthAfterYear: false,
+                yearSuffix: '',
+                dateFormat: "dd/mm/yy"});
+                  $('.finicio').on('changeDate', function(e){
+                    $(this).closest('tr').find('.ffin').val(moment(e.date).add(1, 'M').format("DD/MM/YYYY"));
+                  });
  		})
 
  		$('#fac-table').delegate('.eliminar-btn','click',function(){
@@ -238,6 +260,9 @@
  		    }
             var facturas=[];
             $trs.each(function(index, value){
+                $(value).data('nFactura', $(value).find('.nf-input').val());
+                $(value).data('fecha', $(value).find('.finicio').val());
+                $(value).data('fechaVencimiento', $(value).find('.ffin').val());
                 facturas.push($(value).data());
             })
 

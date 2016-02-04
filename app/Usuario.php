@@ -7,10 +7,11 @@ use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 use Bican\Roles\Traits\HasRoleAndPermission;
 use Bican\Roles\Contracts\HasRoleAndPermissionContract;
+use App\Traits\DateConverterTrait;
 
 class Usuario extends Model implements AuthenticatableContract, CanResetPasswordContract, HasRoleAndPermissionContract {
 
-    use Authenticatable, CanResetPassword, HasRoleAndPermission;
+    use Authenticatable, CanResetPassword, HasRoleAndPermission, DateConverterTrait;
 
 
 
@@ -37,10 +38,7 @@ class Usuario extends Model implements AuthenticatableContract, CanResetPassword
 
     public function getCreatedAtAttribute($fecha)
     {
-        $carbon=\Carbon\Carbon::now();
-        if(!is_null($fecha) && $fecha!="" )
-            $carbon= \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $fecha);
-        return $carbon->format('d/m/Y');
+        return $this->getFecha($fecha);
     }
 
 }

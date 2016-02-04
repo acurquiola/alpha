@@ -1,8 +1,11 @@
 <?php namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\DateConverterTrait;
 
 class Cliente extends Model {
+
+    use DateConverterTrait;
 
     protected $guarded = array();
 
@@ -27,17 +30,12 @@ class Cliente extends Model {
     }
     public function setFechaIngresoAttribute($fecha)
     {
-        $this->attributes['fechaIngreso']=\Carbon\Carbon::createFromFormat('d/m/Y', $fecha);
+        $this->setFecha($fecha,'fechaIngreso');
     }
 
     public function getFechaIngresoAttribute($fecha)
     {
-        $carbon=\Carbon\Carbon::now();
-        if(!is_null($fecha) && $fecha!="" && is_string($fecha))
-            $carbon= \Carbon\Carbon::createFromFormat('Y-m-d', str_replace( " 00:00:00", "", $fecha));
-        if(is_a($fecha, 'Carbon'))
-            $carbon=$fecha;
-        return $carbon->format('d/m/Y');
+        return $this->getFecha($fecha);
     }
 
     public function getRifAttribute($fecha)

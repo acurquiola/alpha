@@ -1,23 +1,17 @@
 <?php namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\DecimalConverterTrait;
 
 class Facturametadata extends Model {
+
+    use DecimalConverterTrait;
 
     protected $guarded = array();
 
     public function factura()
     {
         return $this->belongsTo('App\Factura', 'factura_id', 'nFactura');
-    }
-
-    protected function parseDecimal($numero, $attr){
-        if(is_string($numero)){
-            $numero=preg_replace ( '/\./i', "", $numero );
-            $numero=preg_replace ( '/\,/i', ".", $numero );
-            $numero=floatval($numero);
-        }
-        $this->attributes[$attr]=$numero;
     }
 
     public function setMontoiniciocuotaAttribute($numero)

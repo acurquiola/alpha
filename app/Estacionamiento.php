@@ -1,10 +1,11 @@
 <?php namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\DecimalConverterTrait;
 
 class Estacionamiento extends Model {
 
-
+    use DecimalConverterTrait;
 
     protected $fillable = ['nTurnos', 'nTaquillas', 'tarjetacosto'];
 
@@ -30,15 +31,6 @@ class Estacionamiento extends Model {
         return $this->hasMany('App\Estacionamientoop', 'estacionamiento_id');
     }
 
-
-    protected function parseDecimal($numero, $attr){
-        if(is_string($numero)){
-            $numero=preg_replace ( '/\./i', "", $numero );
-            $numero=preg_replace ( '/\,/i', ".", $numero );
-            $numero=floatval($numero);
-        }
-        $this->attributes[$attr]=$numero;
-    }
 
     public function setTarjetacostoAttribute($numero)
     {

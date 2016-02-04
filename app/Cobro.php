@@ -1,8 +1,13 @@
 <?php namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\DateConverterTrait;
+use App\Traits\DecimalConverterTrait;
 
 class Cobro extends Model {
+
+    use DateConverterTrait;
+    use DecimalConverterTrait;
 
     protected $guarded = array();
 
@@ -33,10 +38,7 @@ class Cobro extends Model {
 
     public function getCreatedAtAttribute($fecha)
     {
-        $carbon=\Carbon\Carbon::now();
-        if(!is_null($fecha) && $fecha!="" )
-            $carbon= \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $fecha);
-        return $carbon->format('d/m/Y');
+        return $this->getFecha($fecha);
     }
 
     public function cliente(){
@@ -45,16 +47,6 @@ class Cobro extends Model {
 
     public function modulo(){
         return $this->belongsTo('App\Modulo');
-    }
-
-
-    protected function parseDecimal($numero, $attr){
-        if(is_string($numero)){
-            $numero=preg_replace ( '/\./i', "", $numero );
-            $numero=preg_replace ( '/\,/i', ".", $numero );
-            $numero=floatval($numero);
-        }
-        $this->attributes[$attr]=$numero;
     }
 
     public function setMontofacturasAttribute($numero)
