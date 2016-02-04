@@ -15,6 +15,7 @@
 			</div><!-- /.box-header -->
 			<!-- form start -->
 
+
 			<div class="box-body"  id="container">
 				<div class="form-horizontal">
 					<div class="form-group">
@@ -647,7 +648,7 @@ if ($('#cliente-select').val() != ""){
 		$('#cliente_cedRif-input').val(((cedRif)?cedRif:""));
 		addLoadingOverlay('#main-box');
 		$.ajax({
-			url:"{{action('CobranzaController@getFacturasClientes', [$moduloName])}}",
+			url:"{{action('DespegueController@getDosaClientes', [$despegue])}}",
 			data:{codigo:value}
 		}).done(function(response, status, responseObject){
 			try{
