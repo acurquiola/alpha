@@ -159,7 +159,19 @@ class ReporteController extends Controller {
                                     ->where('aeropuerto_id', session('aeropuerto')->id)
                                     ->sum('facturas.total');
 
-        return view('reportes.reporteCuadreCaja', compact('diaDesde', 'mesDesde', 'annoDesde', 'diaHasta', 'mesHasta', 'annoHasta', 'aeropuerto', 'facturas', 'facturasTotal'));
+        $facturasCredito = \App\Factura::whereBetween('fecha', array($annoDesde.'-'.$mesDesde.'-'.$diaDesde,  $annoHasta.'-'.$mesHasta.'-'.$diaHasta) )
+                                    ->where('aeropuerto_id', session('aeropuerto')->id)
+                                    ->where('condicionPago', 'Crédito')
+                                    ->sum('facturas.total');
+
+        $facturasContado = \App\Factura::whereBetween('fecha', array($annoDesde.'-'.$mesDesde.'-'.$diaDesde,  $annoHasta.'-'.$mesHasta.'-'.$diaHasta) )
+                                    ->where('aeropuerto_id', session('aeropuerto')->id)
+                                    ->where('condicionPago', 'Contado')
+                                    ->sum('facturas.total');
+
+
+
+        return view('reportes.reporteCuadreCaja', compact('diaDesde', 'mesDesde', 'annoDesde', 'diaHasta', 'mesHasta', 'annoHasta', 'aeropuerto', 'facturas', 'facturasTotal', 'facturasContado', 'facturasCredito'));
     }
 
     public function getReporteClienteReciboMensual(Request $request){
