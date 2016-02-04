@@ -3174,6 +3174,7 @@
         },
         {
             "name": "symfony/yaml",
+<<<<<<< HEAD
             "version": "v2.8.2",
             "source": {
                 "type": "git",
@@ -3184,6 +3185,18 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/symfony/yaml/zipball/34c8a4b51e751e7ea869b8262f883d008a2b81b8",
                 "reference": "34c8a4b51e751e7ea869b8262f883d008a2b81b8",
+=======
+            "version": "v3.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/yaml.git",
+                "reference": "3cf0709d7fe936e97bee9e954382e449003f1d9a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/yaml/zipball/3cf0709d7fe936e97bee9e954382e449003f1d9a",
+                "reference": "3cf0709d7fe936e97bee9e954382e449003f1d9a",
+>>>>>>> c3d9e178c42a32691cfd41af8924ff369ce1e76e
                 "shasum": ""
             },
             "require": {
@@ -3219,7 +3232,11 @@
             ],
             "description": "Symfony Yaml Component",
             "homepage": "https://symfony.com",
+<<<<<<< HEAD
             "time": "2016-01-13 10:28:07"
+=======
+            "time": "2016-02-02 13:44:19"
+>>>>>>> c3d9e178c42a32691cfd41af8924ff369ce1e76e
         }
     ],
     "aliases": [],
