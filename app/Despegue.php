@@ -11,7 +11,7 @@ class Despegue extends Model {
 
     public function setFechaAttribute($fecha)
     {
-        $this->setFecha($fecha,'fechaInicio');
+        $this->setFecha($fecha,'fecha');
     }
 
     public function getFechaAttribute($fecha)
