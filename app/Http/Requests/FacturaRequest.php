@@ -29,11 +29,11 @@ class FacturaRequest extends Request {
 			'nFactura'         =>'required|unique:facturas,nFactura,'.$id,
 			'aeropuerto_id'    =>'required',
 			'condicionPago'    =>'required',
-			'nControl'         =>'required',
+			'nControl'         =>'required|unique:facturas,nControl,aeropuerto_id'.$id,
 			'fecha'            =>'required',
 			'fechaVencimiento' =>'required',
 			'descripcion'      =>'required',
-			'cliente_id'       =>'required',
+			'cliente_id'       =>'required'
 		];
 	}
 }

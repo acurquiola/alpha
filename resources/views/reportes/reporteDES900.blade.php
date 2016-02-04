@@ -64,17 +64,17 @@
 					<div class="col-xs-12">
 
 						<div class="table-responsive" style="max-height: 500px">
-							<table class="table table-bordered table-striped">
+							<table class="table table-condensed">
 								<thead  class="bg-primary">
 									<tr>
 										<th colspan="4" rowspan="2" style="vertical-align: middle" class="text-center">GENERAL</th>
 										<th colspan="9" style="vertical-align: middle" class="text-center">ATERRIZAJE</th>
-										<th colspan="8" style="vertical-align: middle" class="text-center">DESPEGUE</th>
+										<th colspan="7" style="vertical-align: middle" class="text-center">DESPEGUE</th>
 									</tr>
 									<tr>
 										<th colspan="5"></th>
-										<th colspan="2" class="text-center"><b>Desembarque</b></th>
-										<th colspan="2" class="text-center"><b>Tránsito</b></th>
+										<th colspan="2" class="text-center">Desembarque</th>
+										<th colspan="2" class="text-center">Tránsito</th>
 										<th colspan="5"></th>
 										<th colspan="2" class="text-center">Embarque</th>
 									</tr>
@@ -144,18 +144,15 @@
 @section('script')
 <script>
 	$(function(){
+	$(function(){
 		$('#export-btn').click(function(e){
-			var table=$('table').clone();
-			$(table).find('td, th').filter(function() {
-				return $(this).css('display') == 'none';
-			}).remove();
-			$(table).find('tr').filter(function() {
-				return $(this).find('td,th').length == 0;
-			}).remove();
-			var tableHtml= $(table)[0].outerHTML;
-			$('[name=table]').val(tableHtml);
-			$('#export-form').submit();
-		})
+		    var table=$('table').clone();
+		    $(table).find('th').css({'border-bottom':'1px solid black','border-right':'1px solid black','border-left':'1px solid black','border-top':'1px solid black', 'font-weight': 'bold', 'text-align':"center"})
+		    var tableHtml= $(table)[0].outerHTML;
+		    $('[name=table]').val(tableHtml);
+		    $('#export-form').submit();
+		});
+	});
 	});
 </script>
 @endsection

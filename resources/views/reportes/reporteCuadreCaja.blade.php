@@ -64,37 +64,52 @@
 					<div class="col-xs-12">
 
 						<div class="table-responsive" style="max-height: 500px">
-							<table class="table table-hover table-condensed">
+							<table  class="table table-condensed">
 								<thead  class="bg-primary">
-									<tr>
-										<th >Nro. Control</th>
-										<th >Nro. Dosa</th>
-										<th >Nro. Factura</th>
-										<th >Cliente</th>
-										<th >Fecha</th>
-										<th >Monto</th>
+									<tr >
+										<th class="text-center">Nro. Control</th>
+										<th class="text-center">Nro. Dosa</th>
+										<th class="text-center">Nro. Factura</th>
+										<th class="text-center">Cliente</th>
+										<th class="text-center">Fecha</th>
+										<th class="text-center">Monto</th>
 									</tr>
 								</thead>
 								<tbody>
 									@foreach($facturas as $factura)
-									<tr title="{{$factura->fecha}}">
+									<tr title="{{$factura->fecha}}" align="center">
 										<td>{{$factura->nControl}}</td>
 										<td>{{$factura->nroDosa}}</td>
 										<td>{{$factura->nFacturaPrefix}}-{{$factura->nFactura}}</td>
-										<td>{{$factura->cliente->nombre}}</td>
+										<td align="left">{{$factura->cliente->nombre}}</td>
 										<td>{{$factura->fecha}}</td>
 										<td>{{$factura->total}}</td>
 									</tr>
 									@endforeach
 
-			                        <tr class="bg-gray">
+			                        <tr class="bg-gray" align="center">
+			                        	<td>Total Contado</td>
+			                        	<td> - </td>
+			                        	<td> - </td>
+			                        	<td> - </td>
+			                        	<td> - </td>
+			                        	<td>{{$facturasContado}}</td>			                        
+			                        </tr>
+			                        <tr class="bg-gray" align="center">
+			                        	<td>Total Crédito</td>
+			                        	<td> - </td>
+			                        	<td> - </td>
+			                        	<td> - </td>
+			                        	<td> - </td>
+			                        	<td>{{$facturasCredito}}</td>			                        
+			                        </tr>
+			                        <tr class="bg-primary" align="center">
 			                        	<td>Total</td>
-			                        	<td> </td>
-			                        	<td> </td>
-			                        	<td> </td>
-			                        	<td> </td>
-			                        	<td>{{$facturasTotal}}</td>
-			                        
+			                        	<td> - </td>
+			                        	<td> - </td>
+			                        	<td> - </td>
+			                        	<td> - </td>
+			                        	<td>{{$facturasTotal}}</td>			                        
 			                        </tr>
 								</tbody>
 							</table>
@@ -111,17 +126,13 @@
 <script>
 	$(function(){
 		$('#export-btn').click(function(e){
-			var table=$('table').clone();
-			$(table).find('td, th').filter(function() {
-				return $(this).css('display') == 'none';
-			}).remove();
-			$(table).find('tr').filter(function() {
-				return $(this).find('td,th').length == 0;
-			}).remove();
-			var tableHtml= $(table)[0].outerHTML;
-			$('[name=table]').val(tableHtml);
-			$('#export-form').submit();
-		})
+		    var table=$('table').clone();
+		    $(table).find('th').css({'border-bottom':'1px solid black','border-top':'1px solid black', 'font-weight': 'bold', 'text-align':"center"})
+		    $(table).find('tr:last td').css({'border-bottom':'1px solid black','border-top':'1px solid black', 'font-weight': 'bold'})
+		    var tableHtml= $(table)[0].outerHTML;
+		    $('[name=table]').val(tableHtml);
+		    $('#export-form').submit();
+		});
 	});
 </script>
 @endsection
