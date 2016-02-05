@@ -202,7 +202,7 @@ class CobranzaController extends Controller {
             $facturaMetadata->total+=$abonadoReal;
             $facturaMetadata->save();
             $cobro->facturas()
-            ->attach([$factura->nFactura =>
+            ->attach([$factura->id =>
                 ['monto' => $f["montoAbonado"],
                 'base' => $base,
                 'iva' => $iva,
@@ -232,6 +232,7 @@ class CobranzaController extends Controller {
             $cobro->ajustes()->create(["monto"=>$cobro->montodepositado-$cobro->montofacturas-$ajuste,
                                         "cliente_id" => $request->get("cliente_id")]);
 
+        dd($cobro);
         }
         $cobro->observacion=$request->get('observacion');
         $cobro->hasrecaudos=$request->get('hasrecaudos');

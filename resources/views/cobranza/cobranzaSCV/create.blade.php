@@ -890,14 +890,14 @@ $('#save-cobro-btn').click(function(){
 			facturas:facturas,
 			pagos:pagos,
 			cliente_id: $('#cliente-select option:selected').data("id"),
-			totalFacturas:$('#total-a-pagar-doc-input').val() ,
+			totalFacturas:$('.total-a-pagar-doc-input').val() ,
 			totalDepositado:$('#total-a-depositar-doc-input').val(),
 			observacion:$('#observaciones-documento').val(),
 			hasrecaudos:$('#hasrecaudos-check').prop('checked'),
 			ajuste:ajuste,
 			modulo_id:'{{$id}}'
 		},
-		url: '{{action('DespegueController@postGenerarCobranza')}}'
+		url: '{{action('CobranzaController@store')}}'
 	}).done(function(data, status, jx){
 		try{
 			var response=JSON.parse(jx.responseText);
