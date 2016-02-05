@@ -668,4 +668,125 @@ class DespegueController extends Controller {
         return ["facturas"=>$facturas, "ajuste"=> $ajusteCliente];
     }
 
+    /**
+	 * Store a newly created resource in storage.
+	 *
+	 * @return Response
+	 */
+	public function postGenerarCobranza(Request $request)
+	{
+
+        \DB::transaction(function () use ($request) {
+        $cobro=\App\Cobro::create([
+            'cliente_id' => $request->get('cliente_id'),
+            'modulo_id'=>$request->get('modulo_id'),
+            'aeropuerto_id' => session('aeropuerto')->id]);
+        $facturas=$request->get('facturas',[]);
+        $pagos=$request->get('pagos',[]);
+        foreach($facturas as $f){
+            $factura=\App\Factura::find($f["id"]);
+
+            $facturaMetadata=\App\Facturametadata::firstOrCreate(["factura_id"=>$factura->id]);
+            $facturaMetadata->ncobros++;
+            /**
+             * En el request me llega los porcentajes del iva e isrl que fueron usados en la retencion
+             * y el monto de abonado. Debo hallar cuanto de ese monto abonado corresponde la base y al iva
+             *
+             */
+            //Calculo el total de la retencion
+
+            $totalRetencion=($factura->subtotalNeto*$f["islrpercentage"]/100)+($factura->iva*$f["ivapercentage"]/100);
+
+            //Calculo el total que se debe pagar
+
+            $totalPagar=$factura->total-$totalRetencion;
+
+            //Con el total a pagar puedo calcular cuanto porcentualmente contribuye lo abonado al saldo
+
+            $abonadoPorcentaje=$f["montoAbonado"]/$totalPagar;
+
+            //total real abonado a la factura
+
+            $abonadoReal=$abonadoPorcentaje*$factura->total;
+
+            /*
+             * ya tengo el abonado real, ahora debo calcular cuanto contribuye a la base y al iva
+             */
+            //calculo cuanto es el total sin la recarga
+
+            $totalSinRecarga=$factura->total-$factura->recargoTotal;
+
+            //ahora calculo la contribucion porcentual del iva y la base en el total
+
+            $ivaPorcentaje=$factura->iva/$totalSinRecarga;
+            $baseDespuesDescuentoPorcentaje=$factura->subtotal/$totalSinRecarga;
+
+            //calculo cuanto es la contribucion de la base y el descuento en el subtotalDespuesDescuento
+
+            $baseDescuentoPorcentaje=$factura->subtotalNeto/$factura->subtotal;
+
+            //calculo cuanto del saldo abonado en la base
+
+            $base=$abonadoReal*$baseDespuesDescuentoPorcentaje*$baseDescuentoPorcentaje;
+
+            //calculo cuanto del saldo abonado en el iva
+
+            $iva=$abonadoReal*$ivaPorcentaje;
+
+            //Nota si no existiera descuento $base+$iva=$abonadoReal
+
+            //Ya que tengo la base y el iva abonado puedo calcular la retencion abonada
+
+            $retencion=($base*$f["islrpercentage"]/100)+($iva*$f["ivapercentage"]/100);
+
+
+            $facturaMetadata->montopagado+=$f["montoAbonado"];
+            $facturaMetadata->basepagado+=$base;
+            $facturaMetadata->ivapagado+=$iva;
+            $facturaMetadata->islrpercentage=$f["islrpercentage"];
+            $facturaMetadata->ivapercentage=$f["ivapercentage"];
+            $facturaMetadata->retencion+=$retencion;
+            $facturaMetadata->total+=$abonadoReal;
+            $facturaMetadata->save();
+            $cobro->facturas()
+            ->attach([$factura->id =>
+                ['monto' => $f["montoAbonado"],
+                'base' => $base,
+                'iva' => $iva,
+                'islrpercentage' => $f["islrpercentage"],
+                'ivapercentage' => $f["ivapercentage"],
+                'retencion' => $retencion,
+                'total' => $abonadoReal,
+                'retencionFecha' => $f["retencionFecha"],
+                'retencionComprobante' => $f["retencionComprobante"],
+                ]]);
+            if($facturaMetadata->total==$factura->total){
+                $factura->estado="C";
+                $factura->save();
+
+            }
+        }
+
+
+        foreach($pagos as $p){
+            $cobro->pagos()->create($p);
+        }
+
+        $cobro->montofacturas=$request->get("totalFacturas");
+        $cobro->montodepositado=$request->get("totalDepositado");
+        $ajuste=$request->get("ajuste");
+
+        if($cobro->montodepositado>($cobro->montofacturas-$ajuste)){
+            $cobro->ajustes()->create(["monto"=>$cobro->montodepositado-$cobro->montofacturas-$ajuste,
+                                        "cliente_id" => $request->get("cliente_id")]);
+
+        }
+        $cobro->observacion=$request->get('observacion');
+        $cobro->hasrecaudos=$request->get('hasrecaudos');
+        $cobro->save();
+        });
+
+        return ["success"=>1];
+	}
+
 }

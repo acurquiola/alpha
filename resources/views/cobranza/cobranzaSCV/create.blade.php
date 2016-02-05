@@ -1,9 +1,9 @@
 @extends('app')
 @section('content')
 <ol class="breadcrumb">
-  <li><a href="{{url('principal')}}">Inicio</a></li>
-  <li><a href="{{ URL::to('cobranza/Todos/main') }}">Cobranza</a></li>
-  <li><a class="active">Cobranza - {{$moduloName}}</a></li>
+	<li><a href="{{url('principal')}}">Inicio</a></li>
+	<li><a id="listado-despegues" href="{{action('DespegueController@index')}}">Lista de Despegues</a></li>
+	<li><a class="active">Registro de Pago</a></li>
 </ol>
 <div class="row" id="box-wrapper">
 	<!-- left column -->
@@ -833,9 +833,10 @@ $('#type-rows-cxc-table-wrapper-select').change(function(){
 
 $('#save-cobro-btn').click(function(){
 
-	var pagar     =commaToNum($('.total-a-pagar-doc-input').first().val());
-	var depositar =commaToNum($('#total-a-depositar-doc-input').val());
-	var ajuste    =commaToNum($('#ajuste-input').val());
+	var pagar     =parseFloat($('#total-a-pagar-doc-input').val());
+	var depositar =parseFloat($('#total-a-depositar-doc-input').val());
+	var ajuste    =parseFloat($('#ajuste-input').val());
+	ajuste        =isNaN(ajuste)?0:ajuste;
 	if(pagar>depositar){
 		alertify.error("El monto a cobrar no puede ser mayor al depositado.");
 		return;
@@ -854,19 +855,19 @@ $('#save-cobro-btn').click(function(){
 	var facturas=[];
 	var trs=$('#cxc-table tbody').find('tr.success, tr.info, tr.warning').not('.ajuste-row');
 	$.each(trs, function(index,value){
-	    var retencionInput=$(value).find('.retencion-pagar');
-	    var isrlModal=$(retencionInput).data('islrModal');
-	    var ivaModal=$(retencionInput).data('ivaModal');
-	    var retencionFecha=$(retencionInput).data('retencionFecha');
-	    var retencionComprobante=$(retencionInput).data('retencionComprobante');
-	    isrlModal=(isrlModal===undefined)?0:isrlModal;
-	    ivaModal=(ivaModal===undefined)?0:ivaModal;
-        retencionFecha=(retencionFecha===undefined)?0:retencionFecha;
-        retencionComprobante=(retencionComprobante===undefined)?0:retencionComprobante;
+		var retencionInput=$(value).find('.retencion-pagar');
+		var isrlModal=$(retencionInput).data('islrModal');
+		var ivaModal=$(retencionInput).data('ivaModal');
+		var retencionFecha=$(retencionInput).data('retencionFecha');
+		var retencionComprobante=$(retencionInput).data('retencionComprobante');
+		isrlModal=(isrlModal===undefined)?0:isrlModal;
+		ivaModal=(ivaModal===undefined)?0:ivaModal;
+		retencionFecha=(retencionFecha===undefined)?0:retencionFecha;
+		retencionComprobante=(retencionComprobante===undefined)?0:retencionComprobante;
 		var o={
 			id:$(value).data('id'),
-			montoAbonado: commaToNum($(value).find('.saldo-abonado-input').val()),
-            islrpercentage:isrlModal,
+			montoAbonado: $(value).find('.saldo-abonado-input').val(),
+			islrpercentage:isrlModal,
 			ivapercentage:ivaModal,
 			retencionFecha:retencionFecha,
 			retencionComprobante:retencionComprobante
@@ -879,22 +880,24 @@ $('#save-cobro-btn').click(function(){
 	$('#formas-pago-table tbody tr').each(function(index,value){
 		pagos.push($(value).data('object'));
 	})
+	var id="5";
+	console.log(facturas);
 
-	addLoadingOverlay('#main-box');
+	//addLoadingOverlay('#main-box');
 	$.ajax({
 		method:'POST',
 		data:{
 			facturas:facturas,
 			pagos:pagos,
 			cliente_id: $('#cliente-select option:selected').data("id"),
-			totalFacturas:$('.total-a-pagar-doc-input').first().val() ,
+			totalFacturas:$('#total-a-pagar-doc-input').val() ,
 			totalDepositado:$('#total-a-depositar-doc-input').val(),
 			observacion:$('#observaciones-documento').val(),
 			hasrecaudos:$('#hasrecaudos-check').prop('checked'),
 			ajuste:ajuste,
 			modulo_id:'{{$id}}'
 		},
-		url: '{{action('CobranzaController@store')}}'
+		url: '{{action('DespegueController@postGenerarCobranza')}}'
 	}).done(function(data, status, jx){
 		try{
 			var response=JSON.parse(jx.responseText);
@@ -903,7 +906,7 @@ $('#save-cobro-btn').click(function(){
 				setTimeout(
 					function()
 					{
-						location.reload();
+						window.location="{{action('DespegueController@index')}}";
 					}, 2000);
 			}
 
