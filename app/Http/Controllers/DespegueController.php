@@ -568,35 +568,38 @@ class DespegueController extends Controller {
 		//Ítem de Otros Cargos
 
 		if($despegue->cobrar_otrosCargos == '1'){
-			$otrosCargos           = new Facturadetalle();
 
-			switch ($condicionPago) {
-				case 'Contado':
-				$concepto_id            = OtrosCargo::where('aeropuerto_id', session('aeropuerto')->id)->first()->conceptoContado_id;
-				break;
-				case 'Crédito':
-				$concepto_id            = OtrosCargo::where('aeropuerto_id', session('aeropuerto')->id)->first()->conceptoCredito_id;
-				break;
-			}
+			$otros = $despegue->otros_cargos()->get();
+
+			foreach($otros as $oc){
+				$otrosCargos           = new Facturadetalle();
 
 
-			$cargos = $despegue->otros_cargos()->get();
+					switch ($condicionPago) {
+						case 'Contado':
+						$concepto_id            = $oc->conceptoContado_id;
+						break;
+						case 'Crédito':
+						$concepto_id            = $oc->conceptoCredito_id;
+						break;
+					}
 
-			$precioTotal = 0;
-				foreach ($cargos as $oc) {
-					$precio = \App\OtrosCargo::where('id', $oc->id)->first()->precio_cargo;
-					$precioTotal = $precio + $precioTotal;
-				}
+							/*$precioTotal = 0;
+							foreach ($cargos as $oc) {
+								$precio = \App\OtrosCargo::where('id', $oc->id)->first()->precio_cargo;
+								$precioTotal = $precio + $precioTotal;
+							}*/
 
 
-			$montoDes     = $precioTotal;
-			$cantidadDes  = '1';
-			$iva          = Concepto::find($concepto_id)->iva;
-			$montoIva     = ($iva * $montoDes)/100 ;
-			$totalDes     = $montoDes + $montoIva;
-			$otrosCargos->fill(compact('concepto_id', 'condicionPago', 'montoDes', 'cantidadDes', 'iva', 'totalDes'));
-			$factura->detalles->push($otrosCargos);
+				$montoDes     = $oc->precio_cargo;
+				$cantidadDes  = '1';
+				$iva          = Concepto::find($concepto_id)->iva;
+				$montoIva     = ($iva * $montoDes)/100 ;
+				$totalDes     = $montoDes + $montoIva;
+				$otrosCargos->fill(compact('concepto_id', 'condicionPago', 'montoDes', 'cantidadDes', 'iva', 'totalDes'));
+				$factura->detalles->push($otrosCargos);
 		}
+	}
 
         $modulo= \App\Modulo::where('nombre','DOSAS')->where('aeropuerto_id', session('aeropuerto')->id)->first();
         if(!$modulo){

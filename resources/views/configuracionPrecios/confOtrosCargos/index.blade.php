@@ -45,6 +45,8 @@
 					<div class="input-group">
 						<span class="input-group-addon"><i class="ion ion-android-arrow-dropright"></i></span>
 						<input type="text" class="form-control" name="nombre_cargo" placeholder="Descripción">
+						<input type="hidden" name="aeropuerto_id" value="{{session('aeropuerto')->id}}"></input>
+
 					</div>
 					<br/>
 					<div class="input-group">
