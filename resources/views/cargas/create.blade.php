@@ -244,15 +244,15 @@ $(document).ready(function(){
 				
 				//Cálculo del Precio del Peso embarcado
 				var peso_embarcado_monto    = (parseFloat(peso_embarcado)/bloque)*parseFloat(equivalente);
-				$('#peso_embarcado_monto').val(peso_embarcado_monto);
+				$('#peso_embarcado_monto').val(peso_embarcado_monto.toFixed(2));
 				
 				//Cálculo del Precio del Peso embarcado
 				var peso_desembarcado_monto = (parseFloat(peso_desembarcado)/bloque)*parseFloat(equivalente);
-				$('#peso_desembarcado_monto').val(peso_desembarcado_monto);
+				$('#peso_desembarcado_monto').val(peso_desembarcado_monto.toFixed(2));
 				
 				//Cálculo de Monto Total
 				var monto_total             = parseFloat(peso_embarcado_monto) + parseFloat(peso_desembarcado_monto);
-				$('#monto_total').val(monto_total);
+				$('#monto_total').val(monto_total.toFixed(2));
 
 			});
 
