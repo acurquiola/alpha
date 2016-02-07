@@ -128,7 +128,6 @@ class CobranzaController extends Controller {
 	 */
 	public function store(Request $request)
 	{
-
         \DB::transaction(function () use ($request) {
         $cobro=\App\Cobro::create([
             'cliente_id' => $request->get('cliente_id'),
@@ -232,7 +231,6 @@ class CobranzaController extends Controller {
             $cobro->ajustes()->create(["monto"=>$cobro->montodepositado-$cobro->montofacturas-$ajuste,
                                         "cliente_id" => $request->get("cliente_id")]);
 
-        dd($cobro);
         }
         $cobro->observacion=$request->get('observacion');
         $cobro->hasrecaudos=$request->get('hasrecaudos');

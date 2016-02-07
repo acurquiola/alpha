@@ -866,7 +866,7 @@ $('#save-cobro-btn').click(function(){
 		retencionComprobante=(retencionComprobante===undefined)?0:retencionComprobante;
 		var o={
 			id:$(value).data('id'),
-			montoAbonado: $(value).find('.saldo-abonado-input').val(),
+			montoAbonado: commaToNum($(value).find('.saldo-abonado-input').val()),
 			islrpercentage:isrlModal,
 			ivapercentage:ivaModal,
 			retencionFecha:retencionFecha,
@@ -881,7 +881,7 @@ $('#save-cobro-btn').click(function(){
 		pagos.push($(value).data('object'));
 	})
 	var id="5";
-	console.log(facturas);
+	console.log(facturas)
 
 	//addLoadingOverlay('#main-box');
 	$.ajax({
