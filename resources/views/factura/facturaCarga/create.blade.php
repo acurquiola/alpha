@@ -37,11 +37,26 @@
 $(document).ready(function(){
 
 	@include('factura.partials.script')
-    $('[name="montoDes[]"]').first().trigger('focusout')
+
+	if($('#concepto-select option:not(.inactive)').length==1){
+		$('#concepto-select').val($('#concepto-select option:last').val()).trigger('chosen:updated');
+		$('#add-conceptop-btn').trigger('click');
+	}
+
+
 	$('#save-btn').click(function(e){
 
 		e.preventDefault();
 
+		if($('#cliente-select').val()==0){
+			alertify.error("Debe seleccionar un cliente");
+			return;
+		}
+		if($('#concepto-table tbody tr').length==0){
+			alertify.error("Debe seleccionar un conceptos");
+			return;
+			return;
+		}
 		if(parseFloat($('#total-doc-input').val())<=0){
 			alertify.error("El total no puede ser menor o igual a cero");
 			return;
@@ -50,7 +65,7 @@ $(document).ready(function(){
 		var form=$(this).closest('form');
 		var data=$(form).serializeArray();
 		addLoadingOverlay('#main-box');
-		$.ajax({url:'{{action('FacturaController@store')}}',
+		$.ajax({url:'{{action('FacturaController@store', [$modulo->nombre])}}',
 			method:'POST',
 			data:data}).always(function(response, status, responseObject){
 				if(status=="error"){
@@ -62,19 +77,24 @@ $(document).ready(function(){
 				try{
 					var object=JSON.parse(responseObject.responseText);
 					if(object.success==1){
-						alertify.success("La factura se ha creado con éxito");
+						alertify.success("La factura se ha creado con exito");
 						alertify.confirm("Desea imprimir la factura?", function (e) {
-						if (e) {
-							alertify.log("Se emitió orden de impresión");
-						}
-						setTimeout(
-							function()
-							{
-								location.replace("{{action('CargaController@index')}}");
-							}, 2000);
+							if (e) {
+							    window.open(object.impresion, '_blank');
+								alertify.log("Se emitio orden de impresion");
+							}
+							setTimeout(
+								function()
+								{
+									location.replace("{{($modulo->nombre=="Todos")?action('FacturaController@main',["modulo"=>$modulo->nombre]):action('FacturaController@index', ["modulo"=>$modulo->nombre])}}");
+								}, 2000);
+
 						});
 					}else{
-						alertify.error(respuesta.text);
+
+
+
+
 					}
 				}catch(e){
 					console.log(e);
@@ -83,7 +103,14 @@ $(document).ready(function(){
 				}
 			})
 
+
+
 		})
+
+
+
+
+
 });
 
 

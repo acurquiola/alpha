@@ -44,7 +44,7 @@ class CargaController extends Controller {
 	            'sortName'=>$sortName,
 	            'sortType'=>$sortType]);
 		
-			$cargas= CArga::with("cliente")
+			$cargas= Carga::with("cliente")
 										->where('fecha', 'like', '%'.$fecha.'%')
 										->where('cliente_id', $clienteOperador, $cliente_id)
 										->where('aeropuerto_id', session('aeropuerto')->id)
