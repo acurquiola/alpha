@@ -881,9 +881,8 @@ $('#save-cobro-btn').click(function(){
 		pagos.push($(value).data('object'));
 	})
 	var id="5";
-	console.log(facturas)
 
-	//addLoadingOverlay('#main-box');
+	addLoadingOverlay('#main-box');
 	$.ajax({
 		method:'POST',
 		data:{
