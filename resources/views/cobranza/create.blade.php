@@ -87,12 +87,6 @@
 			            </tbody>
 		            </table>
 	            </div> 
-	            <div class="form-group pull-left">
-		            <label for="total-a-pagar-doc-input" class="col-sm-6 control-label"><h3>Nro. Recibo de Pago </h5></label>
-		            <div class="col-sm-6">
-			            <input autocomplete="off" type="text" class="form-control total-a-pagar-doc-input" style="font-weight: bold;" readonly value="0,00">
-		            </div>
-	            </div>
 	            <div class="form-group pull-right">
 		            <label for="total-a-pagar-doc-input" class="col-sm-6 control-label"><h5>Total a cobrar</h5></label>
 		            <div class="col-sm-6">
