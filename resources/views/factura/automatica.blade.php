@@ -54,33 +54,35 @@
                                                 @include('factura.partials.automaticaContratos', compact('contratos', 'fecha'))
                                             </div>
  										</div>
-                                        <label for="active-input">Número de control</label>
- 										<div class="form-group">
-                                            <div class="input-group">
-                                                <div class="input-group-btn">
-                                                    <button style="max-height:37px" type="button" class="btn btn-default"><span class="nControlPrefix-text">{{$modulo->nControlPrefix}}</span></button>
+                                        <div class="form-inline">
+                                            <label for="active-input">Número de control</label>
+     										<div class="form-group">
+                                                <div class="input-group">
+                                                    <div class="input-group-btn">
+                                                        <button style="max-height:37px" type="button" class="btn btn-default"><span class="nControlPrefix-text">{{$modulo->nControlPrefix}}</span></button>
+                                                    </div>
+     											    <input class="form-control" id="nc-general-input" value="{{\App\Factura::getMaxWith('nControlPrefix', 'nControl', $modulo->nControlPrefix)}}"/>
                                                 </div>
- 											    <input class="form-control" id="nc-general-input" value="{{\App\Factura::getMaxWith('nControlPrefix', 'nControl', $modulo->nControlPrefix)}}"/>
-                                            </div>
- 										</div>
-                                        <label for="active-input">Número de factura</label>
-                                        <div class="form-group">
-                                            <div class="input-group">
-                                                <div class="input-group-btn">
-                                                    <button style="max-height:37px" type="button" class="btn btn-default"><span class="nControlPrefix-text">{{$modulo->nFacturaPrefix}}</span></button>
+     										</div>
+                                            <label for="active-input">Número de factura</label>
+                                            <div class="form-group">
+                                                <div class="input-group">
+                                                    <div class="input-group-btn">
+                                                        <button style="max-height:37px" type="button" class="btn btn-default"><span class="nControlPrefix-text">{{$modulo->nFacturaPrefix}}</span></button>
+                                                    </div>
+                                                    <input
+                                                    class="form-control" 
+                                                    id="nf-general-input" 
+                                                    value="{{\App\Factura::getMaxWith('nFacturaPrefix', 'nFactura', $modulo->nFacturaPrefix)}}"/>
                                                 </div>
-                                                <input
-                                                class="form-control" 
-                                                id="nf-general-input" 
-                                                value="{{\App\Factura::getMaxWith('nFacturaPrefix', 'nFactura', $modulo->nFacturaPrefix)}}"/>
                                             </div>
+     										<label for="active-input">Fecha de Facturación</label>
+     										<div class="form-group">
+                                                <div class="input-group">
+     											    <input class='form-control datepicker today' id="today-input" value="{{$today->format('d/m/Y')}}" /></td>
+                                                </div>
+     										</div>
                                         </div>
- 										<label for="active-input">Fecha de Facturación</label>
- 										<div class="form-group">
-                                            <div class="input-group">
- 											    <input class='form-control datepicker today' id="today-input" value="{{$today->format('d/m/Y')}}" /></td>
-                                            </div>
- 										</div>
  										<button type="submit" class="btn btn-default" id="generar-btn">Generar</button>
 
  									</div>

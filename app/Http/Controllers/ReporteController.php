@@ -156,16 +156,22 @@ class ReporteController extends Controller {
                                 ->get();
 
         $facturasTotal = \App\Factura::whereBetween('fecha', array($annoDesde.'-'.$mesDesde.'-'.$diaDesde,  $annoHasta.'-'.$mesHasta.'-'.$diaHasta) )
-                                    ->where('aeropuerto_id', session('aeropuerto')->id)
+                                ->where('facturas.deleted_at', null)
+                                ->where('aeropuerto_id', session('aeropuerto')->id)
+                                ->where('nroDosa', '<>', 'NULL')
                                     ->sum('facturas.total');
 
         $facturasCredito = \App\Factura::whereBetween('fecha', array($annoDesde.'-'.$mesDesde.'-'.$diaDesde,  $annoHasta.'-'.$mesHasta.'-'.$diaHasta) )
-                                    ->where('aeropuerto_id', session('aeropuerto')->id)
+                                ->where('facturas.deleted_at', null)
+                                ->where('aeropuerto_id', session('aeropuerto')->id)
+                                ->where('nroDosa', '<>', 'NULL')
                                     ->where('condicionPago', 'Crédito')
                                     ->sum('facturas.total');
 
         $facturasContado = \App\Factura::whereBetween('fecha', array($annoDesde.'-'.$mesDesde.'-'.$diaDesde,  $annoHasta.'-'.$mesHasta.'-'.$diaHasta) )
-                                    ->where('aeropuerto_id', session('aeropuerto')->id)
+                                ->where('facturas.deleted_at', null)
+                                ->where('aeropuerto_id', session('aeropuerto')->id)
+                                ->where('nroDosa', '<>', 'NULL')
                                     ->where('condicionPago', 'Contado')
                                     ->sum('facturas.total');
 
