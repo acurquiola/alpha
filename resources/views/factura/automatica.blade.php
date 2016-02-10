@@ -63,16 +63,22 @@
  											    <input class="form-control" id="nc-general-input" value="{{\App\Factura::getMaxWith('nControlPrefix', 'nControl', $modulo->nControlPrefix)}}"/>
                                             </div>
  										</div>
- 										<label for="active-input">Número de factura</label>
- 										<div class="form-group">
+                                        <label for="active-input">Número de factura</label>
+                                        <div class="form-group">
                                             <div class="input-group">
                                                 <div class="input-group-btn">
                                                     <button style="max-height:37px" type="button" class="btn btn-default"><span class="nControlPrefix-text">{{$modulo->nFacturaPrefix}}</span></button>
                                                 </div>
- 											    <input
- 											    class="form-control" 
- 											    id="nf-general-input" 
- 											    value="{{\App\Factura::getMaxWith('nFacturaPrefix', 'nFactura', $modulo->nFacturaPrefix)}}"/>
+                                                <input
+                                                class="form-control" 
+                                                id="nf-general-input" 
+                                                value="{{\App\Factura::getMaxWith('nFacturaPrefix', 'nFactura', $modulo->nFacturaPrefix)}}"/>
+                                            </div>
+                                        </div>
+ 										<label for="active-input">Fecha de Facturación</label>
+ 										<div class="form-group">
+                                            <div class="input-group">
+ 											    <input class='form-control datepicker today' id="today-input" value="{{$today->format('d/m/Y')}}" /></td>
                                             </div>
  										</div>
  										<button type="submit" class="btn btn-default" id="generar-btn">Generar</button>
@@ -88,13 +94,13 @@
 
  						<table class="table text-center" id="fac-table">
  							<thead>
- 							    <th>Numero de factura</th>
- 								<th>Numero de control</th>
- 								<th>Numero de contrato</th>
+ 							    <th style="width:250px">Nro. Factura</th>
+ 								<th style="width:250px">Nro. Control</th>
+                                <th>Nro. Contrato </th>
  								<th class="text-right">Monto</th>
  								<th class="text-right">Monto + IVA</th>
- 								<th>Fecha de emision</th>
- 								<th>Fecha de vencimiento</th>
+ 								<th>Fecha Emisión</th>
+<!--  								<th>Fecha de vencimiento</th> -->
  								<th>Acción</th>
  							</thead>
  							<tbody>
@@ -152,6 +158,29 @@
             })
         });
 
+
+      $('.datepicker').datepicker({
+        closeText: 'Cerrar',
+        prevText: '&#x3C;Ant',
+        nextText: 'Sig&#x3E;',
+        currentText: 'Hoy',
+        monthNames: ['Enero','Febrero','Marzo','Abril','Mayo','Junio',
+        'Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'],
+        monthNamesShort: ['Ene','Feb','Mar','Abr','May','Jun',
+        'Jul','Ago','Sep','Oct','Nov','Dic'],
+        dayNames: ['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'],
+        dayNamesShort: ['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'],
+        dayNamesMin: ['D','L','M','M','J','V','S'],
+        weekHeader: 'Sm',
+        firstDay: 1,
+        isRTL: false,
+        showMonthAfterYear: false,
+        yearSuffix: '',
+        dateFormat: "dd/mm/yy"});
+          $('.today').on('changeDate', function(e){
+            $(this).closest('tr').find('.ffin').val(moment(e.date).add(1, 'M').format("DD/MM/YYYY"));
+          });
+
         $('#select-all-btn').click(function(){
             var $unCheckedChecks=$('#contratos-wrapper [type=checkbox]:not(:disabled):not(:checked)');
             console.log($unCheckedChecks);
@@ -164,20 +193,20 @@
 
  		$('#generar-btn').click(function(){
  			$('#fac-table tbody tr').remove();
- 			var tr="";
- 			var nc=parseInt($('#nc-general-input').val());
- 			nc=isNaN(nc)?"":nc;
- 			var nf=parseInt($('#nf-general-input').val());
- 			nf=isNaN(nf)?"":nf;
+             var tr ="";
+             var nc =parseInt($('#nc-general-input').val());
+             nc     =isNaN(nc)?"":nc;
+             var nf =parseInt($('#nf-general-input').val());
+             nf     =isNaN(nf)?"":nf;
  			$('#contratos-wrapper').find('[type=checkbox]:checked').each(function(){
- 			var monto=$(this).data('monto');
-            var fechaControlContrato=$(this).data('fechaControlContrato');
- 			var finicio=$(this).data('finicio');
- 			var ffin=$(this).data('ffin');
-            var concepto_id=$(this).data('concepto_id');
-            var cliente_id=$(this).data('cliente_id');
-            var contrato_id=$(this).data('contrato_id');
-            var iva=$(this).data('conceptoIva');
+             var monto                =$(this).data('monto');
+             var fechaControlContrato =$(this).data('fechaControlContrato');
+             var today              =$('#today-input').val();
+             var ffin              =$(this).data('ffin');
+             var concepto_id          =$(this).data('concepto_id');
+             var cliente_id           =$(this).data('cliente_id');
+             var contrato_id          =$(this).data('contrato_id');
+             var iva                  =$(this).data('conceptoIva');
  				tr+=" <tr " +
  				 "data-concepto_id='" + concepto_id+"' "+
                  "data-n-factura-prefix='{{$modulo->nFacturaPrefix}}' "+
@@ -185,7 +214,7 @@
  				 "data-n-control-prefix='{{$modulo->nControlPrefix}}' "+
  				 "data-n-control='"+nc+"' "+
                  "data-fecha-control-contrato='" + fechaControlContrato+"' "+
- 				 "data-fecha='" + finicio+"' "+
+ 				 "data-fecha='" + today+"' "+
  				 "data-fecha-vencimiento='" + ffin+"' "+
  				 "data-cliente_id='" + cliente_id+"' "+
  				 "data-contrato_id='" + contrato_id+"' "+
@@ -213,8 +242,7 @@
                         "</td> " +
                         "<td class='text-right'>"+numToComma(monto)+"</td>" +
                         "<td class='text-right'>"+numToComma(monto*iva/100+monto)+"</td>" +
-                        " <td class='text-justify'><input class='form-control datepicker finicio' value='"+finicio+"' /></td>" +
-                        " <td class='text-justify'><input class='form-control datepicker ffin' value='"+ffin+"'/></td>" +
+                        " <td class='text-justify'><input class='form-control datepicker today' value='"+today+"' /></td>" +
                         " <td>" +
                             " <div class='btn-group  btn-group-sm' role='group' aria-label='...'>" +
                                 " <button class='btn btn-danger eliminar-btn'><span class='glyphicon glyphicon-remove'></span></button>" +
@@ -243,7 +271,7 @@
                 showMonthAfterYear: false,
                 yearSuffix: '',
                 dateFormat: "dd/mm/yy"});
-                  $('.finicio').on('changeDate', function(e){
+                  $('.today').on('changeDate', function(e){
                     $(this).closest('tr').find('.ffin').val(moment(e.date).add(1, 'M').format("DD/MM/YYYY"));
                   });
  		})
@@ -261,7 +289,7 @@
             var facturas=[];
             $trs.each(function(index, value){
                 $(value).data('nFactura', $(value).find('.nf-input').val());
-                $(value).data('fecha', $(value).find('.finicio').val());
+                $(value).data('fecha', $(value).find('.today').val());
                 $(value).data('fechaVencimiento', $(value).find('.ffin').val());
                 facturas.push($(value).data());
             })

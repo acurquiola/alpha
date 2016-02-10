@@ -9,6 +9,7 @@
             data-fecha-control-contrato="{{$fecha->format('d/m/Y')}}"
             data-finicio="{{$fecha->format('d/m/Y')}}"
             data-ffin="{{$fecha->copy()->addMonth()->format('d/m/Y')}}"
+            data-today="{{$today->format('d/m/Y')}}"
             data-concepto_id="{{$contrato->concepto_id}}"
             data-concepto-iva="{{$contrato->concepto->iva}}"
             data-cliente_id="{{$contrato->cliente_id}}"

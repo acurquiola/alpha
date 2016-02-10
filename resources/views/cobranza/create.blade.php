@@ -87,6 +87,12 @@
 			            </tbody>
 		            </table>
 	            </div> 
+	            <div class="form-group pull-left">
+		            <label for="total-a-pagar-doc-input" class="col-sm-6 control-label"><h3>Nro. Recibo de Pago </h5></label>
+		            <div class="col-sm-6">
+			            <input autocomplete="off" type="text" class="form-control total-a-pagar-doc-input" style="font-weight: bold;" readonly value="0,00">
+		            </div>
+	            </div>
 	            <div class="form-group pull-right">
 		            <label for="total-a-pagar-doc-input" class="col-sm-6 control-label"><h5>Total a cobrar</h5></label>
 		            <div class="col-sm-6">
@@ -329,12 +335,13 @@
 							<thead class="bg-primary"><tr><th></th><th>Concepto</th><th>Porcentaje</th></tr></thead>
 							<tbody>
 								<tr>
-									<td><input type="checkbox" class="retencion-check" autocomplete="off" /></td>
+									<td>
+									<input type="checkbox" class="retencion-check" id="islr-check" autocomplete="off" /></td>
 									<td>ISLR</td>
 									<td><input type="text" class="form-control retencion-input" id="islrper-modal-input" data-target="#base-modal-input" /></td>
 								</tr>
 								<tr>
-									<td><input type="checkbox" class="retencion-check" autocomplete="off"/></td>
+									<td><input type="checkbox" class="retencion-check" id="iva-check" autocomplete="off"/></td>
 									<td>IVA</td>
 									<td><input type="text" class="form-control retencion-input" id="ivaper-modal-input" data-target="#iva-modal-input" /></td>
 								</tr>
@@ -397,6 +404,7 @@ function calculateTotalRetencion(){
 
 	var trs=$('#retencion-modal table tbody tr');
 	var total=0;
+
 	$.each(trs, function(){
 		if($(this).find(':checkbox').prop('checked')){
 			var input =$(this).find('.retencion-input');

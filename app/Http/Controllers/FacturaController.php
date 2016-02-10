@@ -99,18 +99,22 @@ class FacturaController extends Controller {
         return view('factura.automaticaResult', ["facturas" => $facturas, "modulo" => $modulo]);
     }
     public function automatica($moduloNombre) {
+
+        $today=\Carbon\Carbon::now();
         $fecha=\Carbon\Carbon::now()->lastOfMonth();
         $modulo = \App\Modulo::where("nombre","like",$moduloNombre)->where('aeropuerto_id', session('aeropuerto')->id)->first();
         $contratos=$modulo->contratos()->where('fechaInicio', '<=' ,$fecha)->where('fechaVencimiento', '>=', $fecha)->with('cliente')->get();
-        return view('factura.automatica', compact('modulo', 'fecha', 'contratos'));
+        return view('factura.automatica', compact('modulo', 'fecha', 'contratos', 'today'));
     }
 
     public function postContratosByFecha($moduloNombre, Request $request){
-        $year=$request->get('year');
-        $month=$request->get('month');
-        $modulo = \App\Modulo::where("nombre","like",$moduloNombre)->where('aeropuerto_id', session('aeropuerto')->id)->first();
-        $fecha=\Carbon\Carbon::create($year, $month, 1)->lastOfMonth();
-        $contratos=$modulo->contratos()->where('fechaInicio', '<=' ,$fecha)->where('fechaVencimiento', '>=', $fecha)->with('cliente')->get();
+
+
+            $year      =$request->get('year');
+            $month     =$request->get('month');
+            $modulo    = \App\Modulo::where("nombre","like",$moduloNombre)->where('aeropuerto_id', session('aeropuerto')->id)->first();
+            $fecha     =\Carbon\Carbon::create($year, $month, 1)->lastOfMonth();
+            $contratos =$modulo->contratos()->where('fechaInicio', '<=' ,$fecha)->where('fechaVencimiento', '>=', $fecha)->with('cliente')->get();
 
         return view('factura.partials.automaticaContratos', compact('contratos', 'fecha'));
 

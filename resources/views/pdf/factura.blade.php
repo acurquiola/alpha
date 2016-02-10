@@ -71,7 +71,7 @@
 {{$detalle->concepto->nompre}}
 </td>
 <td colspan="2" style="text-align: right">
-{{$traductor->format($detalle->totalDes)}}
+{{$traductor->format($detalle->montoDes)}}
 </td>
 </tr>
 @endforeach
