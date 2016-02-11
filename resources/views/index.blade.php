@@ -1,7 +1,7 @@
 @include('partials.header')
 
 
-<body class="skin-blue" style="	background: url('{{asset('/imgs/bg2.jpg')}}') no-repeat center center fixed;
+<body class="skin-blue" style="	background: url('{{asset('/imgs/bg1.jpg')}}') no-repeat center center fixed;
                                 -webkit-background-size: cover;
                                 -moz-background-size: cover;
                                 -o-background-size: cover;
