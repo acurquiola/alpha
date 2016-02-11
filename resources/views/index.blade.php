@@ -39,7 +39,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="inputPassword3" class="col-sm-3 control-label">
-                                    Constraseña
+                                    Contraseña
                                 </label>
                                 <div class="col-sm-9">
                                     <input type="password" name="password" class="form-control"  placeholder="Contraseña" required>
