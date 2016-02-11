@@ -1,7 +1,7 @@
 @include('partials.header')
 
 
-<body class="skin-blue" style="	background: url('{{asset('/imgs/background.jpg')}}') no-repeat center center fixed;
+<body class="skin-blue" style="	background: url('{{asset('/imgs/bg2.jpg')}}') no-repeat center center fixed;
                                 -webkit-background-size: cover;
                                 -moz-background-size: cover;
                                 -o-background-size: cover;
@@ -12,7 +12,7 @@
             <div class="pull-left" style="margin-top: 10px;" >
                 <img src="{{asset('/imgs/gobernacion.png')}}"  width="200px"/>
             </div>
-            <div class="pull-right" style="margin-top: 10px; margin-right: 200px" >
+            <div class="pull-right" style="margin-top: 11px; margin-right: 200px" >
                 <img src="{{asset('/imgs/LOGO-Alpha.png')}}"  width="100%"/>
             </div>
         </small>
