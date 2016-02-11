@@ -17,23 +17,28 @@
                     </div><!-- /.box-header -->
                     <!-- form start -->
                     <div class="box-body">
-                        <h6 class="text-right">Recaudos: {{($cobro->hasrecaudos)?"Si":"No"}}</h6>
-                        <h3 style="margin-top:0px">Cobro: <small>{{$cobro->id}}</small></h3>
-                        <h4>Cliente: {{$cobro->cliente->codigo}} <small>{{$cobro->cliente->nombre}}</small></h4>
-                        <h4>Observaciones: <small>{{$cobro->observaciones}}</small></h4>
+                        <h6 style="font-weight: bold;">Cobro: <label>{{$cobro->id}}</label> </h6> 
+                        <h6 style="font-weight: bold;">Cliente: <label>{{$cobro->cliente->codigo}} | {{$cobro->cliente->nombre}}</label> </h6> 
+                        <h6 style="font-weight: bold;">Nro. Recibo de Caja: <label>{{($cobro->nRecibo)?$cobro->nRecibo:"No Dispone"}}</label> </h6> 
+                        <h6 style="font-weight: bold;">Observaciones:  <label>{{($cobro->observaciones)?$cobro->observaciones:"No Dispone"}}</label> </h6> 
+                        <h6 style="font-weight: bold;">Recaudos Consignados:  <label> {{($cobro->hasrecaudos)?"Si":"No"}}</label> </h6> 
+
                         <div class="table-responsive">
                             <table class="table">
                                 <thead>
                                     <tr>
-                                        <th># Factura</th>
-                                        <th># Control</th>
-                                        <th>Fecha de retención</th>
-                                        <th>Comprobante de retención</th>
-                                        <th class="text-right">Total</th>
-                                        <th class="text-right">Iva</th>
-                                        <th class="text-right">% ISLR</th>
+                                        <th>Nro. Factura</th>
+                                        <th>Nro. Control</th>
+                                        <th>Fecha de Comprobante</th>
+                                        <th style="width: 100px">Nro. Comprobante</th>
+                                        <th class="text-right">Monto Factura</th>
+                                        <th class="text-right">Base Imponible</th>
                                         <th class="text-right">% IVA</th>
-                                        <th class="text-right">Retención</th>
+                                        <th class="text-right">Monto IVA</th>
+                                        <th class="text-right">% ISLR</th>
+                                        <th class="text-right">Monto ISLR</th>
+                                        <th class="text-right">Total Retención</th>
+                                        <th class="text-right">Total</th>
                                         <th class="text-right">Cobrado</th>
                                     </tr>
                                 </thead>
@@ -46,10 +51,13 @@
                                         <td>{{$factura->pivot->retencionFecha}}</td>
                                         <td>{{$factura->pivot->retencionComprobante}}</td>
                                         <td class="text-right">{{$traductor->format($factura->pivot->total)}}</td>
-                                        <td class="text-right">{{$traductor->format($factura->pivot->iva)}}</td>
-                                        <td class="text-right">{{$traductor->format($factura->pivot->islrpercentage)}}</td>
+                                        <td class="text-right">{{$traductor->format($factura->pivot->base)}}</td>
                                         <td class="text-right">{{$traductor->format($factura->pivot->ivapercentage)}}</td>
+                                        <td class="text-right">{{$traductor->format((($factura->pivot->ivapercentage)/100)*$factura->pivot->iva)}}</td>
+                                        <td class="text-right">{{$traductor->format($factura->pivot->islrpercentage)}}</td>
+                                        <td class="text-right">{{$traductor->format((($factura->pivot->islrpercentage)/100)*($factura->pivot->base))}}</td>
                                         <td class="text-right">{{$traductor->format($factura->pivot->retencion)}}</td>
+                                        <td class="text-right">{{$traductor->format(($factura->pivot->total)-($factura->pivot->retencion))}}</td>
                                         <td class="text-right">{{$traductor->format($factura->pivot->monto)}}</td>
                                     </tr>
                                 @endforeach

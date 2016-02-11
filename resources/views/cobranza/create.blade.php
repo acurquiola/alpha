@@ -87,12 +87,20 @@
 			            </tbody>
 		            </table>
 	            </div> 
-	            <div class="form-group pull-right">
-		            <label for="total-a-pagar-doc-input" class="col-sm-6 control-label"><h5>Total a cobrar</h5></label>
-		            <div class="col-sm-6">
-			            <input autocomplete="off" type="text" class="form-control total-a-pagar-doc-input" style="font-weight: bold;" readonly value="0,00">
+				<div class="form-inline" style="margin-bottom: 30px"> 
+					<div class="form-group">
+					<label style="font-weight: bold;" >Recibo de Caja: </label>
+						<div class="input-group">
+							<input type="text" id="nRecibo-input" name="nRecibo" class="form-control" placeholder="Número"/>
+						</div><!-- /.input group -->
+					</div>                          
+		            <div class="form-group pull-right">
+			            <label for="total-a-pagar-doc-input" class="col-sm-6 control-label"><h5>Total a cobrar</h5></label>
+			            <div class="col-sm-6">
+				            <input autocomplete="off" type="text" class="form-control total-a-pagar-doc-input" style="font-weight: bold;" readonly value="0,00">
+			            </div>
 		            </div>
-	            </div>
+				</div>
 
 
 	            <div class="row">
@@ -892,7 +900,8 @@ $('#save-cobro-btn').click(function(){
 			observacion:$('#observaciones-documento').val(),
 			hasrecaudos:$('#hasrecaudos-check').prop('checked'),
 			ajuste:ajuste,
-			modulo_id:'{{$id}}'
+			modulo_id:'{{$id}}',
+			nRecibo:$('#nRecibo-input').val()
 		},
 		url: '{{action('CobranzaController@store')}}'
 	}).done(function(data, status, jx){

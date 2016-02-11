@@ -4,6 +4,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Puerto extends Model {
 
+    
+    protected $guarded = array();
+
 
     public function pais()
     {

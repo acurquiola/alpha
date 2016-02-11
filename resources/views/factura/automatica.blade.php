@@ -43,7 +43,7 @@
  										</div>
  										<div class="row form-group">
                                             <div class="col-md-8">
-                                                <label for="Femision-input">Seleccione las facturas a crear (Numero Contrato | Codigo Cliente | Nombre Cliente)</label>
+                                                <label for="Femision-input">Seleccione las facturas a crear (Numero Contrato | Codigo Cliente | Nombre Cliente | Monto)</label>
                                             </div>
                                             <div class="col-md-4 text-right">
                                                 <button type="button" class="btn btn-default" id="select-all-btn">Seleccionar todos</button>
@@ -83,7 +83,7 @@
                                                 </div>
      										</div>
                                         </div>
- 										<button type="submit" class="btn btn-default" id="generar-btn">Generar</button>
+ 										<button type="submit" class="btn btn-primary pull-right" style="margin-top: 10px" id="generar-btn">Generar</button>
 
  									</div>
  								</div>
@@ -119,7 +119,7 @@
  				</div>
  			</div><!-- /.box-body -->
  			<div class="box-footer">
- 				<button class="btn btn-primary" id="guardar-btn"> Guardar </button>
+ 				<button class="btn btn-primary pull-right" id="guardar-btn"> Guardar </button>
  			</div>
  		</div><!-- /.box -->
  	</div>

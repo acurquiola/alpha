@@ -19,21 +19,21 @@
 				{!! Form::open(["url" => action('CobranzaController@index',[$modulo->nombre]), "method" => "GET", "class"=>"form-inline"]) !!}
 				{!! Form::hidden('sortName', array_get( $input, 'sortName'), []) !!}
 				{!! Form::hidden('sortType', array_get( $input, 'sortType'), []) !!}
-				<div class="form-group">
-					{{-- por los momentos lo colocare en id pero debe ser el numero de factura --}}
-					{!! Form::hidden('cobroIdOperator', array_get( $input, 'cobroIdOperator'), ['id' => 'cobroIdOperator', 'class' => 'operator-input', 'autocomplete'=>'off']) !!}
-					<div class="input-group">
-						<div class="input-group-btn">
-							<button style="max-height:37px" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="operator-text">{{array_get( $input, 'cobroIdOperator')}}</span></button>
-							<ul class="dropdown-menu operator-list">
-								<li><a href="#">>=</a></li>
-								<li><a href="#"><=</a></li>
-								<li><a href="#">=</a></li>
-							</ul>
-						</div>
-						{!! Form::text('id', array_get( $input, 'id'), [ 'class'=>"form-control", 'style' => 'padding-left:2px', 'placeholder'=>'Número factura', 'style'=>'max-width:112px']) !!}
-					</div>
-				</div>
+                <div class="form-group">
+                    {{-- por los momentos lo colocare en id pero debe ser el numero de factura --}}
+                    {!! Form::hidden('cobroIdOperator', array_get( $input, 'cobroIdOperator'), ['id' => 'cobroIdOperator', 'class' => 'operator-input', 'autocomplete'=>'off']) !!}
+                    <div class="input-group">
+                        <div class="input-group-btn">
+                            <button style="max-height:37px" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="operator-text">{{array_get( $input, 'cobroIdOperator')}}</span></button>
+                            <ul class="dropdown-menu operator-list">
+                                <li><a href="#">>=</a></li>
+                                <li><a href="#"><=</a></li>
+                                <li><a href="#">=</a></li>
+                            </ul>
+                        </div>
+                        {!! Form::text('id', array_get( $input, 'id'), [ 'class'=>"form-control", 'style' => 'padding-left:2px', 'placeholder'=>'Número Cobro', 'style'=>'max-width:112px']) !!}
+                    </div>
+                </div>
 				<div class="form-group">
 					{!! Form::text('clienteNombre', array_get( $input, 'clienteNombre'), [ 'class'=>"form-control", 'placeholder'=>'Cliente', 'style'=>'max-width:100px']) !!}
 				</div>
@@ -83,7 +83,7 @@
 					{!! Form::text('observacion', array_get( $input, 'observacion'), [ 'class'=>"form-control", 'placeholder'=>'Observación', 'style'=>'max-width:150px']) !!}
 				</div>
 				<button type="submit" class="btn btn-default">Buscar</button>
-				<a class="btn btn-default" href="{{action('FacturaController@index',[$modulo->nombre])}}">Reset</a>
+				<a class="btn btn-default" href="{{action('CobranzaController@index',[$modulo->nombre])}}">Reset</a>
 				{!! Form::close() !!}
 
 
@@ -119,7 +119,8 @@
                                     <table class="table text-center">
                                         <thead class="bg-primary">
                                             <tr>
-                                                {!!Html::sortableColumnTitle("Numéro", "nContrato")!!}
+                                                {!!Html::sortableColumnTitle("Nro. Cobro", "nContrato")!!}
+                                                {!!Html::sortableColumnTitle("Nro. Recibo", "nRecibo")!!}
                                                 {!!Html::sortableColumnTitle("Cliente", "clienteNombre")!!}
                                                 {!!Html::sortableColumnTitle("Fecha", "clienteNombre")!!}
                                                 {!!Html::sortableColumnTitle("Monto pagado", "conceptoNombre")!!}
@@ -132,6 +133,7 @@
                                             @foreach($cobros as $cobro)
                                                 <tr>
                                                     <td class='text-justify'>{{$cobro->id}}</td>
+                                                    <td class='text-justify'>{{($cobro->nRecibo)?$cobro->nRecibo:'N/A'}}</td>
                                                     <td style="text-align: left">{{$cobro->cliente->nombre}}</td>
                                                     <td>{{$cobro->created_at}}</td>
                                                     <td style="text-align: right">{{$traductor->format($cobro->montofacturas)}}</td>

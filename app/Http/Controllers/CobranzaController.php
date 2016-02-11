@@ -26,7 +26,6 @@ class CobranzaController extends Controller {
 	 */
 	public function index($moduloNombre, Request $request)
 	{
-
         $sortName          = $request->get('sortName','id');
         $sortName          =($sortName=="")?"id":$sortName;
 
@@ -36,7 +35,7 @@ class CobranzaController extends Controller {
 
         $cobroId         = $request->get('id');
         $cobroId         =($cobroId=="")?0:$cobroId;
-        $cobroIdOperator = $request->get('facturaIdOperator', '>=');
+        $cobroIdOperator = $request->get('cobroIdOperator', '>=');
         $cobroIdOperator =($cobroIdOperator=="")?'>=':$cobroIdOperator;
         $cobroIdOperator =($cobroId==0)?">=":$cobroIdOperator;
 
@@ -87,8 +86,8 @@ class CobranzaController extends Controller {
             ->where('observacion', 'like', "%$observacion%")
             ->where('clientes.nombre', 'like', "%$clienteNombre%")
             ->where('cobros.aeropuerto_id','=', session('aeropuerto')->id)
-            ->with('cliente')
-            ->orderBy($sortName, $sortType)->paginate(50);
+            ->with('cliente');
+            $cobros=$cobros->orderBy($sortName, $sortType)->paginate(50);
 
         $cobros->setPath('');
 
@@ -130,11 +129,14 @@ class CobranzaController extends Controller {
 	{
         \DB::transaction(function () use ($request) {
         $cobro=\App\Cobro::create([
-            'cliente_id' => $request->get('cliente_id'),
-            'modulo_id'=>$request->get('modulo_id'),
-            'aeropuerto_id' => session('aeropuerto')->id]);
+            'cliente_id'    => $request->get('cliente_id'),
+            'modulo_id'     => $request->get('modulo_id'),
+            'aeropuerto_id' => session('aeropuerto')->id,
+            'nRecibo'       => $request->get('nRecibo')]);
+
         $facturas=$request->get('facturas',[]);
         $pagos=$request->get('pagos',[]);
+
         foreach($facturas as $f){
             $factura=\App\Factura::find($f["id"]);
 

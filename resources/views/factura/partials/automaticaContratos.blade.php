@@ -14,7 +14,7 @@
             data-concepto-iva="{{$contrato->concepto->iva}}"
             data-cliente_id="{{$contrato->cliente_id}}"
             data-contrato_id="{{$contrato->id}}"
-            > {{$contrato->nContrato}} | {{$contrato->cliente->codigo}} | {{$contrato->cliente->nombre}}
+            > {{$contrato->nContrato}} | {{$contrato->cliente->codigo}} |  {{$contrato->cliente->nombre}} | Bs. {{$traductor->format(($contrato->montoTipo=="Mensual")?$contrato->monto:$contrato->monto/12)}} 
 
         </label>
     </div>
