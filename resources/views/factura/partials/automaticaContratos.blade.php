@@ -12,10 +12,12 @@
             data-today="{{$today->format('d/m/Y')}}"
             data-concepto_id="{{$contrato->concepto_id}}"
             data-concepto-iva="{{$contrato->concepto->iva}}"
+            data-concepto-montoiva="{{(($contrato->montoTipo=="Mensual")?$contrato->monto:$contrato->monto/12)*(($contrato->concepto->iva)/100)}}"
             data-cliente_id="{{$contrato->cliente_id}}"
             data-cliente_codigo="{{$contrato->cliente->codigo}}"
             data-cliente_nombre="{{$contrato->cliente->nombre}}"
             data-contrato_id="{{$contrato->id}}"
+            data-total="{{((($contrato->montoTipo=="Mensual")?$contrato->monto:$contrato->monto/12)*(($contrato->concepto->iva)/100))+(($contrato->montoTipo=="Mensual")?$contrato->monto:$contrato->monto/12)}}"
             > {{$contrato->nContrato}} | {{$contrato->cliente->codigo}} |  {{$contrato->cliente->nombre}} | Bs. {{$traductor->format(($contrato->montoTipo=="Mensual")?$contrato->monto:$contrato->monto/12)}} 
 
         </label>
