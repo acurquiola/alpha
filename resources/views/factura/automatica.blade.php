@@ -168,9 +168,6 @@
             })
         });
 
-        var total = $('input[@name="contratos-checkbox"]:checked').length;
-
-
 
       $('.datepicker').datepicker({
         closeText: 'Cerrar',
