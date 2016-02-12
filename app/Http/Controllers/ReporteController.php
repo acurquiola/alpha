@@ -141,6 +141,12 @@ class ReporteController extends Controller {
         return view('reportes.reporteDES900', compact('diaDesde', 'mesDesde', 'annoDesde', 'diaHasta', 'mesHasta', 'annoHasta', 'aeropuerto', 'despegues'));
     }
 
+
+    public function getReporteContratos(Request $request){
+        $contratos = \App\Contrato::with("cliente")->get();
+        return view('reportes.reporteContratos', compact('contratos'));
+    }
+
     public function getReporteCuadreCaja(Request $request){
         $diaDesde        =$request->get('diaDesde', \Carbon\Carbon::now()->day);
         $mesDesde        =$request->get('mesDesde', \Carbon\Carbon::now()->month);

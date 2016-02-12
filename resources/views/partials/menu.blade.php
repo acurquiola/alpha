@@ -225,6 +225,7 @@
 						<li {{ (\Request::is('reporte/reporterFacturadoCobradoMensual*'))?"class=active":"" }}><a href="{{ URL::to('reporte/reporterFacturadoCobradoMensual') }}"><i class="fa fa-folder-o"></i> Relación cuentas por cobrar</a></li>        		
 						<li {{ (\Request::is('reporte/reporteClienteReciboMensual*'))?"class=active":"" }}><a href="{{ URL::to('reporte/reporteClienteReciboMensual') }}"><i class="fa fa-folder-o"></i> Relación facturado/cobrado</a></li>        		
 						<li {{ (\Request::is('reporte/reporteModuloMetaMensual*'))?"class=active":"" }}><a href="{{ URL::to('reporte/reporteModuloMetaMensual') }}"><i class="fa fa-folder-o"></i> Libro de ventas</a></li>        		
+						<li {{ (\Request::is('reporte/reporteContratos*'))?"class=active":"" }}><a href="{{ URL::to('reporte/reporteContratos') }}"><i class="fa fa-folder-o"></i> Relación de Contratos Registrados</a></li>        		
 
                 	<!-- 	<li><a href="{{action('ReporteController@getReporteMensual')}}"><i class="fa fa-folder-o"></i> Recaudación consolidada</a></li>
                 		<li><a href="{{action('ReporteController@getReporterFacturadoCobradoMensual')}}"><i class="fa fa-folder-o"></i> Relación cuentas por cobrar</a></li>

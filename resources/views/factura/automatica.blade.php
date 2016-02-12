@@ -94,13 +94,15 @@
  					</div>
  					<div class="col-xs-12">
 
- 						<table class="table text-center" id="fac-table">
+ 						<table class="table" id="fac-table">
  							<thead>
- 							    <th style="width:250px">Nro. Factura</th>
- 								<th style="width:250px">Nro. Control</th>
+ 							    <th style="width:150px">Nro. Factura</th>
+ 								<th style="width:150px">Nro. Control</th>
+                                <th class="text-left">Cliente </th>
                                 <th>Nro. Contrato </th>
  								<th class="text-right">Monto</th>
- 								<th class="text-right">Monto + IVA</th>
+ 								<th class="text-right">IVA</th>
+                                <th class="text-right">Total</th>
  								<th>Fecha Emisión</th>
 <!--  								<th>Fecha de vencimiento</th> -->
  								<th>Acción</th>
@@ -207,6 +209,8 @@
              var ffin              =$(this).data('ffin');
              var concepto_id          =$(this).data('concepto_id');
              var cliente_id           =$(this).data('cliente_id');
+             var cliente_codigo           =$(this).data('cliente_codigo');
+             var cliente_nombre           =$(this).data('cliente_nombre');
              var contrato_id          =$(this).data('contrato_id');
              var iva                  =$(this).data('conceptoIva');
  				tr+=" <tr " +
@@ -239,10 +243,14 @@
                                 "<input readonly class='form-control nc-input' autocomplete='off' value='"+((nc=="")?"":(nc++))+"'/> " +
                             "</div>"+
                         "</td>" +
+                        " <td style='align:left'>"+
+                            cliente_codigo+"|"+cliente_nombre+
+                        "</td> " +
                         " <td class='text-justify'>"+
                             $(this).val()+
                         "</td> " +
                         "<td class='text-right'>"+numToComma(monto)+"</td>" +
+                        "<td class='text-right'>"+numToComma(monto*iva/100)+"</td>" +
                         "<td class='text-right'>"+numToComma(monto*iva/100+monto)+"</td>" +
                         " <td class='text-justify'><input class='form-control datepicker today' value='"+today+"' /></td>" +
                         " <td>" +
