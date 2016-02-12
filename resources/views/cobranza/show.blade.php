@@ -36,6 +36,7 @@
                     <table class="table">
                         <thead>
                             <tr>
+                                <th>Fecha</th>
                                 <th>Nro. Factura</th>
                                 <th>Nro. Control</th>
                                 <th>Fecha de Comprobante</th>
@@ -55,6 +56,7 @@
 
                             @foreach($cobro->facturas as $factura)
                             <tr>
+                                <td>{{$factura->fecha}}</td>
                                 <td>{{$factura->nFacturaPrefix}}-{{$factura->nFactura}}</td>
                                 <td>{{$factura->nControlPrefix}}-{{$factura->nControl}}</td>
                                 <td>{{$factura->pivot->retencionFecha}}</td>

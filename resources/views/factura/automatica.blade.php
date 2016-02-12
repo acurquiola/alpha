@@ -54,6 +54,12 @@
                                                 @include('factura.partials.automaticaContratos', compact('contratos', 'fecha'))
                                             </div>
  										</div>
+<!--                                         <div class="form-group">
+                                            <div class="input-group">
+                                                <input class="form-control" id="cantidad-items-input" value="0"/>
+                                            </div>
+                                        </div> -->
+                                        <label for="active-input">Contratos seleccionados</label>
                                         <div class="form-inline">
                                             <label for="active-input">Número de control</label>
      										<div class="form-group">
@@ -162,6 +168,9 @@
             })
         });
 
+        var total = $('input[@name="contratos-checkbox"]:checked').length;
+
+
 
       $('.datepicker').datepicker({
         closeText: 'Cerrar',
@@ -250,8 +259,8 @@
                             $(this).val()+
                         "</td> " +
                         "<td class='text-right'>"+numToComma(monto)+"</td>" +
-                        "<td class='text-right'>"+numToComma(monto*iva/100)+"</td>" +
-                        "<td class='text-right'>"+numToComma(monto*iva/100+monto)+"</td>" +
+                        "<td class='text-right'>"+numToComma(monto*(iva/100))+"</td>" +
+                        "<td class='text-right'>"+numToComma((monto*(iva/100))+monto)+"</td>" +
                         " <td class='text-justify'><input class='form-control datepicker today' value='"+today+"' /></td>" +
                         " <td>" +
                             " <div class='btn-group  btn-group-sm' role='group' aria-label='...'>" +

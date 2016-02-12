@@ -1,7 +1,7 @@
 @foreach($contratos as $contrato)
     <div class="checkbox {{(($contrato->hasFacturaByFecha($fecha->year, $fecha->month))?"bg-gray":"")}}">
         <label>
-            <input type="checkbox"
+            <input name="contratos-checkbox" type="checkbox"
             {{(($contrato->hasFacturaByFecha($fecha->year, $fecha->month))?"disabled":"")}}
             value="{{$contrato->nContrato}}"
             autocomplete="off"
