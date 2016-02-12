@@ -258,7 +258,7 @@
                         "</td> " +
                         "<td class='text-right'>"+numToComma(monto)+"</td>" +
                         "<td class='text-right'>"+numToComma(monto*(iva/100))+"</td>" +
-                        "<td class='text-right'>"+numToComma((monto*(iva/100))+monto)+"</td>" +
+                        "<td class='text-right'>"+numToComma(monto+(monto*(iva/100)))+"</td>" +
                         " <td>" +
                             " <div class='btn-group  btn-group-sm' role='group' aria-label='...'>" +
                                 " <button class='btn btn-danger eliminar-btn'><span class='glyphicon glyphicon-remove'></span></button>" +
