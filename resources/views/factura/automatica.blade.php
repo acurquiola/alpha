@@ -102,14 +102,14 @@
 
  						<table class="table" id="fac-table">
  							<thead>
- 							    <th style="width:150px">Nro. Factura</th>
- 								<th style="width:150px">Nro. Control</th>
+ 								<th>Fecha Emisión</th>
+                                <th style="width:150px">Nro. Factura</th>
+                                <th style="width:150px">Nro. Control</th>
                                 <th class="text-left">Cliente </th>
                                 <th>Nro. Contrato </th>
- 								<th class="text-right">Monto</th>
- 								<th class="text-right">IVA</th>
+                                <th class="text-right">Monto</th>
+                                <th class="text-right">IVA</th>
                                 <th class="text-right">Total</th>
- 								<th>Fecha Emisión</th>
 <!--  								<th>Fecha de vencimiento</th> -->
  								<th>Acción</th>
  							</thead>
@@ -233,6 +233,7 @@
                  "data-modulo_id='{{$modulo->id}}' "+
                  "data-monto='" + numToComma(monto)+"' "+
  				     ">" +
+                        " <td class='text-justify'><input class='form-control datepicker today' value='"+today+"' /></td>" +
                         "<td class='text-justify'>" +
                             '<div class="input-group">'+
                                 '<div class="input-group-btn">'+
@@ -246,7 +247,7 @@
                                 '<div class="input-group-btn">'+
                                     '<button style="max-height:37px" type="button" class="btn btn-default"><span class="nControlPrefix-text">{{$modulo->nControlPrefix}}</span></button>'+
                                 '</div>'+
-                                "<input readonly class='form-control nc-input' autocomplete='off' value='"+((nc=="")?"":(nc++))+"'/> " +
+                                "<input class='form-control nc-input' autocomplete='off' value='"+((nc=="")?"":(nc++))+"'/> " +
                             "</div>"+
                         "</td>" +
                         " <td style='align:left'>"+
@@ -258,7 +259,6 @@
                         "<td class='text-right'>"+numToComma(monto)+"</td>" +
                         "<td class='text-right'>"+numToComma(monto*(iva/100))+"</td>" +
                         "<td class='text-right'>"+numToComma((monto*(iva/100))+monto)+"</td>" +
-                        " <td class='text-justify'><input class='form-control datepicker today' value='"+today+"' /></td>" +
                         " <td>" +
                             " <div class='btn-group  btn-group-sm' role='group' aria-label='...'>" +
                                 " <button class='btn btn-danger eliminar-btn'><span class='glyphicon glyphicon-remove'></span></button>" +
