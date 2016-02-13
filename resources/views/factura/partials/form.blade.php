@@ -134,8 +134,6 @@
 
 				@if(isset($factura->detalles))
                     @foreach($factura->detalles as $detalle)
-                    {{dd($detalle)}}
-
                     <tr>
                         <td style="text-align: left"><input type="hidden" name="concepto_id[]" value="{{$detalle->concepto_id}}" autocomplete="off" />{{$detalle->concepto->nompre}}</td>
                         <td><input {{$disabled}} {{(!$factura->isImpresa)?"":"readonly"}} class="form-control cantidad-input text-right" value="{{$traductor->format($detalle->cantidadDes)}}" name="cantidadDes[]"  autocomplete="off" /></td>
