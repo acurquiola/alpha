@@ -76,17 +76,17 @@
 
                             <tr class="footer-table" id="inicio-footer" align="left">
                                 <td colspan="10"> </td>
-                                <td colspan="2">Monto total facturas:</td>
+                                <td colspan="3">Monto total facturas:</td>
                                 <td>{{$traductor->format($cobro->montofacturas)}}</td>                                   
                             </tr>
                             <tr class="footer-table"align="left">
                                 <td colspan="10"> </td>
-                                <td colspan="2">Monto total depositado:</td>
+                                <td colspan="3">Monto total depositado:</td>
                                 <td>{{$traductor->format($cobro->montodepositado)}}</td>                                   
                             </tr>
                             <tr class="footer-table" align="left">
                                 <td colspan="10"> </td>
-                                <td colspan="2">Diferencia</td>
+                                <td colspan="3">Diferencia</td>
                                 <td>{{$traductor->format($cobro->montodepositado-$cobro->montofacturas)}}</td>                                 
                             </tr>
 
@@ -108,7 +108,7 @@
         $('#export-btn').click(function(e){
             var table=$('table').clone();
             $(table).find('th').css({'border-bottom':'1px solid black','border-top':'1px solid black', 'font-weight': 'bold', 'text-align':"center"})
-            $(table).find('#inicio-footer td').css({'border-top':'1px solid black;'})
+            $(table).find('tr td').css({'text-align':'right'})
             $(table).find('tr:last td').css({'border-bottom':'1px solid black','border-top':'1px solid black', 'font-weight': 'bold'})
             var tableHtml= $(table)[0].outerHTML;
             $('[name=table]').val(tableHtml);
