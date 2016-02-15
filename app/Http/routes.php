@@ -84,6 +84,7 @@ Route::group(['prefix' => 'operaciones/'], function () {
 });
 
 Route::group(['prefix' => 'cobranza/{modulo}/'], function () {
+    Route::get('print/{cobro}', 'CobranzaController@getPrint');
     Route::get('main', 'CobranzaController@main');
     Route::get('getFacturasClientes', 'CobranzaController@getFacturasClientes');
     Route::resource('cobro', 'CobranzaController');

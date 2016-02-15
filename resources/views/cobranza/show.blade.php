@@ -37,19 +37,21 @@
                         <thead>
                             <tr>
                                 <th>Fecha</th>
-                                <th>Nro. Factura</th>
-                                <th>Nro. Control</th>
-                                <th>Fecha de Comprobante</th>
-                                <th style="width: 100px">Nro. Comprobante</th>
-                                <th class="text-right">Monto Factura</th>
+                                <th style="width: 120px">Nro. Factura</th>
+                                <th style="width: 120px">Nro. Control</th>
+                                <th style="width: 80px">Fecha de Comprobante</th>
+                                <th style="width: 80px">Nro. Comprobante</th>
                                 <th class="text-right">Base Imponible</th>
+                                <th class="text-right">Monto IVA</th>
+                                <th class="text-right">Monto Factura</th>
+
                                 <th class="text-right">% IVA</th>
                                 <th class="text-right">Monto IVA</th>
                                 <th class="text-right">% ISLR</th>
                                 <th class="text-right">Monto ISLR</th>
-                                <th class="text-right">Total Retención</th>
-                                <th class="text-right">Total</th>
-                                <th class="text-right">Cobrado</th>
+                                <th class="text-right">Total Retenido</th>
+                                <th class="text-right">Monto a Cobrar</th>
+                                <th class="text-right">Total Cobrado</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -60,9 +62,11 @@
                                 <td>{{$factura->nFacturaPrefix}}-{{$factura->nFactura}}</td>
                                 <td>{{$factura->nControlPrefix}}-{{$factura->nControl}}</td>
                                 <td>{{$factura->pivot->retencionFecha}}</td>
-                                <td>{{$factura->pivot->retencionComprobante}}</td>
-                                <td class="text-right">{{$traductor->format($factura->pivot->total)}}</td>
+                                <td>{{$factura->pivot->retencionComprobante}}</td>                                
                                 <td class="text-right">{{$traductor->format($factura->pivot->base)}}</td>
+                                <td class="text-right">{{$traductor->format($factura->iva)}}</td>
+                                <td class="text-right">{{$traductor->format($factura->pivot->total)}}</td>
+
                                 <td class="text-right">{{$traductor->format($factura->pivot->ivapercentage)}}</td>
                                 <td class="text-right">{{$traductor->format((($factura->pivot->ivapercentage)/100)*$factura->pivot->iva)}}</td>
                                 <td class="text-right">{{$traductor->format($factura->pivot->islrpercentage)}}</td>
@@ -108,7 +112,6 @@
         $('#export-btn').click(function(e){
             var table=$('table').clone();
             $(table).find('th').css({'border-bottom':'1px solid black','border-top':'1px solid black', 'font-weight': 'bold', 'text-align':"center"})
-            $(table).find('tr td').css({'text-align':'right'})
             $(table).find('tr:last td').css({'border-bottom':'1px solid black','border-top':'1px solid black', 'font-weight': 'bold'})
             var tableHtml= $(table)[0].outerHTML;
             $('[name=table]').val(tableHtml);
