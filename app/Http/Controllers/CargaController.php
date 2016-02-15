@@ -175,7 +175,7 @@ class CargaController extends Controller {
 			}
 		$montoDes          = $carga->monto_total+0;
 		$cantidadDes       = '1';
-		$iva               = Concepto::find($concepto_id)->iva;
+		$iva               = Concepto::find($concepto_id)->iva+0;
 		$montoIva          = ($iva * $montoDes)/100 ;
 		$totalDes          = $montoDes + $montoIva;
 		$cobrarCarga->fill(compact('concepto_id', 'montoDes', 'cantidadDes', 'iva', 'totalDes'));
