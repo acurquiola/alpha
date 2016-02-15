@@ -173,13 +173,12 @@ class CargaController extends Controller {
 							$concepto_id       = PreciosCarga::first()->conceptoCredito_id;
 			        break;
 			}
-		$montoDes          = $carga->monto_total;
+		$montoDes          = $carga->monto_total+0;
 		$cantidadDes       = '1';
 		$iva               = Concepto::find($concepto_id)->iva;
 		$montoIva          = ($iva * $montoDes)/100 ;
 		$totalDes          = $montoDes + $montoIva;
 		$cobrarCarga->fill(compact('concepto_id', 'montoDes', 'cantidadDes', 'iva', 'totalDes'));
-		dd($$carga->monto_total);
 		$factura->detalles->push($cobrarCarga);
 
         $modulo= \App\Modulo::where('nombre','CARGA')->where('aeropuerto_id', session('aeropuerto')->id)->first();
