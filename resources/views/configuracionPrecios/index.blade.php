@@ -150,9 +150,9 @@ $(document).ready(function(){
 		var eq_bN =$('body #tab_2 .eq_bloqueNac').val();
 
 		var val_precioInt= eq_bI*ut;
-		$('body #tab_2 #precioBloqueInt-input').val(val_precioInt.toFixed(4));
+		$('body #tab_2 #precioBloqueInt-input').val(val_precioInt.toFixed(2));
 		var val_precioNac= eq_bN*ut;
-		$('body #tab_2 #precioBloqueNac-input').val(val_precioNac.toFixed(4));
+		$('body #tab_2 #precioBloqueNac-input').val(val_precioNac.toFixed(2));
 	});
 
 	$( "body #tab_2 input" ).keyup(function( event ) {	
@@ -161,9 +161,9 @@ $(document).ready(function(){
 		var eq_bN =$('body #tab_2 .eq_bloqueNac').val();
 
 		var val_precioInt= eq_bI*ut;
-		$('body #tab_2 #precioBloqueInt-input').val(val_precioInt.toFixed(4));
+		$('body #tab_2 #precioBloqueInt-input').val(val_precioInt.toFixed(2));
 		var val_precioNac= eq_bN*ut;
-		$('body #tab_2 #precioBloqueNac-input').val(val_precioNac.toFixed(4));
+		$('body #tab_2 #precioBloqueNac-input').val(val_precioNac.toFixed(2));
 	});
 
 
@@ -174,7 +174,7 @@ $(document).ready(function(){
 		var eq_AborSH =$('body #tab_5 .eq_usoAbordajeSinHab').val();
 		var eq_AborCH =$('body #tab_5 .eq_usoAbordajeConHab').val();
 
-		var val_form= eq_form*ut;
+		var val_form= Math.ceil(eq_form*ut);
 		$('body #tab_5 #precioFormulario-input').val(val_form.toFixed(2));
 		var val_DerHab= eq_DerHab*ut;
 		$('body #tab_5 #precioDerechoHabilitacion-input').val(val_DerHab)

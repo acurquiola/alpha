@@ -20,9 +20,9 @@
                <tr data-id='{{$carga->id}}'>
                     <td class ='fecha-td'>{{$carga->fecha}}</td>
                     <td class ='cliente_id-td'>{{$carga->cliente->nombre}}</td>
-                    <td class ="peso_embarcado-td">{{$carga->peso_embarcado}}</td>
-                    <td class ="peso_desembarcado-td">{{$carga->peso_desembarcado}}</td>
-                    <td class ="peso_desembarcado-td">{{$carga->monto_total}}</td>
+                    <td class ="peso_embarcado-td">{{$traductor->format($carga->peso_embarcado)}}</td>
+                    <td class ="peso_desembarcado-td">{{$traductor->format($carga->peso_desembarcado)}}</td>
+                    <td class ="peso_desembarcado-td">{{$traductor->format($carga->monto_total)}}</td>
                     <td>                         
                          @if($carga->factura_id != NULL)
                         <a target="_blank" class='btn btn-default  btn-sm' href='{{action('FacturaController@getPrint', ["modulo"=>"CARGA", $carga->factura_id])}}'>
