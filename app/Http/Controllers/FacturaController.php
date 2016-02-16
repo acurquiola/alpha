@@ -147,6 +147,7 @@ class FacturaController extends Controller {
         // ---------------------------------------------------------
         // set default font subsetting mode
         $pdf->setFontSubsetting(true);
+
         // Set font
         // dejavusans is a UTF-8 Unicode font, if you only need to
         // print standard ASCII chars, you can use core fonts like

@@ -237,7 +237,9 @@ $('#advance-search-modal .modal-body').delegate('.operator-list li', 'click', fu
 
 
 
-  $('#concepto-select').chosen({width: "100%"});
+  $('#concepto-select').chosen({
+                    placeholder_text_single: "Selecione una opción",
+                    width: "100%"});
 
 
 

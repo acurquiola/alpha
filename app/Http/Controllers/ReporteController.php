@@ -186,7 +186,7 @@ class ReporteController extends Controller {
         return view('reportes.reporteCuadreCaja', compact('diaDesde', 'mesDesde', 'annoDesde', 'diaHasta', 'mesHasta', 'annoHasta', 'aeropuerto', 'facturas', 'facturasTotal', 'facturasContado', 'facturasCredito'));
     }
 
-    public function getReporteClienteReciboMensual(Request $request){
+    public function getReporteRelacionCobranza(Request $request){
         $modulos      =\App\Modulo::where('aeropuerto_id', session('aeropuerto')->id )->lists('nombre','id');
         $mes          =$request->get('mes', \Carbon\Carbon::now()->month);
         $anno         =$request->get('anno',  \Carbon\Carbon::now()->year);
@@ -271,7 +271,7 @@ class ReporteController extends Controller {
             if($estatus=="A"){
                 $facturas->onlyTrashed();
             }else{
-                $facturas->where('facturas.estado', 'like',$estatus);
+                $facturas->with('cobros')->where('facturas.estado', 'like',$estatus);
             }
 
 
@@ -294,7 +294,7 @@ class ReporteController extends Controller {
 
        $table=$request->get('table');
 
-       $pdf = new \TCPDF('L', PDF_UNIT, 'legal', true, 'UTF-8', false);
+       $pdf = new \TCPDF('L', PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
 
        $pdf->setPrintHeader(false);
 

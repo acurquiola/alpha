@@ -106,9 +106,9 @@
 	            <div class="row">
 		            <div class="col-xs-12">
 			            <label>Leyenda:[<span class="text-success">Pago completo</span> | <span class="text-info">Sobrepagado</span> | <span class="text-warning">Pago parcial</span> | <span class="text-danger">Error en saldo ingresado</span>]</label>
-
-
-		            </div>
+<!-- 			            <div  class="pull-right"><label id="items-seleccionados-label" class="text-primary" style="font-weight: bold;" >0 Facturas Seleccionadas</label></div>
+ -->		            </div>
+    
 	            </div>
 
 	            <h5>Formas de pago</h5>
@@ -787,7 +787,11 @@ $('#cxc-table').delegate('.saldo-abonado-input', 'keyup',function(){
 
 
 $('#cxc-table').delegate('.pay-all-btn', 'click',function(){
-	var row=$(this).closest('tr');
+	var row   =$(this).closest('tr');
+	$.each($('#cxc-table tr').hasClass("success")==true, function(){
+		console.log();
+	});
+		
 
 	var saldoPendienteText =$(row).find('.saldo-pagar').text();
 	var saldoPendiente     =commaToNum(saldoPendienteText);

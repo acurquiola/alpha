@@ -450,7 +450,7 @@ class DespegueController extends Controller {
 					break;
 					case 2:
 					$eq_aterDesp     = PreciosAterrizajesDespegue::where('aeropuerto_id', session('aeropuerto')->id)->first()->eq_diurnoInt;
-					$precio_AterDesp     = PreciosAterrizajesDespegue::where('aeropuerto_id', session('aeropuerto')->id)->first()->precio_nocturNac;
+					$precio_AterDesp     = PreciosAterrizajesDespegue::where('aeropuerto_id', session('aeropuerto')->id)->first()->precio_diurnoInt;
 					$tipoAterrizaje  = 'Nocturno Nacional';
 					break;
 				}
@@ -458,7 +458,7 @@ class DespegueController extends Controller {
 				switch ($nacionalidad) {
 					case 1:
 					$eq_aterDesp     = PreciosAterrizajesDespegue::where('aeropuerto_id', session('aeropuerto')->id)->first()->eq_nocturNac;
-					$precio_AterDesp     = PreciosAterrizajesDespegue::where('aeropuerto_id', session('aeropuerto')->id)->first()->precio_diurnoInt;
+					$precio_AterDesp     = PreciosAterrizajesDespegue::where('aeropuerto_id', session('aeropuerto')->id)->first()->precio_nocturNac;
 					$tipoAterrizaje  = 'Diuno Internacional';
 					break;
 					case 2:
