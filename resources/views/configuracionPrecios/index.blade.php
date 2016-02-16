@@ -150,9 +150,9 @@ $(document).ready(function(){
 		var eq_bN =$('body #tab_2 .eq_bloqueNac').val();
 
 		var val_precioInt= eq_bI*ut;
-		$('body #tab_2 #precioBloqueInt-input').val(val_precioInt.toFixed(2));
+		$('body #tab_2 #precio_estNac-input').val(val_precioInt.toFixed(2));
 		var val_precioNac= eq_bN*ut;
-		$('body #tab_2 #precioBloqueNac-input').val(val_precioNac.toFixed(2));
+		$('body #tab_2 #precio_estNac-input').val(val_precioNac.toFixed(2));
 	});
 
 	$( "body #tab_2 input" ).keyup(function( event ) {	
@@ -161,9 +161,9 @@ $(document).ready(function(){
 		var eq_bN =$('body #tab_2 .eq_bloqueNac').val();
 
 		var val_precioInt= eq_bI*ut;
-		$('body #tab_2 #precioBloqueInt-input').val(val_precioInt.toFixed(2));
+		$('body #tab_2 #precio_estNac-input').val(val_precioInt.toFixed(2));
 		var val_precioNac= eq_bN*ut;
-		$('body #tab_2 #precioBloqueNac-input').val(val_precioNac.toFixed(2));
+		$('body #tab_2 #precio_estNac-input').val(val_precioNac.toFixed(2));
 	});
 
 
@@ -175,13 +175,13 @@ $(document).ready(function(){
 		var eq_AborCH =$('body #tab_5 .eq_usoAbordajeConHab').val();
 
 		var val_form= Math.ceil(eq_form*ut);
-		$('body #tab_5 #precioFormulario-input').val(val_form.toFixed(2));
+		$('body #tab_5 #precio_formulario-input').val(val_form.toFixed(2));
 		var val_DerHab= eq_DerHab*ut;
-		$('body #tab_5 #precioDerechoHabilitacion-input').val(val_DerHab)
+		$('body #tab_5 #precio_derechoHabilitacion-input').val(val_DerHab)
 		var val_AborSH= eq_AborSH*ut;
-		$('body #tab_5 #preciousoAbordajeSinHab-input').val(val_AborSH);
+		$('body #tab_5 #precio_usoAbordajeSinHab-input').val(val_AborSH);
 		var val_AborCH= eq_AborCH*ut;
-		$('body #tab_5 #preciousoAbordajeConHab-input').val(val_AborCH);
+		$('body #tab_5 #precio_usoAbordajeConHab-input').val(val_AborCH);
 	});
 
 	$( "body #tab_5 input" ).keyup(function( event ) {	
@@ -193,13 +193,13 @@ $(document).ready(function(){
 		var eq_AborCH =$('body #tab_5 .eq_usoAbordajeConHab').val();
 
 		var val_form= eq_form*ut;
-		$('body #tab_5 #precioFormulario-input').val(val_form.toFixed(2));
+		$('body #tab_5 #precio_usoAbordajeConHab-input').val(val_form.toFixed(2));
 		var val_DerHab= eq_DerHab*ut;
-		$('body #tab_5 #precioDerechoHabilitacion-input').val(val_DerHab);
+		$('body #tab_5 #precio_usoAbordajeConHab-input').val(val_DerHab);
 		var val_AborSH= eq_AborSH*ut;
-		$('body #tab_5 #preciousoAbordajeSinHab-input').val(val_AborSH);
+		$('body #tab_5 #precio_usoAbordajeConHab-input').val(val_AborSH);
 		var val_AborCH= eq_AborCH*ut;
-		$('body #tab_5 #preciousoAbordajeConHab-input').val(val_AborCH);
+		$('body #tab_5 #precio_usoAbordajeConHab-input').val(val_AborCH);
 	});
 
 

@@ -355,6 +355,7 @@ class DespegueController extends Controller {
 		if($despegue->cobrar_Formulario == '1'){
 			$formulario        = new Facturadetalle();
 			$eq_formulario     = CargosVario::where('aeropuerto_id', session('aeropuerto')->id)->first()->eq_formulario;
+			$precio_formulario = CargosVario::where('aeropuerto_id', session('aeropuerto')->id)->first()->precio_formulario;
 			switch ($condicionPago) {
 				case 'Contado':
 				$concepto_id  = CargosVario::where('aeropuerto_id', session('aeropuerto')->id)->first()->formularioContado_id;
@@ -363,7 +364,7 @@ class DespegueController extends Controller {
 				$concepto_id  = CargosVario::where('aeropuerto_id', session('aeropuerto')->id)->first()->formularioCredito_id;
 				break;
 			}
-			$montoDes          = $eq_formulario * $ut;
+			$montoDes          = $precio_formulario+0;
 			$cantidadDes       = '1';
 			$iva               = Concepto::find($concepto_id)->iva;
 			$montoIva          = ($iva * $montoDes)/100 ;
@@ -408,7 +409,7 @@ class DespegueController extends Controller {
 			if($tiempoAFacturar > 0){
                 $tiempoAFacturar=ceil($tiempoAFacturar);
 
-				$equivalente            = ($eq_bloque * $ut);
+				$equivalente            = number_format(($eq_bloque * $ut), 2);
 				$montoDes               = $equivalente * $tiempoAFacturar * $peso_aeronave;
 				$cantidadDes            = '1';
 				$iva                    = Concepto::find($concepto_id)->iva;
@@ -490,19 +491,21 @@ class DespegueController extends Controller {
 			}
 
 			if ($hora > $inicioOperaciones && $hora < $finOperaciones){
-				$eq_puenteAbordaje = CargosVario::where('aeropuerto_id', session('aeropuerto')->id)->first()->eq_usoAbordajeSinHab;
+				$eq_puenteAbordaje     = CargosVario::where('aeropuerto_id', session('aeropuerto')->id)->first()->eq_usoAbordajeSinHab;
+				$precio_puenteAbordaje = CargosVario::where('aeropuerto_id', session('aeropuerto')->id)->first()->precio_usoAbordajeSinHab;
 			}else{
-				$eq_puenteAbordaje = CargosVario::where('aeropuerto_id', session('aeropuerto')->id)->first()->eq_usoAbordajeConHab;
+				$eq_puenteAbordaje     = CargosVario::where('aeropuerto_id', session('aeropuerto')->id)->first()->eq_usoAbordajeConHab;
+				$precio_puenteAbordaje = CargosVario::where('aeropuerto_id', session('aeropuerto')->id)->first()->precio_usoAbordajeConHab;
 			}
 
 
 			$tiempoUsoPuenteAbordaje = $despegue->tiempo_puenteAbord;
-			$equivalente = $eq_puenteAbordaje * $ut;
-			$montoDes          = $equivalente * $tiempoUsoPuenteAbordaje;
-			$cantidadDes       = '1';
-			$iva               = Concepto::find($concepto_id)->iva;
-			$montoIva          = ($iva * $montoDes)/100 ;
-			$totalDes          = $montoDes + $montoIva;
+			$equivalente             = $precio_puenteAbordaje+0;
+			$montoDes                = $equivalente * $tiempoUsoPuenteAbordaje;
+			$cantidadDes             = '1';
+			$iva                     = Concepto::find($concepto_id)->iva;
+			$montoIva                = ($iva * $montoDes)/100 ;
+			$totalDes                = $montoDes + $montoIva;
 			$puenteAbordaje->fill(compact('concepto_id', 'condicionPago',  'montoDes', 'cantidadDes', 'iva', 'totalDes'));
 			$factura->detalles->push($puenteAbordaje);
 
@@ -542,8 +545,9 @@ class DespegueController extends Controller {
 		//Ítem de Habilitación
 
 		if($despegue->cobrar_habilitacion == '1'){
-			$habilitacion           = new Facturadetalle();
-			$eq_derechoHabilitacion = CargosVario::where('aeropuerto_id', session('aeropuerto')->id)->first()->eq_derechoHabilitacion;
+			$habilitacion               = new Facturadetalle();
+			$eq_derechoHabilitacion     = CargosVario::where('aeropuerto_id', session('aeropuerto')->id)->first()->eq_derechoHabilitacion;
+			$precio_derechoHabilitacion = CargosVario::where('aeropuerto_id', session('aeropuerto')->id)->first()->precio_derechoHabilitacion;
 
 
 			switch ($condicionPago) {
@@ -555,7 +559,7 @@ class DespegueController extends Controller {
 				break;
 			}
 
-			$montoDes     = $eq_derechoHabilitacion * $ut;
+			$montoDes     = $precio_derechoHabilitacion+0;
 			$cantidadDes  = '1';
 			$iva          = Concepto::find($concepto_id)->iva;
 			$montoIva     = ($iva * $montoDes)/100 ;
