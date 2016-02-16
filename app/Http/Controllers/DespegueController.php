@@ -445,10 +445,12 @@ class DespegueController extends Controller {
 				switch ($nacionalidad) {
 					case 1:
 					$eq_aterDesp     = PreciosAterrizajesDespegue::where('aeropuerto_id', session('aeropuerto')->id)->first()->eq_diurnoNac;
+					$precio_AterDesp     = PreciosAterrizajesDespegue::where('aeropuerto_id', session('aeropuerto')->id)->first()->precio_diurnoNac;
 					$tipoAterrizaje  = 'Diuno Nacional';
 					break;
 					case 2:
 					$eq_aterDesp     = PreciosAterrizajesDespegue::where('aeropuerto_id', session('aeropuerto')->id)->first()->eq_diurnoInt;
+					$precio_AterDesp     = PreciosAterrizajesDespegue::where('aeropuerto_id', session('aeropuerto')->id)->first()->precio_nocturNac;
 					$tipoAterrizaje  = 'Nocturno Nacional';
 					break;
 				}
@@ -456,16 +458,18 @@ class DespegueController extends Controller {
 				switch ($nacionalidad) {
 					case 1:
 					$eq_aterDesp     = PreciosAterrizajesDespegue::where('aeropuerto_id', session('aeropuerto')->id)->first()->eq_nocturNac;
+					$precio_AterDesp     = PreciosAterrizajesDespegue::where('aeropuerto_id', session('aeropuerto')->id)->first()->precio_diurnoInt;
 					$tipoAterrizaje  = 'Diuno Internacional';
 					break;
 					case 2:
 					$eq_aterDesp     = PreciosAterrizajesDespegue::where('aeropuerto_id', session('aeropuerto')->id)->first()->eq_nocturInt;
+					$precio_AterDesp     = PreciosAterrizajesDespegue::where('aeropuerto_id', session('aeropuerto')->id)->first()->precio_nocturInt;
 					$tipoAterrizaje  = 'Nocturno Internacional';
 					break;
 				}
 
 			}
-			$montoDes          = $eq_aterDesp * $ut * $peso_aeronave;
+			$montoDes          = $precio_AterDesp * $peso_aeronave;
 			$cantidadDes       = '1';
 			$iva               = Concepto::find($concepto_id)->iva;
 			$montoIva          = ($iva * $montoDes)/100 ;
@@ -527,18 +531,19 @@ class DespegueController extends Controller {
 				break;
 			}
 
-			$pesoEmb     = $despegue->peso_embarcado;
-			$pesoDesemb  = $despegue->peso_desembarcado;
-			$pesoBloque  = PreciosCarga::where('aeropuerto_id', session('aeropuerto')->id)->first()->toneladaPorBloque;
-			$pesoCargado = ($pesoDesemb + $pesoEmb / $pesoBloque);
-			$eq_Carga    = PreciosCarga::where('aeropuerto_id', session('aeropuerto')->id)->first()->equivalenteUT;
-			$equivalente = $eq_Carga  * $ut;
-
-			$montoDes          = $equivalente * $pesoCargado;
-			$cantidadDes       = '1';
-			$iva               = Concepto::find($concepto_id)->iva;
-			$montoIva          = ($iva * $montoDes)/100 ;
-			$totalDes          = $montoDes + $montoIva;
+			$pesoEmb      = $despegue->peso_embarcado;
+			$pesoDesemb   = $despegue->peso_desembarcado;
+			$pesoBloque   = PreciosCarga::where('aeropuerto_id', session('aeropuerto')->id)->first()->toneladaPorBloque;
+			$pesoCargado  = ($pesoDesemb + $pesoEmb / $pesoBloque);
+			$eq_Carga     = PreciosCarga::where('aeropuerto_id', session('aeropuerto')->id)->first()->equivalenteUT;
+			$precio_carga = PreciosCarga::where('aeropuerto_id', session('aeropuerto')->id)->first()->precio_carga;
+			$equivalente  = $precio_carga+0;
+			
+			$montoDes     = $equivalente * $pesoCargado;
+			$cantidadDes  = '1';
+			$iva          = Concepto::find($concepto_id)->iva;
+			$montoIva     = ($iva * $montoDes)/100 ;
+			$totalDes     = $montoDes + $montoIva;
 			$carga->fill(compact('concepto_id', 'montoDes', 'cantidadDes', 'iva', 'totalDes'));
 			$factura->detalles->push($carga);
 

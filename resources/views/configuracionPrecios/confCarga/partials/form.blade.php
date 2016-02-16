@@ -22,7 +22,7 @@
 					<div class="input-group-addon">
 						<i class="fa fa-money"></i> BsF. 
 					</div>
-					<input type="text" class="form-control"  id="equivalenteUT-input" disabled/>
+					{!! Form::text('precio_carga', null, ["id"=>"precio_carga-input", 'class'=>"form-control equivalenteUT","placeholder"=>"Equivalente de la UT", "readonly"=>"readonly"]) !!}
 				</div><!-- /.input group -->
 			</div><!-- /.form group -->
 			<!-- Definición de Bloque -->

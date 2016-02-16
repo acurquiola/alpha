@@ -117,13 +117,13 @@ $(document).ready(function(){
 		var eq_nI =$('body #tab_1 .eq_nocturInt').val();
 
 		var val_dN= eq_dN*ut;
-		$('body #tab_1 #eq_diurnoNac-input').val(val_dN);
+		$('body #tab_1 #precio_diurnoNac-input').val(val_dN);
 		var val_dI= eq_dI*ut;
-		$('body #tab_1 #eq_diurnoInt-input').val(val_dI);
+		$('body #tab_1 #precio_diurnoInt-input').val(val_dI);
 		var val_nN= eq_nN*ut;
-		$('body #tab_1 #eq_nocturNac-input').val(val_nN);
+		$('body #tab_1 #precio_nocturNac-input').val(val_nN);
 		var val_nI= eq_nI*ut;
-		$('body #tab_1 #eq_nocturInt-input').val(val_nI);
+		$('body #tab_1 #precio_nocturInt-input').val(val_nI);
 
 	});
 
@@ -209,7 +209,7 @@ $(document).ready(function(){
 		var eq_UT     =$('body #tab_6 .equivalenteUT').val();
 		
 		var val_carga = eq_UT*ut;
-		$('body #tab_6 #equivalenteUT-input').val(val_carga.toFixed(2));
+		$('body #tab_6 #precio_carga-input').val(val_carga.toFixed(2));
 	});
 
 	$( "body #tab_6 input" ).keyup(function( event ) {	
@@ -217,7 +217,7 @@ $(document).ready(function(){
 		var eq_UT     =$('body #tab_6 .equivalenteUT').val();
 		
 		var val_carga = eq_UT*ut;
-		$('body #tab_6 #equivalenteUT-input').val(val_carga.toFixed(2));
+		$('body #tab_6 #precio_carga-input').val(val_carga.toFixed(2));
 	});
 
 

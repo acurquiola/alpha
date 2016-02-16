@@ -17,9 +17,11 @@ class CreateEstacionamientoAeronavesTable extends Migration {
 			$table->increments('id');
 			$table->integer('tiempoLibreInt');
 			$table->float('eq_bloqueInt', 7, 4);
+			$table->float('precio_estInt', 7, 2);
 			$table->integer('minBloqueInt');
 			$table->integer('tiempoLibreNac');
 			$table->float('eq_bloqueNac', 7, 4);
+			$table->float('precio_estNac', 7, 2);
 			$table->integer('minBloqueNac');
 			$table->integer('aeropuerto_id')->unsigned();
 			$table->foreign('aeropuerto_id')->references('id')->on('aeropuertos');
