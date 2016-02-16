@@ -15,7 +15,7 @@
                         </div><!-- /.box-tools -->
                 </div>
                 <div class="box-body text-right">
-                    {!! Form::open(["url" => action('ReporteController@getReporteClienteReciboMensual'), "method" => "GET", "class"=>"form-inline"]) !!}
+                    {!! Form::open(["url" => action('ReporteController@getReporteRelacionCobranza'), "method" => "GET", "class"=>"form-inline"]) !!}
                     <div class="form-group">
                         <label>Modulo:</label>
                           {!! Form::select('modulo', $modulos, $modulo, ["class"=> "form-control"]) !!}
@@ -33,7 +33,7 @@
                           {!! Form::select('anno', $annos, $anno, ["class"=> "form-control"]) !!}
                     </div>
                     <button type="submit" class="btn btn-default">Buscar</button>
-                    <a class="btn btn-default" href="{{action('ReporteController@getReporteClienteReciboMensual')}}">Reset</a>
+                    <a class="btn btn-default" href="{{action('ReporteController@getReporteRelacionCobranza')}}">Reset</a>
                     {!! Form::close() !!}
                 </div>
             </div>
@@ -53,19 +53,34 @@
                          <thead  class="bg-primary">
                          <tr>
                              <th style="vertical-align: middle" class="text-center">
-                                Cliente
+                                Fecha Cobro
+                             </th>
+                             <th style="vertical-align: middle" class="text-center">
+                                Nro. Cobro
+                             </th>
+                             <th style="vertical-align: middle" class="text-center">
+                                Nro. Factura
+                             </th>
+                             <th style="vertical-align: middle" class="text-center">
+                                Cod. Cliente
+                             </th>
+                             <th style="vertical-align: middle" class="text-center">
+                                Nombre o Razón Social
+                             </th>
+                             <th style="vertical-align: middle" class="text-center">
+                                Forma de Pago
                              </th>
                              <th style="vertical-align: middle" class="text-center">
                                 Nro Recibo
                              </th>
                              <th style="vertical-align: middle" class="text-center">
-                                Fecha
+                                Nro Cuenta
                              </th>
                              <th style="vertical-align: middle" class="text-center">
-                                Monto facturas
+                                Monto Factura
                              </th>
                              <th style="vertical-align: middle" class="text-center">
-                                Monto depositado
+                                Monto Cobrado
                              </th>
                          </tr>
                          </thead>
@@ -73,11 +88,24 @@
                         @if($recibos->count()>0)
                         @foreach($recibos as $recibo)
                             <tr>
-                                <td>{{$recibo->cobro->facturas()->first()->cliente->nombre}}</td>
-                                <td>{{$recibo->cobro->id}}</td>
                                 <td>{{$recibo->fecha}}</td>
-                                <td>{{$recibo->montofacturas}}</td>
-                                <td>{{$recibo->montodepositado}}</td>
+                                <td>{{$recibo->cobro_id}}</td>
+                                <td>{{$recibo->cobro->facturas()->first()->nFactura}}</td>
+                                <td>{{$recibo->cobro->facturas()->first()->cliente->codigo}}</td>
+                                <td>{{$recibo->cobro->facturas()->first()->cliente->nombre}}</td>
+                                <td>
+                                    @if(($recibo->tipo)=='D')
+                                        DEPÓSITO
+                                    @elseif($recibo->tipo=='NC')
+                                        NOTA DE CRÉDITO
+                                    @elseif($recibo->tipo=='T')
+                                    TRANSFERENCIA
+                                    @endif
+                                </td>
+                                <td>{{($recibo->cobro->nRecibo)?$recibo->cobro->nRecibo:'N/A'}}</td>
+                                <td>{{$recibo->cuenta->descripcion}}</td>
+                                <td>{{$traductor->format($recibo->cobro->facturas()->first()->total)}}</td>
+                                <td>{{$traductor->format($recibo->monto)}}</td>
                             </tr>
                         @endforeach
                         @else

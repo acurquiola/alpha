@@ -194,7 +194,7 @@ class ReporteController extends Controller {
         $modulo       =$request->get('modulo', \App\Modulo::where('aeropuerto_id', session('aeropuerto')->id )->first()->id);
         $primerDiaMes =\Carbon\Carbon::create($anno, $mes,1)->startOfMonth();
         $ultimoDiaMes =\Carbon\Carbon::create($anno, $mes,1)->endOfMonth();
-        $recibos=\App\Cobrospago::where('fecha','>=' ,$primerDiaMes)
+        $recibos=\App\Cobrospago::with('cobro','cuenta')->where('fecha','>=' ,$primerDiaMes)
                                 ->where('fecha','<=' ,$ultimoDiaMes)
                                 ->whereHas('cobro', function($query) use ($aeropuerto, $modulo){
                                     $query->whereHas('facturas', function($query) use ($aeropuerto, $modulo){
@@ -208,7 +208,7 @@ class ReporteController extends Controller {
                                     });
                                 })->orderBy('fecha', 'DESC')
                                 ->get();
-        return view('reportes.reporteClienteReciboMensual', compact('mes', 'anno', 'aeropuerto', 'modulo', 'recibos', 'modulos'));
+        return view('reportes.reporteRelacionCobranza', compact('mes', 'anno', 'aeropuerto', 'modulo', 'recibos', 'modulos'));
 
     }
 
