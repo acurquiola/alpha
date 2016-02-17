@@ -210,7 +210,7 @@ class ReporteController extends Controller {
                                                     });
                                         });
                                     });
-                                })->orderBy('fecha', 'ASC')
+                                })->groupBy('cobro_id')->orderBy('fecha', 'ASC', 'facturas.nFactura', 'ASC')
                                 ->get();
         return view('reportes.reporteRelacionCobranza', compact('mes', 'anno', 'aeropuerto', 'modulo', 'recibos', 'modulos', 'clientes', 'cliente'));
 
