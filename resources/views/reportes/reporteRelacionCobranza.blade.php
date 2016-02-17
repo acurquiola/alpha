@@ -40,10 +40,17 @@
         </div>
         <div class="col-md-12">
             <div class="box box-primary">
-                <div class="box-header">
+            <div class="box-header">
+                {!! Form::open(["url" => action("ReporteController@postExportReport"), "id" =>"export-form", "target"=>"_blank"]) !!}
+                {!! Form::hidden('table') !!}
                     <h3 class="box-title">Reporte</h3>
-                    <span class="pull-right"><button class="btn btn-primary"><span class="glyphicon glyphicon-file"></span> Exportar</button></span>
-                </div>
+                    <span class="pull-right">
+                        <button type="button" class="btn btn-primary" id="export-btn">
+                            <span class="glyphicon glyphicon-file"></span> Exportar
+                        </button>
+                    </span>
+                {!! Form::close() !!}
+            </div>
                 <div class="box-body" >
                     <div class="row">
                         <div class="col-xs-12">
@@ -88,12 +95,12 @@
                         @if($recibos->count()>0)
                         @foreach($recibos as $recibo)
                             <tr>
-                                <td>{{$recibo->fecha}}</td>
-                                <td>{{$recibo->cobro_id}}</td>
-                                <td>{{$recibo->cobro->facturas()->first()->nFactura}}</td>
-                                <td>{{$recibo->cobro->facturas()->first()->cliente->codigo}}</td>
-                                <td>{{$recibo->cobro->facturas()->first()->cliente->nombre}}</td>
-                                <td>
+                                <td align="center">{{$recibo->fecha}}</td>
+                                <td align="center">{{$recibo->cobro_id}}</td>
+                                <td align="center">{{$recibo->cobro->facturas()->first()->nFactura}}</td>
+                                <td align="center">{{$recibo->cobro->facturas()->first()->cliente->codigo}}</td>
+                                <td align="left">{{$recibo->cobro->facturas()->first()->cliente->nombre}}</td>
+                                <td align="center">
                                     @if(($recibo->tipo)=='D')
                                         DEPÓSITO
                                     @elseif($recibo->tipo=='NC')
@@ -102,10 +109,10 @@
                                     TRANSFERENCIA
                                     @endif
                                 </td>
-                                <td>{{($recibo->cobro->nRecibo)?$recibo->cobro->nRecibo:'N/A'}}</td>
-                                <td>{{$recibo->cuenta->descripcion}}</td>
-                                <td>{{$traductor->format($recibo->cobro->facturas()->first()->total)}}</td>
-                                <td>{{$traductor->format($recibo->monto)}}</td>
+                                <td align="center">{{($recibo->cobro->nRecibo)?$recibo->cobro->nRecibo:'N/A'}}</td>
+                                <td align="left">{{$recibo->cuenta->descripcion}}</td>
+                                <td align="right">{{$traductor->format($recibo->cobro->facturas()->first()->total)}}</td>
+                                <td align="right">{{$traductor->format($recibo->monto)}}</td>
                             </tr>
                         @endforeach
                         @else
@@ -158,6 +165,21 @@ $(function(){
     $('#metaTotal').text(metaTotal);
     $('#recaudadoTotal').text(recaudadoTotal);
     $('#diferenciaTotal').text(diferenciaTotal);
+
+
+$('#export-btn').click(function(e){
+    var table=$('table').clone();
+    $(table).find('td, th').filter(function() {
+      return $(this).css('display') == 'none';
+    }).remove();
+    $(table).find('tr').filter(function() {
+      return $(this).find('td,th').length == 0;
+    }).remove();
+    $(table).find('th').css({'border-bottom':'1px solid black','border-top':'1px solid black', 'font-weight': 'bold'}) 
+            var tableHtml= $(table)[0].outerHTML;
+    $('[name=table]').val(tableHtml);
+    $('#export-form').submit();
+})
 
 })
 </script>
