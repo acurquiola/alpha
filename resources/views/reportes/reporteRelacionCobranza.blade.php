@@ -67,7 +67,7 @@
                          <table class="table table-hover table-condensed">
                          <thead  class="bg-primary">
                          <tr>
-                             <th style="vertical-align: middle" class="text-center">
+                             <th style="vertical-align: middle; width:50px" class="text-center">
                                 Fecha Cobro
                              </th>
                              <th style="vertical-align: middle; width:50px" class="text-center">
@@ -76,31 +76,31 @@
                              <th style="vertical-align: middle; width:50px" class="text-center">
                                Factura
                              </th>
-                             <th style="vertical-align: middle;" class="text-center">
+                             <th style="vertical-align: middle; width:180px" class="text-center">
                                 Nombre o Razón Social
                              </th>
                              <th style="vertical-align: middle" class="text-center">
                                 Recibo
                              </th>
-                             <th style="vertical-align: middle" class="text-center">
+                             <th style="vertical-align: middle; width:30px" class="text-center">
                                 Tipo
                              </th>
-                             <th style="vertical-align: middle" class="text-center">
+                             <th style="vertical-align: middle; width:50px"  align="center" class="text-center">
                                 Cuenta
                              </th>
-                             <th style="vertical-align: middle" class="text-center">
+                             <th style="vertical-align: middle; width:50px"  align="center" class="text-center">
                                 Monto Factura
                              </th>
-                             <th style="vertical-align: middle" class="text-center">
-                                Total Retenido
+                             <th style="vertical-align: middle; width:50px"  align="center" class="text-center">
+                                Retenido
                              </th>
-                             <th style="vertical-align: middle" class="text-center">
-                                Monto a Cobrar
+                             <th style="vertical-align: middle; width:50px"  align="center" class="text-center">
+                                A Cobrar
                              </th>
-                             <th style="vertical-align: middle" class="text-center">
-                                Monto Cobrado
+                             <th style="vertical-align: middle; width:70px" align="center" class="text-center">
+                                Cobrado
                              </th>
-                             <th style="vertical-align: middle" class="text-center">
+                             <th style="vertical-align: middle; width:70px" align="center" class="text-center">
                                 Diferencia
                              </th>
                          </tr>
@@ -109,12 +109,12 @@
                         @if($recibos->count()>0)
                         @foreach($recibos as $recibo)
                             <tr>
-                                <td align="center">{{$recibo->fecha}}</td>
+                                <td style="vertical-align: middle; width:50px" align="center">{{$recibo->fecha}}</td>
                                 <td align="center"  style="width:50px">{{$recibo->cobro_id}}</td>
                                 <td align="center"  style="width:50px">{{$recibo->cobro->facturas()->first()->nFactura}}</td>
-                                <td align="left" >{{$recibo->cobro->facturas()->first()->cliente->nombre}}</td>
+                                <td style="vertical-align: middle; width:180px" align="left" >{{$recibo->cobro->facturas()->first()->cliente->nombre}}</td>
                                 <td align="center">{{($recibo->cobro->nRecibo)?$recibo->cobro->nRecibo:'N/A'}}</td>
-                                <td >
+                                <td style="vertical-align: middle; width:30px" align="center">
                                     @if(($recibo->tipo)=='D')
                                         DEP
                                     @elseif($recibo->tipo=='NC')
@@ -123,12 +123,12 @@
                                     TRAN
                                     @endif
                                 </td>
-                                <td align="left">{{$recibo->cuenta->descripcion}}</td>
-                                <td align="right">{{$traductor->format($recibo->cobro->facturas()->first()->total)}}</td>
-                                <td align="right">{{$traductor->format($recibo->cobro->facturas()->first()->pivot->retencion)}}</td>
-                                <td align="right">{{$traductor->format($recibo->cobro->facturas()->first()->total-$recibo->cobro->facturas()->first()->pivot->retencion)}}</td>
-                                <td align="right">{{$traductor->format($recibo->monto)}}</td>
-                                <td align="right">{{$traductor->format(($recibo->cobro->facturas()->first()->total-$recibo->cobro->facturas()->first()->pivot->retencion)-$recibo->monto)}}</td>
+                                <td style="vertical-align: middle; width:50px" align="left">{{ substr($recibo->cuenta->descripcion, -8) }}</td>
+                                <td style="vertical-align: middle; width:50px" align="right">{{$traductor->format($recibo->cobro->facturas()->first()->total)}}</td>
+                                <td style="vertical-align: middle; width:50px" align="right">{{$traductor->format($recibo->cobro->facturas()->first()->pivot->retencion)}}</td>
+                                <td style="vertical-align: middle; width:50px" align="right">{{$traductor->format($recibo->cobro->facturas()->first()->total-$recibo->cobro->facturas()->first()->pivot->retencion)}}</td>
+                                <td style="vertical-align: middle; width:70px" align="right">{{$traductor->format($recibo->monto)}}</td>
+                                <td style="vertical-align: middle; width:70px" align="right">{{$traductor->format(($recibo->cobro->facturas()->first()->total-$recibo->cobro->facturas()->first()->pivot->retencion)-$recibo->monto)}}</td>
                             </tr>
                         @endforeach
                         @else
