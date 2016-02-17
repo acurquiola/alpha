@@ -2,10 +2,13 @@
 
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\DateConverterTrait;
+use App\Traits\DecimalConverterTrait;
+
 
 class Carga extends Model {
 
     use DateConverterTrait;
+    use DecimalConverterTrait;
 
 	protected $guarded = array();
 
@@ -39,7 +42,7 @@ class Carga extends Model {
     }
         public function factura()
     {
-        return $this->belongsTo('App\Factura', 'factura_id', 'nFactura');
+        return $this->belongsTo('App\Factura');
     }
 
 

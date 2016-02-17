@@ -25,7 +25,7 @@
 					<div class="input-group-addon">
 						<i class="fa fa-money"></i> BsF. 
 					</div>
-					<input type="text" id="precioFormulario-input" class="form-control"  disabled/>
+					{!! Form::text('precio_formulario', null, [ "id"=>"precio_formulario-input", 'class'=>"form-control precio_formulario","placeholder"=>"Precio Establecido", "readonly"=>"readonly"]) !!}
 				</div><!-- /.input group -->
 			</div><!-- /.form group -->		
 			<div class="form-group" >
@@ -67,7 +67,7 @@
 					<div class="input-group-addon">
 						<i class="fa fa-money"></i> BsF. 
 					</div>
-					<input type="text" id="precioDerechoHabilitacion-input" class="form-control"  disabled/>
+					{!! Form::text('precio_derechoHabilitacion', null, [ "id"=>"precio_derechoHabilitacion-input", 'class'=>"form-control precio_derechoHabilitacion","placeholder"=>"Precio Establecido", "readonly"=>"readonly"]) !!}
 				</div><!-- /.input group -->
 			</div><!-- /.form group -->	
 			<div class="form-group" >
@@ -109,7 +109,7 @@
 					<div class="input-group-addon">
 						<i class="fa fa-money"></i> BsF. 
 					</div>
-					<input type="text" id="preciousoAbordajeSinHab-input" class="form-control"  disabled/>
+					{!! Form::text('precio_usoAbordajeSinHab', null, [ "id"=>"precio_usoAbordajeSinHab-input", 'class'=>"form-control precio_usoAbordajeSinHab","placeholder"=>"Precio Establecido", "readonly"=>"readonly"]) !!}
 				</div><!-- /.input group -->
 			</div><!-- /.form group -->
 
@@ -130,7 +130,7 @@
 					<div class="input-group-addon">
 						<i class="fa fa-money"></i> BsF. 
 					</div>
-					<input type="text" id="preciousoAbordajeConHab-input" class="form-control" disabled/>
+					{!! Form::text('precio_usoAbordajeConHab', null, [ "id"=>"precio_usoAbordajeConHab-input", 'class'=>"form-control precio_usoAbordajeConHab","placeholder"=>"Precio Establecido", "readonly"=>"readonly"]) !!}
 				</div><!-- /.input group -->
 			</div><!-- /.form group -->
 			<div class="form-group" >

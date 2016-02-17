@@ -186,13 +186,13 @@
                     <div class="form-group">
                          <label class="col-xs-2 control-label">ISLR %</label>
                         <div class="col-xs-4">
-                        {!! Form::text('islrpercentage', null, [ 'class'=>"form-control", $disabled ]) !!}
+                        {!! Form::text('islrpercentage', (($cliente->islrpercentage)?$cliente->islrpercentage:'0'), [ 'class'=>"form-control", $disabled ]) !!}
                         </div>
                     </div>
                     <div class="form-group">
                          <label class="col-xs-2 control-label">IVA %</label>
                         <div class="col-xs-4">
-                        {!! Form::text('ivapercentage', null, [ 'class'=>"form-control", $disabled ]) !!}
+                        {!! Form::text('ivapercentage', (($cliente->ivapercentage)?$cliente->ivapercentage:'0'), [ 'class'=>"form-control", $disabled ]) !!}
                         </div>
                     </div>
                 </div>

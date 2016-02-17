@@ -16,6 +16,16 @@ class Cobrospago extends Model {
         return $this->belongsTo('App\Cobro');
     }
 
+    public function banco()
+    {
+        return $this->belongsTo('App\Banco');
+    }
+
+    public function cuenta()
+    {
+        return $this->belongsTo('App\Bancoscuenta');
+    }
+
     public function setFechaAttribute($fecha)
     {
         $this->setFecha($fecha,'fecha');

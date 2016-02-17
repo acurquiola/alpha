@@ -89,16 +89,28 @@
 			            </tbody>
 		            </table>
 	            </div> 
-	            <div class="form-group pull-right">
-		            <label for="total-a-pagar-doc-input" class="col-sm-6 control-label"><h5>Total a cobrar</h5></label>
-		            <div class="col-sm-6">
-			            <input autocomplete="off" type="text" class="form-control total-a-pagar-doc-input" style="font-weight: bold;" readonly value="0,00">
+				<div class="form-inline" style="margin-bottom: 30px"> 
+					<div class="form-group">
+					<label style="font-weight: bold;" >Recibo de Caja: </label>
+						<div class="input-group">
+							<input type="text" id="nRecibo-input" name="nRecibo" class="form-control" placeholder="Número"/>
+						</div><!-- /.input group -->
+					</div>                          
+		            <div class="form-group pull-right">
+			            <label for="total-a-pagar-doc-input" class="col-sm-6 control-label"><h5>Total a cobrar</h5></label>
+			            <div class="col-sm-6">
+				            <input autocomplete="off" type="text" class="form-control total-a-pagar-doc-input" style="font-weight: bold;" readonly value="0,00">
+			            </div>
 		            </div>
-	            </div>
+
+				</div>
+
 	            <div class="row">
 		            <div class="col-xs-12">
 			            <label>Leyenda:[<span class="text-success">Pago completo</span> | <span class="text-info">Sobrepagado</span> | <span class="text-warning">Pago parcial</span> | <span class="text-danger">Error en saldo ingresado</span>]</label>
-		            </div>
+<!-- 			            <div  class="pull-right"><label id="items-seleccionados-label" class="text-primary" style="font-weight: bold;" >0 Facturas Seleccionadas</label></div>
+ -->		            </div>
+
 	            </div>
 	            <h5>Formas de pago</h5>
 	            <div class="row">
@@ -182,14 +194,11 @@
 @include('cobranza.partials.pagoModal')
 @include('cobranza.partials.retencionModal')
 
-
-
 @endsection
 @section('script')
 
 
 <script>
-
 
     $(document).ready(function(){
 
@@ -226,7 +235,7 @@
                 isrlModal=(isrlModal===undefined)?0:isrlModal;
                 ivaModal=(ivaModal===undefined)?0:ivaModal;
                 retencionFecha=(retencionFecha===undefined)?0:retencionFecha;
-                retencionComprobante=(retencionComprobante===undefined)?0:retencionComprobante;
+                retencionComprobante=(retencionComprobante===undefined)?0:retencionComprobante
                 var o={
                     id:$(value).data('id'),
                     montoAbonado: commaToNum($(value).find('.saldo-abonado-input').val()),
@@ -243,6 +252,7 @@
             $('#formas-pago-table tbody tr').each(function(index,value){
                 pagos.push($(value).data('object'));
             })
+            console.log(facturas)
 
             addLoadingOverlay('#main-box');
             $.ajax({
@@ -256,7 +266,8 @@
                     observacion:$('#observaciones-documento').val(),
                     hasrecaudos:$('#hasrecaudos-check').prop('checked'),
                     ajuste:ajuste,
-                    modulo_id:'{{$id}}'
+                    modulo_id:'{{$id}}',
+                    nRecibo:$('#nRecibo-input').val()
                 },
                 url: '{{action('CobranzaController@store')}}'
             }).done(function(data, status, jx){
@@ -279,7 +290,6 @@
 
             })
         })
-
     });
 
 

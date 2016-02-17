@@ -141,6 +141,12 @@ class ReporteController extends Controller {
         return view('reportes.reporteDES900', compact('diaDesde', 'mesDesde', 'annoDesde', 'diaHasta', 'mesHasta', 'annoHasta', 'aeropuerto', 'despegues'));
     }
 
+
+    public function getReporteContratos(Request $request){
+        $contratos = \App\Contrato::with("cliente")->get();
+        return view('reportes.reporteContratos', compact('contratos'));
+    }
+
     public function getReporteCuadreCaja(Request $request){
         $diaDesde        =$request->get('diaDesde', \Carbon\Carbon::now()->day);
         $mesDesde        =$request->get('mesDesde', \Carbon\Carbon::now()->month);
@@ -156,16 +162,22 @@ class ReporteController extends Controller {
                                 ->get();
 
         $facturasTotal = \App\Factura::whereBetween('fecha', array($annoDesde.'-'.$mesDesde.'-'.$diaDesde,  $annoHasta.'-'.$mesHasta.'-'.$diaHasta) )
-                                    ->where('aeropuerto_id', session('aeropuerto')->id)
+                                ->where('facturas.deleted_at', null)
+                                ->where('aeropuerto_id', session('aeropuerto')->id)
+                                ->where('nroDosa', '<>', 'NULL')
                                     ->sum('facturas.total');
 
         $facturasCredito = \App\Factura::whereBetween('fecha', array($annoDesde.'-'.$mesDesde.'-'.$diaDesde,  $annoHasta.'-'.$mesHasta.'-'.$diaHasta) )
-                                    ->where('aeropuerto_id', session('aeropuerto')->id)
+                                ->where('facturas.deleted_at', null)
+                                ->where('aeropuerto_id', session('aeropuerto')->id)
+                                ->where('nroDosa', '<>', 'NULL')
                                     ->where('condicionPago', 'Crédito')
                                     ->sum('facturas.total');
 
         $facturasContado = \App\Factura::whereBetween('fecha', array($annoDesde.'-'.$mesDesde.'-'.$diaDesde,  $annoHasta.'-'.$mesHasta.'-'.$diaHasta) )
-                                    ->where('aeropuerto_id', session('aeropuerto')->id)
+                                ->where('facturas.deleted_at', null)
+                                ->where('aeropuerto_id', session('aeropuerto')->id)
+                                ->where('nroDosa', '<>', 'NULL')
                                     ->where('condicionPago', 'Contado')
                                     ->sum('facturas.total');
 
@@ -174,19 +186,23 @@ class ReporteController extends Controller {
         return view('reportes.reporteCuadreCaja', compact('diaDesde', 'mesDesde', 'annoDesde', 'diaHasta', 'mesHasta', 'annoHasta', 'aeropuerto', 'facturas', 'facturasTotal', 'facturasContado', 'facturasCredito'));
     }
 
-    public function getReporteClienteReciboMensual(Request $request){
+    public function getReporteRelacionCobranza(Request $request){
         $modulos      =\App\Modulo::where('aeropuerto_id', session('aeropuerto')->id )->lists('nombre','id');
+        $clientes      =\App\Cliente::all();
         $mes          =$request->get('mes', \Carbon\Carbon::now()->month);
         $anno         =$request->get('anno',  \Carbon\Carbon::now()->year);
         $aeropuerto   =$request->get('aeropuerto',  0);
+       
+       $cliente      =$request->get('cliente', 0);
         $modulo       =$request->get('modulo', \App\Modulo::where('aeropuerto_id', session('aeropuerto')->id )->first()->id);
         $primerDiaMes =\Carbon\Carbon::create($anno, $mes,1)->startOfMonth();
         $ultimoDiaMes =\Carbon\Carbon::create($anno, $mes,1)->endOfMonth();
-        $recibos=\App\Cobrospago::where('fecha','>=' ,$primerDiaMes)
+        $recibos=\App\Cobrospago::with('cobro','cuenta')->where('fecha','>=' ,$primerDiaMes)
                                 ->where('fecha','<=' ,$ultimoDiaMes)
-                                ->whereHas('cobro', function($query) use ($aeropuerto, $modulo){
-                                    $query->whereHas('facturas', function($query) use ($aeropuerto, $modulo){
+                                ->whereHas('cobro', function($query) use ($aeropuerto, $modulo, $cliente){
+                                    $query->whereHas('facturas', function($query) use ($aeropuerto, $modulo, $cliente){
                                         $query->where('facturas.aeropuerto_id',($aeropuerto==0)?">":"=", $aeropuerto)
+                                            ->where('facturas.cliente_id',($cliente==0)?">":"=", $cliente)
                                               ->where('facturas.deleted_at', null)
                                                 ->whereHas('detalles', function($query)  use ($aeropuerto, $modulo){
                                                     $query->whereHas('concepto', function($query)  use ($aeropuerto, $modulo){
@@ -194,9 +210,9 @@ class ReporteController extends Controller {
                                                     });
                                         });
                                     });
-                                })->orderBy('fecha', 'DESC')
+                                })->orderBy('fecha', 'ASC')
                                 ->get();
-        return view('reportes.reporteClienteReciboMensual', compact('mes', 'anno', 'aeropuerto', 'modulo', 'recibos', 'modulos'));
+        return view('reportes.reporteRelacionCobranza', compact('mes', 'anno', 'aeropuerto', 'modulo', 'recibos', 'modulos', 'clientes', 'cliente'));
 
     }
 
@@ -259,7 +275,7 @@ class ReporteController extends Controller {
             if($estatus=="A"){
                 $facturas->onlyTrashed();
             }else{
-                $facturas->where('facturas.estado', 'like',$estatus);
+                $facturas->with('cobros')->where('facturas.estado', 'like',$estatus);
             }
 
 
@@ -282,7 +298,7 @@ class ReporteController extends Controller {
 
        $table=$request->get('table');
 
-       $pdf = new \TCPDF('L', PDF_UNIT, 'legal', true, 'UTF-8', false);
+       $pdf = new \TCPDF('L', PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
 
        $pdf->setPrintHeader(false);
 

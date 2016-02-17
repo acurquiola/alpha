@@ -26,7 +26,6 @@ class CobranzaController extends Controller {
 	 */
 	public function index($moduloNombre, Request $request)
 	{
-
         $sortName          = $request->get('sortName','id');
         $sortName          =($sortName=="")?"id":$sortName;
 
@@ -36,7 +35,7 @@ class CobranzaController extends Controller {
 
         $cobroId         = $request->get('id');
         $cobroId         =($cobroId=="")?0:$cobroId;
-        $cobroIdOperator = $request->get('facturaIdOperator', '>=');
+        $cobroIdOperator = $request->get('cobroIdOperator', '>=');
         $cobroIdOperator =($cobroIdOperator=="")?'>=':$cobroIdOperator;
         $cobroIdOperator =($cobroId==0)?">=":$cobroIdOperator;
 
@@ -78,22 +77,22 @@ class CobranzaController extends Controller {
         $modulo=\App\Modulo::where("nombre","like",$moduloNombre)->first();
 
         $cobros=\App\Cobro::select("cobros.*","clientes.nombre as clienteNombre")
-            ->join('clientes','clientes.id' , '=', 'cobros.cliente_id')
-            ->where('cobros.modulo_id', "=", $modulo->id)
-            ->where('cobros.id', $cobroIdOperator, $cobroId)
-            ->where('montodepositado', $depositadoOperator, $depositado)
-            ->where('montofacturas', $pagadoOperator, $pagado)
-            ->where('cobros.created_at', $fechaOperator, $fecha)
-            ->where('observacion', 'like', "%$observacion%")
-            ->where('clientes.nombre', 'like', "%$clienteNombre%")
-            ->where('cobros.aeropuerto_id','=', session('aeropuerto')->id)
-            ->with('cliente')
-            ->orderBy($sortName, $sortType)->paginate(50);
+        ->join('clientes','clientes.id' , '=', 'cobros.cliente_id')
+        ->where('cobros.modulo_id', "=", $modulo->id)
+        ->where('cobros.id', $cobroIdOperator, $cobroId)
+        ->where('montodepositado', $depositadoOperator, $depositado)
+        ->where('montofacturas', $pagadoOperator, $pagado)
+        ->where('cobros.created_at', $fechaOperator, $fecha)
+        ->where('observacion', 'like', "%$observacion%")
+        ->where('clientes.nombre', 'like', "%$clienteNombre%")
+        ->where('cobros.aeropuerto_id','=', session('aeropuerto')->id)
+        ->with('cliente');
+        $cobros=$cobros->orderBy($sortName, $sortType)->paginate(50);
 
         $cobros->setPath('');
 
-		return view('cobranza.index', compact('cobros','modulo'))->withInput(\Input::all());
-	}
+        return view('cobranza.index', compact('cobros','modulo'))->withInput(\Input::all());
+    }
 
 	/**
 	 * Show the form for creating a new resource.
@@ -113,7 +112,7 @@ class CobranzaController extends Controller {
         $bancos=\App\Banco::with('cuentas')->get();
 
         return view('cobranza.create',compact('clientes','moduloName', 'bancos','id'));
-	}
+    }
 
 	/**
 	 * Store a newly created resource in storage.
@@ -122,19 +121,21 @@ class CobranzaController extends Controller {
 	 */
 	public function store(Request $request)
 	{
-
         \DB::transaction(function () use ($request) {
-        $cobro=\App\Cobro::create([
-            'cliente_id' => $request->get('cliente_id'),
-            'modulo_id'=>$request->get('modulo_id'),
-            'aeropuerto_id' => session('aeropuerto')->id]);
-        $facturas=$request->get('facturas',[]);
-        $pagos=$request->get('pagos',[]);
-        foreach($facturas as $f){
-            $factura=\App\Factura::find($f["id"]);
+            $cobro=\App\Cobro::create([
+                'cliente_id'    => $request->get('cliente_id'),
+                'modulo_id'     => $request->get('modulo_id'),
+                'aeropuerto_id' => session('aeropuerto')->id,
+                'nRecibo'       => $request->get('nRecibo')]);
 
-            $facturaMetadata=\App\Facturametadata::firstOrCreate(["factura_id"=>$factura->id]);
-            $facturaMetadata->ncobros++;
+            $facturas=$request->get('facturas',[]);
+            $pagos=$request->get('pagos',[]);
+
+            foreach($facturas as $f){
+                $factura=\App\Factura::find($f["id"]);
+
+                $facturaMetadata=\App\Facturametadata::firstOrCreate(["factura_id"=>$factura->id]);
+                $facturaMetadata->ncobros++;
             /**
              * En el request me llega los porcentajes del iva e isrl que fueron usados en la retencion
              * y el monto de abonado. Debo hallar cuanto de ese monto abonado corresponde la base y al iva
@@ -196,7 +197,7 @@ class CobranzaController extends Controller {
             $facturaMetadata->total+=$abonadoReal;
             $facturaMetadata->save();
             $cobro->facturas()
-            ->attach([$factura->nFactura =>
+            ->attach([$factura->id =>
                 ['monto' => $f["montoAbonado"],
                 'base' => $base,
                 'iva' => $iva,
@@ -207,15 +208,22 @@ class CobranzaController extends Controller {
                 'retencionFecha' => $f["retencionFecha"],
                 'retencionComprobante' => $f["retencionComprobante"],
                 ]]);
-            if($facturaMetadata->total==$factura->total){
+
+            if(($facturaMetadata->montopagado+$retencion)>=($factura->total)){
                 $factura->estado="C";
                 $factura->save();
             }
         }
 
-
         foreach($pagos as $p){
-            $cobro->pagos()->create($p);
+            $cobro->pagos()->create(["tipo"        =>$p["tipo"], 
+                                    "fecha"        =>$p["fecha"], 
+                                    "banco_id"     =>$p["banco_id"],
+                                    "cuenta_id"    =>$p["cuenta_id"], 
+                                    "ncomprobante" =>$p["ncomprobante"], 
+                                    "monto"        =>$p["monto"]+0]);  
+
+
         }
 
         $cobro->montofacturas=$request->get("totalFacturas");
@@ -224,16 +232,16 @@ class CobranzaController extends Controller {
 
         if($cobro->montodepositado>($cobro->montofacturas-$ajuste)){
             $cobro->ajustes()->create(["monto"=>$cobro->montodepositado-$cobro->montofacturas-$ajuste,
-                                        "cliente_id" => $request->get("cliente_id")]);
+                "cliente_id" => $request->get("cliente_id")]);
 
         }
         $cobro->observacion=$request->get('observacion');
         $cobro->hasrecaudos=$request->get('hasrecaudos');
         $cobro->save();
-        });
+    });
 
-        return ["success"=>1];
-	}
+return ["success"=>1];
+}
 
 	/**
 	 * Display the specified resource.
@@ -243,10 +251,12 @@ class CobranzaController extends Controller {
 	 */
 	public function show($moduloNombre, $id)
 	{
+
         $cobro=\App\Cobro::find($id);
-        $cobro->load('facturas', 'pagos', 'ajustes', 'cliente');
+
+        $cobro->load('facturas', 'pagos', 'ajustes', 'cliente')->groupBy($cobro->facturas)->orderBy($cobro->facturas);
         return view('cobranza.show', compact('cobro', 'moduloNombre'));
-	}
+    }
 
 	/**
 	 * Show the form for editing the specified resource.
@@ -293,8 +303,8 @@ class CobranzaController extends Controller {
 	{
 
         \DB::transaction(function () use ($moduloNombre, $id) {
-            $cobro=\App\Cobro::find($id);
-            $facturas=$cobro->facturas;
+            $cobro    =\App\Cobro::find($id);
+            $facturas =$cobro->facturas;
             foreach($facturas as $factura){
 
                 $facturaMetadata=$factura->metadata;
@@ -321,8 +331,8 @@ class CobranzaController extends Controller {
             $cobro->delete();
         });
 
-        return ["success"=>1, "text"=>"El cobro se ha eliminado con exito"];
-	}
+    return ["success"=>1, "text"=>"El cobro se ha eliminado con exito"];
+    }
 
 
     public function getFacturasClientes($moduloName,Request $request){
@@ -330,8 +340,8 @@ class CobranzaController extends Controller {
         $id=0;
         if($moduloName!="Todos"){
             $modulo=\App\Modulo::where("nombre","like",$moduloName)
-                ->where('aeropuerto_id', session('aeropuerto')->id)
-                ->first();
+            ->where('aeropuerto_id', session('aeropuerto')->id)
+            ->first();
             $id=$modulo->id;
             $idOperator="=";
         }
@@ -340,14 +350,14 @@ class CobranzaController extends Controller {
         if(!$cliente)
             return ["facturas"=>[], "ajuste"=> []];
         $facturas=\App\Factura::with('metadata')
-            ->where('cliente_id', $cliente->id)
-            ->where('modulo_id', $idOperator, $id)
-            ->where('aeropuerto_id', session('aeropuerto')->id)
-            ->where('facturas.estado','=','P')
-            ->groupBy("facturas.id")->get();
+        ->where('cliente_id', $cliente->id)
+        ->where('modulo_id', $idOperator, $id)
+        ->where('aeropuerto_id', session('aeropuerto')->id)
+        ->where('facturas.estado','=','P')
+        ->groupBy("facturas.id")->get();
         $ajusteCliente= \DB::table('ajustes')
-            ->where('cliente_id', $cliente->id)
-            ->sum('monto');
+        ->where('cliente_id', $cliente->id)
+        ->sum('monto');
 
         return ["facturas"=>$facturas, "ajuste"=> $ajusteCliente];
     }
@@ -364,6 +374,68 @@ class CobranzaController extends Controller {
     protected function getModulos($moduloNombre){
         $modulos=session('aeropuerto')->modulos()->where("nombre","like",$moduloNombre)->orderBy("nombre")->get();
         return $modulos;
+    }
+
+    protected function crearRecibo($cobro, $output= 'I', $dir='ReciboCaja/'){
+
+        $cobroid=$cobro;
+        $cobro=\App\Cobro::with('pagos', 'cliente')->find($cobroid);
+        foreach ($cobro->pagos as $c){    
+            $pagos[]=\App\Cobrospago::with('banco', 'cuenta')->find($c->id);
+            $cuentas[]=\App\Bancoscuenta::where('id', $c->cuenta_id)->get();
+        }
+
+        //dd($cobro);
+        //return view('pdf.factura', compact('factura'));
+        // create new PDF document
+        $pdf = new \TCPDF('P', PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
+        $pdf->setPrintHeader(false);
+        $pdf->setPrintFooter(false);
+        // set default monospaced font
+        $pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
+        // set margins
+        $pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
+        // set some language-dependent strings (optional)
+        if (@file_exists(dirname(__FILE__).'/lang/eng.php')) {
+            require_once(dirname(__FILE__).'/lang/eng.php');
+            $pdf->setLanguageArray($l);
+        }
+        // ---------------------------------------------------------
+        // set default font subsetting mode
+        $pdf->setFontSubsetting(true);
+        // Set font
+        // dejavusans is a UTF-8 Unicode font, if you only need to
+        // print standard ASCII chars, you can use core fonts like
+        // helvetica or times to reduce file size.
+        $pdf->SetFont('dejavusans', '', 9, '', true);
+        // Add a page
+        // This method has several options, check the source code documentation for more information.
+        $pdf->AddPage();
+        // set text shadow effect
+        // Set some content to print
+        //
+
+        $html = view('pdf.reciboCaja', compact('cobro', 'pagos', 'cuentas', 'traductor'))->render();
+        
+        // Print text using writeHTMLCell()
+        $pdf->writeHTML($html);
+        // ---------------------------------------------------------
+        // Close and output PDF document
+        // This method has several options, check the source code documentation for more information.
+        ob_end_clean();
+        if($output=='I')
+            $pdf->Output($cobro->id."reciboCaja.pdf", $output);
+        else{
+            $path=$dir.$cobro->id."reciboCaja.pdf";
+            $pdf->Output($path, $output);
+            return $path;
+        }
+        $factura->update(["isImpresa"=> true]);
+    }
+
+
+    public function getPrint($modulo, $cobro){
+      return $this->crearRecibo($cobro);
     }
 
 }

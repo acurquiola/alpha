@@ -23,7 +23,7 @@
 					<div class="input-group-addon">
 						<i class="fa fa-money"></i> BsF. 
 					</div>
-					<input type="text" id="eq_diurnoInt-input" class="form-control" disabled />
+					{!! Form::text('precio_diurnoInt', null, ["id"=>"precio_diurnoInt-input", 'class'=>"form-control precio_diurnoInt","placeholder"=>"Precio Establecido", "readonly"=>"readonly"]) !!}
 				</div><!-- /.input group -->
 			</div><!-- /.form group -->	
 
@@ -44,7 +44,7 @@
 					<div class="input-group-addon">
 						<i class="fa fa-money"></i> BsF. 
 					</div>
-					<input type="text" id="eq_nocturInt-input" class="form-control" disabled />
+					{!! Form::text('precio_nocturInt', null, ["id"=>"precio_nocturInt-input", 'class'=>"form-control precio_nocturInt","placeholder"=>"Precio Establecido", "readonly"=>"readonly"]) !!}
 					<input type="hidden" name="aeropuerto_id" value="{{session('aeropuerto')->id}}"></input>
 				</div><!-- /.input group -->
 			</div><!-- /.form group -->		
@@ -76,9 +76,7 @@
 					<div class="input-group-addon">
 						<i class="fa fa-money"></i> BsF. 
 					</div>
-					@foreach ($confGeneral as $cG)
-					<input type="text" id="eq_diurnoNac-input" class="form-control"  disabled />
-					@endforeach
+					{!! Form::text('precio_diurnoNac', null, ["id"=>"precio_diurnoNac-input", 'class'=>"form-control precio_diurnoNac","placeholder"=>"Precio Establecido", "readonly"=>"readonly"]) !!}
 				</div><!-- /.input group -->
 			</div><!-- /.form group -->	
 
@@ -99,7 +97,7 @@
 					<div class="input-group-addon">
 						<i class="fa fa-money"></i> BsF. 
 					</div>
-					<input type="text" id="eq_nocturNac-input" class="form-control" disabled />
+					{!! Form::text('precio_nocturNac', null, ["id"=>"precio_nocturNac-input", 'class'=>"form-control precio_nocturNac","placeholder"=>"Precio Establecido", "readonly"=>"readonly"]) !!}
 				</div><!-- /.input group -->
 			</div><!-- /.form group -->			
 		</div><!-- /.box-body -->

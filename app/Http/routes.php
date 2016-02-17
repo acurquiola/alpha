@@ -73,6 +73,7 @@ Route::group(['prefix' => 'operaciones/'], function () {
     Route::get('CargasFacturar/{id}', 'CargaController@getCrearFactura');
     Route::get('FacturarAdicional/{id}', 'AterrizajeController@getCrearFactura');
     Route::get('getDosaClientes/{id}', 'DespegueController@getDosaClientes');
+    Route::post('postGenerarCobranza/{id}', 'DespegueController@postGenerarCobranza');
     //Route::PUT('Despegue/update/{id}', 'AterrizajeController@update');
     Route::group(['prefix' => '{aterrizaje}/'], function () {
         Route::resource('Despegues', 'DespegueController');
@@ -83,6 +84,7 @@ Route::group(['prefix' => 'operaciones/'], function () {
 });
 
 Route::group(['prefix' => 'cobranza/{modulo}/'], function () {
+    Route::get('print/{cobro}', 'CobranzaController@getPrint');
     Route::get('main', 'CobranzaController@main');
     Route::get('getFacturasClientes', 'CobranzaController@getFacturasClientes');
     Route::resource('cobro', 'CobranzaController');
@@ -144,7 +146,8 @@ Route::group(['prefix' => 'reporte/'], function () {
     Route::get('mensual', 'ReporteController@getReporteMensual');
     Route::get('reporteModuloMetaMensual', 'ReporteController@getReporteModuloMetaMensual');
     Route::get('reporterFacturadoCobradoMensual', 'ReporteController@getReporterFacturadoCobradoMensual');
-    Route::get('reporteClienteReciboMensual', 'ReporteController@getReporteClienteReciboMensual');
+    Route::get('reporteReporteRelacionCobranza', 'ReporteController@getReporteRelacionCobranza');
+    Route::get('reporteContratos', 'ReporteController@getReporteContratos');
     Route::post('exportReport', "ReporteController@postExportReport");
 
     Route::get('reporterDES900', 'ReporteController@getReporteDES900');

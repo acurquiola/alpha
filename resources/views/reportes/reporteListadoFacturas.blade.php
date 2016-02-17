@@ -125,6 +125,9 @@
                                     Nro Factura
                                  </th>
                                  <th style="vertical-align: middle" class="text-center">
+                                    Nro Control
+                                 </th>
+                                 <th style="vertical-align: middle" class="text-center">
                                     Rif Cliente
                                  </th>
                                  <th style="vertical-align: middle" class="text-center">
@@ -154,6 +157,7 @@
                                     <td>{{$index+1}}</td>
                                     <td>{{$factura->fecha}}</td>
                                     <td>{{$factura->nFacturaPrefix}}-{{$factura->nFactura}}</td>
+                                    <td>{{$factura->nControlPrefix}}-{{$factura->nControl}}</td>
                                     <td>{{$factura->cliente->cedRifPrefix}}-{{$factura->cliente->cedRif}}</td>
                                     <td>{{$factura->cliente->nombre}}</td>
                                     <td>{{$factura->descripcion}}</td>

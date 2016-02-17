@@ -42,6 +42,11 @@ class Aeropuerto extends Model {
         return $this->hasMany('App\Despegue');
     }
 
+    public function recibo()
+    {
+        return $this->hasMany('App\ReciboPago');
+    }
+
     public function carga()
     {
         return $this->hasMany('App\Carga');

@@ -36,7 +36,7 @@
 						<div class="input-group-addon">
 							<i class="fa fa-money"></i> BsF. 
 						</div>
-						<input type="text" id="precioBloqueInt-input" class="form-control" disabled/>
+							{!! Form::text('precio_estInt', null, ["id"=>"precio_estInt-input", 'class'=>"form-control precio_estInt","placeholder"=>"Precio Establecido", "readonly"=>"readonly"]) !!}
 					</div><!-- /.input group -->
 				</div><!-- /.form group -->
 				<!-- Definición de Bloque -->
@@ -83,7 +83,7 @@
 						<div class="input-group-addon">
 							Equivalente: 
 						</div>
-							{!! Form::text('eq_bloqueNac', null, [ 'class'=>"form-control eq_bloqueNac","placeholder"=>"Equivalente de la UT por bloque"]) !!}
+							{!! Form::text('eq_bloqueNac', null, [ 'class'=>"form-control eq_bloqueNac","placeholder"=>"Equivalente de la UT por bloque" ]) !!}
 					</div><!-- /.input group -->
 				</div><!-- /.form group -->	
 				<!-- Precio -->
@@ -92,7 +92,7 @@
 						<div class="input-group-addon">
 							<i class="fa fa-money"></i> BsF. 
 						</div>
-						<input type="text"  id="precioBloqueNac-input" class="form-control"  disabled/>
+							{!! Form::text('precio_estNac', null, ["id"=>"precio_estNac-input", 'class'=>"form-control precio_estNac","placeholder"=>"Precio Establecido", "readonly"=>"readonly"]) !!}
 					</div><!-- /.input group -->
 				</div><!-- /.form group -->
 				<!-- Definición de Bloque -->

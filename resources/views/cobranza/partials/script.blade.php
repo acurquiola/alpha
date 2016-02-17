@@ -30,6 +30,7 @@ function calculateTotalRetencion(){
 
 	var trs=$('#retencion-modal table tbody tr');
 	var total=0;
+
 	$.each(trs, function(){
 		if($(this).find(':checkbox').prop('checked')){
 			var input =$(this).find('.retencion-input');
@@ -68,7 +69,6 @@ function calculateTotalDepositar(){
 	$('#total-a-depositar-doc-input').val(numToComma(total));
 	$('#total-diferencia-doc-input').val(numToComma(total-commaToNum($('.total-a-pagar-doc-input').first().val())));
 }
-
 
 	$('body').delegate('#ajuste-input', 'keyup paste', calculateTotalDepositar);
 
@@ -410,7 +410,11 @@ $('#cxc-table').delegate('.saldo-abonado-input', 'keyup',function(){
 
 
 $('#cxc-table').delegate('.pay-all-btn', 'click',function(){
-	var row=$(this).closest('tr');
+	var row   =$(this).closest('tr');
+	$.each($('#cxc-table tr').hasClass("success")==true, function(){
+		console.log();
+	});
+		
 
 	var saldoPendienteText =$(row).find('.saldo-pagar').text();
 	var saldoPendiente     =commaToNum(saldoPendienteText);
@@ -457,6 +461,6 @@ $('#type-rows-cxc-table-wrapper-select').change(function(){
 	    	$(filas).hide();
 	    	$(filas).filter(':not(.info,.warning,.success)').show();
 		break;
-	}
+	} 
 
 });

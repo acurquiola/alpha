@@ -355,6 +355,7 @@ class DespegueController extends Controller {
 		if($despegue->cobrar_Formulario == '1'){
 			$formulario        = new Facturadetalle();
 			$eq_formulario     = CargosVario::where('aeropuerto_id', session('aeropuerto')->id)->first()->eq_formulario;
+			$precio_formulario = CargosVario::where('aeropuerto_id', session('aeropuerto')->id)->first()->precio_formulario;
 			switch ($condicionPago) {
 				case 'Contado':
 				$concepto_id  = CargosVario::where('aeropuerto_id', session('aeropuerto')->id)->first()->formularioContado_id;
@@ -363,7 +364,7 @@ class DespegueController extends Controller {
 				$concepto_id  = CargosVario::where('aeropuerto_id', session('aeropuerto')->id)->first()->formularioCredito_id;
 				break;
 			}
-			$montoDes          = $eq_formulario * $ut;
+			$montoDes          = $precio_formulario+0;
 			$cantidadDes       = '1';
 			$iva               = Concepto::find($concepto_id)->iva;
 			$montoIva          = ($iva * $montoDes)/100 ;
@@ -389,14 +390,16 @@ class DespegueController extends Controller {
 
 			switch ($nacionalidad) {
 				case 1:
-				$minutosLibre  = EstacionamientoAeronave::where('aeropuerto_id', session('aeropuerto')->id)->first()->tiempoLibreNac;
-				$eq_bloque     = EstacionamientoAeronave::where('aeropuerto_id', session('aeropuerto')->id)->first()->eq_bloqueNac;
-				$minutosBloque = EstacionamientoAeronave::where('aeropuerto_id', session('aeropuerto')->id)->first()->minBloqueNac;
+				$minutosLibre           = EstacionamientoAeronave::where('aeropuerto_id', session('aeropuerto')->id)->first()->tiempoLibreNac;
+				$eq_bloque              = EstacionamientoAeronave::where('aeropuerto_id', session('aeropuerto')->id)->first()->eq_bloqueNac;
+				$precio_estacionamiento = EstacionamientoAeronave::where('aeropuerto_id', session('aeropuerto')->id)->first()->precio_estNac;
+				$minutosBloque          = EstacionamientoAeronave::where('aeropuerto_id', session('aeropuerto')->id)->first()->minBloqueNac;
 				break;
 				case 2:
-				$minutosLibre  = EstacionamientoAeronave::where('aeropuerto_id', session('aeropuerto')->id)->first()->tiempoLibreInt;
-				$eq_bloque     = EstacionamientoAeronave::where('aeropuerto_id', session('aeropuerto')->id)->first()->eq_bloqueInt;
-				$minutosBloque = EstacionamientoAeronave::where('aeropuerto_id', session('aeropuerto')->id)->first()->minBloqueInt;
+				$minutosLibre           = EstacionamientoAeronave::where('aeropuerto_id', session('aeropuerto')->id)->first()->tiempoLibreInt;
+				$eq_bloque              = EstacionamientoAeronave::where('aeropuerto_id', session('aeropuerto')->id)->first()->eq_bloqueInt;
+				$precio_estacionamiento = EstacionamientoAeronave::where('aeropuerto_id', session('aeropuerto')->id)->first()->precio_estInt;
+				$minutosBloque          = EstacionamientoAeronave::where('aeropuerto_id', session('aeropuerto')->id)->first()->minBloqueInt;
 				break;
 
 			}
@@ -408,7 +411,7 @@ class DespegueController extends Controller {
 			if($tiempoAFacturar > 0){
                 $tiempoAFacturar=ceil($tiempoAFacturar);
 
-				$equivalente            = ($eq_bloque * $ut);
+				$equivalente            = number_format($precio_estacionamiento, 2);
 				$montoDes               = $equivalente * $tiempoAFacturar * $peso_aeronave;
 				$cantidadDes            = '1';
 				$iva                    = Concepto::find($concepto_id)->iva;
@@ -442,10 +445,12 @@ class DespegueController extends Controller {
 				switch ($nacionalidad) {
 					case 1:
 					$eq_aterDesp     = PreciosAterrizajesDespegue::where('aeropuerto_id', session('aeropuerto')->id)->first()->eq_diurnoNac;
+					$precio_AterDesp     = PreciosAterrizajesDespegue::where('aeropuerto_id', session('aeropuerto')->id)->first()->precio_diurnoNac;
 					$tipoAterrizaje  = 'Diuno Nacional';
 					break;
 					case 2:
 					$eq_aterDesp     = PreciosAterrizajesDespegue::where('aeropuerto_id', session('aeropuerto')->id)->first()->eq_diurnoInt;
+					$precio_AterDesp     = PreciosAterrizajesDespegue::where('aeropuerto_id', session('aeropuerto')->id)->first()->precio_diurnoInt;
 					$tipoAterrizaje  = 'Nocturno Nacional';
 					break;
 				}
@@ -453,16 +458,18 @@ class DespegueController extends Controller {
 				switch ($nacionalidad) {
 					case 1:
 					$eq_aterDesp     = PreciosAterrizajesDespegue::where('aeropuerto_id', session('aeropuerto')->id)->first()->eq_nocturNac;
+					$precio_AterDesp     = PreciosAterrizajesDespegue::where('aeropuerto_id', session('aeropuerto')->id)->first()->precio_nocturNac;
 					$tipoAterrizaje  = 'Diuno Internacional';
 					break;
 					case 2:
 					$eq_aterDesp     = PreciosAterrizajesDespegue::where('aeropuerto_id', session('aeropuerto')->id)->first()->eq_nocturInt;
+					$precio_AterDesp     = PreciosAterrizajesDespegue::where('aeropuerto_id', session('aeropuerto')->id)->first()->precio_nocturInt;
 					$tipoAterrizaje  = 'Nocturno Internacional';
 					break;
 				}
 
 			}
-			$montoDes          = $eq_aterDesp * $ut * $peso_aeronave;
+			$montoDes          = $precio_AterDesp * $peso_aeronave;
 			$cantidadDes       = '1';
 			$iva               = Concepto::find($concepto_id)->iva;
 			$montoIva          = ($iva * $montoDes)/100 ;
@@ -490,19 +497,21 @@ class DespegueController extends Controller {
 			}
 
 			if ($hora > $inicioOperaciones && $hora < $finOperaciones){
-				$eq_puenteAbordaje = CargosVario::where('aeropuerto_id', session('aeropuerto')->id)->first()->eq_usoAbordajeSinHab;
+				$eq_puenteAbordaje     = CargosVario::where('aeropuerto_id', session('aeropuerto')->id)->first()->eq_usoAbordajeSinHab;
+				$precio_puenteAbordaje = CargosVario::where('aeropuerto_id', session('aeropuerto')->id)->first()->precio_usoAbordajeSinHab;
 			}else{
-				$eq_puenteAbordaje = CargosVario::where('aeropuerto_id', session('aeropuerto')->id)->first()->eq_usoAbordajeConHab;
+				$eq_puenteAbordaje     = CargosVario::where('aeropuerto_id', session('aeropuerto')->id)->first()->eq_usoAbordajeConHab;
+				$precio_puenteAbordaje = CargosVario::where('aeropuerto_id', session('aeropuerto')->id)->first()->precio_usoAbordajeConHab;
 			}
 
 
 			$tiempoUsoPuenteAbordaje = $despegue->tiempo_puenteAbord;
-			$equivalente = $eq_puenteAbordaje * $ut;
-			$montoDes          = $equivalente * $tiempoUsoPuenteAbordaje;
-			$cantidadDes       = '1';
-			$iva               = Concepto::find($concepto_id)->iva;
-			$montoIva          = ($iva * $montoDes)/100 ;
-			$totalDes          = $montoDes + $montoIva;
+			$equivalente             = $precio_puenteAbordaje+0;
+			$montoDes                = $equivalente * $tiempoUsoPuenteAbordaje;
+			$cantidadDes             = '1';
+			$iva                     = Concepto::find($concepto_id)->iva;
+			$montoIva                = ($iva * $montoDes)/100 ;
+			$totalDes                = $montoDes + $montoIva;
 			$puenteAbordaje->fill(compact('concepto_id', 'condicionPago',  'montoDes', 'cantidadDes', 'iva', 'totalDes'));
 			$factura->detalles->push($puenteAbordaje);
 
@@ -522,18 +531,19 @@ class DespegueController extends Controller {
 				break;
 			}
 
-			$pesoEmb     = $despegue->peso_embarcado;
-			$pesoDesemb  = $despegue->peso_desembarcado;
-			$pesoBloque  = PreciosCarga::where('aeropuerto_id', session('aeropuerto')->id)->first()->toneladaPorBloque;
-			$pesoCargado = ($pesoDesemb + $pesoEmb / $pesoBloque);
-			$eq_Carga    = PreciosCarga::where('aeropuerto_id', session('aeropuerto')->id)->first()->equivalenteUT;
-			$equivalente = $eq_Carga  * $ut;
-
-			$montoDes          = $equivalente * $pesoCargado;
-			$cantidadDes       = '1';
-			$iva               = Concepto::find($concepto_id)->iva;
-			$montoIva          = ($iva * $montoDes)/100 ;
-			$totalDes          = $montoDes + $montoIva;
+			$pesoEmb      = $despegue->peso_embarcado;
+			$pesoDesemb   = $despegue->peso_desembarcado;
+			$pesoBloque   = PreciosCarga::where('aeropuerto_id', session('aeropuerto')->id)->first()->toneladaPorBloque;
+			$pesoCargado  = ($pesoDesemb + $pesoEmb / $pesoBloque);
+			$eq_Carga     = PreciosCarga::where('aeropuerto_id', session('aeropuerto')->id)->first()->equivalenteUT;
+			$precio_carga = PreciosCarga::where('aeropuerto_id', session('aeropuerto')->id)->first()->precio_carga;
+			$equivalente  = $precio_carga+0;
+			
+			$montoDes     = $equivalente * $pesoCargado;
+			$cantidadDes  = '1';
+			$iva          = Concepto::find($concepto_id)->iva;
+			$montoIva     = ($iva * $montoDes)/100 ;
+			$totalDes     = $montoDes + $montoIva;
 			$carga->fill(compact('concepto_id', 'montoDes', 'cantidadDes', 'iva', 'totalDes'));
 			$factura->detalles->push($carga);
 
@@ -542,8 +552,9 @@ class DespegueController extends Controller {
 		//Ítem de Habilitación
 
 		if($despegue->cobrar_habilitacion == '1'){
-			$habilitacion           = new Facturadetalle();
-			$eq_derechoHabilitacion = CargosVario::where('aeropuerto_id', session('aeropuerto')->id)->first()->eq_derechoHabilitacion;
+			$habilitacion               = new Facturadetalle();
+			$eq_derechoHabilitacion     = CargosVario::where('aeropuerto_id', session('aeropuerto')->id)->first()->eq_derechoHabilitacion;
+			$precio_derechoHabilitacion = CargosVario::where('aeropuerto_id', session('aeropuerto')->id)->first()->precio_derechoHabilitacion;
 
 
 			switch ($condicionPago) {
@@ -555,7 +566,7 @@ class DespegueController extends Controller {
 				break;
 			}
 
-			$montoDes     = $eq_derechoHabilitacion * $ut;
+			$montoDes     = $precio_derechoHabilitacion+0;
 			$cantidadDes  = '1';
 			$iva          = Concepto::find($concepto_id)->iva;
 			$montoIva     = ($iva * $montoDes)/100 ;
@@ -568,35 +579,38 @@ class DespegueController extends Controller {
 		//Ítem de Otros Cargos
 
 		if($despegue->cobrar_otrosCargos == '1'){
-			$otrosCargos           = new Facturadetalle();
 
-			switch ($condicionPago) {
-				case 'Contado':
-				$concepto_id            = OtrosCargo::where('aeropuerto_id', session('aeropuerto')->id)->first()->conceptoContado_id;
-				break;
-				case 'Crédito':
-				$concepto_id            = OtrosCargo::where('aeropuerto_id', session('aeropuerto')->id)->first()->conceptoCredito_id;
-				break;
-			}
+			$otros = $despegue->otros_cargos()->get();
+
+			foreach($otros as $oc){
+				$otrosCargos           = new Facturadetalle();
 
 
-			$cargos = $despegue->otros_cargos()->get();
+					switch ($condicionPago) {
+						case 'Contado':
+						$concepto_id            = $oc->conceptoContado_id;
+						break;
+						case 'Crédito':
+						$concepto_id            = $oc->conceptoCredito_id;
+						break;
+					}
 
-			$precioTotal = 0;
-				foreach ($cargos as $oc) {
-					$precio = \App\OtrosCargo::where('id', $oc->id)->first()->precio_cargo;
-					$precioTotal = $precio + $precioTotal;
-				}
+							/*$precioTotal = 0;
+							foreach ($cargos as $oc) {
+								$precio = \App\OtrosCargo::where('id', $oc->id)->first()->precio_cargo;
+								$precioTotal = $precio + $precioTotal;
+							}*/
 
 
-			$montoDes     = $precioTotal;
-			$cantidadDes  = '1';
-			$iva          = Concepto::find($concepto_id)->iva;
-			$montoIva     = ($iva * $montoDes)/100 ;
-			$totalDes     = $montoDes + $montoIva;
-			$otrosCargos->fill(compact('concepto_id', 'condicionPago', 'montoDes', 'cantidadDes', 'iva', 'totalDes'));
-			$factura->detalles->push($otrosCargos);
+				$montoDes     = $oc->precio_cargo;
+				$cantidadDes  = '1';
+				$iva          = Concepto::find($concepto_id)->iva;
+				$montoIva     = ($iva * $montoDes)/100 ;
+				$totalDes     = $montoDes + $montoIva;
+				$otrosCargos->fill(compact('concepto_id', 'condicionPago', 'montoDes', 'cantidadDes', 'iva', 'totalDes'));
+				$factura->detalles->push($otrosCargos);
 		}
+	}
 
         $modulo= \App\Modulo::where('nombre','DOSAS')->where('aeropuerto_id', session('aeropuerto')->id)->first();
         if(!$modulo){
@@ -667,5 +681,126 @@ class DespegueController extends Controller {
 
         return ["facturas"=>$facturas, "ajuste"=> $ajusteCliente];
     }
+
+    /**
+	 * Store a newly created resource in storage.
+	 *
+	 * @return Response
+	 */
+	public function postGenerarCobranza(Request $request)
+	{
+
+        \DB::transaction(function () use ($request) {
+        $cobro=\App\Cobro::create([
+            'cliente_id' => $request->get('cliente_id'),
+            'modulo_id'=>$request->get('modulo_id'),
+            'aeropuerto_id' => session('aeropuerto')->id]);
+        $facturas=$request->get('facturas',[]);
+        $pagos=$request->get('pagos',[]);
+        foreach($facturas as $f){
+            $factura=\App\Factura::find($f["id"]);
+
+            $facturaMetadata=\App\Facturametadata::firstOrCreate(["factura_id"=>$factura->id]);
+            $facturaMetadata->ncobros++;
+            /**
+             * En el request me llega los porcentajes del iva e isrl que fueron usados en la retencion
+             * y el monto de abonado. Debo hallar cuanto de ese monto abonado corresponde la base y al iva
+             *
+             */
+            //Calculo el total de la retencion
+
+            $totalRetencion=($factura->subtotalNeto*$f["islrpercentage"]/100)+($factura->iva*$f["ivapercentage"]/100);
+
+            //Calculo el total que se debe pagar
+
+            $totalPagar=$factura->total-$totalRetencion;
+
+            //Con el total a pagar puedo calcular cuanto porcentualmente contribuye lo abonado al saldo
+
+            $abonadoPorcentaje=$f["montoAbonado"]/$totalPagar;
+
+            //total real abonado a la factura
+
+            $abonadoReal=$abonadoPorcentaje*$factura->total;
+
+            /*
+             * ya tengo el abonado real, ahora debo calcular cuanto contribuye a la base y al iva
+             */
+            //calculo cuanto es el total sin la recarga
+
+            $totalSinRecarga=$factura->total-$factura->recargoTotal;
+
+            //ahora calculo la contribucion porcentual del iva y la base en el total
+
+            $ivaPorcentaje=$factura->iva/$totalSinRecarga;
+            $baseDespuesDescuentoPorcentaje=$factura->subtotal/$totalSinRecarga;
+
+            //calculo cuanto es la contribucion de la base y el descuento en el subtotalDespuesDescuento
+
+            $baseDescuentoPorcentaje=$factura->subtotalNeto/$factura->subtotal;
+
+            //calculo cuanto del saldo abonado en la base
+
+            $base=$abonadoReal*$baseDespuesDescuentoPorcentaje*$baseDescuentoPorcentaje;
+
+            //calculo cuanto del saldo abonado en el iva
+
+            $iva=$abonadoReal*$ivaPorcentaje;
+
+            //Nota si no existiera descuento $base+$iva=$abonadoReal
+
+            //Ya que tengo la base y el iva abonado puedo calcular la retencion abonada
+
+            $retencion=($base*$f["islrpercentage"]/100)+($iva*$f["ivapercentage"]/100);
+
+
+            $facturaMetadata->montopagado+=$f["montoAbonado"];
+            $facturaMetadata->basepagado+=$base;
+            $facturaMetadata->ivapagado+=$iva;
+            $facturaMetadata->islrpercentage=$f["islrpercentage"];
+            $facturaMetadata->ivapercentage=$f["ivapercentage"];
+            $facturaMetadata->retencion+=$retencion;
+            $facturaMetadata->total+=$abonadoReal;
+            $facturaMetadata->save();
+            $cobro->facturas()
+            ->attach([$factura->id =>
+                ['monto' => $f["montoAbonado"],
+                'base' => $base,
+                'iva' => $iva,
+                'islrpercentage' => $f["islrpercentage"],
+                'ivapercentage' => $f["ivapercentage"],
+                'retencion' => $retencion,
+                'total' => $abonadoReal,
+                'retencionFecha' => $f["retencionFecha"],
+                'retencionComprobante' => $f["retencionComprobante"],
+                ]]);
+            if($facturaMetadata->total==$factura->total){
+                $factura->estado="C";
+                $factura->save();
+
+            }
+        }
+
+
+        foreach($pagos as $p){
+            $cobro->pagos()->create($p);
+        }
+
+        $cobro->montofacturas=$request->get("totalFacturas");
+        $cobro->montodepositado=$request->get("totalDepositado");
+        $ajuste=$request->get("ajuste");
+
+        if($cobro->montodepositado>($cobro->montofacturas-$ajuste)){
+            $cobro->ajustes()->create(["monto"=>$cobro->montodepositado-$cobro->montofacturas-$ajuste,
+                                        "cliente_id" => $request->get("cliente_id")]);
+
+        }
+        $cobro->observacion=$request->get('observacion');
+        $cobro->hasrecaudos=$request->get('hasrecaudos');
+        $cobro->save();
+        });
+
+        return ["success"=>1];
+	}
 
 }

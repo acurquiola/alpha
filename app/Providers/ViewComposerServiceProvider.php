@@ -123,7 +123,7 @@ class ViewComposerServiceProvider extends ServiceProvider {
         });
 
         view()->composer([
-            'reportes.reporteClienteReciboMensual',
+            'reportes.reporteRelacionCobranza',
             'reportes.reporteDiario',
             'reportes.reporteModuloMetaMensual',
             'reportes.reporterFacturadoCobradoMensual',
@@ -135,7 +135,7 @@ class ViewComposerServiceProvider extends ServiceProvider {
         });
 
         \View::composer([
-            'reportes.reporteClienteReciboMensual',
+            'reportes.reporteRelacionCobranza',
             'reportes.reporteDiario',
             'reportes.reporteModuloMetaMensual',
             'reportes.reporterFacturadoCobradoMensual',

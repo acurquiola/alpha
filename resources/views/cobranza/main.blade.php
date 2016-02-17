@@ -18,7 +18,7 @@
 		<!-- general form elements -->
 		<div class="box box-primary">
 			<div class="box-header">
-				<h3 class="box-title">{{$modulo->nombre}}</h3>
+				<h3 class="box-title">{{$modulo->nombre}} (Facturas por Cobrar)</h3>
 				<span class="pull-right"><a class="btn btn-primary"  href="{{action('CobranzaController@create', [$modulo->nombre]) }}">Cobrar</a></span>
 				<span class="pull-right" ><a class="btn btn-success"  style="margin-right: 5px" href="{{ action('CobranzaController@index', [$modulo->nombre]) }}">Consultar</a></span>
 			</div><!-- /.box-header -->

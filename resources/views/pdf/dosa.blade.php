@@ -269,7 +269,7 @@
 </tr>
 @endforeach
 <tr> <td colspan="10">
-@for($i=0; $i<10-$factura->detalles->count();$i++)
+@for($i=0; $i<7-$factura->detalles->count();$i++)
 <br>
 @endfor
 </td></tr>
@@ -285,13 +285,36 @@
 </td>
 </tr>
 </table>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
 
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<table style="width:100%; border-collapse: collapse; padding:2px">
+<tr>
+<td colspan="2">
+<strong>DESCRIPCIÓN: </strong> 
+</td>
+<td colspan="8"></td>
+</tr>
+<tr>
+<td  colspan="10">
+{{$factura->descripcion}}
+</td>
+</tr>
+</table>
+
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
 <table style="width:100%; border-collapse: collapse; padding:2px">
 <tr>
 <td  colspan="5">

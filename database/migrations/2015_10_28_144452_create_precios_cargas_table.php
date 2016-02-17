@@ -15,7 +15,8 @@ class CreatePreciosCargasTable extends Migration {
 		Schema::create('precios_cargas', function(Blueprint $table)
 		{
 			$table->increments('id');
-			$table->float('equivalenteUT');
+			$table->float('equivalenteUT', 8,3);
+			$table->float('precio_carga',8,2)
 			$table->float('toneladaPorBloque');
 			$table->integer('aeropuerto_id')->unsigned();
 			$table->foreign('aeropuerto_id')->references('id')->on('aeropuertos');

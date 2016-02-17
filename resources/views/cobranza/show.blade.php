@@ -7,77 +7,116 @@
   <li><a class="active">Cobranza {{$cobro->id}}</a></li>
 </ol>
 
-              <div class="row" id="box-wrapper">
+<div class="row" id="box-wrapper">
 
-                <div class="col-md-12">
-                  <!-- general form elements -->
-                  <div class="box box-primary">
-                    <div class="box-header">
-                      <h3 class="box-title"> </h3>
-                    </div><!-- /.box-header -->
-                    <!-- form start -->
-                    <div class="box-body">
-                        <h6 class="text-right">Recaudos: {{($cobro->hasrecaudos)?"Si":"No"}}</h6>
-                        <h3 style="margin-top:0px">Cobro: <small>{{$cobro->id}}</small></h3>
-                        <h4>Cliente: {{$cobro->cliente->codigo}} <small>{{$cobro->cliente->nombre}}</small></h4>
-                        <h4>Observaciones: <small>{{$cobro->observaciones}}</small></h4>
-                        <div class="table-responsive">
-                            <table class="table">
-                                <thead>
-                                    <tr>
-                                        <th># Factura</th>
-                                        <th># Control</th>
-                                        <th>Fecha de retención</th>
-                                        <th>Comprobante de retención</th>
-                                        <th class="text-right">Total</th>
-                                        <th class="text-right">Iva</th>
-                                        <th class="text-right">% ISLR</th>
-                                        <th class="text-right">% IVA</th>
-                                        <th class="text-right">Retención</th>
-                                        <th class="text-right">Cobrado</th>
-                                    </tr>
-                                </thead>
-                            <tbody>
+    <div class="col-md-12">
+      <!-- general form elements -->
+      <div class="box box-primary">
+        <div class="box-header">
+            {!! Form::open(["url" => action("ReporteController@postExportReport"), "id" =>"export-form", "target"=>"_blank"]) !!}
+            {!! Form::hidden('table') !!}
+            <h3 class="box-title">Reporte</h3>
+            <span class="pull-right">
+                <button type="button" class="btn btn-primary" id="export-btn">
+                    <span class="glyphicon glyphicon-file"></span> Exportar
+                </button>
+            </span>
+            {!! Form::close() !!}
+        </div>
+        <!-- form start -->
+        <div class="box-body">
+            <h6 style="font-weight: bold;">Cobro: <label>{{$cobro->id}}</label> </h6> 
+            <h6 style="font-weight: bold;">Cliente: <label>{{$cobro->cliente->codigo}} | {{$cobro->cliente->nombre}}</label> </h6> 
+            <h6 style="font-weight: bold;">Nro. Recibo de Caja
+                : <label>{{($cobro->nRecibo)?$cobro->nRecibo:"No Dispone"}}</label> </h6> 
+                <h6 style="font-weight: bold;">Observaciones:  <label>{{($cobro->observaciones)?$cobro->observaciones:"No Dispone"}}</label> </h6> 
+                <h6 style="font-weight: bold;">Recaudos Consignados:  <label> {{($cobro->hasrecaudos)?"Si":"No"}}</label> </h6> 
 
-                                @foreach($cobro->facturas as $factura)
-                                    <tr>
-                                        <td>{{$factura->nFacturaPrefix}}-{{$factura->nFactura}}</td>
-                                        <td>{{$factura->nControlPrefix}}-{{$factura->nControl}}</td>
-                                        <td>{{$factura->pivot->retencionFecha}}</td>
-                                        <td>{{$factura->pivot->retencionComprobante}}</td>
-                                        <td class="text-right">{{$traductor->format($factura->pivot->total)}}</td>
-                                        <td class="text-right">{{$traductor->format($factura->pivot->iva)}}</td>
-                                        <td class="text-right">{{$traductor->format($factura->pivot->islrpercentage)}}</td>
-                                        <td class="text-right">{{$traductor->format($factura->pivot->ivapercentage)}}</td>
-                                        <td class="text-right">{{$traductor->format($factura->pivot->retencion)}}</td>
-                                        <td class="text-right">{{$traductor->format($factura->pivot->monto)}}</td>
-                                    </tr>
-                                @endforeach
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Fecha</th>
+                                <th style="width: 120px">Nro. Factura</th>
+                                <th style="width: 120px">Nro. Control</th>
+                                <th style="width: 80px">Fecha de Comprobante</th>
+                                <th style="width: 80px">Nro. Comprobante</th>
+                                <th class="text-right">Base Imponible</th>
+                                <th class="text-right">Monto IVA</th>
+                                <th class="text-right">Monto Factura</th>
 
-                            </tbody>
-                            </table>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-12 text-right">
-                                <strong>Monto total facturas:</strong><span style="min-width: 200px; display:inline-block">{{$traductor->format($cobro->montofacturas)}}</span>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-12 text-right">
-                                <strong>Monto total depositado:</strong><span style="min-width: 200px; display:inline-block">{{$traductor->format($cobro->montodepositado)}}</span>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-12 text-right">
-                                <strong>Diferencia:</strong><span style="min-width: 200px; display:inline-block">{{$traductor->format($cobro->montodepositado-$cobro->montofacturas)}}</span>
-                            </div>
-                        </div>
-                    </div><!-- /.box-body -->
-                  </div><!-- /.box -->
+                                <th class="text-right">% IVA</th>
+                                <th class="text-right">Monto IVA</th>
+                                <th class="text-right">% ISLR</th>
+                                <th class="text-right">Monto ISLR</th>
+                                <th class="text-right">Total Retenido</th>
+                                <th class="text-right">Monto a Cobrar</th>
+                                <th class="text-right">Total Cobrado</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            @foreach($cobro->facturas as $factura)
+                            <tr>
+                                <td>{{$factura->fecha}}</td>
+                                <td>{{$factura->nFacturaPrefix}}-{{$factura->nFactura}}</td>
+                                <td>{{$factura->nControlPrefix}}-{{$factura->nControl}}</td>
+                                <td>{{$factura->pivot->retencionFecha}}</td>
+                                <td>{{$factura->pivot->retencionComprobante}}</td>                                
+                                <td class="text-right">{{$traductor->format($factura->pivot->base)}}</td>
+                                <td class="text-right">{{$traductor->format($factura->iva)}}</td>
+                                <td class="text-right">{{$traductor->format($factura->pivot->total)}}</td>
+
+                                <td class="text-right">{{$traductor->format($factura->pivot->ivapercentage)}}</td>
+                                <td class="text-right">{{$traductor->format((($factura->pivot->ivapercentage)/100)*$factura->pivot->iva)}}</td>
+                                <td class="text-right">{{$traductor->format($factura->pivot->islrpercentage)}}</td>
+                                <td class="text-right">{{$traductor->format((($factura->pivot->islrpercentage)/100)*($factura->pivot->base))}}</td>
+                                <td class="text-right">{{$traductor->format($factura->pivot->retencion)}}</td>
+                                <td class="text-right">{{$traductor->format(($factura->pivot->total)-($factura->pivot->retencion))}}</td>
+                                <td class="text-right">{{$traductor->format($factura->pivot->monto)}}</td>
+                            </tr>
+                            @endforeach
+
+
+                            <tr class="footer-table" id="inicio-footer" align="left">
+                                <td colspan="10"> </td>
+                                <td colspan="3">Monto total facturas:</td>
+                                <td>{{$traductor->format($cobro->montofacturas)}}</td>                                   
+                            </tr>
+                            <tr class="footer-table"align="left">
+                                <td colspan="10"> </td>
+                                <td colspan="3">Monto total depositado:</td>
+                                <td>{{$traductor->format($cobro->montodepositado)}}</td>                                   
+                            </tr>
+                            <tr class="footer-table" align="left">
+                                <td colspan="10"> </td>
+                                <td colspan="3">Diferencia</td>
+                                <td>{{$traductor->format($cobro->montodepositado-$cobro->montofacturas)}}</td>                                 
+                            </tr>
+
+                        </tbody>
+                    </table>
                 </div>
+            </div><!-- /.box-body -->
+        </div><!-- /.box -->
+    </div>
 
 
 
 
-              </div>
+</div>
+@endsection
+@section('script')
+<script>
+    $(function(){
+        $('#export-btn').click(function(e){
+            var table=$('table').clone();
+            $(table).find('th').css({'border-bottom':'1px solid black','border-top':'1px solid black', 'font-weight': 'bold', 'text-align':"center"})
+            $(table).find('tr:last td').css({'border-bottom':'1px solid black','border-top':'1px solid black', 'font-weight': 'bold'})
+            var tableHtml= $(table)[0].outerHTML;
+            $('[name=table]').val(tableHtml);
+            $('#export-form').submit();
+        });
+    });
+</script>
 @endsection

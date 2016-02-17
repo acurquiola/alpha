@@ -35,7 +35,6 @@ class DespegueRequest extends Request {
 				'tiempo_puenteAbord'    => 'required_if:cobrar_puenteAbordaje,1',
 				'peso_embarcado'        => 'required_if:cobrar_carga,1',
 				'peso_desembarcado'     => 'required_if:cobrar_carga,1',
-				'otrosCargo_id[]'       => 'required_if:cobrar_otrosCargos,1'
 		];
 	}
 
