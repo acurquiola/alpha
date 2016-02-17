@@ -29,4 +29,22 @@ class Cobrospago extends Model {
     {
         $this->parseDecimal($numero,'monto');
     }
+
+    public function banco(){
+        return $this->belongsTo('App\Banco');
+    }
+
+    public function cuenta(){
+        return $this->belongsTo('App\Bancoscuenta');
+    }
+
+    public function getTipoAttribute($value){
+        $d=
+            [
+                "D" => "Deposito",
+                "NC" => "Nota de credito",
+                "T" => "Transferencia"
+            ];
+        return (array_key_exists($value, $d))?$d[$value]:"";
+    }
 }

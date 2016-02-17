@@ -140,6 +140,7 @@
                                                     <td>
                                                         <div class='btn-group  btn-group-sm' role='group' aria-label='...'>
                                                             <a class='btn btn-primary' href='{{action('CobranzaController@show', [$modulo->nombre,$cobro->id])}}'><span class='glyphicon glyphicon-eye-open'></span></a>
+                                                            <a class='btn btn-warning' href='{{action('CobranzaController@edit', [$modulo->nombre,$cobro->id])}}'><span class='glyphicon glyphicon-pencil'></span></a>
                                                             <button class='btn btn-danger delete-cobro-btn' data-id="{{$cobro->id}}"><span class='glyphicon glyphicon-remove'></span></button>
                                                         </div>
                                                     </td>

@@ -22,28 +22,14 @@
 					<div class="form-group">
 						<label for="cliente-select" class="control-label col-xs-1">Cliente</label>
 						<div class="col-xs-5">
-							<select class="form-control" id="cliente-select" autocomplete="off">
-								<option value="">--Seleccione una opcion--</option>
-								@foreach($clientes as $cliente)
-								<option
-									data-id="{{$cliente->cliente_id}}"
-									data-nombre="{{$cliente->nombre}}"
-									data-ced-rif="{{$cliente->cedRif}}"
-									data-ced-rif-prefix="{{$cliente->cedRifPrefix}}"
-									data-islr="{{$cliente->islrpercentage}}"
-									data-iva="{{$cliente->ivapercentage}}"
-									data-is-contribuyente="{{$cliente->isContribuyente}}"
-									value="{{$cliente->codigo}}">
-									{{$cliente->codigo}} | {{$cliente->nombre}}
-								</option>
-								@endforeach
-							</select>
+						    <input type="hidden" id="cliente_id-input" value="{{$cobro->cliente->id}}">
+						    <input class="form-control" id="cliente-input" readonly autocomplete="off" value="{{$cobro->cliente->codigo}} | {{$cobro->cliente->nombre}}">
 						</div>
 						<div class="col-xs-3">
-							<input class="form-control" id="cliente_nombre-input" readonly autocomplete="off">
+							<input class="form-control" id="cliente_nombre-input" readonly autocomplete="off" value="{{$cobro->cliente->nombre}}">
 						</div>
 						<div class="col-xs-3">
-							<input class="form-control" id="cliente_cedRif-input" readonly autocomplete="off">
+							<input class="form-control" id="cliente_cedRif-input" readonly autocomplete="off" value="{{$cobro->cliente->cedRifPrefix}}{{$cobro->cliente->cedRif}}">
 						</div>
 					</div>
 				</div>
@@ -86,6 +72,72 @@
 				            <th style="min-width:200px">Acción</th>
 			            </thead>
 			            <tbody>
+			            {{--@if($ajusteCliente>0)--}}
+			            {{--<tr class="ajuste-row">--}}
+                            {{--<td><p class="form-control-static"><strong>Ajuste</strong></p></td>--}}
+                            {{--<td></td>--}}
+                            {{--<td class="monto-documento"><p class="form-control-static">'+o.ajuste+'</p></td>--}}
+                            {{--<td ><p class="form-control-static"><span style="display:none" class="saldo-pendiente">'+o.ajuste+'</span></p></td>--}}
+                            {{--<td></td>--}}
+                            {{--<td></td>--}}
+                            {{--<td ><p class="form-control-static"><span style="display:none" class="saldo-pagar">'+o.ajuste+'</span></p></td>--}}
+                            {{--<td><input id="ajuste-input" class="form-control saldo-abonado-input "  autocomplete="off"></td>--}}
+                            {{--<td></td>--}}
+                            {{--<td>--}}
+                                {{--<div class="btn-group" role="group" aria-label="...">--}}
+                                    {{--<div class="btn-group" role="group">--}}
+                                        {{--<button type="button" class="btn btn-primary pay-all-btn">Abono total</button>--}}
+                                        {{--<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">--}}
+                                            {{--<span class="caret"></span>--}}
+                                        {{--</button>--}}
+                                        {{--<ul class="dropdown-menu" role="menu">--}}
+                                            {{--<li><a class="pay-all-btn">Abono total</a></li>--}}
+                                        {{--</ul>--}}
+                                    {{--</div>--}}
+                                    {{--<button type="button" class="btn btn-default reset-btn"><span class="glyphicon glyphicon-repeat"></span></button>--}}
+                                {{--</div>--}}
+                            {{--</td>--}}
+                        {{--</tr>--}}
+                        {{--@endif--}}
+			            @foreach($cobro->facturas as $factura)
+                            <tr data-id="{{$factura->id}}" data-is-retencion-editable=1
+                            data-islrper="'+metadata.islrpercentage+'" data-ivaper="'+metadata.ivapercentage+'"
+                            data-base="'+base+'" data-iva="'+ivaPagado+'" >
+                                <td><p class="form-control-static">{{$factura->nFacturaPrefix}}-{{$factura->nFactura}}</p></td>
+                                <td><p class="form-control-static">{{$factura->nControlPrefix}}-{{$factura->nControl}}</p></td>
+                                <td><p class="form-control-static">{{$factura->fecha}}</p></td>
+                                <td class="monto-documento"><p class="form-control-static">{{$traductor->format($factura->total)}}</p></td>
+                                <td><p class="form-control-static">{{$traductor->format($factura->metadata->total-$factura->pivot->total)}}</p></td>
+                                <td ><p class="form-control-static"><span class="saldo-pendiente">{{$traductor->format(abs($factura->total-$factura->metadata->total-$factura->pivot->total))}}</span></p></td>
+                                <td>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control retencion-pagar"  readonly value="" '+((!isRetencionEditable)?('data-islr-modal="'+metadata.islrpercentage+'" data-iva-modal="'+metadata.ivapercentage+'"'):"")+'>
+                                        <div class="input-group-btn">
+                                            <button type="button" class="btn btn-warning retencion-btn"><span class="glyphicon glyphicon-search"></span></button>\
+                                        </div>
+                                    </div>
+                                </td>
+                                <td ><p class="form-control-static"><span class="saldo-pagar"></span></p></td>
+                                <td><input class="form-control saldo-abonado-input"  autocomplete="off"></td>
+                                <td><p class="form-control-static saldo-restante"></p></td>
+                                <td>
+                                    <div class="btn-group" role="group" aria-label="...">
+                                        <div class="btn-group" role="group">
+                                            <button type="button" class="btn btn-primary pay-all-btn">Abono total</button>
+                                            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                                <span class="caret"></span>
+                                            </button>
+                                            <ul class="dropdown-menu" role="menu">
+                                                <li><a class="pay-all-btn">Abono total</a></li>
+                                                <li><a class="pay-partial-btn">Abono por cuota</a></li>
+                                            </ul>
+                                        </div>
+                                        <button type="button" class="btn btn-default reset-btn"><span class="glyphicon glyphicon-repeat"></span></button>
+                                    </div>
+                                </td>
+                            </tr>
+			            
+			            @endforeach
 			            </tbody>
 		            </table>
 	            </div> 
@@ -101,7 +153,7 @@
 		            </div>
 	            </div>
 	            <h5>Formas de pago</h5>
-	            <div class="row">
+	            <div class="row"> 
 		            <div class="col-xs-12 text-right"> 
 			            <button class="btn btn-primary register-payment-btn"><span class="glyphicon glyphicon-plus"></span> Registrar pago</button> 
 		            </div> 
@@ -118,6 +170,21 @@
 				            <th>Acción</th>
 			            </thead> 
 			            <tbody>
+                            @foreach($cobro->pagos as $pago)
+                                <tr>
+                                    <td>{{$pago->fecha}}</td>
+                                    <td>{{$pago->banco->nombre}}</td>
+                                    <td>{{$pago->cuenta->descripcion}}</td>
+                                    <td>{{$pago->tipo}}</td>
+                                    <td>{{$pago->ncomprobante}}</td>
+                                    <td>{{$traductor->format($pago->monto)}}</td>
+                                    <td>
+                                        <button class='btn btn-danger remove-payment-btn'><span class='glyphicon glyphicon-minus'></span></button>
+                                    </td>
+                                </tr>
+
+                            @endforeach
+
 
 			            </tbody>
 		            </table>
@@ -250,7 +317,7 @@
                 data:{
                     facturas:facturas,
                     pagos:pagos,
-                    cliente_id: $('#cliente-select option:selected').data("id"),
+                    cliente_id: $('#cliente_id-input').val(),
                     totalFacturas:$('.total-a-pagar-doc-input').first().val() ,
                     totalDepositado:$('#total-a-depositar-doc-input').val(),
                     observacion:$('#observaciones-documento').val(),
@@ -258,7 +325,7 @@
                     ajuste:ajuste,
                     modulo_id:'{{$id}}'
                 },
-                url: '{{action('CobranzaController@store')}}'
+                url: '{{action('CobranzaController@update', [$moduloName, $cobro->id])}}'
             }).done(function(data, status, jx){
                 try{
                     var response=JSON.parse(jx.responseText);
