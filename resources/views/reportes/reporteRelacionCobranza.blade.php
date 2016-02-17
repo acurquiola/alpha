@@ -76,17 +76,14 @@
                              <th style="vertical-align: middle; width:50px" class="text-center">
                                Factura
                              </th>
-                             <th style="vertical-align: middle; width:50px" class="text-center">
-                                Cliente
-                             </th>
-                             <th style="vertical-align: middle" class="text-center">
+                             <th style="vertical-align: middle;" class="text-center">
                                 Nombre o Razón Social
                              </th>
                              <th style="vertical-align: middle" class="text-center">
-                                Forma Pago
+                                Recibo
                              </th>
                              <th style="vertical-align: middle" class="text-center">
-                                Recibo
+                                Tipo
                              </th>
                              <th style="vertical-align: middle" class="text-center">
                                 Cuenta
@@ -115,9 +112,9 @@
                                 <td align="center">{{$recibo->fecha}}</td>
                                 <td align="center"  style="width:50px">{{$recibo->cobro_id}}</td>
                                 <td align="center"  style="width:50px">{{$recibo->cobro->facturas()->first()->nFactura}}</td>
-                                <td align="center"  style="width:50px">{{$recibo->cobro->facturas()->first()->cliente->codigo}}</td>
                                 <td align="left" >{{$recibo->cobro->facturas()->first()->cliente->nombre}}</td>
-                                <td align="center">
+                                <td align="center">{{($recibo->cobro->nRecibo)?$recibo->cobro->nRecibo:'N/A'}}</td>
+                                <td >
                                     @if(($recibo->tipo)=='D')
                                         DEP
                                     @elseif($recibo->tipo=='NC')
@@ -126,7 +123,6 @@
                                     TRAN
                                     @endif
                                 </td>
-                                <td align="center">{{($recibo->cobro->nRecibo)?$recibo->cobro->nRecibo:'N/A'}}</td>
                                 <td align="left">{{$recibo->cuenta->descripcion}}</td>
                                 <td align="right">{{$traductor->format($recibo->cobro->facturas()->first()->total)}}</td>
                                 <td align="right">{{$traductor->format($recibo->cobro->facturas()->first()->pivot->retencion)}}</td>
