@@ -142,6 +142,7 @@
                                                     <td>
                                                         <div class='btn-group  btn-group-sm' role='group' aria-label='...'>
                                                             <a class='btn btn-primary' href='{{action('CobranzaController@show', [$modulo->nombre,$cobro->id])}}'><span class='glyphicon glyphicon-eye-open'></span></a>
+                                                            <a class='btn btn-warning' href='{{action('CobranzaController@edit', [$modulo->nombre,$cobro->id])}}'><span class='glyphicon glyphicon-pencil'></span></a>
                                                             @if($cobro->nRecibo != NULL)<a target="_blank" class='btn btn-default' href='{{action('CobranzaController@getPrint', ["cobro"=>$cobro->id, "modulo"=>$modulo->id])}}'><span class='glyphicon glyphicon-print'  ></span></a>@endif
                                                             <button class='btn btn-danger delete-cobro-btn' data-id="{{$cobro->id}}"><span class='glyphicon glyphicon-remove'></span></button>
                                                         </div>
