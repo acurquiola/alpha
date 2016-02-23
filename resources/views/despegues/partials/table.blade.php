@@ -52,9 +52,6 @@
                                                   <span class='fa fa-money'></span>
                                             </a>
                                         @endif
-                                       <!--  @if($despegue->condicionPago == 'Crédito')
-                                            <button class='btn btn-danger anular-factura-btn' data-id="{{$despegue->factura_id}}"><span class='glyphicon glyphicon-remove' title="Anular Dosa"></span></button>
-                                        @endif -->
                                    @endif
                                    @if($despegue->factura_id == NULL)
                                    <a href="{{  action('DespegueController@getCrearFactura', [$despegue->id])}}">
