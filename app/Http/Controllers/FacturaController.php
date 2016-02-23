@@ -297,7 +297,7 @@ class FacturaController extends Controller {
 	 */
 	public function store($moduloNombre, FacturaRequest $request)
 	{
-
+        
         $impresion="";
         \DB::transaction(function () use ($moduloNombre, $request, &$impresion) {
             $facturaData = $this->getFacturaDataFromRequest($request);
