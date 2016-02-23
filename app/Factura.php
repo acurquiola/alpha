@@ -2,24 +2,14 @@
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Traits\DecimalConverterTrait;
+use App\Traits\DateConverterTrait;
 
 class Factura extends Model {
 
+    use DateConverterTrait;
+    use DecimalConverterTrait;
     use SoftDeletes;
-
-    public static function boot()
-    {
-        parent::boot();
-        static::creating(function($model)
-        {
-                $model->attributes["nFactura"]=$model->getMaxWith(
-                                                                "nFacturaPrefix",
-                                                                "nFactura",
-                                                                $model->attributes["nFacturaPrefix"]);
-        });
-
-    }
-
 
     protected $guarded = array();
 
@@ -88,52 +78,28 @@ class Factura extends Model {
 
     public function setFechaAttribute($fecha)
     {
-        $this->attributes['fecha']=\Carbon\Carbon::createFromFormat('d/m/Y', $fecha);
+        $this->setFecha($fecha,'fecha');
     }
     public function getFechaAttribute($fecha)
     {
-        $carbon=\Carbon\Carbon::now();
-        if(!is_null($fecha) && $fecha!="" && is_string($fecha))
-            $carbon= \Carbon\Carbon::createFromFormat('Y-m-d', str_replace( " 00:00:00", "", $fecha));
-        if(is_a($fecha, 'Carbon'))
-            $carbon=$fecha;
-        return $carbon->format('d/m/Y');
+        return $this->getFecha($fecha);
     }
     public function setFechaVencimientoAttribute($fecha)
     {
-        $this->attributes['fechaVencimiento']=\Carbon\Carbon::createFromFormat('d/m/Y', $fecha);
+        $this->setFecha($fecha,'fechaVencimiento');
     }
     public function getFechaVencimientoAttribute($fecha)
     {
-        $carbon=\Carbon\Carbon::now()->addMonth();
-        if(!is_null($fecha) && $fecha!="" && is_string($fecha))
-            $carbon= \Carbon\Carbon::createFromFormat('Y-m-d', str_replace( " 00:00:00", "", $fecha));
-        if(is_a($fecha, 'Carbon'))
-            $carbon=$fecha;
-        return $carbon->format('d/m/Y');
+        return $this->getFecha($fecha);
     }
 
     public function setFechaControlContratoAttribute($fecha)
     {
-        $this->attributes['fechaControlContrato']=\Carbon\Carbon::createFromFormat('d/m/Y', $fecha);
+        $this->setFecha($fecha,'fechaControlContrato');
     }
     public function getFechaControlContratoAttribute($fecha)
     {
-        $carbon=\Carbon\Carbon::now();
-        if(!is_null($fecha) && $fecha!="" && is_string($fecha))
-            $carbon= \Carbon\Carbon::createFromFormat('Y-m-d', str_replace( " 00:00:00", "", $fecha));
-        if(is_a($fecha, 'Carbon'))
-            $carbon=$fecha;
-        return $carbon->format('d/m/Y');
-    }
-
-    protected function parseDecimal($numero, $attr){
-        if(is_string($numero)){
-            $numero=preg_replace ( '/\./i', "", $numero );
-            $numero=preg_replace ( '/\,/i', ".", $numero );
-            $numero=floatval($numero);
-        }
-        $this->attributes[$attr]=$numero;
+        return $this->getFecha($fecha);
     }
 
     public function setSubtotalNetoAttribute($numero)

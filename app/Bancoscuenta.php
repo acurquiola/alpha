@@ -12,5 +12,9 @@ class Bancoscuenta extends Model {
     {
         return $this->belongsTo('App\Banco');
     }
+    public function cobros()
+    {
+        return $this->hasMany('App\Cobrospago');
+    }
 
 }

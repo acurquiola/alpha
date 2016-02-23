@@ -10,14 +10,19 @@
 	<label for="condicionPago" class="col-xs-1 control-label"><strong>Cond. de pago<span class="text-danger">*</span></strong> </label>
 	<div class="col-xs-3">
 		@if(!isset($bloqueoDosa))
-		{!! Form::select('condicionPago', ["Crédito" => "Crédito", "Contado"=>"Contado"], null, [ 'id' =>'condicionPago', 'class'=>"form-control", $disabled, (!$factura->isImpresa)?"":"readonly"]) !!}
+			@if($modulo_id="9" || $modulo_id="4")
+				{!! Form::select('condicionPago', ["Contado"=>"Contado","Crédito" => "Crédito"], null, [ 'id' =>'condicionPago', 'class'=>"form-control", $disabled, (!$factura->isImpresa)?"":"readonly"]) !!}
+			@else
+				{!! Form::select('condicionPago', ["Crédito" => "Crédito", "Contado"=>"Contado"], null, [ 'id' =>'condicionPago', 'class'=>"form-control", $disabled, (!$factura->isImpresa)?"":"readonly"]) !!}
+			@endif
 		@else		
 		{!! Form::text('condicionPago', $condicionPago, [ 'id' =>'condicionPago', 'class'=>"form-control", $disabled] ) !!}
 		@endif
 	</div>
 	<label for="nControl" class="col-xs-1 control-label"><strong>N° Control</strong> </label>
 	<div class="col-xs-3">
-        {!! Form::hidden('nControlPrefix', ($factura->nControlPrefix)?$factura->nControlPrefix:$modulo->nControlPrefix, ['id' => 'nControlPrefix', 'class' => 'nControlPrefix-input', 'autocomplete'=>'off', (!$factura->isImpresa)?"":"readonly"]) !!}
+	 <!-- (!$factura->isImpresa)?"":"readonly" -->
+        {!! Form::hidden('nControlPrefix', ($factura->nControlPrefix)?$factura->nControlPrefix:$modulo->nControlPrefix, ['id' => 'nControlPrefix', 'class' => 'nControlPrefix-input', 'autocomplete'=>'off']) !!}
         <div class="input-group">
             <div class="input-group-btn">
                 <button style="max-height:37px" type="button" class="btn btn-default"><span class="nControlPrefix-text">{{$modulo->nControlPrefix}}</span></button>
@@ -29,7 +34,7 @@
 <div class="form-group">
 	<label for="nFactura" class="col-xs-1 control-label"><strong>N° Factura <abbr title="Número tentativo puede cambiar al almacenar">?</abbr></strong> </label>
     <div class="col-xs-3">
-        {!! Form::hidden('nFacturaPrefix', ($factura->nFacturaPrefix)?$factura->nFacturaPrefix:$modulo->nFacturaPrefix, ['id' => 'nFacturaPrefix', 'class' => 'nFacturaPrefix-input', 'autocomplete'=>'off', (!$factura->isImpresa)?"":"readonly"]) !!}
+        {!! Form::hidden('nFacturaPrefix', ($factura->nFacturaPrefix)?$factura->nFacturaPrefix:$modulo->nFacturaPrefix, ['id' => 'nFacturaPrefix', 'class' => 'nFacturaPrefix-input', 'autocomplete'=>'off']) !!}
         <div class="input-group">
             <div class="input-group-btn">
                 <button style="max-height:37px" type="button" class="btn btn-default"><span class="nFacturaPrefix-text">{{$modulo->nFacturaPrefix}}</span></button>
@@ -92,13 +97,11 @@
 		</div>
 
 	</div>
-
 	@if(!isset($bloqueoDosa)&&!isset($facturaCarga) && !$factura->isImpresa)
 	<div class="form-group">
 		<label for="concepto-input" class="control-label col-xs-1"><strong>Concepto<span class="text-danger">*</span></strong></label>
 		<div class="col-xs-4">
 			<select id="concepto-select" class="form-control">
-				<option value="0" > --Seleccione un concepto-- </option>
 				@foreach($conceptos as $c)
 				    <option condicionPago="{{$c->condicionPago}}" value="{{$c->id}}" data-costo="{{$c->costo}}" data-iva="{{$c->iva}}">{{$c->nompre}}</option>
 				@endforeach
@@ -133,7 +136,6 @@
 
 				@if(isset($factura->detalles))
                     @foreach($factura->detalles as $detalle)
-
                     <tr>
                         <td style="text-align: left"><input type="hidden" name="concepto_id[]" value="{{$detalle->concepto_id}}" autocomplete="off" />{{$detalle->concepto->nompre}}</td>
                         <td><input {{$disabled}} {{(!$factura->isImpresa)?"":"readonly"}} class="form-control cantidad-input text-right" value="{{$traductor->format($detalle->cantidadDes)}}" name="cantidadDes[]"  autocomplete="off" /></td>
@@ -194,17 +196,17 @@
 		<label for="descripcion" class="col-xs-2 control-label"><strong>Descripción<span class="text-danger">*</span></strong></label>
 		<div class="col-xs-10">
 			@if(isset($facturaCarga))
-			{!! Form::textarea('descripcion', "Facturación de Carga", [ 'style'=>'padding-top:4px' ,'class'=>"form-control", $disabled , 'rows'=>"5", 'cols'=>"", "placeholder" => "Descripción de la factura"]) !!}
+			{!! Form::textarea('descripcion', "Facturación de Carga", [ 'style'=>'padding-top:4px' ,'class'=>"form-control", $disabled , 'rows'=>"2", 'cols'=>"", "placeholder" => "Descripción de la factura"]) !!}
 			@elseif(isset($cargosAdicionales))
-			{!! Form::textarea('descripcion', "Facturación por Derechos Aeronáuticos Adicionales", [ 'style'=>'padding-top:4px' ,'class'=>"form-control", $disabled , 'rows'=>"5", 'cols'=>"", "placeholder" => "Descripción de la factura"]) !!}
+			{!! Form::textarea('descripcion', "Facturación por Derechos Aeronáuticos Adicionales", [ 'style'=>'padding-top:4px' ,'class'=>"form-control", $disabled , 'rows'=>"2", 'cols'=>"", "placeholder" => "Descripción de la factura"]) !!}
 			@else
-			{!! Form::textarea('descripcion', (isset($bloqueoDosa))?"Facturación por Derechos Aeronáuticos":null, [ 'style'=>'padding-top:4px' ,'class'=>"form-control", $disabled , 'rows'=>"5", 'cols'=>"", "placeholder" => "Descripción de la factura"]) !!}
+			{!! Form::textarea('descripcion', (isset($bloqueoDosa))?"Facturación por Derechos Aeronáuticos":null, [ 'style'=>'padding-top:4px' ,'class'=>"form-control", $disabled , 'rows'=>"2", 'cols'=>"", "placeholder" => "Descripción de la factura"]) !!}
 			@endif
 		</div>
 	</div>
 	<div class="form-group">
 		<label for="comentario" class="col-xs-2 control-label"><strong>Comentario</strong></label>
 		<div class="col-xs-10">
-			{!! Form::textarea('comentario', null, [ 'style'=>'padding-top:4px' ,'class'=>"form-control", $disabled , 'rows'=>"5", 'cols'=>"", "placeholder" => "Uso interno"]) !!}
+			{!! Form::textarea('comentario', null, [ 'style'=>'padding-top:4px' ,'class'=>"form-control", $disabled , 'rows'=>"2", 'cols'=>"", "placeholder" => "Uso interno"]) !!}
 		</div>
 	</div>

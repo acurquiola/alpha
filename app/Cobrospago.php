@@ -1,8 +1,13 @@
 <?php namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\DecimalConverterTrait;
+use App\Traits\DateConverterTrait;
 
 class Cobrospago extends Model {
+
+    use DecimalConverterTrait;
+    use DateConverterTrait;
 
     protected $guarded = array();
 
@@ -11,32 +16,37 @@ class Cobrospago extends Model {
         return $this->belongsTo('App\Cobro');
     }
 
+    public function banco()
+    {
+        return $this->belongsTo('App\Banco');
+    }
+
+    public function cuenta()
+    {
+        return $this->belongsTo('App\Bancoscuenta');
+    }
+
     public function setFechaAttribute($fecha)
     {
-        $this->attributes['fecha']=\Carbon\Carbon::createFromFormat('d/m/Y', $fecha);
+        $this->setFecha($fecha,'fecha');
     }
     public function getFechaAttribute($fecha)
     {
-        $carbon=\Carbon\Carbon::now();
-        if(!is_null($fecha) && $fecha!="" && is_string($fecha))
-            $carbon= \Carbon\Carbon::createFromFormat('Y-m-d', str_replace( " 00:00:00", "", $fecha));
-        if(is_a($fecha, 'Carbon'))
-            $carbon=$fecha;
-        return $carbon->format('d/m/Y');
-    }
-
-
-    protected function parseDecimal($numero, $attr){
-        if(is_string($numero)){
-            $numero=preg_replace ( '/\./i', "", $numero );
-            $numero=preg_replace ( '/\,/i', ".", $numero );
-            $numero=floatval($numero);
-        }
-        $this->attributes[$attr]=$numero;
+        return $this->getFecha($fecha);
     }
 
     public function setMontoAttribute($numero)
     {
         $this->parseDecimal($numero,'monto');
+    }
+
+    public function getTipoAttribute($value){
+        $d=
+            [
+                "D" => "Deposito",
+                "NC" => "Nota de credito",
+                "T" => "Transferencia"
+            ];
+        return (array_key_exists($value, $d))?$d[$value]:"";
     }
 }

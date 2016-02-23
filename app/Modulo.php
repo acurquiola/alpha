@@ -6,6 +6,11 @@ class Modulo extends Model {
 
     protected $guarded = array();
 
+    public function aeropuerto()
+    {
+        return $this->belongsTo('App\Aeropuerto');
+    }
+
     public function conceptos()
     {
         return $this->hasMany('App\Concepto');

@@ -44,7 +44,7 @@ class CargaController extends Controller {
 	            'sortName'=>$sortName,
 	            'sortType'=>$sortType]);
 		
-			$cargas= CArga::with("cliente")
+			$cargas= Carga::with("cliente")
 										->where('fecha', 'like', '%'.$fecha.'%')
 										->where('cliente_id', $clienteOperador, $cliente_id)
 										->where('aeropuerto_id', session('aeropuerto')->id)
@@ -173,9 +173,9 @@ class CargaController extends Controller {
 							$concepto_id       = PreciosCarga::first()->conceptoCredito_id;
 			        break;
 			}
-		$montoDes          = $carga->monto_total;
+		$montoDes          = $carga->monto_total+0;
 		$cantidadDes       = '1';
-		$iva               = Concepto::find($concepto_id)->iva;
+		$iva               = Concepto::find($concepto_id)->iva+0;
 		$montoIva          = ($iva * $montoDes)/100 ;
 		$totalDes          = $montoDes + $montoIva;
 		$cobrarCarga->fill(compact('concepto_id', 'montoDes', 'cantidadDes', 'iva', 'totalDes'));

@@ -81,7 +81,6 @@ $(document).ready(function(){
 
 		var form=$(this).closest('form');
 		var data=$(form).serializeArray();
-
 		addLoadingOverlay('#main-box');
 		$.ajax({url:'{{action('FacturaController@store', [$modulo->nombre])}}',
 			method:'POST',

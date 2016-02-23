@@ -7,8 +7,12 @@ use \App\Factura;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Mail;
+use App\Traits\DecimalConverterTrait;
 
 class FacturaController extends Controller {
+
+    use DecimalConverterTrait;
+
     protected $meses=[
     "1"=>"ENERO",
     "2"=>"FEBRERO",
@@ -35,26 +39,32 @@ class FacturaController extends Controller {
         foreach($facturas as $factura){
 
             \DB::transaction(function () use ($factura, $moduloNombre, &$facturasDb) {
-                $f = new \App\Factura();
-                $f->aeropuerto_id=session('aeropuerto')->id;
-                $f->condicionPago='Crédito';
-                $f->nFacturaPrefix = $factura["nFacturaPrefix"];
-                $f->nControlPrefix = $factura["nControlPrefix"];
-                $f->nControl = $factura["nControl"];
-                $f->fechaControlContrato=$factura["fechaControlContrato"];
-                $f->fecha = $factura["fecha"];
-                $f->fechaVencimiento = $factura["fechaVencimiento"];
-                $f->cliente_id = $factura["cliente_id"];
-                $f->modulo_id = $factura["modulo_id"];
-                $f->contrato_id = $factura["contrato_id"];
-                $subtotal = ($factura['monto'] / (1 + floatval(config('app.iva')) / 100));
-                $f->subtotalNeto = $subtotal;
-                $f->descuentoTotal = 0;
-                $f->subtotal = $subtotal;
-                $f->iva = $factura['monto'] - $subtotal;
-                $f->recargoTotal = 0;
-                $f->total = $factura['monto'];
-                $f->estado='P';
+                //no muy eficiente porque todas estas facturas tienen el mismo concepto pero bueno :/
+                $concepto                =\App\Concepto::find($factura["concepto_id"]);
+                $f                       = new \App\Factura();
+                $f->aeropuerto_id        =session('aeropuerto')->id;
+                $f->condicionPago        ='Crédito';
+                $f->nFacturaPrefix       = $factura["nFacturaPrefix"];
+                $f->nFactura             = $factura["nFactura"];
+                $f->nControlPrefix       = $factura["nControlPrefix"];
+                $f->nControl             = $factura["nControl"];
+                $f->fechaControlContrato =$factura["fechaControlContrato"];
+                $f->fecha                = $factura["fecha"];
+                $f->fechaVencimiento     = $factura["fechaVencimiento"];
+                $f->cliente_id           = $factura["cliente_id"];
+                $f->modulo_id            = $factura["modulo_id"];
+                $f->contrato_id          = $factura["contrato_id"];
+               // $subtotal                = ($factura['monto'] / (1 + $concepto->iva / 100));
+                $subtotal                = $this->parseDecimal($factura['monto']);
+                $f->subtotalNeto         = $subtotal;
+                $f->descuentoTotal       = 0;
+                $f->subtotal             = $subtotal;
+                //$f->iva                  = $factura['monto'] - $subtotal;
+                $f->iva                  = ($subtotal*($concepto->iva/100));
+                $f->recargoTotal         = 0;
+                //$f->total                = $factura['monto'];
+                $f->total                = (($subtotal*($concepto->iva/100))+$subtotal);
+                $f->estado               ='P';
 
                 if($moduloNombre=="CANON"){
                     $hoy=\Carbon\Carbon::createFromFormat('d/m/Y',$factura["fechaControlContrato"]) ;
@@ -67,7 +77,7 @@ class FacturaController extends Controller {
                                             "montoDes" => $subtotal,
                                             "descuentoPerDes" => 0,
                                             "descuentoTotalDes" =>0,
-                                            "ivaDes" => config('app.iva'),
+                                            "ivaDes" => $concepto->iva,
                                             "recargoPerDes" => 0,
                                             "recargoTotalDes" =>0,
                                             "totalDes" => $f->total
@@ -89,18 +99,22 @@ class FacturaController extends Controller {
         return view('factura.automaticaResult', ["facturas" => $facturas, "modulo" => $modulo]);
     }
     public function automatica($moduloNombre) {
+
+        $today=\Carbon\Carbon::now();
         $fecha=\Carbon\Carbon::now()->lastOfMonth();
         $modulo = \App\Modulo::where("nombre","like",$moduloNombre)->where('aeropuerto_id', session('aeropuerto')->id)->first();
         $contratos=$modulo->contratos()->where('fechaInicio', '<=' ,$fecha)->where('fechaVencimiento', '>=', $fecha)->with('cliente')->get();
-        return view('factura.automatica', compact('modulo', 'fecha', 'contratos'));
+        return view('factura.automatica', compact('modulo', 'fecha', 'contratos', 'today'));
     }
 
     public function postContratosByFecha($moduloNombre, Request $request){
-        $year=$request->get('year');
-        $month=$request->get('month');
-        $modulo = \App\Modulo::where("nombre","like",$moduloNombre)->where('aeropuerto_id', session('aeropuerto')->id)->first();
-        $fecha=\Carbon\Carbon::create($year, $month, 1)->lastOfMonth();
-        $contratos=$modulo->contratos()->where('fechaInicio', '<=' ,$fecha)->where('fechaVencimiento', '>=', $fecha)->with('cliente')->get();
+
+
+            $year      =$request->get('year');
+            $month     =$request->get('month');
+            $modulo    = \App\Modulo::where("nombre","like",$moduloNombre)->where('aeropuerto_id', session('aeropuerto')->id)->first();
+            $fecha     =\Carbon\Carbon::create($year, $month, 1)->lastOfMonth();
+            $contratos =$modulo->contratos()->where('fechaInicio', '<=' ,$fecha)->where('fechaVencimiento', '>=', $fecha)->with('cliente')->get();
 
         return view('factura.partials.automaticaContratos', compact('contratos', 'fecha'));
 
@@ -133,6 +147,7 @@ class FacturaController extends Controller {
         // ---------------------------------------------------------
         // set default font subsetting mode
         $pdf->setFontSubsetting(true);
+
         // Set font
         // dejavusans is a UTF-8 Unicode font, if you only need to
         // print standard ASCII chars, you can use core fonts like
@@ -198,6 +213,12 @@ class FacturaController extends Controller {
         $nFacturaOperator =($nFacturaOperator=="")?'>=':$nFacturaOperator;
         $nFacturaOperator =($nFactura==0)?">=":$nFacturaOperator;
 
+        $nControl         = $request->get('nControl');
+        $nControl         =($nControl=="")?0:$nControl;
+        $nControlOperator = $request->get('nControlOperator', '>=');
+        $nControlOperator =($nControlOperator=="")?'>=':$nControlOperator;
+        $nControlOperator =($nControl==0)?">=":$nControlOperator;
+        
         $clienteNombre     = $request->get('clienteNombre', '%');
 
         $descripcion       = $request->get('descripcion', '%');
@@ -223,6 +244,7 @@ class FacturaController extends Controller {
 
         \Input::merge([ 'fechaOperator'     =>$fechaOperator,
                         'nFacturaOperator' =>$nFacturaOperator,
+                        'nControlOperator' =>$nControlOperator,
                         'totalOperator'     =>$totalOperator,
                         'sortName'          =>$sortName,
                         'sortType'          =>$sortType]);
@@ -234,6 +256,7 @@ class FacturaController extends Controller {
         $modulo->facturas=\App\Factura::select("facturas.*","clientes.nombre as clienteNombre")
                                         ->join('clientes','clientes.id' , '=', 'facturas.cliente_id')
                                         ->where('facturas.modulo_id', "=", $modulo->id)
+                                        ->where('facturas.nControl', $nControlOperator, $nControl)
                                         ->where('facturas.nFactura', $nFacturaOperator, $nFactura)
                                         ->where('total', $totalOperator, $total)
                                         ->where('fecha', $fechaOperator, $fecha)
@@ -286,7 +309,9 @@ class FacturaController extends Controller {
                 $facturaData['aterrizaje_id'] = $request->get('aterrizaje_id');
             $factura = \App\Factura::create($facturaData);
             $factura->detalles()->createMany($facturaDetallesData);
-            $cliente = $factura->cliente;
+            $cliente = $factura->cliente;               
+            $factura->nFactura = $request->nFactura;
+            $factura->save();
             if ($cliente && $cliente->isEnvioAutomatico == true && $cliente->email != "") {
                 $path = $this->crearFactura($factura, 'F');
                 Mail::send('emails.test', ['name' => $cliente->nombre], function ($message) use ($factura, $cliente, $path) {
@@ -299,7 +324,7 @@ class FacturaController extends Controller {
 
             if ($request->has('despegue_id')) {
                 $despegue = \App\Despegue::find($request->get('despegue_id'));
-                $despegue->factura_id = $factura->id;
+                $despegue->factura_id = $factura->id; 
                 $despegue->save();
             }
             if ($request->has('carga_id')) {
@@ -337,7 +362,7 @@ class FacturaController extends Controller {
 
         $modulo= \App\Modulo::where('nombre', $modulo)->where('aeropuerto_id', session('aeropuerto')->id)->first();
         if(!$modulo){
-            return response("No se consiguio el modulo '$modulo' en el aeropuerto de sesion", 500);
+            return response("No se consiguió el modulo '$modulo' en el aeropuerto de sesion", 500);
         }
         $modulo_id=$modulo->id;
         $factura->load('detalles');
@@ -353,13 +378,16 @@ class FacturaController extends Controller {
 	 */
 	public function update($moduloNombre, Factura $factura, FacturaRequest $request)
 	{
-
         \DB::transaction(function () use ($moduloNombre, $factura, $request) {
             $facturaData = $this->getFacturaDataFromRequest($request);
             $facturaDetallesData = $this->getFacturaDetallesDataFromRequest($request);
-            $factura->update($facturaData);
+            $factura->update($facturaData);          
             $factura->detalles()->delete();
-            $factura->detalles()->createMany($facturaDetallesData);
+            $factura->detalles()->createMany($facturaDetallesData);         
+            $factura->nFactura = $request->nFactura;
+            $factura->save();
+
+
         });
         return ["success" => 1, "impresion" => action('FacturaController@getPrint', [$moduloNombre, $factura->id])];
 
@@ -390,6 +418,7 @@ class FacturaController extends Controller {
                                 'modulo_id',
                                 'condicionPago',
                                 'nFacturaPrefix',
+                                'nFactura',
                                 'nControlPrefix',
                                 'nControl',
                                 'fecha',

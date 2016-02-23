@@ -1,12 +1,13 @@
 <?php namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\DecimalConverterTrait;
 
 class Estacionamiento extends Model {
 
+    use DecimalConverterTrait;
 
-
-    protected $fillable = ['nTurnos', 'nTaquillas'];
+    protected $fillable = ['nTurnos', 'nTaquillas', 'tarjetacosto'];
 
     protected $hidden = ['created_at', 'updated_at'];
 
@@ -28,5 +29,11 @@ class Estacionamiento extends Model {
 
     public function operaciones(){
         return $this->hasMany('App\Estacionamientoop', 'estacionamiento_id');
+    }
+
+
+    public function setTarjetacostoAttribute($numero)
+    {
+        $this->parseDecimal($numero,'tarjetacosto');
     }
 }

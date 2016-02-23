@@ -1,36 +1,31 @@
 <?php namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\DecimalConverterTrait;
+use App\Traits\DateConverterTrait;
 
 class Contrato extends Model {
+
+    use DecimalConverterTrait;
+    use DateConverterTrait;
 
     protected $guarded = array();
 
     public function setFechaInicioAttribute($fecha)
     {
-        $this->attributes['fechaInicio']=\Carbon\Carbon::createFromFormat('d/m/Y', $fecha);
+        $this->setFecha($fecha,'fechaInicio');
     }
     public function getFechaInicioAttribute($fecha)
     {
-        $carbon=\Carbon\Carbon::now();
-        if(!is_null($fecha) && $fecha!="" && is_string($fecha))
-            $carbon= \Carbon\Carbon::createFromFormat('Y-m-d', str_replace( " 00:00:00", "", $fecha));
-        if(is_a($fecha, 'Carbon'))
-            $carbon=$fecha;
-        return $carbon->format('d/m/Y');
+        return $this->getFecha($fecha);
     }
     public function setFechaVencimientoAttribute($fecha)
     {
-        $this->attributes['fechaVencimiento']=\Carbon\Carbon::createFromFormat('d/m/Y', $fecha);
+        $this->setFecha($fecha,'fechaVencimiento');
     }
     public function getFechaVencimientoAttribute($fecha)
     {
-        $carbon=\Carbon\Carbon::now();
-        if(!is_null($fecha) && $fecha!="" && is_string($fecha))
-            $carbon= \Carbon\Carbon::createFromFormat('Y-m-d', str_replace( " 00:00:00", "", $fecha));
-        if(is_a($fecha, 'Carbon'))
-            $carbon=$fecha;
-        return $carbon->format('d/m/Y');
+        return $this->getFecha($fecha);
     }
 
     public function concepto()
@@ -48,15 +43,6 @@ class Contrato extends Model {
     public function hasFacturaByFecha($year, $month){
         $fechaFin=\Carbon\Carbon::create($year, $month, 1)->lastOfMonth();
         return $this->facturas()->where('fechaControlContrato', $fechaFin)->count();
-    }
-
-    protected function parseDecimal($numero, $attr){
-        if(is_string($numero)){
-            $numero=preg_replace ( '/\./i', "", $numero );
-            $numero=preg_replace ( '/\,/i', ".", $numero );
-            $numero=floatval($numero);
-        }
-        $this->attributes[$attr]=$numero;
     }
 
     public function setMontoAttribute($numero)

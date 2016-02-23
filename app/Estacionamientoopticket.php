@@ -1,8 +1,11 @@
 <?php namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\DateConverterTrait;
 
 class Estacionamientoopticket extends Model {
+
+    use DateConverterTrait;
 
     protected $fillable = ['econcepto_id', 'taquilla', 'turno', 'costo', 'cantidad', 'monto'];
 
@@ -10,7 +13,7 @@ class Estacionamientoopticket extends Model {
 
     public function setFechaAttribute($fecha)
     {
-        $this->attributes['fecha']=\Carbon\Carbon::createFromFormat('d/m/Y', $fecha);
+        $this->setFecha($fecha,'fecha');
     }
 
     public function concepto()

@@ -20,6 +20,7 @@ class CreacionTablasCobranzas extends Migration {
             $table->integer('modulo_id')->unsigned()->nullable();
             $table->foreign('modulo_id')->references('id')->on('modulos');
             $table->text('observacion');
+            $table->integer('nRecibo')->unsigned()->nullable();
             $table->text('hasrecaudos');
             $table->double('montofacturas',15,2);
             $table->double('montodepositado',15,2);

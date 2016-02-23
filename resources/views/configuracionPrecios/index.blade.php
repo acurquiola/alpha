@@ -117,13 +117,13 @@ $(document).ready(function(){
 		var eq_nI =$('body #tab_1 .eq_nocturInt').val();
 
 		var val_dN= eq_dN*ut;
-		$('body #tab_1 #eq_diurnoNac-input').val(val_dN);
+		$('body #tab_1 #precio_diurnoNac-input').val(val_dN);
 		var val_dI= eq_dI*ut;
-		$('body #tab_1 #eq_diurnoInt-input').val(val_dI);
+		$('body #tab_1 #precio_diurnoInt-input').val(val_dI);
 		var val_nN= eq_nN*ut;
-		$('body #tab_1 #eq_nocturNac-input').val(val_nN);
+		$('body #tab_1 #precio_nocturNac-input').val(val_nN);
 		var val_nI= eq_nI*ut;
-		$('body #tab_1 #eq_nocturInt-input').val(val_nI);
+		$('body #tab_1 #precio_nocturInt-input').val(val_nI);
 
 	});
 
@@ -150,9 +150,9 @@ $(document).ready(function(){
 		var eq_bN =$('body #tab_2 .eq_bloqueNac').val();
 
 		var val_precioInt= eq_bI*ut;
-		$('body #tab_2 #precioBloqueInt-input').val(val_precioInt.toFixed(4));
+		$('body #tab_2 #precio_estInt-input').val(val_precioInt.toFixed(2));
 		var val_precioNac= eq_bN*ut;
-		$('body #tab_2 #precioBloqueNac-input').val(val_precioNac.toFixed(4));
+		$('body #tab_2 #precio_estNac-input').val(val_precioNac.toFixed(2));
 	});
 
 	$( "body #tab_2 input" ).keyup(function( event ) {	
@@ -161,9 +161,9 @@ $(document).ready(function(){
 		var eq_bN =$('body #tab_2 .eq_bloqueNac').val();
 
 		var val_precioInt= eq_bI*ut;
-		$('body #tab_2 #precioBloqueInt-input').val(val_precioInt.toFixed(4));
+		$('body #tab_2 #precio_estInt-input').val(val_precioInt.toFixed(2));
 		var val_precioNac= eq_bN*ut;
-		$('body #tab_2 #precioBloqueNac-input').val(val_precioNac.toFixed(4));
+		$('body #tab_2 #precio_estNac-input').val(val_precioNac.toFixed(2));
 	});
 
 
@@ -174,14 +174,14 @@ $(document).ready(function(){
 		var eq_AborSH =$('body #tab_5 .eq_usoAbordajeSinHab').val();
 		var eq_AborCH =$('body #tab_5 .eq_usoAbordajeConHab').val();
 
-		var val_form= eq_form*ut;
-		$('body #tab_5 #precioFormulario-input').val(val_form.toFixed(2));
+		var val_form= Math.ceil(eq_form*ut);
+		$('body #tab_5 #precio_formulario-input').val(val_form.toFixed(2));
 		var val_DerHab= eq_DerHab*ut;
-		$('body #tab_5 #precioDerechoHabilitacion-input').val(val_DerHab)
+		$('body #tab_5 #precio_derechoHabilitacion-input').val(val_DerHab)
 		var val_AborSH= eq_AborSH*ut;
-		$('body #tab_5 #preciousoAbordajeSinHab-input').val(val_AborSH);
+		$('body #tab_5 #precio_usoAbordajeSinHab-input').val(val_AborSH);
 		var val_AborCH= eq_AborCH*ut;
-		$('body #tab_5 #preciousoAbordajeConHab-input').val(val_AborCH);
+		$('body #tab_5 #precio_usoAbordajeConHab-input').val(val_AborCH);
 	});
 
 	$( "body #tab_5 input" ).keyup(function( event ) {	
@@ -193,13 +193,13 @@ $(document).ready(function(){
 		var eq_AborCH =$('body #tab_5 .eq_usoAbordajeConHab').val();
 
 		var val_form= eq_form*ut;
-		$('body #tab_5 #precioFormulario-input').val(val_form.toFixed(2));
+		$('body #tab_5 #precio_usoAbordajeConHab-input').val(val_form.toFixed(2));
 		var val_DerHab= eq_DerHab*ut;
-		$('body #tab_5 #precioDerechoHabilitacion-input').val(val_DerHab);
+		$('body #tab_5 #precio_usoAbordajeConHab-input').val(val_DerHab);
 		var val_AborSH= eq_AborSH*ut;
-		$('body #tab_5 #preciousoAbordajeSinHab-input').val(val_AborSH);
+		$('body #tab_5 #precio_usoAbordajeConHab-input').val(val_AborSH);
 		var val_AborCH= eq_AborCH*ut;
-		$('body #tab_5 #preciousoAbordajeConHab-input').val(val_AborCH);
+		$('body #tab_5 #precio_usoAbordajeConHab-input').val(val_AborCH);
 	});
 
 
@@ -209,7 +209,7 @@ $(document).ready(function(){
 		var eq_UT     =$('body #tab_6 .equivalenteUT').val();
 		
 		var val_carga = eq_UT*ut;
-		$('body #tab_6 #equivalenteUT-input').val(val_carga.toFixed(2));
+		$('body #tab_6 #precio_carga-input').val(val_carga.toFixed(2));
 	});
 
 	$( "body #tab_6 input" ).keyup(function( event ) {	
@@ -217,7 +217,7 @@ $(document).ready(function(){
 		var eq_UT     =$('body #tab_6 .equivalenteUT').val();
 		
 		var val_carga = eq_UT*ut;
-		$('body #tab_6 #equivalenteUT-input').val(val_carga.toFixed(2));
+		$('body #tab_6 #precio_carga-input').val(val_carga.toFixed(2));
 	});
 
 

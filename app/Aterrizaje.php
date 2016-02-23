@@ -1,23 +1,22 @@
 <?php namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\DateConverterTrait;
 
 class Aterrizaje extends Model {
 
+    use DateConverterTrait;
 
 	protected $guarded = [];
 
 	public function setFechaAttribute($fecha)
 	{
-		$this->attributes['fecha']=\Carbon\Carbon::createFromFormat('d/m/Y', $fecha);
+        $this->setFecha($fecha,'fecha');
 	}
 
 	public function getFechaAttribute($fecha)
 	{
-		$carbon=\Carbon\Carbon::now();
-		if(!is_null($fecha) && $fecha!="" )
-			$carbon= \Carbon\Carbon::createFromFormat('Y-m-d', str_replace( " 00:00:00", "", $fecha));
-		return $carbon->format('d/m/Y');
+        return $this->getFecha($fecha);
 	}
 
 	public function puerto()

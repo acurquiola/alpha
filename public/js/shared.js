@@ -3,6 +3,9 @@
  */
 
 function numToComma(number){
+    if( number === undefined){
+        return "0,00";
+    }
     if(typeof number === "string"){
         number=parseFloat(number);
         number=isNaN(number)?0:number;
@@ -10,6 +13,9 @@ function numToComma(number){
     return number.toLocaleString('es',{minimumFractionDigits:2});
 }
 function commaToNum(string){
+    if( string === undefined){
+        return 0;
+    }
     if(typeof string === "number")
         string+="";
     if(string=="")

@@ -34,6 +34,7 @@
 @section('script')
 <script>
 
+
 $(document).ready(function(){
 
 	@include('factura.partials.script')
@@ -70,7 +71,7 @@ $(document).ready(function(){
 						setTimeout(
 							function()
 							{
-								location.replace("{{action('CargaController@index')}}");
+								location.replace("{{action('DespegueController@index')}}");
 							}, 2000);
 						});
 					}else{

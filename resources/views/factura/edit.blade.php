@@ -64,7 +64,7 @@
 				return;
 			}
 			if($('#concepto-table tbody tr').length==0){
-				alertify.error("Debe seleccionar un conceptos");
+				alertify.error("Debe seleccionar un concepto");
 				return;
 			}
 
@@ -74,6 +74,8 @@
 			}
 			var form=$(this).closest('form');
 			var data=$(form).serializeArray();
+			console.log(data);
+
 			addLoadingOverlay('#main-box');
 			$.ajax({url:'{{action('FacturaController@update', ['modulo'=>$modulo->nombre,'factura'=>$factura->id])}}',
 				method:'PUT',
@@ -87,7 +89,7 @@
 					try{
 						var object=JSON.parse(responseObject.responseText);
 						if(object.success==1){
-							alertify.success("La factura se ha creado con exito");
+							alertify.success("La factura se ha creado con éxito");
 							alertify.confirm("Desea imprimir la factura?", function (e) {
 								if (e) {
 									alertify.log("Se emitió orden de impresión");

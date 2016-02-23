@@ -29,6 +29,7 @@
 				<table class="table text-center">
 					<thead class="bg-primary">
 						<th># Factura</th>
+						<th># Control</th>
 						<th>Cliente</th>
 						<th>Descripción</th>
 						<th>Fecha Emisión</th>
@@ -43,6 +44,7 @@
 						@foreach($modulo->facturas()->where('estado', 'P')->orderBy('id', 'DESC')->limit(15)->get() as $factura)
 						<tr>
 							<td>{{$factura->nFacturaPrefix}}-{{$factura->nFactura}}</td>
+							<td>{{$factura->nControlPrefix}}-{{$factura->nControl}}</td>
 							<td style="text-align: left">{{$factura->cliente->nombre}}</td>
 							<td style="text-align: left">{{$factura->descripcion}}</td>
 							<td>{{$factura->fecha}}</td>

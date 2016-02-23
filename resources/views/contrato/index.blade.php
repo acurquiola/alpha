@@ -68,6 +68,7 @@
                 <div class="box-header">
                     <h3 class="box-title">Contratos</h3>
                     <div class="box-tools pull-right">
+                        <button class="btn btn-primary" id="renovar-contratos-btn">Renovación automática de contratos</button>
                         <a class="btn btn-warning"  href="{{ URL::to('contrato/lote') }}">Aumento en lote de contratos</a>
                     </div>
                 </div>
@@ -214,7 +215,35 @@ $('#show-modal').on('show.bs.modal', function (e) {
                               });
 })
 
-
+$('#renovar-contratos-btn').click(function(){
+        alertify.confirm("A continuación se renovaran los contratos vencidos. " +
+        "Todo contrato que este vencido se le sumara sus meses de renovación hasta que su fecha de vencimiento ya no este expirada." +
+        "Estos cambios son irreversibles. Desea realizar la operación? ", function (e) {
+            if (e) {
+            addLoadingOverlay('.box');
+                $.
+                ajax({url: "{{action('ContratoController@postRenovarContratos')}}",
+                      method:"POST"})
+                .always(function(response, status, responseObject){
+                    removeLoadingOverlay('.box');
+                    try{
+                        var obj= JSON.parse(responseObject.responseText);
+                        if(obj.success==1){
+                            alertify.success(obj.text);
+                            setTimeout(
+                                function()
+                                {
+                                    location.reload();
+                                }, 1000);
+                        }
+                    }catch(e){
+                    console.log(e);
+                    alertify.error("Error en el servidor");
+                    }
+                })
+            }
+        });
+})
 
 
 

@@ -1,0 +1,142 @@
+<table style="width:100%; border-collapse: collapse; padding:2px">
+<tr>
+<td  colspan="7">
+</td>
+<td  colspan="3">
+</td>
+</tr>
+<tr>
+<td  colspan="8">
+</td>
+<td  colspan="2">
+{{$cobro->created_at}}
+</td>
+</tr>
+<tr>
+<td  colspan="7">
+</td>
+<td  colspan="3">
+</td>
+</tr>
+<tr>
+<td  colspan="7">
+</td>
+<td  colspan="3">
+</td>
+</tr>
+</table>
+<br>
+<br>
+
+
+<table style="width:100%; border-collapse: collapse; padding:2px">
+<tr>
+<td  colspan="7">
+<strong>HEMOS RECIDO DE:</strong> {{$cobro->cliente->nombre}}
+</td>
+</tr>
+<tr>
+<td  colspan="7">
+<strong>LA CANTIDAD DE:</strong> {{$traductor->numtoletras($cobro->montodepositado)}}
+</td>
+</tr>
+<tr>
+<td  colspan="7">
+<strong>POR CONCEPTO DE:</strong> {{$cobro->observacion}}
+</td>
+</tr>
+</table>
+
+<br>
+<br>
+<br>
+<table>
+<tr>
+<td colspan="2" style="border-bottom: 1px solid black; text-align:center"> 
+<strong>FORMA DE PAGO</strong>   
+</td>
+<td colspan="2" style="border-bottom: 1px solid black; text-align:center">  
+<strong>MONTO</strong>
+</td>
+<td colspan="2" style="border-bottom: 1px solid black; text-align:center">    
+<strong>REF</strong>
+</td>
+<td colspan="5" style="border-bottom: 1px solid black; text-align:center">    
+<strong>BANCO</strong>
+</td>
+<td colspan="4" style="border-bottom: 1px solid black; text-align:center">    
+<strong>CUENTA</strong>
+</td>
+<td colspan="2" style="border-bottom: 1px solid black; text-align:center">    
+<strong>FECHA</strong>
+</td>
+</tr> 
+<tr>	
+<td colspan="2" > 
+</td>
+<td colspan="2" >  
+</td>
+<td colspan="2">    
+</td>
+<td colspan="2" >    
+</td>
+<td colspan="2" >    
+</td>
+<td colspan="2" >    
+</td>
+</tr>
+@foreach($cobro->pagos as $index => $pago)
+<tr>
+<td colspan="2" style=" text-align:center" >
+@if(($pago->tipo)=='D')
+	DEPÓSITO
+@elseif($pago->tipo=='NC')
+	NOTA DE CRÉDITO
+@elseif($pago->tipo=='T')
+TRANSFERENCIA
+@endif
+</td>
+<td colspan="2" style="text-align:right" >
+{{$traductor->format($pago->monto)}}
+</td>
+<td colspan="2"  style="text-align:center">
+{{$pago->ncomprobante}}
+</td>
+<td colspan="5" style="text-align:left">
+{{$pago->banco->nombre}}
+</td>
+<td colspan="4" style="text-align:center">
+{{$pago->cuenta->descripcion}}
+</td>
+<td colspan="2" style="text-align:right">
+{{$pago->fecha}}
+</td>
+</tr>
+@endforeach
+</table>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<table style="width:100%; border-collapse: collapse; padding:2px">
+<tr>
+<td  colspan="5">
+<strong></strong>
+</td>
+<td  colspan="5">
+</td>
+</tr>
+<tr>
+<td  colspan="5"  >
+</td>
+<td colspan="1"></td>
+<td  colspan="4" style="border-top: 1px solid black;">
+<strong>RECIBE CONFORME</strong> 
+</td>
+</tr>
+</table>
+
