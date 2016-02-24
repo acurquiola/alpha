@@ -13,7 +13,7 @@ trait DecimalConverterTrait {
         if($attr)
             $this->attributes[$attr]=$numero;
         else
-            return $numero;
+           return $numero;
     }
 
 }
