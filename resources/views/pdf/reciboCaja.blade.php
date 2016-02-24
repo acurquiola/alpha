@@ -88,13 +88,8 @@
 @foreach($cobro->pagos as $index => $pago)
 <tr>
 <td colspan="2" style=" text-align:center" >
-@if(($pago->tipo)=='D')
-	DEPÓSITO
-@elseif($pago->tipo=='NC')
-	NOTA DE CRÉDITO
-@elseif($pago->tipo=='T')
-TRANSFERENCIA
-@endif
+{{$pago->tipo}}
+
 </td>
 <td colspan="2" style="text-align:right" >
 {{$traductor->format($pago->monto)}}

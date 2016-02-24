@@ -152,7 +152,7 @@ Route::group(['prefix' => 'reporte/'], function () {
 
     Route::get('reporterDES900', 'ReporteController@getReporteDES900');
     Route::get('reporterCuadreCaja', 'ReporteController@getReporteCuadreCaja');
-    Route::get('reporteListadoFacturas', 'ReporteController@getReporteListadoFacturas');
+    Route::get('reporterTraficoAereo', 'ReporteController@getReporteTraficoAereo');
     Route::post('reporteListadoFacturas', 'ReporteController@getReporteListadoFacturas');
 
 });
