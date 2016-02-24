@@ -39,6 +39,7 @@ function calculateTotalRetencion(){
 			total     +=monto*value/100
 		}
 	});
+	total=(total).toFixed(2);
 	$('#total-modal-input').val(numToComma(total));
 
 }
