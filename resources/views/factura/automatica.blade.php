@@ -218,9 +218,9 @@
              var cliente_codigo           =$(this).data('cliente_codigo');
              var cliente_nombre           =$(this).data('cliente_nombre');
              var contrato_id          =$(this).data('contrato_id');
-             var iva                  =$(this).data('conceptoIva');
-             var total                  =$(this).data('total');
-             var montoiva                  =$(this).data('concepto-montoiva');
+             var iva                  =$(this).data('conceptoIva').toFixed(2);
+             var total                  =$(this).data('total').toFixed(2);
+             var montoiva                  =$(this).data('concepto-montoiva').toFixed(2);
  				tr+=" <tr " +
  				 "data-concepto_id='" + concepto_id+"' "+
                  "data-n-factura-prefix='{{$modulo->nFacturaPrefix}}' "+
@@ -259,7 +259,7 @@
                             $(this).val()+
                         "</td> " +
                         "<td class='text-right'>"+numToComma(monto)+"</td>" +
-                        "<td class='text-right'>"+numToComma(monto*(iva/100))+"</td>" +
+                        "<td class='text-right'>"+numToComma(montoiva)+"</td>" +
                         "<td class='text-right'>"+numToComma(total)+"</td>" +
                         " <td>" +
                             " <div class='btn-group  btn-group-sm' role='group' aria-label='...'>" +
