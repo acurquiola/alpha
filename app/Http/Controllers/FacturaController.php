@@ -14,18 +14,18 @@ class FacturaController extends Controller {
     use DecimalConverterTrait;
 
     protected $meses=[
-    "1"=>"ENERO",
-    "2"=>"FEBRERO",
-    "3"=>"MARZO",
-    "4"=>"ABRIL",
-    "5"=>"MAYO",
-    "6"=>"JUNIO",
-    "7"=>"JULIO",
-    "8"=>"AGOSTO",
-    "9"=>"SEPTIEMBRE",
-    "10"=>"OCTUBRE",
-    "11"=>"NOVIEMBRE",
-    "12"=>"DICIEMBRE"];
+    "1"  =>"ENERO",
+    "2"  =>"FEBRERO",
+    "3"  =>"MARZO",
+    "4"  =>"ABRIL",
+    "5"  =>"MAYO",
+    "6"  =>"JUNIO",
+    "7"  =>"JULIO",
+    "8"  =>"AGOSTO",
+    "9"  =>"SEPTIEMBRE",
+    "10" =>"OCTUBRE",
+    "11" =>"NOVIEMBRE",
+    "12" =>"DICIEMBRE"];
 
     public function __construct()
     {
@@ -67,7 +67,8 @@ class FacturaController extends Controller {
                 $f->estado               ='P';
 
                 if($moduloNombre=="CANON"){
-                    $hoy=\Carbon\Carbon::createFromFormat('d/m/Y',$factura["fechaControlContrato"]) ;
+                    $hoy           =\Carbon\Carbon::createFromFormat('d/m/Y',$factura["fechaControlContrato"]) ;
+                    $hoy->timezone = 'America/Caracas';
                     $f->descripcion="PERIODO ".$this->meses[$hoy->month]." $hoy->year  PATENTE: 2010-AG1845";
                 }
                 if($f->save()){
@@ -280,6 +281,7 @@ class FacturaController extends Controller {
 	{
         if($modulo=="CANON"){
             $hoy=\Carbon\Carbon::now();
+            $hoy->timezone     = 'America/Caracas';
             $factura->descripcion="PERIODO ".$this->meses[$hoy->month]." $hoy->year  PATENTE: 2010-AG1845";
         }
         $modulo= \App\Modulo::where('nombre', $modulo)->where('aeropuerto_id', session('aeropuerto')->id)->first();
