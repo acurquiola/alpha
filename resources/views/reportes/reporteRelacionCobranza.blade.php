@@ -111,15 +111,7 @@
                                 <td style="vertical-align: middle; width:50px" align="left" >{{$recibo->cobro->facturas()->first()->cliente->codigo}}</td>
                                 <td style="vertical-align: middle; width:180px" align="left" >{{$recibo->cobro->facturas()->first()->cliente->nombre}}</td>
                                 <td align="center">{{($recibo->cobro->nRecibo)?$recibo->cobro->nRecibo:'N/A'}}</td>
-                                <td style="vertical-align: middle; width:30px" align="center">
-                                    @if(($recibo->tipo)=='D')
-                                        DEP
-                                    @elseif($recibo->tipo=='NC')
-                                        NC
-                                    @elseif($recibo->tipo=='T')
-                                    TRAN
-                                    @endif
-                                </td>
+                                <td style="vertical-align: middle; width:30px" align="center">{{$recibo->tipo}}</td>
                                 <td style="vertical-align: middle; width:50px" align="left">{{ substr($recibo->cuenta->descripcion, -8) }}</td>
                                 <td style="vertical-align: middle; width:70px" align="left">{{$recibo->ncomprobante}}</td>
                                 <td style="vertical-align: middle; width:50px" align="right">{{$traductor->format($recibo->cobro->montofacturas)}}</td>
