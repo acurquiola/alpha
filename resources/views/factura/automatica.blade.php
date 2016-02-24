@@ -221,9 +221,7 @@
              var iva                  =$(this).data('conceptoIva');
              var total                =$(this).data('total');
              var montoiva             =$(this).data('concepto-montoiva');
-             iva      = (iva).toFixed(2);
-             total    = (total).toFixed(2);
-             montoiva = (montoiva).toFixed(2);
+
  				tr+=" <tr " +
  				 "data-concepto_id='" + concepto_id+"' "+
                  "data-n-factura-prefix='{{$modulo->nFacturaPrefix}}' "+
