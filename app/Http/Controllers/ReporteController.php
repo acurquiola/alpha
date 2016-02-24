@@ -130,15 +130,44 @@ class ReporteController extends Controller {
 
 
     public function getReporteDES900(Request $request){
-        $diaDesde        =$request->get('diaDesde', \Carbon\Carbon::now()->day);
-        $mesDesde        =$request->get('mesDesde', \Carbon\Carbon::now()->month);
-        $annoDesde       =$request->get('annoDesde',  \Carbon\Carbon::now()->year);
-        $diaHasta        =$request->get('diaHasta', \Carbon\Carbon::now()->day);
-        $mesHasta        =$request->get('mesHasta', \Carbon\Carbon::now()->month);
-        $annoHasta       =$request->get('annoHasta',  \Carbon\Carbon::now()->year);
+        $diaDesde   =$request->get('diaDesde', \Carbon\Carbon::now()->day);
+        $mesDesde   =$request->get('mesDesde', \Carbon\Carbon::now()->month);
+        $annoDesde  =$request->get('annoDesde',  \Carbon\Carbon::now()->year);
+        $diaHasta   =$request->get('diaHasta', \Carbon\Carbon::now()->day);
+        $mesHasta   =$request->get('mesHasta', \Carbon\Carbon::now()->month);
+        $annoHasta  =$request->get('annoHasta',  \Carbon\Carbon::now()->year);
         $aeropuerto =session('aeropuerto');
-        $despegues = \App\Despegue::with("factura", "aterrizaje")->whereBetween('fecha', array($annoDesde.'-'.$mesDesde.'-'.$diaDesde,  $annoHasta.'-'.$mesHasta.'-'.$diaHasta) )->where('aeropuerto_id', session('aeropuerto')->id)->get();
+        $despegues  = \App\Despegue::with("factura", "aterrizaje")->whereBetween('fecha', array($annoDesde.'-'.$mesDesde.'-'.$diaDesde,  $annoHasta.'-'.$mesHasta.'-'.$diaHasta) )->where('aeropuerto_id', session('aeropuerto')->id)->get();
         return view('reportes.reporteDES900', compact('diaDesde', 'mesDesde', 'annoDesde', 'diaHasta', 'mesHasta', 'annoHasta', 'aeropuerto', 'despegues'));
+    }
+
+
+    public function getReporteTraficoAereo(Request $request){
+        $diaDesde    =$request->get('diaDesde', \Carbon\Carbon::now()->day);
+        $mesDesde    =$request->get('mesDesde', \Carbon\Carbon::now()->month);
+        $annoDesde   =$request->get('annoDesde',  \Carbon\Carbon::now()->year);
+        $diaHasta    =$request->get('diaHasta', \Carbon\Carbon::now()->day);
+        $mesHasta    =$request->get('mesHasta', \Carbon\Carbon::now()->month);
+        $annoHasta   =$request->get('annoHasta',  \Carbon\Carbon::now()->year);
+        $puerto      =$request->get('puerto', 0);
+        $procedencia =$request->get('procedencia', 0);
+        $destino     =$request->get('destino', 0);
+        $cliente     =$request->get('cliente',  0);
+        $aeropuerto  =session('aeropuerto');
+
+        $clientes = \App\Cliente::with("despegue")
+                ->join('despegues','clientes.id' , '=', 'despegues.cliente_id')
+                ->groupBy('clientes.id')
+                ->first();
+
+    foreach ($clientes->despegue as $despegue) {
+            $embarqueAdultos[] = $despegue->embarqueAdultos;
+            $eAdultos[]=array_sum($embarqueAdultos);
+
+    }
+
+dd($clientes, $embarqueAdultos);
+        return view('reportes.reporteTraficoAereo', compact('diaDesde', 'mesDesde', 'annoDesde', 'diaHasta', 'mesHasta', 'annoHasta', 'aeropuerto', 'despegues', 'embarqueAdultos'));
     }
 
 
@@ -171,15 +200,15 @@ class ReporteController extends Controller {
                                 ->where('facturas.deleted_at', null)
                                 ->where('aeropuerto_id', session('aeropuerto')->id)
                                 ->where('nroDosa', '<>', 'NULL')
-                                    ->where('condicionPago', 'Crédito')
-                                    ->sum('facturas.total');
+                                ->where('condicionPago', 'Crédito')
+                                ->sum('facturas.total');
 
         $facturasContado = \App\Factura::whereBetween('fecha', array($annoDesde.'-'.$mesDesde.'-'.$diaDesde,  $annoHasta.'-'.$mesHasta.'-'.$diaHasta) )
                                 ->where('facturas.deleted_at', null)
                                 ->where('aeropuerto_id', session('aeropuerto')->id)
                                 ->where('nroDosa', '<>', 'NULL')
-                                    ->where('condicionPago', 'Contado')
-                                    ->sum('facturas.total');
+                                ->where('condicionPago', 'Contado')
+                                ->sum('facturas.total');
 
 
 

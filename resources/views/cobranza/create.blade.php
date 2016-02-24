@@ -77,7 +77,7 @@
 				            <th style="min-width:120px">Saldo Cancelado</th>
 				            <th style="min-width:120px">Saldo Pendiente</th>
 
-				            <th style="min-width:120px">Retencion</th>
+				            <th style="min-width:120px">Retención</th>
 				            <th style="min-width:120px">Saldo a pagar</th>
 				            <th style="min-width:120px">Saldo Abonado</th>
 				            <th style="min-width:120px">Saldo Restante</th>
@@ -306,13 +306,13 @@
 			<div class="modal-body">
 			    <div class="form-horizontal">
                     <div class="form-group">
-                        <label for="fecha-modal-input" class="col-sm-2 control-label">Fecha retención</label>
+                        <label for="fecha-modal-input" class="col-sm-2 control-label">Fecha Retención</label>
                         <div class="col-md-4">
                             <input type="text" class="form-control" id="fecha-retencion-input" autocomplete='off'>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="fecha-modal-input" class="col-sm-2 control-label">Comprobante retención</label>
+                        <label for="fecha-modal-input" class="col-sm-2 control-label">Comprobante Retención</label>
                         <div class="col-md-4">
                             <input type="text" class="form-control" id="comprobante-retencion-input" autocomplete='off'>
                         </div>
@@ -412,9 +412,12 @@ function calculateTotalRetencion(){
 			var input =$(this).find('.retencion-input');
 			value     =commaToNum($(input).val());
 			var monto =commaToNum($($(input).data('target')).val());
-			total     +=monto*value/100
+			console.log(monto);
+			total     +=(monto*value/100);
+			
 		}
 	});
+	total=(total).toFixed(2);
 	$('#total-modal-input').val(numToComma(total));
 
 }

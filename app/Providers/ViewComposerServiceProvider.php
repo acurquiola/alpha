@@ -45,12 +45,18 @@ class ViewComposerServiceProvider extends ServiceProvider {
             $view->with(compact('nacionalidades'));
         });
 
+
+        view()->composer(['reportes.reporteTraficoAereo'], function($view){
+            $puertos= \App\Puerto::lists('nombre','id');
+            $view->with(compact('puertos'));
+        });
+
         view()->composer(['cliente.partials.form', 'aeronaves.index', 'aeronaves.partials.form'], function($view){
             $hangars= \App\Hangar::where("aeropuerto_id","=", session('aeropuerto')->id)->lists('nombre', 'id');
             $view->with(compact('hangars'));
         });
 
-        view()->composer(['aeronaves.partials.form', 'aeronaves.index', 'aterrizajes.index', 'aterrizajes.create', 'aterrizajes.partials.form', 'aterrizajes.partials.edit', 'aterrizajes.partials.show', 'despegues.index', 'despegues.create', 'despegues.partials.form', 'despegues.partials.edit', 'despegues.partials.show', 'cargas.index', 'cargas.create', 'cargas.partials.edit', 'cargas.partials.form', 'cargas.partials.show' ], function($view){
+        view()->composer(['aeronaves.partials.form', 'aeronaves.index', 'aterrizajes.index', 'aterrizajes.create', 'aterrizajes.partials.form', 'aterrizajes.partials.edit', 'aterrizajes.partials.show', 'despegues.index', 'despegues.create', 'despegues.partials.form', 'despegues.partials.edit', 'despegues.partials.show', 'cargas.index', 'cargas.create', 'cargas.partials.edit', 'cargas.partials.form', 'cargas.partials.show', 'reportes.reporteTraficoAereo'], function($view){
             $clientes= \App\Cliente::where("tipo","=", "Aeronáutico")->orWhere("tipo","=", "Mixto")->lists('nombre', 'id');
             $view->with(compact('clientes'));
         });
@@ -128,7 +134,8 @@ class ViewComposerServiceProvider extends ServiceProvider {
             'reportes.reporteModuloMetaMensual',
             'reportes.reporterFacturadoCobradoMensual',
             'reportes.reporteDES900',
-            'reportes.reporteListadoFacturas'], function($view){
+            'reportes.reporteListadoFacturas',
+            'reportes.reporteTraficoAereo'], function($view){
             $aeropuertos = \App\Aeropuerto::lists('nombre', 'id');
             $aeropuertos[0]="Todos";
             $view->with(compact('aeropuertos'));
@@ -142,7 +149,8 @@ class ViewComposerServiceProvider extends ServiceProvider {
             'reportes.reporteDES900',
             'reportes.reporteCuadreCaja',
             'factura.automatica',
-            'reportes.reporteListadoFacturas'], function($view){
+            'reportes.reporteListadoFacturas',
+            'reportes.reporteTraficoAereo'], function($view){
             $meses=[
                 "01"=>"ENERO",
                 "02"=>"FEBRERO",
