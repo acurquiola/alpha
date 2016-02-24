@@ -1,10 +1,12 @@
 @extends('app')
 @section('content')
+
 <ol class="breadcrumb">
   <li><a href="{{url('principal')}}">Inicio</a></li>
   <li><a href="{{ URL::to('cobranza/Todos/main') }}">Cobranza</a></li>
   <li><a class="active">Cobranza - {{$moduloName}}</a></li>
 </ol>
+
 <div class="row" id="box-wrapper">
 	<!-- left column -->
 	<div class="col-md-12">
@@ -100,20 +102,18 @@
 				            <input autocomplete="off" type="text" class="form-control total-a-pagar-doc-input" style="font-weight: bold;" readonly value="0,00">
 			            </div>
 		            </div>
-				</div>
 
+				</div>
 
 	            <div class="row">
 		            <div class="col-xs-12">
 			            <label>Leyenda:[<span class="text-success">Pago completo</span> | <span class="text-info">Sobrepagado</span> | <span class="text-warning">Pago parcial</span> | <span class="text-danger">Error en saldo ingresado</span>]</label>
 <!-- 			            <div  class="pull-right"><label id="items-seleccionados-label" class="text-primary" style="font-weight: bold;" >0 Facturas Seleccionadas</label></div>
  -->		            </div>
-    
+
 	            </div>
-
 	            <h5>Formas de pago</h5>
-
-	            <div class="row"> 
+	            <div class="row">
 		            <div class="col-xs-12 text-right"> 
 			            <button class="btn btn-primary register-payment-btn"><span class="glyphicon glyphicon-plus"></span> Registrar pago</button> 
 		            </div> 
@@ -323,57 +323,17 @@
 
 					<label class="control-label col-xs-2">Base a pagar</label>
 
-					<div class="col-xs-4">
-						<input class="form-control" id="base-modal-input" readonly/>
-					</div>
-					<label class="control-label col-xs-2">IVA a pagar</label>
-					<div class="col-xs-4">
-						<input class="form-control" id="iva-modal-input" readonly/>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-xs-offset-3 col-xs-6">
-						<table class="table">
-							<thead class="bg-primary"><tr><th></th><th>Concepto</th><th>Porcentaje</th></tr></thead>
-							<tbody>
-								<tr>
-									<td>
-									<input type="checkbox" class="retencion-check" id="islr-check" autocomplete="off" /></td>
-									<td>ISLR</td>
-									<td><input type="text" class="form-control retencion-input" id="islrper-modal-input" data-target="#base-modal-input" /></td>
-								</tr>
-								<tr>
-									<td><input type="checkbox" class="retencion-check" id="iva-check" autocomplete="off"/></td>
-									<td>IVA</td>
-									<td><input type="text" class="form-control retencion-input" id="ivaper-modal-input" data-target="#iva-modal-input" /></td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
-				</div>
-				<div class="row" style="margin:15px auto">
+@include('cobranza.partials.cuotaModal')
+@include('cobranza.partials.pagoModal')
+@include('cobranza.partials.retencionModal')
 
-					<label class="control-label col-xs-2">Total</label>
-
-					<div class="col-xs-4">
-						<input class="form-control" id="total-modal-input" readonly value="0,00" autocomplete="off"/>
-					</div>
-
-				</div>
-			</div>
-			<div class="modal-footer">
-
-				<button type="button" class="btn btn-primary" id="accept-retencion-modal-btn">Aceptar</button>
-			</div>
-		</div><!-- /.modal-content -->
-	</div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
 @endsection
 @section('script')
 
 
 <script>
 
+<<<<<<< HEAD
 //porcentaje de retencion, los modifico cunado selecciono un cliente
 var islr=0;
 var iva=0;
@@ -933,6 +893,99 @@ $('#save-cobro-btn').click(function(){
 })
 
 });
+=======
+    $(document).ready(function(){
+
+        @include('cobranza.partials.script')
+
+        $('#save-cobro-btn').click(function(){
+
+            var pagar     =commaToNum($('.total-a-pagar-doc-input').first().val());
+            var depositar =commaToNum($('#total-a-depositar-doc-input').val());
+            var ajuste    =commaToNum($('#ajuste-input').val());
+            if(pagar>depositar){
+                alertify.error("El monto a cobrar no puede ser mayor al depositado.");
+                return;
+            }
+            if(pagar==0 || depositar==0){
+                alertify.error("El monto a cobrar o depositado no pueden ser cero.");
+                return;
+            }
+            if(ajuste>0){
+                var ajusteMaximo=parseFloat($('.ajuste-row').find('.saldo-pagar').text());
+                if(ajuste>ajusteMaximo){
+                    alertify.error("El ajuste no puede superar " +ajusteMaximo+ "Bs.");
+                    return;
+                }
+            }
+            var facturas=[];
+            var trs=$('#cxc-table tbody').find('tr.success, tr.info, tr.warning').not('.ajuste-row');
+            $.each(trs, function(index,value){
+                var retencionInput=$(value).find('.retencion-pagar');
+                var isrlModal=$(retencionInput).data('islrModal');
+                var ivaModal=$(retencionInput).data('ivaModal');
+                var retencionFecha=$(retencionInput).data('retencionFecha');
+                var retencionComprobante=$(retencionInput).data('retencionComprobante');
+                isrlModal=(isrlModal===undefined)?0:isrlModal;
+                ivaModal=(ivaModal===undefined)?0:ivaModal;
+                retencionFecha=(retencionFecha===undefined)?0:retencionFecha;
+                retencionComprobante=(retencionComprobante===undefined)?0:retencionComprobante
+                var o={
+                    id:$(value).data('id'),
+                    montoAbonado: commaToNum($(value).find('.saldo-abonado-input').val()),
+                    islrpercentage:isrlModal,
+                    ivapercentage:ivaModal,
+                    retencionFecha:retencionFecha,
+                    retencionComprobante:retencionComprobante
+                }
+
+                facturas.push(o);
+            });
+
+            var pagos=[];
+            $('#formas-pago-table tbody tr').each(function(index,value){
+                pagos.push($(value).data('object'));
+            })
+            console.log(facturas)
+
+            addLoadingOverlay('#main-box');
+            $.ajax({
+                method:'POST',
+                data:{
+                    facturas:facturas,
+                    pagos:pagos,
+                    cliente_id: $('#cliente-select option:selected').data("id"),
+                    totalFacturas:$('.total-a-pagar-doc-input').first().val() ,
+                    totalDepositado:$('#total-a-depositar-doc-input').val(),
+                    observacion:$('#observaciones-documento').val(),
+                    hasrecaudos:$('#hasrecaudos-check').prop('checked'),
+                    ajuste:ajuste,
+                    modulo_id:'{{$id}}',
+                    nRecibo:$('#nRecibo-input').val()
+                },
+                url: '{{action('CobranzaController@store')}}'
+            }).done(function(data, status, jx){
+                try{
+                    var response=JSON.parse(jx.responseText);
+                    if(response.success){
+                        alertify.success("El pago se efectuó con éxito.");
+                        setTimeout(
+                            function()
+                            {
+                                location.reload();
+                            }, 2000);
+                    }
+
+                }catch(e){
+                    removeLoadingOverlay('#main-box');
+                    alertify.error("Error en el servidor");
+                }
+
+
+            })
+        })
+    });
+>>>>>>> 1fa7e37a1c362a8b01cffffdeae841f8719efb2d
 
 
 </script>

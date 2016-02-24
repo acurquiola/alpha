@@ -108,15 +108,9 @@ class CobranzaController extends Controller {
             $id=$modulo->id;
             $idOperator="=";
         }
-
-        $clientes=\App\Cliente::join('facturas','facturas.cliente_id' , '=', 'clientes.id')
-        ->where('facturas.aeropuerto_id','=', session('aeropuerto')->id)
-        ->where('facturas.modulo_id', $idOperator, $id)
-        ->where('facturas.estado','=','P')
-        ->orderBy('clientes.nombre')
-        ->groupBy("clientes.id")->get();
-
+        $clientes=$this->getClientesPendietesByModulo($idOperator, $id);
         $bancos=\App\Banco::with('cuentas')->get();
+
         return view('cobranza.create',compact('clientes','moduloName', 'bancos','id'));
     }
 
@@ -270,9 +264,22 @@ return ["success"=>1];
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function edit($id)
+	public function edit($moduloName, $id)
 	{
-		//
+        $cobro=\App\Cobro::find($id);
+        $cobro->load('facturas', 'pagos', 'ajustes', 'cliente');
+        $idOperator=">=";
+        $id=0;
+        if($moduloName!="Todos"){
+            $modulo=\App\Modulo::where("nombre","like",$moduloName)->orderBy("nombre")->first();
+            $id=$modulo->id;
+            $idOperator="=";
+        }
+        $bancos=\App\Banco::with('cuentas')->get();
+        $ajusteCliente= \DB::table('ajustes')
+            ->where('cliente_id', $cobro->cliente->id)
+            ->sum('monto');
+        return view('cobranza.edit',compact('moduloName', 'bancos','id', 'cobro', 'ajusteCliente'));
 	}
 
 	/**
@@ -281,9 +288,9 @@ return ["success"=>1];
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function update($id)
+	public function update($moduloName, $id, Request $request)
 	{
-		//
+		dd($request->all());
 	}
 
 	/**
@@ -355,7 +362,14 @@ return ["success"=>1];
         return ["facturas"=>$facturas, "ajuste"=> $ajusteCliente];
     }
 
-
+    protected function getClientesPendietesByModulo($idOperator, $id){
+        return \App\Cliente::join('facturas','facturas.cliente_id' , '=', 'clientes.id')
+            ->where('facturas.aeropuerto_id','=', session('aeropuerto')->id)
+            ->where('facturas.modulo_id', $idOperator, $id)
+            ->where('facturas.estado','=','P')
+            ->orderBy('clientes.nombre')
+            ->groupBy("clientes.id")->get();
+    }
 
     protected function getModulos($moduloNombre){
         $modulos=session('aeropuerto')->modulos()->where("nombre","like",$moduloNombre)->orderBy("nombre")->get();

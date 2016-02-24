@@ -39,4 +39,14 @@ class Cobrospago extends Model {
     {
         $this->parseDecimal($numero,'monto');
     }
+
+    public function getTipoAttribute($value){
+        $d=
+            [
+                "D" => "Deposito",
+                "NC" => "Nota de credito",
+                "T" => "Transferencia"
+            ];
+        return (array_key_exists($value, $d))?$d[$value]:"";
+    }
 }
