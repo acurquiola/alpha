@@ -82,19 +82,19 @@
                              <th style="vertical-align: middle" class="text-center">
                                 Recibo
                              </th>
-                             <th style="vertical-align: middle; width:30px" class="text-center">
+                             <th style="vertical-align: middle; width:50px" class="text-center">
                                 Tipo
                              </th>
                              <th style="vertical-align: middle; width:50px"  align="center" class="text-center">
                                 Cuenta
                              </th>
-                             <th style="vertical-align: middle; width:70px"  align="center" class="text-center">
+                             <th style="vertical-align: middle; width:60px"  align="center" class="text-center">
                                 Referencia
                              </th>
-                             <th style="vertical-align: middle; width:50px"  align="center" class="text-center">
+                             <th style="vertical-align: middle; width:80px"  align="center" class="text-center">
                                 Cobrado
                              </th>
-                             <th style="vertical-align: middle; width:70px" align="center" class="text-center">
+                             <th style="vertical-align: middle; width:80px" align="center" class="text-center">
                                 Depositado
                              </th>
                              <th style="vertical-align: middle; width:70px" align="center" class="text-center">
@@ -111,10 +111,10 @@
                                 <td style="vertical-align: middle; width:50px" align="left" >{{$recibo->cobro->facturas()->first()->cliente->codigo}}</td>
                                 <td style="vertical-align: middle; width:180px" align="left" >{{$recibo->cobro->facturas()->first()->cliente->nombre}}</td>
                                 <td align="center">{{($recibo->cobro->nRecibo)?$recibo->cobro->nRecibo:'N/A'}}</td>
-                                <td style="vertical-align: middle; width:30px" align="center">{{$recibo->tipo}}</td>
-                                <td style="vertical-align: middle; width:50px" align="left">{{substr($recibo->cuenta->descripcion, -8) }}</td>
-                                <td style="vertical-align: middle; width:70px" align="left">{{$recibo->ncomprobante}}</td>
-                                <td style="vertical-align: middle; width:50px" align="right">{{$traductor->format($recibo->cobro->montofacturas)}}</td>
+                                <td style="vertical-align: middle; width:50px" align="center">{{$recibo->tipo}}</td>
+                                <td style="vertical-align: middle; width:50px" align="center">{{substr($recibo->cuenta->descripcion, -8) }}</td>
+                                <td style="vertical-align: middle; width:60px" align="center">{{$recibo->ncomprobante}}</td>
+                                <td style="vertical-align: middle; width:70px" align="right">{{$traductor->format($recibo->cobro->montofacturas)}}</td>
                                 <td style="vertical-align: middle; width:70px" align="right">{{$traductor->format($recibo->cobro->montodepositado)}}</td>
                                 <td style="vertical-align: middle; width:70px" align="right">{{$traductor->format(($recibo->cobro->montofacturas-$recibo->cobro->montodepositado))}}</td>
                             </tr>
@@ -129,9 +129,9 @@
                                         <td> - </td>
                                         <td> - </td>
                                         <td> - </td>
-                                        <td>{{$traductor->format($totalFacturas)}}</td>
-                                        <td>{{$traductor->format($totalDepositado)}}</td>
-                                        <td>-</td>                                   
+                                        <td style="vertical-align: middle; width:70px" align="right">{{$traductor->format($totalFacturas)}}</td>
+                                        <td style="vertical-align: middle; width:70px" align="right">{{$traductor->format($totalDepositado)}}</td>
+                                        <td style="vertical-align: middle; width:70px" align="right">-</td>                                   
                                     </tr>   
                         @else
                             <tr>
@@ -197,7 +197,8 @@ $('#export-btn').click(function(e){
       return $(this).find('td,th').length == 0;
     }).remove();
     $(table).find('th').css({'border-bottom':'1px solid black','border-top':'1px solid black', 'font-weight': 'bold'}) 
-            var tableHtml= $(table)[0].outerHTML;
+    $(table).find('tr:last td').css({'border-bottom':'1px solid black','border-top':'1px solid black', 'font-weight': 'bold'})
+    var tableHtml= $(table)[0].outerHTML;
     $('[name=table]').val(tableHtml);
     $('#export-form').submit();
 })
