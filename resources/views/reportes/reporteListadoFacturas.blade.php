@@ -29,6 +29,7 @@
                         <label class="col-md-1 control-label"><strong>Modulo</strong></label>
                         <div class="col-md-6">
                             <select autocomplete="off" class="form-control" id="modulo-select" name="modulo">
+                            <option value="0">TODOS</option>
                                 @foreach($modulos as $m)
                                     <option data-aeropuerto="{{$m->aeropuerto->id}}"
                                     value="{{$m->id}}"

@@ -256,18 +256,29 @@ dd($clientes, $embarqueAdultos);
             $facturas=\App\Factura::select('facturas.*');
 
             $aeropuerto   =$request->get('aeropuerto');
-            $modulo       =$request->get('modulo');
-            if($aeropuerto==0){
-                //como se van a mostrar todos los nombres de los modulos de todos los aeropuertos
-                //debo buscar por nimbre en vez de id
-                $moduloO=\App\Modulo::find($modulo);
-                $facturas->where('facturas.aeropuerto_id', ">", $aeropuerto);
-                $facturas->join('modulos','modulos.id' , '=', 'facturas.modulo_id');
-                $facturas->where('modulos.nombre', 'like', "%$moduloO->nombre%");
+            $modulo       =$request->get('modulo', 0);
+            if ($modulo==0){
+                 if($aeropuerto==0){
+                    //como se van a mostrar todos los nombres de los modulos de todos los aeropuertos
+                    //debo buscar por nimbre en vez de id
+                    $facturas->where('facturas.aeropuerto_id', ">", $aeropuerto);
 
+                }else{
+                    $facturas->where('facturas.aeropuerto_id', $aeropuerto);
+                }
             }else{
-                $facturas->where('facturas.aeropuerto_id', $aeropuerto);
-                $facturas->where('facturas.modulo_id', $modulo);
+                if($aeropuerto==0){
+                    //como se van a mostrar todos los nombres de los modulos de todos los aeropuertos
+                    //debo buscar por nimbre en vez de id
+                    $moduloO=\App\Modulo::find($modulo);
+                    $facturas->where('facturas.aeropuerto_id', ">", $aeropuerto);
+                    $facturas->join('modulos','modulos.id' , '=', 'facturas.modulo_id');
+                    $facturas->where('modulos.nombre', 'like', "%$moduloO->nombre%");
+
+                }else{
+                    $facturas->where('facturas.aeropuerto_id', $aeropuerto);
+                    $facturas->where('facturas.modulo_id', $modulo);
+                }
             }
             $desde= $request->get('desde');
             if($desde!="")
