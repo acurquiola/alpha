@@ -241,7 +241,10 @@ dd($clientes, $embarqueAdultos);
                                     });
                                 })->groupBy('cobro_id')->orderBy('fecha', 'ASC', 'facturas.nFactura', 'ASC')
                                 ->get();
-        return view('reportes.reporteRelacionCobranza', compact('mes', 'anno', 'aeropuerto', 'modulo', 'recibos', 'modulos', 'clientes', 'cliente'));
+
+        $totalFacturas   =$recibos->sum('cobro.montofacturas');
+        $totalDepositado =$recibos->sum('cobro.montodepositado');
+        return view('reportes.reporteRelacionCobranza', compact('mes', 'anno', 'aeropuerto', 'modulo', 'recibos', 'modulos', 'clientes', 'cliente', 'totalFacturas', 'totalDepositado'));
 
     }
 

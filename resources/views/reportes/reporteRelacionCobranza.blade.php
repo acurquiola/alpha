@@ -112,13 +112,27 @@
                                 <td style="vertical-align: middle; width:180px" align="left" >{{$recibo->cobro->facturas()->first()->cliente->nombre}}</td>
                                 <td align="center">{{($recibo->cobro->nRecibo)?$recibo->cobro->nRecibo:'N/A'}}</td>
                                 <td style="vertical-align: middle; width:30px" align="center">{{$recibo->tipo}}</td>
-                                <td style="vertical-align: middle; width:50px" align="left">{{ substr($recibo->cuenta->descripcion, -8) }}</td>
+                                <td style="vertical-align: middle; width:50px" align="left">{{substr($recibo->cuenta->descripcion, -8) }}</td>
                                 <td style="vertical-align: middle; width:70px" align="left">{{$recibo->ncomprobante}}</td>
                                 <td style="vertical-align: middle; width:50px" align="right">{{$traductor->format($recibo->cobro->montofacturas)}}</td>
                                 <td style="vertical-align: middle; width:70px" align="right">{{$traductor->format($recibo->cobro->montodepositado)}}</td>
                                 <td style="vertical-align: middle; width:70px" align="right">{{$traductor->format(($recibo->cobro->montofacturas-$recibo->cobro->montodepositado))}}</td>
                             </tr>
                         @endforeach
+
+                                    <tr class="bg-gray" align="center">
+                                        <td>Total</td>
+                                        <td> - </td>
+                                        <td> - </td>
+                                        <td> - </td>
+                                        <td> - </td>
+                                        <td> - </td>
+                                        <td> - </td>
+                                        <td> - </td>
+                                        <td>{{$traductor->format($totalFacturas)}}</td>
+                                        <td>{{$traductor->format($totalDepositado)}}</td>
+                                        <td>-</td>                                   
+                                    </tr>   
                         @else
                             <tr>
                                 <td colspan="12" class="text-center">No hay registros para las fechas seleccionadas</td>
