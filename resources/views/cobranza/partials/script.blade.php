@@ -287,33 +287,40 @@ $('#cliente-select').chosen({width: "100%"}).change(function(){
 		try{
 			var o=JSON.parse(responseObject.responseText);
 
+			var cobro=[];
+			$.each(o.ajusteCobros, function(i, value){
+				cobro[i] =value.cobro_id;
+			});
 			var trs="";
 			if(o.ajuste>0)
-				trs+='<tr class="ajuste-row">\
-			<td><p class="form-control-static"><strong>Ajuste</strong></p></td>\
-			<td></td>\
-			<td class="monto-documento"><p class="form-control-static">'+o.ajuste+'</p></td>\
-			<td ><p class="form-control-static"><span style="display:none" class="saldo-pendiente">'+o.ajuste+'</span></p></td>\
-			<td></td>\
-			<td></td>\
-			<td ><p class="form-control-static"><span style="display:none" class="saldo-pagar">'+o.ajuste+'</span></p></td>\
-			<td><input id="ajuste-input" class="form-control saldo-abonado-input "  autocomplete="off"></td>\
-			<td></td>\
-			<td>\
-				<div class="btn-group" role="group" aria-label="...">\
-					<div class="btn-group" role="group">\
-						<button type="button" class="btn btn-primary pay-all-btn">Abono total</button>\
-						<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">\
-							<span class="caret"></span>\
-						</button>\
-						<ul class="dropdown-menu" role="menu">\
-							<li><a class="pay-all-btn">Abono total</a></li>\
-						</ul>\
-					</div>\
-					<button type="button" class="btn btn-default reset-btn"><span class="glyphicon glyphicon-repeat"></span></button>\
-				</div>\
-			</td>\
-		</tr>'
+				trs+='<tr class="ajuste-row" >\
+				<td rowspan="2" style="vertical-align: middle"> <p class="form-control-static "><strong>AJUSTE:</strong></p></td>\
+						<td class="monto-documento"><p class="form-control-static"><strong>Saldo Total</strong></p></td>\
+						<td class="monto-documento"><p class="form-control-static"><strong>Cobros</strong></p></td>\
+						<td></td>\
+						<td class="monto-documento"><p class="form-control-static"><strong>Saldo Aplicado</strong></p></td>\
+						<td colspan="2" class="monto-documento"><p class="form-control-static"><strong>Acción</strong></p></td>\
+				</tr>\
+				<tr class="ajuste-row" >\
+					<td class="monto-documento"><p class="form-control-static">'+numToComma(o.ajuste)+'</p></td>\
+					<td class="numero-cobros"><p class="form-control-static">'+cobro+'</p></td>\
+					<td ><p class="form-control-static"><span style="display:none" class="saldo-pagar">'+numToComma(o.ajuste)+'</span></p></td>\
+					<td><input id="ajuste-input" class="form-control saldo-abonado-input "  autocomplete="off"></td>\
+					<td colspan="2">\
+						<div class="btn-group" role="group" aria-label="...">\
+							<div class="btn-group" role="group">\
+								<button type="button" class="btn btn-primary pay-all-btn">Abono total</button>\
+								<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">\
+									<span class="caret"></span>\
+								</button>\
+								<ul class="dropdown-menu" role="menu">\
+									<li><a class="pay-all-btn">Abono total</a></li>\
+								</ul>\
+							</div>\
+							<button type="button" class="btn btn-default reset-btn"><span class="glyphicon glyphicon-repeat"></span></button>\
+						</div>\
+					</td>\
+				</tr>'
 
 
 		$.each(o.facturas, function(index,value){
