@@ -310,10 +310,13 @@ dd($clientes, $embarqueAdultos);
 
             //dd($facturas->toSql(), $facturas->getBindings());
             $facturas=$facturas->orderBy('fecha', 'DESC')->get();
+            
+            $total    =$facturas->sum('total');
+            $subtotal =$facturas->sum('subtotal');
+            $iva      =$facturas->sum('iva');
+            $islr     =$facturas->sum('islr');
 
-
-
-            $view->with( compact('facturas', 'aeropuerto', 'modulo', 'desde', 'hasta', 'nFactura', 'rif', 'nombre', 'estatus'));
+            $view->with( compact('facturas', 'aeropuerto', 'modulo', 'desde', 'hasta', 'nFactura', 'rif', 'nombre', 'estatus', 'total', 'subtotal', 'islr', 'iva'));
 
 
         }

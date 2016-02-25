@@ -217,7 +217,8 @@
                 return;
             }
             if(ajuste>0){
-                var ajusteMaximo=parseFloat($('.ajuste-row').find('.saldo-pagar').text());
+                var ajusteMaximo=parseFloat(
+                	$('.ajuste-row').find('.saldo-pagar').text());
                 if(ajuste>ajusteMaximo){
                     alertify.error("El ajuste no puede superar " +ajusteMaximo+ "Bs.");
                     return;

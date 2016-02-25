@@ -161,20 +161,33 @@
                                     <td>{{$factura->cliente->cedRifPrefix}}-{{$factura->cliente->cedRif}}</td>
                                     <td>{{$factura->cliente->nombre}}</td>
                                     <td>{{$factura->descripcion}}</td>
-                                    <td>{{$factura->subtotal}}</td>
+                                    <td>{{$traductor->format($factura->subtotal)}}</td>
                                     {{--@if(!$factura->metadata)--}}
-                                    <td>{{$factura->iva}}</td>
-                                    <td>{{0}}</td>
+                                    <td>{{$traductor->format($factura->iva)}}</td>
+                                    <td>{{$traductor->format($factura->islr)}}</td>
                                     {{--@else--}}
                                     {{--<td>{{$factura->metadata->ivapercentage}}</td>--}}
                                     {{--<td>{{$factura->metadata->islrpercentage}}</td>--}}
                                     {{--@endif--}}
-                                    <td>{{$factura->total}}</td>
+                                    <td>{{$traductor->format($factura->total)}}</td>
                                 </tr>
                             @endforeach
+                                    <tr class="bg-gray" align="center">
+                                        <td>Total</td>
+                                        <td> - </td>
+                                        <td> - </td>
+                                        <td> - </td>
+                                        <td> - </td>
+                                        <td> - </td>
+                                        <td> - </td>
+                                        <td>{{$traductor->format($subtotal)}}</td>
+                                        <td>{{$traductor->format($iva)}}</td>
+                                        <td>{{$traductor->format($islr)}}</td>
+                                        <td>{{$traductor->format($total)}}</td>                                   
+                                    </tr>     
                             @else
                                 <tr>
-                                    <td colspan="5" class="text-center">No hay registros para los parametros seleccionados</td>
+                                    <td colspan="11" class="text-center">No hay registros para los parametros seleccionados</td>
                                 </tr>
                             @endif
 
