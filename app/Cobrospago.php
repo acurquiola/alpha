@@ -43,9 +43,9 @@ class Cobrospago extends Model {
     public function getTipoAttribute($value){
         $d=
             [
-                "D"  => "Depósito",
-                "NC" => "Nota de Crédito",
-                "T"  => "Transferencia"
+                "D"  => "DEP",
+                "NC" => "NC",
+                "T"  => "TRAN"
             ];
         return (array_key_exists($value, $d))?$d[$value]:"";
     }
