@@ -209,9 +209,6 @@ dd($clientes, $embarqueAdultos);
                                 ->where('nroDosa', '<>', 'NULL')
                                 ->where('condicionPago', 'Contado')
                                 ->sum('facturas.total');
-
-
-
         return view('reportes.reporteCuadreCaja', compact('diaDesde', 'mesDesde', 'annoDesde', 'diaHasta', 'mesHasta', 'annoHasta', 'aeropuerto', 'facturas', 'facturasTotal', 'facturasContado', 'facturasCredito'));
     }
 /*

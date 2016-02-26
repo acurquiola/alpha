@@ -48,7 +48,7 @@ class FacturaController extends Controller {
                 $f->nFactura             = $factura["nFactura"];
                 $f->nControlPrefix       = $factura["nControlPrefix"];
                 $f->nControl             = $factura["nControl"];
-                $f->fechaControlContrato =$factura["fechaControlContrato"];
+                $f->fechaControlContrato = $factura["fechaControlContrato"];
                 $f->fecha                = $factura["fecha"];
                 $f->fechaVencimiento     = $factura["fechaVencimiento"];
                 $f->cliente_id           = $factura["cliente_id"];
@@ -238,7 +238,8 @@ class FacturaController extends Controller {
             $fecha         ='0000-00-00';
             $fechaOperator ='>=';
         }else{
-            $fecha=\Carbon\Carbon::createFromFormat('d/m/Y', $fecha);
+            $fecha           =\Carbon\Carbon::createFromFormat('d/m/Y', $fecha);
+            $fecha->timezone = 'America/Caracas';
         }
 
 
@@ -434,6 +435,7 @@ class FacturaController extends Controller {
                                 'total',
                                 'descripcion',
                                 'comentario');
+
 
     }
     protected function getFacturaDetallesDataFromRequest($request){
