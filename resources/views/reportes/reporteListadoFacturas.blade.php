@@ -116,37 +116,37 @@
                              <table class="table table-hover table-condensed">
                              <thead  class="bg-primary">
                              <tr>
-                                <th style="vertical-align: middle" class="text-center">
+                                <th style="vertical-align: middle; width:20px" class="text-center">
                                     N°
                                 </th>
-                                 <th style="vertical-align: middle" class="text-center">
-                                    Fecha Emisión
+                                 <th style="vertical-align: middle; width:50px" align="center" class="text-center">
+                                    Fecha
                                  </th>
-                                 <th style="vertical-align: middle" class="text-center">
-                                    Nro Factura
+                                 <th style="vertical-align: middle; width:60px" align="center" class="text-center">
+                                    Nro. Factura
                                  </th>
-                                 <th style="vertical-align: middle" class="text-center">
-                                    Nro Control
+                                 <th style="vertical-align: middle; width:60px" align="center" class="text-center">
+                                    Nro. Control
                                  </th>
-                                 <th style="vertical-align: middle" class="text-center">
-                                    Rif Cliente
+                                 <th style="vertical-align: middle; width:70px" align="center" class="text-center">
+                                    RIF Cliente
                                  </th>
-                                 <th style="vertical-align: middle" class="text-center">
+                                 <th style="vertical-align: middle; width:140px" align="center" class="text-center">
                                     Nombre ó Razón Social
                                  </th>
-                                 <th style="vertical-align: middle" class="text-center">
+                                 <th style="vertical-align: middle; width:150px" align="center"  class="text-center">
                                     Descripción
                                  </th>
-                                 <th style="vertical-align: middle" class="text-center">
+                                 <th style="vertical-align: middle; width:70px" align="center" class="text-center">
                                     Sub-Total
                                  </th>
-                                 <th style="vertical-align: middle" class="text-center">
+                                 <th style="vertical-align: middle; width:60px" align="center" class="text-center">
                                     IVA
                                  </th>
-                                 <th style="vertical-align: middle" class="text-center">
+                                 <th style="vertical-align: middle; width:40px" align="center" class="text-center">
                                     ISLR
                                  </th>
-                                 <th style="vertical-align: middle" class="text-center">
+                                 <th style="vertical-align: middle; width:70px" align="center" class="text-center">
                                     Monto
                                  </th>
                              </tr>
@@ -155,36 +155,35 @@
                             @if(count($facturas)>0)
                             @foreach($facturas as $index => $factura)
                                 <tr>
-                                    <td>{{$index+1}}</td>
-                                    <td>{{$factura->fecha}}</td>
-                                    <td>{{$factura->nFacturaPrefix}}-{{$factura->nFactura}}</td>
-                                    <td>{{$factura->nControlPrefix}}-{{$factura->nControl}}</td>
-                                    <td>{{$factura->cliente->cedRifPrefix}}-{{$factura->cliente->cedRif}}</td>
-                                    <td>{{$factura->cliente->nombre}}</td>
-                                    <td>{{$factura->descripcion}}</td>
-                                    <td>{{$traductor->format($factura->subtotal)}}</td>
+                                    <td style="vertical-align: middle; width:20px" align="center" >{{$index+1}}</td>
+                                    <td style="vertical-align: middle; width:50px" align="center">{{$factura->fecha}}</td>
+                                    <td style="vertical-align: middle; width:60px" align="center" >{{$factura->nFacturaPrefix}}-{{$factura->nFactura}}</td>
+                                    <td style="vertical-align: middle; width:60px" align="center" >{{$factura->nControlPrefix}}-{{$factura->nControl}}</td>
+                                    <td style="vertical-align: middle; width:70px" align="center" >{{$factura->cliente->cedRifPrefix}}-{{$factura->cliente->cedRif}}</td>
+                                    <td style="vertical-align: middle; width:140px" align="left" >{{$factura->cliente->nombre}}</td>
+                                    <td style="vertical-align: middle; width:150px" align="left">{{$factura->descripcion}}</td>
+                                    <td style="vertical-align: middle; width:70px" align="right">{{$traductor->format($factura->subtotal)}}</td>
                                     {{--@if(!$factura->metadata)--}}
-                                    <td>{{$traductor->format($factura->iva)}}</td>
-                                    <td>{{$traductor->format($factura->islr)}}</td>
+                                    <td style="vertical-align: middle; width:60px" align="right">{{$traductor->format($factura->iva)}}</td>
+                                    <td style="vertical-align: middle; width:40px" align="right">{{$traductor->format($factura->islr)}}</td>
                                     {{--@else--}}
-                                    {{--<td>{{$factura->metadata->ivapercentage}}</td>--}}
-                                    {{--<td>{{$factura->metadata->islrpercentage}}</td>--}}
+                                    {{--<td style="vertical-align: middle; width:60px" align="right">{{$factura->metadata->ivapercentage}}</td>--}}
+                                    {{--<td style="vertical-align: middle; width:60px" align="right">{{$factura->metadata->islrpercentage}}</td>--}}
                                     {{--@endif--}}
-                                    <td>{{$traductor->format($factura->total)}}</td>
+                                    <td style="vertical-align: middle; width:70px" align="right">{{$traductor->format($factura->total)}}</td>
                                 </tr>
                             @endforeach
                                     <tr class="bg-gray" align="center">
-                                        <td>Total</td>
+                                        <td colspan="2">Total</td>
                                         <td> - </td>
                                         <td> - </td>
                                         <td> - </td>
                                         <td> - </td>
                                         <td> - </td>
-                                        <td> - </td>
-                                        <td>{{$traductor->format($subtotal)}}</td>
-                                        <td>{{$traductor->format($iva)}}</td>
-                                        <td>{{$traductor->format($islr)}}</td>
-                                        <td>{{$traductor->format($total)}}</td>                                   
+                                        <td style="vertical-align: middle; width:70px" align="right">{{$traductor->format($subtotal)}}</td>
+                                        <td style="vertical-align: middle; width:60px" align="right">{{$traductor->format($iva)}}</td>
+                                        <td style="vertical-align: middle; width:40px" align="right">{{$traductor->format($islr)}}</td>
+                                        <td style="vertical-align: middle; width:70px" align="right">{{$traductor->format($total)}}</td>                                   
                                     </tr>     
                             @else
                                 <tr>
