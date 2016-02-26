@@ -259,15 +259,14 @@ dd($clientes, $embarqueAdultos);
         $modulo       =$request->get('modulo', \App\Modulo::where('aeropuerto_id', session('aeropuerto')->id )->first()->id);
         $primerDiaMes =\Carbon\Carbon::create($anno, $mes,1)->startOfMonth();
         $ultimoDiaMes =\Carbon\Carbon::create($anno, $mes,1)->endOfMonth();
-        $recibos=\App\Cobro::with('cobropago','cuenta')->where('fecha','>=' ,$primerDiaMes)
-                                ->where('fecha','<=' ,$ultimoDiaMes)
-                                ->where('modulo',$modulo_id)
-                                ->groupBy('id')->orderBy('fecha', 'ASC', 'facturas.nFactura', 'ASC')
+        $recibos=\App\Cobro::with('pagos')->where('created_at','>=' ,$primerDiaMes)
+                                ->where('created_at','<=' ,$ultimoDiaMes)
+                                ->where('modulo_id',$modulo)
+                                ->groupBy('id')->orderBy('created_at', 'ASC', 'facturas.nFactura', 'ASC')
                                 ->get();
-
-        dd($recibos);
-        $totalFacturas   =$recibos->sum('cobro.montofacturas');
-        $totalDepositado =$recibos->sum('cobro.montodepositado');
+                        
+        $totalFacturas   =$recibos->sum('montofacturas');
+        $totalDepositado =$recibos->sum('montodepositado');
         return view('reportes.reporteRelacionCobranza', compact('mes', 'anno', 'aeropuerto', 'modulo', 'recibos', 'modulos', 'clientes', 'cliente', 'totalFacturas', 'totalDepositado'));
 
     }

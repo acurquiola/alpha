@@ -97,23 +97,23 @@ class InformacionController extends Controller {
 
         //actualizando aeropuerto de sesion
 		$aeropuerto=session("aeropuerto");
-        $aeropuerto->update($request->get("aeropuerto"));
+        //$aeropuerto->update($request->get("aeropuerto"));
 
         //actualizando estacionamientos del aeropuerto de la sesion
-        $estacionamiento=$aeropuerto->estacionamiento;
-        $estacionamiento->update($request->get("estacionamiento"));
+        //$estacionamiento=$aeropuerto->estacionamiento;
+        //$estacionamiento->update($request->get("estacionamiento"));
 
         //actualizando portones
-        $this->actualizarEstacionamientos($estacionamiento, $request->get('portonesNuevos',[]), $request->get("portones", []));
+        //$this->actualizarEstacionamientos($estacionamiento, $request->get('portonesNuevos',[]), $request->get("portones", []));
 
         //actualizando conceptos
-        $this->actualizarConceptos($estacionamiento, $request->get('conceptosNuevos',[]), $request->get("conceptos", []));
+        //$this->actualizarConceptos($estacionamiento, $request->get('conceptosNuevos',[]), $request->get("conceptos", []));
 
         //registrando metas nuevas
-        $conceptoMeta=$request->get("conceptoMeta", []);
-        $montoGobernacion=$request->get("montoGobernacion", []);
-        $montoSaar=$request->get("montoSaar", []);
-        $metaDetalles=[];
+		$conceptoMeta     =$request->get("conceptoMeta", []);
+		$montoGobernacion =$request->get("montoGobernacion", []);
+		$montoSaar        =$request->get("montoSaar", []);
+		$metaDetalles     =[];
         foreach($conceptoMeta as $index => $meta){
             $metaDetalles[]=["concepto_id"=>$meta, "gobernacion_meta" => $montoGobernacion[$index], "saar_meta" => $montoSaar[$index] ];
         }
