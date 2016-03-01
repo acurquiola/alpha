@@ -113,9 +113,13 @@ Route::group(['prefix' => 'contrato'], function () {
     Route::post('/renovar',"ContratoController@postRenovarContratos");
 });
     Route::resource('contrato', 'ContratoController');
-Route::get('tasas/taquilla', function(){
-    return view('tasas.taquilla');
+
+Route::group(['prefix' => 'tasas/'], function () {
+    Route::get('taquilla',"TasaController@taquilla");
+    Route::get('operacion',"TasaController@getOperacion");
+
 });
+
 
 Route::group(['prefix' => 'administracion/'], function () {
     Route::get('usuario/estadoUser', 'UsuarioController@estadoUser');
