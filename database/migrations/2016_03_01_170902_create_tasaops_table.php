@@ -20,6 +20,7 @@ class CreateTasaopsTable extends Migration {
             $table->string('taquilla');
             $table->string('turno');
             $table->date('fecha');
+            $table->boolean('consolidado');
 			$table->timestamps();
 		});
 	}
