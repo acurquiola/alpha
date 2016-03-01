@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 class InformacionController extends Controller {
 
 
+    use \App\Traits\DecimalConverterTrait;
+
 
     public function __construct()
     {
@@ -110,9 +112,15 @@ class InformacionController extends Controller {
         //$this->actualizarConceptos($estacionamiento, $request->get('conceptosNuevos',[]), $request->get("conceptos", []));
 
         //registrando metas nuevas
+        //
+        //
 		$conceptoMeta     =$request->get("conceptoMeta", []);
 		$montoGobernacion =$request->get("montoGobernacion", []);
+		$montoGobernacion =$this->parseDecimal($request['montoGobernacion'],[])+0;
 		$montoSaar        =$request->get("montoSaar", []);
+		$montoSaar        =$this->parseDecimal($request['montoSaar'],[])+0;
+		dd($montoGobernacion, $montoSaar);
+
 		$metaDetalles     =[];
         foreach($conceptoMeta as $index => $meta){
             $metaDetalles[]=["concepto_id"=>$meta, "gobernacion_meta" => $montoGobernacion[$index], "saar_meta" => $montoSaar[$index] ];

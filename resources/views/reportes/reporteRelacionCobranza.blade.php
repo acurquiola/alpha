@@ -105,19 +105,18 @@
                         <tbody>
                         @if($recibos->count()>0)
                         @foreach($recibos as $recibo)
-                        {{dd($recibo)}}
                             <tr>
-                                <td style="vertical-align: middle; width:50px" align="center">{{$recibo->created_at}}</td>
-                                <td align="center"  style="width:50px">{{$recibo->id}}</td>
-                                <td style="vertical-align: middle; width:50px" align="left"  >{{$recibo->cliente_id}}</td>
-                                <td style="vertical-align: middle; width:180px" align="left" >{{$recibo->cliente_id}}</td>
-                                <td align="center">{{($recibo->nRecibo)?$recibo->nRecibo:'N/A'}}</td>
-                                <td style="vertical-align: middle; width:50px" align="center">{{$recibo->pagos->tipo}}</td>
-                                <td style="vertical-align: middle; width:50px" align="center">{{substr($recibo->id) }}</td>
-                                <td style="vertical-align: middle; width:60px" align="center">{{$recibo->id}}</td>
-                                <td style="vertical-align: middle; width:70px" align="right">{{$traductor->format($recibo->montofacturas)}}</td>
-                                <td style="vertical-align: middle; width:70px" align="right">{{$traductor->format($recibo->montodepositado)}}</td>
-                                <td style="vertical-align: middle; width:70px" align="right">{{$traductor->format(($recibo->montofacturas-$recibo->montodepositado))}}</td>
+                                <td style="vertical-align: middle; width:50px" align="center">{{$recibo->fecha}}</td>
+                                <td align="center"  style="width:50px">{{$recibo->cobro_id}}</td>
+                                <td style="vertical-align: middle; width:50px" align="left" >{{$recibo->cobro->facturas()->first()->cliente->codigo}}</td>
+                                <td style="vertical-align: middle; width:180px" align="left" >{{$recibo->cobro->facturas()->first()->cliente->nombre}}</td>
+                                <td align="center">{{($recibo->cobro->nRecibo)?$recibo->cobro->nRecibo:'N/A'}}</td>
+                                <td style="vertical-align: middle; width:50px" align="center">{{$recibo->tipo}}</td>
+                                <td style="vertical-align: middle; width:50px" align="center">{{substr($recibo->cuenta->descripcion, -8) }}</td>
+                                <td style="vertical-align: middle; width:60px" align="center">{{$recibo->ncomprobante}}</td>
+                                <td style="vertical-align: middle; width:70px" align="right">{{$traductor->format($recibo->cobro->montofacturas)}}</td>
+                                <td style="vertical-align: middle; width:70px" align="right">{{$traductor->format($recibo->cobro->montodepositado)}}</td>
+                                <td style="vertical-align: middle; width:70px" align="right">{{$traductor->format(($recibo->cobro->montofacturas-$recibo->cobro->montodepositado))}}</td>
                             </tr>
                         @endforeach
 

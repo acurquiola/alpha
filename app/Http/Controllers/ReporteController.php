@@ -259,11 +259,12 @@ dd($clientes, $embarqueAdultos);
         $modulo       =$request->get('modulo', \App\Modulo::where('aeropuerto_id', session('aeropuerto')->id )->first()->id);
         $primerDiaMes =\Carbon\Carbon::create($anno, $mes,1)->startOfMonth();
         $ultimoDiaMes =\Carbon\Carbon::create($anno, $mes,1)->endOfMonth();
-        $recibos=\App\Cobro::with('pagos')->where('created_at','>=' ,$primerDiaMes)
-                                ->where('created_at','<=' ,$ultimoDiaMes)
-                                ->where('modulo_id',$modulo)
-                                ->groupBy('id')->orderBy('created_at', 'ASC', 'facturas.nFactura', 'ASC')
-                                ->get();
+        $recibos = ::whereIn('id', function($query){
+            $query->select('paper_type_id')
+            ->from(with(new ProductCategory)->getTable())
+            ->whereIn('category_id', ['223', '15'])
+            ->where('active', 1);
+        })->get()
                         
         $totalFacturas   =$recibos->sum('montofacturas');
         $totalDepositado =$recibos->sum('montodepositado');
