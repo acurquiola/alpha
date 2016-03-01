@@ -1,5 +1,3 @@
-{{dd($confGeneral)}}
-
 <div class="row invoice-info">	
     @foreach ($confGeneral as $confGeneral)
 	    {!! Form::model($confGeneral, []) !!}
