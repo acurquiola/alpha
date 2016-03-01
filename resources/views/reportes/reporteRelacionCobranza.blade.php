@@ -113,7 +113,7 @@
                                 <td style="vertical-align: middle; width:40px" align="center" >{{($recibo->cobro->nRecibo)?$recibo->cobro->nRecibo:'N/A'}}</td>
                                 <td style="vertical-align: middle; width:50px" align="center">{{$recibo->tipo}}</td>
                                 <td style="vertical-align: middle; width:50px" align="center">{{substr($recibo->cuenta->descripcion, -8)}}</td>
-                                <td style="vertical-align: middle; width:60px" align="center">{{$recibo->nComprobando}}</td>
+                                <td style="vertical-align: middle; width:60px" align="center">{{$recibo->ncomprobante}}</td>
                                 <td style="vertical-align: middle; width:70px" align="right">{{$traductor->format($recibo->cobro->montofacturas)}}</td>
                                 <td style="vertical-align: middle; width:70px" align="right">{{$traductor->format($recibo->cobro->montodepositado)}}</td>
                                 <td style="vertical-align: middle; width:70px" align="right">{{$traductor->format(($recibo->cobro->montofacturas-$recibo->cobro->montodepositado))}}</td>
