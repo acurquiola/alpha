@@ -117,7 +117,7 @@ Route::group(['prefix' => 'contrato'], function () {
 Route::group(['prefix' => 'tasas/'], function () {
     Route::get('taquilla',"TasaController@taquilla");
     Route::get('operacion',"TasaController@getOperacion");
-
+    Route::post('operacion',"TasaController@postOperacion");
 });
 
 
