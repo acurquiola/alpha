@@ -79,7 +79,7 @@
                              <th style="vertical-align: middle; width:180px" class="text-center">
                                 Nombre o Razón Social
                              </th>
-                             <th style="vertical-align: middle" class="text-center">
+                             <th  style="vertical-align: middle; width:40px" class="text-center">
                                 Recibo
                              </th>
                              <th style="vertical-align: middle; width:50px" class="text-center">
@@ -105,19 +105,18 @@
                         <tbody>
                         @if($recibos->count()>0)
                         @foreach($recibos as $recibo)
-                        {{dd($recibo)}}
                             <tr>
-                                <td style="vertical-align: middle; width:50px" align="center">{{$recibo->created_at}}</td>
-                                <td align="center"  style="width:50px">{{$recibo->id}}</td>
-                                <td style="vertical-align: middle; width:50px" align="left"  >{{$recibo->cliente_id}}</td>
-                                <td style="vertical-align: middle; width:180px" align="left" >{{$recibo->cliente_id}}</td>
-                                <td align="center">{{($recibo->nRecibo)?$recibo->nRecibo:'N/A'}}</td>
-                                <td style="vertical-align: middle; width:50px" align="center">{{$recibo->pagos->tipo}}</td>
-                                <td style="vertical-align: middle; width:50px" align="center">{{substr($recibo->id) }}</td>
-                                <td style="vertical-align: middle; width:60px" align="center">{{$recibo->id}}</td>
-                                <td style="vertical-align: middle; width:70px" align="right">{{$traductor->format($recibo->montofacturas)}}</td>
-                                <td style="vertical-align: middle; width:70px" align="right">{{$traductor->format($recibo->montodepositado)}}</td>
-                                <td style="vertical-align: middle; width:70px" align="right">{{$traductor->format(($recibo->montofacturas-$recibo->montodepositado))}}</td>
+                                <td style="vertical-align: middle; width:50px" align="center">{{$recibo->fecha}}</td>
+                                <td align="center"  style="width:50px">{{$recibo->cobro->id}}</td>
+                                <td style="vertical-align: middle; width:50px" align="left"  >{{$recibo->cobro->cliente->codigo}}</td>
+                                <td style="vertical-align: middle; width:180px" align="left" >{{$recibo->cobro->cliente->nombre}}</td>
+                                <td style="vertical-align: middle; width:40px" align="center" >{{($recibo->cobro->nRecibo)?$recibo->cobro->nRecibo:'N/A'}}</td>
+                                <td style="vertical-align: middle; width:50px" align="center">{{$recibo->tipo}}</td>
+                                <td style="vertical-align: middle; width:50px" align="center">{{substr($recibo->cuenta->descripcion, -8)}}</td>
+                                <td style="vertical-align: middle; width:60px" align="center">{{$recibo->nComprobando}}</td>
+                                <td style="vertical-align: middle; width:70px" align="right">{{$traductor->format($recibo->cobro->montofacturas)}}</td>
+                                <td style="vertical-align: middle; width:70px" align="right">{{$traductor->format($recibo->cobro->montodepositado)}}</td>
+                                <td style="vertical-align: middle; width:70px" align="right">{{$traductor->format(($recibo->cobro->montofacturas-$recibo->cobro->montodepositado))}}</td>
                             </tr>
                         @endforeach
 
@@ -197,6 +196,17 @@ $('#export-btn').click(function(e){
     $(table).find('tr').filter(function() {
       return $(this).find('td,th').length == 0;
     }).remove();
+    $(table).prepend('<thead>\
+                  <tr>\
+                    <th colspan="6" style="vertical-align: middle; margin-top:20px" align="center" class="text-center">RELACIÓN DE COBRANZA\
+                    </br>\
+                    MES: {{$mes}} AÑO: {{$anno}} | MÓDULO: {{$moduloNombre}}\
+                    </br>\
+                    CLIENTE: {{$clienteNombre}} | AEROPUERTO: {{$aeropuertoNombre}}\
+                  </th>\
+                </tr>\
+              </thead>')
+        $(table).find('thead, th').css({'border-top':'1px solid black', 'font-weight': 'bold', 'text-align':"center"})
     $(table).find('th').css({'border-bottom':'1px solid black','border-top':'1px solid black', 'font-weight': 'bold'}) 
     $(table).find('tr:last td').css({'border-bottom':'1px solid black','border-top':'1px solid black', 'font-weight': 'bold'})
     var tableHtml= $(table)[0].outerHTML;
