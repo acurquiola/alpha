@@ -19,10 +19,11 @@ class TasaController extends Controller {
         $turno=$request->get('turno');
         $tasaOp=\App\Tasaop::firstOrCreate([
                 'aeropuerto_id' => $aeropuertoId,
-                'fecha' => $fecha,
+                'fecha' => \Carbon\Carbon::createFromFormat('d/m/Y', $fecha)->format('Y-m-d'),
                 'taquilla' => $taquilla,
                 'turno' => $turno,
             ]);
+        $tasaOp->load('detalles');
         $series=["A", "B", "C", "D"];
         foreach($series as $value){
             $series[$value]=\DB::table('tasaopdetalles')->where('serie', $value)->max('fin')+1;
@@ -30,4 +31,30 @@ class TasaController extends Controller {
         return view('tasas.partials.taquillaForm', compact('tasaOp', 'fecha', 'taquilla', 'turno', 'series'));
     }
 
+    public function postOperacion(Request $request){
+        $aeropuertoId=session('aeropuerto')->id;
+        $fecha=$request->get('fecha');
+        $taquilla=$request->get('taquilla');
+        $turno=$request->get('turno');
+        $tasaOp=\App\Tasaop::where([
+            'aeropuerto_id' => $aeropuertoId,
+            'fecha' => \Carbon\Carbon::createFromFormat('d/m/Y', $fecha)->format('Y-m-d'),
+            'taquilla' => $taquilla,
+            'turno' => $turno,
+        ])->first();
+
+        $detalles=$request->only('serie', 'desde', 'hasta', 'cantidad', 'monto');
+
+        foreach($detalles['serie'] as $serieIndex => $serie){
+            $tasaOp->detalles()->create([
+                "serie" => $serie,
+                "inicio" => $detalles['desde'][$serieIndex],
+                "fin" => $detalles['hasta'][$serieIndex],
+                "costo" => $detalles['monto'][$serieIndex],
+                "cantidad" => $detalles['cantidad'][$serieIndex],
+                "total" => $detalles['monto'][$serieIndex] * $detalles['cantidad'][$serieIndex],
+            ]);
+        }
+
+    }
 }

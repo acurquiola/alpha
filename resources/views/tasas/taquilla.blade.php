@@ -118,27 +118,27 @@
                             '<td> ' +
                                 '<div class="input-group"> ' +
                                     '<span class="input-group-btn"> ' +
-                                        '<button class="btn btn-danger subtract-tasa" type="button">' +
+                                        '<button type="button" class="btn btn-danger subtract-tasa" type="button">' +
                                             '<span class="glyphicon glyphicon-minus"></span>' +
                                         '</button> ' +
                                     '</span> ' +
                                     '<input name="cantidad[]" class="form-control  text-center cantidad-input" value="0"> ' +
                                     '<span class="input-group-btn"> ' +
-                                        '<button class="btn btn-primary add-tasa" type="button">' +
+                                        '<button type="button" class="btn btn-primary add-tasa" type="button">' +
                                             '<span class="glyphicon glyphicon-plus"></span>' +
                                         '</button> ' +
                                     '</span> ' +
                                 '</div> ' +
                             '</td> ' +
                             '<td>' +
-                                '<input type="hidden" name="monto[]" class="serie-val" value="'+value+'">' +
+                                '<input type="hidden" name="monto[]" class="serie-val" value="'+monto+'">' +
                                 '<p class="form-control-static text-right bs-input">'+monto+'</p>' +
                             '</td> ' +
                             '<td>' +
                                 '<p class="form-control-static text-right monto-input">0</p>' +
                             '</td> ' +
                             '<td>' +
-                                '<button class="btn btn-danger delete-serie-btn">' +
+                                '<button type="button" class="btn btn-danger delete-serie-btn">' +
                                     '<span class="glyphicon glyphicon-minus"></span>' +
                                 '</button>' +
                             '</td> ' +
@@ -182,6 +182,32 @@
                     $(row).find('.cantidad-input').val(cantidad);
                     calcularMonto(input,0);},500)
 
+                })
+
+                $('body').delegate('#save-tasa-btn','click',function(){
+
+                    var $btn= $(this);
+                    var form= $btn.closest('form');
+                    var canUpload=true;
+                    $('.hasta-input, .desde-input').each(function(index, value){
+                        if($(value).val()=="")
+                            canUpload=false;
+                    })
+                    if(canUpload)
+                        $.ajax({
+                            url:'{{action('TasaController@postOperacion')}}',
+                            data:form.serializeArray(),
+                            method: "POST"
+                        }).always(function(response, status, responseObject){
+                            console.log(response, status, responseObject);
+                            if(status!="error"){
+                                alertify.success('Los datos han sido guardados.');
+                            }else
+                                alertify.error('Error procesando los datos en el servidor.');
+
+                        });
+                    else
+                        alertify.error('Los valores de desde y hasta no pueden estar vacios.');
                 })
 
             })
