@@ -104,7 +104,7 @@ class CobranzaController extends Controller {
         $idOperator=">=";
         $id=0;
         if($moduloName!="Todos"){
-            $modulo=\App\Modulo::where("nombre","like",$moduloName)->orderBy("nombre")->first();
+            $modulo=\App\Modulo::where("nombre","like",$moduloName)->where('aeropuerto_id', session('aeropuerto')->id)->orderBy("nombre")->first();
             $id=$modulo->id;
             $idOperator="=";
         }
@@ -121,7 +121,9 @@ class CobranzaController extends Controller {
 	 */
 	public function store(Request $request)
 	{
-        \DB::transaction(function () use ($request) {
+        
+        $impresion="";
+        \DB::transaction(function () use ($request, &$impresion) {
             $cobro=\App\Cobro::create([
                 'cliente_id'    => $request->get('cliente_id'),
                 'modulo_id'     => $request->get('modulo_id'),
@@ -240,9 +242,12 @@ class CobranzaController extends Controller {
         $cobro->observacion=$request->get('observacion');
         $cobro->hasrecaudos=$request->get('hasrecaudos');
         $cobro->save();
-    });
 
-return ["success"=>1];
+
+        $impresion=action('CobranzaController@getPrint', ["cobro"=>$cobro->id, "modulo"=>$cobro->modulo_id]);
+
+    });
+return ["success"=>1, "impresion" => $impresion];
 }
 
 	/**

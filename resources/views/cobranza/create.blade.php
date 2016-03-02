@@ -278,15 +278,20 @@
             }).done(function(data, status, jx){
                 try{
                     var response=JSON.parse(jx.responseText);
-                    if(response.success){
-                        alertify.success("El pago se efectuó con éxito.");
+                    if(response.success==1){
+						alertify.success("Cobranza realizada con éxito.");
+						alertify.confirm("¿Desea imprimir el Recibo de Caja", function (e) {
+							if (e) {
+							    window.open(response.impresion, '_blank');
+								alertify.log("Se emitió orden de impresion");
+							}
                         setTimeout(
                             function()
                             {
                                 location.reload();
                             }, 2000);
-                    }
-
+                    });
+                   }
                 }catch(e){
                     removeLoadingOverlay('#main-box');
                     alertify.error("Error en el servidor");

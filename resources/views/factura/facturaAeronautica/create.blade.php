@@ -76,6 +76,7 @@ $(document).ready(function(){
 						alertify.success("La factura se ha creado con éxito");
 						alertify.confirm("Desea imprimir la factura?", function (e) {
 						if (e) {
+							window.open(object.impresion, '_blank');
 							alertify.log("Se emitió orden de impresión");
 						}
 						setTimeout(
