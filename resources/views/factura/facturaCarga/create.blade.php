@@ -71,6 +71,7 @@ $(document).ready(function(){
 						setTimeout(
 							function()
 							{
+							    window.open(object.impresion, '_blank');
 								location.replace("{{action('DespegueController@index')}}");
 							}, 2000);
 						});
