@@ -152,12 +152,12 @@
 									<label><strong>Condición de pago: </strong></label>
 									<div class="input-group">
 										<select name="condicionPago" id="condicionPago-select" class="form-control">
-										@if($aterrizaje->tipoMatricula_id=="1")
+										@if($aterrizaje->cliente->condicionPago=="Crédito")
+											<option value="Contado" selected> Crédito</option>
+											<option value="Crédito"> Contado</option>
+										@elseif($aterrizaje->cliente->condicionPago=="Contado")
 											<option value="Contado" selected> Contado</option>
 											<option value="Crédito"> Crédito</option>
-										@elseif($aterrizaje->tipoMatricula_id=="2"||$aterrizaje->tipoMatricula_id=="3")
-											<option value="Contado" > Contado</option>
-											<option value="Crédito" selected> Crédito</option>
 										@else
 											<option value=""> Seleccione</option>
 											<option value="Contado"> Contado</option>
