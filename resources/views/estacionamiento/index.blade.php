@@ -127,12 +127,12 @@
 
 <script>
 
-var nTaquillasDefault={{$estacionamiento->nTaquillas}};
-var nTurnosDefault={{$estacionamiento->nTurnos}};
-var conceptosDefault='{{!! $estacionamiento->conceptos !!}}';
-conceptosDefault=JSON.parse(conceptosDefault.substr(1, conceptosDefault.length-2));
-var bancos='{{!! $bancos !!}}';
-bancos=JSON.parse(bancos.substr(1, bancos.length-2));
+var nTaquillasDefault ={{$estacionamiento->nTaquillas}};
+var nTurnosDefault    ={{$estacionamiento->nTurnos}};
+var conceptosDefault  ='{{!! $estacionamiento->conceptos !!}}';
+conceptosDefault      =JSON.parse(conceptosDefault.substr(1, conceptosDefault.length-2));
+var bancos            ='{{!! $bancos !!}}';
+bancos                =JSON.parse(bancos.substr(1, bancos.length-2));
 
 function tableConstructorDefault(nTaquillas, nTurnos, conceptos){
 
@@ -490,7 +490,7 @@ $(document).ready(function(){
                                            </table>\
                                            </div>\
                                            </div>\
-                                           <h3  style="font-size: 18px">Pago de tarjetas electronicas '
+                                           <h3  style="font-size: 18px">Pago de tarjetas electrónicas '
                                            +((object==null)?'<button class="btn btn-primary" data-toggle="modal" data-target="#estacionamiento-cliente-modal">\
                                            <span class="glyphicon glyphicon-user"></span>\
                                            </button>':'')+

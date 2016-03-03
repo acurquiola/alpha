@@ -5,6 +5,7 @@
         "This file is @generated automatically"
     ],
     "hash": "297d32ad11d6149f711676527452a355",
+    "content-hash": "a911e849f1f60323781ae124caf25976",
     "packages": [
         {
             "name": "bican/roles",

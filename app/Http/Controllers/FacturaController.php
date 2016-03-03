@@ -104,7 +104,7 @@ class FacturaController extends Controller {
         $today=\Carbon\Carbon::now();
         $fecha=\Carbon\Carbon::now()->lastOfMonth();
         $modulo = \App\Modulo::where("nombre","like",$moduloNombre)->where('aeropuerto_id', session('aeropuerto')->id)->first();
-        $contratos=$modulo->contratos()->where('fechaInicio', '<=' ,$fecha)->where('fechaVencimiento', '>=', $fecha)->with('cliente')->get();
+        $contratos=$modulo->contratos()->where('fechaInicio', '<=' ,$fecha)->where('fechaVencimiento', '>=', $fecha)->with('cliente')->orderBy('nContrato')->get();
         return view('factura.automatica', compact('modulo', 'fecha', 'contratos', 'today'));
     }
 
