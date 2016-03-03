@@ -208,11 +208,12 @@
             var pagar     =commaToNum($('.total-a-pagar-doc-input').first().val());
             var depositar =commaToNum($('#total-a-depositar-doc-input').val());
             var ajuste    =commaToNum($('#ajuste-input').val());
-	    var nRecibo   =$('nRecibo-input').val();
-	    if(nRecibo==' '){
-		alertify.error("Número de Recibo de Caja es requerido.");
-		return;
-	    }
+		    var nRecibo   =$('#nRecibo-input').val();
+
+		    if(nRecibo==''){
+			alertify.error("Número de Recibo de Caja es requerido.");
+			return;
+		    }
             if(pagar>depositar){
                 alertify.error("El monto a cobrar no puede ser mayor al depositado.");
                 return;
@@ -224,7 +225,7 @@
             if(ajuste>0){
                 var ajusteMaximo=parseFloat(
                 	$('.ajuste-row').find('.saldo-pagar').text());
-                if(ajuste>ajusteMaximo){
+                if(ajuste>commaToNum(ajusteMaximo)){
                     alertify.error("El ajuste no puede superar " +ajusteMaximo+ "Bs.");
                     return;
                 }
