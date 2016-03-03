@@ -106,11 +106,16 @@
     iva+=ivaRow;
     var recargoTotalRow=parseFloat(commaToNum($(recargoTotal).val()));
     recargoTotalDoc+=recargoTotalRow;
-    var totalRow=subtotalRow+ivaRow+recargoTotalRow;
+    var totalRow=(subtotalRow+ivaRow+recargoTotalRow).toFixed(2);
     $(value).find('.total-input').val(numToComma(totalRow));
     total+=totalRow;
 
     })
+    var subtotalNeto=subtotalNeto.toFixed(2);
+    var descuentoTotalDoc=descuentoTotalDoc.toFixed(2);
+    var subtotal=subtotal.toFixed(2);
+    var iva=iva.toFixed(2);
+    var recargoTotalDoc=recargoTotalDoc.toFixed(2);
     $("#subtotalNeto-doc-input").val(numToComma(subtotalNeto));
     $("#descuentoTotal-doc-input").val(numToComma(descuentoTotalDoc));
     $("#subtotal-doc-input").val(numToComma(subtotal));
