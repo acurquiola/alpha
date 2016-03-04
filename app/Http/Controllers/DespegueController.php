@@ -66,7 +66,7 @@ class DespegueController extends Controller {
 			$aeronave = Aterrizaje::with("aeronave")
 			->where('aeronave_id', '=', $aeronave_id)->get();
 
-			$despegues = Despegue::with("puerto", "piloto", "tipo")
+			$despegues = Despegue::with("puerto", "piloto", "tipo", "factura")
 											->where('fecha', 'like', $fecha)
 											->where('hora', 'like', $hora)
 											->where('num_vuelo', 'like', $num_vuelo)

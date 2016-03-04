@@ -25,7 +25,6 @@
                     <td colspan="11" class="text-center">No se consiguió ningún registro</td>
                </tr>
                @endif
-
                @foreach($despegues as $despegue)
                <tr data-id='{{$despegue->id}}' data-aterrizaje='{{$despegue->aterrizaje_id}}'>
                     <td class ='horaFecha-td'>{{$despegue->fecha}} {{$despegue->hora}}</td>
@@ -47,7 +46,7 @@
                                        <a target="_blank" class='btn btn-default  btn-sm' href='{{action('FacturaController@getPrint', ["modulo"=>"DOSAS", $despegue->factura_id])}}'>
                                              <span class='glyphicon glyphicon-print'></span>
                                        </a>
-                                        @if($despegue->condicionPago == 'Contado')
+                                        @if(isset($despegue->factura) && $despegue->factura->condicionPago == 'Contado')
                                             <a class='btn btn-primary  btn-sm'  href='{{action('DespegueController@getGenerarCobranza', [$despegue->id])}}' @if($despegue->factura->estado == 'C') disabled @endif >
                                                   <span class='fa fa-money'></span>
                                             </a>
