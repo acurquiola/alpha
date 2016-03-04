@@ -74,7 +74,7 @@
         $(function(){
             $('#modi-btn').click(function(){
                 var select=$('#modificador-select').val();
-                var input=$('#modificador-input').val().replace(/\./g, '');
+                var input=$('#modificador-input').val().replace(/\./g, '').replace(/,/g, '.');
                 switch(select) {
                     case "=":
                         $('#contratos-table tbody tr').each(function(){
