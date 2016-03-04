@@ -1,5 +1,6 @@
 ﻿@extends('app')
 @section('content')
+
 <ol class="breadcrumb">
 	<li><a href="{{url('principal')}}">Inicio</a></li>
 	<li><a href="{{action('FacturaController@main', ["Todos"])}}">Facturación Principal</a></li>

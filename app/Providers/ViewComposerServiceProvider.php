@@ -119,7 +119,6 @@ class ViewComposerServiceProvider extends ServiceProvider {
 
 
         view()->composer(['factura.edit', 'factura.create', 'factura.partials.show'], function($view){
-
             $route        =\Route::current();
             $params       =$route->parameters();
             $moduloNombre =($params["modulo"]=="Todos")?"%":$params["modulo"];
@@ -140,6 +139,7 @@ class ViewComposerServiceProvider extends ServiceProvider {
             $aeropuertos[0]="Todos";
             $view->with(compact('aeropuertos'));
         });
+
 
         \View::composer([
             'reportes.reporteRelacionCobranza',

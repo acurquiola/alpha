@@ -287,7 +287,7 @@ class FacturaController extends Controller {
         }
         $modulo= \App\Modulo::where('nombre', $modulo)->where('aeropuerto_id', session('aeropuerto')->id)->first();
         if(!$modulo){
-            return response("No se consiguio el modulo '$modulo' en el aeropuerto de sesion", 500);
+            return response("No se consiguió el modulo '$modulo' en el aeropuerto de sesion", 500);
         }
         $modulo_id=$modulo->id;
 		return view('factura.create', compact('factura', 'modulo', 'modulo_id'));

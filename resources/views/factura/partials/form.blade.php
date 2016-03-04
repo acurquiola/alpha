@@ -1,5 +1,4 @@
-﻿<p class="help-block text-right"><span class="text-danger">*</span> Campos obligatorios</p>
-<div class="form-group">
+﻿<div class="form-group">
 
 	<label for="aeropuerto_id" class="col-xs-1  control-label"><strong>Aeropuerto<span class="text-danger">*</span></strong> </label>
 	<div class="col-xs-3">
