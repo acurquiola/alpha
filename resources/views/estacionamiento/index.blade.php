@@ -315,7 +315,7 @@ function calcularTotalTickets(box){
         total+= commaToNum($(value).find('.tickets-total-tr-td').text());
      })
 
-     $(box).find('.total-depositado-box').text(umToComma(total+commaToNum($(box).find('.total-tarjetas-box').text())));
+     $(box).find('.total-depositado-box').text(numToComma(total+commaToNum($(box).find('.total-tarjetas-box').text())));
 
  }
 
@@ -671,10 +671,10 @@ var cantidad=parseInt(cantidadText);
 if(cantidadText!="" && (isNaN(cantidad) || cantidad!=cantidadText))
     alertify.error("La cantidad debe ser un numero entero");
 cantidad=isNaN(cantidad)?0:cantidad;
-$(totalInput).val(commaToNum(monto*cantidad));
+$(totalInput).val(numToComma(monto*cantidad));
 var total=0;
 $(box).find('.monto-tickets-input[data-turno="'+data.turno+'"][data-taquilla="'+data.taquilla+'"]').each(function(){
-    var m=$(this).val();
+    var m=commaToNum($(this).val());
     total+= isNaN(m)?0:m;
 })
 
@@ -682,7 +682,7 @@ $(box).find('.total-tickets-td[data-turno="'+data.turno+'"][data-taquilla="'+dat
 var totalBox=0;
 $(box).find('.total-tickets-td').each(function(){
 
-        var m=$(this).text();
+        var m=commaToNum($(this).text());
         totalBox+= isNaN(m)?0:m;
 })
 $(box).find('.total-tickets-box').text(numToComma(totalBox)).val(numToComma(totalBox));
@@ -784,7 +784,7 @@ $('body').delegate('.consolidar-btn', 'click', function(){
 
             var cantidad=parseInt($(value).find('.cantidad-tickets-input[data-turno="'+turno+'"][data-taquilla="'+taquilla+'"]').val());
             cantidad=isNaN(cantidad)?0:cantidad;
-            var monto=numToComma($(value).find('.monto-tickets-input[data-turno="'+turno+'"][data-taquilla="'+taquilla+'"]').val());
+            var monto=commaToNum($(value).find('.monto-tickets-input[data-turno="'+turno+'"][data-taquilla="'+taquilla+'"]').val());
             monto=isNaN(monto)?0:monto;
             tickets.push({
                 econcepto_id: concepto,
@@ -792,7 +792,7 @@ $('body').delegate('.consolidar-btn', 'click', function(){
                 turno:turno,
                 costo:commaToNum(costo),
                 cantidad:commaToNum(cantidad),
-                monto:monto
+                monto:commaToNum(monto)
             });
 
             }

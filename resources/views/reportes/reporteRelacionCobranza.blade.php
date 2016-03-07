@@ -40,8 +40,8 @@
                         <label style="width:80px">Aeropuerto:</label>
                           {!! Form::select('aeropuerto', $aeropuertos, $aeropuerto, ["class"=> "form-control"]) !!}
                     </div>
-                    <button type="submit" class="btn btn-default pull-right">Buscar</button>
                     <a class="btn btn-default  pull-right" href="{{action('ReporteController@getReporteRelacionCobranza')}}">Reset</a>
+                    <button type="submit" class="btn btn-primary pull-right">Buscar</button>
                     {!! Form::close() !!}
                 </div>
             </div>

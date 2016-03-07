@@ -285,6 +285,21 @@ class FacturaController extends Controller {
             $hoy->timezone     = 'America/Caracas';
             $factura->descripcion="PERIODO ".$this->meses[$hoy->month]." $hoy->year  PATENTE: 2010-AG1845";
         }
+        if($modulo=="ESTACIONAMIENTO"){
+            $hoy=\Carbon\Carbon::now();
+            $hoy->timezone     = 'America/Caracas';
+            $factura->descripcion="PERIODO ".$this->meses[$hoy->month]." $hoy->year  PATENTE: 2010-AG1845";
+        }
+        if($modulo=="PUBLICIDAD"){
+            $hoy=\Carbon\Carbon::now();
+            $hoy->timezone     = 'America/Caracas';
+            $factura->descripcion="SERVICIOS DE PUBLICIDAD ".$this->meses[$hoy->month]." $hoy->year  PATENTE: 2010-AG1845";
+        }
+        if($modulo=="TARJETAS DE IDENTIFICACION"){
+            $hoy=\Carbon\Carbon::now();
+            $hoy->timezone     = 'America/Caracas';
+            $factura->descripcion="TARJETAS DE IDENTIFICACIÓN PATENTE 2010 AG-1845";
+        }
         $modulo= \App\Modulo::where('nombre', $modulo)->where('aeropuerto_id', session('aeropuerto')->id)->first();
         if(!$modulo){
             return response("No se consiguió el modulo '$modulo' en el aeropuerto de sesion", 500);
@@ -293,6 +308,9 @@ class FacturaController extends Controller {
 		return view('factura.create', compact('factura', 'modulo', 'modulo_id'));
 	}
 
+
+
+
 	/**
 	 * Store a newly created resource in storage.
 	 *
@@ -300,9 +318,31 @@ class FacturaController extends Controller {
 	 */
 	public function store($moduloNombre, FacturaRequest $request)
 	{
-        
+
+
+
+       // $text="";
         $impresion="";
         \DB::transaction(function () use ($moduloNombre, $request, &$impresion) {
+           // $facturas=\App\Factura::all();
+/*            foreach ($facturas as $factura) {
+                $nFacturaPrefix    =$factura->nFacturaPrefix;
+                $nControlPrefix    =$factura->nControlPrefix;
+                $nFacturaPrefixReq =$request->get('nFacturaPrefix');
+                $nControlPrefixReq =$request->get('nControlPrefix');
+                $nFactura          =$factura->nFactura;
+                $nControl          =$factura->nControl;
+                $nFacturaReq       =$request->get('nFactura');
+                $nControlReq       =$request->get('nControl');
+                if($nFacturaPrefix.$nFactura==$nFacturaPrefixReq.$nFacturaReq){
+                    $text='El número de factura indicado ya ha sido tomado.';
+                    return ["success" => 0, "text"=> $text];
+                }                
+                if($nControlPrefix.$nControl==$nControlPrefixReq.$nControlReq){
+                    $text='El número de control indicado ya ha sido tomado.';
+                    return ["success" => 0, "text"=> $text];                
+                }
+            }*/
             $facturaData = $this->getFacturaDataFromRequest($request);
             $facturaDetallesData = $this->getFacturaDetallesDataFromRequest($request);
             $facturaData['estado'] = 'P';

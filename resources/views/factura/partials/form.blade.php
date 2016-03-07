@@ -58,11 +58,13 @@
 	</div>
 	@else
 	<label for="inputEmail3" class="col-xs-1  control-label"><strong>Nro. Dosa<span class="text-danger">*</span> </strong></label>
-	<div class="col-xs-3 ">
-		{!! Form::text('nroDosa', null, [ 'class'=>"form-control", $disabled]) !!}
-		{!! Form::hidden('fechaVencimiento') !!}
-		{!! Form::hidden('despegue_id', $despegue_id) !!}
-	</div>
+    <div class="col-xs-3">
+        <div class="input-group">
+            {!! Form::text('nroDosa', $factura->getMaxWith('nFacturaPrefix', 'nroDosa', $modulo->nFacturaPrefix), [ 'id' => 'nroDosa', 'class'=>"form-control", "data-empty"=>"false", "data-type"=>"int", "data-name"=>"Número de Dosa", 'style' => 'padding-left:2px']) !!}
+			{!! Form::hidden('fechaVencimiento') !!}
+			{!! Form::hidden('despegue_id', $despegue_id) !!}
+        </div>
+    </div>
 	@endif
 	@if(isset($cargosAdicionales))		
 		{!! Form::hidden('aterrizaje_id', $aterrizaje_id) !!}
