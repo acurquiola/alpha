@@ -11,7 +11,6 @@ class CargosVariosTableSeeder extends Seeder {
 	 */
 	public function run()
 	{
-		\DB::table('cargos_varios')->delete();
         
 		\DB::table('cargos_varios')->insert(array (
 			0 => 
