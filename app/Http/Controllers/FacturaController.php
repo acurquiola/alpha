@@ -318,14 +318,10 @@ class FacturaController extends Controller {
 	 */
 	public function store($moduloNombre, FacturaRequest $request)
 	{
+        $mensaje="";
 
-
-
-       // $text="";
-        $impresion="";
-        \DB::transaction(function () use ($moduloNombre, $request, &$impresion) {
-           // $facturas=\App\Factura::all();
-/*            foreach ($facturas as $factura) {
+        $facturas=\App\Factura::all();
+             foreach ($facturas as $factura) {
                 $nFacturaPrefix    =$factura->nFacturaPrefix;
                 $nControlPrefix    =$factura->nControlPrefix;
                 $nFacturaPrefixReq =$request->get('nFacturaPrefix');
@@ -335,49 +331,55 @@ class FacturaController extends Controller {
                 $nFacturaReq       =$request->get('nFactura');
                 $nControlReq       =$request->get('nControl');
                 if($nFacturaPrefix.$nFactura==$nFacturaPrefixReq.$nFacturaReq){
-                    $text='El número de factura indicado ya ha sido tomado.';
-                    return ["success" => 0, "text"=> $text];
+                    $mensaje='El número de factura indicado ya ha sido tomado.';
                 }                
                 if($nControlPrefix.$nControl==$nControlPrefixReq.$nControlReq){
-                    $text='El número de control indicado ya ha sido tomado.';
-                    return ["success" => 0, "text"=> $text];                
+                    $mensaje='El número de control indicado ya ha sido tomado.';
                 }
-            }*/
-            $facturaData = $this->getFacturaDataFromRequest($request);
-            $facturaDetallesData = $this->getFacturaDetallesDataFromRequest($request);
-            $facturaData['estado'] = 'P';
-            if ($request->has('nroDosa'))
-                $facturaData['nroDosa'] = $request->get('nroDosa');
-            if ($request->has('aterrizaje_id'))
-                $facturaData['aterrizaje_id'] = $request->get('aterrizaje_id');
-            $factura = \App\Factura::create($facturaData);
-            $factura->detalles()->createMany($facturaDetallesData);
-            $cliente = $factura->cliente;               
-            $factura->nFactura = $request->nFactura;
-            $factura->save();
-            if ($cliente && $cliente->isEnvioAutomatico == true && $cliente->email != "") {
-                $path = $this->crearFactura($factura, 'F');
-                Mail::send('emails.test', ['name' => $cliente->nombre], function ($message) use ($factura, $cliente, $path) {
-                    $message
-                        ->to($cliente->email, $cliente->nombre)
-                        ->subject('Vuestra factura #' . $factura->codigo . ' esta lista')
-                        ->attach($path);
-                });
             }
 
-            if ($request->has('despegue_id')) {
-                $despegue = \App\Despegue::find($request->get('despegue_id'));
-                $despegue->factura_id = $factura->id; 
-                $despegue->save();
-            }
-            if ($request->has('carga_id')) {
-                $carga = \App\Carga::find($request->get('carga_id'));
-                $carga->factura_id = $factura->id;
-                $carga->save();
-            }
-            $impresion=action('FacturaController@getPrint', [$moduloNombre, $factura->id]);
-        });
-        return ["success" => 1, "impresion" => $impresion];
+        if($mensaje==""){
+            $impresion="";
+            \DB::transaction(function () use ($moduloNombre, $request, &$impresion,&$mensaje) {
+
+                    $facturaData = $this->getFacturaDataFromRequest($request);
+                    $facturaDetallesData = $this->getFacturaDetallesDataFromRequest($request);
+                    $facturaData['estado'] = 'P';
+                    if ($request->has('nroDosa'))
+                        $facturaData['nroDosa'] = $request->get('nroDosa');
+                    if ($request->has('aterrizaje_id'))
+                        $facturaData['aterrizaje_id'] = $request->get('aterrizaje_id');
+                    $factura = \App\Factura::create($facturaData);
+                    $factura->detalles()->createMany($facturaDetallesData);
+                    $cliente = $factura->cliente;               
+                    $factura->nFactura = $request->nFactura;
+                    $factura->save();
+                    if ($cliente && $cliente->isEnvioAutomatico == true && $cliente->email != "") {
+                        $path = $this->crearFactura($factura, 'F');
+                        Mail::send('emails.test', ['name' => $cliente->nombre], function ($message) use ($factura, $cliente, $path) {
+                            $message
+                                ->to($cliente->email, $cliente->nombre)
+                                ->subject('Vuestra factura #' . $factura->codigo . ' esta lista')
+                                ->attach($path);
+                        });
+                    }
+
+                    if ($request->has('despegue_id')) {
+                        $despegue = \App\Despegue::find($request->get('despegue_id'));
+                        $despegue->factura_id = $factura->id; 
+                        $despegue->save();
+                    }
+                    if ($request->has('carga_id')) {
+                        $carga = \App\Carga::find($request->get('carga_id'));
+                        $carga->factura_id = $factura->id;
+                        $carga->save();
+                    }
+                    $impresion=action('FacturaController@getPrint', [$moduloNombre, $factura->id]);                
+            });
+            return ["success" => 1, "impresion" => $impresion];
+        }else{
+            return ["success" => 0, "mensaje"=>$mensaje];
+        }
 
 	}
 

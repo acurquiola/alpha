@@ -107,6 +107,14 @@ class DespegueController extends Controller {
 	public function create($aterrizaje)
 	{
 		$aterrizaje          = Aterrizaje::with("aeronave", "puerto", "nacionalidad_vuelo")->where('id', $aterrizaje)->first();
+		$hangarLocal=false;
+		if($aterrizaje->aeronave->hangar_id != NULL){
+			$hangarID = $aterrizaje->aeronave->hangar_id;
+			$hangar = \App\Hangar::find($hangarID);
+			if($hangar->aeropuerto_id == session('aeropuerto')->id){
+				$hangarLocal=true;
+			}
+		}
 		$puertos             = Puerto::all();
 		$pilotos             = Piloto::all();
 		$nacionalidad_vuelos = NacionalidadVuelo::all();
@@ -115,8 +123,7 @@ class DespegueController extends Controller {
 		$otrosCargos         = OtrosCargo::lists('nombre_cargo', 'id');
 		$today               = Carbon::now();
 		$today->timezone     = 'America/Caracas';
-
-		return view("despegues.create", compact("aterrizaje", "otrosCargos", "nacionalidad_vuelos", "tipoMatriculas", "aeronaves", "puertos", "pilotos", "today"));
+		return view("despegues.create", compact("aterrizaje", "hangarLocal", "otrosCargos", "nacionalidad_vuelos", "tipoMatriculas", "aeronaves", "puertos", "pilotos", "today"));
 	}
 
 	/**

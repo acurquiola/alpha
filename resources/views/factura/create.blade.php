@@ -95,7 +95,7 @@ $(document).ready(function(){
 				try{
 					var object=JSON.parse(responseObject.responseText);
 					if(object.success==1){
-						alertify.success(object.text);
+						alertify.success('Factura creada exitósamente');
 						alertify.confirm("¿Desea imprimir la factura?", function (e) {
 							if (e) {
 							    window.open(object.impresion, '_blank');
@@ -109,7 +109,8 @@ $(document).ready(function(){
 
 						});
 					}else{
-                            alertify.error(object.text);
+						alertify.error(object.mensaje);
+						removeLoadingOverlay('#main-box');
 					}
 				}catch(e){
 					console.log(e);
