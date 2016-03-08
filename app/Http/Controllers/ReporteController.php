@@ -213,19 +213,19 @@ dd($clientes, $embarqueAdultos);
     }
 
     public function getReporteRelacionCobranza(Request $request){
-        $modulos      =\App\Modulo::where('aeropuerto_id', session('aeropuerto')->id )->lists('nombre','id');
-        $clientes      =\App\Cliente::all();
-        $mes          =$request->get('mes', \Carbon\Carbon::now()->month);
-        $anno         =$request->get('anno',  \Carbon\Carbon::now()->year);
-        $aeropuerto   =$request->get('aeropuerto',  0);
-       
-        $cliente      =$request->get('cliente', 0);
-        $modulo       =$request->get('modulo',0);
-        $moduloNombre =($modulo==0)?'TODOS':\App\Modulo::where('id', $modulo)->first()->nombre;
-        $clienteNombre =($cliente==0)?'TODOS':(\App\Cliente::where('id', $cliente)->first()->nombre);
+        $modulos          =\App\Modulo::where('aeropuerto_id', session('aeropuerto')->id )->lists('nombre','id');
+        $clientes         =\App\Cliente::all();
+        $mes              =$request->get('mes', \Carbon\Carbon::now()->month);
+        $anno             =$request->get('anno',  \Carbon\Carbon::now()->year);
+        $aeropuerto       =$request->get('aeropuerto');
+        
+        $cliente          =$request->get('cliente', 0);
+        $modulo           =$request->get('modulo',0);
+        $moduloNombre     =($modulo==0)?'TODOS':\App\Modulo::where('id', $modulo)->first()->nombre;
+        $clienteNombre    =($cliente==0)?'TODOS':(\App\Cliente::where('id', $cliente)->first()->nombre);
         $aeropuertoNombre =($aeropuerto==0)?'TODOS':(\App\Aeropuerto::where('id', $aeropuerto)->first()->nombre);
-        $primerDiaMes =\Carbon\Carbon::create($anno, $mes,1)->startOfMonth();
-        $ultimoDiaMes =\Carbon\Carbon::create($anno, $mes,1)->endOfMonth();
+        $primerDiaMes     =\Carbon\Carbon::create($anno, $mes,1)->startOfMonth();
+        $ultimoDiaMes     =\Carbon\Carbon::create($anno, $mes,1)->endOfMonth();
         $recibos=\App\Cobrospago::with('cobro','cuenta')->where('fecha','>=' ,$primerDiaMes)
                                 ->where('fecha','<=' ,$ultimoDiaMes)
                                 ->whereIn('cobro_id', function($query) use ($aeropuerto, $modulo, $cliente){

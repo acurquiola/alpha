@@ -88,7 +88,7 @@
                              <th style="vertical-align: middle; width:50px"  align="center" class="text-center">
                                 Cuenta
                              </th>
-                             <th style="vertical-align: middle; width:60px"  align="center" class="text-center">
+                             <th style="vertical-align: middle; width:70px"  align="center" class="text-center">
                                 Referencia
                              </th>
                              <th style="vertical-align: middle; width:80px"  align="center" class="text-center">
@@ -108,14 +108,14 @@
                             <tr>
                                 <td style="vertical-align: middle; width:50px" align="center">{{$recibo->fecha}}</td>
                                 <td align="center"  style="width:50px">{{$recibo->cobro->id}}</td>
-                                <td style="vertical-align: middle; width:50px" align="left"  >{{$recibo->cobro->cliente->codigo}}</td>
+                                <td style="vertical-align: middle; width:50px" align="center"  >{{$recibo->cobro->cliente->codigo}}</td>
                                 <td style="vertical-align: middle; width:180px" align="left" >{{$recibo->cobro->cliente->nombre}}</td>
                                 <td style="vertical-align: middle; width:40px" align="center" >{{($recibo->cobro->nRecibo)?$recibo->cobro->nRecibo:'N/A'}}</td>
                                 <td style="vertical-align: middle; width:50px" align="center">{{$recibo->tipo}}</td>
-                                <td style="vertical-align: middle; width:50px" align="center">{{substr($recibo->cuenta->descripcion, -8)}}</td>
-                                <td style="vertical-align: middle; width:60px" align="center">{{$recibo->ncomprobante}}</td>
-                                <td style="vertical-align: middle; width:70px" align="right">{{$traductor->format($recibo->cobro->montofacturas)}}</td>
-                                <td style="vertical-align: middle; width:70px" align="right">{{$traductor->format($recibo->cobro->montodepositado)}}</td>
+                                <td style="vertical-align: middle; width:50px" align="center">{{substr($recibo->cuenta->descripcion, -6)}}</td>
+                                <td style="vertical-align: middle; width:70px" align="center">{{$recibo->ncomprobante}}</td>
+                                <td style="vertical-align: middle; width:80px" align="right">{{$traductor->format($recibo->cobro->montofacturas)}}</td>
+                                <td style="vertical-align: middle; width:80px" align="right">{{$traductor->format($recibo->cobro->montodepositado)}}</td>
                                 <td style="vertical-align: middle; width:70px" align="right">{{$traductor->format(($recibo->cobro->montofacturas-$recibo->cobro->montodepositado))}}</td>
                             </tr>
                         @endforeach
@@ -129,8 +129,8 @@
                                         <td> - </td>
                                         <td> - </td>
                                         <td> - </td>
-                                        <td style="vertical-align: middle; width:70px" align="right">{{$traductor->format($totalFacturas)}}</td>
-                                        <td style="vertical-align: middle; width:70px" align="right">{{$traductor->format($totalDepositado)}}</td>
+                                        <td style="vertical-align: middle; width:80px" align="right">{{$traductor->format($totalFacturas)}}</td>
+                                        <td style="vertical-align: middle; width:80px" align="right">{{$traductor->format($totalDepositado)}}</td>
                                         <td style="vertical-align: middle; width:70px" align="right">-</td>                                   
                                     </tr>   
                         @else
@@ -206,12 +206,14 @@ $('#export-btn').click(function(e){
                   </th>\
                 </tr>\
               </thead>')
-        $(table).find('thead, th').css({'border-top':'1px solid black', 'font-weight': 'bold', 'text-align':"center"})
-    $(table).find('th').css({'border-bottom':'1px solid black','border-top':'1px solid black', 'font-weight': 'bold'}) 
-    $(table).find('tr:last td').css({'border-bottom':'1px solid black','border-top':'1px solid black', 'font-weight': 'bold'})
-    var tableHtml= $(table)[0].outerHTML;
-    $('[name=table]').val(tableHtml);
-    $('#export-form').submit();
+        $(table).find('thead, th').css({'border-top':'1px solid black', 'font-weight': 'bold', 'text-align':"center", 'font-size': '8px'})
+        $(table).find('th').css({'border-bottom':'1px solid black', 'font-weight': 'bold', 'text-align':"center", 'font-size': '8px'})
+        $(table).find('td').css({'font-size': '7px'})
+        $(table).find('tr:nth-child(even)').css({'background-color': '#E2E2E2'})
+        $(table).find('tr:last td').css({'border-bottom':'1px solid black','border-top':'1px solid black', 'font-weight': 'bold'})
+        var tableHtml= $(table)[0].outerHTML;
+        $('[name=table]').val(tableHtml);
+        $('#export-form').submit();
 })
 
 })
