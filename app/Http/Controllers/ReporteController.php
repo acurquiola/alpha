@@ -213,19 +213,26 @@ dd($clientes, $embarqueAdultos);
     }
 
     public function getReporteRelacionCobranza(Request $request){
-        $modulos      =\App\Modulo::where('aeropuerto_id', session('aeropuerto')->id )->lists('nombre','id');
-        $clientes      =\App\Cliente::all();
-        $mes          =$request->get('mes', \Carbon\Carbon::now()->month);
-        $anno         =$request->get('anno',  \Carbon\Carbon::now()->year);
-        $aeropuerto   =$request->get('aeropuerto',  0);
-       
-        $cliente      =$request->get('cliente', 0);
-        $modulo       =$request->get('modulo',0);
-        $moduloNombre =($modulo==0)?'TODOS':\App\Modulo::where('id', $modulo)->first()->nombre;
-        $clienteNombre =($cliente==0)?'TODOS':(\App\Cliente::where('id', $cliente)->first()->nombre);
+        $modulos          =\App\Modulo::where('aeropuerto_id', session('aeropuerto')->id )->lists('nombre','id');
+        $clientes         =\App\Cliente::all();
+        $mes              =$request->get('mes', \Carbon\Carbon::now()->month);
+        $anno             =$request->get('anno',  \Carbon\Carbon::now()->year);
+        $aeropuerto       =$request->get('aeropuerto')+0;
+        $cliente          =$request->get('cliente')+0;
+        $modulo           =$request->get('modulo')+0;
+        if($aeropuerto!=0){
+            $moduloNombre =($modulo==0)?'TODOS':\App\Modulo::where('id', $modulo)->first()->nombre;
+            if($moduloNombre!='TODOS'){
+                $modulo=\App\Modulo::where('nombre', $moduloNombre)->where('aeropuerto_id', $aeropuerto)->first()->nombre;
+            }
+        }
+        else{
+            $moduloNombre     =($modulo==0)?'TODOS':\App\Modulo::where('id', $modulo)->first()->nombre;
+        }
+        $clienteNombre    =($cliente==0)?'TODOS':(\App\Cliente::where('id', $cliente)->first()->nombre);
         $aeropuertoNombre =($aeropuerto==0)?'TODOS':(\App\Aeropuerto::where('id', $aeropuerto)->first()->nombre);
-        $primerDiaMes =\Carbon\Carbon::create($anno, $mes,1)->startOfMonth();
-        $ultimoDiaMes =\Carbon\Carbon::create($anno, $mes,1)->endOfMonth();
+        $primerDiaMes     =\Carbon\Carbon::create($anno, $mes,1)->startOfMonth();
+        $ultimoDiaMes     =\Carbon\Carbon::create($anno, $mes,1)->endOfMonth();
         $recibos=\App\Cobrospago::with('cobro','cuenta')->where('fecha','>=' ,$primerDiaMes)
                                 ->where('fecha','<=' ,$ultimoDiaMes)
                                 ->whereIn('cobro_id', function($query) use ($aeropuerto, $modulo, $cliente){
@@ -244,8 +251,9 @@ dd($clientes, $embarqueAdultos);
 
     public function getReporteListadoFacturas(Request $request){
 
-        $modulos      =\App\Modulo::all();
-        $view=view('reportes.reporteListadoFacturas',compact('modulos'));
+        $modulos =\App\Modulo::all();
+        $clientes =\App\Cliente::all();
+        $view=view('reportes.reporteListadoFacturas',compact('clientes', 'modulos'));
         if($request->isMethod("post")){
             $facturas=\App\Factura::select('facturas.*');
 
@@ -292,21 +300,11 @@ dd($clientes, $embarqueAdultos);
             if($nFactura!="")
             $facturas->where('facturas.nFactura', $nFactura);
 
-            $cedRif         =$request->get('cedRif');
-            $cedRifPrefix   =$request->get('cedRifPrefix');
-
-
-
-            $nombre       =$request->get('nombre');
+            $cliente_id         =$request->get('cliente_id');
             $facturas->join('clientes','clientes.id' , '=', 'facturas.cliente_id');
 
-            if($nombre!="")
-                $facturas->where('clientes.nombre', 'like', "%$nombre%");
-            if($cedRif!=""){
-                $facturas->where('clientes.cedRif', 'like', "%$cedRif%");
-                $facturas->where('clientes.cedRifPrefix', $cedRifPrefix);
-            }
-
+            if($cliente_id!="")
+                $facturas->where('clientes.id', $cliente_id);
 
             $estatus      =$request->get('estatus');
             if($estatus=="A"){
@@ -317,7 +315,7 @@ dd($clientes, $embarqueAdultos);
 
 
             //dd($facturas->toSql(), $facturas->getBindings());
-            $facturas=$facturas->orderBy('fecha', 'DESC')->get();
+            $facturas=$facturas->orderBy('fecha', 'ASC')->orderBy('nFactura', 'ASC')->get();
             
             $total    =$facturas->sum('total');
             $subtotal =$facturas->sum('subtotal');

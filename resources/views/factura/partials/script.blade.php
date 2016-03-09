@@ -106,7 +106,7 @@
     iva+=ivaRow;
     var recargoTotalRow=parseFloat(commaToNum($(recargoTotal).val()));
     recargoTotalDoc+=recargoTotalRow;
-    var totalRow=(subtotalRow+ivaRow+recargoTotalRow).toFixed(2);
+    var totalRow=subtotalRow+ivaRow+recargoTotalRow;
     $(value).find('.total-input').val(numToComma(totalRow));
     total+=totalRow;
 

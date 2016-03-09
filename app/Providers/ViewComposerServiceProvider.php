@@ -112,14 +112,13 @@ class ViewComposerServiceProvider extends ServiceProvider {
             $view->with(compact('clientes'));
         });
 
-        view()->composer(['administracion.informacion', 'contrato.partials.form', 'configuracionPrecios.confAterrizajeDespegue.partials.edit', 'configuracionPrecios.confAterrizajeDespegue.partials.form', 'configuracionPrecios.confEstacionamientoAeronave.partials.edit', 'configuracionPrecios.confEstacionamientoAeronave.partials.form', 'configuracionPrecios.confCargosVarios.partials.edit', 'configuracionPrecios.confCargosVarios.partials.form', 'configuracionPrecios.confCarga.partials.edit', 'configuracionPrecios.confCarga.partials.form', 'configuracionPrecios.confOtrosCargos.index', 'configuracionPrecios.confOtrosCargos.partials.table'], function($view){
+        view()->composer(['administracion.informacion', 'administracion.meta', 'contrato.partials.form', 'configuracionPrecios.confAterrizajeDespegue.partials.edit', 'configuracionPrecios.confAterrizajeDespegue.partials.form', 'configuracionPrecios.confEstacionamientoAeronave.partials.edit', 'configuracionPrecios.confEstacionamientoAeronave.partials.form', 'configuracionPrecios.confCargosVarios.partials.edit', 'configuracionPrecios.confCargosVarios.partials.form', 'configuracionPrecios.confCarga.partials.edit', 'configuracionPrecios.confCarga.partials.form', 'configuracionPrecios.confOtrosCargos.index', 'configuracionPrecios.confOtrosCargos.partials.table'], function($view){
             $conceptos =[""=>"-- Seleccione un concepto --"]+session('aeropuerto')->conceptos()->orderBy('nompre', 'ASC')->lists('nompre', 'id');
             $view->with(compact('conceptos'));
         });
 
 
         view()->composer(['factura.edit', 'factura.create', 'factura.partials.show'], function($view){
-
             $route        =\Route::current();
             $params       =$route->parameters();
             $moduloNombre =($params["modulo"]=="Todos")?"%":$params["modulo"];
@@ -140,6 +139,7 @@ class ViewComposerServiceProvider extends ServiceProvider {
             $aeropuertos[0]="Todos";
             $view->with(compact('aeropuertos'));
         });
+
 
         \View::composer([
             'reportes.reporteRelacionCobranza',

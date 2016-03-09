@@ -133,7 +133,9 @@ Route::group(['prefix' => 'administracion/'], function () {
     Route::resource('configuracionSCV/OtrosCargos', 'OtrosCargoController');
 
     Route::get('informacion', 'InformacionController@index');
+    Route::get('meta', 'MetaController@index');
     Route::post('informacion/update', 'InformacionController@update');
+    Route::post('meta/update', 'MetaController@update');
     Route::get('sincronizacion', function(){
         return view('administracion/sincronizacion');
     });

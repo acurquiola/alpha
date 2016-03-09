@@ -6,7 +6,7 @@
         <!-- general form elements -->
         <div class="box box-primary">
             <div class="box-header">
-                <h3 class="box-title">Estacionamiento</h3>
+                <h3 class="box-title">Tasas</h3>
             </div><!-- /.box-header -->
             <!-- form start -->
             <div class="box-body">

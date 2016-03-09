@@ -69,7 +69,7 @@ class ClienteController extends Controller {
         else
             $hangars=[];
         $cliente->hangars()->sync(array_flatten($hangars));
-        return redirect("administracion/cliente")->with('status','El cliente fue creado exitosamente.');
+        return redirect("administracion/cliente")->with('status','El cliente fue creado exitósamente.');
 	}
 
 	/**

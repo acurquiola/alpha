@@ -247,7 +247,7 @@
                 	</a>
                 	<ul class="treeview-menu">
                 		@permission('menu.informacion')
-                		<li {{ (\Request::is('administracion/informacion*'))?"class=active":"" }}><a href="{{ URL::to('administracion/informacion') }}"><i class="fa fa-info-circle"></i> Información</a></li>
+                		<li {{ (\Request::is('administracion/meta*'))?"class=active":"" }}><a href="{{ URL::to('administracion/meta') }}"><i class="fa fa-area-chart"></i> Metas</a></li>
                 		@endpermission
                 		@permission('menu.cliente')
                 		<li {{ (\Request::is('administracion/cliente*'))?"class=active":"" }}><a href="{{ URL::to('administracion/cliente') }}"><i class="fa  fa-smile-o"></i> Cliente</a></li>

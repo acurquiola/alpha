@@ -16,6 +16,8 @@ class CreateCargosTable extends Migration {
 		{
 			$table->increments('id');
 			$table->string('nombre', 150);
+			$table->integer('departamento_id')->unsigned();
+			$table->foreign('departamento_id')->references('id')->on('departamentos');
 			$table->timestamps();
 		});
 	}

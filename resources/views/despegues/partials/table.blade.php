@@ -25,7 +25,6 @@
                     <td colspan="11" class="text-center">No se consiguió ningún registro</td>
                </tr>
                @endif
-
                @foreach($despegues as $despegue)
                <tr data-id='{{$despegue->id}}' data-aterrizaje='{{$despegue->aterrizaje_id}}'>
                     <td class ='horaFecha-td'>{{$despegue->fecha}} {{$despegue->hora}}</td>
@@ -47,16 +46,17 @@
                                        <a target="_blank" class='btn btn-default  btn-sm' href='{{action('FacturaController@getPrint', ["modulo"=>"DOSAS", $despegue->factura_id])}}'>
                                              <span class='glyphicon glyphicon-print'></span>
                                        </a>
-                                        @if($despegue->condicionPago == 'Contado')
+
+                                        @if(isset($despegue->factura) && $despegue->factura->condicionPago == 'Contado')
                                             <a class='btn btn-primary  btn-sm'  href='{{action('DespegueController@getGenerarCobranza', [$despegue->id])}}' @if($despegue->factura->estado == 'C') disabled @endif >
                                                   <span class='fa fa-money'></span>
                                             </a>
                                         @endif
                                    @endif
                                    @if($despegue->factura_id == NULL)
-                                        <a href="{{  action('DespegueController@getCrearFactura', [$despegue->id])}}">
-                                             <button class='btn btn-info btn-sm facturarDespegue-btn'><span class='fa fa-credit-card' title='Crear Dosa'></span></button>
-                                        </a>
+                                       
+                                        <a class='btn btn-info btn-sm facturarDespegue-btn' href='{{action('DespegueController@getCrearFactura', [$despegue->id])}}'><span class='fa fa-credit-card' title='Crear Dosa'></span></a>
+
                                         <button class='btn btn-warning  btn-sm editarDespegue-btn' data-id='{{$despegue->id}}'><span class='glyphicon glyphicon-pencil' title='Editar Registro'></span></button>
                                         <button class='btn btn-danger  btn-sm eliminarDespegue-btn' data-id='{{$despegue->id}}'><span class='glyphicon glyphicon-trash' title='Eliminar Registro'></span></button>
                                    @endif

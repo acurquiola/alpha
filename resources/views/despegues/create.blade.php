@@ -186,7 +186,7 @@
 								</div><!-- /.form group -->
 								<!-- Tiempo de Estacionamiento-->
 								<div class="form-group " style="margin-left: 30px">
-									@if($aterrizaje->aeronave->hangar_id != NULL)
+									@if($hangarLocal==true)
 										<label>
 											{!! Form::checkbox('cobrar_estacionamiento',true, null) !!}
 											Estacionamiento

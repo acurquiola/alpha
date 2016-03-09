@@ -45,39 +45,30 @@
                     <div class="form-group">
                         <label class="col-md-1 control-label"><strong>Período</strong></label>
                         <div class="col-md-4">
-                            {!! Form::text('desde', isset($desde)?$desde:null, ["class"=> "form-control datepicker", "placeholder" => "desde", "autocomplete" => "off"]) !!}
+                            {!! Form::text('desde', isset($desde)?$desde:null, ["class"=> "form-control datepicker", "placeholder" => "Desde", "autocomplete" => "off"]) !!}
                         </div>
                         <label class="col-md-1 text-center" style="padding-top:10px"><strong>-</strong></label>
                         <div class="col-md-4">
-                            {!! Form::text('hasta', isset($hasta)?$hasta:null, ["class"=> "form-control datepicker", "placeholder" => "hasta", "autocomplete" => "off"]) !!}
+                            {!! Form::text('hasta', isset($hasta)?$hasta:null, ["class"=> "form-control datepicker", "placeholder" => "Hasta", "autocomplete" => "off"]) !!}
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-md-1 control-label"><strong>#Factura</strong></label>
                         <div class="col-md-6">
-                            {!! Form::text('nFactura', isset($nFactura)?$nFactura:null, ["class"=> "form-control", "placeholder" => "desde", "autocomplete" => "off"]) !!}
+                            {!! Form::text('nFactura', isset($nFactura)?$nFactura:null, ["class"=> "form-control", "placeholder" => "Número de Factura", "autocomplete" => "off"]) !!}
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-md-1 control-label"><strong>Cliente</strong></label>
                         <div class="col-md-6">
-                          {!! Form::hidden('cedRifPrefix', isset($cedRifPrefix)?$cedRifPrefix:'V', ['id' => 'cedRifPrefix', 'class' => 'operator-input', 'autocomplete'=>'off']) !!}
-                          <div class="input-group">
-                              <div class="input-group-btn">
-                                <button style="max-height:37px" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="operator-text">{{$cedRifPrefix or "V"}}</span></button>
-                                <ul class="dropdown-menu operator-list">
-                                  <li><a href="#">V</a></li>
-                                  <li><a href="#">E</a></li>
-                                  <li><a href="#">J</a></li>
-                                </ul>
-                              </div>
-                              {!! Form::text('cedRif', isset($cedRif)?$cedRif:null, [ 'class'=>"form-control", 'style'=>'padding-left:2px']) !!}
-                          </div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-md-6 col-md-offset-1">
-                            {!! Form::text('nombre', isset($nombre)?$nombre:null, ["class"=> "form-control", "placeholder" => "Nombre ó Razón social", "autocomplete" => "off"]) !!}
+                            <select class="form-control" id="cliente-select" name="cliente_id" autocomplete="off">                                <option value="">--Seleccione una opcion--</option>
+                                @foreach($clientes as $cliente)
+                                <option
+                                    value="{{$cliente->id}}">
+                                    {{$cliente->codigo}} | {{$cliente->nombre}}
+                                </option>
+                                @endforeach    
+                            </select>                   
                         </div>
                     </div>
                     <div class="form-group">
@@ -92,8 +83,10 @@
                             ], isset($estatus)?$estatus:null, ["class"=> "form-control", "autocomplete" => "off"]) !!}
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-default">Buscar</button>
-                    <a class="btn btn-default" href="{{action('ReporteController@getReporteListadoFacturas')}}">Reset</a>
+                    <div class="form-group" style="margin-right: 20px">
+                    <a class="btn btn-default pull-right" href="{{action('ReporteController@getReporteListadoFacturas')}}">Reset</a>
+                    <button type="submit" class="btn btn-primary pull-right">Buscar</button>
+                    </div>
                     {!! Form::close() !!}
                 </div>
             </div>
@@ -230,6 +223,7 @@ $(function(){
     dateFormat: "dd/mm/yy"});
 
 })
+$('#cliente-select').chosen({width: "100%"})
 
 $('#export-btn').click(function(e){
     var table=$('table').clone();
