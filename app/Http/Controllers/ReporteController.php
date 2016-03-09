@@ -217,10 +217,18 @@ dd($clientes, $embarqueAdultos);
         $clientes         =\App\Cliente::all();
         $mes              =$request->get('mes', \Carbon\Carbon::now()->month);
         $anno             =$request->get('anno',  \Carbon\Carbon::now()->year);
-        $aeropuerto       =$request->get('aeropuerto',0);
-        $cliente          =$request->get('cliente', 0);
-        $modulo           =$request->get('modulo',0);
-        $moduloNombre     =($modulo==0)?'TODOS':\App\Modulo::where('id', $modulo)->first()->nombre;
+        $aeropuerto       =$request->get('aeropuerto')+0;
+        $cliente          =$request->get('cliente');
+        $modulo           =$request->get('modulo')+0;
+        if($aeropuerto!=0){
+            $moduloNombre =($modulo==0)?'TODOS':\App\Modulo::where('id', $modulo)->first()->nombre;
+            if($moduloNombre!='TODOS'){
+                $modulo=\App\Modulo::where('nombre', $moduloNombre)->where('aeropuerto_id', $aeropuerto)->first()->nombre;
+            }
+        }
+        else{
+            $moduloNombre     =($modulo==0)?'TODOS':\App\Modulo::where('id', $modulo)->first()->nombre;
+        }
         $clienteNombre    =($cliente==0)?'TODOS':(\App\Cliente::where('id', $cliente)->first()->nombre);
         $aeropuertoNombre =($aeropuerto==0)?'TODOS':(\App\Aeropuerto::where('id', $aeropuerto)->first()->nombre);
         $primerDiaMes     =\Carbon\Carbon::create($anno, $mes,1)->startOfMonth();
