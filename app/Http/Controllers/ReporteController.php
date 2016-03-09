@@ -218,7 +218,7 @@ dd($clientes, $embarqueAdultos);
         $mes              =$request->get('mes', \Carbon\Carbon::now()->month);
         $anno             =$request->get('anno',  \Carbon\Carbon::now()->year);
         $aeropuerto       =$request->get('aeropuerto')+0;
-        $cliente          =$request->get('cliente');
+        $cliente          =$request->get('cliente')+0;
         $modulo           =$request->get('modulo')+0;
         if($aeropuerto!=0){
             $moduloNombre =($modulo==0)?'TODOS':\App\Modulo::where('id', $modulo)->first()->nombre;
