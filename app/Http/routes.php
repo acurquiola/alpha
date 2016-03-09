@@ -113,9 +113,13 @@ Route::group(['prefix' => 'contrato'], function () {
     Route::post('/renovar',"ContratoController@postRenovarContratos");
 });
     Route::resource('contrato', 'ContratoController');
-Route::get('tasas/taquilla', function(){
-    return view('tasas.taquilla');
+
+Route::group(['prefix' => 'tasas/'], function () {
+    Route::get('taquilla',"TasaController@taquilla");
+    Route::get('operacion',"TasaController@getOperacion");
+    Route::post('operacion',"TasaController@postOperacion");
 });
+
 
 Route::group(['prefix' => 'administracion/'], function () {
     Route::get('usuario/estadoUser', 'UsuarioController@estadoUser');
@@ -129,7 +133,9 @@ Route::group(['prefix' => 'administracion/'], function () {
     Route::resource('configuracionSCV/OtrosCargos', 'OtrosCargoController');
 
     Route::get('informacion', 'InformacionController@index');
+    Route::get('meta', 'MetaController@index');
     Route::post('informacion/update', 'InformacionController@update');
+    Route::post('meta/update', 'MetaController@update');
     Route::get('sincronizacion', function(){
         return view('administracion/sincronizacion');
     });
@@ -152,6 +158,7 @@ Route::group(['prefix' => 'reporte/'], function () {
 
     Route::get('reporterDES900', 'ReporteController@getReporteDES900');
     Route::get('reporterCuadreCaja', 'ReporteController@getReporteCuadreCaja');
+    Route::get('reporterTraficoAereo', 'ReporteController@getReporteTraficoAereo');
     Route::get('reporteListadoFacturas', 'ReporteController@getReporteListadoFacturas');
     Route::post('reporteListadoFacturas', 'ReporteController@getReporteListadoFacturas');
 

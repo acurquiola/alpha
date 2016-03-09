@@ -43,10 +43,6 @@ class Aeronave extends Model {
         return $this->hasMany('App\Carga');
     }
     
-    public function clientes()
-    {
-        return $this->belongsToMany('App\Cliente');
-    }
     
 
 }

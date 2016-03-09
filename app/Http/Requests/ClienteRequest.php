@@ -28,12 +28,10 @@ class ClienteRequest extends Request {
         return [
 			'codigo'         =>        'required|unique:clientes,codigo,'.$id,
 			'nombre'         =>        'required',
-			'cedRif'         =>        'required',
-			'cedRif'         =>        'regex:/^(?!.*[vVjJeE]).*$/',
+			'cedRif'         =>        'required|regex:/^(?!.*[vVjJeE]).*$/',
 			'cedRifPrefix'   =>   	   'unique_with:clientes,cedRif,'.$id.'=id',
 			'tipo'           =>        'required',
-			'email'          =>        'required_with:isEnvioAutomatico',
-			'email'          =>        'email',
+			'email'          =>        'required_with:isEnvioAutomatico|email',
 			'islrpercentage' =>        'required_with:isContribuyente',
 			'ivapercentage'  =>        'required_with:isContribuyente',
         ];

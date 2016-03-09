@@ -51,13 +51,25 @@ class ClienteController extends Controller {
 	 */
 	public function store(ClienteRequest $request)
 	{
+
+		$clientes=\App\Cliente::all();
+		foreach ($clientes as $cliente) {
+			$prefijo    =$cliente->cedRifPrefix;
+			$cedRif     =$cliente->cedRif;
+			$prefijoReq =$request->get('cedRifPrefix');
+			$cedRifReq  =$request->get('cedRif');
+			if($prefijo.$cedRif==$prefijoReq.$cedRifReq){
+	        	return redirect()->back()->withErrors('El RIF indicado ya se encuentra registrado.')->withInput();
+			}
+		}
+
         $cliente=\App\Cliente::create($request->except('hangars'));
         if($request->get('tipo')!="No Aeronáutico")
             $hangars=$request->get('hangars',[]);
         else
             $hangars=[];
         $cliente->hangars()->sync(array_flatten($hangars));
-        return redirect("administracion/cliente")->with('status','El cliente fue creado exitosamente.');
+        return redirect("administracion/cliente")->with('status','El cliente fue creado exitósamente.');
 	}
 
 	/**
@@ -96,7 +108,7 @@ class ClienteController extends Controller {
         else
             $hangars=[];
         $cliente->hangars()->sync(array_flatten($hangars));
-        return redirect("administracion/cliente")->with('status','El cliente fue actualizado exitosamente.');
+        return redirect("administracion/cliente")->with('status','El cliente fue actualizado exitósamente.');
 	}
 
 	/**
@@ -110,7 +122,7 @@ class ClienteController extends Controller {
 		$cliente->hangars()->detach();
         try{
             if($cliente->delete())
-                return ["success"=>1, "text"=>"El cliente se ha eliminado con exito"];
+                return ["success"=>1, "text"=>"El cliente se ha eliminado con éxito"];
         }catch(\Exception $e){
             return ["success"=>0, "text"=>"No se pudo eliminar el cliente.<br>Consulte un administrador.<br> Error:".$e->getCode()];
 

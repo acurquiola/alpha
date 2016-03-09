@@ -211,16 +211,17 @@
  			$('#contratos-wrapper').find('[type=checkbox]:checked').each(function(){
              var monto                =$(this).data('monto');
              var fechaControlContrato =$(this).data('fechaControlContrato');
-             var today              =$('#today-input').val();
-             var ffin              =$(this).data('ffin');
+             var today                =$('#today-input').val();
+             var ffin                 =$(this).data('ffin');
              var concepto_id          =$(this).data('concepto_id');
              var cliente_id           =$(this).data('cliente_id');
-             var cliente_codigo           =$(this).data('cliente_codigo');
-             var cliente_nombre           =$(this).data('cliente_nombre');
+             var cliente_codigo       =$(this).data('cliente_codigo');
+             var cliente_nombre       =$(this).data('cliente_nombre');
              var contrato_id          =$(this).data('contrato_id');
              var iva                  =$(this).data('conceptoIva');
-             var total                  =$(this).data('total');
-             var montoiva                  =$(this).data('concepto-montoiva');
+             var total                =$(this).data('total');
+             var montoiva             =$(this).data('concepto-montoiva');
+
  				tr+=" <tr " +
  				 "data-concepto_id='" + concepto_id+"' "+
                  "data-n-factura-prefix='{{$modulo->nFacturaPrefix}}' "+

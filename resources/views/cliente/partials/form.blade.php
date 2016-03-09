@@ -61,6 +61,10 @@
                         <div class="col-xs-4">
                            {!! Form::text('fechaIngreso', null, [ 'class'=>"form-control", $disabled , 'id'=>"ingre_fecha-datepicker"]) !!}
                         </div>
+                        <label class="col-xs-2 control-label">Condición de Pago</label>
+                        <div class="col-xs-4">
+                          {!! Form::select('condicionPago',["Contado"=>"Contado", "Crédito"=>"Crédito"], null, [ 'class'=>"form-control", $disabled]) !!}
+                        </div>
                     </div>
                     <div class="form-group">
 

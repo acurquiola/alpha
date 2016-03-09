@@ -79,7 +79,7 @@
 				            <th style="min-width:120px">Saldo Cancelado</th>
 				            <th style="min-width:120px">Saldo Pendiente</th>
 
-				            <th style="min-width:120px">Retencion</th>
+				            <th style="min-width:120px">Retención</th>
 				            <th style="min-width:120px">Saldo a pagar</th>
 				            <th style="min-width:120px">Saldo Abonado</th>
 				            <th style="min-width:120px">Saldo Restante</th>
@@ -189,15 +189,14 @@
     </div>
 </div>
 
-
 @include('cobranza.partials.cuotaModal')
 @include('cobranza.partials.pagoModal')
 @include('cobranza.partials.retencionModal')
 
 @endsection
+
+
 @section('script')
-
-
 <script>
 
     $(document).ready(function(){
@@ -209,6 +208,12 @@
             var pagar     =commaToNum($('.total-a-pagar-doc-input').first().val());
             var depositar =commaToNum($('#total-a-depositar-doc-input').val());
             var ajuste    =commaToNum($('#ajuste-input').val());
+		    var nRecibo   =$('#nRecibo-input').val();
+
+		    if(nRecibo==''){
+			alertify.error("Número de Recibo de Caja es requerido.");
+			return;
+		    }
             if(pagar>depositar){
                 alertify.error("El monto a cobrar no puede ser mayor al depositado.");
                 return;
@@ -218,8 +223,9 @@
                 return;
             }
             if(ajuste>0){
-                var ajusteMaximo=parseFloat($('.ajuste-row').find('.saldo-pagar').text());
-                if(ajuste>ajusteMaximo){
+                var ajusteMaximo=parseFloat(
+                	$('.ajuste-row').find('.saldo-pagar').text());
+                if(ajuste>commaToNum(ajusteMaximo)){
                     alertify.error("El ajuste no puede superar " +ajusteMaximo+ "Bs.");
                     return;
                 }
@@ -273,15 +279,20 @@
             }).done(function(data, status, jx){
                 try{
                     var response=JSON.parse(jx.responseText);
-                    if(response.success){
-                        alertify.success("El pago se efectuó con éxito.");
+                    if(response.success==1){
+						alertify.success("Cobranza realizada con éxito.");
+						alertify.confirm("¿Desea imprimir el Recibo de Caja", function (e) {
+							if (e) {
+							    window.open(response.impresion, '_blank');
+								alertify.log("Se emitió orden de impresion");
+							}
                         setTimeout(
                             function()
                             {
                                 location.reload();
                             }, 2000);
-                    }
-
+                    });
+                   }
                 }catch(e){
                     removeLoadingOverlay('#main-box');
                     alertify.error("Error en el servidor");

@@ -127,12 +127,12 @@
 
 <script>
 
-var nTaquillasDefault={{$estacionamiento->nTaquillas}};
-var nTurnosDefault={{$estacionamiento->nTurnos}};
-var conceptosDefault='{{!! $estacionamiento->conceptos !!}}';
-conceptosDefault=JSON.parse(conceptosDefault.substr(1, conceptosDefault.length-2));
-var bancos='{{!! $bancos !!}}';
-bancos=JSON.parse(bancos.substr(1, bancos.length-2));
+var nTaquillasDefault ={{$estacionamiento->nTaquillas}};
+var nTurnosDefault    ={{$estacionamiento->nTurnos}};
+var conceptosDefault  ='{{!! $estacionamiento->conceptos !!}}';
+conceptosDefault      =JSON.parse(conceptosDefault.substr(1, conceptosDefault.length-2));
+var bancos            ='{{!! $bancos !!}}';
+bancos                =JSON.parse(bancos.substr(1, bancos.length-2));
 
 function tableConstructorDefault(nTaquillas, nTurnos, conceptos){
 
@@ -215,6 +215,7 @@ function tableConstructor(object){
     <tbody>';
     var conceptoId=null;
     $.each(object.tickets, function(index,value){
+	console.log(value.monto);
         if(conceptoId!=null && conceptoId!=value.econcepto_id)
             table+='</tr>';
         if(conceptoId==null || conceptoId!=value.econcepto_id)
@@ -230,7 +231,6 @@ function tableConstructor(object){
              data-taquilla="'+value.taquilla+'" \
              data-turno="'+value.turno+'" \
              class="form-control text-right monto-tickets-input" readonly value="'+value.monto+'" /></td>';
-
         conceptoId=value.econcepto_id;
 
     })
@@ -438,7 +438,9 @@ $(document).ready(function(){
 
                     if(responseObject.responseText!=""){
                         object=JSON.parse(responseObject.responseText);
+			console.log(object);
                     }
+
                         var boxBody='<div class="box-body">\
                                            <div class="row">\
                                            <div class="col-md-12">\
@@ -488,7 +490,7 @@ $(document).ready(function(){
                                            </table>\
                                            </div>\
                                            </div>\
-                                           <h3  style="font-size: 18px">Pago de tarjetas electronicas '
+                                           <h3  style="font-size: 18px">Pago de tarjetas electrónicas '
                                            +((object==null)?'<button class="btn btn-primary" data-toggle="modal" data-target="#estacionamiento-cliente-modal">\
                                            <span class="glyphicon glyphicon-user"></span>\
                                            </button>':'')+

@@ -104,7 +104,7 @@ class CobranzaController extends Controller {
         $idOperator=">=";
         $id=0;
         if($moduloName!="Todos"){
-            $modulo=\App\Modulo::where("nombre","like",$moduloName)->orderBy("nombre")->first();
+            $modulo=\App\Modulo::where("nombre","like",$moduloName)->where('aeropuerto_id', session('aeropuerto')->id)->orderBy("nombre")->first();
             $id=$modulo->id;
             $idOperator="=";
         }
@@ -121,7 +121,9 @@ class CobranzaController extends Controller {
 	 */
 	public function store(Request $request)
 	{
-        \DB::transaction(function () use ($request) {
+        
+        $impresion="";
+        \DB::transaction(function () use ($request, &$impresion) {
             $cobro=\App\Cobro::create([
                 'cliente_id'    => $request->get('cliente_id'),
                 'modulo_id'     => $request->get('modulo_id'),
@@ -231,16 +233,21 @@ class CobranzaController extends Controller {
         $ajuste=$request->get("ajuste");
 
         if($cobro->montodepositado>($cobro->montofacturas-$ajuste)){
-            $cobro->ajustes()->create(["monto"=>$cobro->montodepositado-$cobro->montofacturas-$ajuste,
-                "cliente_id" => $request->get("cliente_id")]);
+            $cobro->ajustes()->create([
+                                        "monto"         => $cobro->montodepositado-$cobro->montofacturas-$ajuste,
+                                        "cliente_id"    => $request->get("cliente_id"),
+                                        "aeropuerto_id" => session('aeropuerto')->id]);      
 
         }
         $cobro->observacion=$request->get('observacion');
         $cobro->hasrecaudos=$request->get('hasrecaudos');
         $cobro->save();
-    });
 
-return ["success"=>1];
+
+        $impresion=action('CobranzaController@getPrint', ["cobro"=>$cobro->id, "modulo"=>$cobro->modulo_id]);
+
+    });
+return ["success"=>1, "impresion" => $impresion];
 }
 
 	/**
@@ -348,7 +355,7 @@ return ["success"=>1];
         $codigo=$request->get('codigo');
         $cliente=\App\Cliente::where("codigo","=", $codigo)->get()->first();
         if(!$cliente)
-            return ["facturas"=>[], "ajuste"=> []];
+            return ["facturas"=>[], "ajuste"=> [], "ajusteCobros"=>[]];
         $facturas=\App\Factura::with('metadata')
         ->where('cliente_id', $cliente->id)
         ->where('modulo_id', $idOperator, $id)
@@ -357,9 +364,15 @@ return ["success"=>1];
         ->groupBy("facturas.id")->get();
         $ajusteCliente= \DB::table('ajustes')
         ->where('cliente_id', $cliente->id)
+        ->where('aeropuerto_id', session('aeropuerto')->id)
         ->sum('monto');
+        $ajusteCobros= \DB::table('ajustes')
+        ->select('cobro_id')
+        ->where('cliente_id', $cliente->id)
+        ->where('aeropuerto_id', session('aeropuerto')->id)
+        ->get();
 
-        return ["facturas"=>$facturas, "ajuste"=> $ajusteCliente];
+        return ["facturas"=>$facturas, "ajuste"=> $ajusteCliente, "ajusteCobros"=> $ajusteCobros];
     }
 
     protected function getClientesPendietesByModulo($idOperator, $id){

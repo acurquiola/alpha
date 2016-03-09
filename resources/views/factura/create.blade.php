@@ -1,5 +1,6 @@
 ﻿@extends('app')
 @section('content')
+
 <ol class="breadcrumb">
 	<li><a href="{{url('principal')}}">Inicio</a></li>
 	<li><a href="{{action('FacturaController@main', ["Todos"])}}">Facturación Principal</a></li>
@@ -94,11 +95,11 @@ $(document).ready(function(){
 				try{
 					var object=JSON.parse(responseObject.responseText);
 					if(object.success==1){
-						alertify.success("La factura se ha creado con exito");
-						alertify.confirm("Desea imprimir la factura?", function (e) {
+						alertify.success('Factura creada exitósamente');
+						alertify.confirm("¿Desea imprimir la factura?", function (e) {
 							if (e) {
 							    window.open(object.impresion, '_blank');
-								alertify.log("Se emitio orden de impresion");
+								alertify.log("Se emitió orden de impresion");
 							}
 							setTimeout(
 								function()
@@ -108,10 +109,8 @@ $(document).ready(function(){
 
 						});
 					}else{
-
-
-
-
+						alertify.error(object.mensaje);
+						removeLoadingOverlay('#main-box');
 					}
 				}catch(e){
 					console.log(e);

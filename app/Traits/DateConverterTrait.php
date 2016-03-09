@@ -8,6 +8,7 @@ trait DateConverterTrait {
 
     protected function getFecha($fecha){
         $carbon=\Carbon\Carbon::now();
+        $carbon->timezone='America/Caracas';
         if(!is_null($fecha) && $fecha!="" && is_string($fecha))
             $carbon= \Carbon\Carbon::createFromFormat('Y-m-d', preg_replace( "/\s+\d+:\d+:\d+.?\d+/", "", $fecha));
         if(is_a($fecha, 'Carbon\Carbon'))

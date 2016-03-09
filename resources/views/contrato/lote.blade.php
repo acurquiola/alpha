@@ -52,7 +52,7 @@
                                                 <td><input type="hidden" name="monto[]" class="monto-input"><input type="checkbox" autocomplete="off" name="id[]" value="{{$contrato->id}}"></td>
                                                 <td>{{$contrato->nContrato}}</td>
                                                 <td>{{$contrato->cliente->nombre}}</td>
-                                                <td class="monto-actual text-right">{{number_format($contrato->monto, 2)}}</td>
+                                                <td class="monto-actual text-right">{{$traductor->format($contrato->monto)}}</td>
                                                 <td class="monto-nuevo text-right">0.00</td>
                                             </tr>
                                         @endforeach
@@ -74,38 +74,38 @@
         $(function(){
             $('#modi-btn').click(function(){
                 var select=$('#modificador-select').val();
-                var input=$('#modificador-input').val().replace(/,/g, '');
+                var input=$('#modificador-input').val().replace(/\./g, '').replace(/,/g, '.');
                 switch(select) {
                     case "=":
                         $('#contratos-table tbody tr').each(function(){
                             if($(this).find('input[type=checkbox]:checked').length>0){
-                                var actual=$(this).find('.monto-actual').text().replace(/,/g, '');
+                                var actual=commaToNum($(this).find('.monto-actual').text());
                                 actual=parseFloat(actual);
                                 input=parseFloat(input);
                                 input=(isNaN(input))?0:input;
                                 actual+=input;
-                                $(this).find('.monto-nuevo').text(actual.toFixed(2));
-                                $(this).find('.monto-input').val(actual);
+                                $(this).find('.monto-nuevo').text(numToComma(actual));
+                                $(this).find('.monto-input').val(numToComma(actual));
                             }
                         })
                     break;
                     case "%":
                         $('#contratos-table tbody tr').each(function(){
                             if($(this).find('input[type=checkbox]:checked').length>0){
-                                var actual=$(this).find('.monto-actual').text().replace(/,/g, '');
+                                var actual=commaToNum($(this).find('.monto-actual').text());
                                 actual=parseFloat(actual);
                                 input=parseFloat(input);
                                 input=(isNaN(input))?0:input;
                                 actual+=actual*input/100;
-                                $(this).find('.monto-nuevo').text(actual.toFixed(2));
-                                $(this).find('.monto-input').val(actual);
+                                $(this).find('.monto-nuevo').text(numToComma(actual));
+                                $(this).find('.monto-input').val(numToComma(actual));
                             }
                         })
                     break;
                     case "fórmula":
                         $('#contratos-table tbody tr').each(function(){
                             if($(this).find('input[type=checkbox]:checked').length>0){
-                                var actual=$(this).find('.monto-actual').text().replace(/,/g, '');
+                                var actual=commaToNum($(this).find('.monto-actual').text());
                                 var formula=input.replace(/\[\[valor\]\]/g, actual);
                                 var nuevo=0;
                                 try{
@@ -113,8 +113,8 @@
                                 }catch(e){
                                     console.log(e);
                                 }
-                                $(this).find('.monto-nuevo').text(nuevo.toFixed(2));
-                                $(this).find('.monto-input').val(nuevo);
+                                $(this).find('.monto-nuevo').text(numToComma(nuevo));
+                                $(this).find('.monto-input').val(numToComma(nuevo));
                             }
                         })
                     break;

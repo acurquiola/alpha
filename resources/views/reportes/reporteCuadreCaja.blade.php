@@ -21,7 +21,7 @@
                 {!! Form::open(["url" => action('ReporteController@getReporteCuadreCaja'), "method" => "GET", "class"=>"form-inline"]) !!}
                 <label><strong>DESDE: </strong></label>
 				<div class="form-group">
-					<input type="text" class="form-control" name="diaDesde" placeholder="Día">
+					<input type="text" class="form-control" name="diaDesde" value="{{$diaDesde}}" placeholder="Día">
                 </div>
                 <div class="form-group">
                       {!! Form::select('mesDesde', $meses, $mesDesde, ["class"=> "form-control"]) !!}
@@ -31,7 +31,7 @@
                 </div>
                 <label style="margin-left: 20px"><strong>HASTA: </strong></label>
 				<div class="form-group">
-					<input type="text" class="form-control" name="diaHasta" placeholder="Día">
+					<input type="text" class="form-control" name="diaHasta" value="{{$diaHasta}}"placeholder="Día">
                 </div>
                 <div class="form-group">
                       {!! Form::select('mesHasta', $meses, $mesHasta, ["class"=> "form-control"]) !!}
@@ -65,8 +65,7 @@
 
 						<div class="table-responsive" style="max-height: 500px">
 							<table  class="table table-condensed">
-								<thead  class="bg-primary">
-									<tr >
+									<tr class="bg-primary" >
 										<th class="text-center">Nro. Control</th>
 										<th class="text-center">Nro. Dosa</th>
 										<th class="text-center">Nro. Factura</th>
@@ -74,7 +73,6 @@
 										<th class="text-center">Fecha</th>
 										<th class="text-center">Monto</th>
 									</tr>
-								</thead>
 								<tbody>
 									@foreach($facturas as $factura)
 									<tr title="{{$factura->fecha}}" align="center">
@@ -83,7 +81,7 @@
 										<td>{{$factura->nFacturaPrefix}}-{{$factura->nFactura}}</td>
 										<td align="left">{{$factura->cliente->nombre}}</td>
 										<td>{{$factura->fecha}}</td>
-										<td>{{$factura->total}}</td>
+										<td align="right">{{$traductor->format($factura->total)}}</td>
 									</tr>
 									@endforeach
 
@@ -93,7 +91,7 @@
 			                        	<td> - </td>
 			                        	<td> - </td>
 			                        	<td> - </td>
-			                        	<td>{{$facturasContado}}</td>			                        
+			                        	<td align="right">{{$traductor->format($facturasContado)}}</td>			                        
 			                        </tr>
 			                        <tr class="bg-gray" align="center">
 			                        	<td>Total Crédito</td>
@@ -101,7 +99,7 @@
 			                        	<td> - </td>
 			                        	<td> - </td>
 			                        	<td> - </td>
-			                        	<td>{{$facturasCredito}}</td>			                        
+			                        	<td align="right">{{$traductor->format($facturasCredito)}}</td>			                        
 			                        </tr>
 			                        <tr class="bg-primary" align="center">
 			                        	<td>Total</td>
@@ -109,7 +107,7 @@
 			                        	<td> - </td>
 			                        	<td> - </td>
 			                        	<td> - </td>
-			                        	<td>{{$facturasTotal}}</td>			                        
+			                        	<td align="right">{{$traductor->format($facturasTotal)}}</td>			                        
 			                        </tr>
 								</tbody>
 							</table>
@@ -127,6 +125,14 @@
 	$(function(){
 		$('#export-btn').click(function(e){
 		    var table=$('table').clone();
+		    $(table).prepend('<thead>\
+		    					<tr>\
+									<th colspan="6" style="vertical-align: middle; margin-top:20px" align="center" class="text-center">CUADRE DE CAJA\
+									</br>\
+									DESDE: {{$diaDesde}}/{{$mesDesde}}/{{$annoDesde}} HASTA: {{$diaHasta}}/{{$mesHasta}}/{{$annoHasta}} </th>\
+								</tr>\
+							</thead>')
+		    $(table).find('thead, th').css({'border-top':'1px solid black', 'font-weight': 'bold', 'text-align':"center"})
 		    $(table).find('th').css({'border-bottom':'1px solid black','border-top':'1px solid black', 'font-weight': 'bold', 'text-align':"center"})
 		    $(table).find('tr:last td').css({'border-bottom':'1px solid black','border-top':'1px solid black', 'font-weight': 'bold'})
 		    var tableHtml= $(table)[0].outerHTML;

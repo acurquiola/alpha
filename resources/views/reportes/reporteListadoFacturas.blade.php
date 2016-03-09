@@ -29,6 +29,7 @@
                         <label class="col-md-1 control-label"><strong>Modulo</strong></label>
                         <div class="col-md-6">
                             <select autocomplete="off" class="form-control" id="modulo-select" name="modulo">
+                            <option value="0">TODOS</option>
                                 @foreach($modulos as $m)
                                     <option data-aeropuerto="{{$m->aeropuerto->id}}"
                                     value="{{$m->id}}"
@@ -44,39 +45,30 @@
                     <div class="form-group">
                         <label class="col-md-1 control-label"><strong>Período</strong></label>
                         <div class="col-md-4">
-                            {!! Form::text('desde', isset($desde)?$desde:null, ["class"=> "form-control datepicker", "placeholder" => "desde", "autocomplete" => "off"]) !!}
+                            {!! Form::text('desde', isset($desde)?$desde:null, ["class"=> "form-control datepicker", "placeholder" => "Desde", "autocomplete" => "off"]) !!}
                         </div>
                         <label class="col-md-1 text-center" style="padding-top:10px"><strong>-</strong></label>
                         <div class="col-md-4">
-                            {!! Form::text('hasta', isset($hasta)?$hasta:null, ["class"=> "form-control datepicker", "placeholder" => "hasta", "autocomplete" => "off"]) !!}
+                            {!! Form::text('hasta', isset($hasta)?$hasta:null, ["class"=> "form-control datepicker", "placeholder" => "Hasta", "autocomplete" => "off"]) !!}
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-md-1 control-label"><strong>#Factura</strong></label>
                         <div class="col-md-6">
-                            {!! Form::text('nFactura', isset($nFactura)?$nFactura:null, ["class"=> "form-control", "placeholder" => "desde", "autocomplete" => "off"]) !!}
+                            {!! Form::text('nFactura', isset($nFactura)?$nFactura:null, ["class"=> "form-control", "placeholder" => "Número de Factura", "autocomplete" => "off"]) !!}
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-md-1 control-label"><strong>Cliente</strong></label>
                         <div class="col-md-6">
-                          {!! Form::hidden('cedRifPrefix', isset($cedRifPrefix)?$cedRifPrefix:'V', ['id' => 'cedRifPrefix', 'class' => 'operator-input', 'autocomplete'=>'off']) !!}
-                          <div class="input-group">
-                              <div class="input-group-btn">
-                                <button style="max-height:37px" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="operator-text">{{$cedRifPrefix or "V"}}</span></button>
-                                <ul class="dropdown-menu operator-list">
-                                  <li><a href="#">V</a></li>
-                                  <li><a href="#">E</a></li>
-                                  <li><a href="#">J</a></li>
-                                </ul>
-                              </div>
-                              {!! Form::text('cedRif', isset($cedRif)?$cedRif:null, [ 'class'=>"form-control", 'style'=>'padding-left:2px']) !!}
-                          </div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-md-6 col-md-offset-1">
-                            {!! Form::text('nombre', isset($nombre)?$nombre:null, ["class"=> "form-control", "placeholder" => "Nombre ó Razón social", "autocomplete" => "off"]) !!}
+                            <select class="form-control" id="cliente-select" name="cliente_id" autocomplete="off">                                <option value="">--Seleccione una opcion--</option>
+                                @foreach($clientes as $cliente)
+                                <option
+                                    value="{{$cliente->id}}">
+                                    {{$cliente->codigo}} | {{$cliente->nombre}}
+                                </option>
+                                @endforeach    
+                            </select>                   
                         </div>
                     </div>
                     <div class="form-group">
@@ -91,8 +83,10 @@
                             ], isset($estatus)?$estatus:null, ["class"=> "form-control", "autocomplete" => "off"]) !!}
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-default">Buscar</button>
-                    <a class="btn btn-default" href="{{action('ReporteController@getReporteListadoFacturas')}}">Reset</a>
+                    <div class="form-group" style="margin-right: 20px">
+                    <a class="btn btn-default pull-right" href="{{action('ReporteController@getReporteListadoFacturas')}}">Reset</a>
+                    <button type="submit" class="btn btn-primary pull-right">Buscar</button>
+                    </div>
                     {!! Form::close() !!}
                 </div>
             </div>
@@ -115,37 +109,37 @@
                              <table class="table table-hover table-condensed">
                              <thead  class="bg-primary">
                              <tr>
-                                <th style="vertical-align: middle" class="text-center">
+                                <th style="vertical-align: middle; width:20px" class="text-center">
                                     N°
                                 </th>
-                                 <th style="vertical-align: middle" class="text-center">
-                                    Fecha Emisión
+                                 <th style="vertical-align: middle; width:50px" align="center" class="text-center">
+                                    Fecha
                                  </th>
-                                 <th style="vertical-align: middle" class="text-center">
-                                    Nro Factura
+                                 <th style="vertical-align: middle; width:60px" align="center" class="text-center">
+                                    Nro. Factura
                                  </th>
-                                 <th style="vertical-align: middle" class="text-center">
-                                    Nro Control
+                                 <th style="vertical-align: middle; width:60px" align="center" class="text-center">
+                                    Nro. Control
                                  </th>
-                                 <th style="vertical-align: middle" class="text-center">
-                                    Rif Cliente
+                                 <th style="vertical-align: middle; width:70px" align="center" class="text-center">
+                                    RIF Cliente
                                  </th>
-                                 <th style="vertical-align: middle" class="text-center">
+                                 <th style="vertical-align: middle; width:140px" align="center" class="text-center">
                                     Nombre ó Razón Social
                                  </th>
-                                 <th style="vertical-align: middle" class="text-center">
+                                 <th style="vertical-align: middle; width:150px" align="center"  class="text-center">
                                     Descripción
                                  </th>
-                                 <th style="vertical-align: middle" class="text-center">
+                                 <th style="vertical-align: middle; width:70px" align="center" class="text-center">
                                     Sub-Total
                                  </th>
-                                 <th style="vertical-align: middle" class="text-center">
+                                 <th style="vertical-align: middle; width:60px" align="center" class="text-center">
                                     IVA
                                  </th>
-                                 <th style="vertical-align: middle" class="text-center">
+                                 <th style="vertical-align: middle; width:40px" align="center" class="text-center">
                                     ISLR
                                  </th>
-                                 <th style="vertical-align: middle" class="text-center">
+                                 <th style="vertical-align: middle; width:70px" align="center" class="text-center">
                                     Monto
                                  </th>
                              </tr>
@@ -154,27 +148,39 @@
                             @if(count($facturas)>0)
                             @foreach($facturas as $index => $factura)
                                 <tr>
-                                    <td>{{$index+1}}</td>
-                                    <td>{{$factura->fecha}}</td>
-                                    <td>{{$factura->nFacturaPrefix}}-{{$factura->nFactura}}</td>
-                                    <td>{{$factura->nControlPrefix}}-{{$factura->nControl}}</td>
-                                    <td>{{$factura->cliente->cedRifPrefix}}-{{$factura->cliente->cedRif}}</td>
-                                    <td>{{$factura->cliente->nombre}}</td>
-                                    <td>{{$factura->descripcion}}</td>
-                                    <td>{{$factura->subtotal}}</td>
+                                    <td style="vertical-align: middle; width:20px" align="center" >{{$index+1}}</td>
+                                    <td style="vertical-align: middle; width:50px" align="center">{{$factura->fecha}}</td>
+                                    <td style="vertical-align: middle; width:60px" align="center" >{{$factura->nFacturaPrefix}}-{{$factura->nFactura}}</td>
+                                    <td style="vertical-align: middle; width:60px" align="center" >{{$factura->nControlPrefix}}-{{$factura->nControl}}</td>
+                                    <td style="vertical-align: middle; width:70px" align="center" >{{$factura->cliente->cedRifPrefix}}-{{$factura->cliente->cedRif}}</td>
+                                    <td style="vertical-align: middle; width:140px" align="left" >{{$factura->cliente->nombre}}</td>
+                                    <td style="vertical-align: middle; width:150px" align="left">{{$factura->descripcion}}</td>
+                                    <td style="vertical-align: middle; width:70px" align="right">{{$traductor->format($factura->subtotal)}}</td>
                                     {{--@if(!$factura->metadata)--}}
-                                    <td>{{$factura->iva}}</td>
-                                    <td>{{0}}</td>
+                                    <td style="vertical-align: middle; width:60px" align="right">{{$traductor->format($factura->iva)}}</td>
+                                    <td style="vertical-align: middle; width:40px" align="right">{{$traductor->format($factura->islr)}}</td>
                                     {{--@else--}}
-                                    {{--<td>{{$factura->metadata->ivapercentage}}</td>--}}
-                                    {{--<td>{{$factura->metadata->islrpercentage}}</td>--}}
+                                    {{--<td style="vertical-align: middle; width:60px" align="right">{{$factura->metadata->ivapercentage}}</td>--}}
+                                    {{--<td style="vertical-align: middle; width:60px" align="right">{{$factura->metadata->islrpercentage}}</td>--}}
                                     {{--@endif--}}
-                                    <td>{{$factura->total}}</td>
+                                    <td style="vertical-align: middle; width:70px" align="right">{{$traductor->format($factura->total)}}</td>
                                 </tr>
                             @endforeach
+                                    <tr class="bg-gray" align="center">
+                                        <td colspan="2">Total</td>
+                                        <td> - </td>
+                                        <td> - </td>
+                                        <td> - </td>
+                                        <td> - </td>
+                                        <td> - </td>
+                                        <td style="vertical-align: middle; width:70px" align="right">{{$traductor->format($subtotal)}}</td>
+                                        <td style="vertical-align: middle; width:60px" align="right">{{$traductor->format($iva)}}</td>
+                                        <td style="vertical-align: middle; width:40px" align="right">{{$traductor->format($islr)}}</td>
+                                        <td style="vertical-align: middle; width:70px" align="right">{{$traductor->format($total)}}</td>                                   
+                                    </tr>     
                             @else
                                 <tr>
-                                    <td colspan="5" class="text-center">No hay registros para los parametros seleccionados</td>
+                                    <td colspan="11" class="text-center">No hay registros para los parametros seleccionados</td>
                                 </tr>
                             @endif
 
@@ -217,6 +223,7 @@ $(function(){
     dateFormat: "dd/mm/yy"});
 
 })
+$('#cliente-select').chosen({width: "100%"})
 
 $('#export-btn').click(function(e){
     var table=$('table').clone();

@@ -40,8 +40,8 @@
                         <label style="width:80px">Aeropuerto:</label>
                           {!! Form::select('aeropuerto', $aeropuertos, $aeropuerto, ["class"=> "form-control"]) !!}
                     </div>
-                    <button type="submit" class="btn btn-default pull-right">Buscar</button>
                     <a class="btn btn-default  pull-right" href="{{action('ReporteController@getReporteRelacionCobranza')}}">Reset</a>
+                    <button type="submit" class="btn btn-primary pull-right">Buscar</button>
                     {!! Form::close() !!}
                 </div>
             </div>
@@ -74,31 +74,28 @@
                                 Cobro
                              </th>
                              <th style="vertical-align: middle; width:50px" class="text-center">
-                               Factura
+                               Cod. Cliente
                              </th>
                              <th style="vertical-align: middle; width:180px" class="text-center">
                                 Nombre o Razón Social
                              </th>
-                             <th style="vertical-align: middle" class="text-center">
+                             <th  style="vertical-align: middle; width:40px" class="text-center">
                                 Recibo
                              </th>
-                             <th style="vertical-align: middle; width:30px" class="text-center">
+                             <th style="vertical-align: middle; width:50px" class="text-center">
                                 Tipo
                              </th>
                              <th style="vertical-align: middle; width:50px"  align="center" class="text-center">
                                 Cuenta
                              </th>
-                             <th style="vertical-align: middle; width:50px"  align="center" class="text-center">
-                                Monto Factura
+                             <th style="vertical-align: middle; width:70px"  align="center" class="text-center">
+                                Referencia
                              </th>
-                             <th style="vertical-align: middle; width:50px"  align="center" class="text-center">
-                                Retenido
-                             </th>
-                             <th style="vertical-align: middle; width:50px"  align="center" class="text-center">
-                                A Cobrar
-                             </th>
-                             <th style="vertical-align: middle; width:70px" align="center" class="text-center">
+                             <th style="vertical-align: middle; width:80px"  align="center" class="text-center">
                                 Cobrado
+                             </th>
+                             <th style="vertical-align: middle; width:80px" align="center" class="text-center">
+                                Depositado
                              </th>
                              <th style="vertical-align: middle; width:70px" align="center" class="text-center">
                                 Diferencia
@@ -110,27 +107,32 @@
                         @foreach($recibos as $recibo)
                             <tr>
                                 <td style="vertical-align: middle; width:50px" align="center">{{$recibo->fecha}}</td>
-                                <td align="center"  style="width:50px">{{$recibo->cobro_id}}</td>
-                                <td align="center"  style="width:50px">{{$recibo->cobro->facturas()->first()->nFactura}}</td>
-                                <td style="vertical-align: middle; width:180px" align="left" >{{$recibo->cobro->facturas()->first()->cliente->nombre}}</td>
-                                <td align="center">{{($recibo->cobro->nRecibo)?$recibo->cobro->nRecibo:'N/A'}}</td>
-                                <td style="vertical-align: middle; width:30px" align="center">
-                                    @if(($recibo->tipo)=='D')
-                                        DEP
-                                    @elseif($recibo->tipo=='NC')
-                                        NC
-                                    @elseif($recibo->tipo=='T')
-                                    TRAN
-                                    @endif
-                                </td>
-                                <td style="vertical-align: middle; width:50px" align="left">{{ substr($recibo->cuenta->descripcion, -8) }}</td>
-                                <td style="vertical-align: middle; width:50px" align="right">{{$traductor->format($recibo->cobro->facturas()->first()->total)}}</td>
-                                <td style="vertical-align: middle; width:50px" align="right">{{$traductor->format($recibo->cobro->facturas()->first()->pivot->retencion)}}</td>
-                                <td style="vertical-align: middle; width:50px" align="right">{{$traductor->format($recibo->cobro->facturas()->first()->total-$recibo->cobro->facturas()->first()->pivot->retencion)}}</td>
-                                <td style="vertical-align: middle; width:70px" align="right">{{$traductor->format($recibo->monto)}}</td>
-                                <td style="vertical-align: middle; width:70px" align="right">{{$traductor->format(($recibo->cobro->facturas()->first()->total-$recibo->cobro->facturas()->first()->pivot->retencion)-$recibo->monto)}}</td>
+                                <td align="center"  style="width:50px">{{$recibo->cobro->id}}</td>
+                                <td style="vertical-align: middle; width:50px" align="center"  >{{$recibo->cobro->cliente->codigo}}</td>
+                                <td style="vertical-align: middle; width:180px" align="left" >{{$recibo->cobro->cliente->nombre}}</td>
+                                <td style="vertical-align: middle; width:40px" align="center" >{{($recibo->cobro->nRecibo)?$recibo->cobro->nRecibo:'N/A'}}</td>
+                                <td style="vertical-align: middle; width:50px" align="center">{{$recibo->tipo}}</td>
+                                <td style="vertical-align: middle; width:50px" align="center">{{substr($recibo->cuenta->descripcion, -6)}}</td>
+                                <td style="vertical-align: middle; width:70px" align="center">{{$recibo->ncomprobante}}</td>
+                                <td style="vertical-align: middle; width:80px" align="right">{{$traductor->format($recibo->cobro->montofacturas)}}</td>
+                                <td style="vertical-align: middle; width:80px" align="right">{{$traductor->format($recibo->cobro->montodepositado)}}</td>
+                                <td style="vertical-align: middle; width:70px" align="right">{{$traductor->format(($recibo->cobro->montofacturas-$recibo->cobro->montodepositado))}}</td>
                             </tr>
                         @endforeach
+
+                                    <tr class="bg-gray" align="center">
+                                        <td>Total</td>
+                                        <td> - </td>
+                                        <td> - </td>
+                                        <td> - </td>
+                                        <td> - </td>
+                                        <td> - </td>
+                                        <td> - </td>
+                                        <td> - </td>
+                                        <td style="vertical-align: middle; width:80px" align="right">{{$traductor->format($totalFacturas)}}</td>
+                                        <td style="vertical-align: middle; width:80px" align="right">{{$traductor->format($totalDepositado)}}</td>
+                                        <td style="vertical-align: middle; width:70px" align="right">-</td>                                   
+                                    </tr>   
                         @else
                             <tr>
                                 <td colspan="12" class="text-center">No hay registros para las fechas seleccionadas</td>
@@ -194,10 +196,24 @@ $('#export-btn').click(function(e){
     $(table).find('tr').filter(function() {
       return $(this).find('td,th').length == 0;
     }).remove();
-    $(table).find('th').css({'border-bottom':'1px solid black','border-top':'1px solid black', 'font-weight': 'bold'}) 
-            var tableHtml= $(table)[0].outerHTML;
-    $('[name=table]').val(tableHtml);
-    $('#export-form').submit();
+    $(table).prepend('<thead>\
+                  <tr>\
+                    <th colspan="6" style="vertical-align: middle; margin-top:20px" align="center" class="text-center">RELACIÓN DE COBRANZA\
+                    </br>\
+                    MES: {{$mes}} AÑO: {{$anno}} | MÓDULO: {{$moduloNombre}}\
+                    </br>\
+                    CLIENTE: {{$clienteNombre}} | AEROPUERTO: {{$aeropuertoNombre}}\
+                  </th>\
+                </tr>\
+              </thead>')
+        $(table).find('thead, th').css({'border-top':'1px solid black', 'font-weight': 'bold', 'text-align':"center", 'font-size': '8px'})
+        $(table).find('th').css({'border-bottom':'1px solid black', 'font-weight': 'bold', 'text-align':"center", 'font-size': '8px'})
+        $(table).find('td').css({'font-size': '7px'})
+        $(table).find('tr:nth-child(even)').css({'background-color': '#E2E2E2'})
+        $(table).find('tr:last td').css({'border-bottom':'1px solid black','border-top':'1px solid black', 'font-weight': 'bold'})
+        var tableHtml= $(table)[0].outerHTML;
+        $('[name=table]').val(tableHtml);
+        $('#export-form').submit();
 })
 
 })

@@ -14,18 +14,18 @@ class FacturaController extends Controller {
     use DecimalConverterTrait;
 
     protected $meses=[
-    "1"=>"ENERO",
-    "2"=>"FEBRERO",
-    "3"=>"MARZO",
-    "4"=>"ABRIL",
-    "5"=>"MAYO",
-    "6"=>"JUNIO",
-    "7"=>"JULIO",
-    "8"=>"AGOSTO",
-    "9"=>"SEPTIEMBRE",
-    "10"=>"OCTUBRE",
-    "11"=>"NOVIEMBRE",
-    "12"=>"DICIEMBRE"];
+    "1"  =>"ENERO",
+    "2"  =>"FEBRERO",
+    "3"  =>"MARZO",
+    "4"  =>"ABRIL",
+    "5"  =>"MAYO",
+    "6"  =>"JUNIO",
+    "7"  =>"JULIO",
+    "8"  =>"AGOSTO",
+    "9"  =>"SEPTIEMBRE",
+    "10" =>"OCTUBRE",
+    "11" =>"NOVIEMBRE",
+    "12" =>"DICIEMBRE"];
 
     public function __construct()
     {
@@ -48,7 +48,7 @@ class FacturaController extends Controller {
                 $f->nFactura             = $factura["nFactura"];
                 $f->nControlPrefix       = $factura["nControlPrefix"];
                 $f->nControl             = $factura["nControl"];
-                $f->fechaControlContrato =$factura["fechaControlContrato"];
+                $f->fechaControlContrato = $factura["fechaControlContrato"];
                 $f->fecha                = $factura["fecha"];
                 $f->fechaVencimiento     = $factura["fechaVencimiento"];
                 $f->cliente_id           = $factura["cliente_id"];
@@ -67,7 +67,8 @@ class FacturaController extends Controller {
                 $f->estado               ='P';
 
                 if($moduloNombre=="CANON"){
-                    $hoy=\Carbon\Carbon::createFromFormat('d/m/Y',$factura["fechaControlContrato"]) ;
+                    $hoy           =\Carbon\Carbon::createFromFormat('d/m/Y',$factura["fechaControlContrato"]) ;
+                    $hoy->timezone = 'America/Caracas';
                     $f->descripcion="PERIODO ".$this->meses[$hoy->month]." $hoy->year  PATENTE: 2010-AG1845";
                 }
                 if($f->save()){
@@ -103,7 +104,7 @@ class FacturaController extends Controller {
         $today=\Carbon\Carbon::now();
         $fecha=\Carbon\Carbon::now()->lastOfMonth();
         $modulo = \App\Modulo::where("nombre","like",$moduloNombre)->where('aeropuerto_id', session('aeropuerto')->id)->first();
-        $contratos=$modulo->contratos()->where('fechaInicio', '<=' ,$fecha)->where('fechaVencimiento', '>=', $fecha)->with('cliente')->get();
+        $contratos=$modulo->contratos()->where('fechaInicio', '<=' ,$fecha)->where('fechaVencimiento', '>=', $fecha)->with('cliente')->orderBy('nContrato')->get();
         return view('factura.automatica', compact('modulo', 'fecha', 'contratos', 'today'));
     }
 
@@ -237,7 +238,8 @@ class FacturaController extends Controller {
             $fecha         ='0000-00-00';
             $fechaOperator ='>=';
         }else{
-            $fecha=\Carbon\Carbon::createFromFormat('d/m/Y', $fecha);
+            $fecha           =\Carbon\Carbon::createFromFormat('d/m/Y', $fecha);
+            $fecha->timezone = 'America/Caracas';
         }
 
 
@@ -280,15 +282,34 @@ class FacturaController extends Controller {
 	{
         if($modulo=="CANON"){
             $hoy=\Carbon\Carbon::now();
+            $hoy->timezone     = 'America/Caracas';
             $factura->descripcion="PERIODO ".$this->meses[$hoy->month]." $hoy->year  PATENTE: 2010-AG1845";
+        }
+        if($modulo=="ESTACIONAMIENTO"){
+            $hoy=\Carbon\Carbon::now();
+            $hoy->timezone     = 'America/Caracas';
+            $factura->descripcion="PERIODO ".$this->meses[$hoy->month]." $hoy->year  PATENTE: 2010-AG1845";
+        }
+        if($modulo=="PUBLICIDAD"){
+            $hoy=\Carbon\Carbon::now();
+            $hoy->timezone     = 'America/Caracas';
+            $factura->descripcion="SERVICIOS DE PUBLICIDAD ".$this->meses[$hoy->month]." $hoy->year  PATENTE: 2010-AG1845";
+        }
+        if($modulo=="TARJETAS DE IDENTIFICACION"){
+            $hoy=\Carbon\Carbon::now();
+            $hoy->timezone     = 'America/Caracas';
+            $factura->descripcion="TARJETAS DE IDENTIFICACIÓN PATENTE 2010 AG-1845";
         }
         $modulo= \App\Modulo::where('nombre', $modulo)->where('aeropuerto_id', session('aeropuerto')->id)->first();
         if(!$modulo){
-            return response("No se consiguio el modulo '$modulo' en el aeropuerto de sesion", 500);
+            return response("No se consiguió el modulo '$modulo' en el aeropuerto de sesion", 500);
         }
         $modulo_id=$modulo->id;
 		return view('factura.create', compact('factura', 'modulo', 'modulo_id'));
 	}
+
+
+
 
 	/**
 	 * Store a newly created resource in storage.
@@ -297,44 +318,68 @@ class FacturaController extends Controller {
 	 */
 	public function store($moduloNombre, FacturaRequest $request)
 	{
-        
-        $impresion="";
-        \DB::transaction(function () use ($moduloNombre, $request, &$impresion) {
-            $facturaData = $this->getFacturaDataFromRequest($request);
-            $facturaDetallesData = $this->getFacturaDetallesDataFromRequest($request);
-            $facturaData['estado'] = 'P';
-            if ($request->has('nroDosa'))
-                $facturaData['nroDosa'] = $request->get('nroDosa');
-            if ($request->has('aterrizaje_id'))
-                $facturaData['aterrizaje_id'] = $request->get('aterrizaje_id');
-            $factura = \App\Factura::create($facturaData);
-            $factura->detalles()->createMany($facturaDetallesData);
-            $cliente = $factura->cliente;               
-            $factura->nFactura = $request->nFactura;
-            $factura->save();
-            if ($cliente && $cliente->isEnvioAutomatico == true && $cliente->email != "") {
-                $path = $this->crearFactura($factura, 'F');
-                Mail::send('emails.test', ['name' => $cliente->nombre], function ($message) use ($factura, $cliente, $path) {
-                    $message
-                        ->to($cliente->email, $cliente->nombre)
-                        ->subject('Vuestra factura #' . $factura->codigo . ' esta lista')
-                        ->attach($path);
-                });
+        $mensaje="";
+
+        $facturas=\App\Factura::all();
+             foreach ($facturas as $factura) {
+                $nFacturaPrefix    =$factura->nFacturaPrefix;
+                $nControlPrefix    =$factura->nControlPrefix;
+                $nFacturaPrefixReq =$request->get('nFacturaPrefix');
+                $nControlPrefixReq =$request->get('nControlPrefix');
+                $nFactura          =$factura->nFactura;
+                $nControl          =$factura->nControl;
+                $nFacturaReq       =$request->get('nFactura');
+                $nControlReq       =$request->get('nControl');
+                if($nFacturaPrefix.$nFactura==$nFacturaPrefixReq.$nFacturaReq){
+                    $mensaje='El número de factura indicado ya ha sido tomado.';
+                }                
+                if($nControlPrefix.$nControl==$nControlPrefixReq.$nControlReq){
+                    $mensaje='El número de control indicado ya ha sido tomado.';
+                }
             }
 
-            if ($request->has('despegue_id')) {
-                $despegue = \App\Despegue::find($request->get('despegue_id'));
-                $despegue->factura_id = $factura->id; 
-                $despegue->save();
-            }
-            if ($request->has('carga_id')) {
-                $carga = \App\Carga::find($request->get('carga_id'));
-                $carga->factura_id = $factura->id;
-                $carga->save();
-            }
-            $impresion=action('FacturaController@getPrint', [$moduloNombre, $factura->id]);
-        });
-        return ["success" => 1, "impresion" => $impresion];
+        if($mensaje==""){
+            $impresion="";
+            \DB::transaction(function () use ($moduloNombre, $request, &$impresion,&$mensaje) {
+
+                    $facturaData = $this->getFacturaDataFromRequest($request);
+                    $facturaDetallesData = $this->getFacturaDetallesDataFromRequest($request);
+                    $facturaData['estado'] = 'P';
+                    if ($request->has('nroDosa'))
+                        $facturaData['nroDosa'] = $request->get('nroDosa');
+                    if ($request->has('aterrizaje_id'))
+                        $facturaData['aterrizaje_id'] = $request->get('aterrizaje_id');
+                    $factura = \App\Factura::create($facturaData);
+                    $factura->detalles()->createMany($facturaDetallesData);
+                    $cliente = $factura->cliente;               
+                    $factura->nFactura = $request->nFactura;
+                    $factura->save();
+                    if ($cliente && $cliente->isEnvioAutomatico == true && $cliente->email != "") {
+                        $path = $this->crearFactura($factura, 'F');
+                        Mail::send('emails.test', ['name' => $cliente->nombre], function ($message) use ($factura, $cliente, $path) {
+                            $message
+                                ->to($cliente->email, $cliente->nombre)
+                                ->subject('Vuestra factura #' . $factura->codigo . ' esta lista')
+                                ->attach($path);
+                        });
+                    }
+
+                    if ($request->has('despegue_id')) {
+                        $despegue = \App\Despegue::find($request->get('despegue_id'));
+                        $despegue->factura_id = $factura->id; 
+                        $despegue->save();
+                    }
+                    if ($request->has('carga_id')) {
+                        $carga = \App\Carga::find($request->get('carga_id'));
+                        $carga->factura_id = $factura->id;
+                        $carga->save();
+                    }
+                    $impresion=action('FacturaController@getPrint', [$moduloNombre, $factura->id]);                
+            });
+            return ["success" => 1, "impresion" => $impresion];
+        }else{
+            return ["success" => 0, "mensaje"=>$mensaje];
+        }
 
 	}
 
@@ -432,6 +477,7 @@ class FacturaController extends Controller {
                                 'total',
                                 'descripcion',
                                 'comentario');
+
 
     }
     protected function getFacturaDetallesDataFromRequest($request){
