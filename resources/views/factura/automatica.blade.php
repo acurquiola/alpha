@@ -259,7 +259,7 @@
                             $(this).val()+
                         "</td> " +
                         "<td class='text-right'>"+numToComma(monto)+"</td>" +
-                        "<td class='text-right'>"+numToComma(monto*(iva/100))+"</td>" +
+                        "<td class='text-right'>"+numToComma(montoiva)+"</td>" +
                         "<td class='text-right'>"+numToComma(total)+"</td>" +
                         " <td>" +
                             " <div class='btn-group  btn-group-sm' role='group' aria-label='...'>" +
