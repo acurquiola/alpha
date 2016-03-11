@@ -1,155 +1,181 @@
 <?php namespace App\Http\Controllers;
+
+use App\Http\Requests;
+use App\Http\Requests\PilotoRequest;
+use App\Http\Controllers\Controller;
+
 use Illuminate\Http\Request;
+
 use App\Usuario;
-use Bican\Roles\Models\Role;
-use App\Departamento;
-use App\Cargo;
-use App\Aeropuerto;
+
 
 class UsuarioController extends Controller {
 
-
-
-	public function index()
+	/**
+	 * Display a listing of the resource.
+	 *
+	 * @return Response
+	 */
+	
+	//Mostrar tabla
+	public function index(Request $request)
 	{
-		$grupos        = Role::all();
-        $departamentos = Departamento::all();
-        $cargos        = Cargo::all();
-        $aeropuertos   = Aeropuerto::all();
-        return view('usuario/index', compact("grupos", "departamentos", "cargos", "aeropuertos"));
+		if($request->ajax()){
+			$sortName             = $request->get('sortName','username');
+			$sortName             =($sortName=="")?"username":$sortName;
+			
+			$sortType             = $request->get('sortType','ASC');
+			$sortType             =($sortType=="")?"ASC":$sortType;
+			
+			$username               = $request->get('username', '%');
+			$username               =($username=="")?"%":$username;
+			
+			$fullname               = $request->get('fullname', '%');
+			$fullname               =($fullname=="")?"%":$fullname;
+			
+			$departamento_id      = $request->get('departamento_id', 0);
+			$departamentoOperador =($departamento_id=="")?">":"=";
+			\Input::merge([
+				'sortName'=>$sortName,
+				'sortType'=>$sortType]);
+
+			$usuarios= Usuario::with('departamento', 'cargo')
+							->where('username', 'like', '%'.$username.'%')
+							->where('fullname', 'like', $fullname)
+							->where('departamento_id', $departamentoOperador, $departamento_id);
+
+
+			$totalUsuarios = $usuarios->count();
+			$usuarios=$usuarios->orderBy($sortName, $sortType)
+							 ->paginate(7);
+			return view('usuarios.partials.table', compact('usuarios', 'totalUsuarios'));
+		}
+		else
+		{			
+			$usuarios = Usuario::all();
+			return view('usuarios.index', compact('usuarios'));
+		}
 	}
 
-	//Creación de un nuevo registro.
-    public function create(Request $request)
-    {
-
-
-        $user                  = new Usuario();
-
-        //$user->grupo_id        =$request->input('grupo_id');
-        $user->username        =$request->input('username');
-        $user->password        =bcrypt($request->input('password'));
-        $user->fullname        =$request->input('fullname');
-        $user->departamento_id =$request->input('departamento_id');
-        $user->cargo_id        =$request->input('cargo_id');
-        $user->directo         =$request->input('directo');
-        $user->email           =$request->input('email');
-        $user->estado          =($request->input('estado')=="true")?"1":"0";
-        $user->aeropuerto_id   =$request->input('aeropuerto_id');
-        if($user->save())
-        {
-            return response()->json(array("text"=>"Usuario guardado exitósamente.",
-                "usuario"=>$user->load("departamento", "cargo", "aeropuerto", "roles"),
-                "success"=>1));
-
-        }
-        else
-        {
-            return response()->json(array("text"=>"Error guardando el usuario.", "success"=>0));
-        }
-
-    }
-
-    // Muestra de todos los elementos de la tabla
-	public function store()
+	/**
+	 * Muestra el formulario de creación del registro
+	 * @return Response
+	 */
+	public function create(Request $request)
 	{
-		return response()->json(Usuario::with("departamento", "cargo", "aeropuerto", "roles")->get());
-    }
-	
+		//
+	}
 
-
-    //Muestra un registro de la tabla.
-	public function show(Request $request)
-    {
-
-        $id   = $request->input('id');
-        $user = Usuario::find($id);
-
-        if($user)
-        {
-            return response()->json(array("usuario"=>$user,
-                "success"=>1));
-
-        }
-        else
-        {
-            return response()->json(array("success"=>0));
-        }
-
-    }
-
-    //Modificación de un registro.
-	public function edit(Request $request)
-    {
-        
-        $id                    = $request->input('id');
-        $user                  = Usuario::find($id);
-        
-        //$user->grupo_id        =$request->input('grupo_id');
-        $user->username        =$request->input('username');
+	/**
+	 * Ingresa un nuevo registro
+	 * @return Response
+	 */
+	public function store(Request $request)
+	{
+		$user         = new Usuario();		
+		$user         =Usuario::create($request->except('estado', 'password'));
         $user->password        =bcrypt($request->input('password'));
-        $user->fullname        =$request->input('fullname');
-        $user->departamento_id =$request->input('departamento_id');
-        $user->cargo_id        =$request->input('cargo_id');
-        $user->directo         =$request->input('directo');
-        $user->email           =$request->input('email');
-        $user->estado          =($request->input('estado')=="true")?"1":"0";
-        $user->aeropuerto_id   =$request->input('aeropuerto_id');
-        if($user->save())
-        {
-            return response()->json(array("text"=>"Usuario actualizado exitósamente.",
-                "usuario"=>$user->load("departamento", "cargo", "aeropuerto", "roles"),
-                "success"=>1));
-        }
-        else
-        {
-            return response()->json(array("text"=>"Error actualizando la información del usuario.", "success"=>0));
-        }
+        $user->estado =$request->input('estado', 0);
 
+		if($user->save())
+		{
+			return response()->json(array("text"=>'Usuario registrado exitósamente',
+										  "usuario"=>$user->load("departamento", "cargo"),
+										  "success"=>1));
+		}
+		else
+		{
+			response()->json(array("text"=>'Error registrando el usuario',"success"=>0));
+		}		
+	}
+
+	/**
+	 * Muestra la información de un registro
+	 * @param  int  $id
+	 * @return Response
+	 */
+		public function show(Usuario $usuario)
+	{
+        return view("usuarios.partials.show", compact('usuario'));
+	}
+
+	/**
+	 * Muestra el formulario de edición de un registro
+	 * @param  int  $id
+	 * @return Response
+	 */
+	public function edit($id)
+		{
+		$user        = Usuario::find($id);
+		return view('usuarios.partials.edit', compact('user'));
+	}
+
+	/**
+	 *Actualiza la información de un registro
+	 * @param  int  $id
+	 * @return Response
+	 */
+	public function update($id, Request $user)
+	{
+		$user->update($request->except('password', 'passwordrepeat', 'estado'));
+		$user->estado =$request->input('estado', 0);
+		if($request->get('password') != ""){
+			$user->password=bcrypt($request->get('password'));
+		}
+
+
+		if($user->save())
+		{
+			return response()->json(array("text"=>"Registro modificado correctamente", 
+										  "usuario"=>$user->load("departamento", "cargo"), "success"=>1));
+		}
+		else
+		{
+			return response()->json(array("text"=>"Ocurrió un error modificando el registro", "success"=>0));
+		}
+	}
+
+	/**
+	 * Elimina un registro específico
+	 * @param  int  $id
+	 * @return Response
+	 */
+    public function destroy($id)
+    {
+        if(\App\Usuario::destroy($id)){
+            return ["success"=>1, "text" => "Usuario eliminado con éxito."];
+        }else{
+            return ["success"=>0, "text" => "El usuario no pudo ser eliminado."];
+        }
     }
 
 
-
-    //Eliminar un registro.
-	public function destroy(Request $request)
+	/**
+	 * Habilita/Inhabilita un registro
+	 * @param  int  $id
+	 * @return Response
+	 */
+	 public function estadoPiloto(Request $request)
     {
-        $id   = $request->input('id');
-        $user = Usuario::find($id);
-        if($user->delete())
+		$id    = $request->input('id');
+		$pilot = Piloto::find($id);
+
+        if ($pilot->estado == '0')
         {
-            return response()->json(array("text"=>"Usuario eliminado exitósamente.",
-                "success"=>1));
-        }
-        else
-        {
-            return response()->json(array("text"=>"Error elimininando el usuario.", "success"=>0));
-        }
-
-    }
-
-
-    //Cambio de estado de un usuario.
-    public function estadoUser(Request $request)
-    {
-        $id           = $request->input('id');
-        $user         = Usuario::find($id);
-
-        if ($user->estado == '0')
-        {
-            $user->estado     = '1';
-            $mensaje          = "Usuario habilitado exitósamente.";
-            $mensajeError     = "Ocurrió un error habilitando al usuario.";
+			$pilot->estado = '1';
+			$mensaje       = "Piloto habilitado exitósamente.";
+			$mensajeError  = "Ocurrió un error habilitando al Piloto.";
         } 
         else
         {
-            $user->estado = '0';
-            $mensaje      = "Usuario inhabilitado exitósamente.";
-            $mensajeError = "Ocurrió un error inhabilitando al usuario.";
+			$pilot->estado = '0';
+			$mensaje       = "Piloto inhabilitado exitósamente.";
+			$mensajeError  = "Ocurrió un error inhabilitando al Piloto.";
         }
-        if($user->save())
+        if($pilot->save())
         {
             return response()->json(array("text"=>$mensaje,
-                "usuario"=>$user,
+                "piloto"=>$pilot,
                 "success"=>1));
 
         }
@@ -157,7 +183,6 @@ class UsuarioController extends Controller {
         {
             return response()->json(array("text"=>$mensajeError, "success"=>0));
         }
-
     }
 
 }

@@ -69,18 +69,6 @@
  			<div class="input-group">
  				<span class="input-group-addon"><i class="ion ion-android-arrow-dropright"></i></span>
  				<div class="form-group">
- 					<select class="form-control" id="aeropuerto_id-select">
- 						<option value="">Seleccione el Aeropuerto</option>
- 						@foreach ($aeropuertos as $aeropuerto)
- 						<option value="{{$aeropuerto->id}}"> {{$aeropuerto->nombre}}</option>
- 						@endforeach
- 					</select>
- 				</div>
- 			</div>
- 			<br/>
- 			<div class="input-group">
- 				<span class="input-group-addon"><i class="ion ion-android-arrow-dropright"></i></span>
- 				<div class="form-group">
  					<select class="form-control" id="departamento_id-select">
  						<option value="">Seleccione el Departamento</option>
  						@foreach ($departamentos as $departamento)
@@ -159,18 +147,6 @@
  		<div class="input-group">
  			<span class="input-group-addon"><i class="ion ion-android-arrow-dropright"></i></span>
  			<input type="text" class="form-control" placeholder="Nombre y Apellido" id="fullname-input-modal">
- 		</div>
- 		<br/>
- 		<div class="input-group">
- 			<span class="input-group-addon"><i class="ion ion-android-arrow-dropright"></i></span>
- 			<div class="form-group">
- 				<select class="form-control" id="aeropuerto_id-select-modal">
- 					<option value="">Seleccione el Aeropuerto</option>
- 					@foreach ($aeropuertos as $aeropuerto)
- 					<option value="{{$aeropuerto->id}}"> {{$aeropuerto->nombre}}</option>
- 					@endforeach
- 				</select>
- 			</div>
  		</div>
  		<br/>
  		<div class="input-group">
@@ -278,6 +254,8 @@ $(document).ready(function(){
 
 */
 
+
+$('#aeropuertos-select').multiSelect({keepOrder:true});
 
 $.ajax({
 	method:'POST',
@@ -596,7 +574,7 @@ Botones de las filas
 
  	$.ajax({data:data,
  		method:'get',
- 		url:'{{action("UsuarioController@create")}}'})
+ 		url:'{{action("UsuarioController@store")}}'})
  	.always(function(text, status, responseObject){
  		$('#userForm-div .overlay').remove();
 

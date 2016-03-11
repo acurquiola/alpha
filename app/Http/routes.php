@@ -124,6 +124,7 @@ Route::group(['prefix' => 'tasas/'], function () {
 Route::group(['prefix' => 'administracion/'], function () {
     Route::get('usuario/estadoUser', 'UsuarioController@estadoUser');
     Route::resource('usuario', 'UsuarioController');
+    Route::resource('usuarios', 'UsuarioController');
     Route::resource('configuracionSCV', 'MontosFijoController', ['only'=>['update', 'index']]);
     Route::resource('configuracionSCV/AterrizajeDespegue', 'PreciosAterrizajesDespegueController', ['only'=>['update', 'index']]);
     Route::resource('configuracionSCVEstAeronautico', 'EstacionamientoAeronaveController', ['only'=>['update', 'index']]);

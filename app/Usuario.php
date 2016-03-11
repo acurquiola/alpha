@@ -20,7 +20,7 @@ class Usuario extends Model implements AuthenticatableContract, CanResetPassword
      *
      * @var array
      */
-    protected $fillable = ['userName', 'password'];
+    protected $guarded = [];
 
     public function departamento()
     {

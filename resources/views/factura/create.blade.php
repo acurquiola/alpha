@@ -71,7 +71,7 @@ $(document).ready(function(){
 			return;
 		}
 		if($('#concepto-table tbody tr').length==0){
-			alertify.error("Debe seleccionar un conceptos");
+			alertify.error("Debe seleccionar un concepto");
 			return;
 			return;
 		}

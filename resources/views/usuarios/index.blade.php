@@ -22,23 +22,12 @@
 							<input type="text" class="form-control" name="fullname"  placeholder="Nombre">
 						</div>
 						<div class="form-group">
-							<select  name="nacionalidad_id" id="nacionalidad_id-flt"  class="form-control">
-								<option value="">--Seleccione Nacionalidad--</option>
-								@foreach ($paises as $pais)
-								<option value="{{$pais->id}}"> {{$pais->nombre}}</option>
+							<select  name="departamento_id" id="departamento_id-flt"  class="form-control">
+								<option value="">--Seleccione Departamento--</option>
+								@foreach ($departamentos as $index=>$departamento)
+								<option value="{{$index}}"> {{$departamento}}</option>
 								@endforeach
 							</select>
-						</div>
-						<div class="form-group ">
-							<input type="text" class="form-control" name="documento_identidad"  placeholder="CI">
-						</div>
-
-						<div class="form-group ">
-							<input type="text" class="form-control" name="telefono"  placeholder="Teléfono">
-						</div>
-
-						<div class="form-group ">
-							<input type="text" class="form-control" name="licencia"  placeholder="Licencia">
 						</div>
 						<button type="submit" id="filtrar-btn" class="btn btn-primary" style="margin-left: 20px"><i class="fa fa-filter"></i></button>
 					</form>
@@ -46,11 +35,11 @@
 			</div><!-- /.box -->
 		</div><!-- /.col -->
 
-		<!-- Tabla de Puertos -->
+		<!-- Tabla de Usuarios -->
 		<div class="nav-tabs-custom">                          
 			<div class="box box-info">
 				<div class="box-header with-border">
-					<h3 class="box-title"><span class="ion ion-people-stalker"></span> Pilotos Registrados</h3>
+					<h3 class="box-title"><span class="ion ion-people-stalker"></span> Usuarios Registrados</h3>
 				</div><!-- /.box-header -->
 				<div class="box-body" id="table-wrapper">
 				</div><!-- /.box-body -->
@@ -60,44 +49,65 @@
 
 	<section class="col-lg-6">
 		<!-- Formulario de Registro -->
-		<div class="box box-info" id="pilotoForm-div">
-			<div class="box-header">
-				<h3 class="box-title">Registro de Pilotos</h3>
-			</div>
-			<div class="box-body">
-				<form id="piloto-form">
-					<div class="input-group">
-						<span class="input-group-addon"><i class="ion ion-android-arrow-dropright"></i></span>
-						<input type="text" class="form-control no-vacio" name="nombre" placeholder="Apellido y Nombre" id="nombre-input">
+		
+ 		<!-- Formulario de Registro -->
+ 		<div id="userForm-div" class="box box-info">
+ 			<div class="box-header">
+ 				<h3 class="box-title">Registro de Usuario</h3>
+ 			</div>
+ 			<div class="box-body">
+ 				<form id="user-form">
+		 			<div class="input-group">
+		 				<span class="input-group-addon">@</span>
+		 				<input type="text" class="form-control" placeholder="Nombre de Usuario" name="username" id="username-input">
+		 			</div>
+		 			<br/>
+		 			<div class="input-group">
+		 				<span class="input-group-addon"><i class="ion ion-locked"></i></span>
+		 				<input type="text" class="form-control" name="password" placeholder="Contraseña" id="password-input">
+		 			</div>
+		 			<br/>
+		 			<div class="input-group">
+		 				<span class="input-group-addon"><i class="ion ion-locked"></i></span>
+		 				<input type="text" class="form-control" placeholder="Repetir Contraseña" id="password2-input">
+		 			</div>
+		 			<br/>
+		 			<div class="input-group">
+		 				<span class="input-group-addon"><i class="ion ion-android-arrow-dropright"></i></span>
+		 				<input type="text" class="form-control" name="fullname" placeholder="Nombre y Apellido" id="fullname-input">
+		 			</div>
+		 			<br/>
+					<div class="form-group">
+						<select  name="departamento_id" id="departamento_id-flt"  class="form-control">
+							<option value="">--Seleccione Departamento--</option>
+							@foreach ($departamentos as $index=>$departamento)
+							<option value="{{$index}}"> {{$departamento}}</option>
+							@endforeach
+						</select>
 					</div>
-					<br/>
-					<div class="input-group" >
-						<span class="input-group-addon"><i class="ion ion-android-arrow-dropright"></i></span>
-						<div class="form-group" style="margin-top: 10px">
-							<select name="nacionalidad_id" class="form-control no-vacio" id="nacionalidad_id-select">
-								<option value="">--Seleccione Nacionalidad--</option>
-								@foreach ($paises as $pais)
-								<option value="{{$pais->id}}"> {{$pais->nombre}}</option>
+		 			<br/>
+		 			<div class="input-group">
+		 				<span class="input-group-addon"><i class="ion ion-android-arrow-dropright"></i></span>
+		 				<div class="form-group">
+							<select  name="cargo_id" id="cargo_id-flt"  class="form-control">
+								<option value="">--Seleccione Cargo--</option>
+								@foreach ($cargos as $index=>$cargo)
+								<option value="{{$index}}"> {{$cargo}}</option>
 								@endforeach
 							</select>
-						</div>
-					</div>
-					<br/>
-					<div class="input-group">
-						<span class="input-group-addon"><i class="ion ion-android-arrow-dropright"></i></span>
-						<input type="text" name="documento_identidad" class="form-control no-vacio" placeholder="Documento de Identidad" id="documento_identidad-input">
-					</div>
-					<br/>
-					<div class="input-group">
-						<span class="input-group-addon"><i class="ion ion-android-arrow-dropright"></i></span>
-						<input type="text" name="licencia"  class="form-control no-vacio" placeholder="Licencia" id="licencia-input">
-					</div>
-					<br/>
-					<div class="input-group">
-						<span class="input-group-addon"><i class="ion ion-android-arrow-dropright"></i></span>
-						<input type="text" class="form-control" name="telefono" placeholder="Número de Contacto. Ej: 04XX0000000" id="telefono-input">
-					</div>
-					<br/>
+		 				</div>
+		 			</div>
+		 			<br/>
+		 			<div class="input-group">
+		 				<span class="input-group-addon"><i class="ion ion-android-arrow-dropright"></i></span>
+		 				<input type="text" class="form-control" name="directo" placeholder="Directo" id="directo-input">
+		 			</div>
+		 			<br/>
+		 			<div class="input-group">
+		 				<span class="input-group-addon"><i class="ion ion-android-arrow-dropright"></i></span>
+		 				<input type="text" class="form-control" name="email" placeholder="Email" id="email-input">
+		 			</div>
+		 			<br/>
 					<div class="form-group">
 						<div class="checkbox">
 							<label>
@@ -106,28 +116,27 @@
 						</div>
 					</div>
 				</form>
-			</div><!-- /.box-body -->
-			<div class="box-footer" align="right">
-				<button class="btn btn-default" type="button" id="cancel-piloto-btn"> Cancelar </button>
-				<button class="btn btn-primary" type="submit" id="save-piloto-btn" disabled> Registrar </button>
-			</div><!-- ./box-footer -->
-		</div><!-- /.box -->
+	 		</div><!-- /.box-body -->
+	 		<div class="box-footer" align="right">
+	 			<button class="btn btn-primary" type="submit" id="save-user-btn" disabled> Registrar </button>
+	 		</div><!-- ./box-footer -->
+	 	</div><!-- /.box -->
 	</section>
 
 	<!-- Modal de edición -->
 
-	<div class="modal fade" id="show-modal" tabindex="-1" role="dialog" aria-labelledby="editarPiloto-modalLabel" aria-hidden="true">
+	<div class="modal fade" id="show-modal" tabindex="-1" role="dialog" aria-labelledby="editarUsuario-modalLabel" aria-hidden="true">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header" id="titulo-div-modal">
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-					<h4 class="modal-title" id="titulo-modal">Editar Piloto</h4>
+					<h4 class="modal-title" id="titulo-modal">Editar Usuario</h4>
 				</div>
 				<div class="modal-body">
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-					<button id="save-pilots-btn-modal" type="button" class="btn btn-primary" data-dismiss="modal">Guardar</button>
+					<button id="save-user-btn-modal" type="button" class="btn btn-primary" data-dismiss="modal">Guardar</button>
 				</div>
 			</div>
 		</div> <!-- /.Modal-dialog-->
@@ -148,14 +157,14 @@ function getTable(url){
 //Función que comprueba que no existen campos sin llenar al momento de enviar el formulario.
     function camposVacios() {
     	var flag=true;
-    	$('#pilotoForm-div .no-vacio').each(function(index, value){
+    	$('#userForm-div .no-vacio').each(function(index, value){
     		if($(value).val()=='')
     			flag&=false;
     	});
     	if(flag==false){
-    		$('#save-piloto-btn').attr('disabled','disabled');
+    		$('#save-user-btn').attr('disabled','disabled');
     	}else{
-    		$('#save-piloto-btn').removeAttr('disabled');
+    		$('#save-user-btn').removeAttr('disabled');
     	}
     }
 
@@ -165,18 +174,18 @@ function getTable(url){
     		Condiciones en los campos de los formularios
     		*/
 
-    		$('#pilotoForm-div input').keyup(function()
+    		$('#userForm-div input').keyup(function()
     		{
     			camposVacios();
     		});
 
-    		$('#pilotoForm-div select').change(function()
+    		$('#userForm-div select').change(function()
     		{
     			camposVacios();	
     		});
 
 
-    		$('#nacionalidad_id-flt,#nacionalidad_id-select, #pais_id-select').chosen({width:'100%'})
+    		$('#departamento_id-flt,#departamento_id-select,#cargo_id-select').chosen({width:'100%'})
 
 
         /*
@@ -199,7 +208,7 @@ function getTable(url){
 	    	$('#filtrar-btn').click(function(e){
 	    		e.preventDefault();
 	    		var data=$(this).closest('form').serialize();
-	    		getTable("{{action('PilotoController@index')}}?"+data);
+	    		getTable("{{action('UsuarioController@index')}}?"+data);
 
 	    	}).trigger('click');
 
@@ -217,23 +226,21 @@ function getTable(url){
 	    	*/
 
 
-	    	$('#save-piloto-btn').click(function(){
+	    	$('#save-user-btn').click(function(){
 
-	    		var data=$('#piloto-form').serializeArray();
-	    		console.log(data);
-
+	    		var data=$('#user-form').serializeArray();
 	    		var overlay= "<div class='overlay'>\
 	    		<i class='fa fa-refresh' fa-spin></i>\
 	    		</div>";
-	    		$('#pilotoForm-div').append(overlay);
+	    		$('#userForm-div').append(overlay);
 
 	    		$.ajax(
 	    			{data:data,
 	    				method:'post',
-	    				url:"{{action('PilotoController@store')}}"}
+	    				url:"{{action('UsuarioController@store')}}"}
 	    				)
 	    		.always(function(response, status, responseObject){
-	    			$('#pilotoForm-div .overlay').remove();
+	    			$('#userForm-div .overlay').remove();
 
 	    			if(status=="error"){
 	    				if(response.status==422){
@@ -246,8 +253,10 @@ function getTable(url){
 	    					var respuesta=JSON.parse(responseObject.responseText);
 	    					if(respuesta.success==1)
 	    					{
-	    						$('#pilotoForm-div .no-vacio').val('');
-	    						$('#save-piloto-btn').attr('disabled','disabled');
+	    						console.log(respuesta);
+	    						
+	    						$('#userForm-div .no-vacio').val('');
+	    						$('#save-user-btn').attr('disabled','disabled');
 	    						$('#filtrar-btn').trigger('click');
 	    						alertify.success(respuesta.text);
 	    					}
@@ -324,10 +333,10 @@ function getTable(url){
 
     		//Mostrar la información en un modal para editar
 
-    		$('body').delegate('.editarPiloto-btn', 'click', function(){
+    		$('body').delegate('.editarUsuario-btn', 'click', function(){
     			var fila = $(this).closest('tr');
     			var id   = $(fila).data('id');
-    			var url  ='{{action('PilotoController@edit', ["::"])}}';
+    			var url  ='{{action('UsuarioController@edit', ["::"])}}';
     			url      = url.replace("::", id)
 
     			$.ajax({
@@ -341,7 +350,7 @@ function getTable(url){
 
     	//Editar la información
 
-    	$('#save-pilots-btn-modal').click(function(){
+    	$('#save-user-btn-modal').click(function(){
 
     		var data =$('#show-modal form').serializeArray()
     		var url  =$('#show-modal form').attr('action')
@@ -375,12 +384,12 @@ function getTable(url){
 	/*	
     	Eliminar registro
     	*/
-    	$('body').delegate('.eliminarPiloto-btn', 'click', function(){
+    	$('body').delegate('.eliminarUsuario-btn', 'click', function(){
     		var tr  =$(this).closest('tr');
     		var id  =$(this).data('id');
-    		var url ="{{action('PilotoController@index')}}/"+id;
+    		var url ="{{action('UsuarioController@index')}}/"+id;
     					// confirm dialog
-    					alertify.confirm("¿Realmente desea  eliminar este Piloto?", function (e) {
+    					alertify.confirm("¿Realmente desea  eliminar este registro?", function (e) {
     						if (e) {		
 
     							$.

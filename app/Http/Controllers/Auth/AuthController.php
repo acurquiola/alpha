@@ -60,22 +60,34 @@ class AuthController extends Controller {
         $this->validate($request, [
             'userName' => 'required', 'password' => 'required',
         ]);
+        $userName   =$request->get('userName');
+        $aeropuerto =\App\Aeropuerto::find($request->get('aeropuerto_id'));
+        $user       =\App\Usuario::where('userName', $userName)->first();
 
-        $credentials = $request->only('userName', 'password');
+        if($user->aeropuerto_id==$aeropuerto->id){
 
-        if ($this->auth->attempt($credentials, false))
-        {
-            $aeropuerto=\App\Aeropuerto::find($request->get('aeropuerto_id'));
-            session(["aeropuerto"=> $aeropuerto]);
-            return redirect()->intended($this->redirectPath());
-        }
+            $credentials = $request->only('userName', 'password');
 
-        return redirect($this->loginPath())
+            if ($this->auth->attempt($credentials, false))
+            { 
+                session(["aeropuerto"=> $aeropuerto]);
+                return redirect()->intended($this->redirectPath());
+            }
+
+            return redirect($this->loginPath())
             ->withInput($request->only('userName', 'remember'))
             ->withErrors([
                 'userName' => $this->getFailedLoginMessage(),
             ]);
-    }
+
+        }else{
+            return redirect($this->loginPath())
+                ->withInput($request->only('userName', 'remember'))
+                ->withErrors([
+                    'aeropuerto' => 'Aeropuerto no autorizado',
+                ]);
+            }
+        }
 
     public function getLogout(Guard $auth)
     {

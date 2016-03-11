@@ -13,6 +13,7 @@ class ReporteController extends Controller {
         $this->middleware('auth');
     }
 
+    //No sé si es el nombre
 	public function getReporteMensual(Request $request){
         $mes=$request->get('mes', \Carbon\Carbon::now()->month);
         $anno=$request->get('anno',  \Carbon\Carbon::now()->year);
@@ -61,7 +62,7 @@ class ReporteController extends Controller {
         return view('reportes.reporteDiario', compact('modulos', 'montos', 'montosTotales', 'mes', 'anno', 'aeropuerto'));
     }
 
-
+    //No sé si es el nombre
     public function getReporteModuloMetaMensual(Request $request){
         $mes=$request->get('mes', \Carbon\Carbon::now()->month);
         $anno=$request->get('anno',  \Carbon\Carbon::now()->year);
@@ -84,6 +85,7 @@ class ReporteController extends Controller {
         return view('reportes.reporteModuloMetaMensual', compact('montos', 'mes', 'anno', 'aeropuerto'));
     }
 
+    //No sé si es el nombre
     public function getReporterFacturadoCobradoMensual(Request $request){
         $anno=$request->get('anno',  \Carbon\Carbon::now()->year);
         $aeropuerto=$request->get('aeropuerto',  0);
@@ -128,7 +130,7 @@ class ReporteController extends Controller {
     
 
 
-
+    //Este si es el nombre
     public function getReporteDES900(Request $request){
         $diaDesde   =$request->get('diaDesde', \Carbon\Carbon::now()->day);
         $mesDesde   =$request->get('mesDesde', \Carbon\Carbon::now()->month);
@@ -142,40 +144,14 @@ class ReporteController extends Controller {
     }
 
 
-    public function getReporteTraficoAereo(Request $request){
-        $diaDesde    =$request->get('diaDesde', \Carbon\Carbon::now()->day);
-        $mesDesde    =$request->get('mesDesde', \Carbon\Carbon::now()->month);
-        $annoDesde   =$request->get('annoDesde',  \Carbon\Carbon::now()->year);
-        $diaHasta    =$request->get('diaHasta', \Carbon\Carbon::now()->day);
-        $mesHasta    =$request->get('mesHasta', \Carbon\Carbon::now()->month);
-        $annoHasta   =$request->get('annoHasta',  \Carbon\Carbon::now()->year);
-        $puerto      =$request->get('puerto', 0);
-        $procedencia =$request->get('procedencia', 0);
-        $destino     =$request->get('destino', 0);
-        $cliente     =$request->get('cliente',  0);
-        $aeropuerto  =session('aeropuerto');
-
-        $clientes = \App\Cliente::with("despegue")
-                ->join('despegues','clientes.id' , '=', 'despegues.cliente_id')
-                ->groupBy('clientes.id')
-                ->first();
-
-    foreach ($clientes->despegue as $despegue) {
-            $embarqueAdultos[] = $despegue->embarqueAdultos;
-            $eAdultos[]=array_sum($embarqueAdultos);
-
-    }
-
-dd($clientes, $embarqueAdultos);
-        return view('reportes.reporteTraficoAereo', compact('diaDesde', 'mesDesde', 'annoDesde', 'diaHasta', 'mesHasta', 'annoHasta', 'aeropuerto', 'despegues', 'embarqueAdultos'));
-    }
-
-
+    //Este si es el nombre
     public function getReporteContratos(Request $request){
         $contratos = \App\Contrato::with("cliente")->get();
         return view('reportes.reporteContratos', compact('contratos'));
     }
 
+
+    //Este si es el nombre
     public function getReporteCuadreCaja(Request $request){
         $diaDesde        =$request->get('diaDesde', \Carbon\Carbon::now()->day);
         $mesDesde        =$request->get('mesDesde', \Carbon\Carbon::now()->month);
@@ -212,6 +188,8 @@ dd($clientes, $embarqueAdultos);
         return view('reportes.reporteCuadreCaja', compact('diaDesde', 'mesDesde', 'annoDesde', 'diaHasta', 'mesHasta', 'annoHasta', 'aeropuerto', 'facturas', 'facturasTotal', 'facturasContado', 'facturasCredito'));
     }
 
+    
+    //Este si es el nombre
     public function getReporteRelacionCobranza(Request $request){
         $modulos          =\App\Modulo::where('aeropuerto_id', session('aeropuerto')->id )->lists('nombre','id');
         $clientes         =\App\Cliente::all();
@@ -223,11 +201,12 @@ dd($clientes, $embarqueAdultos);
         if($aeropuerto!=0){
             $moduloNombre =($modulo==0)?'TODOS':\App\Modulo::where('id', $modulo)->first()->nombre;
             if($moduloNombre!='TODOS'){
-                $modulo=\App\Modulo::where('nombre', $moduloNombre)->where('aeropuerto_id', $aeropuerto)->first()->nombre;
+                $modulo=\App\Modulo::where('nombre', $moduloNombre)->where('aeropuerto_id', $aeropuerto)->first()->id;
             }
         }
         else{
             $moduloNombre     =($modulo==0)?'TODOS':\App\Modulo::where('id', $modulo)->first()->nombre;
+            
         }
         $clienteNombre    =($cliente==0)?'TODOS':(\App\Cliente::where('id', $cliente)->first()->nombre);
         $aeropuertoNombre =($aeropuerto==0)?'TODOS':(\App\Aeropuerto::where('id', $aeropuerto)->first()->nombre);
@@ -249,6 +228,7 @@ dd($clientes, $embarqueAdultos);
 
     }
 
+    //Este si es el nombre
     public function getReporteListadoFacturas(Request $request){
 
         $modulos =\App\Modulo::all();
@@ -332,6 +312,9 @@ dd($clientes, $embarqueAdultos);
 
     }
 
+
+
+    //Función para exportar los reportes 
     public function postExportReport(Request $request){
 
        $table=$request->get('table');

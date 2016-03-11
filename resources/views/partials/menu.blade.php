@@ -223,10 +223,10 @@
 						<li class="header">Recaudación</li>     
                         <li {{ (\Request::is('reporte/reporteListadoFacturas*'))?"class=active":"" }}><a href="{{ URL::to('reporte/reporteListadoFacturas') }}"><i class="fa fa-folder-o"></i> Listado de Facturas Emitidas</a></li>
 						<li {{ (\Request::is('reporte/reporteReporteRelacionCobranza*'))?"class=active":"" }}><a href="{{ URL::to('reporte/reporteReporteRelacionCobranza') }}"><i class="fa fa-folder-o"></i> Relación de Cobranza</a></li>        		
-						<li {{ (\Request::is('reporte/mensual*'))?"class=active":"" }}><a href="{{ URL::to('reporte/mensual') }}"><i class="fa fa-folder-o"></i> Recaudación consolidada</a></li>        		
-						<li {{ (\Request::is('reporte/reporterFacturadoCobradoMensual*'))?"class=active":"" }}><a href="{{ URL::to('reporte/reporterFacturadoCobradoMensual') }}"><i class="fa fa-folder-o"></i> Relación cuentas por cobrar</a></li>        		
-						<li {{ (\Request::is('reporte/reporteModuloMetaMensual*'))?"class=active":"" }}><a href="{{ URL::to('reporte/reporteModuloMetaMensual') }}"><i class="fa fa-folder-o"></i> Libro de ventas</a></li>        		
 						<li {{ (\Request::is('reporte/reporteContratos*'))?"class=active":"" }}><a href="{{ URL::to('reporte/reporteContratos') }}"><i class="fa fa-folder-o"></i> Relación de Contratos Registrados</a></li>        		
+						<li {{ (\Request::is('reporte/reporterFacturadoCobradoMensual*'))?"class=active":"" }}><a href="{{ URL::to('reporte/reporterFacturadoCobradoMensual') }}"><i class="fa fa-folder-o"></i> Relación de Ingresos y Cuentas por Cobrar</a></li>        		
+						<li {{ (\Request::is('reporte/reporteModuloMetaMensual*'))?"class=active":"" }}><a href="{{ URL::to('reporte/reporteModuloMetaMensual') }}"><i class="fa fa-folder-o"></i> Libro de ventas</a></li>        		
+						<li {{ (\Request::is('reporte/mensual*'))?"class=active":"" }}><a href="{{ URL::to('reporte/mensual') }}"><i class="fa fa-folder-o"></i> Recaudación consolidada</a></li>        		
 
                 	<!-- 	<li><a href="{{action('ReporteController@getReporteMensual')}}"><i class="fa fa-folder-o"></i> Recaudación consolidada</a></li>
                 		<li><a href="{{action('ReporteController@getReporterFacturadoCobradoMensual')}}"><i class="fa fa-folder-o"></i> Relación cuentas por cobrar</a></li>
@@ -257,6 +257,7 @@
                 		@endpermission
                 		@permission('menu.usuario')
                 		<li><a href="{{ URL::to('administracion/usuario') }}"><i class="fa fa-user"></i> Usuario</a></li>
+                		<li><a href="{{ URL::to('administracion/usuarios') }}"><i class="fa fa-user"></i> Usuarios</a></li>
                 		@endpermission
 	                 <!-- <li><a href="{{ URL::to('tasas/impresion') }}"><i class="fa fa-print"></i> Impresión tasas</a></li>
 	                 <li><a href="{{ URL::to('administracion/sincronizacion') }}"><i class="fa fa-refresh"></i> Sincronización</a></li>-->

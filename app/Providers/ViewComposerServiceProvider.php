@@ -61,16 +61,24 @@ class ViewComposerServiceProvider extends ServiceProvider {
             $view->with(compact('clientes'));
         });
 
-        view()->composer(['index','cliente.partials.form','factura.partials.form'], function($view){
+        view()->composer(['index','cliente.partials.form','factura.partials.form', 'usuarios.index.'], function($view){
             $aeropuertos = \App\Aeropuerto::lists('nombre', 'id');
             $view->with(compact('aeropuertos'));
         });
 
-
-
         view()->composer(['cliente.partials.form'], function($view){
             $paises = \App\Pais::lists('nombre','id');
             $view->with(compact('paises'));
+        });
+
+        view()->composer(['usuarios.index', 'usuarios.partials.show', 'usuarios.partials.edit','usuarios.partials.form'], function($view){
+            $departamentos = \App\Departamento::lists('nombre','id');
+            $view->with(compact('departamentos'));
+        });
+
+        view()->composer(['usuarios.index', 'usuarios.partials.show', 'usuarios.partials.edit','usuarios.partials.form'], function($view){
+            $cargos = \App\Cargo::lists('nombre','id');
+            $view->with(compact('cargos'));
         });
 
         view()->composer(['configuracionPrecios.confGeneral.index', 'configuracionPrecios.confGeneral.partials.edit', 'configuracionPrecios.confGeneral.partials.form', 'configuracionPrecios.confGeneral.partials.show', 'configuracionPrecios.confAterrizajeDespegue.index', 'configuracionPrecios.confAterrizajeDespegue.partials.edit', 'configuracionPrecios.confAterrizajeDespegue.partials.form', 'configuracionPrecios.confAterrizajeDespegue.partials.show', 'configuracionPrecios.confEstacionamientoAeronave.index', 'configuracionPrecios.confEstacionamientoAeronave.partials.edit', 'configuracionPrecios.confEstacionamientoAeronave.partials.form', 'configuracionPrecios.confEstacionamientoAeronave.partials.show', 'configuracionPrecios.confCargosVarios.index', 'configuracionPrecios.confCargosVarios.partials.edit', 'configuracionPrecios.confCargosVarios.partials.form', 'configuracionPrecios.confCargosVarios.partials.show', 'configuracionPrecios.confCarga.index', 'configuracionPrecios.confCarga.partials.edit', 'configuracionPrecios.confCarga.partials.form', 'configuracionPrecios.confCarga.partials.show'], function($view){
