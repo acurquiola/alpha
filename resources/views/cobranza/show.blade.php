@@ -29,7 +29,7 @@
             <h6 style="font-weight: bold;">Cliente: <label>{{$cobro->cliente->codigo}} | {{$cobro->cliente->nombre}}</label> </h6> 
             <h6 style="font-weight: bold;">Nro. Recibo de Caja: <label>{{($cobro->nRecibo)?$cobro->nRecibo:"No Dispone"}}</label> </h6> 
             <h6 style="font-weight: bold;">Fecha de Cobro: <label>{{$cobro->created_at}}</label> </h6> 
-                <h6 style="font-weight: bold;">Observaciones:  <label>{{($cobro->observaciones)?$cobro->observaciones:"No Dispone"}}</label> </h6> 
+                <h6 style="font-weight: bold;">Observaciones:  <label>{{($cobro->observacion)?$cobro->observacion:"No Dispone"}}</label> </h6> 
                 <h6 style="font-weight: bold;">Recaudos Consignados:  <label> {{($cobro->hasrecaudos)?"Si":"No"}}</label> </h6> 
 
                 <div class="table-responsive">
