@@ -131,7 +131,7 @@
                                     </br>\
                                     Fecha de Cobro: {{$cobro->created_at}} \
                                     </br>\
-                                    Observaciones: {{($cobro->observaciones)?$cobro->observaciones:"No Dispone"}} \
+                                    Observaciones: {{($cobro->observacion)?$cobro->observacion:"No Dispone"}} \
                                     </br>\
                                     Recaudos Consolidados: {{($cobro->hasrecaudos)?"Si":"No"}} \
                                     </br>\
