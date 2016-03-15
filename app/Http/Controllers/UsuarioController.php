@@ -39,7 +39,7 @@ class UsuarioController extends Controller {
 				'sortName'=>$sortName,
 				'sortType'=>$sortType]);
 
-			$usuarios= Usuario::with('departamento', 'cargo')
+			$usuarios= Usuario::with('departamento', 'cargo', 'aeropuertos')
 							->where('username', 'like', '%'.$username.'%')
 							->where('fullname', 'like', $fullname)
 							->where('departamento_id', $departamentoOperador, $departamento_id);
@@ -72,10 +72,11 @@ class UsuarioController extends Controller {
 	 */
 	public function store(Request $request)
 	{
-		$user         = new Usuario();		
-		$user         =Usuario::create($request->except('estado', 'password'));
-        $user->password        =bcrypt($request->input('password'));
-        $user->estado =$request->input('estado', 0);
+		$user           =Usuario::create($request->except('estado', 'password', 'aeropuertos'));
+		$user->password =bcrypt($request->input('password'));
+		$user->estado   =$request->input('estado', 0);
+		$aeropuertos    =$request->get('aeropuertos',[]);
+        $user->aeropuertos()->sync(array_flatten($aeropuertos));
 
 		if($user->save())
 		{
@@ -117,12 +118,11 @@ class UsuarioController extends Controller {
 	 */
 	public function update($id, Request $user)
 	{
-		$user->update($request->except('password', 'passwordrepeat', 'estado'));
+		$user->update($request->except('password', 'passwordrepeat', 'estado', 'aeropuertos'));
 		$user->estado =$request->input('estado', 0);
 		if($request->get('password') != ""){
 			$user->password=bcrypt($request->get('password'));
 		}
-
 
 		if($user->save())
 		{

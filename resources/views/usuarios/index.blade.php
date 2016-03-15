@@ -77,19 +77,24 @@
 		 				<input type="text" class="form-control" name="fullname" placeholder="Nombre y Apellido" id="fullname-input">
 		 			</div>
 		 			<br/>
-					<div class="form-group">
-						<select  name="departamento_id" id="departamento_id-flt"  class="form-control">
-							<option value="">--Seleccione Departamento--</option>
-							@foreach ($departamentos as $index=>$departamento)
-							<option value="{{$index}}"> {{$departamento}}</option>
-							@endforeach
-						</select>
+
+                    <br>
+		 			<div class="input-group">
+							<span class="input-group-addon"><i class="ion ion-android-arrow-dropright"></i></span>
+						<div class="form-group">
+							<select  name="departamento_id" id="departamento_id-flt"  class="form-control">
+								<option value="">--Seleccione Departamento--</option>
+								@foreach ($departamentos as $index=>$departamento)
+								<option value="{{$index}}"> {{$departamento}}</option>
+								@endforeach
+							</select>
+						</div>
 					</div>
 		 			<br/>
 		 			<div class="input-group">
 		 				<span class="input-group-addon"><i class="ion ion-android-arrow-dropright"></i></span>
 		 				<div class="form-group">
-							<select  name="cargo_id" id="cargo_id-flt"  class="form-control">
+							<select  name="cargo_id" id="cargo_id"  class="form-control">
 								<option value="">--Seleccione Cargo--</option>
 								@foreach ($cargos as $index=>$cargo)
 								<option value="{{$index}}"> {{$cargo}}</option>
@@ -115,6 +120,20 @@
 							</label>
 						</div>
 					</div>
+					<br>
+					<label>Seleccione Aeropuerto(s)</label>
+                    <div class="form-group"  style="margin-bottom:100px; margin-top: 20px">
+                        <div class="col-xs-6 text-center">
+                            <label>Aeropuertos Disponibles</label>
+                        </div>
+                        <div class="col-xs-6 text-center">
+                            <label>Aeropuerto(s) Autorizado(s)</label>
+                        </div>
+                        <div class="col-xs-12">
+                            {!! Form::select('aeropuertos[]', $aeropuertos, null, [ 'class'=>"form-control", 'multiple'=>'multiple', 'id'=>'aeropuerto-select']) !!}
+                        </div>
+                    </div>
+                    <br>
 				</form>
 	 		</div><!-- /.box-body -->
 	 		<div class="box-footer" align="right">
@@ -185,7 +204,9 @@ function getTable(url){
     		});
 
 
-    		$('#departamento_id-flt,#departamento_id-select,#cargo_id-select').chosen({width:'100%'})
+    		$('#departamento_id-flt,#departamento_id-select,#cargo_id-select,#cargo_id, #departamento-select-modal, #cargo-select-modal').chosen({width:'100%'})
+    		$('#aeropuerto-select').multiSelect();
+    		
 
 
         /*
@@ -345,6 +366,8 @@ function getTable(url){
     			.always(function(text, status, responseObject){
     				$('#show-modal .modal-body').html(text);
     				$('#show-modal').modal('show');
+    				$('#aeropuerto-select-modal').multiSelect();
+    				$('#departamento-select-modal, #cargo-select-modal').chosen({width:'100%'});
     			})
     		})
 
