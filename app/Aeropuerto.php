@@ -29,7 +29,7 @@ class Aeropuerto extends Model {
 
     public function usuarios()
     {
-        return $this->hasMany('App\Usuario');
+        return $this->belongsToMany('App\Usuario');
     }
 
     public function aterrizaje()
