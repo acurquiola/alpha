@@ -64,27 +64,40 @@ class AuthController extends Controller {
         $aeropuerto =\App\Aeropuerto::find($request->get('aeropuerto_id'));
         $user       =\App\Usuario::where('userName', $userName)->first();
 
-        if($user->aeropuerto_id==$aeropuerto->id){
+        if($user->estado == 1){
+            $ingreso=0;
+            foreach ($user->aeropuertos as $autorizado) {
+                if($autorizado->id==$aeropuerto->id){
 
-            $credentials = $request->only('userName', 'password');
+                    $credentials = $request->only('userName', 'password');
 
-            if ($this->auth->attempt($credentials, false))
-            { 
-                session(["aeropuerto"=> $aeropuerto]);
-                return redirect()->intended($this->redirectPath());
+                    if ($this->auth->attempt($credentials, false))
+                    { 
+                        session(["aeropuerto"=> $aeropuerto]);
+                        $ingreso=1;
+                        return redirect()->intended($this->redirectPath());
+                    }
+
+                    return redirect($this->loginPath())
+                    ->withInput($request->only('userName', 'remember'))
+                    ->withErrors([
+                        'userName' => $this->getFailedLoginMessage(),
+                    ]);
+
+                }
             }
-
-            return redirect($this->loginPath())
-            ->withInput($request->only('userName', 'remember'))
-            ->withErrors([
-                'userName' => $this->getFailedLoginMessage(),
-            ]);
-
+            if($ingreso==0){
+                return redirect($this->loginPath())
+                    ->withInput($request->only('userName', 'remember'))
+                    ->withErrors([
+                        'userName' => 'Acceso Denegado: Aeropuerto no Autorizado.',
+                ]);
+            }
         }else{
             return redirect($this->loginPath())
                 ->withInput($request->only('userName', 'remember'))
                 ->withErrors([
-                    'aeropuerto' => 'Aeropuerto no autorizado',
+                    'AccesoDenegado' => 'Acceso Denegado: Usuario Inhabilitado',
                 ]);
             }
         }
@@ -104,7 +117,7 @@ class AuthController extends Controller {
 
     public function getLogoutRemember(Guard $auth)
     {
-        $errors=["Tu sesión ha expirado."];
+        $errors=["Sesión Expirada."];
         session()->put('url.intended', \URL::previous());
         session()->forget('aeropuerto');
         $auth->logout();
