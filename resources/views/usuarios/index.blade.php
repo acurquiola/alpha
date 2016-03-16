@@ -29,7 +29,10 @@
 								@endforeach
 							</select>
 						</div>
-						<button type="submit" id="filtrar-btn" class="btn btn-primary" style="margin-left: 20px"><i class="fa fa-filter"></i></button>
+						<div class="pull-right">
+							<button type="submit" id="filtrar-btn" class="btn btn-primary" style="margin-left: 20px"><i class="fa fa-filter"></i></button>
+							<a class="btn btn-default" href="{{action('UsuarioController@index')}}">Reset</a>
+						</div>
 					</form>
 				</div><!-- /.box-body -->
 			</div><!-- /.box -->
@@ -295,37 +298,37 @@ function getTable(url){
 	    	})
 
 	 // Botón para habilitar/inhabilitar
-	 $('body').delegate('.activarPiloto-btn', 'click', function(){
+	 $('body').delegate('.activarUsuario-btn', 'click', function(){
 	 	var fila =  $(this).closest('tr');
 	 	var id   =  $(fila).data('id');
 
 			// confirm dialog
-			alertify.confirm("¿Realmente desea cambiar el estado a este piloto?", function (e) {
+			alertify.confirm("¿Realmente desea cambiar el estado a este usuario?", function (e) {
 				if (e) {		
 
 					$.ajax({
 						data:{id:id},
 						method:'get',
-						url:"{{action('PilotoController@estadoPiloto')}}"})
+						url:"{{action('UsuarioController@estadoUser')}}"})
 					.always(function(text, status, responseObject){
 						try{
 							var respuesta=JSON.parse(responseObject.responseText);
 							if(respuesta.success==1){
-								if (respuesta.piloto.estado==0){
-									console.log(respuesta.piloto.estado);
-									$(fila).find('.activarPiloto-btn')
+								if (respuesta.usuario.estado==0){
+									console.log(respuesta.usuario.estado);
+									$(fila).find('.activarUsuario-btn')
 									.removeClass('btn-primary')
 									.addClass('btn-default')
-									.prop('title', 'Piloto Inhabilitado');
+									.prop('title', 'Usuario Inhabilitado');
 
 								}
-								else if (respuesta.piloto.estado==1){
+								else if (respuesta.usuario.estado==1){
 
-									console.log(respuesta.piloto.estado);
-									$(fila).find('.activarPiloto-btn')
+									console.log(respuesta.usuario.estado);
+									$(fila).find('.activarUsuario-btn')
 									.addClass('btn-primary')
 									.removeClass('btn-default')
-									.prop('title', 'Piloto Habilitado');								
+									.prop('title', 'Usuario Habilitado');								
 								}
 								alertify.success(respuesta.text);
 

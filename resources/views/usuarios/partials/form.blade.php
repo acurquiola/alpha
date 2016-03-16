@@ -77,6 +77,6 @@
         <label>Aeropuerto(s) Autorizado(s)</label>
     </div>
     <div class="col-xs-12">
-        {!! Form::select('aeropuertos[]', $aeropuertos, null, [ 'class'=>"form-control", 'multiple'=>'multiple', 'id'=>'aeropuerto-select-modal']) !!}
+        {!! Form::select('aeropuertos[]', $aeropuertos, $user->aeropuertos->lists('id'), [ 'class'=>"form-control", 'multiple'=>'multiple', 'id'=>'aeropuerto-select-modal']) !!}
     </div>
 </div>

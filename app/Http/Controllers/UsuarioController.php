@@ -112,17 +112,20 @@ class UsuarioController extends Controller {
 	}
 
 	/**
-	 *Actualiza la información de un registro
+	 * Actualiza la información de un registro
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function update($id, Request $user)
+	public function update($id, Request $request)
 	{
+		$user = Usuario::find($id);
 		$user->update($request->except('password', 'passwordrepeat', 'estado', 'aeropuertos'));
 		$user->estado =$request->input('estado', 0);
 		if($request->get('password') != ""){
 			$user->password=bcrypt($request->get('password'));
 		}
+		$aeropuertos    =$request->get('aeropuertos',[]);
+        $user->aeropuertos()->sync(array_flatten($aeropuertos));
 
 		if($user->save())
 		{
@@ -155,27 +158,26 @@ class UsuarioController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	 public function estadoPiloto(Request $request)
+	 public function estadoUser(Request $request)
     {
-		$id    = $request->input('id');
-		$pilot = Piloto::find($id);
+		$user = Usuario::find($request->input('id'));
 
-        if ($pilot->estado == '0')
+        if ($user->estado == '0')
         {
-			$pilot->estado = '1';
-			$mensaje       = "Piloto habilitado exitósamente.";
-			$mensajeError  = "Ocurrió un error habilitando al Piloto.";
+			$user->estado = '1';
+			$mensaje       = "Usuario habilitado exitósamente.";
+			$mensajeError  = "Ocurrió un error habilitando al usuario.";
         } 
         else
         {
-			$pilot->estado = '0';
-			$mensaje       = "Piloto inhabilitado exitósamente.";
-			$mensajeError  = "Ocurrió un error inhabilitando al Piloto.";
+			$user->estado = '0';
+			$mensaje       = "Usuario inhabilitado exitósamente.";
+			$mensajeError  = "Ocurrió un error inhabilitando al Usuario.";
         }
-        if($pilot->save())
+        if($user->save())
         {
             return response()->json(array("text"=>$mensaje,
-                "piloto"=>$pilot,
+                "usuario"=>$user,
                 "success"=>1));
 
         }

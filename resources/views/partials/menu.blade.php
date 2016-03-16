@@ -256,7 +256,6 @@
                 		<li {{ (\Request::is('administracion/roles*'))?"class=active":"" }}><a href="{{ URL::to('administracion/roles') }}"><i class="fa fa-users"></i> Grupos de usuarios</a></li>
                 		@endpermission
                 		@permission('menu.usuario')
-                		<li><a href="{{ URL::to('administracion/usuario') }}"><i class="fa fa-user"></i> Usuario</a></li>
                 		<li><a href="{{ URL::to('administracion/usuarios') }}"><i class="fa fa-user"></i> Usuarios</a></li>
                 		@endpermission
 	                 <!-- <li><a href="{{ URL::to('tasas/impresion') }}"><i class="fa fa-print"></i> Impresión tasas</a></li>
