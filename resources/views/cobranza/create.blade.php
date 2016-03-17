@@ -102,14 +102,22 @@
 				            <input autocomplete="off" type="text" class="form-control total-a-pagar-doc-input" style="font-weight: bold;" readonly value="0,00">
 			            </div>
 		            </div>
-
 				</div>
 
 	            <div class="row">
 		            <div class="col-xs-12">
 			            <label>Leyenda:[<span class="text-success">Pago completo</span> | <span class="text-info">Sobrepagado</span> | <span class="text-warning">Pago parcial</span> | <span class="text-danger">Error en saldo ingresado</span>]</label>
-<!-- 			            <div  class="pull-right"><label id="items-seleccionados-label" class="text-primary" style="font-weight: bold;" >0 Facturas Seleccionadas</label></div>
- -->		            </div>
+ 			            <div  class="pull-right">
+							<div class="col-sm-1" style="margin-right: 20px">
+								<div class="round round hollow blue">
+							        <span id="contador" style="font-weight: bold; font-size: 15px">0</span>
+							    </div>
+							</div>
+	 			            <label id="items-seleccionados-label" class="text-primary" style="font-weight: bold; margin-top: 3px; margin-right: -30px; font-size: 15px">
+	 			            	 Facturas Seleccionadas
+	 			            </label>
+	 			        </div>
+ 		            </div>
 
 	            </div>
 	            <h5>Formas de pago</h5>
