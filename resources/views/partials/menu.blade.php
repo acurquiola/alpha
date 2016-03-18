@@ -246,6 +246,7 @@
                 		<i class="fa fa-cogs"></i> <span>Administración</span> <i class="fa fa-angle-left pull-right"></i>
                 	</a>
                 	<ul class="treeview-menu">
+                	<li {{ (\Request::is('administracion/informacion*'))?"class=active":"" }}><a href="{{ URL::to('administracion/informacion') }}"><i class="fa fa-info-circle"></i> Información</a></li>
                 		@permission('menu.informacion')
                 		<li {{ (\Request::is('administracion/meta*'))?"class=active":"" }}><a href="{{ URL::to('administracion/meta') }}"><i class="fa fa-area-chart"></i> Metas</a></li>
                 		@endpermission
