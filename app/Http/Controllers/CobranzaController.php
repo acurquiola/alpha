@@ -26,46 +26,45 @@ class CobranzaController extends Controller {
 	 */
 	public function index($moduloNombre, Request $request)
 	{
-        $sortName          = $request->get('sortName','id');
-        $sortName          =($sortName=="")?"id":$sortName;
-
-        $sortType          = $request->get('sortType','DESC');
-        $sortType          =($sortType=="")?"DESC":$sortType;
-
-
-        $cobroId         = $request->get('id');
-        $cobroId         =($cobroId=="")?0:$cobroId;
-        $cobroIdOperator = $request->get('cobroIdOperator', '>=');
-        $cobroIdOperator =($cobroIdOperator=="")?'>=':$cobroIdOperator;
-        $cobroIdOperator =($cobroId==0)?">=":$cobroIdOperator;
-
-        $clienteNombre     = $request->get('clienteNombre', '%');
-
-        $observacion      = $request->get('observacion', '%');
-
+        $sortName           = $request->get('sortName','id');
+        $sortName           = ($sortName=="")?"id":$sortName;
+        
+        $sortType           = $request->get('sortType','DESC');
+        $sortType           = ($sortType=="")?"DESC":$sortType;
+        
+        
+        $cobroId            = $request->get('id');
+        $cobroId            = ($cobroId=="")?0:$cobroId;
+        $cobroIdOperator    = $request->get('cobroIdOperator', '>=');
+        $cobroIdOperator    = ($cobroIdOperator=="")?'>=':$cobroIdOperator;
+        $cobroIdOperator    = ($cobroId==0)?">=":$cobroIdOperator;
+        
+        $clienteNombre      = $request->get('clienteNombre', '%');
+        
+        $observacion        = $request->get('observacion', '%');
+        
         $pagado             = $request->get('pagado');
         $pagado             =($pagado=="")?0:$pagado;
         $pagadoOperator     = $request->get('pagadoOperator', '>=');
         $pagadoOperator     =($pagadoOperator=="")?'>=':$pagadoOperator;
         $pagadoOperator     =($pagado==0)?">=":$pagadoOperator;
-
-        $depositado             = $request->get('depositado');
-        $depositado             =($depositado=="")?0:$depositado;
-        $depositadoOperator     = $request->get('depositadoOperator', '>=');
-        $depositadoOperator     =($depositadoOperator=="")?'>=':$depositadoOperator;
-        $depositadoOperator     =($depositado==0)?">=":$depositadoOperator;
-
-        $fecha             = $request->get('fecha');
-        $fechaOperator     = $request->get('fechaOperator', '>=');
-        $fechaOperator     =($fechaOperator=="")?'>=':$fechaOperator;
+        
+        $depositado         = $request->get('depositado');
+        $depositado         = ($depositado=="")?0:$depositado;
+        $depositadoOperator = $request->get('depositadoOperator', '>=');
+        $depositadoOperator = ($depositadoOperator=="")?'>=':$depositadoOperator;
+        $depositadoOperator = ($depositado==0)?">=":$depositadoOperator;
+        
+        $fecha              = $request->get('fecha');
+        $fechaOperator      = $request->get('fechaOperator', '>=');
+        $fechaOperator      = ($fechaOperator=="")?'>=':$fechaOperator;
+        
         if($fecha==""){
             $fecha         ='0000-00-00';
             $fechaOperator ='>=';
         }else{
             $fecha=\Carbon\Carbon::createFromFormat('d/m/Y', $fecha);
         }
-
-
 
         \Input::merge([ 'fechaOperator'     =>$fechaOperator,
             'cobroIdOperator' =>$cobroIdOperator,

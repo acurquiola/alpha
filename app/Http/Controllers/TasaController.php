@@ -8,12 +8,14 @@ use Illuminate\Http\Request;
 class TasaController extends Controller {
 
     public function taquilla(){
-        return view('tasas.taquilla');
+        $aeropuerto=session('aeropuerto');
+        return view('tasas.taquilla', compact('aeropuerto'));
     }
 
 
 	public function getOperacion(Request $request){
-        $aeropuertoId=session('aeropuerto')->id;
+        $aeropuerto=session('aeropuerto');
+        $aeropuertoId=$aeropuerto->id;
         $fecha=$request->get('fecha');
         $taquilla=$request->get('taquilla');
         $turno=$request->get('turno');
@@ -33,11 +35,11 @@ class TasaController extends Controller {
         }
         $tasaOp->load('detalles');
 
-        $series=["A", "B", "C", "D"];
-        foreach($series as $value){
-            $series[$value]=\DB::table('tasaopdetalles')->where('serie', $value)->max('fin')+1;
+        $tasas=$aeropuerto->tasas;
+        foreach($tasas as $tasa){
+            $tasa->max=\DB::table('tasaopdetalles')->where('serie', $tasa->nombre)->max('fin')+1;
         }
-        return view('tasas.partials.taquillaForm', compact('tasaOp', 'fecha', 'taquilla', 'turno', 'series'));
+        return view('tasas.partials.taquillaForm', compact('tasaOp', 'fecha', 'taquilla', 'turno', 'tasas', 'aeropuerto'));
     }
 
     public function postOperacion(Request $request){

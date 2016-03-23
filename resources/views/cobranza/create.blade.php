@@ -105,12 +105,22 @@
 
 	            <div class="row">
 		            <div class="col-xs-12">
-			            <label>Leyenda:[<span class="text-success">Pago Completo</span> | 
+			            <label>Leyenda:[<span class="text-success">Pago Completo</span> |
 			            				<span class="text-info">Sobrepagado</span> | 
 			            				<span class="text-warning">Pago Parcial</span> | 
-			            				<span class="text-danger">Error en Monto Ingresado</span>]</label>
-<!-- 			            <div  class="pull-right"><label id="items-seleccionados-label" class="text-primary" style="font-weight: bold;" >0 Facturas Seleccionadas</label></div>
- -->		            </div>
+			            				<span class="text-danger">Error en Saldo Ingresado</span>]
+			            </label>
+ 			            <div  class="pull-right">
+							<div class="col-sm-1" style="margin-right: 20px">
+								<div class="round round hollow blue">
+							        <span id="contador" style="font-weight: bold; font-size: 15px">0</span>
+							    </div>
+							</div>
+	 			            <label id="items-seleccionados-label" class="text-primary" style="font-weight: bold; margin-top: 3px; margin-right: -30px; font-size: 15px">
+	 			            	 Facturas Seleccionadas
+	 			            </label>
+	 			        </div>
+ 		            </div>
 
 	            </div>
 	            <h5>Formas de Pago</h5>

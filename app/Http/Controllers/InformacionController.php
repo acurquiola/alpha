@@ -42,9 +42,9 @@ class InformacionController extends Controller {
             $conceptosEstacionamiento=$estacionamiento->conceptos()->create(['nombre'=> 'predeterminado', 'costo' => 0]);
 		}
 
-        $metas=$aeropuerto->metas()->orderBy('fecha_inicio')->get();
+        $tasas=$aeropuerto->tasas()->get();
 
-        return view("administracion/informacion", compact("aeropuerto", "estacionamiento", "portons", "conceptosEstacionamiento", "metas"));
+        return view("administracion/informacion", compact("aeropuerto", "estacionamiento", "portons", "conceptosEstacionamiento", "tasas"));
 	}
 
 	/**
@@ -99,41 +99,37 @@ class InformacionController extends Controller {
 
         //actualizando aeropuerto de sesion
 		$aeropuerto=session("aeropuerto");
-        //$aeropuerto->update($request->get("aeropuerto"));
+        $aeropuerto->update($request->get("aeropuerto"));
 
         //actualizando estacionamientos del aeropuerto de la sesion
-        //$estacionamiento=$aeropuerto->estacionamiento;
-        //$estacionamiento->update($request->get("estacionamiento"));
+        $estacionamiento=$aeropuerto->estacionamiento;
+        $estacionamiento->update($request->get("estacionamiento"));
 
         //actualizando portones
-        //$this->actualizarEstacionamientos($estacionamiento, $request->get('portonesNuevos',[]), $request->get("portones", []));
+        $this->actualizarEstacionamientos($estacionamiento, $request->get('portonesNuevos',[]), $request->get("portones", []));
 
         //actualizando conceptos
-        //$this->actualizarConceptos($estacionamiento, $request->get('conceptosNuevos',[]), $request->get("conceptos", []));
+        $this->actualizarConceptos($estacionamiento, $request->get('conceptosNuevos',[]), $request->get("conceptos", []));
 
-        //registrando metas nuevas
-        //
-        //
-		$conceptoMeta     =$request->get("conceptoMeta", []);
-		$montoGobernacion =$request->get("montoGobernacion", []);
-		$montoGobernacion =$this->parseDecimal($request['montoGobernacion'],[])+0;
-		$montoSaar        =$request->get("montoSaar", []);
-		$montoSaar        =$this->parseDecimal($request['montoSaar'],[])+0;
-		dd($montoGobernacion, $montoSaar);
 
-		$metaDetalles     =[];
-        foreach($conceptoMeta as $index => $meta){
-            $metaDetalles[]=["concepto_id"=>$meta, "gobernacion_meta" => $montoGobernacion[$index], "saar_meta" => $montoSaar[$index] ];
-        }
 
-        if(count($metaDetalles)){
-            if($aeropuerto->metas->count()>0){
-                $ultimaMeta=$aeropuerto->metas()->latest()->first();
-                $ultimaMeta->update(["fecha_fin" => $request->get('metaFechaInicio')]);
-            }
-            $meta=$aeropuerto->metas()->create(["fecha_inicio" => $request->get('metaFechaInicio')]);
-            $meta->detalles()->createMany($metaDetalles);
-        }
+
+        /**
+         *
+         * Eliminar las siguientes tablas, si ven este mensaje
+         *
+         * lista_tasas
+         * footers
+         * tasa cierres
+         * ta tasas
+         * tip tasas
+         * topes
+         * concils
+         *
+         */
+
+        $this->actualizarTasas($aeropuerto, $request->get('tasasNuevas',[]), $request->get('tasas',[]));
+
 
 		return redirect('administracion/informacion');
 
@@ -151,6 +147,13 @@ class InformacionController extends Controller {
 		//
 	}
 
+
+    /**
+     *
+     * Estos tres metodos de abajo se pudieran combinar en uno ya que basicamente hacen lo mismo
+     * pero se los dejo de tarea.
+     *
+     */
     protected function actualizarEstacionamientos($estacionamiento, $nuevos, $actualizados){
 
         foreach($actualizados as $portonId => $porton){
@@ -179,6 +182,22 @@ class InformacionController extends Controller {
         });
         foreach($nuevos as $concepto){
             $estacionamiento->conceptos()->create($concepto);
+        }
+
+    }
+
+    protected function actualizarTasas($aeropuerto, $tasasNuevas, $tasas){
+
+        foreach($tasas as $tasaId => $tasa){
+            $aeropuerto->tasas()->find($tasaId)->update($tasa);
+        }
+        list($keys, $values) = array_divide($tasas);
+        $tasasBorrar=$aeropuerto->tasas()->whereNotIn('id',$keys)->get();
+        $tasasBorrar->each(function($tasa){
+            $tasa->delete();
+        });
+        foreach($tasasNuevas as $tasa){
+            $aeropuerto->tasas()->create($tasa);
         }
 
     }
