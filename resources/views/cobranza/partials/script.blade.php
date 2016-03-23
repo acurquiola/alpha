@@ -202,14 +202,12 @@ $('#cxc-table').delegate('.retencion-btn','click',function(){
 		var trs=$('#retencion-modal table tbody tr');
 		$.each(trs, function(){
 			if(commaToNum($(this).find('.retencion-input').val())!=0){
-				$(this).find(':checkbox').iCheck('check');
+				$(this).find(':checkbox').attr('checked', 'checked');
 			}
 		});
 		calculateTotalRetencion()
 	}
-
 	$('#retencion-modal').modal('show');
-
 })
 
 $('#retencion-modal').on('hidden.bs.modal', function () {
@@ -223,7 +221,7 @@ $('#retencion-modal').on('hidden.bs.modal', function () {
 })
 
 $('#procesar-cuotas-btn').click(function(){
-	var saldo    = $('#cuota-saldo-input').val();
+	var saldo    =$('#cuota-saldo-input').val();
 	var cantidad =$('#cuota-cantidad-input').val();
 	saldo        =parseFloat(saldo);
 	cantidad     =parseInt(cantidad);

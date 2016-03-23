@@ -3,18 +3,18 @@
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				<h4 class="modal-title">Selección de retención</h4>
+				<h4 class="modal-title">Selección de Retención</h4>
 			</div>
 			<div class="modal-body">
 			    <div class="form-horizontal">
                     <div class="form-group">
-                        <label for="fecha-modal-input" class="col-sm-2 control-label">Fecha retención</label>
+                        <label for="fecha-modal-input" class="col-sm-2 control-label">Fecha Retención</label>
                         <div class="col-md-4">
                             <input type="text" class="form-control" id="fecha-retencion-input" autocomplete='off'>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="fecha-modal-input" class="col-sm-2 control-label">Comprobante retención</label>
+                        <label for="fecha-modal-input" class="col-sm-2 control-label">Comprobante Retención</label>
                         <div class="col-md-4">
                             <input type="text" class="form-control" id="comprobante-retencion-input" autocomplete='off'>
                         </div>
@@ -23,12 +23,12 @@
 
 				<div class="row" style="margin:15px auto">
 
-					<label class="control-label col-xs-2">Base a pagar</label>
+					<label class="control-label col-xs-2">Base a Pagar</label>
 
 					<div class="col-xs-4">
 						<input class="form-control" id="base-modal-input" readonly/>
 					</div>
-					<label class="control-label col-xs-2">IVA a pagar</label>
+					<label class="control-label col-xs-2">IVA a Pagar</label>
 					<div class="col-xs-4">
 						<input class="form-control" id="iva-modal-input" readonly/>
 					</div>
@@ -39,12 +39,12 @@
 							<thead class="bg-primary"><tr><th></th><th>Concepto</th><th>Porcentaje</th></tr></thead>
 							<tbody>
 								<tr>
-									<td><input type="checkbox" class="retencion-check" autocomplete="off" /></td>
+									<td><input type="checkbox" id="islr-checkbox" class="retencion-check" autocomplete="off" /></td>
 									<td>ISLR</td>
 									<td><input type="text" class="form-control retencion-input" id="islrper-modal-input" data-target="#base-modal-input" /></td>
 								</tr>
 								<tr>
-									<td><input type="checkbox" class="retencion-check" autocomplete="off"/></td>
+									<td><input type="checkbox" id="iva-checkbox" class="retencion-check" autocomplete="off"/></td>
 									<td>IVA</td>
 									<td><input type="text" class="form-control retencion-input" id="ivaper-modal-input" data-target="#iva-modal-input" /></td>
 								</tr>
