@@ -137,9 +137,10 @@ class ViewComposerServiceProvider extends ServiceProvider {
 
         view()->composer([
             'reportes.reporteRelacionCobranza',
+            'reportes.reporteRelacionEstacionamientoDiario',
             'reportes.reporteDiario',
             'reportes.reporteModuloMetaMensual',
-            'reportes.reporterFacturadoCobradoMensual',
+            'reportes.reporteRelacionMensualDeFacturacionCobradosYPorCobrar',
             'reportes.reporteDES900',
             'reportes.reporteListadoFacturas',
             'reportes.reporteTraficoAereo'], function($view){
@@ -151,13 +152,16 @@ class ViewComposerServiceProvider extends ServiceProvider {
 
         \View::composer([
             'reportes.reporteRelacionCobranza',
+            'reportes.reporteRelacionEstacionamientoDiario',
             'reportes.reporteDiario',
             'reportes.reporteModuloMetaMensual',
-            'reportes.reporterFacturadoCobradoMensual',
+            'reportes.reporteRelacionMensualDeFacturacionCobradosYPorCobrar',
             'reportes.reporteDES900',
             'reportes.reporteCuadreCaja',
             'factura.automatica',
             'reportes.reporteListadoFacturas',
+            'reportes.reporteRelacionIngresoMensual',
+            'reportes.reporteRelacionMensualDeIngresosRecaudacionPendiente',
             'reportes.reporteTraficoAereo'], function($view){
             $meses=[
                 "01"=>"ENERO",

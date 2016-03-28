@@ -3,7 +3,7 @@
 @section('content')
 <ol class="breadcrumb">
   <li><a href="{{url('principal')}}">Inicio</a></li>
-  <li><a class="active">Reporte Diario</a></li>
+  <li><a class="active">Relación de Cobranza</a></li>
 </ol>
     <div class="row" id="box-wrapper">
         <div class="col-md-12">
@@ -80,12 +80,12 @@
                                 Nombre o Razón Social
                              </th>
                              <th  style="vertical-align: middle; width:40px" class="text-center">
-                                Recibo
+                                Rec. Caja
                              </th>
-                             <th style="vertical-align: middle; width:50px" class="text-center">
+                             <th style="vertical-align: middle; width:40px" class="text-center">
                                 Tipo
                              </th>
-                             <th style="vertical-align: middle; width:50px"  align="center" class="text-center">
+                             <th style="vertical-align: middle; width:40px"  align="center" class="text-center">
                                 Cuenta
                              </th>
                              <th style="vertical-align: middle; width:70px"  align="center" class="text-center">
@@ -111,8 +111,8 @@
                                 <td style="vertical-align: middle; width:50px" align="center"  >{{$recibo->cobro->cliente->codigo}}</td>
                                 <td style="vertical-align: middle; width:180px" align="left" >{{$recibo->cobro->cliente->nombre}}</td>
                                 <td style="vertical-align: middle; width:40px" align="center" >{{($recibo->cobro->nRecibo)?$recibo->cobro->nRecibo:'N/A'}}</td>
-                                <td style="vertical-align: middle; width:50px" align="center">{{$recibo->tipo}}</td>
-                                <td style="vertical-align: middle; width:50px" align="center">{{substr($recibo->cuenta->descripcion, -6)}}</td>
+                                <td style="vertical-align: middle; width:40px" align="center">{{$recibo->tipo}}</td>
+                                <td style="vertical-align: middle; width:40px" align="center">{{substr($recibo->cuenta->descripcion, -6)}}</td>
                                 <td style="vertical-align: middle; width:70px" align="center">{{$recibo->ncomprobante}}</td>
                                 <td style="vertical-align: middle; width:80px" align="right">{{$traductor->format($recibo->cobro->montofacturas)}}</td>
                                 <td style="vertical-align: middle; width:80px" align="right">{{$traductor->format($recibo->cobro->montodepositado)}}</td>

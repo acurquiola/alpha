@@ -151,8 +151,12 @@ Route::group(['prefix' => 'reporte/'], function () {
 
     Route::get('mensual', 'ReporteController@getReporteMensual');
     Route::get('reporteModuloMetaMensual', 'ReporteController@getReporteModuloMetaMensual');
-    Route::get('reporterFacturadoCobradoMensual', 'ReporteController@getReporterFacturadoCobradoMensual');
-    Route::get('reporteReporteRelacionCobranza', 'ReporteController@getReporteRelacionCobranza');
+    Route::get('reporteRelacionMensualDeIngresosRecaudacionPendiente', 'ReporteController@getReporteRelacionMensualDeIngresosRecaudacionPendiente');
+    Route::get('reporteRelacionMensualDeFacturacionCobradosYPorCobrar', 'ReporteController@getReporteRelacionMensualDeFacturacionCobradosYPorCobrar');
+    Route::get('reporteRelacionIngresoMensual', 'ReporteController@getReporteRelacionIngresoMensual');
+    Route::get('reporteRelacionEstacionamientoDiario', 'ReporteController@getReporteRelacionEstacionamientoDiario');
+    Route::get('reporteDiarioIngreso', 'ReporteController@getReporteDiarioIngreso');
+    Route::get('reporteRelacionCobranza', 'ReporteController@getReporteRelacionCobranza');
     Route::get('reporteContratos', 'ReporteController@getReporteContratos');
     Route::post('exportReport', "ReporteController@postExportReport");
 

@@ -109,9 +109,6 @@
                              <table class="table table-hover table-condensed">
                              <thead  class="bg-primary">
                              <tr>
-                                <th style="vertical-align: middle; width:20px" class="text-center">
-                                    N°
-                                </th>
                                  <th style="vertical-align: middle; width:50px" align="center" class="text-center">
                                     Fecha
                                  </th>
@@ -122,7 +119,10 @@
                                     Nro. Control
                                  </th>
                                  <th style="vertical-align: middle; width:70px" align="center" class="text-center">
-                                    RIF Cliente
+                                    RIF
+                                 </th>
+                                 <th style="vertical-align: middle; width:30px" align="center" class="text-center">
+                                    Código
                                  </th>
                                  <th style="vertical-align: middle; width:140px" align="center" class="text-center">
                                     Nombre ó Razón Social
@@ -148,11 +148,11 @@
                             @if(count($facturas)>0)
                             @foreach($facturas as $index => $factura)
                                 <tr>
-                                    <td style="vertical-align: middle; width:20px" align="center" >{{$index+1}}</td>
                                     <td style="vertical-align: middle; width:50px" align="center">{{$factura->fecha}}</td>
                                     <td style="vertical-align: middle; width:60px" align="center" >{{$factura->nFacturaPrefix}}-{{$factura->nFactura}}</td>
                                     <td style="vertical-align: middle; width:60px" align="center" >{{$factura->nControlPrefix}}-{{$factura->nControl}}</td>
                                     <td style="vertical-align: middle; width:70px" align="center" >{{$factura->cliente->cedRifPrefix}}-{{$factura->cliente->cedRif}}</td>
+                                    <td style="vertical-align: middle; width:30px" align="center" >{{$factura->cliente->codigo}}</td>
                                     <td style="vertical-align: middle; width:140px" align="left" >{{$factura->cliente->nombre}}</td>
                                     <td style="vertical-align: middle; width:150px" align="left">{{$factura->descripcion}}</td>
                                     <td style="vertical-align: middle; width:70px" align="right">{{$traductor->format($factura->subtotal)}}</td>
