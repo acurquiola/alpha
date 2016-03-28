@@ -41,27 +41,39 @@
 								<thead  class="bg-primary">
 									<tr>
 										<th style="vertical-align: middle" class="text-center">
-											Aeropuerto/Mes
+											
+										</th>
+										<th style="vertical-align: middle" class="text-center" colspan="3">
+											AEROPUERTOS
 										</th>
 										<th style="vertical-align: middle" class="text-center">
-											Manuel Carlos Piar
+											
+										</th>
+
+									<tr>
+										<th rowspan="2" style="vertical-align: middle" class="text-center">
+											MES
 										</th>
 										<th style="vertical-align: middle" class="text-center">
-											Gral. Tomás de Heres
+											MANUEL CARLOS PIAR
 										</th>
 										<th style="vertical-align: middle" class="text-center">
-											Santa Elena de Uairén
+											GRAL TOMÁS DE HERES
 										</th>
 										<th style="vertical-align: middle" class="text-center">
-											Total
+											SANTA ELENA DE UAIRÉN
+										</th>
+										<th rowspan="2" style="vertical-align: middle;  " class="text-center">
+											TOTAL
 										</th>
 									</tr>
 								</thead>
 								<tbody>
 									@foreach($montosMeses as $mes => $montos)
 										<tr>
-											<td>{{$mes}}</td>
-											<td class="text-right cobradoPZO">{{$traductor->format($montos["cobradoPZO"])}}</td>
+											<td class="text-center" style="width: 80
+											px">{{$mes}}</td>
+											<td class="text-right cobradoPZO" >{{$traductor->format($montos["cobradoPZO"])}}</td>
 											<td class="text-right cobradoCBL">{{$traductor->format($montos["cobradoCBL"])}}</td>
 											<td class="text-right cobradoSNV">{{$traductor->format($montos["cobradoSNV"])}}</td>
 											<td class="text-right cobradoTotal">{{$traductor->format($montos["cobradoTotal"])}}</td>

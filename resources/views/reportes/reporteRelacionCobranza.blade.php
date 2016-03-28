@@ -51,6 +51,8 @@
             <div class="box-header">
                 {!! Form::open(["url" => action("ReporteController@postExportReport"), "id" =>"export-form", "target"=>"_blank"]) !!}
                 {!! Form::hidden('table') !!}
+                {!! Form::hidden('departamento', 'Departamento de Recaudación') !!}
+                {!! Form::hidden('gerencia', 'Gerencia de Administración') !!}
                     <h3 class="box-title">Reporte</h3>
                     <span class="pull-right">
                         <button type="button" class="btn btn-primary" id="export-btn">
@@ -120,19 +122,19 @@
                             </tr>
                         @endforeach
 
-                                    <tr class="bg-gray" align="center">
-                                        <td>Total</td>
-                                        <td> - </td>
-                                        <td> - </td>
-                                        <td> - </td>
-                                        <td> - </td>
-                                        <td> - </td>
-                                        <td> - </td>
-                                        <td> - </td>
-                                        <td style="vertical-align: middle; width:80px" align="right">{{$traductor->format($totalFacturas)}}</td>
-                                        <td style="vertical-align: middle; width:80px" align="right">{{$traductor->format($totalDepositado)}}</td>
-                                        <td style="vertical-align: middle; width:70px" align="right">-</td>                                   
-                                    </tr>   
+                            <tr class="bg-gray" align="center">
+                                <td>Total</td>
+                                <td> - </td>
+                                <td> - </td>
+                                <td> - </td>
+                                <td> - </td>
+                                <td> - </td>
+                                <td> - </td>
+                                <td> - </td>
+                                <td style="vertical-align: middle; width:80px" align="right">{{$traductor->format($totalFacturas)}}</td>
+                                <td style="vertical-align: middle; width:80px" align="right">{{$traductor->format($totalDepositado)}}</td>
+                                <td style="vertical-align: middle; width:70px" align="right">-</td>                                   
+                            </tr>   
                         @else
                             <tr>
                                 <td colspan="12" class="text-center">No hay registros para las fechas seleccionadas</td>

@@ -189,16 +189,16 @@
                               <th class="text-center" id="baseTicketExtraviado">0</th>
                               <th class="text-center" id="ivaTicketExtraviado">0</th>
                               <th class="text-center" id="totalTicketExtraviado">0</th>
-                              <th class="text-center" id="baseMontoA">0</th>
-                              <th class="text-center" id="ivaMontoA">0</th>
-                              <th class="text-center" id="totalMontoA">0</th>
-                              <th class="text-center" id="baseMontoB">0</th>
-                              <th class="text-center" id="ivaMontoB">0</th>
-                              <th class="text-center" id="totalMontoB">0</th>
-                              <th class="text-center" id="baseMontoC">0</th>
-                              <th class="text-center" id="ivaMontoC">0</th>
-                              <th class="text-center" id="totalMontoC">0</th>
-                              <th class="text-center" id="totalTarjetas">0</th>
+                              <th class="text-center" id="baseMontoA">-</th>
+                              <th class="text-center" id="ivaMontoA">-</th>
+                              <th class="text-center" id="totalMontoA">-</th>
+                              <th class="text-center" id="baseMontoB">-</th>
+                              <th class="text-center" id="ivaMontoB">-</th>
+                              <th class="text-center" id="totalMontoB">-</th>
+                              <th class="text-center" id="baseMontoC">-</th>
+                              <th class="text-center" id="ivaMontoC">-</th>
+                              <th class="text-center" id="totalMontoC">-</th>
+                              <th class="text-center" id="totalTarjetas">-</th>
                               <th class="text-center" id="baseTotal">0</th>
                               <th class="text-center" id="ivaTotal">0</th>
                               <th class="text-center" id="montoTotal">0</th>
@@ -276,7 +276,7 @@
       $('.totalTicketExtraviado').each(function(index,value){
           totalTicketExtraviado+=commaToNum($(value).text().trim());
       });
-
+/*
       var baseMontoA=0;
       $('.baseMontoA').each(function(index,value){
           baseMontoA+=commaToNum($(value).text().trim());
@@ -325,7 +325,7 @@
       var totalTarjetas=0;
       $('.totalTarjetas').each(function(index,value){
           totalTarjetas+=commaToNum($(value).text().trim());
-      });
+      });*/
 
       var baseTotal=0;
       $('.baseTotal').each(function(index,value){
@@ -354,7 +354,7 @@
       $('#baseTicketExtraviado').text(numToComma(baseTicketExtraviado));
       $('#ivaTicketExtraviado').text(numToComma(ivaTicketExtraviado));
       $('#totalTicketExtraviado').text(numToComma(totalTicketExtraviado));
-      $('#baseMontoA').text(numToComma(baseMontoA));
+/*      $('#baseMontoA').text(numToComma(baseMontoA));
       $('#ivaMontoA').text(numToComma(ivaMontoA));
       $('#totalMontoA').text(numToComma(totalMontoA));
       $('#baseMontoB').text(numToComma(baseMontoB));
@@ -363,7 +363,7 @@
       $('#baseMontoC').text(numToComma(baseMontoC));
       $('#ivaMontoC').text(numToComma(ivaMontoC));
       $('#totalMontoC').text(numToComma(totalMontoC));
-      $('#totalTarjetas').text(numToComma(totalTarjetas));
+      $('#totalTarjetas').text(numToComma(totalTarjetas));*/
       $('#baseTotal').text(numToComma(baseTotal));
       $('#ivaTotal').text(numToComma(ivaTotal));
       $('#montoTotal').text(numToComma(montoTotal));

@@ -605,15 +605,18 @@ class ReporteController extends Controller {
     //Función para exportar los reportes 
     public function postExportReport(Request $request){
 
-       $table=$request->get('table');
+        $table=$request->get('table');
+        $departamento=$request->get('departamento');
+        $gerencia=$request->get('gerencia');
 
        $pdf = new \TCPDF('L', PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
 
         // set default header data
         
-        $pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, PDF_HEADER_TITLE, PDF_HEADER_STRING);
+        $pdf->SetHeaderData(asset('imgs/gobernacion.png'), '33', "SERVICIO AUTÓNOMO DE AEROPUERTOS REGIONALES DEL EDO. BOLÍVAR","SAAR BOLÍVAR\n".$gerencia."\n".$departamento);
 
 
+        $pdf->setHeaderFont(Array(PDF_FONT_NAME_DATA, '', '8'));
         $pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
 
 
@@ -623,7 +626,7 @@ class ReporteController extends Controller {
 
        // set margins
 
-       $pdf->SetMargins(PDF_MARGIN_RIGHT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
+       $pdf->SetMargins(PDF_MARGIN_RIGHT, '18', PDF_MARGIN_RIGHT);
 
        $pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
 
