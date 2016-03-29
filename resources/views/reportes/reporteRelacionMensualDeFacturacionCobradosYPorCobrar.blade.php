@@ -32,10 +32,19 @@
         </div>
         <div class="col-md-12">
             <div class="box box-primary">
-                <div class="box-header">
+            <div class="box-header">
+                {!! Form::open(["url" => action("ReporteController@postExportReport"), "id" =>"export-form", "target"=>"_blank"]) !!}
+                {!! Form::hidden('table') !!}
+                {!! Form::hidden('departamento', 'Departamento de Recaudación') !!}
+                {!! Form::hidden('gerencia', 'Gerencia de Administración') !!}
                     <h3 class="box-title">Reporte</h3>
-                    <span class="pull-right"><button class="btn btn-primary"><span class="glyphicon glyphicon-file"></span> Exportar</button></span>
-                </div>
+                    <span class="pull-right">
+                        <button type="button" class="btn btn-primary" id="export-btn">
+                            <span class="glyphicon glyphicon-file"></span> Exportar
+                        </button>
+                    </span>
+                {!! Form::close() !!}
+            </div>
                 <div class="box-body" >
                     <div class="row">
                         <div class="col-xs-12">
@@ -45,19 +54,19 @@
                          <thead  class="bg-primary">
                          <tr>
                              <th style="vertical-align: middle" class="text-center">
-                                Mes
+                                MES
                              </th>
                              <th style="vertical-align: middle" class="text-center">
-                                Facturado
+                                FACTURADO
                              </th>
                              <th style="vertical-align: middle" class="text-center">
-                                Cobrado
+                                COBRADO
                              </th>
                              <th style="vertical-align: middle" class="text-center">
-                                Por Cobrar
+                                POR COBRAR
                              </th>
                              <th style="vertical-align: middle" class="text-center">
-                                Cobro Meses Anteriores
+                                COBRO DE MESES ANTERIORES
                              </th>
                          </tr>
                          </thead>
@@ -65,18 +74,18 @@
                         @foreach($montosMeses as $mes => $montos)
                         <tr>
                             <td>{{$mes}}</td>
-                            <td class="text-right facturado">{{$traductor->format($montos["facturado"])}}</td>
-                            <td class="text-right cobrado">{{$traductor->format($montos["cobrado"])}}</td>
-                            <td class="text-right porCobrar">{{$traductor->format($montos["porCobrar"])}}</td>
-                            <td class="text-right cobroAnterior">{{$traductor->format($montos["cobroAnterior"])}}</td>
+                            <td class="text-right facturado" align="right">{{$traductor->format($montos["facturado"])}}</td>
+                            <td class="text-right cobrado"  align="right">{{$traductor->format($montos["cobrado"])}}</td>
+                            <td class="text-right porCobrar"   align="right">{{$traductor->format($montos["porCobrar"])}}</td>
+                            <td class="text-right cobroAnterior"  align="right">{{$traductor->format($montos["cobroAnterior"])}}</td>
                         </tr>
                         @endforeach
                         <tr class="bg-gray">
-                            <td>Totales</td>
-                            <td class="text-right" id="facturadoTotal">0</td>
-                            <td class="text-right" id="cobradoTotal">0</td>
-                            <td class="text-right" id="porCobrarTotal">0</td>
-                            <td class="text-right" id="cobroAnteriorTotal">0</td>
+                            <td  style="font-weight: bold" >TOTALES</td>
+                            <td  align="right"class="text-right" style="font-weight: bold" id="facturadoTotal">0</td>
+                            <td  align="right"class="text-right" style="font-weight: bold" id="cobradoTotal">0</td>
+                            <td  align="right"class="text-right" style="font-weight: bold" id="porCobrarTotal">0</td>
+                            <td  align="right"class="text-right" style="font-weight: bold" id="cobroAnteriorTotal">0</td>
                         </tr>
 
 
@@ -124,6 +133,33 @@ $(function(){
     $('#cobradoTotal').text(numToComma(cobradoTotal));
     $('#porCobrarTotal').text(numToComma(porCobrarTotal));
     $('#cobroAnteriorTotal').text(numToComma(cobroAnteriorTotal));
+
+
+    $('#export-btn').click(function(e){
+      var table=$('table').clone();
+      $(table).find('td, th').filter(function() {
+        return $(this).css('display') == 'none';
+      }).remove();
+      $(table).find('tr').filter(function() {
+        return $(this).find('td,th').length == 0;
+      }).remove();
+      $(table).prepend('<thead>\
+                    <tr>\
+                      <th colspan="5" style="vertical-align: middle; margin-top:20px" align="center" class="text-center">RELACIÓN MENSUAL DE SALDO FACTURADO, COBRADO Y POR COBRAR\
+                      </br>\
+                      AÑO: {{$anno}} | AEROPUERTO: {{$aeropuertoNombre}}\
+                    </th>\
+                  </tr>\
+                </thead>')
+          $(table).find('thead, th').css({'border-top':'1px solid black', 'font-weight': 'bold', 'text-align':"center", 'font-size': '8px'})
+          $(table).find('th').css({'border-bottom':'1px solid black', 'font-weight': 'bold', 'text-align':"center", 'font-size': '8px'})
+          $(table).find('td').css({'font-size': '7px'})
+          $(table).find('tr:nth-child(even)').css({'background-color': '#E2E2E2'})
+          $(table).find('tr:last td').css({'border-bottom':'1px solid black','border-top':'1px solid black', 'font-weight': 'bold'})
+          var tableHtml= $(table)[0].outerHTML;
+          $('[name=table]').val(tableHtml);
+          $('#export-form').submit();
+  })
 })
 </script>
 

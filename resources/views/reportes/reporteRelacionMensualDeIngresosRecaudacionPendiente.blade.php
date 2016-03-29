@@ -18,7 +18,7 @@
 				{!! Form::open(["url" => action('ReporteController@getReporteRelacionMensualDeIngresosRecaudacionPendiente'), "method" => "GET", "class"=>"form-inline"]) !!}
 				<div class="form-group">
 					<label>Seleccione un año:</label>
-					{!! Form::select('anno', $annos, null, ["class"=> "form-control"]) !!}
+					{!! Form::select('anno', $annos, $anno, ["class"=> "form-control"]) !!}
 				</div>
 				<button type="submit" class="btn btn-default">Buscar</button>
 				<a class="btn btn-default" href="{{action('ReporteController@getReporteRelacionMensualDeIngresosRecaudacionPendiente')}}">Reset</a>
@@ -28,10 +28,21 @@
 	</div>
 	<div class="col-md-12">
 		<div class="box box-primary">
-			<div class="box-header">
-				<h3 class="box-title">Reporte</h3>
-				<span class="pull-right"><button class="btn btn-primary"><span class="glyphicon glyphicon-file"></span> Exportar</button></span>
-			</div>
+        <div class="col-md-12">
+            <div class="box box-primary">
+            <div class="box-header">
+                {!! Form::open(["url" => action("ReporteController@postExportReport"), "id" =>"export-form", "target"=>"_blank"]) !!}
+                {!! Form::hidden('table') !!}
+                {!! Form::hidden('departamento', 'Departamento de Recaudación') !!}
+                {!! Form::hidden('gerencia', 'Gerencia de Administración') !!}
+                    <h3 class="box-title">Reporte</h3>
+                    <span class="pull-right">
+                        <button type="button" class="btn btn-primary" id="export-btn">
+                            <span class="glyphicon glyphicon-file"></span> Exportar
+                        </button>
+                    </span>
+                {!! Form::close() !!}
+            </div>
 			<div class="box-body" >
 				<div class="row">
 					<div class="col-xs-12">
@@ -40,7 +51,10 @@
 							<table class="table table-hover table-condensed">
 								<thead  class="bg-primary">
 									<tr>
-										<th colspan="1"></th>
+
+										<th rowspan="2" style="vertical-align: middle" class="text-center">
+											Mes
+										</th>
 										<th colspan="2" style="vertical-align: middle" class="text-center">
 											MANUEL CARLOS PIAR
 										</th>
@@ -50,15 +64,12 @@
 										<th colspan="2" style="vertical-align: middle" class="text-center">
 											SANTA ELENA DE UAIRÉN
 										</th>
-										<th colspan="2" style="vertical-align: middle" class="text-center">
+										<th colspan="2" style="font-weight: bold; vertical-align: middle" class="text-center">
 											TOTAL
 										</th>
 									</tr>
 									<tr>
 										<th style="vertical-align: middle" class="text-center">
-											Mes
-										</th>
-										<th style="vertical-align: middle" class="text-center">
 											Recaudado
 										</th>
 										<th style="vertical-align: middle" class="text-center">
@@ -76,10 +87,10 @@
 										<th style="vertical-align: middle" class="text-center">
 											Por Recaudar
 										</th>
-										<th style="vertical-align: middle" class="text-center">
+										<th style="font-weight: bold; vertical-align: middle" class="text-center">
 											Recaudado
 										</th>
-										<th style="vertical-align: middle" class="text-center">
+										<th style="font-weight: bold; vertical-align: middle" class="text-center">
 											Por Recaudar
 										</th>
 									</tr>
@@ -88,26 +99,26 @@
 									@foreach($montosMeses as $mes => $montos)
 										<tr>
 											<td>{{$mes}}</td>
-											<td class="text-right cobradoPZO">{{$traductor->format($montos["cobradoPZO"])}}</td>
-											<td class="text-right porCobrarPZO">{{$traductor->format($montos["porCobrarPZO"])}}</td>
-											<td class="text-right cobradoCBL">{{$traductor->format($montos["cobradoCBL"])}}</td>
-											<td class="text-right porCobrarCBL">{{$traductor->format($montos["porCobrarCBL"])}}</td>
-											<td class="text-right cobradoSNV">{{$traductor->format($montos["cobradoSNV"])}}</td>
-											<td class="text-right porCobrarSNV">{{$traductor->format($montos["porCobrarSNV"])}}</td>
-											<td class="text-right cobradoTotal">{{$traductor->format($montos["cobradoTotal"])}}</td>
-											<td class="text-right porCobrarTotal">{{$traductor->format($montos["porCobrarTotal"])}}</td>
+											<td class="text-right cobradoPZO" align="right">{{$traductor->format($montos["cobradoPZO"])}}</td>
+											<td class="text-right porCobrarPZO" align="right">{{$traductor->format($montos["porCobrarPZO"])}}</td>
+											<td class="text-right cobradoCBL" align="right">{{$traductor->format($montos["cobradoCBL"])}}</td>
+											<td class="text-right porCobrarCBL" align="right">{{$traductor->format($montos["porCobrarCBL"])}}</td>
+											<td class="text-right cobradoSNV" align="right">{{$traductor->format($montos["cobradoSNV"])}}</td>
+											<td class="text-right porCobrarSNV" align="right">{{$traductor->format($montos["porCobrarSNV"])}}</td>
+											<td class="text-right cobradoTotal" style="font-weight: bold;" align="right">{{$traductor->format($montos["cobradoTotal"])}}</td>
+											<td class="text-right porCobrarTotal" style="font-weight: bold;" align="right">{{$traductor->format($montos["porCobrarTotal"])}}</td>
 										</tr>
 									@endforeach
 										<tr class="bg-gray">
-											<td>Totales</td>
-											<td class="text-right" id="cobradoTotalPZO">0</td>
-											<td class="text-right" id="porCobrarTotalPZO">0</td>
-											<td class="text-right" id="cobradoTotalCBL">0</td>
-											<td class="text-right" id="porCobrarTotalCBL">0</td>
-											<td class="text-right" id="cobradoTotalSNV">0</td>
-											<td class="text-right" id="porCobrarTotalSNV">0</td>
-											<td class="text-right" id="cobradoTotalTotal">0</td>
-											<td class="text-right" id="porCobrarTotalTotal">0</td>
+											<td style="font-weight: bold;">TOTALES</td>
+											<td class="text-right" id="cobradoTotalPZO" style="font-weight: bold;" align="right">0</td>
+											<td class="text-right" id="porCobrarTotalPZO" style="font-weight: bold;" align="right">0</td>
+											<td class="text-right" id="cobradoTotalCBL" style="font-weight: bold;" align="right">0</td>
+											<td class="text-right" id="porCobrarTotalCBL" style="font-weight: bold;" align="right">0</td>
+											<td class="text-right" id="cobradoTotalSNV" style="font-weight: bold;" align="right">0</td>
+											<td class="text-right" id="porCobrarTotalSNV" style="font-weight: bold;" align="right">0</td>
+											<td class="text-right" id="cobradoTotalTotal" style="font-weight: bold;" align="right">0</td>
+											<td class="text-right" id="porCobrarTotalTotal" style="font-weight: bold;" align="right">0</td>
 										</tr>
 								</tbody>
 							</table>
@@ -180,7 +191,34 @@
 		$('#cobradoTotalTotal').text(numToComma(cobradoTotalTotal));
 		$('#porCobrarTotalTotal').text(numToComma(porCobrarTotalTotal));
 
+
+		$('#export-btn').click(function(e){
+		    var table=$('table').clone();
+		    $(table).find('td, th').filter(function() {
+		      return $(this).css('display') == 'none';
+		    }).remove();
+		    $(table).find('tr').filter(function() {
+		      return $(this).find('td,th').length == 0;
+		    }).remove();
+		    $(table).prepend('<thead>\
+		                  <tr>\
+		                    <th colspan="9" style="vertical-align: middle; margin-top:20px" align="center" class="text-center">RELACIÓN MENSUAL DE INGRESOS Y RECAUDACIÓN PENDIENTE\
+		                    </br>\
+		                    AÑO: {{$anno}}\
+		                  </th>\
+		                </tr>\
+		              </thead>')
+		        $(table).find('thead, th').css({'border-top':'1px solid black', 'font-weight': 'bold', 'text-align':"center", 'font-size': '8px'})
+		        $(table).find('th').css({'border-bottom':'1px solid black', 'font-weight': 'bold', 'text-align':"center", 'font-size': '8px'})
+		        $(table).find('td').css({'font-size': '7px'})
+		        $(table).find('tr:nth-child(even)').css({'background-color': '#E2E2E2'})
+		        $(table).find('tr:last td').css({'border-bottom':'1px solid black','border-top':'1px solid black', 'font-weight': 'bold'})
+		        var tableHtml= $(table)[0].outerHTML;
+		        $('[name=table]').val(tableHtml);
+		        $('#export-form').submit();
+
 		
+		})
 	})
 </script>
 

@@ -104,21 +104,21 @@ class ReporteController extends Controller {
         ];
         for($i=1;$i<=12; $i++){
                 $diaMes=\Carbon\Carbon::create($anno, $i,1);
-                $facturasPZO=\App\Factura::where('facturas.fecha','>=' ,$diaMes->startOfMonth()->toDateTimeString())
-                ->where('facturas.fecha','<=' ,$diaMes->endOfMonth()->toDateTimeString())
-                ->where('facturas.aeropuerto_id','1')
-                ->where('facturas.deleted_at', null)
+                $cobrosPZO=\App\Cobro::where('cobros.created_at','>=' ,$diaMes->startOfMonth()->toDateTimeString())
+                ->where('cobros.created_at','<=' ,$diaMes->endOfMonth()->toDateTimeString())
+                ->where('cobros.aeropuerto_id','1')
                 ->get();
-                $facturasCBL=\App\Factura::where('facturas.fecha','>=' ,$diaMes->startOfMonth()->toDateTimeString())
-                ->where('facturas.fecha','<=' ,$diaMes->endOfMonth()->toDateTimeString())
-                ->where('facturas.aeropuerto_id','2')
-                ->where('facturas.deleted_at', null)
+
+                $cobrosCBL=\App\Cobro::where('cobros.created_at','>=' ,$diaMes->startOfMonth()->toDateTimeString())
+                ->where('cobros.created_at','<=' ,$diaMes->endOfMonth()->toDateTimeString())
+                ->where('cobros.aeropuerto_id','2')
                 ->get();
-                $facturasSNV=\App\Factura::where('facturas.fecha','>=' ,$diaMes->startOfMonth()->toDateTimeString())
-                ->where('facturas.fecha','<=' ,$diaMes->endOfMonth()->toDateTimeString())
-                ->where('facturas.aeropuerto_id','3')
-                ->where('facturas.deleted_at', null)
+
+                $cobrosSNV=\App\Cobro::where('cobros.created_at','>=' ,$diaMes->startOfMonth()->toDateTimeString())
+                ->where('cobros.created_at','<=' ,$diaMes->endOfMonth()->toDateTimeString())
+                ->where('cobros.aeropuerto_id','3')
                 ->get();
+
             $montosMeses[$meses[$diaMes->month]]=[
                     "cobradoPZO"   =>0,
                     "cobradoCBL"   =>0,
@@ -126,31 +126,30 @@ class ReporteController extends Controller {
                     "cobradoTotal" =>0
                 ];
 
-            foreach ($facturasPZO as $facturaPZO) {
-                $montosMeses[$meses[$diaMes->month]]["cobradoPZO"]+=($facturaPZO->metadata)?$facturaPZO->metadata->total:0;
+            foreach ($cobrosPZO as $cobroPZO) {
+                $montosMeses[$meses[$diaMes->month]]["cobradoPZO"]+=$cobroPZO->montodepositado;
             }
     
-            foreach ($facturasCBL as $facturaCBL) {
-                $montosMeses[$meses[$diaMes->month]]["cobradoCBL"]+=($facturaCBL->metadata)?$facturaCBL->metadata->total:0;
+            foreach ($cobrosCBL as $cobroCBL) {
+                $montosMeses[$meses[$diaMes->month]]["cobradoCBL"]+=$cobroCBL->montodepositado;
             }
     
-            foreach ($facturasSNV as $facturaSNV) {
-                $montosMeses[$meses[$diaMes->month]]["cobradoSNV"]+=($facturaSNV->metadata)?$facturaSNV->metadata->total:0;
+            foreach ($cobrosSNV as $cobroSNV) {
+                $montosMeses[$meses[$diaMes->month]]["cobradoSNV"]+=$cobroSNV->montodepositado;
             }
 
             $montosMeses[$meses[$diaMes->month]]["cobradoTotal"]+=$montosMeses[$meses[$diaMes->month]]["cobradoPZO"]+$montosMeses[$meses[$diaMes->month]]["cobradoCBL"]+$montosMeses[$meses[$diaMes->month]]["cobradoSNV"];
 
-
-
         }
         $mesActual    =$meses[\Carbon\Carbon::now()->month];
+
         return view('reportes.reporteRelacionIngresoMensual', compact('montosMeses', 'anno', 'mesActual'));
     }
 
     public function getReporteRelacionMensualDeFacturacionCobradosYPorCobrar(Request $request){
-        $anno=$request->get('anno',  \Carbon\Carbon::now()->year);
-        $aeropuerto=$request->get('aeropuerto',  0);
-        $montosMeses=[];
+        $anno        =$request->get('anno',  \Carbon\Carbon::now()->year);
+        $aeropuerto  =$request->get('aeropuerto',  session('aeropuerto')->id);
+        $montosMeses =[];
         $meses=[
             1  =>"ENERO",
             2  =>"FEBRERO",
@@ -166,12 +165,37 @@ class ReporteController extends Controller {
             12 =>"DICIEMBRE"
         ];
         for($i=1;$i<=12; $i++){
-                $diaMes=\Carbon\Carbon::create($anno, $i,1);
-                $facturas=\App\Factura::where('facturas.fecha','>=' ,$diaMes->startOfMonth()->toDateTimeString())
-                ->where('facturas.fecha','<=' ,$diaMes->endOfMonth()->toDateTimeString())
-                ->where('facturas.aeropuerto_id',($aeropuerto==0)?">":"=" ,$aeropuerto)
-                ->where('facturas.deleted_at', null)
-                ->get();
+            $diaMes=\Carbon\Carbon::create($anno, $i,1);
+
+            //Cobrado
+            $cobros=\App\Cobro::where('cobros.created_at','>=' ,$diaMes->startOfMonth()->toDateTimeString())
+            ->where('cobros.created_at','<=' ,$diaMes->endOfMonth()->toDateTimeString())
+            ->where('cobros.aeropuerto_id',$aeropuerto)
+            ->get();
+
+            //Facturas por Cobrar
+            $facturasPorCobrar=\App\Factura::where('facturas.fecha','>=' ,$diaMes->startOfMonth()->toDateTimeString())
+            ->where('facturas.fecha','<=' ,$diaMes->endOfMonth()->toDateTimeString())
+            ->where('facturas.aeropuerto_id',$aeropuerto)
+            ->where('estado', 'C')
+            ->where('facturas.deleted_at', null)
+            ->get();
+
+            //Facturación
+            $facturas=\App\Factura::where('facturas.fecha','>=' ,$diaMes->startOfMonth()->toDateTimeString())
+            ->where('facturas.fecha','<=' ,$diaMes->endOfMonth()->toDateTimeString())
+            ->where('facturas.aeropuerto_id',$aeropuerto)
+            ->where('facturas.deleted_at', null)
+            ->get(); 
+
+            $cobrosAnteriores=\App\Cobro::join('cobro_factura', 'cobros.id', '=', 'cobro_factura.factura_id')
+            ->join('facturas', 'cobro_factura.factura_id', '=', 'facturas.id')
+            ->where('facturas.fecha', '<',$diaMes->startOfMonth()->toDateTimeString()) 
+            ->where('cobros.created_at','>=' ,$diaMes->startOfMonth()->toDateTimeString())
+            ->where('cobros.created_at','<=' ,$diaMes->endOfMonth()->toDateTimeString())
+            ->where('cobros.aeropuerto_id', $aeropuerto)
+            ->get();          
+
             $montosMeses[$meses[$diaMes->month]]=[
                     "facturado"     =>0,
                     "cobrado"       =>0,
@@ -181,12 +205,23 @@ class ReporteController extends Controller {
 
             foreach ($facturas as $factura) {
                 $montosMeses[$meses[$diaMes->month]]["facturado"]+=$factura->total;
-                $montosMeses[$meses[$diaMes->month]]["cobrado"]+=($factura->metadata)?$factura->metadata->total:0;
-
             }
-            $montosMeses[$meses[$diaMes->month]]["porCobrar"]=$montosMeses[$meses[$diaMes->month]]["facturado"]-$montosMeses[$meses[$diaMes->month]]["cobrado"];
+            foreach ($facturasPorCobrar as $facturaPorCobrar) {
+                $montosMeses[$meses[$diaMes->month]]["porCobrar"]+=$facturaPorCobrar->total;
+            }
+
+            foreach ($cobros as $cobro) {
+                $montosMeses[$meses[$diaMes->month]]["cobrado"]+=$cobro->montodepositado;
+            }
+
+            foreach ($cobrosAnteriores as $cobroAnterior) {
+                $montosMeses[$meses[$diaMes->month]]["cobroAnterior"]+=$cobro->montodepositado;
+            }
         }
-        return view('reportes.reporteRelacionMensualDeFacturacionCobradosYPorCobrar', compact('montosMeses', 'anno', 'aeropuerto'));
+
+        $aeropuertoNombre=\App\Aeropuerto::find($aeropuerto)->nombre;
+
+        return view('reportes.reporteRelacionMensualDeFacturacionCobradosYPorCobrar', compact('montosMeses', 'anno', 'aeropuerto', 'aeropuertoNombre'));
     }
 
 
@@ -258,11 +293,14 @@ class ReporteController extends Controller {
                 $estacionamientoDiario[$primerDiaMes->format('d/m/Y')]["montoTotal"] =$estacionamiento->total;
                 $estacionamientoDiario[$primerDiaMes->format('d/m/Y')]["ivaTotal"]   =($estacionamiento->total)*$iva/100;
                 $estacionamientoDiario[$primerDiaMes->format('d/m/Y')]["baseTotal"]  =$estacionamientoDiario[$primerDiaMes->format('d/m/Y')]["montoTotal"]-$estacionamientoDiario[$primerDiaMes->format('d/m/Y')]["ivaTotal"];
+
+
             }
 
         }
 
-        return view('reportes.reporteRelacionEstacionamientoDiario', compact('mes', 'anno', 'aeropuerto', 'estacionamientoDiario'));
+        $aeropuertoNombre=\App\Aeropuerto::find($aeropuerto)->nombre;
+        return view('reportes.reporteRelacionEstacionamientoDiario', compact('mes', 'mesNombre', 'anno', 'aeropuerto', 'aeropuertoNombre', 'estacionamientoDiario'));
     }
 
 //Reporte Diario de Ingresos
@@ -410,58 +448,78 @@ class ReporteController extends Controller {
             12=>"DICIEMBRE"];
        for($i=1;$i<=12; $i++){
                 $diaMes=\Carbon\Carbon::create($anno, $i,1);
+
+                //Cobrado
+                $cobrosPZO=\App\Cobro::where('cobros.created_at','>=' ,$diaMes->startOfMonth()->toDateTimeString())
+                ->where('cobros.created_at','<=' ,$diaMes->endOfMonth()->toDateTimeString())
+                ->where('cobros.aeropuerto_id','1')
+                ->get();
+
+                $cobrosCBL=\App\Cobro::where('cobros.created_at','>=' ,$diaMes->startOfMonth()->toDateTimeString())
+                ->where('cobros.created_at','<=' ,$diaMes->endOfMonth()->toDateTimeString())
+                ->where('cobros.aeropuerto_id','2')
+                ->get();
+
+                $cobrosSNV=\App\Cobro::where('cobros.created_at','>=' ,$diaMes->startOfMonth()->toDateTimeString())
+                ->where('cobros.created_at','<=' ,$diaMes->endOfMonth()->toDateTimeString())
+                ->where('cobros.aeropuerto_id','3')
+                ->get();
+
+                //Facturas por Cobrar
                 $facturasPZO=\App\Factura::where('facturas.fecha','>=' ,$diaMes->startOfMonth()->toDateTimeString())
                 ->where('facturas.fecha','<=' ,$diaMes->endOfMonth()->toDateTimeString())
                 ->where('facturas.aeropuerto_id','1')
+                ->where('estado', 'C')
                 ->where('facturas.deleted_at', null)
                 ->get();
                 $facturasCBL=\App\Factura::where('facturas.fecha','>=' ,$diaMes->startOfMonth()->toDateTimeString())
                 ->where('facturas.fecha','<=' ,$diaMes->endOfMonth()->toDateTimeString())
                 ->where('facturas.aeropuerto_id','2')
+                ->where('estado', 'C')
                 ->where('facturas.deleted_at', null)
                 ->get();
                 $facturasSNV=\App\Factura::where('facturas.fecha','>=' ,$diaMes->startOfMonth()->toDateTimeString())
                 ->where('facturas.fecha','<=' ,$diaMes->endOfMonth()->toDateTimeString())
                 ->where('facturas.aeropuerto_id','3')
+                ->where('estado', 'C')
                 ->where('facturas.deleted_at', null)
                 ->get();
+                
             $montosMeses[$meses[$diaMes->month]]=[
-                    "facturadoPZO"   =>0,
                     "cobradoPZO"     =>0,
                     "porCobrarPZO"   =>0,
-                    "facturadoCBL"   =>0,
                     "cobradoCBL"     =>0,
                     "porCobrarCBL"   =>0,
-                    "facturadoSNV"   =>0,
                     "cobradoSNV"     =>0,
                     "porCobrarSNV"   =>0,
-                    "facturadoTotal" =>0,
                     "cobradoTotal"   =>0,
                     "porCobrarTotal" =>0,
                 ];
 
-            foreach ($facturasPZO as $facturaPZO) {
-                $montosMeses[$meses[$diaMes->month]]["facturadoPZO"]+=$facturaPZO->total;
-                $montosMeses[$meses[$diaMes->month]]["cobradoPZO"]+=($facturaPZO->metadata)?$facturaPZO->metadata->total:0;
-
+            foreach ($cobrosPZO as $cobroPZO) {
+                $montosMeses[$meses[$diaMes->month]]["cobradoPZO"]+=$cobroPZO->montodepositado;
             }
-            $montosMeses[$meses[$diaMes->month]]["porCobrarPZO"]=$montosMeses[$meses[$diaMes->month]]["facturadoPZO"]-$montosMeses[$meses[$diaMes->month]]["cobradoPZO"];
+    
+            foreach ($cobrosCBL as $cobroCBL) {
+                $montosMeses[$meses[$diaMes->month]]["cobradoCBL"]+=$cobroCBL->montodepositado;
+            }
+    
+            foreach ($cobrosSNV as $cobroSNV) {
+                $montosMeses[$meses[$diaMes->month]]["cobradoSNV"]+=$cobroSNV->montodepositado;
+            }
+
+            foreach ($facturasPZO as $facturaPZO) {
+                $montosMeses[$meses[$diaMes->month]]["porCobrarPZO"]+=$facturaPZO->total;
+            }
 
             foreach ($facturasCBL as $facturaCBL) {
-                $montosMeses[$meses[$diaMes->month]]["facturadoCBL"]+=$facturaCBL->total;
-                $montosMeses[$meses[$diaMes->month]]["cobradoCBL"]+=($facturaCBL->metadata)?$facturaCBL->metadata->total:0;
-
+                $montosMeses[$meses[$diaMes->month]]["porCobrarCBL"]+=$facturaCBL->total;
             }
-            $montosMeses[$meses[$diaMes->month]]["porCobrarCBL"]=$montosMeses[$meses[$diaMes->month]]["facturadoCBL"]-$montosMeses[$meses[$diaMes->month]]["cobradoCBL"];
 
             foreach ($facturasSNV as $facturaSNV) {
-                $montosMeses[$meses[$diaMes->month]]["facturadoSNV"]+=$facturaSNV->total;
-                $montosMeses[$meses[$diaMes->month]]["cobradoSNV"]+=($facturaSNV->metadata)?$facturaSNV->metadata->total:0;
-
+                $montosMeses[$meses[$diaMes->month]]["porCobrarSNV"]+=$facturaSNV->total;
             }
-            $montosMeses[$meses[$diaMes->month]]["porCobrarSNV"]=$montosMeses[$meses[$diaMes->month]]["facturadoSNV"]-$montosMeses[$meses[$diaMes->month]]["cobradoSNV"];
 
-            $montosMeses[$meses[$diaMes->month]]["facturadoTotal"]=$montosMeses[$meses[$diaMes->month]]["facturadoPZO"]+$montosMeses[$meses[$diaMes->month]]["facturadoCBL"]+$montosMeses[$meses[$diaMes->month]]["facturadoSNV"];
             $montosMeses[$meses[$diaMes->month]]["cobradoTotal"]=$montosMeses[$meses[$diaMes->month]]["cobradoPZO"]+$montosMeses[$meses[$diaMes->month]]["cobradoCBL"]+$montosMeses[$meses[$diaMes->month]]["cobradoSNV"];
             $montosMeses[$meses[$diaMes->month]]["porCobrarTotal"]=$montosMeses[$meses[$diaMes->month]]["porCobrarPZO"]+$montosMeses[$meses[$diaMes->month]]["porCobrarCBL"]+$montosMeses[$meses[$diaMes->month]]["porCobrarSNV"];
         }
@@ -626,7 +684,7 @@ class ReporteController extends Controller {
 
        // set margins
 
-       $pdf->SetMargins(PDF_MARGIN_RIGHT, '18', PDF_MARGIN_RIGHT);
+       $pdf->SetMargins('5', '18', '5');
 
        $pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
 
