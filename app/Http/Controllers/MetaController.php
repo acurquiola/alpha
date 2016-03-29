@@ -96,13 +96,15 @@ class MetaController extends Controller {
         //registrando metas nuevas
         //
         //
+
+       // dd($request->all());
 		$conceptoMeta     =$request->get("conceptoMeta", []);
 		$montoGobernacion =$request->get("montoGobernacion", []);
 		$montoGobernacion =$this->parseDecimal($request['montoGobernacion'],[]);
 		$montoSaar        =$request->get("montoSaar", []);
 		$montoSaar        =$this->parseDecimal($request['montoSaar'],[]);
 		$montoGobernacion =$montoGobernacion;
-		$montoSaar        = $montoSaar;
+		$montoSaar        =$montoSaar;
 
 		$metaDetalles     =[];
         foreach($conceptoMeta as $index => $meta){

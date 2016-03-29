@@ -66,12 +66,12 @@ class CobranzaController extends Controller {
             $fecha=\Carbon\Carbon::createFromFormat('d/m/Y', $fecha);
         }
 
-        \Input::merge([ 'fechaOperator'     =>$fechaOperator,
-            'cobroIdOperator' =>$cobroIdOperator,
-            'pagadoOperator'     =>$pagadoOperator,
-            'depositadoOperator'     =>$depositadoOperator,
-            'sortName'          =>$sortName,
-            'sortType'          =>$sortType]);
+        \Input::merge([ 'fechaOperator'      =>$fechaOperator,
+                        'cobroIdOperator'    =>$cobroIdOperator,
+                        'pagadoOperator'     =>$pagadoOperator,
+                        'depositadoOperator' =>$depositadoOperator,
+                        'sortName'           =>$sortName,
+                        'sortType'           =>$sortType]);
 
         $modulo=\App\Modulo::where("nombre","like",$moduloNombre)->first();
 
@@ -351,25 +351,26 @@ return ["success"=>1, "impresion" => $impresion];
             $id=$modulo->id;
             $idOperator="=";
         }
-        $codigo=$request->get('codigo');
-        $cliente=\App\Cliente::where("codigo","=", $codigo)->get()->first();
+        $codigo  =$request->get('codigo');
+        $cliente =\App\Cliente::where("codigo","=", $codigo)->get()->first();
         if(!$cliente)
             return ["facturas"=>[], "ajuste"=> [], "ajusteCobros"=>[]];
+        
         $facturas=\App\Factura::with('metadata')
-        ->where('cliente_id', $cliente->id)
-        ->where('modulo_id', $idOperator, $id)
-        ->where('aeropuerto_id', session('aeropuerto')->id)
-        ->where('facturas.estado','=','P')
-        ->groupBy("facturas.id")->get();
+            ->where('cliente_id', $cliente->id)
+            ->where('modulo_id', $idOperator, $id)
+            ->where('aeropuerto_id', session('aeropuerto')->id)
+            ->where('facturas.estado','=','P')
+            ->groupBy("facturas.id")->get();
         $ajusteCliente= \DB::table('ajustes')
-        ->where('cliente_id', $cliente->id)
-        ->where('aeropuerto_id', session('aeropuerto')->id)
-        ->sum('monto');
+            ->where('cliente_id', $cliente->id)
+            ->where('aeropuerto_id', session('aeropuerto')->id)
+            ->sum('monto');
         $ajusteCobros= \DB::table('ajustes')
-        ->select('cobro_id')
-        ->where('cliente_id', $cliente->id)
-        ->where('aeropuerto_id', session('aeropuerto')->id)
-        ->get();
+            ->select('cobro_id')
+            ->where('cliente_id', $cliente->id)
+            ->where('aeropuerto_id', session('aeropuerto')->id)
+            ->get();
 
         return ["facturas"=>$facturas, "ajuste"=> $ajusteCliente, "ajusteCobros"=> $ajusteCobros];
     }
@@ -390,11 +391,11 @@ return ["success"=>1, "impresion" => $impresion];
 
     protected function crearRecibo($cobro, $output= 'I', $dir='ReciboCaja/'){
 
-        $cobroid=$cobro;
-        $cobro=\App\Cobro::with('pagos', 'cliente')->find($cobroid);
+        $cobroid =$cobro;
+        $cobro   =\App\Cobro::with('pagos', 'cliente')->find($cobroid);
         foreach ($cobro->pagos as $c){    
-            $pagos[]=\App\Cobrospago::with('banco', 'cuenta')->find($c->id);
-            $cuentas[]=\App\Bancoscuenta::where('id', $c->cuenta_id)->get();
+            $pagos[]   =\App\Cobrospago::with('banco', 'cuenta')->find($c->id);
+            $cuentas[] =\App\Bancoscuenta::where('id', $c->cuenta_id)->get();
         }
 
         //dd($cobro);

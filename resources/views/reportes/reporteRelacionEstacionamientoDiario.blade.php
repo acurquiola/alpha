@@ -62,7 +62,7 @@
 										<th style="vertical-align: middle" class="text-center" colspan="4">TICKETS EXTRAVIADOS</th>
 										<th style="vertical-align: middle" class="text-center" colspan="10">TARJETAS ELECTRÓNICAS</th>
 										<th style="vertical-align: middle" class="text-center" colspan="3">RECAUDADO</th>
-										<th style="vertical-align: middle" class="text-center" colspan="1">DEPÓSITO</th>
+										<th style="vertical-align: middle" class="text-center" colspan="1">DEP.</th>
 									</tr>
 									<tr>
 										<th rowspan="2" style="vertical-align: middle" class="text-center">
@@ -389,9 +389,9 @@
 									</th>\
 								</tr>\
 							</thead>')
-			$(table).find('thead, th').css({'border-top':'1px solid black', 'font-weight': 'bold', 'text-align':"center", 'font-size': '8px'})
-			$(table).find('th').css({'border-bottom':'1px solid black', 'font-weight': 'bold', 'text-align':"center", 'font-size': '8px'})
-			$(table).find('td').css({'font-size': '7px'})
+			$(table).find('thead, th').css({'border-top':'1px solid black', 'font-weight': 'bold', 'text-align':"center", 'font-size': '6px'})
+			$(table).find('th').css({'border-bottom':'1px solid black', 'font-weight': 'bold', 'text-align':"center", 'font-size': '6px'})
+			$(table).find('td').css({'font-size': '5px'})
 			$(table).find('tr:nth-child(even)').css({'background-color': '#E2E2E2'})
 			$(table).find('tr:last td').css({'border-bottom':'1px solid black','border-top':'1px solid black', 'font-weight': 'bold'})
 			var tableHtml= $(table)[0].outerHTML;

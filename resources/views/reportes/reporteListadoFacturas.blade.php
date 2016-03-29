@@ -97,6 +97,8 @@
                     <div class="box-header">
                         {!! Form::open(["url" => action("ReporteController@postExportReport"), "id" =>"export-form", "target"=>"_blank"]) !!}
                         {!! Form::hidden('table') !!}
+                        {!! Form::hidden('gerencia', 'Gerencia de Administración') !!}
+                        {!! Form::hidden('departamento', 'Departamento de Recaudación') !!}
                             <h3 class="box-title">Reporte</h3>
                             <span class="pull-right"><button class="btn btn-primary" id="export-btn"><span class="glyphicon glyphicon-file"></span> Exportar</button></span>
                         {!! Form::close() !!}
@@ -180,7 +182,7 @@
                                     </tr>     
                             @else
                                 <tr>
-                                    <td colspan="11" class="text-center">No hay registros para los parametros seleccionados</td>
+                                    <td colspan="11" class="text-center">No hay registros para los parámetros seleccionados</td>
                                 </tr>
                             @endif
 
@@ -227,7 +229,26 @@ $('#cliente-select').chosen({width: "100%"})
 
 $('#export-btn').click(function(e){
     var table=$('table').clone();
-    $(table).find('th').css({'border-bottom':'1px solid black','border-top':'1px solid black', 'font-weight': 'bold'})
+    $(table).find('td, th').filter(function() {
+        return $(this).css('display') == 'none';
+    }).remove();
+    $(table).find('tr').filter(function() {
+        return $(this).find('td,th').length == 0;
+    }).remove();
+    $(table).prepend('<thead>\
+                        <tr>\
+                            <th colspan="11" style="vertical-align: middle; margin-top:20px" align="center" class="text-center">LISTADO DE FACTURAS EMITIDAS\
+                                </br>\
+                                DESDE: {{isset($desde)?$desde:"TODOS"}} HASTA: {{isset($hasta)?$hasta:"TODOS"}} | MÓDULO: {{isset($modulo)?$modulo:"TODOS"}}\
+                                </br>\
+                                CLIENTE: {{isset($cliente_id)?$cliente_id:"TODOS"}} | AEROPUERTO: {{isset($aeropuerto)?$aeropuerto:"TODOS"}}\
+                            </th>\
+                        </tr>\
+                    </thead>')
+    $(table).find('thead, th').css({'border-top':'1px solid black', 'font-weight': 'bold', 'text-align':"center", 'font-size': '8px'})
+    $(table).find('th').css({'border-bottom':'1px solid black', 'font-weight': 'bold', 'text-align':"center", 'font-size': '8px'})
+    $(table).find('td').css({'font-size': '7px'})
+    $(table).find('tr:nth-child(even)').css({'background-color': '#E2E2E2'})
     $(table).find('tr:last td').css({'border-bottom':'1px solid black','border-top':'1px solid black', 'font-weight': 'bold'})
     var tableHtml= $(table)[0].outerHTML;
     $('[name=table]').val(tableHtml);

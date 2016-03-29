@@ -85,9 +85,9 @@ class ReporteController extends Controller {
     }
 
     public function getReporteRelacionIngresoMensual(Request $request){
-        $anno=$request->get('anno',  \Carbon\Carbon::now()->year);
-        $aeropuerto=$request->get('aeropuerto',  0);
-        $montosMeses=[];
+        $anno        =$request->get('anno',  \Carbon\Carbon::now()->year);
+        $aeropuerto  =$request->get('aeropuerto',  0);
+        $montosMeses =[];
         $meses=[
             1  =>"ENERO",
             2  =>"FEBRERO",
@@ -177,7 +177,7 @@ class ReporteController extends Controller {
             $facturasPorCobrar=\App\Factura::where('facturas.fecha','>=' ,$diaMes->startOfMonth()->toDateTimeString())
             ->where('facturas.fecha','<=' ,$diaMes->endOfMonth()->toDateTimeString())
             ->where('facturas.aeropuerto_id',$aeropuerto)
-            ->where('estado', 'C')
+            ->where('estado', 'P')
             ->where('facturas.deleted_at', null)
             ->get();
 
@@ -469,19 +469,19 @@ class ReporteController extends Controller {
                 $facturasPZO=\App\Factura::where('facturas.fecha','>=' ,$diaMes->startOfMonth()->toDateTimeString())
                 ->where('facturas.fecha','<=' ,$diaMes->endOfMonth()->toDateTimeString())
                 ->where('facturas.aeropuerto_id','1')
-                ->where('estado', 'C')
+                ->where('estado', 'P')
                 ->where('facturas.deleted_at', null)
                 ->get();
                 $facturasCBL=\App\Factura::where('facturas.fecha','>=' ,$diaMes->startOfMonth()->toDateTimeString())
                 ->where('facturas.fecha','<=' ,$diaMes->endOfMonth()->toDateTimeString())
                 ->where('facturas.aeropuerto_id','2')
-                ->where('estado', 'C')
+                ->where('estado', 'P')
                 ->where('facturas.deleted_at', null)
                 ->get();
                 $facturasSNV=\App\Factura::where('facturas.fecha','>=' ,$diaMes->startOfMonth()->toDateTimeString())
                 ->where('facturas.fecha','<=' ,$diaMes->endOfMonth()->toDateTimeString())
                 ->where('facturas.aeropuerto_id','3')
-                ->where('estado', 'C')
+                ->where('estado', 'P')
                 ->where('facturas.deleted_at', null)
                 ->get();
                 
@@ -648,7 +648,7 @@ class ReporteController extends Controller {
             $iva      =$facturas->sum('iva');
             $islr     =$facturas->sum('islr');
 
-            $view->with( compact('facturas', 'aeropuerto', 'modulo', 'desde', 'hasta', 'nFactura', 'rif', 'nombre', 'estatus', 'total', 'subtotal', 'islr', 'iva'));
+            $view->with( compact('facturas', 'aeropuerto','cliente', 'cliente_id', 'modulo', 'desde', 'hasta', 'nFactura', 'rif', 'nombre', 'estatus', 'total', 'subtotal', 'islr', 'iva'));
 
 
         }
