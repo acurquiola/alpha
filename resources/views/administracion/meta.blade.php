@@ -97,7 +97,6 @@
                     						</div>
 
                     					</div>
-
                     					@foreach($metas as $meta)
                     					<div role="tabpanel" class="tab-pane" id="meta-{{$meta->id}}-tab">
                     						<div class="form-horizontal">

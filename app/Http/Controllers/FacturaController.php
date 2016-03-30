@@ -201,39 +201,39 @@ class FacturaController extends Controller {
 	public function index($moduloNombre, Request $request)
 	{
 
-        $sortName          = $request->get('sortName','id');
-        $sortName          =($sortName=="")?"id":$sortName;
-
-        $sortType          = $request->get('sortType','DESC');
-        $sortType          =($sortType=="")?"DESC":$sortType;
-
-
+        $sortName         = $request->get('sortName','id');
+        $sortName         =($sortName=="")?"id":$sortName;
+        
+        $sortType         = $request->get('sortType','DESC');
+        $sortType         =($sortType=="")?"DESC":$sortType;
+        
+        
         $nFactura         = $request->get('nFactura');
         $nFactura         =($nFactura=="")?0:$nFactura;
         $nFacturaOperator = $request->get('nFacturaOperator', '>=');
         $nFacturaOperator =($nFacturaOperator=="")?'>=':$nFacturaOperator;
         $nFacturaOperator =($nFactura==0)?">=":$nFacturaOperator;
-
+        
         $nControl         = $request->get('nControl');
         $nControl         =($nControl=="")?0:$nControl;
         $nControlOperator = $request->get('nControlOperator', '>=');
         $nControlOperator =($nControlOperator=="")?'>=':$nControlOperator;
         $nControlOperator =($nControl==0)?">=":$nControlOperator;
         
-        $clienteNombre     = $request->get('clienteNombre', '%');
-
-        $descripcion       = $request->get('descripcion', '%');
-
-        $total             = $request->get('total');
-        $total             =($total=="")?0:$total;
-        $totalOperator     = $request->get('totalOperator', '>=');
-        $totalOperator     =($totalOperator=="")?'>=':$totalOperator;
-        $totalOperator     =($total==0)?">=":$totalOperator;
-
-
-        $fecha             = $request->get('fecha');
-        $fechaOperator     = $request->get('fechaOperator', '>=');
-        $fechaOperator     =($fechaOperator=="")?'>=':$fechaOperator;
+        $clienteNombre    = $request->get('clienteNombre', '%');
+        
+        $descripcion      = $request->get('descripcion', '%');
+        
+        $total            = $request->get('total');
+        $total            =($total=="")?0:$total;
+        $totalOperator    = $request->get('totalOperator', '>=');
+        $totalOperator    =($totalOperator=="")?'>=':$totalOperator;
+        $totalOperator    =($total==0)?">=":$totalOperator;
+        
+        
+        $fecha            = $request->get('fecha');
+        $fechaOperator    = $request->get('fechaOperator', '>=');
+        $fechaOperator    =($fechaOperator=="")?'>=':$fechaOperator;
         if($fecha==""){
             $fecha         ='0000-00-00';
             $fechaOperator ='>=';
@@ -247,12 +247,12 @@ class FacturaController extends Controller {
 
 
 
-        \Input::merge([ 'fechaOperator'     =>$fechaOperator,
-                        'nFacturaOperator' =>$nFacturaOperator,
-                        'nControlOperator' =>$nControlOperator,
-                        'totalOperator'     =>$totalOperator,
-                        'sortName'          =>$sortName,
-                        'sortType'          =>$sortType]);
+        \Input::merge([ 'fechaOperator'                 =>$fechaOperator,
+                        'nFacturaOperator'              =>$nFacturaOperator,
+                        'nControlOperator'              =>$nControlOperator,
+                        'totalOperator'                 =>$totalOperator,
+                        'sortName'                      =>$sortName,
+                        'sortType'                      =>$sortType]);
 
         $modulo=\App\Modulo::where("nombre","like",$moduloNombre)->where('aeropuerto_id', session('aeropuerto')->id)->first();
 
@@ -301,24 +301,24 @@ class FacturaController extends Controller {
 	public function create($modulo,Factura $factura)
 	{
         if($modulo=="CANON"){
-            $hoy=\Carbon\Carbon::now();
-            $hoy->timezone     = 'America/Caracas';
-            $factura->descripcion="PERIODO ".$this->meses[$hoy->month]." $hoy->year  PATENTE: 2010-AG1845";
+            $hoy                  =\Carbon\Carbon::now();
+            $hoy->timezone        = 'America/Caracas';
+            $factura->descripcion ="PERIODO ".$this->meses[$hoy->month]." $hoy->year  PATENTE: 2010-AG1845";
         }
         if($modulo=="ESTACIONAMIENTO"){
-            $hoy=\Carbon\Carbon::now();
-            $hoy->timezone     = 'America/Caracas';
-            $factura->descripcion="PERIODO ".$this->meses[$hoy->month]." $hoy->year  PATENTE: 2010-AG1845";
-        }
+            $hoy                  =\Carbon\Carbon::now();
+            $hoy->timezone        = 'America/Caracas';
+            $factura->descripcion ="PERIODO ".$this->meses[$hoy->month]." $hoy->year  PATENTE: 2010-AG1845";
+            }
         if($modulo=="PUBLICIDAD"){
-            $hoy=\Carbon\Carbon::now();
-            $hoy->timezone     = 'America/Caracas';
-            $factura->descripcion="SERVICIOS DE PUBLICIDAD ".$this->meses[$hoy->month]." $hoy->year  PATENTE: 2010-AG1845";
+            $hoy                  =\Carbon\Carbon::now();
+            $hoy->timezone        = 'America/Caracas';
+            $factura->descripcion ="SERVICIOS DE PUBLICIDAD ".$this->meses[$hoy->month]." $hoy->year  PATENTE: 2010-AG1845";
         }
         if($modulo=="TARJETAS DE IDENTIFICACION"){
-            $hoy=\Carbon\Carbon::now();
-            $hoy->timezone     = 'America/Caracas';
-            $factura->descripcion="TARJETAS DE IDENTIFICACIÓN PATENTE 2010 AG-1845";
+            $hoy                  =\Carbon\Carbon::now();
+            $hoy->timezone        = 'America/Caracas';
+            $factura->descripcion ="TARJETAS DE IDENTIFICACIÓN PATENTE 2010 AG-1845";
         }
         $modulo= \App\Modulo::where('nombre', $modulo)->where('aeropuerto_id', session('aeropuerto')->id)->first();
         if(!$modulo){
