@@ -4,11 +4,13 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
+use App\Traits\DecimalConverterTrait;
+
 
 class MetaController extends Controller {
 
 
-    use \App\Traits\DecimalConverterTrait;
+    use DecimalConverterTrait;
 
 
     public function __construct()
@@ -22,9 +24,8 @@ class MetaController extends Controller {
 	 */
 	public function index()
 	{
-		$aeropuerto=session("aeropuerto");
-
-        $metas=$aeropuerto->metas()->orderBy('fecha_inicio')->get();
+		$aeropuerto =session("aeropuerto");
+		$metas      =$aeropuerto->metas()->orderBy('fecha_inicio')->get();
 
         return view("administracion/meta", compact("aeropuerto", "estacionamiento", "portons", "conceptosEstacionamiento", "metas"));
 	}
@@ -97,19 +98,18 @@ class MetaController extends Controller {
         //
         //
 
-       // dd($request->all());
 		$conceptoMeta     =$request->get("conceptoMeta", []);
 		$montoGobernacion =$request->get("montoGobernacion", []);
 		$montoGobernacion =$this->parseDecimal($request['montoGobernacion'],[]);
 		$montoSaar        =$request->get("montoSaar", []);
 		$montoSaar        =$this->parseDecimal($request['montoSaar'],[]);
-		$montoGobernacion =$montoGobernacion;
-		$montoSaar        =$montoSaar;
 
 		$metaDetalles     =[];
         foreach($conceptoMeta as $index => $meta){
-            $metaDetalles[]=["concepto_id"=>$meta, "gobernacion_meta" => $montoGobernacion[$index], "saar_meta" => $montoSaar[$index] ];
+
+            $metaDetalles[]=["concepto_id"=>$meta, "gobernacion_meta" => $this->parseDecimal($montoGobernacion[$index]), "saar_meta" => $this->parseDecimal($montoSaar[$index])];
         }
+
 
         if(count($metaDetalles)){
             if($aeropuerto->metas->count()>0){
