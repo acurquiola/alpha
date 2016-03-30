@@ -222,14 +222,16 @@
                 		@permission('menu.reporteRecaudacion')   
 						<li class="header">Recaudación</li>     
                         <li {{ (\Request::is('reporte/reporteListadoFacturas*'))?"class=active":"" }}><a href="{{ URL::to('reporte/reporteListadoFacturas') }}"><i class="fa fa-folder-o"></i> Listado de Facturas Emitidas</a></li>
-						<li {{ (\Request::is('reporte/reporteReporteRelacionCobranza*'))?"class=active":"" }}><a href="{{ URL::to('reporte/reporteReporteRelacionCobranza') }}"><i class="fa fa-folder-o"></i> Relación de Cobranza</a></li>        		
+						<li {{ (\Request::is('reporte/reporteRelacionCobranza*'))?"class=active":"" }}><a href="{{ URL::to('reporte/reporteRelacionCobranza') }}"><i class="fa fa-folder-o"></i> Relación de Cobranza</a></li>        		
 						<li {{ (\Request::is('reporte/reporteContratos*'))?"class=active":"" }}><a href="{{ URL::to('reporte/reporteContratos') }}"><i class="fa fa-folder-o"></i> Relación de Contratos Registrados</a></li>        		
-						<li {{ (\Request::is('reporte/reporterFacturadoCobradoMensual*'))?"class=active":"" }}><a href="{{ URL::to('reporte/reporterFacturadoCobradoMensual') }}"><i class="fa fa-folder-o"></i> Relación de Ingresos y Cuentas por Cobrar</a></li>        		
-						<li {{ (\Request::is('reporte/reporteModuloMetaMensual*'))?"class=active":"" }}><a href="{{ URL::to('reporte/reporteModuloMetaMensual') }}"><i class="fa fa-folder-o"></i> Libro de ventas</a></li>        		
-						<li {{ (\Request::is('reporte/mensual*'))?"class=active":"" }}><a href="{{ URL::to('reporte/mensual') }}"><i class="fa fa-folder-o"></i> Recaudación consolidada</a></li>        		
+						<li {{ (\Request::is('reporte/reporteRelacionIngresoMensual*'))?"class=active":"" }}><a href="{{ URL::to('reporte/reporteRelacionIngresoMensual') }}"><i class="fa fa-folder-o"></i> Relación de Ingreso Mensual</a></li>        		
+						<li {{ (\Request::is('reporte/reporteRelacionMensualDeIngresosRecaudacionPendiente*'))?"class=active":"" }}><a href="{{ URL::to('reporte/reporteRelacionMensualDeIngresosRecaudacionPendiente') }}"><i class="fa fa-folder-o"></i> Relación Mensual de Ingresos y Recaudación Pendiente</a></li>        		
+						<li {{ (\Request::is('reporte/reporteRelacionMensualDeFacturacionCobradosYPorCobrar*'))?"class=active":"" }}><a href="{{ URL::to('reporte/reporteRelacionMensualDeFacturacionCobradosYPorCobrar') }}"><i class="fa fa-folder-o"></i> Relación Mensual de Saldo Facturado, Cobrado y Por Cobrar</a></li>        		
+						<li {{ (\Request::is('reporte/reporteRelacionEstacionamientoDiario*'))?"class=active":"" }}><a href="{{ URL::to('reporte/reporteRelacionEstacionamientoDiario') }}"><i class="fa fa-folder-o"></i> Relación de Estacionamiento Diario</a></li>        		
+<!-- 						<li {{ (\Request::is('reporte/reporteModuloMetaMensual*'))?"class=active":"" }}><a href="{{ URL::to('reporte/reporteModuloMetaMensual') }}"><i class="fa fa-folder-o"></i> Libro de ventas</a></li>        		
+						<li {{ (\Request::is('reporte/mensual*'))?"class=active":"" }}><a href="{{ URL::to('reporte/mensual') }}"><i class="fa fa-folder-o"></i> Recaudación consolidada</a></li>   -->      		
 
                 	<!-- 	<li><a href="{{action('ReporteController@getReporteMensual')}}"><i class="fa fa-folder-o"></i> Recaudación consolidada</a></li>
-                		<li><a href="{{action('ReporteController@getReporterFacturadoCobradoMensual')}}"><i class="fa fa-folder-o"></i> Relación cuentas por cobrar</a></li>
                 		<li><a href="{{action('ReporteController@getReporteModuloMetaMensual')}}"><i class="fa fa-folder-o"></i> Libro de ventas</a></li>
                 		<li><a href="#"><i class="fa fa-folder-o"></i> Relación facturado/cobrado</a></li>
                 		<li><a href="#"><i class="fa fa-folder-o"></i> Relación de contratos</a></li>
@@ -246,6 +248,7 @@
                 		<i class="fa fa-cogs"></i> <span>Administración</span> <i class="fa fa-angle-left pull-right"></i>
                 	</a>
                 	<ul class="treeview-menu">
+                	<li {{ (\Request::is('administracion/informacion*'))?"class=active":"" }}><a href="{{ URL::to('administracion/informacion') }}"><i class="fa fa-info-circle"></i> Información</a></li>
                 		@permission('menu.informacion')
                 		<li {{ (\Request::is('administracion/meta*'))?"class=active":"" }}><a href="{{ URL::to('administracion/meta') }}"><i class="fa fa-area-chart"></i> Metas</a></li>
                 		@endpermission

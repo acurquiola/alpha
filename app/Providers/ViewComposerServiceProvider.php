@@ -137,9 +137,10 @@ class ViewComposerServiceProvider extends ServiceProvider {
 
         view()->composer([
             'reportes.reporteRelacionCobranza',
+            'reportes.reporteRelacionEstacionamientoDiario',
             'reportes.reporteDiario',
             'reportes.reporteModuloMetaMensual',
-            'reportes.reporterFacturadoCobradoMensual',
+            'reportes.reporteRelacionMensualDeFacturacionCobradosYPorCobrar',
             'reportes.reporteDES900',
             'reportes.reporteListadoFacturas',
             'reportes.reporteTraficoAereo'], function($view){
@@ -151,13 +152,16 @@ class ViewComposerServiceProvider extends ServiceProvider {
 
         \View::composer([
             'reportes.reporteRelacionCobranza',
+            'reportes.reporteRelacionEstacionamientoDiario',
             'reportes.reporteDiario',
             'reportes.reporteModuloMetaMensual',
-            'reportes.reporterFacturadoCobradoMensual',
+            'reportes.reporteRelacionMensualDeFacturacionCobradosYPorCobrar',
             'reportes.reporteDES900',
             'reportes.reporteCuadreCaja',
             'factura.automatica',
             'reportes.reporteListadoFacturas',
+            'reportes.reporteRelacionIngresoMensual',
+            'reportes.reporteRelacionMensualDeIngresosRecaudacionPendiente',
             'reportes.reporteTraficoAereo'], function($view){
             $meses=[
                 "01"=>"ENERO",
@@ -174,6 +178,7 @@ class ViewComposerServiceProvider extends ServiceProvider {
                 "12"=>"DICIEMBRE"];
 
             $annos=[
+                "2015"=>"2015", 
                 "2016"=>"2016", "2017"=>"2017",
                 "2018"=>"2018", "2019"=>"2019",
                 "2020"=>"2020", "2021"=>"2021",

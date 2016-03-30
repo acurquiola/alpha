@@ -63,12 +63,14 @@ class ClienteController extends Controller {
 			}
 		}
 
-        $cliente=\App\Cliente::create($request->except('hangars'));
+        $cliente=\App\Cliente::create($request->except('hangars', 'isContribuyente'));
+		$cliente->isContribuyente =$request->input('isContribuyente', 0);
         if($request->get('tipo')!="No Aeronáutico")
             $hangars=$request->get('hangars',[]);
         else
             $hangars=[];
         $cliente->hangars()->sync(array_flatten($hangars));
+		$cliente->save();
         return redirect("administracion/cliente")->with('status','El cliente fue creado exitósamente.');
 	}
 
@@ -102,12 +104,14 @@ class ClienteController extends Controller {
 	 */
 	public function update(Cliente $cliente, ClienteRequest $request)
 	{
-        $cliente->update($request->except('hangars'));
+        $cliente->update($request->except('hangars', 'isContribuyente'));
+		$cliente->isContribuyente =$request->input('isContribuyente', 0);
         if($request->get('tipo')!="No Aeronáutico")
             $hangars=$request->get('hangars',[]);
         else
             $hangars=[];
         $cliente->hangars()->sync(array_flatten($hangars));
+		$cliente->save();
         return redirect("administracion/cliente")->with('status','El cliente fue actualizado exitósamente.');
 	}
 

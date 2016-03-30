@@ -23,7 +23,7 @@
 						<label for="cliente-select" class="control-label col-xs-1">Cliente</label>
 						<div class="col-xs-5">
 							<select class="form-control" id="cliente-select" autocomplete="off">
-								<option value="">--Seleccione una opcion--</option>
+								<option value="">--Seleccione una Opción--</option>
 								@foreach($clientes as $cliente)
 								<option
 									data-id="{{$cliente->cliente_id}}"
@@ -47,14 +47,13 @@
 						</div>
 					</div>
 				</div>
-				<h5>Cuentas por cobrar</h5>
+				<h5>Cuentas por Cobrar</h5>
 				<div class="row">
 					<div class="col-xs-2 col-xs-offset-8 text-right">
 						<select class="form-control" id="type-rows-cxc-table-wrapper-select">
 							<option value="t">Todas</option>
 							<option value="s">Seleccionadas</option>
 							<option value="n">No seleccionadas</option>
-							<option>Vencidas??</option>
 						</select>
 					</div>
 					<div class="col-xs-2 text-right">
@@ -74,13 +73,13 @@
 			            <thead class="bg-primary">
 				            <th style="min-width:120px"># Fac/Doc</th>
 				            <th style="min-width:120px"># Control</th>
-				            <th style="min-width:120px">Fecha emisión</th>
-				            <th style="min-width:120px">Monto documento</th>
+				            <th style="min-width:120px">Fecha Emisión</th>
+				            <th style="min-width:120px">Monto Documento</th>
 				            <th style="min-width:120px">Saldo Cancelado</th>
 				            <th style="min-width:120px">Saldo Pendiente</th>
 
 				            <th style="min-width:120px">Retención</th>
-				            <th style="min-width:120px">Saldo a pagar</th>
+				            <th style="min-width:120px">Saldo a Pagar</th>
 				            <th style="min-width:120px">Saldo Abonado</th>
 				            <th style="min-width:120px">Saldo Restante</th>
 				            <th style="min-width:200px">Acción</th>
@@ -97,25 +96,37 @@
 						</div><!-- /.input group -->
 					</div>                          
 		            <div class="form-group pull-right">
-			            <label for="total-a-pagar-doc-input" class="col-sm-6 control-label"><h5>Total a cobrar</h5></label>
+			            <label for="total-a-pagar-doc-input" class="col-sm-6 control-label"><h5>Total a Cobrar</h5></label>
 			            <div class="col-sm-6">
 				            <input autocomplete="off" type="text" class="form-control total-a-pagar-doc-input" style="font-weight: bold;" readonly value="0,00">
 			            </div>
 		            </div>
-
 				</div>
 
 	            <div class="row">
 		            <div class="col-xs-12">
-			            <label>Leyenda:[<span class="text-success">Pago completo</span> | <span class="text-info">Sobrepagado</span> | <span class="text-warning">Pago parcial</span> | <span class="text-danger">Error en saldo ingresado</span>]</label>
-<!-- 			            <div  class="pull-right"><label id="items-seleccionados-label" class="text-primary" style="font-weight: bold;" >0 Facturas Seleccionadas</label></div>
- -->		            </div>
+			            <label>Leyenda:[<span class="text-success">Pago Completo</span> |
+			            				<span class="text-info">Sobrepagado</span> | 
+			            				<span class="text-warning">Pago Parcial</span> | 
+			            				<span class="text-danger">Error en Saldo Ingresado</span>]
+			            </label>
+ 			            <div  class="pull-right">
+							<div class="col-sm-1" style="margin-right: 20px">
+								<div class="round round hollow blue">
+							        <span id="contador" style="font-weight: bold; font-size: 15px">0</span>
+							    </div>
+							</div>
+	 			            <label id="items-seleccionados-label" class="text-primary" style="font-weight: bold; margin-top: 3px; margin-right: -30px; font-size: 15px">
+	 			            	 Facturas Seleccionadas
+	 			            </label>
+	 			        </div>
+ 		            </div>
 
 	            </div>
-	            <h5>Formas de pago</h5>
+	            <h5>Formas de Pago</h5>
 	            <div class="row">
 		            <div class="col-xs-12 text-right"> 
-			            <button class="btn btn-primary register-payment-btn"><span class="glyphicon glyphicon-plus"></span> Registrar pago</button> 
+			            <button class="btn btn-primary register-payment-btn"><span class="glyphicon glyphicon-plus"></span> Registrar Pago</button> 
 		            </div> 
 	            </div> 
 	            <div class="table-responsive" style="margin-top:15px;margin-bottom:15px">
@@ -124,8 +135,8 @@
 				            <th>Fecha</th>
 				            <th>Banco</th> 
 				            <th>Cuenta</th>
-				            <th>Forma de pago</th>
-				            <th>#Deposito/#Lote</th>
+				            <th>Forma de Pago</th>
+				            <th>#Depósito/#Lote</th>
 				            <th>Monto</th>
 				            <th>Acción</th>
 			            </thead> 
@@ -151,7 +162,7 @@
 		            <div class="col-xs-12">
 			            <div class="form-horizontal">
 				            <div class="form-group">
-					            <label for="total-a-pagar-doc-input" class="col-sm-2 control-label">Total a cobrar</label>
+					            <label for="total-a-pagar-doc-input" class="col-sm-2 control-label">Total a Cobrar</label>
 					            <div class="col-sm-2">
 						            <input autocomplete="off" type="text" class="form-control total-a-pagar-doc-input" readonly value="0,00">
 					            </div>
@@ -159,7 +170,7 @@
 					            <div class="col-sm-2">
 						            <input autocomplete="off" type="text" class="form-control" id="total-diferencia-doc-input" readonly value="0,00">
 					            </div>
-					            <label for="total-a-depositar-doc-input" class="col-sm-2 control-label">Total depositado</label>
+					            <label for="total-a-depositar-doc-input" class="col-sm-2 control-label">Total Depositado</label>
 					            <div class="col-sm-2">
 						            <input autocomplete="off" type="text" class="form-control" id="total-a-depositar-doc-input" readonly value="0,00">
 					            </div>
@@ -167,7 +178,6 @@
 			            </div>
 		            </div>
 	            </div>
-
             </div><!-- /.box-body -->
             <div class="box-footer">
             <!--                 Se debe validar que el monto a cobrar y el monto depositado sean iguales, mostrar un alert de confirmacion
@@ -176,7 +186,7 @@
 	                <div class="col-xs-6">
 		                <div class="checkbox">
 			                <label>
-				                <input type="checkbox" checked id="hasrecaudos-check"> Recaudos conciliados
+				                <input type="checkbox" checked id="hasrecaudos-check"> Recaudos Conciliados
 			                </label>
 		                </div>
 	                </div>

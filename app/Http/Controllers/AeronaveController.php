@@ -29,39 +29,40 @@ class AeronaveController extends Controller {
 			$sortName             =($sortName=="")?"matricula":$sortName;
 			
 			$sortType             = $request->get('sortType','ASC');
-			$sortType             =($sortType=="")?"ASC":$sortType;
+			$sortType             = ($sortType=="")?"ASC":$sortType;
 			
 			
-			$matricula            = $request->get('matricula', 0);
-			$matriculaOperador       =($matricula=="")?">":"=";
+			$matricula            = $request->get('matricula', '%');
+			$matricula            =($matricula=="")?"%":$matricula;
+			
+			$peso                 = $request->get('peso', '%');
+			$peso                 =($peso=="")?"%":$peso;
 			
 			$nacionalidad_id      = $request->get('nacionalidad_id', 0);
-			$nacionalidadOperador =($nacionalidad_id=="")?">":"=";
+			$nacionalidadOperador = ($nacionalidad_id=="")?">":"=";
 			
 			$tipo_id              = $request->get('tipo_id', 0);
-			$tipoOperador         =($tipo_id=="")?">":"=";
+			$tipoOperador         = ($tipo_id=="")?">":"=";
 			
 			$modelo_id            = $request->get('modelo_id', 0);
-			$modeloOperador       =($modelo_id=="")?">":"=";
+			$modeloOperador       = ($modelo_id=="")?">":"=";
 			
-			$peso                 = $request->get('peso', 0);
-			$pesoOperador         =($peso=="")?">":"=";
 			
 			$cliente_id           = $request->get('cliente_id', 0);
-			$clienteOperador      =($cliente_id=="")?">":"=";
+			$clienteOperador      = ($cliente_id=="")?">":"=";
 			
 			$hangar_id            = $request->get('hangar_id', 0);
-			$hangarOperador       =($hangar_id=="")?">":"=";
+			$hangarOperador       = ($hangar_id=="")?">":"=";
 			\Input::merge([
 				'sortName'=>$sortName,
 				'sortType'=>$sortType]);
 
 			$aeronaves= Aeronave::with('tipo', 'cliente', 'hangar', 'modelo', 'nacionalidad')
-							->where('matricula', $matriculaOperador, $matricula)
+							->where('matricula',$matricula)
 							->where('nacionalidad_id', $nacionalidadOperador, $nacionalidad_id)
 							->where('tipo_id', $tipoOperador, $tipo_id)
 							->where('modelo_id', $modeloOperador, $modelo_id)
-							->where('peso', $pesoOperador, $peso)
+							->where('peso', $peso)
 							->where('cliente_id', $clienteOperador, $cliente_id);
 			if($hangar_id==''){
 				$aeronaves=$aeronaves->orWhere('hangar_id','=' , null);

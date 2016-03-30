@@ -13,17 +13,17 @@
                 <div class="row">
                     <div class="col-md-2">
                         <select class="form-control" id="turno-input">
-                            <option>Turno 1</option>
-                            <option>Turno 2</option>
-                            <option>Turno 3</option>
+                            @for($i=1; $i<=$aeropuerto->n_tasas_turnos; $i++)
+                                <option value="{{$i}}">Turno {{$i}}</option>
+                            @endfor
                         </select>
                     </div>
                     <div class="col-md-2">
                         <select class="form-control" id="taquilla-input">
-                            <option>Taquilla 1</option>
-                            <option>Taquilla 2</option>
-                            <option>Taquilla 3</option>
-                            <option>Control de vuelo</option>
+                            @for($i=1; $i<=$aeropuerto->n_tasas_taquillas; $i++)
+                                <option value="{{$i}}">Taquilla {{$i}}</option>
+                            @endfor
+                            <option value="CV">Control de vuelo</option>
                         </select>
                     </div>
                     <div class="col-md-6">

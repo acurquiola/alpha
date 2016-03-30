@@ -48,10 +48,8 @@ function calculateTotalPagar(){
 	var total =0;
 	var trs   =$('#cxc-table tbody').find('tr.success, tr.info, tr.warning').not('.ajuste-row');
 	$.each(trs, function(index,value){
-	console.log($(value).find('.saldo-abonado-input').val());
 		total+=commaToNum($(value).find('.saldo-abonado-input').val());
 	})
-	console.log(total);
 	$('.total-a-pagar-doc-input').val(numToComma(total));
 	$('#total-diferencia-doc-input').val(numToComma(commaToNum($('#total-a-depositar-doc-input').val())-total));
 }
@@ -202,14 +200,12 @@ $('#cxc-table').delegate('.retencion-btn','click',function(){
 		var trs=$('#retencion-modal table tbody tr');
 		$.each(trs, function(){
 			if(commaToNum($(this).find('.retencion-input').val())!=0){
-				$(this).find(':checkbox').iCheck('check');
+				$(this).find(':checkbox').attr('checked', 'checked');
 			}
 		});
 		calculateTotalRetencion()
 	}
-
 	$('#retencion-modal').modal('show');
-
 })
 
 $('#retencion-modal').on('hidden.bs.modal', function () {
@@ -223,7 +219,7 @@ $('#retencion-modal').on('hidden.bs.modal', function () {
 })
 
 $('#procesar-cuotas-btn').click(function(){
-	var saldo    = $('#cuota-saldo-input').val();
+	var saldo    =$('#cuota-saldo-input').val();
 	var cantidad =$('#cuota-cantidad-input').val();
 	saldo        =parseFloat(saldo);
 	cantidad     =parseInt(cantidad);
@@ -413,16 +409,14 @@ $('#cxc-table').delegate('.saldo-abonado-input', 'keyup',function(){
 	var saldoPendiente   =commaToNum($(row).find('.saldo-pagar').text());
 	$(row).find('.saldo-restante').text(numToComma(saldoPendiente-saldoAbonado));
 	checkRowCondition(row, saldoAbonado, saldoPendiente,saldoAbonadoText);
-
 })
-
 
 $('#cxc-table').delegate('.pay-all-btn', 'click',function(){
 	var row   =$(this).closest('tr');
-	$.each($('#cxc-table tr').hasClass("success")==true, function(){
-		console.log();
-	});
-		
+	var items=$('#cxc-table .success');
+	var size=items.size()+1;
+	$('#contador').text(size);
+	
 
 	var saldoPendienteText =$(row).find('.saldo-pagar').text();
 	var saldoPendiente     =commaToNum(saldoPendienteText);

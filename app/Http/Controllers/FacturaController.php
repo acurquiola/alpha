@@ -242,6 +242,9 @@ class FacturaController extends Controller {
             $fecha->timezone = 'America/Caracas';
         }
 
+        $estado               = $request->get('estado', '%');
+        $estado               =($estado=="")?"%":$estado;
+
 
 
         \Input::merge([ 'fechaOperator'     =>$fechaOperator,
@@ -255,18 +258,35 @@ class FacturaController extends Controller {
 
 
 
-        $modulo->facturas=\App\Factura::select("facturas.*","clientes.nombre as clienteNombre")
-                                        ->join('clientes','clientes.id' , '=', 'facturas.cliente_id')
-                                        ->where('facturas.modulo_id', "=", $modulo->id)
-                                        ->where('facturas.nControl', $nControlOperator, $nControl)
-                                        ->where('facturas.nFactura', $nFacturaOperator, $nFactura)
-                                        ->where('total', $totalOperator, $total)
-                                        ->where('fecha', $fechaOperator, $fecha)
-                                        ->where('descripcion', 'like', "%$descripcion%")
-                                        ->where('clientes.nombre', 'like', "%$clienteNombre%")
-                                        ->where('facturas.aeropuerto_id','=', session('aeropuerto')->id)
-                                        ->with('cliente')->groupBy("facturas.nFactura")
-                                        ->orderBy($sortName, $sortType)->paginate(10);
+        if($estado == 'A'){
+            $modulo->facturas=\App\Factura::select("facturas.*","clientes.nombre as clienteNombre")
+                                            ->join('clientes','clientes.id' , '=', 'facturas.cliente_id')
+                                            ->where('facturas.modulo_id', "=", $modulo->id)
+                                            ->where('facturas.nControl', $nControlOperator, $nControl)
+                                            ->where('facturas.nFactura', $nFacturaOperator, $nFactura)
+                                            ->where('total', $totalOperator, $total)
+                                            ->where('fecha', $fechaOperator, $fecha)
+                                            ->where('descripcion', 'like', "%$descripcion%")
+                                            ->where('clientes.nombre', 'like', "%$clienteNombre%")
+                                            ->where('facturas.aeropuerto_id','=', session('aeropuerto')->id)
+                                            ->where('deleted_at', '<>', 'NULL')
+                                            ->with('cliente')->groupBy("facturas.nFactura")
+                                            ->orderBy($sortName, $sortType)->paginate(10);
+        }else{
+            $modulo->facturas=\App\Factura::select("facturas.*","clientes.nombre as clienteNombre")
+                                ->join('clientes','clientes.id' , '=', 'facturas.cliente_id')
+                                ->where('facturas.modulo_id', "=", $modulo->id)
+                                ->where('facturas.nControl', $nControlOperator, $nControl)
+                                ->where('facturas.nFactura', $nFacturaOperator, $nFactura)
+                                ->where('total', $totalOperator, $total)
+                                ->where('fecha', $fechaOperator, $fecha)
+                                ->where('descripcion', 'like', "%$descripcion%")
+                                ->where('clientes.nombre', 'like', "%$clienteNombre%")
+                                ->where('facturas.aeropuerto_id','=', session('aeropuerto')->id)
+                                ->where('estado', 'like', $estado)
+                                ->with('cliente')->groupBy("facturas.nFactura")
+                                ->orderBy($sortName, $sortType)->paginate(10);
+        }
 
         $modulo->facturas->setPath('');
 

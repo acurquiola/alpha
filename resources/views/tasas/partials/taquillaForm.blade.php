@@ -22,27 +22,6 @@
             </div><!-- /.box-header -->
             <!-- form start -->
             <div class="box-body">
-
-                <div class="form-horizontal">
-                    <div class="form-group">
-                        <label for="turno-input" class="control-label col-md-2">Serie</label>
-                        <div class="col-md-2">
-                            <select class="form-control" id="serie-select" autocomplete="off">
-                                <option value="A" {{($tasaOp->detalles->whereLoose('serie', "A")->first())?"disabled":""}} data-inicio="{{$series["A"]}}">Serie A</option>
-                                <option value="B" {{($tasaOp->detalles->whereLoose('serie', "B")->first())?"disabled":""}} data-inicio="{{$series["B"]}}">Serie B</option>
-                                <option value="C" {{($tasaOp->detalles->whereLoose('serie', "C")->first())?"disabled":""}} data-inicio="{{$series["C"]}}">Serie C</option>
-                                <option value="D" {{($tasaOp->detalles->whereLoose('serie', "D")->first())?"disabled":""}} data-inicio="{{$series["D"]}}">Serie D</option>
-                            </select>
-                        </div>
-                        <label for="turno-input" class="control-label col-md-2">Monto</label>
-                        <div class="col-md-2">
-                            <input class="form-control" id="monto-input">
-                        </div>
-                        <div class="col-md-2 col-md-offset-2 text-right">
-                            <button type="button" class="btn btn-primary btn-block" id="add-serie-btn"><span class="glyphicon glyphicon-plus"></span></button>
-                        </div>
-                    </div>
-                </div>
                 <form>
                     <input type="hidden" name="fecha" value="{{$fecha}}">
                     <input type="hidden" name="taquilla" value="{{$taquilla}}">
@@ -56,50 +35,95 @@
                             <th style="min-width:100px">Cantidad</th>
                             <th class="text-right" style="min-width:150px">Monto</th>
                             <th class="text-right" style="min-width:150px">Total</th>
-                            <th>Accion</th>
+                            <th>Acción</th>
+
                         </thead>
                         <tbody>
-                            @foreach($tasaOp->detalles as $detalle)
-                                <tr>
-                                    <td class="serie-td">
-                                        <input type="hidden" name="serie[]" class="serie-val" value="{{$detalle->serie}}">
-                                        <p class="form-control-static">Serie {{$detalle->serie}}</p>
-                                    </td>
-                                    <td>
-                                        <input name="desde[]" class="form-control text-right desde-input" value="{{$detalle->inicio}}">
-                                    </td>
-                                    <td>
-                                        <input name="hasta[]" class="form-control text-right hasta-input" value="{{$detalle->fin}}">
-                                    </td>
-                                    <td>
-                                        <div class="input-group">
-                                            <span class="input-group-btn">
-                                                <button type="button" class="btn btn-danger subtract-tasa" type="button">
-                                                    <span class="glyphicon glyphicon-minus"></span>
-                                                </button>
-                                            </span>
-                                            <input name="cantidad[]" class="form-control  text-center cantidad-input" value="{{$detalle->cantidad}}">
-                                            <span class="input-group-btn">
-                                                <button type="button" class="btn btn-primary add-tasa" type="button">
-                                                    <span class="glyphicon glyphicon-plus"></span>
-                                                </button>
-                                            </span>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <input type="hidden" name="monto[]" class="serie-val" value="{{$detalle->costo}}">
-                                        <p class="form-control-static text-right bs-input">{{$detalle->costo}}</p>
-                                    </td>
-                                    <td>
-                                        <p class="form-control-static text-right monto-input">{{$detalle->total}}</p>
-                                    </td>
-                                    <td>
-                                        <button type="button" class="btn btn-danger delete-serie-btn">
-                                            <span class="glyphicon glyphicon-minus"></span>
-                                        </button>
-                                    </td>
-                                </tr>
-                            @endforeach
+                            @if($tasaOp->detalles->count()==0)
+                                @foreach($tasas as $tasa)
+                                    <tr>
+                                        <td class="serie-td">
+                                            <input type="hidden" name="serie[]" class="serie-val" value="{{$tasa->nombre}}">
+                                            <p class="form-control-static">Serie {{$tasa->nombre}}</p>
+                                        </td>
+                                        <td>
+                                            <input name="desde[]" class="form-control text-right desde-input" value="{{$tasa->inicio}}">
+                                        </td>
+                                        <td>
+                                            <input name="hasta[]" class="form-control text-right hasta-input" value="{{max($tasa->inicio, $tasa->max)}}">
+                                        </td>
+                                        <td>
+                                            <div class="input-group">
+                                                <span class="input-group-btn">
+                                                    <button type="button" class="btn btn-danger subtract-tasa" type="button">
+                                                        <span class="glyphicon glyphicon-minus"></span>
+                                                    </button>
+                                                </span>
+                                                <input name="cantidad[]" class="form-control  text-center cantidad-input" value="0">
+                                                <span class="input-group-btn">
+                                                    <button type="button" class="btn btn-primary add-tasa" type="button">
+                                                        <span class="glyphicon glyphicon-plus"></span>
+                                                    </button>
+                                                </span>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <input type="hidden" name="monto[]" class="serie-val" value="{{$tasa->monto}}">
+                                            <p class="form-control-static text-right bs-input">{{$tasa->monto}}</p>
+                                        </td>
+                                        <td>
+                                            <p class="form-control-static text-right monto-input">0,00</p>
+                                        </td>
+                                        <td>
+                                            <button type="button" class="btn btn-danger delete-serie-btn">
+                                                <span class="glyphicon glyphicon-minus"></span>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            @else
+                                @foreach($tasaOp->detalles as $detalle)
+                                    <tr>
+                                        <td class="serie-td">
+                                            <input type="hidden" name="serie[]" class="serie-val" value="{{$detalle->serie}}">
+                                            <p class="form-control-static">Serie {{$detalle->serie}}</p>
+                                        </td>
+                                        <td>
+                                            <input name="desde[]" class="form-control text-right desde-input" value="{{$detalle->inicio}}">
+                                        </td>
+                                        <td>
+                                            <input name="hasta[]" class="form-control text-right hasta-input" value="{{$detalle->fin}}">
+                                        </td>
+                                        <td>
+                                            <div class="input-group">
+                                                <span class="input-group-btn">
+                                                    <button type="button" class="btn btn-danger subtract-tasa" type="button">
+                                                        <span class="glyphicon glyphicon-minus"></span>
+                                                    </button>
+                                                </span>
+                                                <input name="cantidad[]" class="form-control  text-center cantidad-input" value="{{$detalle->cantidad}}">
+                                                <span class="input-group-btn">
+                                                    <button type="button" class="btn btn-primary add-tasa" type="button">
+                                                        <span class="glyphicon glyphicon-plus"></span>
+                                                    </button>
+                                                </span>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <input type="hidden" name="monto[]" class="serie-val" value="{{$detalle->costo}}">
+                                            <p class="form-control-static text-right bs-input">{{$detalle->costo}}</p>
+                                        </td>
+                                        <td>
+                                            <p class="form-control-static text-right monto-input">{{$detalle->total}}</p>
+                                        </td>
+                                        <td>
+                                            <button type="button" class="btn btn-danger delete-serie-btn">
+                                                <span class="glyphicon glyphicon-minus"></span>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            @endif
                         </tbody>
                     </table>
                     <div class="row">
