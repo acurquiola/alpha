@@ -38,7 +38,7 @@
                     <td class ='matricula-td'>{{$despegue->aterrizaje->aeronave->matricula}}</td>
                     <td class ='cliente_id-td'>{{(($despegue->cliente)?$despegue->cliente->nombre:"No asignado")}}</td> 
                     <td>
-                         @if($despegue->tipoMatricula_id == '4')
+                         @if($despegue->tipoMatricula_id == '4' || $despegue->tipoMatricula_id == '9')
                                    <button class='btn btn-success btn-sm verDespegue-btn'><span class='glyphicon glyphicon-eye-open' title='Ver Información'></span></button>
                               @else
                               <div class='btn-group  btn-group-sm' role='group' aria-label='...'>
