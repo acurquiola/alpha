@@ -35,7 +35,8 @@ class TasaController extends Controller {
         }
         $tasaOp->load('detalles');
 
-        $tasas=$aeropuerto->tasas;
+        $tasas=$aeropuerto->tasas()->where('activa', '=', true)->where('cv', '=', $taquilla=="CV")->get();
+
         foreach($tasas as $tasa){
             $tasa->max=\DB::table('tasaopdetalles')->where('serie', $tasa->nombre)->max('fin')+1;
         }

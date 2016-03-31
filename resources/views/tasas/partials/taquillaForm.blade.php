@@ -41,6 +41,7 @@
                         <tbody>
                             @if($tasaOp->detalles->count()==0)
                                 @foreach($tasas as $tasa)
+
                                     <tr>
                                         <td class="serie-td">
                                             <input type="hidden" name="serie[]" class="serie-val" value="{{$tasa->nombre}}">
