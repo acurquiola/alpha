@@ -20,7 +20,7 @@
                     
                     <!-- Tab panes -->
                     <div class="tab-content">
-                        <div role="tabpanel" class="tab-pane" id="aeropuertoTab">
+                        <div role="tabpanel" class="tab-pane active" id="aeropuertoTab">
                             <div class="row">
                                 <div class="col-md-8 col-md-offset-2">
                                     <div class="form-group">
@@ -62,7 +62,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div role="tabpanel" class="tab-pane active" id="tasasTab">
+                        <div role="tabpanel" class="tab-pane" id="tasasTab">
                             <div class="row">
                                 <div class="col-md-8 col-md-offset-2">
                                    
@@ -96,6 +96,22 @@
                                                             <td><input type="text" class="form-control" value="{{$tasa->monto}}" name="tasas[{{$tasa->id}}][monto]"></td>
                                                             <td><input type="text" class="form-control" value="{{$tasa->inicio}}" name="tasas[{{$tasa->id}}][inicio]"></td>
                                                             <td><input type="text" class="form-control" value="" readonly></td>
+                                                            <td>
+                                                              <div class="checkbox">
+                                                                <label>
+                                                                  <input type="hidden" value='0' name="tasas[{{$tasa->id}}][cv]" >
+                                                                  <input value='1' {{($tasa->cv)?"checked":""}} name="tasas[{{$tasa->id}}][cv]" type="checkbox"> CV
+                                                                </label>
+                                                              </div>
+                                                            </td>
+                                                            <td>
+                                                              <div class="checkbox">
+                                                                <label>
+                                                                  <input type="hidden" value='0' name="tasas[{{$tasa->id}}][activa]" >
+                                                                  <input value='1' {{($tasa->activa)?"checked":""}} name="tasas[{{$tasa->id}}][activa]" type="checkbox"> Activa
+                                                                </label>
+                                                              </div>
+                                                            </td>
                                                             <td><button class='btn btn-danger remove-concepto-btn'><span class='glyphicon glyphicon-minus'></span></button></td>
                                                         </tr>
                                                     @endforeach
@@ -256,8 +272,28 @@ $(function(){
         <td><input type='text' class='form-control' value='' name='tasasNuevas["+tasasNuevas+"][monto]'></td>\
         <td><input type='text' class='form-control' value='' name='tasasNuevas["+tasasNuevas+"][inicio]'></td>\
         <td><input type='text' class='form-control' value='' readonly></td>\
+        <td>\
+            <div class='checkbox'>\
+                <label>\
+                    <input type='hidden' value='0' name='tasasNuevas["+tasasNuevas+"][cv]' >\
+                    <input value='1' name='tasasNuevas["+tasasNuevas+"][cv]' type='checkbox'> CV\
+                </label>\
+            </div>\
+        </td>\
+        <td>\
+            <div class='checkbox'>\
+                <label>\
+                    <input type='hidden' value='0' name='tasasNuevas["+tasasNuevas+"][activa]' >\
+                    <input value='1' name='tasasNuevas["+tasasNuevas+"][activa]' type='checkbox'> Activa\
+                </label>\
+            </div>\
+        </td>\
         <td><button type='button' class='btn btn-danger remove-serie-btn'><span class='glyphicon glyphicon-minus'></span></button></td>\
         </tr>");
+        $('input[type="checkbox"]').iCheck({
+            checkboxClass: 'icheckbox_flat-blue',
+            radioClass: 'iradio_flat-blue'
+        });
         tasasNuevas++;
     });
 

@@ -41,13 +41,14 @@
                         <tbody>
                             @if($tasaOp->detalles->count()==0)
                                 @foreach($tasas as $tasa)
+
                                     <tr>
                                         <td class="serie-td">
                                             <input type="hidden" name="serie[]" class="serie-val" value="{{$tasa->nombre}}">
                                             <p class="form-control-static">Serie {{$tasa->nombre}}</p>
                                         </td>
                                         <td>
-                                            <input name="desde[]" class="form-control text-right desde-input" value="{{$tasa->inicio}}">
+                                            <input name="desde[]" class="form-control text-right desde-input" value="{{max($tasa->inicio, $tasa->max)}}">
                                         </td>
                                         <td>
                                             <input name="hasta[]" class="form-control text-right hasta-input" value="{{max($tasa->inicio, $tasa->max)}}">
