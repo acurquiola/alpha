@@ -16,6 +16,11 @@ class Aeropuerto extends Model {
         return $this->hasOne('App\Estacionamiento');
     }
 
+    public function tasas()
+    {
+        return $this->hasMany('App\Tasa');
+    }
+
     public function hangar()
     {
         return $this->hasMany('App\Hangar');
@@ -29,7 +34,7 @@ class Aeropuerto extends Model {
 
     public function usuarios()
     {
-        return $this->hasMany('App\Usuario');
+        return $this->belongsToMany('App\Usuario');
     }
 
     public function aterrizaje()

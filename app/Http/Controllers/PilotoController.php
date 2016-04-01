@@ -9,7 +9,6 @@ use Illuminate\Http\Request;
 use App\Piloto;
 use App\Pais;
 
-
 class PilotoController extends Controller {
 
 	/**
@@ -107,7 +106,7 @@ class PilotoController extends Controller {
 	 */
 		public function show(ModeloAeronave $piloto)
 	{
-        return view("pilotos.partials.show", compact('piloto'));
+       return view("pilotos.partials.show", compact('piloto'));
 	}
 
 	/**
@@ -154,14 +153,14 @@ class PilotoController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-    public function destroy($id)
-    {
-        if(\App\Piloto::destroy($id)){
-            return ["success"=>1, "text" => "El piloto fue eliminado con exito."];
-        }else{
-            return ["success"=>0, "text" => "El piloto no fue eliminado."];
-        }
-    }
+   public function destroy($id)
+   {
+       if(\App\Piloto::destroy($id)){
+           return ["success"=>1, "text" => "El piloto fue eliminado con exito."];
+       }else{
+           return ["success"=>0, "text" => "El piloto no fue eliminado."];
+       }
+   }
 
 
 	/**
@@ -170,33 +169,33 @@ class PilotoController extends Controller {
 	 * @return Response
 	 */
 	 public function estadoPiloto(Request $request)
-    {
+   {
 		$id    = $request->input('id');
 		$pilot = Piloto::find($id);
 
-        if ($pilot->estado == '0')
-        {
+       if ($pilot->estado == '0')
+       {
 			$pilot->estado = '1';
 			$mensaje       = "Piloto habilitado exitósamente.";
 			$mensajeError  = "Ocurrió un error habilitando al Piloto.";
-        } 
-        else
-        {
+       } 
+       else
+       {
 			$pilot->estado = '0';
 			$mensaje       = "Piloto inhabilitado exitósamente.";
 			$mensajeError  = "Ocurrió un error inhabilitando al Piloto.";
-        }
-        if($pilot->save())
-        {
-            return response()->json(array("text"=>$mensaje,
-                "piloto"=>$pilot,
-                "success"=>1));
+       }
+       if($pilot->save())
+       {
+           return response()->json(array("text"=>$mensaje,
+               "piloto"=>$pilot,
+               "success"=>1));
 
-        }
-        else
-        {
-            return response()->json(array("text"=>$mensajeError, "success"=>0));
-        }
-    }
+       }
+       else
+       {
+           return response()->json(array("text"=>$mensajeError, "success"=>0));
+       }
+   }
 
 }

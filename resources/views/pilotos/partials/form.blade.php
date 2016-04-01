@@ -33,7 +33,7 @@
 	</div>
 </div>
 <div class="form-group">
-	<label for="estado" class="col-sm-2 control-label">Tipo de Aeronave</label>
+	<label for="estado" class="col-sm-2 control-label">Estado</label>
 	<div class="col-sm-10">
 			{!! Form::checkbox('estado', true, null) !!} Activo
 	</div>

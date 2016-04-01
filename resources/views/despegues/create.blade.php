@@ -153,8 +153,8 @@
 									<div class="input-group">
 										<select name="condicionPago" id="condicionPago-select" class="form-control">
 										@if($aterrizaje->cliente->condicionPago=="Crédito")
-											<option value="Contado" selected> Crédito</option>
-											<option value="Crédito"> Contado</option>
+											<option value="Crédito" selected> Crédito</option>
+											<option value="Contado"> Contado</option>
 										@elseif($aterrizaje->cliente->condicionPago=="Contado")
 											<option value="Contado" selected> Contado</option>
 											<option value="Crédito"> Crédito</option>

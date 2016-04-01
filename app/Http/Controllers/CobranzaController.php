@@ -26,38 +26,39 @@ class CobranzaController extends Controller {
 	 */
 	public function index($moduloNombre, Request $request)
 	{
-        $sortName          = $request->get('sortName','id');
-        $sortName          =($sortName=="")?"id":$sortName;
-
-        $sortType          = $request->get('sortType','DESC');
-        $sortType          =($sortType=="")?"DESC":$sortType;
-
-
-        $cobroId         = $request->get('id');
-        $cobroId         =($cobroId=="")?0:$cobroId;
-        $cobroIdOperator = $request->get('cobroIdOperator', '>=');
-        $cobroIdOperator =($cobroIdOperator=="")?'>=':$cobroIdOperator;
-        $cobroIdOperator =($cobroId==0)?">=":$cobroIdOperator;
-
-        $clienteNombre     = $request->get('clienteNombre', '%');
-
-        $observacion      = $request->get('observacion', '%');
-
+        $sortName           = $request->get('sortName','id');
+        $sortName           = ($sortName=="")?"id":$sortName;
+        
+        $sortType           = $request->get('sortType','DESC');
+        $sortType           = ($sortType=="")?"DESC":$sortType;
+        
+        
+        $cobroId            = $request->get('id');
+        $cobroId            = ($cobroId=="")?0:$cobroId;
+        $cobroIdOperator    = $request->get('cobroIdOperator', '>=');
+        $cobroIdOperator    = ($cobroIdOperator=="")?'>=':$cobroIdOperator;
+        $cobroIdOperator    = ($cobroId==0)?">=":$cobroIdOperator;
+        
+        $clienteNombre      = $request->get('clienteNombre', '%');
+        
+        $observacion        = $request->get('observacion', '%');
+        
         $pagado             = $request->get('pagado');
         $pagado             =($pagado=="")?0:$pagado;
         $pagadoOperator     = $request->get('pagadoOperator', '>=');
         $pagadoOperator     =($pagadoOperator=="")?'>=':$pagadoOperator;
         $pagadoOperator     =($pagado==0)?">=":$pagadoOperator;
-
-        $depositado             = $request->get('depositado');
-        $depositado             =($depositado=="")?0:$depositado;
-        $depositadoOperator     = $request->get('depositadoOperator', '>=');
-        $depositadoOperator     =($depositadoOperator=="")?'>=':$depositadoOperator;
-        $depositadoOperator     =($depositado==0)?">=":$depositadoOperator;
-
-        $fecha             = $request->get('fecha');
-        $fechaOperator     = $request->get('fechaOperator', '>=');
-        $fechaOperator     =($fechaOperator=="")?'>=':$fechaOperator;
+        
+        $depositado         = $request->get('depositado');
+        $depositado         = ($depositado=="")?0:$depositado;
+        $depositadoOperator = $request->get('depositadoOperator', '>=');
+        $depositadoOperator = ($depositadoOperator=="")?'>=':$depositadoOperator;
+        $depositadoOperator = ($depositado==0)?">=":$depositadoOperator;
+        
+        $fecha              = $request->get('fecha');
+        $fechaOperator      = $request->get('fechaOperator', '>=');
+        $fechaOperator      = ($fechaOperator=="")?'>=':$fechaOperator;
+        
         if($fecha==""){
             $fecha         ='0000-00-00';
             $fechaOperator ='>=';
@@ -65,14 +66,12 @@ class CobranzaController extends Controller {
             $fecha=\Carbon\Carbon::createFromFormat('d/m/Y', $fecha);
         }
 
-
-
-        \Input::merge([ 'fechaOperator'     =>$fechaOperator,
-            'cobroIdOperator' =>$cobroIdOperator,
-            'pagadoOperator'     =>$pagadoOperator,
-            'depositadoOperator'     =>$depositadoOperator,
-            'sortName'          =>$sortName,
-            'sortType'          =>$sortType]);
+        \Input::merge([ 'fechaOperator'      =>$fechaOperator,
+                        'cobroIdOperator'    =>$cobroIdOperator,
+                        'pagadoOperator'     =>$pagadoOperator,
+                        'depositadoOperator' =>$depositadoOperator,
+                        'sortName'           =>$sortName,
+                        'sortType'           =>$sortType]);
 
         $modulo=\App\Modulo::where("nombre","like",$moduloNombre)->first();
 
@@ -352,25 +351,26 @@ return ["success"=>1, "impresion" => $impresion];
             $id=$modulo->id;
             $idOperator="=";
         }
-        $codigo=$request->get('codigo');
-        $cliente=\App\Cliente::where("codigo","=", $codigo)->get()->first();
+        $codigo  =$request->get('codigo');
+        $cliente =\App\Cliente::where("codigo","=", $codigo)->get()->first();
         if(!$cliente)
             return ["facturas"=>[], "ajuste"=> [], "ajusteCobros"=>[]];
+        
         $facturas=\App\Factura::with('metadata')
-        ->where('cliente_id', $cliente->id)
-        ->where('modulo_id', $idOperator, $id)
-        ->where('aeropuerto_id', session('aeropuerto')->id)
-        ->where('facturas.estado','=','P')
-        ->groupBy("facturas.id")->get();
+            ->where('cliente_id', $cliente->id)
+            ->where('modulo_id', $idOperator, $id)
+            ->where('aeropuerto_id', session('aeropuerto')->id)
+            ->where('facturas.estado','=','P')
+            ->groupBy("facturas.id")->get();
         $ajusteCliente= \DB::table('ajustes')
-        ->where('cliente_id', $cliente->id)
-        ->where('aeropuerto_id', session('aeropuerto')->id)
-        ->sum('monto');
+            ->where('cliente_id', $cliente->id)
+            ->where('aeropuerto_id', session('aeropuerto')->id)
+            ->sum('monto');
         $ajusteCobros= \DB::table('ajustes')
-        ->select('cobro_id')
-        ->where('cliente_id', $cliente->id)
-        ->where('aeropuerto_id', session('aeropuerto')->id)
-        ->get();
+            ->select('cobro_id')
+            ->where('cliente_id', $cliente->id)
+            ->where('aeropuerto_id', session('aeropuerto')->id)
+            ->get();
 
         return ["facturas"=>$facturas, "ajuste"=> $ajusteCliente, "ajusteCobros"=> $ajusteCobros];
     }
@@ -391,11 +391,11 @@ return ["success"=>1, "impresion" => $impresion];
 
     protected function crearRecibo($cobro, $output= 'I', $dir='ReciboCaja/'){
 
-        $cobroid=$cobro;
-        $cobro=\App\Cobro::with('pagos', 'cliente')->find($cobroid);
+        $cobroid =$cobro;
+        $cobro   =\App\Cobro::with('pagos', 'cliente')->find($cobroid);
         foreach ($cobro->pagos as $c){    
-            $pagos[]=\App\Cobrospago::with('banco', 'cuenta')->find($c->id);
-            $cuentas[]=\App\Bancoscuenta::where('id', $c->cuenta_id)->get();
+            $pagos[]   =\App\Cobrospago::with('banco', 'cuenta')->find($c->id);
+            $cuentas[] =\App\Bancoscuenta::where('id', $c->cuenta_id)->get();
         }
 
         //dd($cobro);

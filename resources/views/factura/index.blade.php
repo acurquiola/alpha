@@ -55,7 +55,7 @@
 					{!! Form::text('descripcion', array_get( $input, 'descripcion'), [ 'class'=>"form-control", 'placeholder'=>'Descripción', 'style'=>'max-width:150px']) !!}
 				</div>
 				<div class="form-group">
-					{!! Form::select(null, ["%" => "-- Seleccione --","Pendiente" => "Pendiente","Sin impresion" => "Sin impresion","Pagada" => "Pagada","Pagada - Recaudos" => "Pagada - Recaudos","Anulada" => "Anulada"], array_get( $input, 'estado'), [ 'class'=>"form-control", 'style'=>'max-width:100px']) !!}
+					{!! Form::select('estado', ["%" => "-- Seleccione --","P" => "Pendiente","C" => "Pagada","A" => "Anulada"], array_get( $input, 'estado'), [ 'class'=>"form-control", 'style'=>'max-width:100px']) !!}
 				</div>
 				<div class="form-group">
 					{!! Form::hidden('fechaOperator', array_get( $input, 'fechaOperator'), ['id' => 'fechaOperator', 'class' => 'operator-input', 'autocomplete'=>'off']) !!}
