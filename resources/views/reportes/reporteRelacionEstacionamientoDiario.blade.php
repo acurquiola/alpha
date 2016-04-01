@@ -68,7 +68,7 @@
 										<th rowspan="2" style="vertical-align: middle" class="text-center">
 											Fecha
 										</th>
-										<th rowspan="2" style="vertical-align: middle" class="text-center">
+										<th rowspan="2" style="vertical-align: middle" class="text-center" style="width: 30px">
 											Cant
 										</th>
 										<th rowspan="2" style="vertical-align: middle" class="text-center">
@@ -147,7 +147,7 @@
 								@foreach($estacionamientoDiario as $dia => $estacionamiento)
 									<tr>
 										<td class="text-center dia" align="center">{{$dia}}</td>
-										<td class="text-center ticketEstacionamiento" align="center">{{$estacionamiento["ticketEstacionamiento"]}}</td>
+										<td class="text-center ticketEstacionamiento" align="center" style="width: 30px">{{$estacionamiento["ticketEstacionamiento"]}}</td>
 										<td class="text-right baseTicketEstacionamiento" align="right">{{$traductor->format($estacionamiento["baseTicketEstacionamiento"])}}</td>
 										<td class="text-right ivaTicketEstacionamiento" align="right">{{$traductor->format($estacionamiento["ivaTicketEstacionamiento"])}}</td>
 										<td class="text-right totalTicketEstacionamiento" align="right">{{$traductor->format($estacionamiento["totalTicketEstacionamiento"])}}</td>
@@ -176,7 +176,7 @@
 									</tr>
 									@endforeach
 									<tr>
-										<td style="font-weight: bold">TOTALES BS.) </td>
+										<td style="font-weight: bold">TOTALES</td>
 										<td class="text-right" style="font-weight: bold" align="right" id="ticketEstacionamiento">0</td>
 										<td class="text-right" style="font-weight: bold" align="right" id="baseTicketEstacionamiento">0</td>
 										<td class="text-right" style="font-weight: bold" align="right" id="ivaTicketEstacionamiento">0</td>
@@ -343,15 +343,15 @@
 			montoTotal+=commaToNum($(value).text().trim());
 		});
 
-		$('#ticketEstacionamiento').text(numToComma(ticketEstacionamiento));
+		$('#ticketEstacionamiento').text(ticketEstacionamiento);
 		$('#baseTicketEstacionamiento').text(numToComma(baseTicketEstacionamiento));
 		$('#ivaTicketEstacionamiento').text(numToComma(ivaTicketEstacionamiento));
 		$('#totalTicketEstacionamiento').text(numToComma(totalTicketEstacionamiento));
-		$('#ticketPernocta').text(numToComma(ticketPernocta));
+		$('#ticketPernocta').text(ticketPernocta);
 		$('#baseTicketPernocta').text(numToComma(baseTicketPernocta));
 		$('#ivaTicketPernocta').text(numToComma(ivaTicketPernocta));
 		$('#totalTicketPernocta').text(numToComma(totalTicketPernocta));
-		$('#ticketExtraviado').text(numToComma(ticketExtraviado));
+		$('#ticketExtraviado').text(ticketExtraviado);
 		$('#baseTicketExtraviado').text(numToComma(baseTicketExtraviado));
 		$('#ivaTicketExtraviado').text(numToComma(ivaTicketExtraviado));
 		$('#totalTicketExtraviado').text(numToComma(totalTicketExtraviado));
