@@ -88,6 +88,7 @@ class ReporteController extends Controller {
         $anno        =$request->get('anno',  \Carbon\Carbon::now()->year);
         $aeropuerto  =$request->get('aeropuerto',  0);
         $montosMeses =[];
+        $metaGobernacion =\App\Meta::join('meta_detalles', 'metas.id', '=', 'meta_detalles.meta_id')->where('fecha_fin', null)->sum('gobernacion_meta');
         $meses=[
             1  =>"ENERO",
             2  =>"FEBRERO",
@@ -126,6 +127,7 @@ class ReporteController extends Controller {
                     "cobradoTotal" =>0
                 ];
 
+
             foreach ($cobrosPZO as $cobroPZO) {
                 $montosMeses[$meses[$diaMes->month]]["cobradoPZO"]+=$cobroPZO->montodepositado;
             }
@@ -137,13 +139,13 @@ class ReporteController extends Controller {
             foreach ($cobrosSNV as $cobroSNV) {
                 $montosMeses[$meses[$diaMes->month]]["cobradoSNV"]+=$cobroSNV->montodepositado;
             }
-
+    
             $montosMeses[$meses[$diaMes->month]]["cobradoTotal"]+=$montosMeses[$meses[$diaMes->month]]["cobradoPZO"]+$montosMeses[$meses[$diaMes->month]]["cobradoCBL"]+$montosMeses[$meses[$diaMes->month]]["cobradoSNV"];
 
         }
         $mesActual    =$meses[\Carbon\Carbon::now()->month];
 
-        return view('reportes.reporteRelacionIngresoMensual', compact('montosMeses', 'anno', 'mesActual'));
+        return view('reportes.reporteRelacionIngresoMensual', compact('montosMeses', 'anno', 'mesActual', 'metaGobernacion'));
     }
 
     public function getReporteRelacionMensualDeFacturacionCobradosYPorCobrar(Request $request){

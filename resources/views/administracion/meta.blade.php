@@ -124,10 +124,15 @@
                     											@foreach($meta->detalles as $detalle)
                     											<tr>
                     												<td>{{$detalle->concepto->nompre}}</td>
-                    												<td>{{$traductor->format($detalle->gobernacion_meta)}}</td>
-                    												<td>{{$traductor->format($detalle->saar_meta)}}</td>
+                    												<td class="metaGobernacion">{{$traductor->format($detalle->gobernacion_meta)}}</td>
+                    												<td class="metaSaar">{{$traductor->format($detalle->saar_meta)}}</td>
                     											</tr>
                     											@endforeach
+                                                                           <tr>
+                                                                                <td>TOTAL</td>
+                                                                                <td id="metaGobernacion">{{$traductor->format($metaGobernacion)}}</td>
+                                                                                <td id="metaSaar">{{$traductor->format($metaSaar)}}</td>
+                                                                           </tr>
                     										</tbody>
                     									</table>
                     								</div>
@@ -175,6 +180,8 @@
 		});
 		$('.meta-gobernacion').val(numToComma(totalGob));
 		$('.meta-saar').val(numToComma(totalSaar));
+
+
 	}
 
 
@@ -198,8 +205,6 @@
 			showMonthAfterYear: false,
 			yearSuffix: '',
 			dateFormat: "dd/mm/yy"});
-
-
 
 		$('#tarjeta_costo').focusout(function(){
 			$(this).val(numToComma($(this).val()))

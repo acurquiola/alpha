@@ -109,12 +109,12 @@
 										<tr>
 											<td colspan="3"></td>
 											<td  style="font-weight: bold;">Meta anual asignada: </td>
-											<td  style="font-weight: bold;"  align="right" class="text-right" id="meta">0,00</td>
+											<td  style="font-weight: bold;"  align="right" class="text-right" id="meta">{{$traductor->format($metaGobernacion)}}</td>
 										</tr>
 										<tr>
 											<td colspan="3"></td>
 											<td  style="font-weight: bold;">Diferencia:</td>
-											<td class="text-right" id="diferencia"  align="right" style="font-weight: bold;">{{$traductor->format($montos["cobradoTotal"])}}</td>
+											<td class="text-right" id="diferencia"  align="right" style="font-weight: bold;">0,00</td>
 										</tr>
 								</tbody>
 							</table>
