@@ -115,6 +115,10 @@ Route::group(['prefix' => 'contrato'], function () {
     Route::resource('contrato', 'ContratoController');
 
 Route::group(['prefix' => 'tasas/'], function () {
+
+    Route::get('supervisor',"TasaController@supervisor");
+    Route::get('supervisor-operacion',"TasaController@getSupervisorOperacion");
+
     Route::get('taquilla',"TasaController@taquilla");
     Route::get('operacion',"TasaController@getOperacion");
     Route::post('operacion',"TasaController@postOperacion");
