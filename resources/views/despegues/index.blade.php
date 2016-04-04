@@ -30,7 +30,7 @@
 									<div class="input-group-addon">
 										<i class="fa fa-calendar"></i>
 									</div>
-									<input id="fecha-datepicker-filter" type="text" name="fecha" class="form-control" data-inputmask="'alias': 'yyyy-mm-dd'" data-mask  placeholder="Fecha" />
+									<input id="fecha-datepicker-filter" type="text" name="fecha" class="form-control" data-inputmask="'alias': 'yyyy-mm-dd'" data-mask  placeholder="Fecha Despegue" />
 								</div><!-- /.input group -->
 							</div>
 							<div class="form-group">
@@ -68,10 +68,25 @@
 									<div class="input-group-addon">
 										<i class="fa fa-map-marker"></i>
 									</div>									
-									<select name="puerto_id" class="form-control puerto">
+									<select name="puerto_id" id="puerto_id-flt" class="form-control puerto">
 										<option value="">--Destino--</option>
 										@foreach ($puertos as $puerto)
 										<option  data-nacionalidad="{{$puerto->pais_id}}" value="{{$puerto->id}}"> {{$puerto->nombre}}</option>
+										@endforeach
+									</select>
+								</div><!-- /.input group -->
+							</div>
+
+
+							<div class="form-group">
+								<div class="input-group">
+									<div class="input-group-addon">
+										<i class="fa fa-diamond"></i>
+									</div>                                                                            
+									<select name="cliente_id" id="cliente_id-flt" class="form-control cliente" >
+										<option value="">--Cliente--</option>
+										@foreach ($clientes as $index=>$cliente)
+										<option value="{{$index}}"> {{$cliente}}</option>
 										@endforeach
 									</select>
 								</div><!-- /.input group -->
@@ -136,10 +151,10 @@ function getTable(url){
 	$(document).ready(function() {
 
 
-		$('body #aeronave_id-modal').chosen({width:'135px'});
-		$('body #puerto_id-modal').chosen({width:'300px'});
-		$('body #piloto_id-modal').chosen({width:'300px'});
-		$('#aeronave_id-flt').chosen({width:'120px'});
+
+		$('#aeronave_id-flt').chosen({width:'150px'});
+		$('#puerto_id-flt, #cliente_id-flt').chosen({width:'350px'});
+
 
     /* 
 		Condiciones en los campos de los formularios

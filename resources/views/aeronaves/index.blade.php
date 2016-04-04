@@ -15,37 +15,34 @@
 					<form class="form-inline" id="form-filter">
 						{!! Form::hidden('sortName', null, []) !!}
 						{!! Form::hidden('sortType', null, []) !!}
-						<div class="form-group">
-							<input type="text" class="form-control" name="matricula"  placeholder="Matrícula">
-						</div>
-						<div class="form-group">
-							<input type="text" class="form-control" name="peso" placeholder="Peso">
-						</div>
+                        <div class="form-group">
+                            <input type="text" class="form-control" name="matricula"  placeholder="Matrícula">
+                        </div>
 
-						<div class="form-group" >
-							<select name="nacionalidad_id" id="nacionalidad_id-flt" class="form-control">
+                        <div class="form-group" >
+                            <select name="nacionalidad_id" id="nacionalidad_id-flt" class="form-control">
                                 <option value="">--Nacionalidad--</option>
                                 @foreach ($nacionalidad_matriculas as $nacionalidad_matricula)
                                 <option value="{{$nacionalidad_matricula->id}}"> {{$nacionalidad_matricula->nombre}}</option>
                                 @endforeach
                             </select>
-						</div>
-						<div class="form-group" >
-							<select name="modelo_id" id="modelo_id-flt" class="form-control">
-								<option value="">--Modelo--</option>
-								@foreach ($modelo_aeronaves as $modelo_aeronave)
-								<option value="{{$modelo_aeronave->id}}"> {{$modelo_aeronave->modelo}}</option>
-								@endforeach
-							</select>
-						</div>
-						<div class="form-group" >
-							<select name="tipo_id" id="tipo_id-flt" class="form-control">
-								<option value="">--Tipo de Matrícula--</option>
-								@foreach ($tipo_matriculas as $tipo_matricula)
-								<option value="{{$tipo_matricula->id}}"> {{$tipo_matricula->nombre}}</option>
-								@endforeach
-							</select>
-						</div>
+                        </div>
+                        <div class="form-group" >
+                            <select name="modelo_id" id="modelo_id-flt" class="form-control">
+                                <option value="">--Modelo--</option>
+                                @foreach ($modelo_aeronaves as $modelo_aeronave)
+                                <option value="{{$modelo_aeronave->id}}"> {{$modelo_aeronave->modelo}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group" >
+                            <select name="tipo_id" id="tipo_id-flt" class="form-control">
+                                <option value="">--Tipo de Matrícula--</option>
+                                @foreach ($tipo_matriculas as $tipo_matricula)
+                                <option value="{{$tipo_matricula->id}}"> {{$tipo_matricula->nombre}}</option>
+                                @endforeach
+                            </select>
+                        </div>
                         <div class="form-group" >
                             <select name="cliente_id" id="cliente_id-flt" class="form-control">
                                 <option value="">--Cliente--</option>
@@ -54,14 +51,6 @@
                                 @endforeach
                             </select>
                         </div>
-						<div class="form-group" >
-							<select name="hangar_id" id="hangar_id-flt" class="form-control">
-								<option value="">--Hangar--</option>
-								@foreach ($hangars as $index=>$hangar)
-								<option value="{{$index}}"> {{$hangar}}</option>
-								@endforeach
-							</select>
-						</div>
 						<button type="submit" id="filtrar-btn" class="btn btn-primary" style="margin-left: 20px"><i class="fa fa-filter"></i></button>
 					</form>
 				</div><!-- /.box-body -->
@@ -84,26 +73,26 @@
  		</div><!-- /.col -->
  	</section>
 
- 	<section class="col-lg-6">
+    <section class="col-lg-6">
 
- 		<!-- Formulario de Registro -->
- 		<div class="box box-info" id="aeronaveForm-div">
- 			<div class="box-header">
- 				<h3 class="box-title">Registro de Aeronaves</h3>
- 			</div>
- 			<div class="box-body">
- 				<form id="aeronave-form">
- 					<div class="input-group">
- 						<span class="input-group-addon"><i class="ion ion-android-arrow-dropright"></i></span>
- 						<div class="form-group" style="margin-top: 12px">
- 							<select class="form-control no-vacio nacionalidad" id="nacionalidad-select" name="nacionalidad_id" required>
- 								<option value="">--Seleccione Nacionalidad--</option>
+        <!-- Formulario de Registro -->
+        <div class="box box-info" id="aeronaveForm-div">
+            <div class="box-header">
+                <h3 class="box-title">Registro de Aeronaves</h3>
+            </div>
+            <div class="box-body">
+                <form id="aeronave-form">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="ion ion-android-arrow-dropright"></i></span>
+                        <div class="form-group" style="margin-top: 12px">
+                            <select class="form-control no-vacio nacionalidad" id="nacionalidad-select" name="nacionalidad_id" required>
+                                <option value="">--Seleccione Nacionalidad--</option>
                                 @foreach ($nacionalidad_matriculas as $nacionalidad_matricula)
                                 <option data-siglas="{{$nacionalidad_matricula->siglas}}" value="{{$nacionalidad_matricula->id}}"> {{$nacionalidad_matricula->nombre}}</option>
-                                @endforeach						
- 							</select>
- 						</div>
- 					</div>
+                                @endforeach                     
+                            </select>
+                        </div>
+                    </div>
                     <br/>
                     <div class="input-group">
                         <span class="input-group-addon"><i class="ion ion-android-arrow-dropright"></i></span>
@@ -127,28 +116,28 @@
                         <input type="text" class="form-control no-vacio peso" placeholder="Peso (kg.)"  name="peso"  id="peso-input">
                     </div>
                     <br/>
- 					<div class="input-group" >
- 						<span class="input-group-addon"><i class="ion ion-android-arrow-dropright"></i></span>
- 						<div class="form-group" style="margin-top: 12px">
- 							<select class="form-control no-vacio tipo" id="tipo_id-select"  name="tipo_id" required>
- 								<option value="">--Seleccione Tipo--</option>
+                    <div class="input-group" >
+                        <span class="input-group-addon"><i class="ion ion-android-arrow-dropright"></i></span>
+                        <div class="form-group" style="margin-top: 12px">
+                            <select class="form-control no-vacio tipo" id="tipo_id-select"  name="tipo_id" required>
+                                <option value="">--Seleccione Tipo--</option>
                                 @foreach ($tipo_matriculas as $tipo_matricula)
                                 <option value="{{$tipo_matricula->id}}"> {{$tipo_matricula->nombre}}</option>
                                 @endforeach
- 							</select>
- 						</div>
-     					<div class="input-group">
-     						<span class="input-group-addon"><i class="ion ion-android-arrow-dropright"></i></span>
-     						<div class="form-group" style="margin-top: 8px"> 
-                                <label class="input-control">Selccionar Hangar </label>
-     							<select class="form-control" id="hangar_id-select" name="hangar_id" >
-     								<option value=''>No dispone</option>
-     								@foreach ($hangars as $index=>$hangar)
-     								<option value="{{$index}}"> {{$hangar}}</option>
-     								@endforeach
-     							</select>
-     						</div>
-     					</div>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="ion ion-android-arrow-dropright"></i></span>
+                        <div class="form-group" style="margin-top: 8px"> 
+                            <select class="form-control" id="hangar_id-select" name="hangar_id" >
+                                <option value=''>-- Seleccione Hangar --</option>
+                                <option value=''>No dispone</option>
+                                @foreach ($hangars as $index=>$hangar)
+                                <option value="{{$index}}"> {{$hangar}}</option>
+                                @endforeach
+                            </select>
+                        </div>
                     </div>
                     <br/>
                     <div class="input-group" >
@@ -162,14 +151,16 @@
                             </select>
                         </div>
                     </div>
- 				</form>
- 			</div><!-- /.box-body -->
- 			<div class="box-footer" align="right">
- 				<button class="btn btn-default" type="button" id="cancel-aeronave-btn">Cancelar </button>
- 			    <button class="btn btn-primary" type="submit" id="save-aeronave-btn"> Registrar </button>
-     		</div><!-- ./box-footer -->
-     	</div><!-- /.box -->
+                </form>
+            </div><!-- /.box-body -->
+            <div class="box-footer" align="right">
+                <button class="btn btn-default" type="button" id="cancel-aeronave-btn">Cancelar </button>
+                <button class="btn btn-primary" type="submit" id="save-aeronave-btn"> Registrar </button>
+            </div><!-- ./box-footer -->
+        </div><!-- /.box -->
      </section>
+
+ 	
 
  <!-- Modal de edición -->
 
@@ -270,11 +261,11 @@
             */
 
             $('#cliente_id-flt').chosen({width:'400px'});
-            $('#nacionalidad_id-flt,#tipo_id-flt, #modelo_id-flt').chosen({width:'150px'});
+            $('#nacionalidad_id-flt,#tipo_id-flt, #modelo_id-flt').chosen({width:'400px'});
             $('#hangar_id-flt').chosen({width:'100px'});
-    		$('#cliente_id-select, #hangar_id-select, #tipo_id-select, #nacionalidad-select, #modelo_id-select').chosen({width:'200px'});
+    		$('#cliente_id-select, #hangar_id-select, #tipo_id-select, #nacionalidad-select, #modelo_id-select').chosen({width:'400px'});
 
-    		$('#modelo_id-select').chosen({width: "100%"}).change(function(){
+    		$('#modelo_id-select').chosen({width: "400"}).change(function(){
     			var peso =$('#modelo_id-select').data('peso');
     			$('#peso-input').val(peso);
     		}).trigger('change');

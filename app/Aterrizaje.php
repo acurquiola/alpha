@@ -9,6 +9,18 @@ class Aterrizaje extends Model {
 
 	protected $guarded = [];
 
+    public static function filter($fecha, $hora, $aeronave_id, $num_vuelo, $tipoMatricula_id, $puerto_id, $cliente_id)
+    {
+        return Aterrizaje::fecha($fecha)
+        				->hora($hora)
+        				->aeronave($aeronave_id)
+        				->numeroVuelo($num_vuelo)
+        				->tipoVuelo($tipoMatricula_id)
+        				->procedencia($puerto_id)
+        				->cliente($cliente_id)
+	                    ->orderBy('id', 'DESC');
+    }
+
 	public function setFechaAttribute($fecha)
 	{
         $this->setFecha($fecha,'fecha');
@@ -66,5 +78,54 @@ class Aterrizaje extends Model {
         return $this->belongsTo('App\Aeropuerto');
     }
 
+
+
+    //Filtros
+    public function scopeFecha($query, $fecha)
+    {
+        if (trim($fecha)!= "0000-00-00"){
+            $query->where('fecha',$fecha);
+        }else{
+            $query->where('fecha', '>=', $fecha);
+        }
+    } 
+    public function scopeHora($query, $hora)
+    {
+        if (trim($hora)!= "00:00:00"){
+            $query->where('hora','like', "%$hora%");
+        }else{
+            $query->where('hora', '>=', $hora);
+        }
+    } 
+    public function scopeAeronave($query, $aeronave_id)
+    {
+        if ($aeronave_id != ""){
+            $query->where('aeronave_id', $aeronave_id);
+        }
+    }  
+    public function scopeNumeroVuelo($query, $num_vuelo)
+    {
+        if (trim($num_vuelo)!= ""){
+            $query->where('num_vuelo',$num_vuelo);
+        }
+    }  
+    public function scopeTipoVuelo($query, $tipoMatricula_id)
+    {
+        if ($tipoMatricula_id != ""){
+            $query->where('tipoMatricula_id', $tipoMatricula_id);
+        }
+    } 
+    public function scopeProcedencia($query, $puerto_id)
+    {
+        if ($puerto_id != ""){
+            $query->where('puerto_id', $puerto_id);
+        }
+    } 
+    public function scopeCliente($query, $cliente_id)
+    {
+        if ($cliente_id != ""){
+            $query->where('cliente_id', $cliente_id);
+        }
+    } 
 
 }
