@@ -40,7 +40,9 @@ class AterrizajeController extends Controller {
 			if($hora == ""){
 				$hora = "00:00:00";
 			}
-			$aterrizajes      = Aterrizaje::filter($fecha, $hora, $request->get('aeronave_id'), $request->get('num_vuelo'), $request->get('tipoMatricula_id'), $request->get('puerto_id'), $request->get('cliente_id'));
+			$despego=0;
+			$aeropuerto_id    =session('aeropuerto')->id;
+			$aterrizajes      = Aterrizaje::filter($fecha, $hora, $request->get('aeronave_id'), $request->get('num_vuelo'), $request->get('tipoMatricula_id'), $request->get('puerto_id'), $request->get('cliente_id'), $despego, $aeropuerto_id);
 			$totalAterrizajes = $aterrizajes->count();
 			$aterrizajes      = $aterrizajes->paginate(7);
 			return view('aterrizajes.partials.table', compact('aterrizajes', 'totalAterrizajes'));

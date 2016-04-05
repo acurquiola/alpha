@@ -123,10 +123,10 @@
                                  <th style="vertical-align: middle; width:70px" align="center" class="text-center">
                                     RIF
                                  </th>
-                                 <th style="vertical-align: middle; width:30px" align="center" class="text-center">
+                                 <th style="vertical-align: middle; width:35px" align="center" class="text-center">
                                     Código
                                  </th>
-                                 <th style="vertical-align: middle; width:140px" align="center" class="text-center">
+                                 <th style="vertical-align: middle; width:180px" align="center" class="text-center">
                                     Nombre ó Razón Social
                                  </th>
                                  <th style="vertical-align: middle; width:150px" align="center"  class="text-center">
@@ -151,8 +151,8 @@
                                     <td style="vertical-align: middle; width:60px" align="center" >{{$factura->nFacturaPrefix}}-{{$factura->nFactura}}</td>
                                     <td style="vertical-align: middle; width:60px" align="center" >{{$factura->nControlPrefix}}-{{$factura->nControl}}</td>
                                     <td style="vertical-align: middle; width:70px" align="center" >{{$factura->cliente->cedRifPrefix}}-{{$factura->cliente->cedRif}}</td>
-                                    <td style="vertical-align: middle; width:30px" align="center" >{{$factura->cliente->codigo}}</td>
-                                    <td style="vertical-align: middle; width:140px" align="left" >{{$factura->cliente->nombre}}</td>
+                                    <td style="vertical-align: middle; width:35px" align="center" >{{$factura->cliente->codigo}}</td>
+                                    <td style="vertical-align: middle; width:180px" align="left" >{{$factura->cliente->nombre}}</td>
                                     <td style="vertical-align: middle; width:150px" align="left">{{$factura->descripcion}}</td>
                                     <td style="vertical-align: middle; width:70px" align="right">{{$traductor->format($factura->subtotal)}}</td>
                                     {{--@if(!$factura->metadata)--}}
@@ -232,7 +232,7 @@ $('#export-btn').click(function(e){
     }).remove();
     $(table).prepend('<thead>\
                         <tr>\
-                            <th colspan="11" style="vertical-align: middle; margin-top:20px" align="center" class="text-center">LISTADO DE FACTURAS EMITIDAS\
+                            <th colspan="10" style="vertical-align: middle; margin-top:20px" align="center" class="text-center">LISTADO DE FACTURAS EMITIDAS\
                                 </br>\
                                 DESDE: {{isset($desde)?$desde:"TODOS"}} HASTA: {{isset($hasta)?$hasta:"TODOS"}} | MÓDULO: {{isset($modulo)?$modulo:"TODOS"}}\
                                 </br>\
@@ -240,8 +240,8 @@ $('#export-btn').click(function(e){
                             </th>\
                         </tr>\
                     </thead>')
-    $(table).find('thead, th').css({'border-top':'1px solid black', 'font-weight': 'bold', 'text-align':"center", 'font-size': '8px'})
-    $(table).find('th').css({'border-bottom':'1px solid black', 'font-weight': 'bold', 'text-align':"center", 'font-size': '8px'})
+    $(table).find('thead, th').css({'border-top':'1px solid black', 'font-weight': 'bold', 'text-align':"center", 'font-size': '7px'})
+    $(table).find('th').css({'border-bottom':'1px solid black', 'font-weight': 'bold', 'text-align':"center", 'font-size': '7px'})
     $(table).find('td').css({'font-size': '7px'})
     $(table).find('tr:nth-child(even)').css({'background-color': '#E2E2E2'})
     $(table).find('tr:last td').css({'border-bottom':'1px solid black','border-top':'1px solid black', 'font-weight': 'bold'})

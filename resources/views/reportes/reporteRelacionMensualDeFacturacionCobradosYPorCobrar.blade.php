@@ -82,10 +82,14 @@
                         @endforeach
                         <tr class="bg-gray">
                             <td  style="font-weight: bold" >TOTALES</td>
-                            <td  align="right"class="text-right" style="font-weight: bold" id="facturadoTotal">0</td>
-                            <td  align="right"class="text-right" style="font-weight: bold" id="cobradoTotal">0</td>
-                            <td  align="right"class="text-right" style="font-weight: bold" id="porCobrarTotal">0</td>
-                            <td  align="right"class="text-right" style="font-weight: bold" id="cobroAnteriorTotal">0</td>
+                            <td  align="right" class="text-right" style="font-weight: bold" id="facturadoTotal">0</td>
+                            <td  align="right" class="text-right" style="font-weight: bold" id="cobradoTotal">0</td>
+                            <td  align="right" class="text-right" style="font-weight: bold" id="porCobrarTotal">0</td>
+                            <td  align="right" class="text-right" style="font-weight: bold" id="cobroAnteriorTotal">0</td>
+                        </tr>
+                        <tr class="bg-gray">
+                            <td  colspan="4" align="right" class="text-right" style="font-weight: bold" >MONTO TOTAL RECAUDADO</td>
+                            <td  align="right" class="text-right" style="font-weight: bold" id="totalRecaudado">0</td>
                         </tr>
 
 
@@ -128,11 +132,13 @@ $(function(){
     $('.cobroAnterior').each(function(index,value){
         cobroAnteriorTotal+=commaToNum($(value).text().trim());
     });
+    var totalRecaudado=cobradoTotal+cobroAnteriorTotal;
 
     $('#facturadoTotal').text(numToComma(facturadoTotal));
     $('#cobradoTotal').text(numToComma(cobradoTotal));
     $('#porCobrarTotal').text(numToComma(porCobrarTotal));
     $('#cobroAnteriorTotal').text(numToComma(cobroAnteriorTotal));
+    $('#totalRecaudado').text(numToComma(totalRecaudado));
 
 
     $('#export-btn').click(function(e){
