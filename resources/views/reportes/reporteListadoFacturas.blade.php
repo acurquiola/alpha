@@ -97,8 +97,8 @@
                     <div class="box-header">
                         {!! Form::open(["url" => action("ReporteController@postExportReport"), "id" =>"export-form", "target"=>"_blank"]) !!}
                         {!! Form::hidden('table') !!}
-                        {!! Form::hidden('gerencia', 'Gerencia de Administración') !!}
-                        {!! Form::hidden('departamento', 'Departamento de Recaudación') !!}
+                        {!! Form::hidden('gerencia', $gerencia) !!}
+                        {!! Form::hidden('departamento', $departamento) !!}
                             <h3 class="box-title">Reporte</h3>
                             <span class="pull-right"><button class="btn btn-primary" id="export-btn"><span class="glyphicon glyphicon-file"></span> Exportar</button></span>
                         {!! Form::close() !!}
@@ -138,9 +138,6 @@
                                  <th style="vertical-align: middle; width:60px" align="center" class="text-center">
                                     IVA
                                  </th>
-                                 <th style="vertical-align: middle; width:40px" align="center" class="text-center">
-                                    ISLR
-                                 </th>
                                  <th style="vertical-align: middle; width:70px" align="center" class="text-center">
                                     Monto
                                  </th>
@@ -160,7 +157,6 @@
                                     <td style="vertical-align: middle; width:70px" align="right">{{$traductor->format($factura->subtotal)}}</td>
                                     {{--@if(!$factura->metadata)--}}
                                     <td style="vertical-align: middle; width:60px" align="right">{{$traductor->format($factura->iva)}}</td>
-                                    <td style="vertical-align: middle; width:40px" align="right">{{$traductor->format($factura->islr)}}</td>
                                     {{--@else--}}
                                     {{--<td style="vertical-align: middle; width:60px" align="right">{{$factura->metadata->ivapercentage}}</td>--}}
                                     {{--<td style="vertical-align: middle; width:60px" align="right">{{$factura->metadata->islrpercentage}}</td>--}}
@@ -177,7 +173,6 @@
                                         <td> - </td>
                                         <td style="vertical-align: middle; width:70px" align="right">{{$traductor->format($subtotal)}}</td>
                                         <td style="vertical-align: middle; width:60px" align="right">{{$traductor->format($iva)}}</td>
-                                        <td style="vertical-align: middle; width:40px" align="right">{{$traductor->format($islr)}}</td>
                                         <td style="vertical-align: middle; width:70px" align="right">{{$traductor->format($total)}}</td>                                   
                                     </tr>     
                             @else

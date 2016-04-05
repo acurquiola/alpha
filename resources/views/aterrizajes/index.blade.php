@@ -51,7 +51,7 @@
 									<div class="input-group-addon">
 										<i class="fa fa-plane"></i>
 									</div>                                        
-									<select name="aeronave_id" class="form-control aeronave">
+									<select name="aeronave_id" id="aeronave_id-flt" class="form-control aeronave">
 										<option value="">--Matrícula--</option>
 										@foreach ($aeronaves as $aeronave)
 										<option data-modelo="{{$aeronave->modelo_id}}" data-nombremodelo="{{$aeronave->modelo->modelo}}" data-cliente="{{$aeronave->cliente_id}}" data-tipo="{{$aeronave->tipo_id}}" data-tipoV="{{$aeronave->tipo->nombre}}" value="{{$aeronave->id}}"> {{$aeronave->matricula}}</option>
@@ -72,7 +72,7 @@
 									<div class="input-group-addon">
 										<i class="fa fa-info"></i>
 									</div>
-									<select name="tipoMatricula_id" class="form-control tipo_vuelo">
+									<select name="tipoMatricula_id" id="tipoMatricula_id-flt" class="form-control tipo_vuelo">
 										<option value="">--Tipo de Vuelo--</option>
 										@foreach ($tipoMatriculas as $tipoMatricula)
 										<option value="{{$tipoMatricula->id}}"> {{$tipoMatricula->nombre}}</option>
@@ -85,7 +85,7 @@
 									<div class="input-group-addon">
 										<i class="fa fa-map-marker"></i>
 									</div>									
-									<select name="puerto_id" class="form-control puerto">
+									<select name="puerto_id" id="puerto_id-flt" class="form-control puerto">
 										<option value="">--Procedencia--</option>
 										@foreach ($puertos as $puerto)
 										<option  data-nacionalidad="{{$puerto->pais_id}}" value="{{$puerto->id}}"> {{$puerto->nombre}}</option>
@@ -100,7 +100,7 @@
 									<div class="input-group-addon">
 										<i class="fa fa-diamond"></i>
 									</div>                                                                            
-									<select name="cliente_id" class="form-control cliente" >
+									<select name="cliente_id" id="cliente_id-flt" class="form-control cliente" >
 										<option value="">--Cliente--</option>
 										@foreach ($clientes as $index=>$cliente)
 										<option value="{{$index}}"> {{$cliente}}</option>
@@ -164,11 +164,11 @@ function getTable(url){
 	$('#table-wrapper').load(url)
 
 }
-
-
-
-
 	$(document).ready(function() {
+
+		$('#aeronave_id-flt, #tipoMatricula_id-flt').chosen({width:'150px'});
+		$('#puerto_id-flt, #cliente_id-flt').chosen({width:'350px'});
+
 
 		/*	
 	    	Listar los registros 

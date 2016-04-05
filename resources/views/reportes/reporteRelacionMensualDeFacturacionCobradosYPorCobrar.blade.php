@@ -35,8 +35,8 @@
             <div class="box-header">
                 {!! Form::open(["url" => action("ReporteController@postExportReport"), "id" =>"export-form", "target"=>"_blank"]) !!}
                 {!! Form::hidden('table') !!}
-                {!! Form::hidden('departamento', 'Departamento de Recaudación') !!}
-                {!! Form::hidden('gerencia', 'Gerencia de Administración') !!}
+                {!! Form::hidden('gerencia', $gerencia) !!}
+                {!! Form::hidden('departamento', $departamento) !!}
                     <h3 class="box-title">Reporte</h3>
                     <span class="pull-right">
                         <button type="button" class="btn btn-primary" id="export-btn">
