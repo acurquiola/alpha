@@ -26,8 +26,17 @@ class TasaController extends Controller {
             'aeropuerto_id' => $aeropuertoId,
             'fecha' => \Carbon\Carbon::createFromFormat('d/m/Y', $fecha)->format('Y-m-d')
         ])->where('cv', '=', $taquilla=="CV")->with('detalles')->get();
+        $serieTasas=[];
+        foreach($tasaOps as $tasaOp)
+            foreach($tasaOp->detalles as $tasa){
+                if(!array_key_exists($tasa->serie, $serieTasas)){
+                    $serieTasas[$tasa->serie]=0;
+                }
+                $serieTasas[$tasa->serie]+=$tasa->total;
+            }
+        $tasaOps=$tasaOps->sortBy(function($tasaOp, $index){ return ($tasaOp['taquilla'] << 16) + $tasaOp['turno']; })->groupBy('taquilla');
 
-        return view('tasas.partials.supervisorForm', compact('tasaOps', 'fecha', 'taquilla', 'aeropuerto'));
+        return view('tasas.partials.supervisorForm', compact('tasaOps', 'fecha', 'taquilla', 'aeropuerto', 'serieTasas'));
     }
 
 	public function getOperacion(Request $request){
