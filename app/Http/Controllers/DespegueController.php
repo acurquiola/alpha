@@ -51,6 +51,7 @@ class DespegueController extends Controller {
 			}
 			$aeropuerto_id    =session('aeropuerto')->id;
 			$despegues      = Despegue::filter($fecha, $hora, $request->get('aeronave_id'), $request->get('num_vuelo'),$request->get('puerto_id'), $request->get('cliente_id'), $aeropuerto_id);
+			$despegues->with('factura');
 			$totalDespegues = $despegues->count();
 			$despegues      = $despegues->paginate(7);
 			return view('despegues.partials.table', compact('despegues', 'totalDespegues'));
