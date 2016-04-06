@@ -22,6 +22,7 @@ class AuthController extends Controller {
 	use AuthenticatesAndRegistersUsers;
 
     protected $redirectTo="principal";
+    protected $redirectToSCV="resources/views/dashboards/principalSCV.blade";
     protected $loginPath="/";
 
 	/**
