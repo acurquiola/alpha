@@ -3,7 +3,7 @@
 @section('content')
 <ol class="breadcrumb">
 	<li><a href="{{url('principal')}}">Inicio</a></li>
-	<li><a class="active">Relación de Estacionamiento Diario</a></li>
+	<li><a class="active">Relación de Ingresos Aeronáuticos Contado</a></li>
 </ol>
 <div class="row" id="box-wrapper">
 	<div class="col-md-12">
@@ -15,7 +15,7 @@
 				</div><!-- /.box-tools -->
 			</div>
 			<div class="box-body">
-				{!! Form::open(["url" => action('ReporteController@getReporteRelacionEstacionamientoDiario'), "method" => "GET", "class"=>"form-inline"]) !!}
+				{!! Form::open(["url" => action('ReporteController@getReporteRelacionIngresosAeronauticosContado'), "method" => "GET", "class"=>"form-inline"]) !!}
 				<div class="form-group" style="margin-left: 20px">
 					<label>Mes:</label>
 					{!! Form::select('mes', $meses, $mes, ["class"=> "form-control"]) !!}
@@ -28,7 +28,7 @@
 					<label style="width:80px; margin-left: 20px">Aeropuerto:</label>
 					{!! Form::select('aeropuerto', $aeropuertos, $aeropuerto, ["class"=> "form-control"]) !!}
 				</div>
-				<a class="btn btn-default  pull-right" href="{{action('ReporteController@getReporteRelacionEstacionamientoDiario')}}">Reset</a>
+				<a class="btn btn-default  pull-right" href="{{action('ReporteController@getReporteRelacionIngresosAeronauticosContado')}}">Reset</a>
 				<button type="submit" class="btn btn-primary pull-right">Buscar</button>
 				{!! Form::close() !!}
 			</div>
@@ -56,79 +56,48 @@
 							<table class="table table-hover table-condensed">
 								<thead  class="bg-primary">
 									<tr>
-										<th style="vertical-align: middle" class="text-center" colspan="1"></th>
-										<th style="vertical-align: middle" class="text-center" colspan="4">TICKETS DE ESTACIONAMIENTO</th>
-										<th style="vertical-align: middle" class="text-center" colspan="4">TICKETS DE PERNOCTA</th>
-										<th style="vertical-align: middle" class="text-center" colspan="4">TICKETS EXTRAVIADOS</th>
-										<th style="vertical-align: middle" class="text-center" colspan="3">TARJETAS ELECTRÓNICAS</th>
-										<th style="vertical-align: middle" class="text-center" colspan="3">RECAUDADO</th>
-										<th style="vertical-align: middle" class="text-center">DEP.</th>
-									</tr>
-									<tr>
 										<th   style="vertical-align: middle" class="text-center" align="center">
 											Fecha
 										</th>
 										<th   style="vertical-align: middle" class="text-center" align="center">
-											Cant
+											Nro. Dosa
 										</th>
 										<th   style="vertical-align: middle" class="text-center" align="center">
-											Base
+											Formulario
 										</th>
 										<th   style="vertical-align: middle" class="text-center" align="center">
-											IVA
+											Aterrizaje/Despegue
 										</th>
 										<th   style="vertical-align: middle" class="text-center" align="center">
-											Total
+											Estacionamiento
 										</th>
 										<th   style="vertical-align: middle" class="text-center" align="center">
-											Cant
+											Habilitación
 										</th>
 										<th   style="vertical-align: middle" class="text-center" align="center">
-											Base
+											Jetway
 										</th>
 										<th   style="vertical-align: middle" class="text-center" align="center">
-											IVA
+											Carga
 										</th>
 										<th   style="vertical-align: middle" class="text-center" align="center">
-											Total
+											Monto Facturado
 										</th>
 										<th   style="vertical-align: middle" class="text-center" align="center">
-											Cant
+											Monto Depositado
 										</th>
 										<th   style="vertical-align: middle" class="text-center" align="center">
-											Base
+											Diferencia
 										</th>
 										<th   style="vertical-align: middle" class="text-center" align="center">
-											IVA
-										</th>
-										<th   style="vertical-align: middle" class="text-center" align="center">
-											Total
-										</th>
-										<th   style="vertical-align: middle" class="text-center" align="center">
-											Base
-										</th>
-										<th   style="vertical-align: middle" class="text-center" align="center">
-											IVA
-										</th>
-										<th   style="vertical-align: middle" class="text-center" align="center">
-											Total
-										</th>
-										<th   style="vertical-align: middle" class="text-center" align="center">
-											Base
-										</th>
-										<th   style="vertical-align: middle" class="text-center" align="center">
-											IVA
-										</th>
-										<th   style="vertical-align: middle" class="text-center" align="center">
-											Total
-										</th>
-										<th   style="vertical-align: middle" class="text-center" align="center" align="center">
-											Ref
+											Nro. Cobro
 										</th>
 									</tr>
 								</thead>
 								<tbody>
-								
+								@foreach($dosas as $dosa)
+									{{dd($dosa)}}
+								@endforeach
 								</tbody>
 							</table>
 						</div>
