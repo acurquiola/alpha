@@ -214,15 +214,7 @@
 		        $(table).find('tr:nth-child(even)').css({'background-color': '#E2E2E2'})
 		        $(table).find('tr:last td').css({'border-bottom':'1px solid black','border-top':'1px solid black', 'font-weight': 'bold'})
 		        $(table).append('<tr>\
-          						<td><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br></td>\
-          						<td></td>\
-          						<td></td>\
-          						<td></td>\
-          						<td></td>\
-          						<td></td>\
-          						<td></td>\
-          						<td></td>\
-          						<td></td>\
+          						<td colspan="8"><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br></td>\
                			  </tr><tr>\
           						<td colspan="5" align="center" style="font-weight: bold; border-top: 1px solid black;border-right: 1px solid black;border-left: 1px solid black;border-bottom: 1px solid black;">REVISADO</td>\
           						<td colspan="4" align="center" style="font-weight: bold; border-top: 1px solid black;border-right: 1px solid black;border-left: 1px solid black;border-bottom: 1px solid black;">CONFORMADO</td>\
