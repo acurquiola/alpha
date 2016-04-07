@@ -212,7 +212,8 @@
 		        $(table).find('th').css({'border-bottom':'1px solid black', 'font-weight': 'bold', 'text-align':"center", 'font-size': '8px'})
 		        $(table).find('td').css({'font-size': '7px'})
 		        $(table).find('tr:nth-child(even)').css({'background-color': '#E2E2E2'})
-		        $(table).find('tr:last td').css({'border-bottom':'1px solid black','border-top':'1px solid black', 'font-weight': 'bold'})$(table).append('<tr>\
+		        $(table).find('tr:last td').css({'border-bottom':'1px solid black','border-top':'1px solid black', 'font-weight': 'bold'})
+		        $(table).append('<tr>\
           						<td></td>\
           						<td></td>\
           						<td></td>\
