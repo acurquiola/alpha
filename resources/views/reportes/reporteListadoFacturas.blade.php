@@ -232,11 +232,11 @@ $('#export-btn').click(function(e){
     }).remove();
     $(table).prepend('<thead>\
                         <tr>\
-                            <th colspan="10" style="vertical-align: middle; margin-top:20px" align="center" class="text-center">LISTADO DE FACTURAS EMITIDAS\
+                            <th colspan="11" style="vertical-align: middle; margin-top:20px" align="center" class="text-center">LISTADO DE FACTURAS EMITIDAS\
                                 </br>\
-                                DESDE: {{isset($desde)?$desde:"TODOS"}} HASTA: {{isset($hasta)?$hasta:"TODOS"}} | MÓDULO: {{isset($modulo)?$modulo:"TODOS"}}\
+                                DESDE: {{($desde)?$desde:"N/A"}} HASTA: {{($hasta)?$hasta:"N/A"}} | MÓDULO: {{$moduloNombre}}\
                                 </br>\
-                                CLIENTE: {{isset($cliente_id)?$cliente_id:"TODOS"}} | AEROPUERTO: {{isset($aeropuerto)?$aeropuerto:"TODOS"}}\
+                                CLIENTE: {{$clienteNombre}} | AEROPUERTO: {{$aeropuertoNombre}}\
                             </th>\
                         </tr>\
                     </thead>')

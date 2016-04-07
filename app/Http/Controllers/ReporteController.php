@@ -680,8 +680,25 @@ class ReporteController extends Controller {
             $subtotal =$facturas->sum('subtotal');
             $iva      =$facturas->sum('iva');
             $islr     =$facturas->sum('islr');
-
-            $view->with( compact('facturas', 'aeropuerto','cliente', 'cliente_id', 'modulo', 'desde', 'hasta', 'nFactura', 'rif', 'nombre', 'estatus', 'total', 'subtotal', 'islr', 'iva'));
+            if($modulo != 0){
+                $moduloName=\App\Modulo::find($modulo);
+                $moduloNombre = $moduloName->nombre;
+            }else{
+                $moduloNombre="TODOS";
+            }
+            if($aeropuerto != 0){
+                $aeropuertoName=\App\Aeropuerto::find($aeropuerto);
+                $aeropuertoNombre = $aeropuertoName->nombre;
+            }else{
+                $aeropuertoNombre="TODOS";
+            }
+            if($cliente_id != ''){
+                $clienteName=\App\Cliente::find($cliente_id);
+                $clienteNombre = $clienteName->nombre;
+            }else{
+                $clienteNombre="TODOS";
+            }
+            $view->with( compact('facturas', 'aeropuerto','cliente', 'cliente_id', 'modulo', 'desde', 'hasta', 'nFactura', 'rif', 'nombre', 'estatus', 'total', 'subtotal', 'islr', 'iva', 'moduloNombre', 'aeropuertoNombre', 'clienteNombre'));
 
 
         }
