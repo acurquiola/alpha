@@ -143,9 +143,9 @@
 										<td class="text-right baseTicketExtraviado" align="right">{{$traductor->format($estacionamiento["baseTicketExtraviado"])}}</td>
 										<td class="text-right ivaTicketExtraviado" align="right">{{$traductor->format($estacionamiento["ivaTicketExtraviado"])}}</td>
 										<td class="text-right totalTicketExtraviado" align="right">{{$traductor->format($estacionamiento["totalTicketExtraviado"])}}</td>
-										<td class="text-right baseMontoA" align="right">0,00</td>
-										<td class="text-right ivaMontoA" align="right">0,00</td>
-										<td class="text-right totalMontoA" align="right">0,00</td>
+										<td class="text-right baseTarjetas" align="right">{{$traductor->format($estacionamiento["baseTarjetas"])}}</td>
+										<td class="text-right ivaTarjetas" align="right">{{$traductor->format($estacionamiento["ivaTarjetas"])}}</td>
+										<td class="text-right totalTarjetas" align="right">{{$traductor->format($estacionamiento["totalTarjetas"])}}</td>
 										<td class="text-right baseTotal" align="right">{{$traductor->format($estacionamiento["baseTotal"])}}</td>
 										<td class="text-right ivaTotal" align="right">{{$traductor->format($estacionamiento["ivaTotal"])}}</td>
 										<td class="text-right montoTotal" align="right">{{$traductor->format($estacionamiento["montoTotal"])}}</td>
@@ -154,25 +154,25 @@
 									@endforeach
 									<tr>
 										<td style="font-weight: bold">TOTALES</td>
-										<td class="text-right" style="font-weight: bold" align="right" id="ticketEstacionamiento">0</td>
+										<td class="text-right" style="font-weight: bold" align="center" id="ticketEstacionamiento">0</td>
 										<td class="text-right" style="font-weight: bold" align="right" id="baseTicketEstacionamiento">0</td>
 										<td class="text-right" style="font-weight: bold" align="right" id="ivaTicketEstacionamiento">0</td>
 										<td class="text-right" style="font-weight: bold" align="right" id="totalTicketEstacionamiento">0</td>
-										<td class="text-right" style="font-weight: bold" align="right" id="ticketPernocta">0</td>
+										<td class="text-right" style="font-weight: bold" align="center" id="ticketPernocta">0</td>
 										<td class="text-right" style="font-weight: bold" align="right" id="baseTicketPernocta">0</td>
 										<td class="text-right" style="font-weight: bold" align="right" id="ivaTicketPernocta">0</td>
 										<td class="text-right" style="font-weight: bold" align="right" id="totalTicketPernocta">0</td>
-										<td class="text-right" style="font-weight: bold" align="right" id="ticketExtraviado">0</td>
+										<td class="text-right" style="font-weight: bold" align="center" id="ticketExtraviado">0</td>
 										<td class="text-right" style="font-weight: bold" align="right" id="baseTicketExtraviado">0</td>
 										<td class="text-right" style="font-weight: bold" align="right" id="ivaTicketExtraviado">0</td>
 										<td class="text-right" style="font-weight: bold" align="right" id="totalTicketExtraviado">0</td>
-										<td class="text-right" style="font-weight: bold" align="right" id="baseTarjetas">-</td>
-										<td class="text-right" style="font-weight: bold" align="right" id="ivaTarjetas">-</td>
-										<td class="text-right" style="font-weight: bold" align="right" id="totalTarjetas">-</td>
+										<td class="text-right" style="font-weight: bold" align="right" id="baseTarjetas">0</td>
+										<td class="text-right" style="font-weight: bold" align="right" id="ivaTarjetas">0</td>
+										<td class="text-right" style="font-weight: bold" align="right" id="totalTarjetas">0</td>
 										<td class="text-right" style="font-weight: bold" align="right" id="baseTotal">0</td>
 										<td class="text-right" style="font-weight: bold" align="right" id="ivaTotal">0</td>
 										<td class="text-right" style="font-weight: bold" align="right" id="montoTotal">0</td>
-										<td class="text-right" style="font-weight: bold" align="right" id="deposito"></td>
+										<td class="text-right" style="font-weight: bold" align="center" id="deposito"></td>
 									</tr>
 								</tbody>
 							</table>

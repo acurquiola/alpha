@@ -256,7 +256,10 @@ class ReporteController extends Controller {
                 "baseTotal"                  =>0,
                 "ivaTotal"                   =>0,
                 "montoTotal"                 =>0,
-                "deposito"                   =>0
+                "deposito"                   =>0,
+                "baseTarjetas"               =>0,
+                "ivaTarjetas"                =>0,
+                "totalTarjetas"              =>0
             ];
 
             $iva=\App\Concepto::where('nompre', 'ESTACIONAMIENTO DE VEHICULOS')->where('aeropuerto_id', $aeropuerto)->first()->iva;
@@ -266,7 +269,8 @@ class ReporteController extends Controller {
                                                         ->where('estacionamientoops.fecha' ,$primerDiaMes)
                                                         ->get();
 
-            $tarjetasElectronicas=\App\Estacionamientooptarjeta::
+            $estacionamientosTarjetas=\App\Estacionamientooptarjeta::where('estacionamientooptarjetas.fecha' ,$primerDiaMes)
+                                                        ->get();
 
             foreach ($estacionamientos as $estacionamiento) {
 
@@ -299,6 +303,12 @@ class ReporteController extends Controller {
                 $estacionamientoDiario[$primerDiaMes->format('d/m/Y')]["baseTotal"]  =$estacionamientoDiario[$primerDiaMes->format('d/m/Y')]["montoTotal"]-$estacionamientoDiario[$primerDiaMes->format('d/m/Y')]["ivaTotal"];
 
 
+            }
+
+            foreach ($estacionamientosTarjetas as $tarjetas) {
+                        $estacionamientoDiario[$primerDiaMes->format('d/m/Y')]["ivaTarjetas"]   +=($tarjetas->total)*$iva/100;
+                        $estacionamientoDiario[$primerDiaMes->format('d/m/Y')]["totalTarjetas"] +=$tarjetas->total;
+                        $estacionamientoDiario[$primerDiaMes->format('d/m/Y')]["baseTarjetas"]  =$estacionamientoDiario[$primerDiaMes->format('d/m/Y')]["totalTarjetas"]-$estacionamientoDiario[$primerDiaMes->format('d/m/Y')]["ivaTarjetas"];
             }
 
         }
@@ -762,9 +772,10 @@ class ReporteController extends Controller {
     //Función para exportar los reportes 
     public function postExportReport(Request $request){
 
-        $table=$request->get('table');
-        $departamento=$request->get('departamento');
-        $gerencia=$request->get('gerencia');
+        $table        =$request->get('table');
+        $tableFirmas  =$request->get('tableFirmas');
+        $departamento =$request->get('departamento');
+        $gerencia     =$request->get('gerencia');
 
        $pdf = new \TCPDF('L', PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
 
@@ -828,7 +839,7 @@ class ReporteController extends Controller {
 
        //
 
-       $html = view('pdf.generic', compact('table'))->render();
+       $html = view('pdf.generic', compact('table', 'tableFirmas'))->render();
 
        // Print text using writeHTMLCell()
 
