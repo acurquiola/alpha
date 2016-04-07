@@ -214,188 +214,30 @@
 		        $(table).find('tr:nth-child(even)').css({'background-color': '#E2E2E2'})
 		        $(table).find('tr:last td').css({'border-bottom':'1px solid black','border-top':'1px solid black', 'font-weight': 'bold'})
 		        $(table).append('<tr>\
+          						<td><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br></td>\
           						<td></td>\
           						<td></td>\
           						<td></td>\
-          						<td></td>\
-          						<td></td>\
-               			  </tr><tr>\
-          						<td></td>\
-          						<td></td>\
-          						<td></td>\
-          						<td></td>\
-          						<td></td>\
-               			  </tr><tr>\
           						<td></td>\
           						<td></td>\
           						<td></td>\
           						<td></td>\
           						<td></td>\
                			  </tr><tr>\
-          						<td></td>\
-          						<td></td>\
-          						<td></td>\
-          						<td></td>\
-          						<td></td>\
+          						<td colspan="5" align="center" style="font-weight: bold; border-top: 1px solid black;border-right: 1px solid black;border-left: 1px solid black;border-bottom: 1px solid black;">REVISADO</td>\
+          						<td colspan="4" align="center" style="font-weight: bold; border-top: 1px solid black;border-right: 1px solid black;border-left: 1px solid black;border-bottom: 1px solid black;">CONFORMADO</td>\
                			  </tr><tr>\
-          						<td></td>\
-          						<td></td>\
-          						<td></td>\
-          						<td></td>\
-          						<td></td>\
+          						<td colspan="2" align="center" style="font-weight: bold; border-top: 1px solid black;border-right: 1px solid black;border-left: 1px solid black;border-bottom: 1px solid black;"><br><br><br><br><br><br><br><br><br><br> </td>\
+          						<td colspan="1" align="center" style="font-weight: bold; border-top: 1px solid black;border-right: 1px solid black;border-left: 1px solid black;border-bottom: 1px solid black;"> </td>\
+          						<td colspan="2" align="center" style="font-weight: bold; border-top: 1px solid black;border-right: 1px solid black;border-left: 1px solid black;border-bottom: 1px solid black;"> </td>\
+          						<td colspan="2" align="center" style="font-weight: bold; border-top: 1px solid black;border-right: 1px solid black;border-left: 1px solid black;border-bottom: 1px solid black;"> </td>\
+          						<td colspan="2" align="center" style="font-weight: bold; border-top: 1px solid black;border-right: 1px solid black;border-left: 1px solid black;border-bottom: 1px solid black;"> </td>\
                			  </tr><tr>\
-          						<td></td>\
-          						<td></td>\
-          						<td></td>\
-          						<td></td>\
-          						<td></td>\
-               			  </tr><tr>\
-          						<td></td>\
-          						<td></td>\
-          						<td></td>\
-          						<td></td>\
-          						<td></td>\
-               			  </tr><tr>\
-          						<td></td>\
-          						<td></td>\
-          						<td></td>\
-          						<td></td>\
-          						<td></td>\
-               			  </tr><tr>\
-          						<td></td>\
-          						<td></td>\
-          						<td></td>\
-          						<td></td>\
-          						<td></td>\
-               			  </tr><tr>\
-          						<td></td>\
-          						<td></td>\
-          						<td></td>\
-          						<td></td>\
-          						<td></td>\
-               			  </tr><tr>\
-          						<td></td>\
-          						<td></td>\
-          						<td></td>\
-          						<td></td>\
-          						<td></td>\
-               			  </tr><tr>\
-          						<td></td>\
-          						<td></td>\
-          						<td></td>\
-          						<td></td>\
-          						<td></td>\
-               			  </tr><tr>\
-          						<td></td>\
-          						<td></td>\
-          						<td></td>\
-          						<td></td>\
-          						<td></td>\
-               			  </tr><tr>\
-          						<td></td>\
-          						<td></td>\
-          						<td></td>\
-          						<td></td>\
-          						<td></td>\
-               			  </tr><tr>\
-          						<td></td>\
-          						<td></td>\
-          						<td></td>\
-          						<td></td>\
-          						<td></td>\
-               			  </tr><tr>\
-          						<td></td>\
-          						<td></td>\
-          						<td></td>\
-          						<td></td>\
-          						<td></td>\
-               			  </tr><tr>\
-          						<td></td>\
-          						<td></td>\
-          						<td></td>\
-          						<td></td>\
-          						<td></td>\
-               			  </tr><tr>\
-          						<td></td>\
-          						<td></td>\
-          						<td></td>\
-          						<td></td>\
-          						<td></td>\
-               			  </tr><tr>\
-          						<td></td>\
-          						<td></td>\
-          						<td></td>\
-          						<td></td>\
-          						<td></td>\
-               			  </tr><tr>\
-          						<td></td>\
-          						<td></td>\
-          						<td></td>\
-          						<td></td>\
-          						<td></td>\
-               			  </tr><tr>\
-          						<td></td>\
-          						<td></td>\
-          						<td></td>\
-          						<td></td>\
-          						<td></td>\
-               			  </tr><tr>\
-          						<td></td>\
-          						<td></td>\
-          						<td></td>\
-          						<td></td>\
-          						<td></td>\
-               			  </tr><tr>\
-          						<td colspan="3" align="center" style="font-weight: bold; border-top: 1px solid black;border-right: 1px solid black;border-left: 1px solid black;border-bottom: 1px solid black;">REVISADO</td>\
-          						<td colspan="2" align="center" style="font-weight: bold; border-top: 1px solid black;border-right: 1px solid black;border-left: 1px solid black;border-bottom: 1px solid black;">CONFORMADO</td>\
-               			  </tr><tr>\
-          						<td style="border-right: 1px solid black;border-left: 1px solid black;"></td>\
-          						<td style="border-right: 1px solid black;border-left: 1px solid black;"></td>\
-          						<td style="border-right: 1px solid black;border-left: 1px solid black;"></td>\
-          						<td style="border-right: 1px solid black;border-left: 1px solid black;"></td>\
-          						<td style="border-right: 1px solid black;border-left: 1px solid black;"></td>\
-               			  </tr><tr>\
-          						<td style="border-right: 1px solid black;border-left: 1px solid black;"></td>\
-          						<td style="border-right: 1px solid black;border-left: 1px solid black;"></td>\
-          						<td style="border-right: 1px solid black;border-left: 1px solid black;"></td>\
-          						<td style="border-right: 1px solid black;border-left: 1px solid black;"></td>\
-          						<td style="border-right: 1px solid black;border-left: 1px solid black;"></td>\
-               			  </tr><tr>\
-          						<td style="border-right: 1px solid black;border-left: 1px solid black;"></td>\
-          						<td style="border-right: 1px solid black;border-left: 1px solid black;"></td>\
-          						<td style="border-right: 1px solid black;border-left: 1px solid black;"></td>\
-          						<td style="border-right: 1px solid black;border-left: 1px solid black;"></td>\
-          						<td style="border-right: 1px solid black;border-left: 1px solid black;"></td>\
-               			  </tr><tr>\
-          						<td style="border-right: 1px solid black;border-left: 1px solid black;"></td>\
-          						<td style="border-right: 1px solid black;border-left: 1px solid black;"></td>\
-          						<td style="border-right: 1px solid black;border-left: 1px solid black;"></td>\
-          						<td style="border-right: 1px solid black;border-left: 1px solid black;"></td>\
-          						<td style="border-right: 1px solid black;border-left: 1px solid black;"></td>\
-               			  </tr><tr>\
-          						<td style="border-right: 1px solid black;border-left: 1px solid black;"></td>\
-          						<td style="border-right: 1px solid black;border-left: 1px solid black;"></td>\
-          						<td style="border-right: 1px solid black;border-left: 1px solid black;"></td>\
-          						<td style="border-right: 1px solid black;border-left: 1px solid black;"></td>\
-          						<td style="border-right: 1px solid black;border-left: 1px solid black;"></td>\
-               			  </tr><tr>\
-          						<td style="border-right: 1px solid black;border-left: 1px solid black;"></td>\
-          						<td style="border-right: 1px solid black;border-left: 1px solid black;"></td>\
-          						<td style="border-right: 1px solid black;border-left: 1px solid black;"></td>\
-          						<td style="border-right: 1px solid black;border-left: 1px solid black;"></td>\
-          						<td style="border-right: 1px solid black;border-left: 1px solid black;"></td>\
-               			  </tr><tr>\
-          						<td align="center" style="border-top: 1px solid black;border-right: 1px solid black;border-left: 1px solid black;border-bottom: 1px solid black;">FIRMA</td>\
-          						<td align="center" style="border-top: 1px solid black;border-right: 1px solid black;border-left: 1px solid black;border-bottom: 1px solid black;">FIRMA</td>\
-          						<td align="center" style="border-top: 1px solid black;border-right: 1px solid black;border-left: 1px solid black;border-bottom: 1px solid black;">FIRMA</td>\
-          						<td align="center" style="border-top: 1px solid black;border-right: 1px solid black;border-left: 1px solid black;border-bottom: 1px solid black;">FIRMA</td>\
-          						<td align="center" style="border-top: 1px solid black;border-right: 1px solid black;border-left: 1px solid black;border-bottom: 1px solid black;">FIRMA</td>\
-               			  </tr><tr>\
-          						<td align="center" style="font-weight: bold; border-top: 1px solid black;border-right: 1px solid black;border-left: 1px solid black;border-bottom: 1px solid black;">JEFE DEPARTAMENTO RECAUDACIÓN</td>\
-          						<td align="center" style="font-weight: bold; border-top: 1px solid black;border-right: 1px solid black;border-left: 1px solid black;border-bottom: 1px solid black;">CONTADOR</td>\
-          						<td align="center" style="font-weight: bold; border-top: 1px solid black;border-right: 1px solid black;border-left: 1px solid black;border-bottom: 1px solid black;">GERENTE ADMINISTRACIÓN</td>\
-          						<td align="center" style="font-weight: bold; border-top: 1px solid black;border-right: 1px solid black;border-left: 1px solid black;border-bottom: 1px solid black;">SUB-DIRECTOR</td>\
-          						<td align="center" style="font-weight: bold; border-top: 1px solid black;border-right: 1px solid black;border-left: 1px solid black;border-bottom: 1px solid black;">DIRECTOR</td>\
+          						<td colspan="2" align="center" style="font-weight: bold; border-top: 1px solid black;border-right: 1px solid black;border-left: 1px solid black;border-bottom: 1px solid black;">JEFE DEPARTAMENTO RECAUDACIÓN</td>\
+          						<td colspan="1" align="center" style="font-weight: bold; border-top: 1px solid black;border-right: 1px solid black;border-left: 1px solid black;border-bottom: 1px solid black;">CONTADOR</td>\
+          						<td colspan="2" align="center" style="font-weight: bold; border-top: 1px solid black;border-right: 1px solid black;border-left: 1px solid black;border-bottom: 1px solid black;">GERENTE ADMINISTRACIÓN</td>\
+          						<td colspan="2" align="center" style="font-weight: bold; border-top: 1px solid black;border-right: 1px solid black;border-left: 1px solid black;border-bottom: 1px solid black;">SUB-DIRECTOR</td>\
+          						<td colspan="2" align="center" style="font-weight: bold; border-top: 1px solid black;border-right: 1px solid black;border-left: 1px solid black;border-bottom: 1px solid black;">DIRECTOR</td>\
                			  </tr>')
 		        var tableHtml= $(table)[0].outerHTML;
 		        $('[name=table]').val(tableHtml);
