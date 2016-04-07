@@ -234,9 +234,9 @@ $('#export-btn').click(function(e){
                         <tr>\
                             <th colspan="11" style="vertical-align: middle; margin-top:20px" align="center" class="text-center">LISTADO DE FACTURAS EMITIDAS\
                                 </br>\
-                                DESDE: {{($desde)?$desde:"N/A"}} HASTA: {{($hasta)?$hasta:"N/A"}} | MÓDULO: {{$moduloNombre}}\
+                                DESDE: {{isset($desde)?$desde:"N/A"}} HASTA: {{isset($hasta)?$hasta:"N/A"}} | MÓDULO: {{isset($moduloNombre)?$moduloNombre:"TODOS"}}\
                                 </br>\
-                                CLIENTE: {{$clienteNombre}} | AEROPUERTO: {{$aeropuertoNombre}}\
+                                CLIENTE: {{isset($clienteNombre)?$clienteNombre:"TODOS"}} | AEROPUERTO: {{isset($aeropuertoNombre)?$aeropuertoNombre:"TODOS"}}\
                             </th>\
                         </tr>\
                     </thead>')

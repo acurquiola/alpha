@@ -680,7 +680,7 @@ class ReporteController extends Controller {
             $subtotal =$facturas->sum('subtotal');
             $iva      =$facturas->sum('iva');
             $islr     =$facturas->sum('islr');
-            if($modulo != 0){
+            if($modulo != '' || $modulo != 0){
                 $moduloName=\App\Modulo::find($modulo);
                 $moduloNombre = $moduloName->nombre;
             }else{
@@ -698,6 +698,13 @@ class ReporteController extends Controller {
             }else{
                 $clienteNombre="TODOS";
             }
+            if($desde == ''){
+                $desde="N/A";
+            }
+            if($hasta == ''){
+                $hasta="N/A";
+            }
+
             $view->with( compact('facturas', 'aeropuerto','cliente', 'cliente_id', 'modulo', 'desde', 'hasta', 'nFactura', 'rif', 'nombre', 'estatus', 'total', 'subtotal', 'islr', 'iva', 'moduloNombre', 'aeropuertoNombre', 'clienteNombre'));
 
 
