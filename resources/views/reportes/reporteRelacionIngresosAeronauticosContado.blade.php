@@ -3,7 +3,7 @@
 @section('content')
 <ol class="breadcrumb">
 	<li><a href="{{url('principal')}}">Inicio</a></li>
-	<li><a class="active">Relación de Estacionamiento Diario</a></li>
+	<li><a class="active">Relación de Ingresos Aeronáuticos Contado</a></li>
 </ol>
 <div class="row" id="box-wrapper">
 	<div class="col-md-12">
@@ -15,7 +15,7 @@
 				</div><!-- /.box-tools -->
 			</div>
 			<div class="box-body">
-				{!! Form::open(["url" => action('ReporteController@getReporteRelacionEstacionamientoDiario'), "method" => "GET", "class"=>"form-inline"]) !!}
+				{!! Form::open(["url" => action('ReporteController@getReporteRelacionIngresosAeronauticosContado'), "method" => "GET", "class"=>"form-inline"]) !!}
 				<div class="form-group" style="margin-left: 20px">
 					<label>Mes:</label>
 					{!! Form::select('mes', $meses, $mes, ["class"=> "form-control"]) !!}
@@ -28,7 +28,7 @@
 					<label style="width:80px; margin-left: 20px">Aeropuerto:</label>
 					{!! Form::select('aeropuerto', $aeropuertos, $aeropuerto, ["class"=> "form-control"]) !!}
 				</div>
-				<a class="btn btn-default  pull-right" href="{{action('ReporteController@getReporteRelacionEstacionamientoDiario')}}">Reset</a>
+				<a class="btn btn-default  pull-right" href="{{action('ReporteController@getReporteRelacionIngresosAeronauticosContado')}}">Reset</a>
 				<button type="submit" class="btn btn-primary pull-right">Buscar</button>
 				{!! Form::close() !!}
 			</div>
@@ -56,124 +56,48 @@
 							<table class="table table-hover table-condensed">
 								<thead  class="bg-primary">
 									<tr>
-										<th style="vertical-align: middle" class="text-center" colspan="1"></th>
-										<th style="vertical-align: middle" class="text-center" colspan="4">TICKETS DE ESTACIONAMIENTO</th>
-										<th style="vertical-align: middle" class="text-center" colspan="4">TICKETS DE PERNOCTA</th>
-										<th style="vertical-align: middle" class="text-center" colspan="4">TICKETS EXTRAVIADOS</th>
-										<th style="vertical-align: middle" class="text-center" colspan="3">TARJETAS ELECTRÓNICAS</th>
-										<th style="vertical-align: middle" class="text-center" colspan="3">RECAUDADO</th>
-										<th style="vertical-align: middle" class="text-center">DEP.</th>
-									</tr>
-									<tr>
 										<th   style="vertical-align: middle" class="text-center" align="center">
 											Fecha
 										</th>
 										<th   style="vertical-align: middle" class="text-center" align="center">
-											Cant
+											Nro. Dosa
 										</th>
 										<th   style="vertical-align: middle" class="text-center" align="center">
-											Base
+											Formulario
 										</th>
 										<th   style="vertical-align: middle" class="text-center" align="center">
-											IVA
+											Aterrizaje/Despegue
 										</th>
 										<th   style="vertical-align: middle" class="text-center" align="center">
-											Total
+											Estacionamiento
 										</th>
 										<th   style="vertical-align: middle" class="text-center" align="center">
-											Cant
+											Habilitación
 										</th>
 										<th   style="vertical-align: middle" class="text-center" align="center">
-											Base
+											Jetway
 										</th>
 										<th   style="vertical-align: middle" class="text-center" align="center">
-											IVA
+											Carga
 										</th>
 										<th   style="vertical-align: middle" class="text-center" align="center">
-											Total
+											Monto Facturado
 										</th>
 										<th   style="vertical-align: middle" class="text-center" align="center">
-											Cant
+											Monto Depositado
 										</th>
 										<th   style="vertical-align: middle" class="text-center" align="center">
-											Base
+											Diferencia
 										</th>
 										<th   style="vertical-align: middle" class="text-center" align="center">
-											IVA
-										</th>
-										<th   style="vertical-align: middle" class="text-center" align="center">
-											Total
-										</th>
-										<th   style="vertical-align: middle" class="text-center" align="center">
-											Base
-										</th>
-										<th   style="vertical-align: middle" class="text-center" align="center">
-											IVA
-										</th>
-										<th   style="vertical-align: middle" class="text-center" align="center">
-											Total
-										</th>
-										<th   style="vertical-align: middle" class="text-center" align="center">
-											Base
-										</th>
-										<th   style="vertical-align: middle" class="text-center" align="center">
-											IVA
-										</th>
-										<th   style="vertical-align: middle" class="text-center" align="center">
-											Total
-										</th>
-										<th   style="vertical-align: middle" class="text-center" align="center" align="center">
-											Ref
+											Nro. Cobro
 										</th>
 									</tr>
 								</thead>
 								<tbody>
-								@foreach($estacionamientoDiario as $dia => $estacionamiento)
-									<tr>
-										<td class="text-center dia" align="center">{{$dia}}</td>
-										<td class="text-center ticketEstacionamiento" align="center" style="width: 30px">{{$estacionamiento["ticketEstacionamiento"]}}</td>
-										<td class="text-right baseTicketEstacionamiento" align="right">{{$traductor->format($estacionamiento["baseTicketEstacionamiento"])}}</td>
-										<td class="text-right ivaTicketEstacionamiento" align="right">{{$traductor->format($estacionamiento["ivaTicketEstacionamiento"])}}</td>
-										<td class="text-right totalTicketEstacionamiento" align="right">{{$traductor->format($estacionamiento["totalTicketEstacionamiento"])}}</td>
-										<td class="text-center ticketPernocta" align="center">{{$estacionamiento["ticketPernocta"]}}</td>
-										<td class="text-right baseTicketPernocta" align="right">{{$traductor->format($estacionamiento["baseTicketPernocta"])}}</td>
-										<td class="text-right ivaTicketPernocta" align="right">{{$traductor->format($estacionamiento["ivaTicketPernocta"])}}</td>
-										<td class="text-right totalTicketPernocta" align="right">{{$traductor->format($estacionamiento["totalTicketPernocta"])}}</td>
-										<td class="text-center ticketExtraviado"  align="center">{{$estacionamiento["ticketExtraviado"]}}</td>
-										<td class="text-right baseTicketExtraviado" align="right">{{$traductor->format($estacionamiento["baseTicketExtraviado"])}}</td>
-										<td class="text-right ivaTicketExtraviado" align="right">{{$traductor->format($estacionamiento["ivaTicketExtraviado"])}}</td>
-										<td class="text-right totalTicketExtraviado" align="right">{{$traductor->format($estacionamiento["totalTicketExtraviado"])}}</td>
-										<td class="text-right baseMontoA" align="right">0,00</td>
-										<td class="text-right ivaMontoA" align="right">0,00</td>
-										<td class="text-right totalMontoA" align="right">0,00</td>
-										<td class="text-right baseTotal" align="right">{{$traductor->format($estacionamiento["baseTotal"])}}</td>
-										<td class="text-right ivaTotal" align="right">{{$traductor->format($estacionamiento["ivaTotal"])}}</td>
-										<td class="text-right montoTotal" align="right">{{$traductor->format($estacionamiento["montoTotal"])}}</td>
-										<td class="text-center deposito" align="center">{{$estacionamiento["deposito"]}}</td>
-									</tr>
-									@endforeach
-									<tr>
-										<td style="font-weight: bold">TOTALES</td>
-										<td class="text-right" style="font-weight: bold" align="right" id="ticketEstacionamiento">0</td>
-										<td class="text-right" style="font-weight: bold" align="right" id="baseTicketEstacionamiento">0</td>
-										<td class="text-right" style="font-weight: bold" align="right" id="ivaTicketEstacionamiento">0</td>
-										<td class="text-right" style="font-weight: bold" align="right" id="totalTicketEstacionamiento">0</td>
-										<td class="text-right" style="font-weight: bold" align="right" id="ticketPernocta">0</td>
-										<td class="text-right" style="font-weight: bold" align="right" id="baseTicketPernocta">0</td>
-										<td class="text-right" style="font-weight: bold" align="right" id="ivaTicketPernocta">0</td>
-										<td class="text-right" style="font-weight: bold" align="right" id="totalTicketPernocta">0</td>
-										<td class="text-right" style="font-weight: bold" align="right" id="ticketExtraviado">0</td>
-										<td class="text-right" style="font-weight: bold" align="right" id="baseTicketExtraviado">0</td>
-										<td class="text-right" style="font-weight: bold" align="right" id="ivaTicketExtraviado">0</td>
-										<td class="text-right" style="font-weight: bold" align="right" id="totalTicketExtraviado">0</td>
-										<td class="text-right" style="font-weight: bold" align="right" id="baseTarjetas">-</td>
-										<td class="text-right" style="font-weight: bold" align="right" id="ivaTarjetas">-</td>
-										<td class="text-right" style="font-weight: bold" align="right" id="totalTarjetas">-</td>
-										<td class="text-right" style="font-weight: bold" align="right" id="baseTotal">0</td>
-										<td class="text-right" style="font-weight: bold" align="right" id="ivaTotal">0</td>
-										<td class="text-right" style="font-weight: bold" align="right" id="montoTotal">0</td>
-										<td class="text-right" style="font-weight: bold" align="right" id="deposito"></td>
-									</tr>
+								@foreach($dosas as $dosa)
+									{{dd($dosa)}}
+								@endforeach
 								</tbody>
 							</table>
 						</div>

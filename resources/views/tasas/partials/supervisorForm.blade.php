@@ -20,66 +20,74 @@
                     <input type="hidden" name="fecha" value="{{$fecha}}">
                     <input type="hidden" name="taquilla" value="{{$taquilla}}">
 
-                    <table class="table" id="serie-table">
+                    <table class="table table-bordered" id="serie-table">
                         <thead>
-                            <th style="min-width:100px">Serie</th>
-                            <th class="text-right">Desde</th>
-                            <th class="text-right">Hasta</th>
-                            <th style="min-width:100px">Cantidad</th>
-                            <th class="text-right" style="min-width:150px">Monto</th>
-                            <th class="text-right" style="min-width:150px">Total</th>
-                            <th>Acción</th>
-
+                            <tr>
+                                <th class="text-center" rowspan="2" style="min-width:100px; vertical-align: middle">Taquilla</th>
+                                <th class="text-center"  rowspan="2" style="min-width:100px; vertical-align: middle">Turno</th>
+                                @foreach($serieTasas as $serie => $serieTotal)
+                                    <th colspan="5" style="min-width:100px;" class="text-center">{{$serie}}</th>
+                                @endforeach
+                            </tr>
+                            <tr>
+                                @foreach($serieTasas as $serie => $serieTotal)
+                                    <th class="text-right">Desde</th>
+                                    <th class="text-right">Hasta</th>
+                                    <th class="text-right">Costo</th>
+                                    <th class="text-right">Cantidad</th>
+                                    <th class="text-right">Total</th>
+                                @endforeach
+                            </tr>
                         </thead>
                         <tbody>
-                            @if($tasaOps->count()==0)
+                            @if(count($tasaOps)==0 || count($serieTasas)==0)
                                 <h3 class="text-center">No se encontraron registros</h3>
                             @else
-                                @foreach($tasaOps as $tasaOp)
-                                    @foreach($tasaOp->detalles as $detalle)
+                                @foreach($tasaOps as $taquilla => $tasaTaquillaOp)
+                                    @foreach($tasaTaquillaOp as $turno)
                                         <tr>
-                                            <td class="serie-td">
-                                                <input type="hidden" name="serie[]" class="serie-val" value="{{$detalle->serie}}">
-                                                <p class="form-control-static">Serie {{$detalle->serie}}</p>
-                                            </td>
-                                            <td>
-                                                <input name="desde[]" class="form-control text-right desde-input" value="{{$detalle->inicio}}">
-                                            </td>
-                                            <td>
-                                                <input name="hasta[]" class="form-control text-right hasta-input" value="{{$detalle->fin}}">
-                                            </td>
-                                            <td>
-                                                <div class="input-group">
-                                                    <span class="input-group-btn">
-                                                        <button type="button" class="btn btn-danger subtract-tasa" type="button">
-                                                            <span class="glyphicon glyphicon-minus"></span>
-                                                        </button>
-                                                    </span>
-                                                    <input name="cantidad[]" class="form-control  text-center cantidad-input" value="{{$detalle->cantidad}}">
-                                                    <span class="input-group-btn">
-                                                        <button type="button" class="btn btn-primary add-tasa" type="button">
-                                                            <span class="glyphicon glyphicon-plus"></span>
-                                                        </button>
-                                                    </span>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <input type="hidden" name="monto[]" class="serie-val" value="{{$detalle->costo}}">
-                                                <p class="form-control-static text-right bs-input">{{$detalle->costo}}</p>
-                                            </td>
-                                            <td>
-                                                <p class="form-control-static text-right monto-input">{{$detalle->total}}</p>
-                                            </td>
-                                            <td>
-                                                <button type="button" class="btn btn-danger delete-serie-btn">
-                                                    <span class="glyphicon glyphicon-minus"></span>
-                                                </button>
-                                            </td>
+                                            <td>{{$turno->taquilla}}</td>
+                                            <td>{{$turno->turno}}</td>
+                                            @foreach($serieTasas as $serie => $serieTotal)
+                                                @foreach($turno->detalles as $detalle)
+                                                    @if($detalle->serie == $serie)
+                                                        <td class="text-right">
+                                                            {{$detalle->inicio}}
+                                                        </td>
+                                                        <td class="text-right">
+                                                            {{$detalle->fin}}
+                                                        </td>
+                                                        <td class="text-right">
+                                                            {{$detalle->costo}}
+                                                        </td>
+                                                        <td class="text-right">
+                                                            {{$detalle->cantidad}}
+                                                        </td>
+                                                        <td class="text-right">
+                                                            {{$detalle->total}}
+                                                        </td>
+                                                    @endif
+                                                @endforeach
+                                            @endforeach
                                         </tr>
                                     @endforeach
                                 @endforeach
                             @endif
                         </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="2"><strong>Totales</strong></td>
+                                @foreach($serieTasas as $serie => $serieTotal)
+                                    @foreach($turno->detalles as $detalle)
+                                        @if($detalle->serie == $serie)
+                                            <td colspan="5" class="text-right">
+                                                {{$serieTotal}}
+                                            </td>
+                                        @endif
+                                    @endforeach
+                                @endforeach
+                            </tr>
+                        </tfoot>
                     </table>
                     <div class="row">
                         <div class="col-md-6 ">

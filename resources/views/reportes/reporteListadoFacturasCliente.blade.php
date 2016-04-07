@@ -3,7 +3,7 @@
 @section('content')
 <ol class="breadcrumb">
   <li><a href="{{url('principal')}}">Inicio</a></li>
-  <li><a class="active">Reporte Listado Facturas Emitidas</a></li>
+  <li><a class="active">Reporte Listado Facturas Emitidas por Cliente</a></li>
 </ol>
     <div class="row" id="box-wrapper">
         <div class="col-md-12">
@@ -16,7 +16,7 @@
                 </div>
                 <div class="box-body">
                     {!! Form::open([
-                    "url" => action('ReporteController@getReporteListadoFacturas'),
+                    "url" => action('ReporteController@getReporteListadoFacturasCliente'),
                     "method" => "POST",
                     "class" => "form-horizontal"]) !!}
                     <div class="form-group">
@@ -84,7 +84,7 @@
                         </div>
                     </div>
                     <div class="form-group" style="margin-right: 20px">
-                    <a class="btn btn-default pull-right" href="{{action('ReporteController@getReporteListadoFacturas')}}">Reset</a>
+                    <a class="btn btn-default pull-right" href="{{action('ReporteController@getReporteListadoFacturasCliente')}}">Reset</a>
                     <button type="submit" class="btn btn-primary pull-right">Buscar</button>
                     </div>
                     {!! Form::close() !!}
@@ -92,6 +92,7 @@
             </div>
         </div>
         @if(isset($facturas))
+
             <div class="col-md-12">
                 <div class="box box-primary">
                     <div class="box-header">
@@ -111,6 +112,15 @@
                              <table class="table table-hover table-condensed">
                              <thead  class="bg-primary">
                              <tr>
+                                 <th style="vertical-align: middle; width:180px" align="center" class="text-center">
+                                    Nombre ó Razón Social
+                                 </th>
+                                 <th style="vertical-align: middle; width:35px" align="center" class="text-center">
+                                    Código
+                                 </th>
+                                 <th style="vertical-align: middle; width:70px" align="center" class="text-center">
+                                    RIF
+                                 </th>
                                  <th style="vertical-align: middle; width:50px" align="center" class="text-center">
                                     Fecha
                                  </th>
@@ -119,15 +129,6 @@
                                  </th>
                                  <th style="vertical-align: middle; width:60px" align="center" class="text-center">
                                     Nro. Control
-                                 </th>
-                                 <th style="vertical-align: middle; width:70px" align="center" class="text-center">
-                                    RIF
-                                 </th>
-                                 <th style="vertical-align: middle; width:35px" align="center" class="text-center">
-                                    Código
-                                 </th>
-                                 <th style="vertical-align: middle; width:180px" align="center" class="text-center">
-                                    Nombre ó Razón Social
                                  </th>
                                  <th style="vertical-align: middle; width:150px" align="center"  class="text-center">
                                     Descripción
@@ -147,12 +148,12 @@
                             @if(count($facturas)>0)
                             @foreach($facturas as $index => $factura)
                                 <tr>
+                                    <td style="vertical-align: middle; width:180px" align="left" >{{$factura->cliente->nombre}}</td>
+                                    <td style="vertical-align: middle; width:35px" align="center" >{{$factura->cliente->codigo}}</td>
+                                    <td style="vertical-align: middle; width:70px" align="center" >{{$factura->cliente->cedRifPrefix}}-{{$factura->cliente->cedRif}}</td>
                                     <td style="vertical-align: middle; width:50px" align="center">{{$factura->fecha}}</td>
                                     <td style="vertical-align: middle; width:60px" align="center" >{{$factura->nFacturaPrefix}}-{{$factura->nFactura}}</td>
                                     <td style="vertical-align: middle; width:60px" align="center" >{{$factura->nControlPrefix}}-{{$factura->nControl}}</td>
-                                    <td style="vertical-align: middle; width:70px" align="center" >{{$factura->cliente->cedRifPrefix}}-{{$factura->cliente->cedRif}}</td>
-                                    <td style="vertical-align: middle; width:35px" align="center" >{{$factura->cliente->codigo}}</td>
-                                    <td style="vertical-align: middle; width:180px" align="left" >{{$factura->cliente->nombre}}</td>
                                     <td style="vertical-align: middle; width:150px" align="left">{{$factura->descripcion}}</td>
                                     <td style="vertical-align: middle; width:70px" align="right">{{$traductor->format($factura->subtotal)}}</td>
                                     {{--@if(!$factura->metadata)--}}

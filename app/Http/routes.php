@@ -37,7 +37,8 @@ Route::get('logoutRemember', 'Auth\AuthController@getLogoutRemember');
 
 Route::get('principal',["middleware"=>"auth", function(){
     return view('principal');
-}]  );
+    }]  
+);
 
 //Route::get('facturaHtml', function(){
 //    $factura = \App\Factura::find(24);
@@ -159,6 +160,7 @@ Route::group(['prefix' => 'reporte/'], function () {
     Route::get('reporteRelacionMensualDeFacturacionCobradosYPorCobrar', 'ReporteController@getReporteRelacionMensualDeFacturacionCobradosYPorCobrar');
     Route::get('reporteRelacionIngresoMensual', 'ReporteController@getReporteRelacionIngresoMensual');
     Route::get('reporteRelacionEstacionamientoDiario', 'ReporteController@getReporteRelacionEstacionamientoDiario');
+    Route::get('reporteRelacionIngresosAeronauticosContado', 'ReporteController@getReporteRelacionIngresosAeronauticosContado');
     Route::get('reporteDiarioIngreso', 'ReporteController@getReporteDiarioIngreso');
     Route::get('reporteRelacionCobranza', 'ReporteController@getReporteRelacionCobranza');
     Route::get('reporteContratos', 'ReporteController@getReporteContratos');
@@ -169,6 +171,8 @@ Route::group(['prefix' => 'reporte/'], function () {
     Route::get('reporterTraficoAereo', 'ReporteController@getReporteTraficoAereo');
     Route::get('reporteListadoFacturas', 'ReporteController@getReporteListadoFacturas');
     Route::post('reporteListadoFacturas', 'ReporteController@getReporteListadoFacturas');
+    Route::get('reporteListadoFacturaCliente', 'ReporteController@getReporteListadoFacturasCliente');
+    Route::post('reporteListadoFacturaCliente', 'ReporteController@getReporteListadoFacturasCliente');
 
 });
 

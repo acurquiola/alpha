@@ -9,7 +9,7 @@ class Despegue extends Model {
 
     protected $guarded = array();
 
-    public static function filter($fecha, $hora, $aeronave_id, $num_vuelo, $puerto_id, $cliente_id)
+    public static function filter($fecha, $hora, $aeronave_id, $num_vuelo, $puerto_id, $cliente_id, $aeropuerto_id)
     {
         return Despegue::fecha($fecha)
                         ->hora($hora)
@@ -17,6 +17,7 @@ class Despegue extends Model {
                         ->numeroVuelo($num_vuelo)
                         ->procedencia($puerto_id)
                         ->cliente($cliente_id)
+                        ->aeropuerto($aeropuerto_id)
                         ->orderBy('id', 'DESC');
     }
 
@@ -121,6 +122,12 @@ class Despegue extends Model {
     {
         if ($cliente_id != ""){
             $query->where('cliente_id', $cliente_id);
+        }
+    }
+    public function scopeAeropuerto($query, $aeropuerto_id)
+    {
+        if ($aeropuerto_id != ""){
+            $query->where('aeropuerto_id', $aeropuerto_id);
         }
     } 
 

@@ -1,6 +1,7 @@
 @extends('app')
 
 @section('content')
+
 <ol class="breadcrumb">
 	<li><a href="{{url('principal')}}">Inicio</a></li>
 	<li><a class="active">Relación de Cobranza</a></li>
@@ -68,34 +69,63 @@
 							<table class="table table-hover table-condensed">
 								<thead  class="bg-primary">
 									<tr>
-										<th style="vertical-align: middle; width:50px" class="text-center">
-											Fecha Cobro
+										<th colspan="2" style="vertical-align: middle;" align="center" class="text-center">
+											COBRO
 										</th>
-										<th style="vertical-align: middle; width:50px" class="text-center">
-											Cobro
+										<th colspan="3" style="vertical-align: middle;" align="center" class="text-center">
+											CLIENTE
 										</th>
-										<th style="vertical-align: middle; width:50px" class="text-center">
-											Cod. Cliente
+										<th colspan="3" style="vertical-align: middle;" align="center" class="text-center">
+											DEPÓSITO
 										</th>
-										<th style="vertical-align: middle; width:250px" class="text-center">
-											Nombre o Razón Social
+										<th colspan="3" style="vertical-align: middle;" align="center" class="text-center">
+											COMPROBANTE DE RETENCIÓN
 										</th>
-										<th  style="vertical-align: middle; width:40px" class="text-center">
+										<th colspan="4" style="vertical-align: middle" align="center" class="text-center">
+											TOTAL
+										</th>
+									</tr>
+									<tr>
+										<th style="vertical-align: middle; width:40px" align="center" class="text-center">
+											Fecha
+										</th>
+										<th style="vertical-align: middle; width:30px" align="center" class="text-center">
+											Nro.
+										</th>
+										<th  style="vertical-align: middle; width:40px" align="center" class="text-center">
 											Rec. Caja
 										</th>
-										<th style="vertical-align: middle; width:40px" class="text-center">
+										<th style="vertical-align: middle; width:40px" align="center" class="text-center">
+											Código
+										</th>
+										<th style="vertical-align: middle; width:150px" align="center" class="text-center">
+											Nombre o Razón Social
+										</th>
+										<th style="vertical-align: middle; width:30px" align="center" class="text-center">
 											Tipo
 										</th>
 										<th style="vertical-align: middle; width:40px"  align="center" class="text-center">
 											Cuenta
 										</th>
-										<th style="vertical-align: middle; width:70px"  align="center" class="text-center">
-											Referencia
+										<th style="vertical-align: middle; width:40px"  align="center" class="text-center">
+											Ref
+										</th>
+										<th style="vertical-align: middle; width:40px"  align="center" class="text-center">
+											Fecha
+										</th>
+										<th style="vertical-align: middle; width:50px"  align="center" class="text-center">
+											Número
+										</th>
+										<th style="vertical-align: middle; width:50px"  align="center" class="text-center">
+											IVA
+										</th>
+										<th style="vertical-align: middle; width:50px"  align="center" class="text-center">
+											ISLR
 										</th>
 										<th style="vertical-align: middle; width:80px"  align="center" class="text-center">
 											Cobrado
 										</th>
-										<th style="vertical-align: middle; width:80px" align="center" class="text-center">
+										<th style="vertical-align: middle; width:70px" align="center" class="text-center">
 											Depositado
 										</th>
 										<th style="vertical-align: middle; width:70px" align="center" class="text-center">
@@ -107,16 +137,20 @@
 									@if($recibos->count()>0)
 									@foreach($recibos as $recibo)
 									<tr>
-										<td style="vertical-align: middle; width:50px" align="center">{{$recibo->fecha}}</td>
-										<td align="center"  style="width:50px">{{$recibo->cobro->id}}</td>
-										<td style="vertical-align: middle; width:50px" align="center"  >{{$recibo->cobro->cliente->codigo}}</td>
-										<td style="vertical-align: middle; width:250px" align="left" >{{$recibo->cobro->cliente->nombre}}</td>
+										<td style="vertical-align: middle; width:40px" align="center">{{$recibo->fecha}}</td>
+										<td align="center"  style="width:30px">{{$recibo->cobro->id}}</td>
 										<td style="vertical-align: middle; width:40px" align="center" >{{($recibo->cobro->nRecibo)?$recibo->cobro->nRecibo:'N/A'}}</td>
-										<td style="vertical-align: middle; width:40px" align="center">{{$recibo->tipo}}</td>
+										<td style="vertical-align: middle; width:40px" align="center"  >{{$recibo->cobro->cliente->codigo}}</td>
+										<td style="vertical-align: middle; width:150px" align="left" >{{$recibo->cobro->cliente->nombre}}</td>
+										<td style="vertical-align: middle; width:30px" align="center">{{$recibo->tipo}}</td>
 										<td style="vertical-align: middle; width:40px" align="center">{{substr($recibo->cuenta->descripcion, -6)}}</td>
-										<td style="vertical-align: middle; width:70px" align="center">{{$recibo->ncomprobante}}</td>
+										<td style="vertical-align: middle; width:40px" align="center">{{$recibo->ncomprobante}}</td>
+										<td style="vertical-align: middle; width:40px" align="center">-</td>
+										<td style="vertical-align: middle; width:50px" align="center">-</td>
+										<td style="vertical-align: middle; width:50px" align="center">-</td>
+										<td style="vertical-align: middle; width:50px" align="center">-</td>
 										<td style="vertical-align: middle; width:80px" align="right">{{$traductor->format($recibo->cobro->montofacturas)}}</td>
-										<td style="vertical-align: middle; width:80px" align="right">{{$traductor->format($recibo->cobro->montodepositado)}}</td>
+										<td style="vertical-align: middle; width:70px" align="right">{{$traductor->format($recibo->cobro->montodepositado)}}</td>
 										<td style="vertical-align: middle; width:70px" align="right">{{$traductor->format(($recibo->cobro->montofacturas-$recibo->cobro->montodepositado))}}</td>
 									</tr>
 									@endforeach
@@ -130,8 +164,12 @@
 										<td> - </td>
 										<td> - </td>
 										<td> - </td>
+										<td> - </td>
+										<td> - </td>
+										<td> - </td>
+										<td> - </td>
 										<td style="vertical-align: middle; width:80px" align="right">{{$traductor->format($totalFacturas)}}</td>
-										<td style="vertical-align: middle; width:80px" align="right">{{$traductor->format($totalDepositado)}}</td>
+										<td style="vertical-align: middle; width:70px" align="right">{{$traductor->format($totalDepositado)}}</td>
 										<td style="vertical-align: middle; width:70px" align="right">-</td>                                   
 									</tr>   
 									@else
@@ -199,7 +237,7 @@
 			}).remove();
 			$(table).prepend('<thead>\
 								<tr>\
-									<th colspan="11" style="vertical-align: middle; margin-top:20px" align="center" class="text-center">RELACIÓN DE COBRANZA\
+									<th colspan="15" style="vertical-align: middle; margin-top:20px" align="center" class="text-center">RELACIÓN DE COBRANZA\
 										</br>\
 										MES: {{$mes}} AÑO: {{$anno}} | MÓDULO: {{$moduloNombre}}\
 										</br>\
@@ -207,9 +245,9 @@
 									</th>\
 								</tr>\
 							</thead>')
-			$(table).find('thead, th').css({'border-top':'1px solid black', 'font-weight': 'bold', 'text-align':"center", 'font-size': '8px'})
-			$(table).find('th').css({'border-bottom':'1px solid black', 'font-weight': 'bold', 'text-align':"center", 'font-size': '8px'})
-			$(table).find('td').css({'font-size': '7px'})
+			$(table).find('thead, th').css({'border-top':'1px solid black', 'font-weight': 'bold', 'text-align':"center", 'font-size': '7px'})
+			$(table).find('th').css({'border-bottom':'1px solid black', 'font-weight': 'bold', 'text-align':"center", 'font-size': '7px'})
+			$(table).find('td').css({'font-size': '6px'})
 			$(table).find('tr:nth-child(even)').css({'background-color': '#E2E2E2'})
 			$(table).find('tr:last td').css({'border-bottom':'1px solid black','border-top':'1px solid black', 'font-weight': 'bold'})
 			var tableHtml= $(table)[0].outerHTML;

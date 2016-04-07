@@ -117,10 +117,12 @@ class ViewComposerServiceProvider extends ServiceProvider {
 
         view()->composer([  'reportes.reporteRelacionCobranza',
                             'reportes.reporteListadoFacturas',
+                            'reportes.reporteListadoFacturasCliente',
                             'reportes.reporteRelacionEstacionamientoDiario',
                             'reportes.reporteRelacionMensualDeIngresosRecaudacionPendiente',
                             'reportes.reporteRelacionMensualDeFacturacionCobradosYPorCobrar',
                             'reportes.reporteRelacionIngresoMensual',
+                            'reportes.reporteRelacionIngresosAeronauticosContado',
                             'reportes.reporteDiario',
                             'reportes.reporteModuloMetaMensual'], function($view){
             $gerencia = "Gerencia de Administración";
@@ -156,6 +158,8 @@ class ViewComposerServiceProvider extends ServiceProvider {
             'reportes.reporteRelacionMensualDeFacturacionCobradosYPorCobrar',
             'reportes.reporteDES900',
             'reportes.reporteListadoFacturas',
+            'reportes.reporteListadoFacturasCliente',
+            'reportes.reporteRelacionIngresosAeronauticosContado',
             'reportes.reporteTraficoAereo'], function($view){
             $aeropuertos = \App\Aeropuerto::lists('nombre', 'id');
             $aeropuertos[0]="Todos";
@@ -173,7 +177,9 @@ class ViewComposerServiceProvider extends ServiceProvider {
             'reportes.reporteCuadreCaja',
             'factura.automatica',
             'reportes.reporteListadoFacturas',
+            'reportes.reporteListadoFacturasCliente',
             'reportes.reporteRelacionIngresoMensual',
+            'reportes.reporteRelacionIngresosAeronauticosContado',
             'reportes.reporteRelacionMensualDeIngresosRecaudacionPendiente',
             'reportes.reporteTraficoAereo'], function($view){
             $meses=[

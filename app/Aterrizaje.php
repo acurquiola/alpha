@@ -9,7 +9,7 @@ class Aterrizaje extends Model {
 
 	protected $guarded = [];
 
-    public static function filter($fecha, $hora, $aeronave_id, $num_vuelo, $tipoMatricula_id, $puerto_id, $cliente_id)
+    public static function filter($fecha, $hora, $aeronave_id, $num_vuelo, $tipoMatricula_id, $puerto_id, $cliente_id,  $despego, $aeropuerto_id)
     {
         return Aterrizaje::fecha($fecha)
         				->hora($hora)
@@ -17,7 +17,9 @@ class Aterrizaje extends Model {
         				->numeroVuelo($num_vuelo)
         				->tipoVuelo($tipoMatricula_id)
         				->procedencia($puerto_id)
-        				->cliente($cliente_id)
+                        ->cliente($cliente_id)
+                        ->despego($despego)
+                        ->aeropuerto($aeropuerto_id)
 	                    ->orderBy('id', 'DESC');
     }
 
@@ -127,5 +129,14 @@ class Aterrizaje extends Model {
             $query->where('cliente_id', $cliente_id);
         }
     } 
-
+    public function scopeAeropuerto($query, $aeropuerto_id)
+    {
+        if ($aeropuerto_id != ""){
+            $query->where('aeropuerto_id', $aeropuerto_id);
+        }
+    }
+    public function scopeDespego($query, $despego)
+    {
+        $query->where('despego', $despego);
+    }
 }
