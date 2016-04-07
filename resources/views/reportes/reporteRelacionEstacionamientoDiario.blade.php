@@ -60,87 +60,72 @@
 										<th style="vertical-align: middle" class="text-center" colspan="4">TICKETS DE ESTACIONAMIENTO</th>
 										<th style="vertical-align: middle" class="text-center" colspan="4">TICKETS DE PERNOCTA</th>
 										<th style="vertical-align: middle" class="text-center" colspan="4">TICKETS EXTRAVIADOS</th>
-										<th style="vertical-align: middle" class="text-center" colspan="10">TARJETAS ELECTRÓNICAS</th>
+										<th style="vertical-align: middle" class="text-center" colspan="3">TARJETAS ELECTRÓNICAS</th>
 										<th style="vertical-align: middle" class="text-center" colspan="3">RECAUDADO</th>
 										<th style="vertical-align: middle" class="text-center" colspan="1">DEP.</th>
 									</tr>
 									<tr>
-										<th rowspan="2" style="vertical-align: middle" class="text-center">
+										<th   style="vertical-align: middle" class="text-center">
 											Fecha
 										</th>
-										<th rowspan="2" style="vertical-align: middle" class="text-center" style="width: 30px">
+										<th   style="vertical-align: middle" class="text-center" style="width: 30px">
 											Cant
 										</th>
-										<th rowspan="2" style="vertical-align: middle" class="text-center">
+										<th   style="vertical-align: middle" class="text-center">
 											Base
 										</th>
-										<th rowspan="2" style="vertical-align: middle" class="text-center">
+										<th   style="vertical-align: middle" class="text-center">
 											IVA
 										</th>
-										<th rowspan="2" style="vertical-align: middle" class="text-center">
+										<th   style="vertical-align: middle" class="text-center">
 											Total
 										</th>
-										<th rowspan="2" style="vertical-align: middle" class="text-center">
+										<th   style="vertical-align: middle" class="text-center">
 											Cant
 										</th>
-										<th rowspan="2" style="vertical-align: middle" class="text-center">
+										<th   style="vertical-align: middle" class="text-center">
 											Base
 										</th>
-										<th rowspan="2" style="vertical-align: middle" class="text-center">
+										<th   style="vertical-align: middle" class="text-center">
 											IVA
 										</th>
-										<th rowspan="2" style="vertical-align: middle" class="text-center">
+										<th   style="vertical-align: middle" class="text-center">
 											Total
 										</th>
-										<th rowspan="2" style="vertical-align: middle" class="text-center">
+										<th   style="vertical-align: middle" class="text-center">
 											Cant
 										</th>
-										<th rowspan="2" style="vertical-align: middle" class="text-center">
+										<th   style="vertical-align: middle" class="text-center">
 											Base
 										</th>
-										<th rowspan="2" style="vertical-align: middle" class="text-center">
+										<th   style="vertical-align: middle" class="text-center">
 											IVA
 										</th>
-										<th rowspan="2" style="vertical-align: middle" class="text-center">
+										<th   style="vertical-align: middle" class="text-center">
 											Total
 										</th>
 
-										<th colspan="3" style="vertical-align: middle" class="text-center">
-											Monto
-										</th>
-										<th colspan="3" style="vertical-align: middle" class="text-center">
-											Monto
-										</th>
-										<th colspan="3" style="vertical-align: middle" class="text-center">
-											Monto
-										</th>
-										<th rowspan="2" style="vertical-align: middle" class="text-center">
-											Total
-										</th>
-										<th rowspan="2" style="vertical-align: middle" class="text-center">
+										<th style="vertical-align: middle" class="text-center">
 											Base
 										</th>
-										<th rowspan="2" style="vertical-align: middle" class="text-center">
+										<th style="vertical-align: middle" class="text-center">
 											IVA
 										</th>
-										<th rowspan="2" style="vertical-align: middle" class="text-center">
+										<th style="vertical-align: middle" class="text-center">
 											Total
 										</th>
-										<th rowspan="2" style="vertical-align: middle" class="text-center">
+										<th   style="vertical-align: middle" class="text-center">
+											Base
+										</th>
+										<th   style="vertical-align: middle" class="text-center">
+											IVA
+										</th>
+										<th   style="vertical-align: middle" class="text-center">
+											Total
+										</th>
+										<th   style="vertical-align: middle" class="text-center">
 											Ref
 										</th>
-									</tr>
-
-									<tr> 
-										<th style="vertical-align: middle" class="text-center">Base</th>
-										<th style="vertical-align: middle" class="text-center">IVA</th>
-										<th style="vertical-align: middle" class="text-center">Total</th>
-										<th style="vertical-align: middle" class="text-center">Base</th>
-										<th style="vertical-align: middle" class="text-center">IVA</th>
-										<th style="vertical-align: middle" class="text-center">Total</th>
-										<th style="vertical-align: middle" class="text-center">Base</th>
-										<th style="vertical-align: middle" class="text-center">IVA</th>
-										<th style="vertical-align: middle" class="text-center">Total</th>
 									</tr>
 								</thead>
 								<tbody>
@@ -162,13 +147,6 @@
 										<td class="text-right baseMontoA" align="right">0,00</td>
 										<td class="text-right ivaMontoA" align="right">0,00</td>
 										<td class="text-right totalMontoA" align="right">0,00</td>
-										<td class="text-right baseMontoB" align="right">0,00</td>
-										<td class="text-right ivaMontoB" align="right">0,00</td>
-										<td class="text-right totalMontoB" align="right">0,00</td>
-										<td class="text-right baseMontoC" align="right">0,00</td>
-										<td class="text-right ivaMontoC" align="right">0,00</td>
-										<td class="text-right totalMontoC" align="right">0,00</td>
-										<td class="text-right totalTarjetas" align="right">0,00</td>
 										<td class="text-right baseTotal" align="right">{{$traductor->format($estacionamiento["baseTotal"])}}</td>
 										<td class="text-right ivaTotal" align="right">{{$traductor->format($estacionamiento["ivaTotal"])}}</td>
 										<td class="text-right montoTotal" align="right">{{$traductor->format($estacionamiento["montoTotal"])}}</td>
@@ -189,15 +167,8 @@
 										<td class="text-right" style="font-weight: bold" align="right" id="baseTicketExtraviado">0</td>
 										<td class="text-right" style="font-weight: bold" align="right" id="ivaTicketExtraviado">0</td>
 										<td class="text-right" style="font-weight: bold" align="right" id="totalTicketExtraviado">0</td>
-										<td class="text-right" style="font-weight: bold" align="right" id="baseMontoA">-</td>
-										<td class="text-right" style="font-weight: bold" align="right" id="ivaMontoA">-</td>
-										<td class="text-right" style="font-weight: bold" align="right" id="totalMontoA">-</td>
-										<td class="text-right" style="font-weight: bold" align="right" id="baseMontoB">-</td>
-										<td class="text-right" style="font-weight: bold" align="right" id="ivaMontoB">-</td>
-										<td class="text-right" style="font-weight: bold" align="right" id="totalMontoB">-</td>
-										<td class="text-right" style="font-weight: bold" align="right" id="baseMontoC">-</td>
-										<td class="text-right" style="font-weight: bold" align="right" id="ivaMontoC">-</td>
-										<td class="text-right" style="font-weight: bold" align="right" id="totalMontoC">-</td>
+										<td class="text-right" style="font-weight: bold" align="right" id="baseTarjetas">-</td>
+										<td class="text-right" style="font-weight: bold" align="right" id="ivaTarjetas">-</td>
 										<td class="text-right" style="font-weight: bold" align="right" id="totalTarjetas">-</td>
 										<td class="text-right" style="font-weight: bold" align="right" id="baseTotal">0</td>
 										<td class="text-right" style="font-weight: bold" align="right" id="ivaTotal">0</td>
@@ -278,49 +249,14 @@
 			totalTicketExtraviado+=commaToNum($(value).text().trim());
 		});
 
-		var baseMontoA=0;
-		$('.baseMontoA').each(function(index,value){
-			baseMontoA+=commaToNum($(value).text().trim());
+		var baseTarjetas=0;
+		$('.baseTarjetas').each(function(index,value){
+			baseTarjetas+=commaToNum($(value).text().trim());
 		});
 
-		var ivaMontoA=0;
-		$('.ivaMontoA').each(function(index,value){
-			ivaMontoA+=commaToNum($(value).text().trim());
-		});
-
-		var totalMontoA=0;
-		$('.totalMontoA').each(function(index,value){
-			totalMontoA+=commaToNum($(value).text().trim());
-		});
-
-		var baseMontoB=0;
-		$('.baseMontoB').each(function(index,value){
-			baseMontoB+=commaToNum($(value).text().trim());
-		});
-
-		var ivaMontoB=0;
-		$('.ivaMontoB').each(function(index,value){
-			ivaMontoB+=commaToNum($(value).text().trim());
-		});
-
-		var totalMontoB=0;
-		$('.totalMontoB').each(function(index,value){
-			totalMontoB+=commaToNum($(value).text().trim());
-		});
-
-		var baseMontoC=0;
-		$('.baseMontoC').each(function(index,value){
-			baseMontoC+=commaToNum($(value).text().trim());
-		});
-
-		var ivaMontoC=0;
-		$('.ivaMontoC').each(function(index,value){
-			ivaMontoC+=commaToNum($(value).text().trim());
-		});
-
-		var totalMontoC=0;
-		$('.totalMontoC').each(function(index,value){
-			totalMontoC+=commaToNum($(value).text().trim());
+		var ivaTarjetas=0;
+		$('.ivaTarjetas').each(function(index,value){
+			ivaTarjetas+=commaToNum($(value).text().trim());
 		});
 
 		var totalTarjetas=0;
@@ -355,15 +291,8 @@
 		$('#baseTicketExtraviado').text(numToComma(baseTicketExtraviado));
 		$('#ivaTicketExtraviado').text(numToComma(ivaTicketExtraviado));
 		$('#totalTicketExtraviado').text(numToComma(totalTicketExtraviado));
-		$('#baseMontoA').text(numToComma(baseMontoA));
-		$('#ivaMontoA').text(numToComma(ivaMontoA));
-		$('#totalMontoA').text(numToComma(totalMontoA));
-		$('#baseMontoB').text(numToComma(baseMontoB));
-		$('#ivaMontoB').text(numToComma(ivaMontoB));
-		$('#totalMontoB').text(numToComma(totalMontoB));
-		$('#baseMontoC').text(numToComma(baseMontoC));
-		$('#ivaMontoC').text(numToComma(ivaMontoC));
-		$('#totalMontoC').text(numToComma(totalMontoC));
+		$('#baseTarjetas').text(numToComma(baseTarjetas));
+		$('#ivaTarjetas').text(numToComma(ivaTarjetas));
 		$('#totalTarjetas').text(numToComma(totalTarjetas));
 		$('#baseTotal').text(numToComma(baseTotal));
 		$('#ivaTotal').text(numToComma(ivaTotal));

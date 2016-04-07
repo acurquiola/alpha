@@ -266,6 +266,8 @@ class ReporteController extends Controller {
                                                         ->where('estacionamientoops.fecha' ,$primerDiaMes)
                                                         ->get();
 
+            $tarjetasElectronicas=\App\Estacionamientooptarjeta::
+
             foreach ($estacionamientos as $estacionamiento) {
 
 
