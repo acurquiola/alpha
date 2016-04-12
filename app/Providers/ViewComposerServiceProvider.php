@@ -123,9 +123,10 @@ class ViewComposerServiceProvider extends ServiceProvider {
                             'reportes.reporteRelacionMensualDeFacturacionCobradosYPorCobrar',
                             'reportes.reporteRelacionIngresoMensual',
                             'reportes.reporteRelacionIngresosAeronauticosContado',
+                            'reportes.reporteRelacionFacturasAeronauticasCredito',
                             'reportes.reporteDiario',
                             'reportes.reporteModuloMetaMensual'], function($view){
-            $gerencia = "Gerencia de Administración";
+            $gerencia     = "Gerencia de Administración";
             $departamento = "Departamento de Recaudación de Servicios Aeroportuarios";
             $view->with(compact('gerencia', 'departamento'));
         });
@@ -160,6 +161,7 @@ class ViewComposerServiceProvider extends ServiceProvider {
             'reportes.reporteListadoFacturas',
             'reportes.reporteListadoFacturasCliente',
             'reportes.reporteRelacionIngresosAeronauticosContado',
+            'reportes.reporteRelacionFacturasAeronauticasCredito',
             'reportes.reporteTraficoAereo'], function($view){
             $aeropuertos = \App\Aeropuerto::lists('nombre', 'id');
             $aeropuertos[0]="Todos";
@@ -180,6 +182,7 @@ class ViewComposerServiceProvider extends ServiceProvider {
             'reportes.reporteListadoFacturasCliente',
             'reportes.reporteRelacionIngresoMensual',
             'reportes.reporteRelacionIngresosAeronauticosContado',
+            'reportes.reporteRelacionFacturasAeronauticasCredito',
             'reportes.reporteRelacionMensualDeIngresosRecaudacionPendiente',
             'reportes.reporteTraficoAereo'], function($view){
             $meses=[
