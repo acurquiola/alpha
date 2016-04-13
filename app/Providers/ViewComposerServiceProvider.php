@@ -35,9 +35,18 @@ class ViewComposerServiceProvider extends ServiceProvider {
 
 		view()->composer(['partials.navbar', 'partials.menu'], function($view){
             $user      =\Auth::user();
+            $rol        = $user->roles->first();
+            if ($rol->name == 'Admin' || $rol->name == 'AdministradorSCV' || $rol->name == 'OperadorSCV'){
+                $url  ='DashboardController@indexSCV';
+                $name ='CONTROL DE VUELOS';
+            }
+            if ($rol->name == 'AdminRecaudación' || $rol->name == 'Operador Recaudacion'){
+                $url  ='DashboardController@indexRecaudacion';
+                $name ='RECAUDACIÓN';
+            }
             $userName  =ucwords($user->username);
             $createdAt =$user->created_at;
-            $view->with(compact('userName', 'createdAt'));
+            $view->with(compact('userName', 'createdAt', 'url', 'name'));
         });
 
         view()->composer(['aeronaves.partials.index'], function($view){

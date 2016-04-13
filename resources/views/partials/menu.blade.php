@@ -10,7 +10,7 @@
 			</div>
 			<div class="pull-left info">
 				<p>{{$userName}}</p>
-				{{session('aeropuerto')->siglas}}
+				{{$name}}
 			</div>
 		</div>
 		<!-- sidebar menu: : style can be found in sidebar.less -->

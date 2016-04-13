@@ -73,37 +73,52 @@
                         <div class="table-responsive" style="max-height: 500px">
                             <table  class="table table-condensed">
                                     <tr class="bg-primary" >
-                                        <th class="text-center">Cliente</th>
-                                        <th class="text-center">Nro. Recibo Caja</th>
+                                        <th class="text-center">CLIENTE</th>
+                                        <th colspan="3"class="text-center">COBRO</th>
+                                        <th colspan="9" class="text-center">DOSA</th>
+                                        <th colspan="3"class="text-center">DEPÓSITO</th>
+                                    </tr>
+                                    <tr class="bg-primary" >
+
+                                        <th class="text-center"></th>
+                                        <th class="text-center">Nro.</th>
+                                        <th class="text-center">Rec. Caja</th>
+                                       
                                         <th class="text-center">Fecha</th>
-                                        <th class="text-center">Nro. Dosa</th>
-                                        <th class="text-center">Formulario</th>
-                                        <th class="text-center">Aterrizaje/Despegue</th>
-                                        <th class="text-center">Estacionamiento</th>
-                                        <th class="text-center">Habilitación</th>
-                                        <th class="text-center">Jetway</th>
-                                        <th class="text-center">Carga</th>
-                                        <th class="text-center">Monto Factura</th>
-                                        <th class="text-center">Monto Depósito</th>
-                                        <th class="text-center">Fecha Depósito</th>
+                                        <th class="text-center">Nro.</th>
+                                        <th class="text-center">Formulario (Bs.)</th>
+                                        <th class="text-center">Aterrizaje/Despegue (Bs.)</th>
+                                        <th class="text-center">Estacionamiento (Bs.)</th>
+                                        <th class="text-center">Habilitación (Bs.)</th>
+                                        <th class="text-center">Jetway (Bs.)</th>
+                                        <th class="text-center">Carga (Bs.)</th>
+                                        <th class="text-center">Total (Bs.)</th>
+
+                                        <th class="text-center">Ref.</th>
+                                        <th class="text-center">Fecha</th>
+                                        <th class="text-center">Monto (Bs.)</th>
                                     </tr>
                                 <tbody>
                                     @foreach($dosaFactura as $index => $df)
                                     <tr align="center">
-                                        <td>{{$df['cliente']}}</td>
-                                        <td>
-                                        </td>                           
-                                        <td>{{$df['fecha']}}</td>                               
+                                        <td>{{$df['cliente']}}</td> 
+
+                                        <td>{{$df['nCobro']}}</td>                         
+                                        <td>{{$df['reciboCaja']}}</td>                         
+                                        <td>{{$df['fecha']}}</td>  
+
                                         <td>{{$index}}</td>                               
-                                        <td>{{($df['formularioBs'])}}</td>                               
+                                        <td>{{$df['formularioBs']}}</td>                               
                                         <td>{{$df['aterrizajeBs']}}</td>                               
                                         <td>{{$df['estacionamientoBs']}}</td>                               
                                         <td>{{$df['habilitacionBs']}}</td>                               
                                         <td>{{$df['jetwayBs']}}</td>                               
                                         <td>{{$df['cargaBs']}}</td>                               
-                                        <td> </td>                               
-                                        <td> </td>                               
-                                        <td> </td>                                 
+                                        <td>{{$df['totalDosa']}}</td> 
+
+                                        <td>{{$df['refBancaria']}}</td>   
+                                        <td>{{$df['fechaDeposito']}}</td>                               
+                                        <td>{{$df['totalDepositado']}}</td>                               
                                     </tr>                                    
                                     @endforeach
                                     <tr class="bg-gray" align="center">
@@ -111,6 +126,7 @@
                                         <td> - </td>
                                         <td> - </td>
                                         <td> - </td>
+                                        <td> - </td>
                                         <td>0,00</td>                                 
                                         <td>0,00</td>                                 
                                         <td>0,00</td>                                 
@@ -118,6 +134,7 @@
                                         <td>0,00</td>                                 
                                         <td>0,00</td>                                 
                                         <td>0,00</td>                                 
+                                        <td> - </td>                                 
                                         <td> - </td>                                 
                                         <td> - </td>                                 
                                     </tr>

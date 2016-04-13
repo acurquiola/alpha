@@ -806,59 +806,71 @@ class ReporteController extends Controller {
         $habilitacion    =\App\Concepto::where('aeropuerto_id', $aeropuerto)->where('nompre', 'HABILITACION (CRÉDITO)')->first();
         $jetway          =\App\Concepto::where('aeropuerto_id', $aeropuerto)->where('nompre', 'JETWAY (CRÉDITO)')->first();
         $carga           =\App\Concepto::where('aeropuerto_id', $aeropuerto)->where('nompre', 'CARGA (CRÉDITO)')->first();
-        $facturas = \App\Factura::with('cobros', 'detalles')
+        $facturas        =\App\Factura::select('facturas.*', 'clientes.nombre')
                                 ->join('clientes', 'facturas.cliente_id', '=', 'clientes.id')
                                 ->whereBetween('fecha', array($annoDesde.'-'.$mesDesde.'-'.$diaDesde,  $annoHasta.'-'.$mesHasta.'-'.$diaHasta))
-                                ->where('facturas.deleted_at', null)
-                                ->where('facturas.aeropuerto_id', $aeropuerto)
-                                ->where('facturas.nroDosa', '<>', 'NULL')
-                                ->where('facturas.estado', 'C')
+                                ->where('deleted_at', null)
+                                ->where('aeropuerto_id', $aeropuerto)
+                                ->where('nroDosa', '<>', 'NULL')
+                                ->where('estado', 'C')
                                 ->where('facturas.condicionPago', 'Crédito')
                                 ->orderBy('nombre', 'ASC')
                                 ->get();
 
-
-        $dosaFactura    = [];
-        $dosaFactura[0] =[ 
-                            'cliente'           => '', 
-                            'fecha'             => 0, 
-                            'formularioBs'      => 0, 
-                            'aterrizajeBs'      => 0, 
-                            'estacionamientoBs' => 0, 
-                            'habilitacionBs'    => 0, 
-                            'jetwayBs'          => 0, 
-                            'cargaBs'           => 0 
-                        ];
-
+        $dosaFactura=[];
 
         foreach ($facturas as $factura) {
-            $dosaFactura[$factura->nroDosa]["cliente"] =$factura->cliente->nombre;
-            $dosaFactura[$factura->nroDosa]["fecha"]   =$factura->fecha;
-            $nroDosa = $factura->nroDosa;
+            $dosaFactura[$factura->nroDosa] =[ 
+                                'fecha'             => 0, 
+                                'reciboCaja'        => [],
+                                'nCobro'            => [],
+                                'refBancaria'       => [],
+                                'formularioBs'      => 0, 
+                                'aterrizajeBs'      => 0, 
+                                'estacionamientoBs' => 0, 
+                                'habilitacionBs'    => 0, 
+                                'jetwayBs'          => 0, 
+                                'cargaBs'           => 0,
+                                'totalDosa'         => 0,
+                                'fechaDeposito'     => 0,
+                                'totalDepositado'   => 0
+                            ];
+            $dosaFactura[$factura->nroDosa]["fecha"]           =$factura->fecha;
+            $dosaFactura[$factura->nroDosa]["cliente"]         =$factura->cliente->nombre;
+            $dosaFactura[$factura->nroDosa]["totalDosa"]       =$factura->total;
             foreach ($factura->detalles as $detalle) {
                 if($detalle->concepto_id == $formulario->id){
-                    $dosaFactura[$nroDosa]["formularioBs"]=$detalle->totalDes;
+                    $dosaFactura[$factura->nroDosa]["formularioBs"]=$detalle->totalDes;
                 }
                 if($detalle->concepto_id == $aterrizaje->id){
-                    $dosaFactura[$nroDosa ]["aterrizajeBs"]=$detalle->totalDes;
+                    $dosaFactura[$factura->nroDosa]["aterrizajeBs"]=$detalle->totalDes;
                 }
                 if($detalle->concepto_id == $estacionamiento->id){
-                    $dosaFactura[$nroDosa ]["estacionamientoBs"]=$detalle->totalDes;
+                    $dosaFactura[$factura->nroDosa]["estacionamientoBs"]=$detalle->totalDes;
                 }
                 if($detalle->concepto_id == $habilitacion->id){
-                    $dosaFactura[$nroDosa ]["habilitacionBs"]=$detalle->totalDes;
+                    $dosaFactura[$factura->nroDosa]["habilitacionBs"]=$detalle->totalDes;
                 }
                 if($detalle->concepto_id == $jetway->id){
-                    $dosaFactura[$nroDosa ]["jetwayBs"]=$detalle->totalDes;
+                    $dosaFactura[$factura->nroDosa]["jetwayBs"]=$detalle->totalDes;
                 }
                 if($detalle->concepto_id == $carga->id){
-                    $dosaFactura[$nroDosa ]["cargaBs"]=$detalle->totalDes;
+                    $dosaFactura[$factura->nroDosa]["cargaBs"]=$detalle->totalDes;
                 }
-            }         
-        }
+            } 
+            foreach ($factura->cobros as $recibo){
+                    $dosaFactura[$factura->nroDosa]["reciboCaja"]=$recibo->nRecibo;
+                    $dosaFactura[$factura->nroDosa]["nCobro"]=$recibo->id;
+                foreach ($recibo->pagos as $pago){
+                        $dosaFactura[$factura->nroDosa]["refBancaria"]     =$pago->ncomprobante;
+                        $dosaFactura[$factura->nroDosa]["fechaDeposito"]   =$pago->fecha;
+                        $dosaFactura[$factura->nroDosa]["totalDepositado"] +=$pago->monto;
+                }     
+            }    
+        }   
 
 
-        return view('reportes.reporteRelacionFacturasAeronauticasCredito', compact('diaDesde', 'mesDesde', 'annoDesde', 'diaHasta', 'mesHasta', 'annoHasta', 'aeropuerto', 'facturas', 'dosaFactura'));
+        return view('reportes.reporteRelacionFacturasAeronauticasCredito', compact('diaDesde', 'mesDesde', 'annoDesde', 'diaHasta', 'mesHasta', 'annoHasta', 'aeropuerto', 'facturas', 'dosaFactura', 'clientes'));
 
     }
 
