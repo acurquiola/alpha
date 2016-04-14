@@ -21,9 +21,9 @@ class AuthController extends Controller {
 
 	use AuthenticatesAndRegistersUsers;
 
-    protected $redirectTo="principal";
-    protected $redirectToSCV="resources/views/dashboards/principalSCV.blade";
-    protected $loginPath="/";
+    protected $redirectTo    ="principal";
+    protected $redirectToSCV ="resources/views/dashboards/principalSCV.blade";
+    protected $loginPath     ="/";
 
 	/**
 	 * Create a new authentication controller instance.
@@ -64,7 +64,8 @@ class AuthController extends Controller {
         $userName   =$request->get('userName');
         $aeropuerto =\App\Aeropuerto::find($request->get('aeropuerto_id'));
         $user       =\App\Usuario::where('userName', $userName)->first();
-
+        $rol        = $user->roles->first();
+        
         if($user->estado == 1){
             $ingreso=0;
             foreach ($user->aeropuertos as $autorizado) {
@@ -76,7 +77,12 @@ class AuthController extends Controller {
                     { 
                         session(["aeropuerto"=> $aeropuerto]);
                         $ingreso=1;
-                        return redirect()->intended($this->redirectPath());
+                        if ($rol->name == 'Admin' || $rol->name == 'AdministradorSCV' || $rol->name == 'OperadorSCV'){
+                            return redirect()->action('DashboardController@indexSCV');
+                        }
+                        if ($rol->name == 'AdminRecaudación' || $rol->name == 'Operador Recaudacion'){
+                            return redirect()->action('DashboardController@indexRecaudacion');
+                        }
                     }
 
                     return redirect($this->loginPath())

@@ -22,6 +22,11 @@ Route::group(['prefix' => 'systas/'], function () {
     Route::get('reporte/reprseries', 'SysTasController@reprseries');
 });
 
+Route::group(['prefix' => 'dashboard/'], function () {
+    Route::get('SCV', 'DashboardController@indexSCV');
+    Route::get('Recaudacion', 'DashboardController@indexRecaudacion');
+});
+
 
 Route::get('/email', function() {
     Mail::send('emails.test', ['name' => 'Juan'], function($message) {
@@ -35,10 +40,6 @@ Route::get('logout', 'Auth\AuthController@getLogout');
 Route::get('logoutRemember', 'Auth\AuthController@getLogoutRemember');
 
 
-Route::get('principal',["middleware"=>"auth", function(){
-    return view('principal');
-    }]  
-);
 
 //Route::get('facturaHtml', function(){
 //    $factura = \App\Factura::find(24);
@@ -163,6 +164,7 @@ Route::group(['prefix' => 'reporte/'], function () {
     Route::get('reporteRelacionIngresosAeronauticosContado', 'ReporteController@getReporteRelacionIngresosAeronauticosContado');
     Route::get('reporteDiarioIngreso', 'ReporteController@getReporteDiarioIngreso');
     Route::get('reporteRelacionCobranza', 'ReporteController@getReporteRelacionCobranza');
+    Route::get('reporteRelacionFacturasAeronauticasCredito', 'ReporteController@getReporteRelacionFacturasAeronauticasCredito');
     Route::get('reporteContratos', 'ReporteController@getReporteContratos');
     Route::post('exportReport', "ReporteController@postExportReport");
 
