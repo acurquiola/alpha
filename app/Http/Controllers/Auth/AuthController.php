@@ -81,6 +81,8 @@ class AuthController extends Controller {
                             return redirect()->action('DashboardController@indexSCV');
                         }elseif ($rol->name == 'AdminRecaudación' || $rol->name == 'Operador Recaudacion'){
                             return redirect()->action('DashboardController@indexRecaudacion');
+                        }elseif ($rol->name == 'direccion'){
+                            return redirect()->action('DashboardController@indexDireccion');
                         }else{
                             return redirect()->action('DashboardController@indexOtros');
                         }

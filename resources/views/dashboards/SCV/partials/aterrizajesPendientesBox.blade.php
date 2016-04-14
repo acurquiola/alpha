@@ -36,7 +36,7 @@
 						@endforeach
 					@else					
 						<tr>
-							<td colspan="5" align="center">No hay registros disponibles </td>
+							<td colspan="5" align="center">No hay Aterrizajes Pendientes</td>
 						</tr>
 					@endif
 					</tbody>

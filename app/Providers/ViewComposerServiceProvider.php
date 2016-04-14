@@ -42,6 +42,9 @@ class ViewComposerServiceProvider extends ServiceProvider {
             }elseif ($rol->name == 'AdminRecaudación' || $rol->name == 'Operador Recaudacion'){
                 $url  ='DashboardController@indexRecaudacion';
                 $name ='RECAUDACIÓN';
+            }elseif ($rol->name == 'Direccion'){
+                $url  ='DashboardController@indexDireccion';
+                $name ='DIRECCION';
             }else{
                 $url  ='DashboardController@indexOtros';
                 $name = $user->departamento->nombre;

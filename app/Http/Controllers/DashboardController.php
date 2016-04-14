@@ -130,6 +130,11 @@ class DashboardController extends Controller {
 		return view('dashboards.general.index');
 	}
 
+	public function indexDireccion()
+	{
+		return view('dashboards.direccion.index');
+	}
+
 	/**
 	 * Display a listing of the resource.
 	 *
