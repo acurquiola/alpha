@@ -39,10 +39,12 @@ class ViewComposerServiceProvider extends ServiceProvider {
             if ($rol->name == 'Admin' || $rol->name == 'AdministradorSCV' || $rol->name == 'OperadorSCV'){
                 $url  ='DashboardController@indexSCV';
                 $name ='CONTROL DE VUELOS';
-            }
-            if ($rol->name == 'AdminRecaudación' || $rol->name == 'Operador Recaudacion'){
+            }elseif ($rol->name == 'AdminRecaudación' || $rol->name == 'Operador Recaudacion'){
                 $url  ='DashboardController@indexRecaudacion';
                 $name ='RECAUDACIÓN';
+            }else{
+                $url  ='DashboardController@indexOtros';
+                $name = $user->departamento->nombre;
             }
             $userName  =ucwords($user->username);
             $createdAt =$user->created_at;

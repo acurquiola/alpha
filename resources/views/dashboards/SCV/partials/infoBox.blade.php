@@ -4,7 +4,7 @@
 		<div class="small-box bg-aqua">
 			<div class="inner">
 				<h3>{{($vuelosComerciales)}}<sup style="font-size: 20px"> {{$traductor->format($vuelosComercialesPorc)}}%</sup></h3>
-				<p>VUELOS COMERCIALES</p>
+				<p>VUELOS COMERCIALES DEL DÍA</p>
 			</div>
 			<div class="icon">
 				<i class="ion ion-ios-people-outline"></i>
@@ -17,7 +17,7 @@
 		<div class="small-box bg-green">
 			<div class="inner">
 				<h3>{{($vuelosPrivados)}}<sup style="font-size: 20px"> {{$traductor->format($vuelosPrivadosPorc)}}%</sup></h3>
-				<p>VUELOS PRIVADOS</p>
+				<p>VUELOS PRIVADOS DEL DÍA</p>
 			</div>
 			<div class="icon">
 				<i class="ion ion-locked"></i>
@@ -30,7 +30,7 @@
 		<div class="small-box bg-yellow">
 			<div class="inner">
 				<h3>{{($vuelosComercialPrivado)}}<sup style="font-size: 20px"> {{$traductor->format($vuelosComercialPrivadoPorc)}}%</sup></h3>
-				<p>VUELOS COMERCIAL PRIVADO</p>
+				<p>VUELOS COMERCIAL PRIVADO DEL DÍA</p>
 			</div>
 			<div class="icon">
 				<i class="ion ion-plane"></i>
@@ -43,7 +43,7 @@
 		<div class="small-box bg-red">
 			<div class="inner">
 				<h3>{{($vuelosOficiales)}}<sup style="font-size: 20px"> {{$traductor->format($vuelosOficialesPorc)}}%</sup></h3>
-				<p>VUELOS OFICIALES</p>
+				<p>VUELOS OFICIALES DEL DÍA</p>
 			</div>
 			<div class="icon">
 				<i class="ion ion-pin"></i>

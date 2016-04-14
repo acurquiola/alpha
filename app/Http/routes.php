@@ -25,6 +25,7 @@ Route::group(['prefix' => 'systas/'], function () {
 Route::group(['prefix' => 'dashboard/'], function () {
     Route::get('SCV', 'DashboardController@indexSCV');
     Route::get('Recaudacion', 'DashboardController@indexRecaudacion');
+    Route::get('Principal', 'DashboardController@indexOtros');
 });
 
 

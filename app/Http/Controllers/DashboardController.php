@@ -125,6 +125,11 @@ class DashboardController extends Controller {
 		return view('dashboards.recaudacion.partials.index', compact('fecha', 'facturas', 'cobros', 'recaudado', 'porRecaudar', 'metaGobernacion', 'metaSaar'));
 	}
 
+	public function indexOtros()
+	{
+		return view('dashboards.general.index');
+	}
+
 	/**
 	 * Display a listing of the resource.
 	 *
