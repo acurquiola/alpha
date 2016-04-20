@@ -70,7 +70,7 @@ class DashboardController extends Controller {
 											->limit(5)
 											->get();
 
-		return view('dashboards.SCV.partials.index', compact('fecha', 'vuelosComerciales', 'vuelosComercialPrivado', 'vuelosPrivados', 'vuelosOficiales', 'vuelosComercialesPorc', 'vuelosComercialPrivadoPorc', 'vuelosPrivadosPorc', 'vuelosOficialesPorc', 'aterrizajesPendientes', 'aterrizajesTotal', 'despeguesRecientes'));
+		return view('dashboards.SCV.partials.index', compact('hoy', 'vuelosComerciales', 'vuelosComercialPrivado', 'vuelosPrivados', 'vuelosOficiales', 'vuelosComercialesPorc', 'vuelosComercialPrivadoPorc', 'vuelosPrivadosPorc', 'vuelosOficialesPorc', 'aterrizajesPendientes', 'aterrizajesTotal', 'despeguesRecientes'));
 	}
 
 	public function indexRecaudacion()

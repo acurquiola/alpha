@@ -69,7 +69,7 @@
 			</a>
 			<ul class="treeview-menu">
 				@permission('menu.modeloaeronave|menu.puerto|menu.piloto|menu.piloto|menu.aeronave')
-				<li class="header">GENERAL</li>
+				<li class="header" style="color: #bbbbbb">GENERAL</li>
 				@endpermission
 				@permission('menu.modeloaeronave')
 				<li {{ (\Request::is('maestros/modelosAeronaves*'))?"class=active":"" }}><a href="{{ URL::to('maestros/modelosAeronaves') }}"><i class="fa fa-paper-plane"></i> Modelos de Aeronaves</a></li>
@@ -214,13 +214,13 @@
                 	</a>
                 	<ul class="treeview-menu">
                 		@permission('menu.reporteSCV')
-						<li class="header">Control de Vuelos</li>
+						<li class="header" style="color: #bbbbbb">Control de Vuelos</li>
 						<li {{ (\Request::is('reporte/reporterDES900*'))?"class=active":"" }}><a href="{{ URL::to('reporte/reporterDES900') }}"><i class="fa fa-folder-o"></i> DES 900</a></li>
 						<li {{ (\Request::is('reporte/reporterCuadreCaja*'))?"class=active":"" }}><a href="{{ URL::to('reporte/reporterCuadreCaja') }}"><i class="fa fa-folder-o"></i> Cuadre de Caja</a></li>
 <!-- 						<li {{ (\Request::is('reporte/reporterTraficoAereo*'))?"class=active":"" }}><a href="{{ URL::to('reporte/reporterTraficoAereo') }}"><i class="fa fa-folder-o"></i> Tráfico Aéreo</a></li>
  -->                		@endpermission
                 		@permission('menu.reporteRecaudacion')   
-						<li class="header">Recaudación</li>     
+						<li class="header" style="color: #bbbbbb">Recaudación</li>     
                         <li {{ (\Request::is('reporte/reporteListadoFacturas*'))?"class=active":"" }}><a href="{{ URL::to('reporte/reporteListadoFacturas') }}"><i class="fa fa-folder-o"></i> Listado de Facturas Emitidas</a></li>
 <!--                         <li {{ (\Request::is('reporte/reporteListadoFacturaCliente*'))?"class=active":"" }}><a href="{{ URL::to('reporte/reporteListadoFacturaCliente') }}"><i class="fa fa-folder-o"></i> Listado de Facturas Emitidas por Cliente</a></li>
 						 -->						<li {{ (\Request::is('reporte/reporteRelacionCobranza*'))?"class=active":"" }}><a href="{{ URL::to('reporte/reporteRelacionCobranza') }}"><i class="fa fa-folder-o"></i> Relación de Cobranza</a></li>        		
