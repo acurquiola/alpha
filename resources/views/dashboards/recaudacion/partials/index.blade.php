@@ -11,5 +11,4 @@
 @include('dashboards.recaudacion.partials.facturasRecientes') 
 @include('dashboards.recaudacion.partials.cobranzaReciente') 
 
-</div><!-- /.col -->
 @endsection

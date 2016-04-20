@@ -4,8 +4,8 @@
 		<div class="info-box">
 			<span class="info-box-icon bg-aqua"><i class="fa fa-check-square-o"></i></span>
 			<div class="info-box-content">
-			<span class="info-box-text">RECAUDADO</span>
-				<span class="info-box-number">Bs. {{$traductor->format($recaudado)}}</span>
+				<span class="info-box-text">RECAUDADO (MES)</span>
+				<span class="info-box-number">Bs. {{$traductor->format($recaudadoMes)}}</span>
 			</div><!-- /.info-box-content -->
 		</div><!-- /.info-box -->
 	</div><!-- /.col -->
@@ -13,8 +13,8 @@
 		<div class="info-box">
 			<span class="info-box-icon bg-red"><i class="fa fa-exclamation-triangle"></i></span>
 			<div class="info-box-content">
-				<span class="info-box-text">POR RECAUDAR</span>
-				<span class="info-box-number">Bs. {{$traductor->format($porRecaudar)}}</span>
+				<span class="info-box-text">POR RECAUDAR (MES)</span>
+				<span class="info-box-number">Bs. {{$traductor->format($porRecaudarMes)}}</span>
 			</div><!-- /.info-box-content -->
 		</div><!-- /.info-box -->
 	</div><!-- /.col -->
@@ -24,19 +24,19 @@
 
 	<div class="col-md-3 col-sm-6 col-xs-12">
 		<div class="info-box">
-			<span class="info-box-icon bg-green"><i class="ion ion-ribbon-b"></i></span>
+			<span class="info-box-icon bg-green"><i class="fa fa-check-square-o"></i></span>
 			<div class="info-box-content">
-				<span class="info-box-text">META GOBERNACIÓN</span>
-				<span class="info-box-number">Bs. {{$traductor->format($metaGobernacion)}}</span>
+				<span class="info-box-text">RECAUDADO (AÑO)</span>
+				<span class="info-box-number">Bs. {{$traductor->format($recaudadoAnual)}}</span>
 			</div><!-- /.info-box-content -->
 		</div><!-- /.info-box -->
 	</div><!-- /.col -->
 	<div class="col-md-3 col-sm-6 col-xs-12">
 		<div class="info-box">
-			<span class="info-box-icon bg-yellow"><i class="fa fa-trophy"></i></span>
+			<span class="info-box-icon bg-yellow"><i class="fa fa-exclamation-triangle"></i></span>
 			<div class="info-box-content">
-				<span class="info-box-text">META SAAR</span>
-				<span class="info-box-number">Bs. {{$traductor->format($metaSaar)}}</span>
+				<span class="info-box-text">POR RECAUDAR (AÑO)</span>
+				<span class="info-box-number">Bs. {{$traductor->format($porRecaudarAnual)}}</span>
 			</div><!-- /.info-box-content -->
 		</div><!-- /.info-box -->
 	</div><!-- /.col -->

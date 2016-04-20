@@ -110,60 +110,47 @@ class DashboardController extends Controller {
                             ->orderBy('nFactura', 'DESC')
                             ->limit(5)
                             ->get();  
-		$fecha                      = \Carbon\Carbon::now();
-		$hoy                        = $fecha->toDateString();
 
-            $diaAnno=\Carbon\Carbon::create(\Carbon\Carbon::now()->year, 1,1);
+		$hoy     = \Carbon\Carbon::now()->toDateString();
+		
+		$diaAnno =\Carbon\Carbon::create(\Carbon\Carbon::now()->year, 1,1);
 
-            //Recaudado
-            $recaudado=\App\Cobro::where('cobros.created_at','>=' ,$diaAnno->toDateTimeString())
-				            ->where('cobros.aeropuerto_id',session('aeropuerto')->id)
-				            ->sum('montodepositado');
+        $recaudadoAnual=\App\Cobro::where('cobros.created_at','>=' ,$diaAnno->toDateTimeString())
+			            ->where('cobros.aeropuerto_id',session('aeropuerto')->id)
+			            ->sum('montodepositado');
 
-            //Facturas por Cobrar
-            $porRecaudar=\App\Factura::where('facturas.fecha','>=' ,$diaAnno->toDateTimeString())
-				            ->where('facturas.aeropuerto_id',session('aeropuerto')->id)
-				            ->where('estado', 'P')
-				            ->where('facturas.deleted_at', null)
-				            ->sum('total');
-            //Recaudado
-            $recaudadoAnual=\App\Cobro::where('cobros.created_at','>=' ,$diaAnno->toDateTimeString())
-				            ->where('cobros.aeropuerto_id',session('aeropuerto')->id)
-				            ->sum('montodepositado');
+        //Facturas por Cobrar
+        $porRecaudarAnual=\App\Factura::where('facturas.fecha','>=' ,$diaAnno->toDateTimeString())
+			            ->where('facturas.aeropuerto_id',session('aeropuerto')->id)
+			            ->where('estado', 'P')
+			            ->where('facturas.deleted_at', null)
+			            ->sum('total');
 
-            //Facturas por Cobrar
-            $porRecaudarAnual=\App\Factura::where('facturas.fecha','>=' ,$diaAnno->toDateTimeString())
-				            ->where('facturas.aeropuerto_id',session('aeropuerto')->id)
-				            ->where('estado', 'P')
-				            ->where('facturas.deleted_at', null)
-				            ->sum('total');
+        $diaMes=\Carbon\Carbon::create(\Carbon\Carbon::now()->year, \Carbon\Carbon::now()->month,1);
 
-            $diaMes=\Carbon\Carbon::create(\Carbon\Carbon::now()->year, \Carbon\Carbon::now()->month,1);
+        //Recaudado
+        $recaudadoMes=\App\Cobro::where('cobros.created_at','>=' ,$diaMes->toDateTimeString())
+			            ->where('cobros.aeropuerto_id',session('aeropuerto')->id)
+			            ->sum('montodepositado');
 
-            //Recaudado
-            $recaudadoMes=\App\Cobro::where('cobros.created_at','>=' ,$diaMes->toDateTimeString())
-				            ->where('cobros.aeropuerto_id',session('aeropuerto')->id)
-				            ->sum('montodepositado');
+        //Facturas por Cobrar
+        $porRecaudarMes=\App\Factura::where('facturas.fecha','>=' ,$diaMes->toDateTimeString())
+			            ->where('facturas.aeropuerto_id',session('aeropuerto')->id)
+			            ->where('estado', 'P')
+			            ->where('facturas.deleted_at', null)
+			            ->sum('total');
+		            
+		//Meta Gobernación
+   		$metaGobernacion =\App\Meta::join('meta_detalles', 'metas.id', '=', 'meta_detalles.meta_id')
+                                    ->where('fecha_fin', null)
+                                    ->sum('gobernacion_meta');
 
-            //Facturas por Cobrar
-            $porRecaudarMes=\App\Factura::where('facturas.fecha','>=' ,$diaMes->toDateTimeString())
-				            ->where('facturas.aeropuerto_id',session('aeropuerto')->id)
-				            ->where('estado', 'P')
-				            ->where('facturas.deleted_at', null)
-				            ->sum('total');
-			            
-			//Meta Gobernación
-       		$metaGobernacion =\App\Meta::join('meta_detalles', 'metas.id', '=', 'meta_detalles.meta_id')
-	                                    ->where('fecha_fin', null)
-	                                    ->sum('gobernacion_meta');
+		//Meta SAAR
+   		$metaSaar =\App\Meta::join('meta_detalles', 'metas.id', '=', 'meta_detalles.meta_id')
+                                    ->where('fecha_fin', null)
+                                    ->sum('saar_meta');
 
-			//Meta SAAR
-       		$metaSaar =\App\Meta::join('meta_detalles', 'metas.id', '=', 'meta_detalles.meta_id')
-	                                    ->where('fecha_fin', null)
-	                                    ->sum('saar_meta');
-
-		$fecha = \Carbon\Carbon::now();
-		return view('dashboards.recaudacion.partials.index', compact('fecha', 'hoy', 'facturas', 'cobros', 'recaudado', 'porRecaudar', 'metaGobernacion', 'metaSaar'));
+		return view('dashboards.recaudacion.partials.index', compact('hoy', 'facturas', 'cobros', 'metaGobernacion', 'metaSaar', 'recaudadoAnual', 'porRecaudarAnual', 'recaudadoMes', 'porRecaudarMes'));
 	}
 
 	public function indexOtros()
