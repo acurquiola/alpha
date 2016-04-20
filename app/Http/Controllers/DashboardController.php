@@ -125,7 +125,7 @@ class DashboardController extends Controller {
 				            ->where('facturas.deleted_at', null)
 				            ->sum('total');
 
-            $diaMes=\Carbon\Carbon::create(\Carbon\Carbon::now()->year, \Carbon\Carbon::mow()->month,1);
+            $diaMes=\Carbon\Carbon::create(\Carbon\Carbon::now()->year, \Carbon\Carbon::now()->month,1);
 
             //Recaudado
             $recaudadoMes=\App\Cobro::where('cobros.created_at','>=' ,$diaMes->toDateTimeString())
