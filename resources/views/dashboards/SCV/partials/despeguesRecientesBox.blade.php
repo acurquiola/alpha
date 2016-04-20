@@ -13,12 +13,12 @@
 					<div class="table-responsive">
 						<table class="table no-margin">
 							<thead>
-								<tr>
+								<tr class="bg-primary">
 									<th colspan="2" class="text-center" >GENERAL</th>
 									<th colspan="5" class="text-center" >ATERRIZAJE</th>
 									<th colspan="5" class="text-center" >DESPEGUE</th>
 								</tr>
-								<tr>
+								<tr class="bg-primary">
 									<th class="text-center">Matrícula</th>
 									<th class="text-center">Cliente</th>
 
@@ -43,12 +43,12 @@
 										<td class="text-center">{{$recientes->aeronave->matricula}}</td>
 										<td class="text-left">{{$recientes->cliente->nombre}}</td>
 										<td class="text-center">{{$recientes->aterrizaje->hora}}</td>
-										<td class="text-center">{{$recientes->aterrizaje->num_vuelo}}</td>
+										<td class="text-center">{{($recientes->aterrizaje->num_vuelo)?$recientes->aterrizaje->num_vuelo:'N/A'}}</td>
 										<td class="text-left">{{$recientes->aterrizaje->piloto->nombre}}</td>
 										<td class="text-center">{{$recientes->aterrizaje->puerto->nombre}}</td>
 										<td class="text-center">{{$recientes->aterrizaje->desembarqueAdultos+$recientes->aterrizaje->desembarqueInfante+$recientes->aterrizaje->desembarqueTercera}}</td>
 										<td class="text-center">{{$recientes->hora}}</td>
-										<td class="text-center">{{$recientes->num_vuelo}}</td>
+										<td class="text-center">{{($recientes->num_vuelo)?$recientes->num_vuelo:'N/A'}}</td>
 										<td class="text-left">{{$recientes->piloto->nombre}}</td>
 										<td class="text-center">{{$recientes->puerto->nombre}}</td>
 										<td class="text-center">{{$recientes->embarqueAdultos+$recientes->embarqueInfante+$recientes->embarqueTercera+$recientes->transitoAdultos+$recientes->transitoInfante+$recientes->transitoTercera}}</td>
