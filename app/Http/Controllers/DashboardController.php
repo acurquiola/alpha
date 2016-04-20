@@ -111,19 +111,33 @@ class DashboardController extends Controller {
                             ->limit(5)
                             ->get();  
 
-            $diaMes=\Carbon\Carbon::create(\Carbon\Carbon::now()->year, 1,1);
+            $diaAnno=\Carbon\Carbon::create(\Carbon\Carbon::now()->year, 1,1);
 
             //Recaudado
-            $recaudado=\App\Cobro::where('cobros.created_at','>=' ,$diaMes->toDateTimeString())
-		            ->where('cobros.aeropuerto_id',session('aeropuerto')->id)
-		            ->sum('montodepositado');
+            $recaudadoAnual=\App\Cobro::where('cobros.created_at','>=' ,$diaAnno->toDateTimeString())
+				            ->where('cobros.aeropuerto_id',session('aeropuerto')->id)
+				            ->sum('montodepositado');
 
             //Facturas por Cobrar
-            $porRecaudar=\App\Factura::where('facturas.fecha','>=' ,$diaMes->toDateTimeString())
-			            ->where('facturas.aeropuerto_id',session('aeropuerto')->id)
-			            ->where('estado', 'P')
-			            ->where('facturas.deleted_at', null)
-			            ->sum('total');
+            $porRecaudarAnual=\App\Factura::where('facturas.fecha','>=' ,$diaAnno->toDateTimeString())
+				            ->where('facturas.aeropuerto_id',session('aeropuerto')->id)
+				            ->where('estado', 'P')
+				            ->where('facturas.deleted_at', null)
+				            ->sum('total');
+
+            $diaMes=\Carbon\Carbon::create(\Carbon\Carbon::now()->year, \Carbon\Carbon::mow()->month,1);
+
+            //Recaudado
+            $recaudadoMes=\App\Cobro::where('cobros.created_at','>=' ,$diaMes->toDateTimeString())
+				            ->where('cobros.aeropuerto_id',session('aeropuerto')->id)
+				            ->sum('montodepositado');
+
+            //Facturas por Cobrar
+            $porRecaudarMes=\App\Factura::where('facturas.fecha','>=' ,$diaMes->toDateTimeString())
+				            ->where('facturas.aeropuerto_id',session('aeropuerto')->id)
+				            ->where('estado', 'P')
+				            ->where('facturas.deleted_at', null)
+				            ->sum('total');
 			            
 			//Meta Gobernación
        		$metaGobernacion =\App\Meta::join('meta_detalles', 'metas.id', '=', 'meta_detalles.meta_id')
