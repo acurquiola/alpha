@@ -70,7 +70,21 @@ class DashboardController extends Controller {
 											->limit(5)
 											->get();
 
-		return view('dashboards.SCV.partials.index', compact('hoy', 'vuelosComerciales', 'vuelosComercialPrivado', 'vuelosPrivados', 'vuelosOficiales', 'vuelosComercialesPorc', 'vuelosComercialPrivadoPorc', 'vuelosPrivadosPorc', 'vuelosOficialesPorc', 'aterrizajesPendientes', 'aterrizajesTotal', 'despeguesRecientes'));
+        $facturas = \App\Factura::where('fecha', $hoy)
+                                ->where('facturas.deleted_at', null)
+                                ->where('aeropuerto_id', session('aeropuerto')->id)
+                                ->where('nroDosa', '<>', 'NULL')
+                                ->get();
+
+        $facturasTotal   = $facturas->sum('total');
+
+        $facturasCredito = $facturas->where('condicionPago', 'Crédito')
+                                    ->sum('total');
+
+        $facturasContado = $facturas->where('condicionPago', 'Contado')
+                                    ->sum('total');
+
+		return view('dashboards.SCV.partials.index', compact('hoy', 'vuelosComerciales', 'vuelosComercialPrivado', 'vuelosPrivados', 'vuelosOficiales', 'vuelosComercialesPorc', 'vuelosComercialPrivadoPorc', 'vuelosPrivadosPorc', 'vuelosOficialesPorc', 'aterrizajesPendientes', 'aterrizajesTotal', 'despeguesRecientes', 'facturasTotal', 'facturasCredito', 'facturasContado'));
 	}
 
 	public function indexRecaudacion()

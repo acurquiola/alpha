@@ -46,6 +46,10 @@ $.widget.bridge('uibutton', $.ui.button);
 <script src=" {{ asset('/plugins/alertify/lib/alertify.min.js') }}" type="text/javascript"></script>
 
 <script src=" {{ asset('/plugins/multi-select/js/jquery.multi-select.js') }}" type="text/javascript"></script>
+
+<!-- ChartJS 1.0.1 -->
+<script src=" {{ asset('/plugins/chartjs/Chart.min.js') }}" type="text/javascript"></script>
+
 <!-- AdminLTE App -->
 <script src=" {{ asset('/dist/js/app.min.js') }}" type="text/javascript"></script>
 

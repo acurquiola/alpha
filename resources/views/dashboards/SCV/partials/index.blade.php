@@ -9,6 +9,7 @@
 
 @include('dashboards.SCV.partials.infoBox') 
 @include('dashboards.SCV.partials.aterrizajesPendientesBox') 
+@include('dashboards.SCV.partials.resumenCuadreCaja') 
 @include('dashboards.SCV.partials.despeguesRecientesBox') 
 
 @endsection

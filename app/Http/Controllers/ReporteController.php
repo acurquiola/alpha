@@ -571,38 +571,28 @@ class ReporteController extends Controller {
 
 
     public function getReporteCuadreCaja(Request $request){
-        $diaDesde        =$request->get('diaDesde', \Carbon\Carbon::now()->day);
-        $mesDesde        =$request->get('mesDesde', \Carbon\Carbon::now()->month);
-        $annoDesde       =$request->get('annoDesde',  \Carbon\Carbon::now()->year);
-        $diaHasta        =$request->get('diaHasta', \Carbon\Carbon::now()->day);
-        $mesHasta        =$request->get('mesHasta', \Carbon\Carbon::now()->month);
-        $annoHasta       =$request->get('annoHasta',  \Carbon\Carbon::now()->year);
+        $diaDesde   =$request->get('diaDesde', \Carbon\Carbon::now()->day);
+        $mesDesde   =$request->get('mesDesde', \Carbon\Carbon::now()->month);
+        $annoDesde  =$request->get('annoDesde',  \Carbon\Carbon::now()->year);
+        $diaHasta   =$request->get('diaHasta', \Carbon\Carbon::now()->day);
+        $mesHasta   =$request->get('mesHasta', \Carbon\Carbon::now()->month);
+        $annoHasta  =$request->get('annoHasta',  \Carbon\Carbon::now()->year);
         $aeropuerto =session('aeropuerto');
+
         $facturas = \App\Factura::whereBetween('fecha', array($annoDesde.'-'.$mesDesde.'-'.$diaDesde,  $annoHasta.'-'.$mesHasta.'-'.$diaHasta) )
                                 ->where('facturas.deleted_at', null)
                                 ->where('aeropuerto_id', session('aeropuerto')->id)
                                 ->where('nroDosa', '<>', 'NULL')
                                 ->get();
 
-        $facturasTotal = \App\Factura::whereBetween('fecha', array($annoDesde.'-'.$mesDesde.'-'.$diaDesde,  $annoHasta.'-'.$mesHasta.'-'.$diaHasta) )
-                                ->where('facturas.deleted_at', null)
-                                ->where('aeropuerto_id', session('aeropuerto')->id)
-                                ->where('nroDosa', '<>', 'NULL')
-                                    ->sum('facturas.total');
+        $facturasTotal   = $facturas->sum('total');
 
-        $facturasCredito = \App\Factura::whereBetween('fecha', array($annoDesde.'-'.$mesDesde.'-'.$diaDesde,  $annoHasta.'-'.$mesHasta.'-'.$diaHasta) )
-                                ->where('facturas.deleted_at', null)
-                                ->where('aeropuerto_id', session('aeropuerto')->id)
-                                ->where('nroDosa', '<>', 'NULL')
-                                ->where('condicionPago', 'Crédito')
-                                ->sum('facturas.total');
+        $facturasCredito = $facturas->where('condicionPago', 'Crédito')
+                                    ->sum('total');
 
-        $facturasContado = \App\Factura::whereBetween('fecha', array($annoDesde.'-'.$mesDesde.'-'.$diaDesde,  $annoHasta.'-'.$mesHasta.'-'.$diaHasta) )
-                                ->where('facturas.deleted_at', null)
-                                ->where('aeropuerto_id', session('aeropuerto')->id)
-                                ->where('nroDosa', '<>', 'NULL')
-                                ->where('condicionPago', 'Contado')
-                                ->sum('facturas.total');
+        $facturasContado = $facturas->where('condicionPago', 'Contado')
+                                    ->sum('total');
+                                    
         return view('reportes.reporteCuadreCaja', compact('diaDesde', 'mesDesde', 'annoDesde', 'diaHasta', 'mesHasta', 'annoHasta', 'aeropuerto', 'facturas', 'facturasTotal', 'facturasContado', 'facturasCredito'));
     }
 
