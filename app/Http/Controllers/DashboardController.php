@@ -116,6 +116,17 @@ class DashboardController extends Controller {
             $diaAnno=\Carbon\Carbon::create(\Carbon\Carbon::now()->year, 1,1);
 
             //Recaudado
+            $recaudado=\App\Cobro::where('cobros.created_at','>=' ,$diaAnno->toDateTimeString())
+				            ->where('cobros.aeropuerto_id',session('aeropuerto')->id)
+				            ->sum('montodepositado');
+
+            //Facturas por Cobrar
+            $porRecaudar=\App\Factura::where('facturas.fecha','>=' ,$diaAnno->toDateTimeString())
+				            ->where('facturas.aeropuerto_id',session('aeropuerto')->id)
+				            ->where('estado', 'P')
+				            ->where('facturas.deleted_at', null)
+				            ->sum('total');
+            //Recaudado
             $recaudadoAnual=\App\Cobro::where('cobros.created_at','>=' ,$diaAnno->toDateTimeString())
 				            ->where('cobros.aeropuerto_id',session('aeropuerto')->id)
 				            ->sum('montodepositado');
