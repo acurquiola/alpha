@@ -110,6 +110,8 @@ class DashboardController extends Controller {
                             ->orderBy('nFactura', 'DESC')
                             ->limit(5)
                             ->get();  
+		$fecha                      = \Carbon\Carbon::now();
+		$hoy                        = $fecha->toDateString();
 
             $diaAnno=\Carbon\Carbon::create(\Carbon\Carbon::now()->year, 1,1);
 
@@ -150,7 +152,7 @@ class DashboardController extends Controller {
 	                                    ->sum('saar_meta');
 
 		$fecha = \Carbon\Carbon::now();
-		return view('dashboards.recaudacion.partials.index', compact('fecha', 'facturas', 'cobros', 'recaudado', 'porRecaudar', 'metaGobernacion', 'metaSaar'));
+		return view('dashboards.recaudacion.partials.index', compact('fecha', 'hoy', 'facturas', 'cobros', 'recaudado', 'porRecaudar', 'metaGobernacion', 'metaSaar'));
 	}
 
 	public function indexOtros()
