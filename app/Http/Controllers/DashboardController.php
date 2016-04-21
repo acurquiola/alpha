@@ -19,12 +19,14 @@ class DashboardController extends Controller {
 		$vuelosComerciales          = 0;
 		$vuelosComercialPrivado     = 0;
 		$vuelosPrivados             = 0;
+		$otrosVuelos                = 0;
 		$vuelosOficiales            = 0;
 		
 		$vuelosComercialesPorc      = 0;
 		$vuelosComercialPrivadoPorc = 0;
 		$vuelosPrivadosPorc         = 0;
 		$vuelosOficialesPorc        = 0;
+		$otrosVuelosPorc            = 0;
 		$totalVuelos                = 0;
 
 		$totalVuelos = \App\Despegue::where('fecha', $hoy)
@@ -49,11 +51,13 @@ class DashboardController extends Controller {
 											   ->where('aeropuerto_id', session('aeropuerto')->id)
 											   ->where('fecha', $hoy)
 											   ->count();
+			$otrosVuelos = $totalVuelos-($vuelosComerciales+$vuelosComercialPrivado+$vuelosPrivados+$vuelosOficiales);
 
 			$vuelosComercialesPorc      = ($vuelosComerciales*100)/$totalVuelos;
 			$vuelosComercialPrivadoPorc = ($vuelosComercialPrivado*100)/$totalVuelos;
 			$vuelosPrivadosPorc         = ($vuelosPrivados*100)/$totalVuelos;
 			$vuelosOficialesPorc        = ($vuelosOficiales*100)/$totalVuelos;
+			$otrosVuelosPorc            = ($otrosVuelos*100)/$totalVuelos;
 		}
 
 		$aterrizajesPendientes = \App\Aterrizaje::where('aeropuerto_id',session('aeropuerto')->id)
@@ -84,7 +88,7 @@ class DashboardController extends Controller {
         $facturasContado = $facturas->where('condicionPago', 'Contado')
                                     ->sum('total');
 
-		return view('dashboards.SCV.partials.index', compact('hoy', 'vuelosComerciales', 'vuelosComercialPrivado', 'vuelosPrivados', 'vuelosOficiales', 'vuelosComercialesPorc', 'vuelosComercialPrivadoPorc', 'vuelosPrivadosPorc', 'vuelosOficialesPorc', 'aterrizajesPendientes', 'aterrizajesTotal', 'despeguesRecientes', 'facturasTotal', 'facturasCredito', 'facturasContado'));
+		return view('dashboards.SCV.partials.index', compact('hoy', 'vuelosComerciales', 'vuelosComercialPrivado', 'vuelosPrivados', 'vuelosOficiales','otrosVuelos', 'vuelosComercialesPorc', 'vuelosComercialPrivadoPorc', 'vuelosPrivadosPorc', 'vuelosOficialesPorc','otrosVuelosPorc', 'aterrizajesPendientes', 'aterrizajesTotal', 'despeguesRecientes', 'facturasTotal', 'facturasCredito', 'facturasContado'));
 	}
 
 	public function indexRecaudacion()
