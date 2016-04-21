@@ -12,7 +12,6 @@ class DashboardController extends Controller {
 		$comerciales                = \App\TipoMatricula::where('nombre', 'Comercial')->first()->id;
 		$comercialPrivado           = \App\TipoMatricula::where('nombre', 'Comercial Privado')->first()->id;
 		$privado                    = \App\TipoMatricula::where('nombre', 'Privado')->first()->id;
-		$oficial                    = \App\TipoMatricula::where('nombre', 'Oficial / Gobierno')->first()->id;
 		$fecha                      = \Carbon\Carbon::now();
 		$hoy                        = $fecha->toDateString();
 		
@@ -20,12 +19,10 @@ class DashboardController extends Controller {
 		$vuelosComercialPrivado     = 0;
 		$vuelosPrivados             = 0;
 		$otrosVuelos                = 0;
-		$vuelosOficiales            = 0;
 		
 		$vuelosComercialesPorc      = 0;
 		$vuelosComercialPrivadoPorc = 0;
 		$vuelosPrivadosPorc         = 0;
-		$vuelosOficialesPorc        = 0;
 		$otrosVuelosPorc            = 0;
 		$totalVuelos                = 0;
 
@@ -47,16 +44,12 @@ class DashboardController extends Controller {
 											   ->where('aeropuerto_id', session('aeropuerto')->id)
 											   ->where('fecha', $hoy)
 											   ->count();
-			$vuelosOficiales = \App\Despegue::where('tipoMatricula_id', $oficial)
-											   ->where('aeropuerto_id', session('aeropuerto')->id)
-											   ->where('fecha', $hoy)
-											   ->count();
-			$otrosVuelos = $totalVuelos-($vuelosComerciales+$vuelosComercialPrivado+$vuelosPrivados+$vuelosOficiales);
+
+			$otrosVuelos = $totalVuelos-($vuelosComerciales+$vuelosComercialPrivado+$vuelosPrivados);
 
 			$vuelosComercialesPorc      = ($vuelosComerciales*100)/$totalVuelos;
 			$vuelosComercialPrivadoPorc = ($vuelosComercialPrivado*100)/$totalVuelos;
 			$vuelosPrivadosPorc         = ($vuelosPrivados*100)/$totalVuelos;
-			$vuelosOficialesPorc        = ($vuelosOficiales*100)/$totalVuelos;
 			$otrosVuelosPorc            = ($otrosVuelos*100)/$totalVuelos;
 		}
 
@@ -88,7 +81,7 @@ class DashboardController extends Controller {
         $facturasContado = $facturas->where('condicionPago', 'Contado')
                                     ->sum('total');
 
-		return view('dashboards.SCV.partials.index', compact('hoy', 'vuelosComerciales', 'vuelosComercialPrivado', 'vuelosPrivados', 'vuelosOficiales','otrosVuelos', 'vuelosComercialesPorc', 'vuelosComercialPrivadoPorc', 'vuelosPrivadosPorc', 'vuelosOficialesPorc','otrosVuelosPorc', 'aterrizajesPendientes', 'aterrizajesTotal', 'despeguesRecientes', 'facturasTotal', 'facturasCredito', 'facturasContado'));
+		return view('dashboards.SCV.partials.index', compact('hoy', 'vuelosComerciales', 'vuelosComercialPrivado', 'vuelosPrivados','otrosVuelos', 'vuelosComercialesPorc', 'vuelosComercialPrivadoPorc', 'vuelosPrivadosPorc' ,'otrosVuelosPorc', 'aterrizajesPendientes', 'aterrizajesTotal', 'despeguesRecientes', 'facturasTotal', 'facturasCredito', 'facturasContado'));
 	}
 
 	public function indexRecaudacion()
