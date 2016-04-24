@@ -138,6 +138,7 @@ class ViewComposerServiceProvider extends ServiceProvider {
                             'reportes.reporteRelacionIngresoMensual',
                             'reportes.reporteRelacionIngresosAeronauticosContado',
                             'reportes.reporteRelacionFacturasAeronauticasCredito',
+                            'reportes.reporteRelacionMetaRecaudacionMensual',
                             'reportes.reporteDiario',
                             'reportes.reporteModuloMetaMensual'], function($view){
             $gerencia     = "Gerencia de Administración";
@@ -196,6 +197,7 @@ class ViewComposerServiceProvider extends ServiceProvider {
             'reportes.reporteListadoFacturasCliente',
             'reportes.reporteRelacionIngresoMensual',
             'reportes.reporteRelacionIngresosAeronauticosContado',
+            'reportes.reporteRelacionMetaRecaudacionMensual',
             'reportes.reporteRelacionFacturasAeronauticasCredito',
             'reportes.reporteRelacionMensualDeIngresosRecaudacionPendiente',
             'reportes.reporteTraficoAereo'], function($view){

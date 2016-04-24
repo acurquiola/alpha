@@ -465,6 +465,95 @@ class ReporteController extends Controller {
 
     }
 
+    public function getReporteRelacionMetaRecaudacionMensual(Request $request){
+        $anno            =$request->get('anno',  \Carbon\Carbon::now()->year);        
+        $metaSaarPZO =\App\Meta::join('meta_detalles', 'metas.id', '=', 'meta_detalles.meta_id')
+                                    ->where('fecha_fin', null)
+                                    ->where('aeropuerto_id', 1)
+                                    ->sum('saar_meta');     
+        $metaSaarCBL =\App\Meta::join('meta_detalles', 'metas.id', '=', 'meta_detalles.meta_id')
+                                    ->where('fecha_fin', null)
+                                    ->where('aeropuerto_id', 2)
+                                    ->sum('saar_meta');     
+        $metaSaarSNV =\App\Meta::join('meta_detalles', 'metas.id', '=', 'meta_detalles.meta_id')
+                                    ->where('fecha_fin', null)
+                                    ->where('aeropuerto_id', 3)
+                                    ->sum('saar_meta');
+
+        $montosMeses =[];
+        $meses=[
+            1=>"ENERO",
+            2=>"FEBRERO",
+            3=>"MARZO",
+            4=>"ABRIL",
+            5=>"MAYO",
+            6=>"JUNIO",
+            7=>"JULIO",
+            8=>"AGOSTO",
+            9=>"SEPTIEMBRE",
+            10=>"OCTUBRE",
+            11=>"NOVIEMBRE",
+            12=>"DICIEMBRE"];
+       for($i=1;$i<=12; $i++){
+                $diaMes=\Carbon\Carbon::create($anno, $i,1);
+
+                //Cobrado
+                $cobrosPZO=\App\Cobro::where('cobros.created_at','>=' ,$diaMes->startOfMonth()->toDateTimeString())
+                ->where('cobros.created_at','<=' ,$diaMes->endOfMonth()->toDateTimeString())
+                ->where('cobros.aeropuerto_id','1')
+                ->get();
+
+                $cobrosCBL=\App\Cobro::where('cobros.created_at','>=' ,$diaMes->startOfMonth()->toDateTimeString())
+                ->where('cobros.created_at','<=' ,$diaMes->endOfMonth()->toDateTimeString())
+                ->where('cobros.aeropuerto_id','2')
+                ->get();
+
+                $cobrosSNV=\App\Cobro::where('cobros.created_at','>=' ,$diaMes->startOfMonth()->toDateTimeString())
+                ->where('cobros.created_at','<=' ,$diaMes->endOfMonth()->toDateTimeString())
+                ->where('cobros.aeropuerto_id','3')
+                ->get();
+                
+            $montosMeses[$meses[$diaMes->month]]=[
+                    "metaPZO"         =>0,
+                    "recaudadoPZO"    =>0,
+                    "diferenciaPZO"   =>0,
+                    "metaCBL"         =>0,
+                    "recaudadoCBL"    =>0,
+                    "diferenciaCBL"   =>0,
+                    "metaSNV"         =>0,
+                    "recaudadoSNV"    =>0,
+                    "diferenciaSNV"   =>0,
+                    "metaTotal"       =>0,
+                    "recaudadoTotal"  =>0,
+                    "diferenciaTotal" =>0,
+                ];
+
+            $montosMeses[$meses[$diaMes->month]]["metaPZO"]+=$metaSaarPZO/12;
+            $montosMeses[$meses[$diaMes->month]]["metaCBL"]+=$metaSaarCBL/12;
+            $montosMeses[$meses[$diaMes->month]]["metaSNV"]+=$metaSaarSNV/12;
+
+            foreach ($cobrosPZO as $cobroPZO) {
+                $montosMeses[$meses[$diaMes->month]]["recaudadoPZO"]+=$cobroPZO->montodepositado;
+            }
+    
+            foreach ($cobrosCBL as $cobroCBL) {
+                $montosMeses[$meses[$diaMes->month]]["recaudadoCBL"]+=$cobroCBL->montodepositado;
+            }
+    
+            foreach ($cobrosSNV as $cobroSNV) {
+                $montosMeses[$meses[$diaMes->month]]["recaudadoSNV"]+=$cobroSNV->montodepositado;
+            }
+
+            $montosMeses[$meses[$diaMes->month]]["diferenciaPZO"]   =$montosMeses[$meses[$diaMes->month]]["recaudadoPZO"]-$montosMeses[$meses[$diaMes->month]]["metaPZO"];
+            $montosMeses[$meses[$diaMes->month]]["diferenciaCBL"]   =$montosMeses[$meses[$diaMes->month]]["recaudadoCBL"]-$montosMeses[$meses[$diaMes->month]]["metaCBL"];
+            $montosMeses[$meses[$diaMes->month]]["diferenciaSNV"]   =$montosMeses[$meses[$diaMes->month]]["recaudadoSNV"]-$montosMeses[$meses[$diaMes->month]]["metaSNV"];
+            $montosMeses[$meses[$diaMes->month]]["metaTotal"]       =$montosMeses[$meses[$diaMes->month]]["metaPZO"]+$montosMeses[$meses[$diaMes->month]]["metaCBL"]+$montosMeses[$meses[$diaMes->month]]["metaSNV"];
+            $montosMeses[$meses[$diaMes->month]]["recaudadoTotal"]  =$montosMeses[$meses[$diaMes->month]]["recaudadoPZO"]+$montosMeses[$meses[$diaMes->month]]["recaudadoCBL"]+$montosMeses[$meses[$diaMes->month]]["recaudadoSNV"];
+            $montosMeses[$meses[$diaMes->month]]["diferenciaTotal"] =$montosMeses[$meses[$diaMes->month]]["diferenciaPZO"]+$montosMeses[$meses[$diaMes->month]]["diferenciaCBL"]+$montosMeses[$meses[$diaMes->month]]["diferenciaSNV"];
+        }
+        return view('reportes.reporteRelacionMetaRecaudacionMensual', compact('montosMeses', 'anno', 'metaSaarSNV', 'metaSaarCBL', 'metaSaarPZO'));
+    }
+
     public function getReporteRelacionMensualDeIngresosRecaudacionPendiente(Request $request){
         $anno=$request->get('anno',  \Carbon\Carbon::now()->year);
         $montosMeses=[];
