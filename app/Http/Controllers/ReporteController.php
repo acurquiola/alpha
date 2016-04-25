@@ -85,14 +85,17 @@ class ReporteController extends Controller {
     }
 
     public function getReporteTraficoAereo(Request $request){
-        $diaDesde     =$request->get('diaDesde', \Carbon\Carbon::now()->day);
-        $mesDesde     =$request->get('mesDesde', \Carbon\Carbon::now()->month);
-        $annoDesde    =$request->get('annoDesde',  \Carbon\Carbon::now()->year);
-        $diaHasta     =$request->get('diaHasta', \Carbon\Carbon::now()->day);
-        $mesHasta     =$request->get('mesHasta', \Carbon\Carbon::now()->month);
-        $annoHasta    =$request->get('annoHasta',  \Carbon\Carbon::now()->year);
-        $aeropuerto   =session('aeropuerto');
-        if($request->get('cliente') == 0){
+        $diaDesde    =$request->get('diaDesde', \Carbon\Carbon::now()->day);
+        $mesDesde    =$request->get('mesDesde', \Carbon\Carbon::now()->month);
+        $annoDesde   =$request->get('annoDesde',  \Carbon\Carbon::now()->year);
+        $diaHasta    =$request->get('diaHasta', \Carbon\Carbon::now()->day);
+        $mesHasta    =$request->get('mesHasta', \Carbon\Carbon::now()->month);
+        $annoHasta   =$request->get('annoHasta',  \Carbon\Carbon::now()->year);
+        $destino     =$request->get('destino', 0);
+        $procedencia =$request->get('procedencia', 0);
+        $cliente     =$request->get('cliente', 0);
+        $aeropuerto  =session('aeropuerto');
+        if($request->get('cliente') == ''){
             $clientes     = \App\Cliente::where('tipo', 'Mixto')->OrWhere('tipo', 'Aeronautico')->get();
         }else{
             $cliente_id = $request->get('cliente');
@@ -137,12 +140,12 @@ class ReporteController extends Controller {
             $aterrizajes = \App\Aterrizaje::whereBetween('fecha', array($annoDesde.'-'.$mesDesde.'-'.$diaDesde,  $annoHasta.'-'.$mesHasta.'-'.$diaHasta))
                                         ->where('cliente_id', $cliente->id)
                                         ->where('aeropuerto_id', session('aeropuerto')->id)
-                                        ->where('puerto_id', $request->get('procedencia'))
+                                        ->where('puerto_id', ($procedencia==0)?'>=':'=', $procedencia)
                                         ->get();
             $despegues = \App\Despegue::whereBetween('fecha', array($annoDesde.'-'.$mesDesde.'-'.$diaDesde,  $annoHasta.'-'.$mesHasta.'-'.$diaHasta))
                                         ->where('cliente_id', $cliente->id)
                                         ->where('aeropuerto_id', session('aeropuerto')->id)
-                                        ->where('puerto_id', $request->get('destino'))
+                                        ->where('puerto_id', ($destino==0)?'>=':'=', $destino)
                                         ->get();
 
             foreach ($aterrizajes as $aterrizaje) {
@@ -973,13 +976,14 @@ class ReporteController extends Controller {
 
     public function getReporteRelacionFacturasAeronauticasCredito(Request $request)
     {
-        $diaDesde        =$request->get('diaDesde', \Carbon\Carbon::now()->day);
-        $mesDesde        =$request->get('mesDesde', \Carbon\Carbon::now()->month);
-        $annoDesde       =$request->get('annoDesde', \Carbon\Carbon::now()->year);
-        $diaHasta        =$request->get('diaHasta', \Carbon\Carbon::now()->day);
-        $mesHasta        =$request->get('mesHasta', \Carbon\Carbon::now()->month);
-        $annoHasta       =$request->get('annoHasta', \Carbon\Carbon::now()->year);
-        $aeropuerto      =$request->get('aeropuerto_id', session('aeropuerto')->id);
+        $diaDesde   =$request->get('diaDesde', \Carbon\Carbon::now()->day);
+        $mesDesde   =$request->get('mesDesde', \Carbon\Carbon::now()->month);
+        $annoDesde  =$request->get('annoDesde', \Carbon\Carbon::now()->year);
+        $diaHasta   =$request->get('diaHasta', \Carbon\Carbon::now()->day);
+        $mesHasta   =$request->get('mesHasta', \Carbon\Carbon::now()->month);
+        $annoHasta  =$request->get('annoHasta', \Carbon\Carbon::now()->year);
+        $aeropuerto =$request->get('aeropuerto_id', session('aeropuerto')->id);
+        $cliente    =$request->get('cliente_id', 0);
         
         $formulario      =\App\Concepto::where('aeropuerto_id', $aeropuerto)->where('nompre', 'FOMULARIO DOSA (CRÉDITO)')->first();
         $aterrizaje      =\App\Concepto::where('aeropuerto_id', $aeropuerto)->where('nompre', 'ATERRIZAJE Y DESPEGUE DE AERONAVES (CRÉDITO)')->first();
@@ -987,6 +991,7 @@ class ReporteController extends Controller {
         $habilitacion    =\App\Concepto::where('aeropuerto_id', $aeropuerto)->where('nompre', 'HABILITACION (CRÉDITO)')->first();
         $jetway          =\App\Concepto::where('aeropuerto_id', $aeropuerto)->where('nompre', 'JETWAY (CRÉDITO)')->first();
         $carga           =\App\Concepto::where('aeropuerto_id', $aeropuerto)->where('nompre', 'CARGA (CRÉDITO)')->first();
+
         $facturas        =\App\Factura::select('facturas.*', 'clientes.nombre')
                                 ->join('clientes', 'facturas.cliente_id', '=', 'clientes.id')
                                 ->whereBetween('fecha', array($annoDesde.'-'.$mesDesde.'-'.$diaDesde,  $annoHasta.'-'.$mesHasta.'-'.$diaHasta))
@@ -994,6 +999,7 @@ class ReporteController extends Controller {
                                 ->where('aeropuerto_id', $aeropuerto)
                                 ->where('nroDosa', '<>', 'NULL')
                                 ->where('estado', 'C')
+                                ->where('cliente_id', ($cliente==0)?'>=':'=', $cliente)
                                 ->where('facturas.condicionPago', 'Crédito')
                                 ->orderBy('nombre', 'ASC')
                                 ->get();
@@ -1012,6 +1018,7 @@ class ReporteController extends Controller {
                                 'habilitacionBs'    => 0, 
                                 'jetwayBs'          => 0, 
                                 'cargaBs'           => 0,
+                                'otrosCargosBs'     => 0,
                                 'totalDosa'         => 0,
                                 'fechaDeposito'     => 0,
                                 'totalDepositado'   => 0
@@ -1022,21 +1029,18 @@ class ReporteController extends Controller {
             foreach ($factura->detalles as $detalle) {
                 if($detalle->concepto_id == $formulario->id){
                     $dosaFactura[$factura->nroDosa]["formularioBs"]=$detalle->totalDes;
-                }
-                if($detalle->concepto_id == $aterrizaje->id){
+                }elseif($detalle->concepto_id == $aterrizaje->id){
                     $dosaFactura[$factura->nroDosa]["aterrizajeBs"]=$detalle->totalDes;
-                }
-                if($detalle->concepto_id == $estacionamiento->id){
+                }elseif($detalle->concepto_id == $estacionamiento->id){
                     $dosaFactura[$factura->nroDosa]["estacionamientoBs"]=$detalle->totalDes;
-                }
-                if($detalle->concepto_id == $habilitacion->id){
+                }elseif($detalle->concepto_id == $habilitacion->id){
                     $dosaFactura[$factura->nroDosa]["habilitacionBs"]=$detalle->totalDes;
-                }
-                if($detalle->concepto_id == $jetway->id){
+                }elseif($detalle->concepto_id == $jetway->id){
                     $dosaFactura[$factura->nroDosa]["jetwayBs"]=$detalle->totalDes;
-                }
-                if($detalle->concepto_id == $carga->id){
+                }elseif($detalle->concepto_id == $carga->id){
                     $dosaFactura[$factura->nroDosa]["cargaBs"]=$detalle->totalDes;
+                }else{
+                    $dosaFactura[$factura->nroDosa]["otrosCargosBs"]=$detalle->totalDes;
                 }
             } 
             foreach ($factura->cobros as $recibo){
@@ -1051,7 +1055,7 @@ class ReporteController extends Controller {
         }   
 
 
-        return view('reportes.reporteRelacionFacturasAeronauticasCredito', compact('diaDesde', 'mesDesde', 'annoDesde', 'diaHasta', 'mesHasta', 'annoHasta', 'aeropuerto', 'facturas', 'dosaFactura', 'clientes'));
+        return view('reportes.reporteRelacionFacturasAeronauticasCredito', compact('diaDesde', 'mesDesde', 'annoDesde', 'diaHasta', 'mesHasta', 'annoHasta', 'aeropuerto', 'cliente', 'facturas', 'dosaFactura', 'clientes'));
 
     }
 

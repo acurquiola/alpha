@@ -5,11 +5,13 @@
 			<span class="info-box-icon bg-aqua"><i class="fa fa-check-square-o"></i></span>
 			<div class="info-box-content">
 				<span class="info-box-text">COMERCIALES</span>
-				<div class="col-sm-6">
-					<span class="info-box-number"><i class="fa fa-plane" style="transform: rotate(90deg);"></i> {{($vuelosComerciales)}}</span>
+				<div class="col-sm-6 ">
+					<span class="info-box-number"><i class="fa fa-plane" style="transform: rotate(90deg);"></i> {{($aterrizajesComerciales)}}</span>
+					<span class="info-box-number"><i class="fa fa-user"></i> {{($desembarqueComercial)}}</span>
 				</div>
 				<div class="col-sm-6">
-					<span class="info-box-number"><i class="fa fa-plane"></i> {{($vuelosComerciales)}}</span>
+					<span class="info-box-number"><i class="fa fa-plane"></i> {{($despeguesComerciales)}}</span>
+					<span class="info-box-number"><i class="fa fa-user"></i> {{($embarqueComercial)}}</span>
 				</div>
 			</div><!-- /.info-box-content -->
 		</div><!-- /.info-box -->
@@ -19,7 +21,14 @@
 			<span class="info-box-icon bg-red"><i class="fa fa-exclamation-triangle"></i></span>
 			<div class="info-box-content">
 				<span class="info-box-text">PRIVADOS</span>
-				<span class="info-box-number">{{$vuelosPrivados}}</span>
+				<div class="col-sm-6 ">
+					<span class="info-box-number"><i class="fa fa-plane" style="transform: rotate(90deg);"></i> {{($aterrizajesPrivados)}}</span>
+					<span class="info-box-number"><i class="fa fa-user"></i> {{($desembarquePrivado)}}</span>
+				</div>
+				<div class="col-sm-6">
+					<span class="info-box-number"><i class="fa fa-plane"></i> {{($despeguesPrivados)}}</span>
+					<span class="info-box-number"><i class="fa fa-user"></i> {{($embarquePrivado)}}</span>
+				</div>
 			</div><!-- /.info-box-content -->
 		</div><!-- /.info-box -->
 	</div><!-- /.col -->
@@ -32,7 +41,14 @@
 			<span class="info-box-icon bg-green"><i class="fa fa-check-square-o"></i></span>
 			<div class="info-box-content">
 				<span class="info-box-text">COMERCIAL PRIVADO</span>
-				<span class="info-box-number">{{$vuelosComercialPrivado}}</span>
+				<div class="col-sm-6">
+					<span class="info-box-number"><i class="fa fa-plane" style="transform: rotate(90deg);"></i> {{($aterrizajesComercialPrivado)}}</span>
+					<span class="info-box-number"><i class="fa fa-user"></i> {{($desembarqueComercialPrivado)}}</span>
+				</div>
+				<div class="col-sm-6">
+					<span class="info-box-number"><i class="fa fa-plane"></i> {{($despeguesComercialPrivado)}}</span>
+					<span class="info-box-number"><i class="fa fa-user"></i> {{($embarqueComercialPrivado)}}</span>
+				</div>
 			</div><!-- /.info-box-content -->
 		</div><!-- /.info-box -->
 	</div><!-- /.col -->
@@ -41,7 +57,14 @@
 			<span class="info-box-icon bg-yellow"><i class="fa fa-exclamation-triangle"></i></span>
 			<div class="info-box-content">
 				<span class="info-box-text">OTROS VUELOS</span>
-				<span class="info-box-number">{{$otrosVuelos}}</span>
+				<div class="col-sm-6">
+					<span class="info-box-number"><i class="fa fa-plane" style="transform: rotate(90deg);"></i> {{($otrosAterrizajes)}}</span>
+					<span class="info-box-number"><i class="fa fa-user"></i> {{($desembarqueOtrosVuelos)}}</span>
+				</div>
+				<div class="col-sm-6">
+					<span class="info-box-number"><i class="fa fa-plane"></i> {{($otrosDespegues)}}</span>
+					<span class="info-box-number"><i class="fa fa-user"></i> {{($embarqueOtrosVuelos)}}</span>
+				</div>
 			</div><!-- /.info-box-content -->
 		</div><!-- /.info-box -->
 	</div><!-- /.col -->
