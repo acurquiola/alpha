@@ -4,7 +4,7 @@
 
 <ol class="breadcrumb">
 	<li><a href="{{url('principal')}}">Inicio</a></li>
-	<li><a class="active">DES900</a></li>
+	<li><a class="active">Tráfico Aereo por Aerolínea</a></li>
 </ol>
 <div class="row" id="box-wrapper">
 	<div class="col-md-12">
@@ -39,6 +39,10 @@
                 <div class="form-group">
                       {!! Form::select('annoHasta', $annos, $annoHasta, ["class"=> "form-control"]) !!}
                 </div>
+                <div class="pull-right">
+	                <button type="submit" class="btn btn-default">Buscar</button>
+	                <a class="btn btn-default" href="{{action('ReporteController@getReporteTraficoAereo')}}">Reset</a>
+                </div>
                 <div class="form-group" style="margin-top:20px">
                 <label style="width:100px"><strong>PROCEDENCIA: </strong></label>
                     <select name="procedencia" id="procedencia" class="form-control  select-flt" >
@@ -66,11 +70,6 @@
                         @endforeach
                     </select>               
                 </div>
-                <div class="pull-right">
-	                <button type="submit" class="btn btn-default">Buscar</button>
-	                <a class="btn btn-default" href="{{action('ReporteController@getReporteTraficoAereo')}}">Reset</a>
-	                	
-                </div>
                 {!! Form::close() !!}
             </div>
 		</div>
@@ -96,22 +95,22 @@
 							<table class="table table-condensed">
 								<thead  class="bg-primary">
 									<tr>
-										<th colspan="1" rowspan="3" style="vertical-align: middle" class="text-center"> </th>
-										<th colspan="10" style="vertical-align: middle" class="text-center">NACIONALES</th>
-										<th colspan="10" style="vertical-align: middle" class="text-center">INTERNACIONALES</th>
+										<th colspan="2" rowspan="4" style="vertical-align: middle" class="text-center"> CLIENTE </th>
+										<th colspan="13" style="vertical-align: middle" class="text-center">NACIONALES</th>
+										<th colspan="13" style="vertical-align: middle" class="text-center">INTERNACIONALES</th>
 									</tr>
 									<tr>
-										<th colspan="6" class="text-center">PASAJEROS</th>
+										<th colspan="9" class="text-center">PASAJEROS</th>
 										<th colspan="2" class="text-center">CARGA</th>
-										<th colspan="2" class="text-center">AERONÁVES</th>
-										<th colspan="6" class="text-center">PASAJEROS</th>
+										<th colspan="2" class="text-center">AERONAVES</th>
+										<th colspan="9" class="text-center">PASAJEROS</th>
 										<th colspan="2" class="text-center">CARGA</th>
 										<th colspan="2" class="text-center">AERONÁVES</th>
 									</tr>
 									<tr>
-										<th colspan="2" class="text-center">Desemb.</th>
-										<th colspan="2" class="text-center">Embarq</th>
-										<th colspan="2" class="text-center">Trans</th>
+										<th colspan="3" class="text-center">Desemb.</th>
+										<th colspan="3" class="text-center">Embarq</th>
+										<th colspan="3" class="text-center">Trans</th>
 
 										<th colspan="1" class="text-center">Desemb.</th>
 										<th colspan="1" class="text-center">Embarq</th>
@@ -119,9 +118,9 @@
 										<th colspan="1" class="text-center">Arri</th>
 										<th colspan="1" class="text-center">Desp</th>
 
-										<th colspan="2" class="text-center">Desemb.</th>
-										<th colspan="2" class="text-center">Embarq</th>
-										<th colspan="2" class="text-center">Trans</th>
+										<th colspan="3" class="text-center">Desemb.</th>
+										<th colspan="3" class="text-center">Embarq</th>
+										<th colspan="3" class="text-center">Trans</th>
 
 										<th colspan="1" class="text-center">Desemb.</th>
 										<th colspan="1" class="text-center">Embarq</th>
@@ -130,13 +129,15 @@
 										<th colspan="1" class="text-center">Desp</th>
 									</tr>
 									<tr align="center">
-										<th colspan="1"  ></th>
 										<th >ADUL</th>
 										<th >INF</th>
+										<th >3era EDAD</th>
 										<th >ADUL</th>
 										<th >INF</th>
+										<th >3era EDAD</th>
 										<th >ADUL</th>
 										<th >INF</th>
+										<th >3era EDAD</th>
 
 										<th >TON</th>
 										<th >TON</th>
@@ -146,10 +147,13 @@
 
 										<th >ADUL</th>
 										<th >INF</th>
+										<th >3era EDAD</th>
 										<th >ADUL</th>
 										<th >INF</th>
+										<th >3era EDAD</th>
 										<th >ADUL</th>
 										<th >INF</th>
+										<th >3era EDAD</th>
 
 										<th >TON</th>
 										<th >TON</th>
@@ -159,30 +163,35 @@
 									</tr>
 								</thead>
 								<tbody>
-									@foreach($despegues as $despegue)
-									<tr title="{{$despegue->fecha}}">
-										<td align="left">{{$despegue->cliente->nombre}}</td>
-										<td align="center">{{$despegue->aterrizaje->desembarqueAdultos}}</td>
-										<td align="center">{{$despegue->aterrizaje->desembarqueInfante}}</td>
-										<td align="center">{{$despegue->embarqueAdultos}}</td>
-										<td align="center">{{$despegue->embarqueInfante}}</td>
-										<td></td>
-										<td></td>
-										<td></td>
-										<td></td>
-										<td></td>
-										<td></td>
-										<td></td>
-										<td></td>
-										<td></td>
-										<td></td>
-										<td></td>
-										<td></td>
-										<td></td>
-										<td></td>
-										<td></td>
-										<td></td>
-										<td></td>
+									@foreach($datosCliente as $index => $cliente)
+									<tr>
+										<td colspan="2" align="left">{{$index}}</td>
+										<td class="text-center" align="center">{{$cliente['desAdulNac']}}</td>
+										<td class="text-center" align="center">{{$cliente['desInfNac']}}</td>
+										<td class="text-center" align="center">{{$cliente['desTercNac']}}</td>
+										<td class="text-center" align="center">{{$cliente['EmbAdulNac']}}</td>
+										<td class="text-center" align="center">{{$cliente['EmbInfNac']}}</td>
+										<td class="text-center" align="center">{{$cliente['EmbTercNac']}}</td>
+										<td class="text-center" align="center">{{$cliente['TranAdulNac']}}</td>
+										<td class="text-center" align="center">{{$cliente['TranInfNac']}}</td>
+										<td class="text-center" align="center">{{$cliente['TranTercNac']}}</td>
+										<td class="text-center" align="center">{{$cliente['cargaEmbNac']}}</td>
+										<td class="text-center" align="center">{{$cliente['cargaDesNac']}}</td>
+										<td class="text-center" align="center">{{$cliente['aeroAterrizaNac']}}</td>
+										<td class="text-center" align="center">{{$cliente['aeroDespegueNac']}}</td>
+										<td class="text-center" align="center">{{$cliente['desAdulInt']}}</td>
+										<td class="text-center" align="center">{{$cliente['desInfInt']}}</td>
+										<td class="text-center" align="center">{{$cliente['desTercInt']}}</td>
+										<td class="text-center" align="center">{{$cliente['EmbAdulInt']}}</td>
+										<td class="text-center" align="center">{{$cliente['EmbInfInt']}}</td>
+										<td class="text-center" align="center">{{$cliente['EmbTercInt']}}</td>
+										<td class="text-center" align="center">{{$cliente['TranAdulInt']}}</td>
+										<td class="text-center" align="center">{{$cliente['TranInfInt']}}</td>
+										<td class="text-center" align="center">{{$cliente['TranTercInt']}}</td>
+										<td class="text-center" align="center">{{$cliente['cargaEmbInt']}}</td>
+										<td class="text-center" align="center">{{$cliente['cargaDesInt']}}</td>
+										<td class="text-center" align="center">{{$cliente['aeroAterrizaInt']}}</td>
+										<td class="text-center" align="center">{{$cliente['aeroDespegueInt']}}</td>
 									</tr>
 									@endforeach
 								</tbody>
