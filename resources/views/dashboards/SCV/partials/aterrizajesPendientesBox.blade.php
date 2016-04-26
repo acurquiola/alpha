@@ -11,7 +11,7 @@
 			<div class="table-responsive">
 				<table class="table no-margin">
 					<thead>
-						<tr class="bg-success">
+						<tr class="bg-gray">
 							<th>Hora</th>
 							<th>Matrícula</th>
 							<th>Procedencia</th>

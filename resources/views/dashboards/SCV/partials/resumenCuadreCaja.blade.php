@@ -1,7 +1,7 @@
 <div class="col-md-6 connectedSortable" >
 	<div class="box box-warning">
-		<div class="box-header with-border">
-			<h3 class="box-title"><span class="fa fa-road"></span> RESUMEN DE CUADRE DE CAJA</h3>
+		<div class="box-header  with-border">
+			<h3 class="box-title"><span class="fa fa-bars"></span> RESUMEN DE CUADRE DE CAJA</h3>
 			<div class="box-tools pull-right">
 				<button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
 				<button class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
@@ -11,7 +11,7 @@
 			<div class="table-responsive">
 				<table class="table no-margin">
 						<thead>
-							<tr class="bg-warning">
+							<tr class="bg-gray">
 								<th class="text-right"></th>
 								<th colspan="2">Bs. </th>
 							</tr>
