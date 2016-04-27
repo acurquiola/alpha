@@ -61,7 +61,7 @@ class ViewComposerServiceProvider extends ServiceProvider {
 
 
         view()->composer(['reportes.reporteTraficoAereo'], function($view){
-            $puertos= [""=>"-- Seleccione Puerto--"]+\App\Puerto::lists('nombre','id');
+            $puertos= [""=>"TODOS"]+\App\Puerto::lists('nombre','id');
             $view->with(compact('puertos'));
         });
 
@@ -70,7 +70,12 @@ class ViewComposerServiceProvider extends ServiceProvider {
             $view->with(compact('hangars'));
         });
 
-        view()->composer(['aeronaves.partials.form', 'aeronaves.index', 'aterrizajes.index', 'aterrizajes.create', 'aterrizajes.partials.form', 'aterrizajes.partials.edit', 'aterrizajes.partials.show', 'despegues.index', 'despegues.create', 'despegues.partials.form', 'despegues.partials.edit', 'despegues.partials.show', 'cargas.index', 'cargas.create', 'cargas.partials.edit', 'cargas.partials.form', 'cargas.partials.show', 'reportes.reporteTraficoAereo', 'reportes.reporteRelacionFacturasAeronauticasCredito'], function($view){
+        view()->composer(['reportes.reporteTraficoAereo'], function($view){
+            $clientes= [""=>"TODOS"]+\App\Cliente::where("tipo","=", "Aeronáutico")->orWhere("tipo","=", "Mixto")->lists('nombre', 'id');
+            $view->with(compact('clientes'));
+        });
+
+        view()->composer(['aeronaves.partials.form', 'aeronaves.index', 'aterrizajes.index', 'aterrizajes.create', 'aterrizajes.partials.form', 'aterrizajes.partials.edit', 'aterrizajes.partials.show', 'despegues.index', 'despegues.create', 'despegues.partials.form', 'despegues.partials.edit', 'despegues.partials.show', 'cargas.index', 'cargas.create', 'cargas.partials.edit', 'cargas.partials.form', 'cargas.partials.show', 'reportes.reporteRelacionFacturasAeronauticasCredito'], function($view){
             $clientes= [""=>"-- Seleccione Cliente--"]+\App\Cliente::where("tipo","=", "Aeronáutico")->orWhere("tipo","=", "Mixto")->lists('nombre', 'id');
             $view->with(compact('clientes'));
         });
