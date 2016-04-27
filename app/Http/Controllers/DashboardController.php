@@ -9,55 +9,111 @@ class DashboardController extends Controller {
 
 	public function indexSCV()
 	{
-		$comerciales                = \App\TipoMatricula::where('nombre', 'Comercial')->first()->id;
-		$comercialPrivado           = \App\TipoMatricula::where('nombre', 'Comercial Privado')->first()->id;
-		$privado                    = \App\TipoMatricula::where('nombre', 'Privado')->first()->id;
-		$oficial                    = \App\TipoMatricula::where('nombre', 'Oficial / Gobierno')->first()->id;
-		$fecha                      = \Carbon\Carbon::now();
-		$hoy                        = $fecha->toDateString();
+		$comerciales      = \App\TipoMatricula::where('nombre', 'Comercial')->first()->id;
+		$comercialPrivado = \App\TipoMatricula::where('nombre', 'Comercial Privado')->first()->id;
+		$privado          = \App\TipoMatricula::where('nombre', 'Privado')->first()->id;
+		$fecha            = \Carbon\Carbon::now();
+		$hoy              = $fecha->toDateString();
 		
-		$vuelosComerciales          = 0;
-		$vuelosComercialPrivado     = 0;
-		$vuelosPrivados             = 0;
-		$otrosVuelos                = 0;
-		$vuelosOficiales            = 0;
+		$aterrizajes                     = 0;
+		$despegues                       = 0;
+		$aterrizajesComerciales          = 0;
+		$despeguesComerciales            = 0;
+		$aterrizajesComercialPrivado     = 0;
+		$despeguesComercialPrivado       = 0;
+		$aterrizajesPrivados             = 0;
+		$despeguesPrivados               = 0;
+		$otrosDespegues                  = 0;
+		$otrosAterrizajes                = 0;
 		
-		$vuelosComercialesPorc      = 0;
-		$vuelosComercialPrivadoPorc = 0;
-		$vuelosPrivadosPorc         = 0;
-		$vuelosOficialesPorc        = 0;
-		$otrosVuelosPorc            = 0;
-		$totalVuelos                = 0;
+		$desembarqueComercialAd          = 0;
+		$desembarqueComercialInf         = 0;
+		$desembarqueComercialTerc        = 0;
+		$desembarqueComercial            = 0;
+		$desembarquePrivadoAd            = 0;
+		$desembarquePrivadoInf           = 0;
+		$desembarquePrivadoTerc          = 0;
+		$desembarquePrivado              = 0;
+		$desembarqueComercialPrivadoAd   = 0;
+		$desembarqueComercialPrivadoInf  = 0;
+		$desembarqueComercialPrivadoTerc = 0;
+		$desembarqueComercialPrivado     = 0;
+		$desembarqueTotal                = 0;
+		$desembarqueOtrosVuelos          = 0;
+		
+		$embarqueComercialAd             = 0;
+		$embarqueComercialInf            = 0;
+		$embarqueComercialTerc           = 0;
+		$embarqueComercial               = 0;
+		$embarquePrivadoAd               = 0;
+		$embarquePrivadoInf              = 0;
+		$embarquePrivadoTerc             = 0;
+		$embarquePrivado                 = 0;
+		$embarqueComercialPrivadoAd      = 0;
+		$embarqueComercialPrivadoInf     = 0;
+		$embarqueComercialPrivadoTerc    = 0;
+		$embarqueComercialPrivado        = 0;
+		$embarqueTotal                   = 0;
+		$embarqueOtrosVuelos             = 0;
+		$transitoTotal                   = 0;
 
-		$totalVuelos = \App\Despegue::where('fecha', $hoy)
-									->where('aeropuerto_id', session('aeropuerto')->id)
-									->count();
-		if($totalVuelos!=0){
+		$aterrizajes = \App\Aterrizaje::where('aeropuerto_id', session('aeropuerto')->id)
+									   ->where('fecha', $hoy)
+									   ->get();
 
-			$vuelosComerciales = \App\Despegue::where('tipoMatricula_id', $comerciales)
-											   ->where('aeropuerto_id', session('aeropuerto')->id)
-											   ->where('fecha', $hoy)
-											   ->count();
 
-			$vuelosComercialPrivado = \App\Despegue::where('tipoMatricula_id', $comercialPrivado)
-											   ->where('aeropuerto_id', session('aeropuerto')->id)
-											   ->where('fecha', $hoy)
-											   ->count();
-			$vuelosPrivados  = \App\Despegue::where('tipoMatricula_id', $privado)
-											   ->where('aeropuerto_id', session('aeropuerto')->id)
-											   ->where('fecha', $hoy)
-											   ->count();
-			$vuelosOficiales = \App\Despegue::where('tipoMatricula_id', $oficial)
-											   ->where('aeropuerto_id', session('aeropuerto')->id)
-											   ->where('fecha', $hoy)
-											   ->count();
-			$otrosVuelos = $totalVuelos-($vuelosComerciales+$vuelosComercialPrivado+$vuelosPrivados+$vuelosOficiales);
+		$despegues = \App\Despegue::where('aeropuerto_id', session('aeropuerto')->id)
+								   ->where('fecha', $hoy)
+								   ->get();
 
-			$vuelosComercialesPorc      = ($vuelosComerciales*100)/$totalVuelos;
-			$vuelosComercialPrivadoPorc = ($vuelosComercialPrivado*100)/$totalVuelos;
-			$vuelosPrivadosPorc         = ($vuelosPrivados*100)/$totalVuelos;
-			$vuelosOficialesPorc        = ($vuelosOficiales*100)/$totalVuelos;
-			$otrosVuelosPorc            = ($otrosVuelos*100)/$totalVuelos;
+		$aterrizajesTotal =$aterrizajes->count();
+		$despeguesTotal   =$despegues->count();
+
+		if($aterrizajesTotal!=0 || $despeguesTotal!=0){
+			
+			$aterrizajesComerciales          = $aterrizajes->where('tipoMatricula_id', $comerciales)->count();
+			$despeguesComerciales            = $despegues->where('tipoMatricula_id', $comerciales)->count();
+			$aterrizajesComercialPrivado     = $aterrizajes->where('tipoMatricula_id', $comercialPrivado)->count();
+			$despeguesComercialPrivado       = $despegues->where('tipoMatricula_id', $comercialPrivado)->count();
+			$aterrizajesPrivados             = $aterrizajes->where('tipoMatricula_id', $privado)->count();
+			$despeguesPrivados               = $despegues->where('tipoMatricula_id', $privado)->count();
+			
+			$otrosDespegues                  = $despeguesTotal-($despeguesComerciales+$despeguesComercialPrivado+$despeguesPrivados);
+			$otrosAterrizajes                = $aterrizajesTotal-($aterrizajesComerciales+$aterrizajesComercialPrivado+$aterrizajesPrivados);
+			
+			$desembarqueComercialAd          = $aterrizajes->where('tipoMatricula_id', $comerciales)->sum('desembarqueAdultos');
+			$desembarqueComercialInf         = $aterrizajes->where('tipoMatricula_id', $comerciales)->sum('desembarqueInfantes');
+			$desembarqueComercialTerc        = $aterrizajes->where('tipoMatricula_id', $comerciales)->sum('desembarqueTercera');
+			$desembarqueComercial            = $desembarqueComercialAd+$desembarqueComercialInf+$desembarqueComercialTerc;
+			$desembarquePrivadoAd            = $aterrizajes->where('tipoMatricula_id', $privado)->sum('desembarqueAdultos');
+			$desembarquePrivadoInf           = $aterrizajes->where('tipoMatricula_id', $privado)->sum('desembarqueInfantes');
+			$desembarquePrivadoTerc          = $aterrizajes->where('tipoMatricula_id', $privado)->sum('desembarqueTercera');
+			$desembarquePrivado              = $desembarquePrivadoAd+$desembarquePrivadoInf+$desembarquePrivadoTerc;
+			$desembarqueComercialPrivadoAd   = $aterrizajes->where('tipoMatricula_id', $comercialPrivado)->sum('desembarqueAdultos');
+			$desembarqueComercialPrivadoInf  = $aterrizajes->where('tipoMatricula_id', $comercialPrivado)->sum('desembarqueInfantes');
+			$desembarqueComercialPrivadoTerc = $aterrizajes->where('tipoMatricula_id', $comercialPrivado)->sum('desembarqueTercera');
+			$desembarqueComercialPrivado     = $desembarqueComercialPrivadoAd+$desembarqueComercialPrivadoInf+$desembarqueComercialPrivadoTerc;
+			$desembarqueTotal                = $aterrizajes->sum('desembarqueAdultos')+$aterrizajes->sum('desembarqueInfantes')+$aterrizajes->sum('desembarqueTercera');
+			$desembarqueOtrosVuelos          = $desembarqueTotal-($desembarqueComercial+$desembarquePrivado+$desembarqueComercialPrivado);
+			
+			$embarqueComercialAd             = $despegues->where('tipoMatricula_id', $comerciales)->sum('embarqueAdultos');
+			$embarqueComercialInf            = $despegues->where('tipoMatricula_id', $comerciales)->sum('embarqueInfante');
+			$embarqueComercialTerc           = $despegues->where('tipoMatricula_id', $comerciales)->sum('embarqueTercera');
+			$embarqueComercial               = $embarqueComercialAd+$embarqueComercialInf+$embarqueComercialTerc;
+			$embarquePrivadoAd               = $despegues->where('tipoMatricula_id', $privado)->sum('embarqueAdultos'); 
+			$embarquePrivadoInf              = $despegues->where('tipoMatricula_id', $privado)->sum('embarqueInfante');
+			$embarquePrivadoTerc             = $despegues->where('tipoMatricula_id', $privado)->sum('embarqueTercera');
+			$embarquePrivado                 = $embarquePrivadoAd+$embarquePrivadoInf+$embarquePrivadoTerc;
+			$embarqueComercialPrivadoAd      = $despegues->where('tipoMatricula_id', $comercialPrivado)->sum('embarqueAdultos');
+			$embarqueComercialPrivadoInf     = $despegues->where('tipoMatricula_id', $comercialPrivado)->sum('embarqueInfante');
+			$embarqueComercialPrivadoTerc    = $despegues->where('tipoMatricula_id', $comercialPrivado)->sum('embarqueTercera');
+			$embarqueComercialPrivado        = $embarqueComercialPrivadoAd+$embarqueComercialPrivadoInf+$embarqueComercialPrivadoTerc;
+			$embarqueTotal                   = $despegues->sum('embarqueAdultos')+$despegues->sum('embarqueInfante')+$despegues->sum('embarqueTercera');
+			$embarqueOtrosVuelos             = $embarqueTotal-($embarqueComercial+$embarquePrivado+$embarqueComercialPrivado);
+
+			$transitoTotal                   = $despegues->sum('transitoAdultos')+$despegues->sum('transitoInfante')+$despegues->sum('transitoTercera');
+
+
 		}
 
 		$aterrizajesPendientes = \App\Aterrizaje::where('aeropuerto_id',session('aeropuerto')->id)
@@ -88,7 +144,8 @@ class DashboardController extends Controller {
         $facturasContado = $facturas->where('condicionPago', 'Contado')
                                     ->sum('total');
 
-		return view('dashboards.SCV.partials.index', compact('hoy', 'vuelosComerciales', 'vuelosComercialPrivado', 'vuelosPrivados', 'vuelosOficiales','otrosVuelos', 'vuelosComercialesPorc', 'vuelosComercialPrivadoPorc', 'vuelosPrivadosPorc', 'vuelosOficialesPorc','otrosVuelosPorc', 'aterrizajesPendientes', 'aterrizajesTotal', 'despeguesRecientes', 'facturasTotal', 'facturasCredito', 'facturasContado'));
+
+		return view('dashboards.SCV.partials.index', compact('hoy', 'aterrizajesComerciales', 'despeguesComerciales', 'aterrizajesComercialPrivado','despeguesComercialPrivado', 'aterrizajesPrivados', 'despeguesPrivados', 'otrosDespegues' ,'otrosAterrizajes', 'desembarqueComercial', 'desembarquePrivado', 'desembarqueComercialPrivado', 'desembarqueOtrosVuelos','embarqueComercial', 'embarquePrivado', 'embarqueComercialPrivado', 'embarqueOtrosVuelos', 'transitoTotal', 'embarqueTotal', 'desembarqueTotal', 'aterrizajesPendientes', 'aterrizajesTotal', 'despeguesRecientes', 'facturasTotal', 'facturasCredito', 'facturasContado'));
 	}
 
 	public function indexRecaudacion()

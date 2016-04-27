@@ -1,4 +1,4 @@
-<div class="nav-tabs-custom col-md-6 connectedSortable" >
+<div class="col-md-6 connectedSortable" >
 	<div class="box box-success">
 		<div class="box-header with-border">
 			<h3 class="box-title"><span class="fa fa-road"></span> ATERRIZAJES PENDIENTES DEL DÍA</h3>
@@ -11,7 +11,7 @@
 			<div class="table-responsive">
 				<table class="table no-margin">
 					<thead>
-						<tr class="bg-success">
+						<tr class="bg-gray">
 							<th>Hora</th>
 							<th>Matrícula</th>
 							<th>Procedencia</th>

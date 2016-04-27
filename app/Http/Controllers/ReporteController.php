@@ -84,6 +84,111 @@ class ReporteController extends Controller {
         return view('reportes.reporteModuloMetaMensual', compact('montos', 'mes', 'anno', 'aeropuerto'));
     }
 
+    public function getReporteTraficoAereo(Request $request){
+        $diaDesde    =$request->get('diaDesde', \Carbon\Carbon::now()->day);
+        $mesDesde    =$request->get('mesDesde', \Carbon\Carbon::now()->month);
+        $annoDesde   =$request->get('annoDesde',  \Carbon\Carbon::now()->year);
+        $diaHasta    =$request->get('diaHasta', \Carbon\Carbon::now()->day);
+        $mesHasta    =$request->get('mesHasta', \Carbon\Carbon::now()->month);
+        $annoHasta   =$request->get('annoHasta',  \Carbon\Carbon::now()->year);
+        $destino     =$request->get('destino', 0);
+        $procedencia =$request->get('procedencia', 0);
+        $cliente     =$request->get('cliente', 0);
+        $aeropuerto  =session('aeropuerto');
+        if($request->get('cliente') == ''){
+            $clientes     = \App\Cliente::where('tipo', 'Mixto')->OrWhere('tipo', 'Aeronautico')->get();
+        }else{
+            $cliente_id = $request->get('cliente');
+            $clientes = \App\Cliente::find($cliente_id);
+        }
+        $datosCliente =[];
+
+        foreach ($clientes as $cliente){
+            
+            $datosCliente[$cliente->nombre]=[
+                'desAdulNac'      => 0,
+                'desInfNac'       => 0,
+                'desTercNac'      => 0,
+
+                'EmbAdulNac'      => 0,
+                'EmbInfNac'       => 0,
+                'EmbTercNac'      => 0,
+                'TranAdulNac'     => 0,
+                'TranInfNac'      => 0,
+                'TranTercNac'     => 0,
+                'cargaEmbNac'     => 0,
+                'cargaDesNac'     => 0,
+                'aeroAterrizaNac' => 0,
+                'aeroDespegueNac' => 0,
+
+                'desAdulInt'      => 0,
+                'desInfInt'       => 0,
+                'desTercInt'      => 0,
+
+                'EmbAdulInt'      => 0,
+                'EmbInfInt'       => 0,
+                'EmbTercInt'      => 0,
+                'TranAdulInt'     => 0,
+                'TranInfInt'      => 0,
+                'TranTercInt'     => 0,
+                'cargaEmbInt'     => 0,
+                'cargaDesInt'     => 0,
+                'aeroAterrizaInt' => 0,
+                'aeroDespegueInt' => 0,
+            ];
+
+            $aterrizajes = \App\Aterrizaje::whereBetween('fecha', array($annoDesde.'-'.$mesDesde.'-'.$diaDesde,  $annoHasta.'-'.$mesHasta.'-'.$diaHasta))
+                                        ->where('cliente_id', $cliente->id)
+                                        ->where('aeropuerto_id', session('aeropuerto')->id)
+                                        ->where('puerto_id', ($procedencia==0)?'>=':'=', $procedencia)
+                                        ->get();
+            $despegues = \App\Despegue::whereBetween('fecha', array($annoDesde.'-'.$mesDesde.'-'.$diaDesde,  $annoHasta.'-'.$mesHasta.'-'.$diaHasta))
+                                        ->where('cliente_id', $cliente->id)
+                                        ->where('aeropuerto_id', session('aeropuerto')->id)
+                                        ->where('puerto_id', ($destino==0)?'>=':'=', $destino)
+                                        ->get();
+
+            foreach ($aterrizajes as $aterrizaje) {
+                if($aterrizaje->nacionalidadVuelo_id == 1){
+                    $datosCliente[$cliente->nombre]['desAdulNac'] += $aterrizaje->desembarqueAdultos;
+                    $datosCliente[$cliente->nombre]['desInfNac']  += $aterrizaje->desembarqueInfante;
+                    $datosCliente[$cliente->nombre]['desTercNac'] += $aterrizaje->desembarqueTercera;
+                }else{
+                    $datosCliente[$cliente->nombre]['desAdulInt'] += $aterrizaje->desembarqueAdultos;
+                    $datosCliente[$cliente->nombre]['desInfInt']  += $aterrizaje->desembarqueInfante;
+                    $datosCliente[$cliente->nombre]['desTercInt'] += $aterrizaje->desembarqueTercera;
+                }
+            }
+            foreach ($despegues as $despegue) {
+                if($despegue->nacionalidadVuelo_id == 1){
+                    $datosCliente[$cliente->nombre]['EmbAdulNac']  += $despegue->embarqueAdultos;
+                    $datosCliente[$cliente->nombre]['EmbInfNac']   += $despegue->embarqueInfantes;
+                    $datosCliente[$cliente->nombre]['EmbTercNac']  += $despegue->embarqueTercera;
+                    $datosCliente[$cliente->nombre]['TranAdulNac'] += $despegue->transitoAdultos;
+                    $datosCliente[$cliente->nombre]['TranInfNac']  += $despegue->transitoInfantes;
+                    $datosCliente[$cliente->nombre]['TranTercNac'] += $despegue->transitoTercera;
+                    $datosCliente[$cliente->nombre]['cargaEmbNac'] += $despegue->peso_embarcado;
+                    $datosCliente[$cliente->nombre]['cargaDesNac'] += $despegue->peso_desembarcado;
+                }else{
+                    $datosCliente[$cliente->nombre]['EmbAdulInt']  += $despegue->embarqueAdultos;
+                    $datosCliente[$cliente->nombre]['EmbInfInt']   += $despegue->embarqueInfantes;
+                    $datosCliente[$cliente->nombre]['EmbTercInt']  += $despegue->embarqueTercera;
+                    $datosCliente[$cliente->nombre]['TranAdulInt'] += $despegue->transitoAdultos;
+                    $datosCliente[$cliente->nombre]['TranInfInt']  += $despegue->transitoInfantes;
+                    $datosCliente[$cliente->nombre]['TranTercInt'] += $despegue->transitoTercera;
+                    $datosCliente[$cliente->nombre]['cargaEmbInt'] += $despegue->peso_embarcado;
+                    $datosCliente[$cliente->nombre]['cargaDesInt'] += $despegue->peso_desembarcado;
+                }
+            }
+            $datosCliente[$cliente->nombre]['aeroAterrizaNac'] = $aterrizajes->where('nacionalidadVuelo_id', 1)->count();
+            $datosCliente[$cliente->nombre]['aeroAterrizaInt'] = $aterrizajes->where('nacionalidadVuelo_id', 2)->count();
+            $datosCliente[$cliente->nombre]['aeroDespegueNac'] = $aterrizajes->where('nacionalidadVuelo_id', 1)->count();
+            $datosCliente[$cliente->nombre]['aeroDespegueInt'] = $aterrizajes->where('nacionalidadVuelo_id', 2)->count();
+
+        }
+        return view('reportes.reporteTraficoAereo', compact('datosCliente', 'diaDesde', 'mesDesde', 'annoDesde', 'diaHasta', 'mesHasta', 'annoHasta'));
+    }
+
     public function getReporteRelacionIngresoMensual(Request $request){
         $anno        =$request->get('anno',  \Carbon\Carbon::now()->year);
         $aeropuerto  =$request->get('aeropuerto',  0);
@@ -465,6 +570,95 @@ class ReporteController extends Controller {
 
     }
 
+    public function getReporteRelacionMetaRecaudacionMensual(Request $request){
+        $anno            =$request->get('anno',  \Carbon\Carbon::now()->year);        
+        $metaSaarPZO =\App\Meta::join('meta_detalles', 'metas.id', '=', 'meta_detalles.meta_id')
+                                    ->where('fecha_fin', null)
+                                    ->where('aeropuerto_id', 1)
+                                    ->sum('saar_meta');     
+        $metaSaarCBL =\App\Meta::join('meta_detalles', 'metas.id', '=', 'meta_detalles.meta_id')
+                                    ->where('fecha_fin', null)
+                                    ->where('aeropuerto_id', 2)
+                                    ->sum('saar_meta');     
+        $metaSaarSNV =\App\Meta::join('meta_detalles', 'metas.id', '=', 'meta_detalles.meta_id')
+                                    ->where('fecha_fin', null)
+                                    ->where('aeropuerto_id', 3)
+                                    ->sum('saar_meta');
+
+        $montosMeses =[];
+        $meses=[
+            1=>"ENERO",
+            2=>"FEBRERO",
+            3=>"MARZO",
+            4=>"ABRIL",
+            5=>"MAYO",
+            6=>"JUNIO",
+            7=>"JULIO",
+            8=>"AGOSTO",
+            9=>"SEPTIEMBRE",
+            10=>"OCTUBRE",
+            11=>"NOVIEMBRE",
+            12=>"DICIEMBRE"];
+       for($i=1;$i<=12; $i++){
+                $diaMes=\Carbon\Carbon::create($anno, $i,1);
+
+                //Cobrado
+                $cobrosPZO=\App\Cobro::where('cobros.created_at','>=' ,$diaMes->startOfMonth()->toDateTimeString())
+                ->where('cobros.created_at','<=' ,$diaMes->endOfMonth()->toDateTimeString())
+                ->where('cobros.aeropuerto_id','1')
+                ->get();
+
+                $cobrosCBL=\App\Cobro::where('cobros.created_at','>=' ,$diaMes->startOfMonth()->toDateTimeString())
+                ->where('cobros.created_at','<=' ,$diaMes->endOfMonth()->toDateTimeString())
+                ->where('cobros.aeropuerto_id','2')
+                ->get();
+
+                $cobrosSNV=\App\Cobro::where('cobros.created_at','>=' ,$diaMes->startOfMonth()->toDateTimeString())
+                ->where('cobros.created_at','<=' ,$diaMes->endOfMonth()->toDateTimeString())
+                ->where('cobros.aeropuerto_id','3')
+                ->get();
+                
+            $montosMeses[$meses[$diaMes->month]]=[
+                    "metaPZO"         =>0,
+                    "recaudadoPZO"    =>0,
+                    "diferenciaPZO"   =>0,
+                    "metaCBL"         =>0,
+                    "recaudadoCBL"    =>0,
+                    "diferenciaCBL"   =>0,
+                    "metaSNV"         =>0,
+                    "recaudadoSNV"    =>0,
+                    "diferenciaSNV"   =>0,
+                    "metaTotal"       =>0,
+                    "recaudadoTotal"  =>0,
+                    "diferenciaTotal" =>0,
+                ];
+
+            $montosMeses[$meses[$diaMes->month]]["metaPZO"]+=$metaSaarPZO/12;
+            $montosMeses[$meses[$diaMes->month]]["metaCBL"]+=$metaSaarCBL/12;
+            $montosMeses[$meses[$diaMes->month]]["metaSNV"]+=$metaSaarSNV/12;
+
+            foreach ($cobrosPZO as $cobroPZO) {
+                $montosMeses[$meses[$diaMes->month]]["recaudadoPZO"]+=$cobroPZO->montodepositado;
+            }
+    
+            foreach ($cobrosCBL as $cobroCBL) {
+                $montosMeses[$meses[$diaMes->month]]["recaudadoCBL"]+=$cobroCBL->montodepositado;
+            }
+    
+            foreach ($cobrosSNV as $cobroSNV) {
+                $montosMeses[$meses[$diaMes->month]]["recaudadoSNV"]+=$cobroSNV->montodepositado;
+            }
+
+            $montosMeses[$meses[$diaMes->month]]["diferenciaPZO"]   =$montosMeses[$meses[$diaMes->month]]["recaudadoPZO"]-$montosMeses[$meses[$diaMes->month]]["metaPZO"];
+            $montosMeses[$meses[$diaMes->month]]["diferenciaCBL"]   =$montosMeses[$meses[$diaMes->month]]["recaudadoCBL"]-$montosMeses[$meses[$diaMes->month]]["metaCBL"];
+            $montosMeses[$meses[$diaMes->month]]["diferenciaSNV"]   =$montosMeses[$meses[$diaMes->month]]["recaudadoSNV"]-$montosMeses[$meses[$diaMes->month]]["metaSNV"];
+            $montosMeses[$meses[$diaMes->month]]["metaTotal"]       =$montosMeses[$meses[$diaMes->month]]["metaPZO"]+$montosMeses[$meses[$diaMes->month]]["metaCBL"]+$montosMeses[$meses[$diaMes->month]]["metaSNV"];
+            $montosMeses[$meses[$diaMes->month]]["recaudadoTotal"]  =$montosMeses[$meses[$diaMes->month]]["recaudadoPZO"]+$montosMeses[$meses[$diaMes->month]]["recaudadoCBL"]+$montosMeses[$meses[$diaMes->month]]["recaudadoSNV"];
+            $montosMeses[$meses[$diaMes->month]]["diferenciaTotal"] =$montosMeses[$meses[$diaMes->month]]["diferenciaPZO"]+$montosMeses[$meses[$diaMes->month]]["diferenciaCBL"]+$montosMeses[$meses[$diaMes->month]]["diferenciaSNV"];
+        }
+        return view('reportes.reporteRelacionMetaRecaudacionMensual', compact('montosMeses', 'anno', 'metaSaarSNV', 'metaSaarCBL', 'metaSaarPZO'));
+    }
+
     public function getReporteRelacionMensualDeIngresosRecaudacionPendiente(Request $request){
         $anno=$request->get('anno',  \Carbon\Carbon::now()->year);
         $montosMeses=[];
@@ -782,13 +976,14 @@ class ReporteController extends Controller {
 
     public function getReporteRelacionFacturasAeronauticasCredito(Request $request)
     {
-        $diaDesde        =$request->get('diaDesde', \Carbon\Carbon::now()->day);
-        $mesDesde        =$request->get('mesDesde', \Carbon\Carbon::now()->month);
-        $annoDesde       =$request->get('annoDesde', \Carbon\Carbon::now()->year);
-        $diaHasta        =$request->get('diaHasta', \Carbon\Carbon::now()->day);
-        $mesHasta        =$request->get('mesHasta', \Carbon\Carbon::now()->month);
-        $annoHasta       =$request->get('annoHasta', \Carbon\Carbon::now()->year);
-        $aeropuerto      =$request->get('aeropuerto_id', session('aeropuerto')->id);
+        $diaDesde   =$request->get('diaDesde', \Carbon\Carbon::now()->day);
+        $mesDesde   =$request->get('mesDesde', \Carbon\Carbon::now()->month);
+        $annoDesde  =$request->get('annoDesde', \Carbon\Carbon::now()->year);
+        $diaHasta   =$request->get('diaHasta', \Carbon\Carbon::now()->day);
+        $mesHasta   =$request->get('mesHasta', \Carbon\Carbon::now()->month);
+        $annoHasta  =$request->get('annoHasta', \Carbon\Carbon::now()->year);
+        $aeropuerto =$request->get('aeropuerto_id', session('aeropuerto')->id);
+        $cliente    =$request->get('cliente_id', 0);
         
         $formulario      =\App\Concepto::where('aeropuerto_id', $aeropuerto)->where('nompre', 'FOMULARIO DOSA (CRÉDITO)')->first();
         $aterrizaje      =\App\Concepto::where('aeropuerto_id', $aeropuerto)->where('nompre', 'ATERRIZAJE Y DESPEGUE DE AERONAVES (CRÉDITO)')->first();
@@ -796,6 +991,7 @@ class ReporteController extends Controller {
         $habilitacion    =\App\Concepto::where('aeropuerto_id', $aeropuerto)->where('nompre', 'HABILITACION (CRÉDITO)')->first();
         $jetway          =\App\Concepto::where('aeropuerto_id', $aeropuerto)->where('nompre', 'JETWAY (CRÉDITO)')->first();
         $carga           =\App\Concepto::where('aeropuerto_id', $aeropuerto)->where('nompre', 'CARGA (CRÉDITO)')->first();
+
         $facturas        =\App\Factura::select('facturas.*', 'clientes.nombre')
                                 ->join('clientes', 'facturas.cliente_id', '=', 'clientes.id')
                                 ->whereBetween('fecha', array($annoDesde.'-'.$mesDesde.'-'.$diaDesde,  $annoHasta.'-'.$mesHasta.'-'.$diaHasta))
@@ -803,6 +999,7 @@ class ReporteController extends Controller {
                                 ->where('aeropuerto_id', $aeropuerto)
                                 ->where('nroDosa', '<>', 'NULL')
                                 ->where('estado', 'C')
+                                ->where('cliente_id', ($cliente==0)?'>=':'=', $cliente)
                                 ->where('facturas.condicionPago', 'Crédito')
                                 ->orderBy('nombre', 'ASC')
                                 ->get();
@@ -821,6 +1018,7 @@ class ReporteController extends Controller {
                                 'habilitacionBs'    => 0, 
                                 'jetwayBs'          => 0, 
                                 'cargaBs'           => 0,
+                                'otrosCargosBs'     => 0,
                                 'totalDosa'         => 0,
                                 'fechaDeposito'     => 0,
                                 'totalDepositado'   => 0
@@ -831,21 +1029,18 @@ class ReporteController extends Controller {
             foreach ($factura->detalles as $detalle) {
                 if($detalle->concepto_id == $formulario->id){
                     $dosaFactura[$factura->nroDosa]["formularioBs"]=$detalle->totalDes;
-                }
-                if($detalle->concepto_id == $aterrizaje->id){
+                }elseif($detalle->concepto_id == $aterrizaje->id){
                     $dosaFactura[$factura->nroDosa]["aterrizajeBs"]=$detalle->totalDes;
-                }
-                if($detalle->concepto_id == $estacionamiento->id){
+                }elseif($detalle->concepto_id == $estacionamiento->id){
                     $dosaFactura[$factura->nroDosa]["estacionamientoBs"]=$detalle->totalDes;
-                }
-                if($detalle->concepto_id == $habilitacion->id){
+                }elseif($detalle->concepto_id == $habilitacion->id){
                     $dosaFactura[$factura->nroDosa]["habilitacionBs"]=$detalle->totalDes;
-                }
-                if($detalle->concepto_id == $jetway->id){
+                }elseif($detalle->concepto_id == $jetway->id){
                     $dosaFactura[$factura->nroDosa]["jetwayBs"]=$detalle->totalDes;
-                }
-                if($detalle->concepto_id == $carga->id){
+                }elseif($detalle->concepto_id == $carga->id){
                     $dosaFactura[$factura->nroDosa]["cargaBs"]=$detalle->totalDes;
+                }else{
+                    $dosaFactura[$factura->nroDosa]["otrosCargosBs"]=$detalle->totalDes;
                 }
             } 
             foreach ($factura->cobros as $recibo){
@@ -860,7 +1055,7 @@ class ReporteController extends Controller {
         }   
 
 
-        return view('reportes.reporteRelacionFacturasAeronauticasCredito', compact('diaDesde', 'mesDesde', 'annoDesde', 'diaHasta', 'mesHasta', 'annoHasta', 'aeropuerto', 'facturas', 'dosaFactura', 'clientes'));
+        return view('reportes.reporteRelacionFacturasAeronauticasCredito', compact('diaDesde', 'mesDesde', 'annoDesde', 'diaHasta', 'mesHasta', 'annoHasta', 'aeropuerto', 'cliente', 'facturas', 'dosaFactura', 'clientes'));
 
     }
 

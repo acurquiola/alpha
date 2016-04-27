@@ -17,11 +17,15 @@
                     </button>
                 </div><!-- /.box-tools -->
             </div>
-            <div class="box-body text-right">
+            <div class="box-body">
                 {!! Form::open(["url" => action('ReporteController@getReporteRelacionFacturasAeronauticasCredito'), "method" => "GET", "class"=>"form-inline"]) !!}
-                <div class="form-group">
+                <div class="form-group ">
                     <label>AEROPUERTO:</label>
-                      {!! Form::select('aeropuerto', $aeropuertos, $aeropuerto, ["class"=> "form-control"]) !!}
+                      {!! Form::select('aeropuerto_id', $aeropuertos, $aeropuerto, ["class"=> "form-control select-flt"]) !!}
+                </div>
+                <div class="form-group">
+                    <label>CLIENTE:</label>
+                      {!! Form::select('cliente_id', $clientes, $cliente, ["class"=> "form-control select-flt"]) !!}
                 </div>
                 <br>
                 <label><strong>DESDE: </strong></label>
@@ -45,8 +49,10 @@
                       {!! Form::select('annoHasta', $annos, $annoHasta, ["class"=> "form-control"]) !!}
                 </div>
                 <br>
-                <button type="submit" class="btn btn-default">Buscar</button>
-                <a class="btn btn-default" href="{{action('ReporteController@getReporteRelacionFacturasAeronauticasCredito')}}">Reset</a>
+                <div class="text-right">
+                    <button type="submit" class="btn btn-primary" >Buscar</button>
+                    <a class="btn btn-default text-right" href="{{action('ReporteController@getReporteRelacionFacturasAeronauticasCredito')}}">Reset</a>
+                </div>
                 {!! Form::close() !!}
             </div>
         </div>
@@ -73,26 +79,25 @@
                         <div class="table-responsive" style="max-height: 500px">
                             <table  class="table table-condensed">
                                     <tr class="bg-primary" >
-                                        <th class="text-center">CLIENTE</th>
-                                        <th colspan="3"class="text-center">COBRO</th>
+                                        <th rowspan="2" colspan="2" class="text-center">CLIENTE</th>
+                                        <th colspan="3"class="text-center" style="width: 80px;">COBRO</th>
                                         <th colspan="9" class="text-center">DOSA</th>
                                         <th colspan="3"class="text-center">DEPÓSITO</th>
                                     </tr>
                                     <tr class="bg-primary" >
-
-                                        <th class="text-center"></th>
-                                        <th class="text-center">Nro.</th>
-                                        <th class="text-center">Rec. Caja</th>
+                                        <th class="text-center" style="width: 30px;">Nro.</th>
+                                        <th class="text-center" style="width: 30px;">Rec. Caja</th>
                                        
-                                        <th class="text-center">Fecha</th>
-                                        <th class="text-center">Nro.</th>
-                                        <th class="text-center">Formulario (Bs.)</th>
-                                        <th class="text-center">Aterrizaje/Despegue (Bs.)</th>
-                                        <th class="text-center">Estacionamiento (Bs.)</th>
-                                        <th class="text-center">Habilitación (Bs.)</th>
-                                        <th class="text-center">Jetway (Bs.)</th>
-                                        <th class="text-center">Carga (Bs.)</th>
-                                        <th class="text-center">Total (Bs.)</th>
+                                        <th class="text-center" style="width: 40px;">Fecha</th>
+                                        <th class="text-center" style="width: 40px;">Nro.</th>
+                                        <th class="text-center" style="width: 45px;">Formulario(Bs.)</th>
+                                        <th class="text-center" style="width: 45px;">Aterrizaje (Bs.)</th>
+                                        <th class="text-center" style="width: 67px;">Estacionamiento (Bs.)</th>
+                                        <th class="text-center" style="width: 60px;">Habilitación (Bs.)</th>
+                                        <th class="text-center" style="width: 50px;">Jetway (Bs.)</th>
+                                        <th class="text-center" style="width: 50px;">Carga (Bs.)</th>
+                                        <th class="text-center" style="width: 50px;">Otros(Bs.)</th>
+                                        <th class="text-center" style="width: 70px;">Total (Bs.)</th>
 
                                         <th class="text-center">Ref.</th>
                                         <th class="text-center">Fecha</th>
@@ -101,42 +106,44 @@
                                 <tbody>
                                     @foreach($dosaFactura as $index => $df)
                                     <tr align="center">
-                                        <td>{{$df['cliente']}}</td> 
+                                        <td class="text-center" align="center" colspan="2">{{$df['cliente']}}</td> 
 
-                                        <td>{{$df['nCobro']}}</td>                         
-                                        <td>{{$df['reciboCaja']}}</td>                         
-                                        <td>{{$df['fecha']}}</td>  
+                                        <td class="text-center" align="center">{{$df['nCobro']}}</td>                         
+                                        <td class="text-center" align="center">{{$df['reciboCaja']}}</td>                         
+                                        <td class="text-center" align="center">{{$df['fecha']}}</td>  
 
-                                        <td>{{$index}}</td>                               
-                                        <td>{{$df['formularioBs']}}</td>                               
-                                        <td>{{$df['aterrizajeBs']}}</td>                               
-                                        <td>{{$df['estacionamientoBs']}}</td>                               
-                                        <td>{{$df['habilitacionBs']}}</td>                               
-                                        <td>{{$df['jetwayBs']}}</td>                               
-                                        <td>{{$df['cargaBs']}}</td>                               
-                                        <td>{{$df['totalDosa']}}</td> 
+                                        <td class="text-center" align="center">{{$index}}</td>                               
+                                        <td class="text-right formularioBs" align="right">{{$traductor->format($df['formularioBs'])}}</td>                               
+                                        <td class="text-right aterrizajeBs" align="right">{{$traductor->format($df['aterrizajeBs'])}}</td>                               
+                                        <td class="text-right estacionamientoBs" align="right">{{$traductor->format($df['estacionamientoBs'])}}</td>                               
+                                        <td class="text-right habilitacionBs" align="right">{{$traductor->format($df['habilitacionBs'])}}</td>                               
+                                        <td class="text-right jetwayBs" align="right">{{$traductor->format($df['jetwayBs'])}}</td>                               
+                                        <td class="text-right cargaBs" align="right">{{$traductor->format($df['cargaBs'])}}</td>                               
+                                        <td class="text-right otrosCargosBs" align="right">{{$traductor->format($df['otrosCargosBs'])}}</td>                               
+                                        <td class="text-right totalDosa" align="right">{{$traductor->format($df['totalDosa'])}}</td> 
 
                                         <td>{{$df['refBancaria']}}</td>   
                                         <td>{{$df['fechaDeposito']}}</td>                               
-                                        <td>{{$df['totalDepositado']}}</td>                               
+                                        <td class="text-right totalDepositado" align="right">{{$traductor->format($df['totalDepositado'])}}</td>                               
                                     </tr>                                    
                                     @endforeach
                                     <tr class="bg-gray" align="center">
-                                        <td>Total</td>
+                                        <td colspan="2">Total</td>
                                         <td> - </td>
                                         <td> - </td>
                                         <td> - </td>
                                         <td> - </td>
-                                        <td>0,00</td>                                 
-                                        <td>0,00</td>                                 
-                                        <td>0,00</td>                                 
-                                        <td>0,00</td>                                 
-                                        <td>0,00</td>                                 
-                                        <td>0,00</td>                                 
-                                        <td>0,00</td>                                 
+                                        <td align="right" id="totalFormulario">0,00</td>                           
+                                        <td align="right" id="totalAterrizaje">0,00</td>                           
+                                        <td align="right" id="totalEstacionamiento">0,00</td>                           
+                                        <td align="right" id="totalHabilitacion">0,00</td>                           
+                                        <td align="right" id="totalJetway">0,00</td>                           
+                                        <td align="right" id="totalCarga">0,00</td>                           
+                                        <td align="right" id="totalOtrosCargos">0,00</td>                           
+                                        <td align="right" id="totalDosa">0,00</td>                           
                                         <td> - </td>                                 
                                         <td> - </td>                                 
-                                        <td> - </td>                                 
+                                        <td align="right" id="totalTotal">0,00</td>                           
                                     </tr>
                                 </tbody>
                             </table>
@@ -147,4 +154,95 @@
         </div>
     </div>
 </div>
+@endsection
+
+@section('script')
+<script>
+    $(function(){
+
+        //Por Aeropuerto
+        var totalFormulario=0;
+        $('.formularioBs').each(function(index,value){
+            totalFormulario+=commaToNum($(value).text().trim());
+        });
+
+        var totalAterrizaje=0;
+        $('.aterrizajeBs').each(function(index,value){
+            totalAterrizaje+=commaToNum($(value).text().trim());
+        });
+
+
+        var totalEstacionamiento=0;
+        $('.estacionamientoBs').each(function(index,value){
+            totalEstacionamiento+=commaToNum($(value).text().trim());
+        });
+
+        var totalHabilitacion=0;
+        $('.habilitacionBs').each(function(index,value){
+            totalHabilitacion+=commaToNum($(value).text().trim());
+        });
+
+        var totalJetway=0;
+        $('.jetwayBs').each(function(index,value){
+            totalJetway+=commaToNum($(value).text().trim());
+        });
+
+        var totalCarga=0;
+        $('.cargaBs').each(function(index,value){
+            totalCarga+=commaToNum($(value).text().trim());
+        });
+
+        var totalOtrosCargos=0;
+        $('.otrosCargosBs').each(function(index,value){
+            totalOtrosCargos+=commaToNum($(value).text().trim());
+        });
+
+        var totalTotal=0;
+        $('.totalDosa').each(function(index,value){
+            totalTotal+=commaToNum($(value).text().trim());
+        });
+
+        $('#totalFormulario').text(numToComma(totalFormulario));
+        $('#totalAterrizaje').text(numToComma(totalAterrizaje));
+        $('#totalEstacionamiento').text(numToComma(totalEstacionamiento));
+        $('#totalHabilitacion').text(numToComma(totalHabilitacion));
+        $('#totalJetway').text(numToComma(totalJetway));
+        $('#totalCarga').text(numToComma(totalCarga));
+        $('#totalOtrosCargos').text(numToComma(totalOtrosCargos));
+        $('#totalTotal').text(numToComma(totalTotal));
+
+
+        $('.select-flt').chosen({width:'400px'});
+
+
+        $('#export-btn').click(function(e){
+            var table=$('table').clone();
+            $(table).find('td, th').filter(function() {
+              return $(this).css('display') == 'none';
+            }).remove();
+            $(table).find('tr').filter(function() {
+              return $(this).find('td,th').length == 0;
+            }).remove();
+            $(table).prepend('<thead>\
+                                <tr>\
+                                    <th colspan="17" style="vertical-align: middle; margin-top:20px" align="center" class="text-center">RELACIÓN DE FACTURAS AERONÁUTICAS CRÉDITO\
+                                        </br>\
+                                        AEROPUERTO: {{$aeropuerto}} | CLIENTE: {{($cliente==0)?"TODOS":$cliente}}\
+                                    </th>\
+                                </tr>\
+                            </thead>')
+                $(table).find('thead, th').css({'border-top':'1px solid black', 'font-weight': 'bold', 'text-align':"center", 'font-size': '7px'})
+                $(table).find('th').css({'border-bottom':'1px solid black', 'font-weight': 'bold', 'text-align':"center", 'font-size': '7px'})
+                $(table).find('td').css({'font-size': '6px'})
+                $(table).find('tr:nth-child(even)').css({'background-color': '#E2E2E2'})
+                $(table).find('tr:last td').css({'border-bottom':'1px solid black','border-top':'1px solid black', 'font-weight': 'bold'})
+                var tableHtml= $(table)[0].outerHTML;
+                $('[name=table]').val(tableHtml);
+                $('#export-form').submit();
+        })
+
+    })
+</script>
+
+
 @endsection
