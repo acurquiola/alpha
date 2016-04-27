@@ -55,6 +55,7 @@ class DashboardController extends Controller {
 		$embarqueComercialPrivado        = 0;
 		$embarqueTotal                   = 0;
 		$embarqueOtrosVuelos             = 0;
+		$transitoTotal                   = 0;
 
 		$aterrizajes = \App\Aterrizaje::where('aeropuerto_id', session('aeropuerto')->id)
 									   ->where('fecha', $hoy)
@@ -110,6 +111,8 @@ class DashboardController extends Controller {
 			$embarqueTotal                   = $despegues->sum('embarqueAdultos')+$despegues->sum('embarqueInfante')+$despegues->sum('embarqueTercera');
 			$embarqueOtrosVuelos             = $embarqueTotal-($embarqueComercial+$embarquePrivado+$embarqueComercialPrivado);
 
+			$transitoTotal                   = $despegues->sum('transitoAdultos')+$despegues->sum('transitoInfante')+$despegues->sum('transitoTercera');
+
 
 		}
 
@@ -142,7 +145,7 @@ class DashboardController extends Controller {
                                     ->sum('total');
 
 
-		return view('dashboards.SCV.partials.index', compact('hoy', 'aterrizajesComerciales', 'despeguesComerciales', 'aterrizajesComercialPrivado','despeguesComercialPrivado', 'aterrizajesPrivados', 'despeguesPrivados', 'otrosDespegues' ,'otrosAterrizajes', 'desembarqueComercial', 'desembarquePrivado', 'desembarqueComercialPrivado', 'desembarqueOtrosVuelos','embarqueComercial', 'embarquePrivado', 'embarqueComercialPrivado', 'embarqueOtrosVuelos', 'aterrizajesPendientes', 'aterrizajesTotal', 'despeguesRecientes', 'facturasTotal', 'facturasCredito', 'facturasContado'));
+		return view('dashboards.SCV.partials.index', compact('hoy', 'aterrizajesComerciales', 'despeguesComerciales', 'aterrizajesComercialPrivado','despeguesComercialPrivado', 'aterrizajesPrivados', 'despeguesPrivados', 'otrosDespegues' ,'otrosAterrizajes', 'desembarqueComercial', 'desembarquePrivado', 'desembarqueComercialPrivado', 'desembarqueOtrosVuelos','embarqueComercial', 'embarquePrivado', 'embarqueComercialPrivado', 'embarqueOtrosVuelos', 'transitoTotal', 'embarqueTotal', 'desembarqueTotal', 'aterrizajesPendientes', 'aterrizajesTotal', 'despeguesRecientes', 'facturasTotal', 'facturasCredito', 'facturasContado'));
 	}
 
 	public function indexRecaudacion()
