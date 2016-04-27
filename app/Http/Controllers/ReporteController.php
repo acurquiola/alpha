@@ -96,6 +96,9 @@ class ReporteController extends Controller {
         $cliente         =$request->get('cliente_id', 0);
         $aeropuerto      =session('aeropuerto');
 
+        $procedenciaNombre =($procedencia==0)?'TODOS':\App\Puerto::find($procedencia)->nombre;
+        $destinoNombre     =($destino==0)?'TODOS':\App\Puerto::find($destino)->nombre;
+
         if($cliente == 0){
             $clientes   = \App\Cliente::where('tipo', 'Mixto')
                                         ->OrWhere('tipo', 'Aeronáutico')
@@ -196,7 +199,7 @@ class ReporteController extends Controller {
             }
 
         }
-        return view('reportes.reporteTraficoAereo', compact('datosCliente', 'cliente',  'aeropuerto','procedencia', 'destino', 'clientes',  'diaDesde', 'mesDesde', 'annoDesde', 'diaHasta', 'mesHasta', 'annoHasta'));
+        return view('reportes.reporteTraficoAereo', compact('datosCliente', 'cliente', 'procedenciaNombre', 'destinoNombre', 'aeropuerto','procedencia', 'destino', 'clientes',  'diaDesde', 'mesDesde', 'annoDesde', 'diaHasta', 'mesHasta', 'annoHasta'));
     }
 
     public function getReporteRelacionIngresoMensual(Request $request){

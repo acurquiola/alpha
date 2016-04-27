@@ -48,19 +48,19 @@
 	</div>
 	<div class="col-md-12">
 		<div class="box box-primary">
-			<div class="box-header">
-				{!! Form::open(["url" => action("ReporteController@postExportReport"), "id" =>"export-form", "target"=>"_blank"]) !!}
-				{!! Form::hidden('table') !!}
-                {!! Form::hidden('departamento', 'Sección de Control de Vuelos') !!}
-                {!! Form::hidden('gerencia', 'Gerencia de Aeropuerto') !!}
-					<h3 class="box-title">Reporte</h3>
-					<span class="pull-right">
-						<button type="button" class="btn btn-primary" id="export-btn">
-							<span class="glyphicon glyphicon-file"></span> Exportar
-						</button>
-					</span>
-				{!! Form::close() !!}
-			</div>
+            <div class="box-header">
+                {!! Form::open(["url" => action("ReporteController@postExportReport"), "id" =>"export-form", "target"=>"_blank"]) !!}
+                {!! Form::hidden('table') !!}
+                {!! Form::hidden('departamento', $departamento) !!}
+                {!! Form::hidden('gerencia', $gerencia) !!}
+                    <h3 class="box-title">Reporte</h3>
+                    <span class="pull-right">
+                        <button type="button" class="btn btn-primary" id="export-btn">
+                            <span class="glyphicon glyphicon-file"></span> Exportar
+                        </button>
+                    </span>
+                {!! Form::close() !!}
+            </div>
 			<div class="box-body" >
 				<div class="row">
 					<div class="col-xs-12">

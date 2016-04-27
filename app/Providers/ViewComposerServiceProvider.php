@@ -146,6 +146,14 @@ class ViewComposerServiceProvider extends ServiceProvider {
             $view->with(compact('gerencia', 'departamento'));
         });
 
+        view()->composer([  'reportes.reporteTraficoAereo',
+                            'reportes.reporteCuadreCaja',
+                            'reportes.reporteDES900'], function($view){
+            $gerencia     = "Gerencia de Aeropuerto";
+            $departamento = "Sección de Control de Vuelos";
+            $view->with(compact('gerencia', 'departamento'));
+        });
+
         view()->composer(['contrato.partials.form','factura.partials.form', 'aeronaves.partials.table'], function($view){
             $clientes =\App\Cliente::select('codigo', 'id', 'nombre','cedRif','cedRifPrefix')->get();
             $view->with(compact('clientes'));
