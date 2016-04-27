@@ -24,6 +24,7 @@
                       {!! Form::select('aeropuerto_id', $aeropuertos, $aeropuerto, ["class"=> "form-control select-flt"]) !!}
                 </div>
                 <div class="form-group">
+                
                     <label>CLIENTE:</label>
                       {!! Form::select('cliente_id', $clientes, $cliente, ["class"=> "form-control select-flt"]) !!}
                 </div>

@@ -61,7 +61,7 @@ class ViewComposerServiceProvider extends ServiceProvider {
 
 
         view()->composer(['reportes.reporteTraficoAereo'], function($view){
-            $puertos= \App\Puerto::lists('nombre','id');
+            $puertos= [""=>"-- Seleccione Puerto--"]+\App\Puerto::lists('nombre','id');
             $view->with(compact('puertos'));
         });
 

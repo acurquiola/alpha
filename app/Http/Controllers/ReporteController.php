@@ -85,58 +85,30 @@ class ReporteController extends Controller {
     }
 
     public function getReporteTraficoAereo(Request $request){
-        $diaDesde    =$request->get('diaDesde', \Carbon\Carbon::now()->day);
-        $mesDesde    =$request->get('mesDesde', \Carbon\Carbon::now()->month);
-        $annoDesde   =$request->get('annoDesde',  \Carbon\Carbon::now()->year);
-        $diaHasta    =$request->get('diaHasta', \Carbon\Carbon::now()->day);
-        $mesHasta    =$request->get('mesHasta', \Carbon\Carbon::now()->month);
-        $annoHasta   =$request->get('annoHasta',  \Carbon\Carbon::now()->year);
-        $destino     =$request->get('destino', 0);
-        $procedencia =$request->get('procedencia', 0);
-        $cliente     =$request->get('cliente', 0);
-        $aeropuerto  =session('aeropuerto');
-        if($request->get('cliente') == ''){
-            $clientes     = \App\Cliente::where('tipo', 'Mixto')->OrWhere('tipo', 'Aeronautico')->get();
+        $diaDesde        =$request->get('diaDesde', \Carbon\Carbon::now()->day);
+        $mesDesde        =$request->get('mesDesde', \Carbon\Carbon::now()->month);
+        $annoDesde       =$request->get('annoDesde',  \Carbon\Carbon::now()->year);
+        $diaHasta        =$request->get('diaHasta', \Carbon\Carbon::now()->day);
+        $mesHasta        =$request->get('mesHasta', \Carbon\Carbon::now()->month);
+        $annoHasta       =$request->get('annoHasta',  \Carbon\Carbon::now()->year);
+        $destino         =$request->get('destino', 0);
+        $procedencia     =$request->get('procedencia', 0);
+        $cliente         =$request->get('cliente_id', 0);
+        $aeropuerto      =session('aeropuerto');
+
+        if($cliente == 0){
+            $clientes   = \App\Cliente::where('tipo', 'Mixto')
+                                        ->OrWhere('tipo', 'Aeronáutico')
+                                        ->get();
         }else{
-            $cliente_id = $request->get('cliente');
-            $clientes = \App\Cliente::find($cliente_id);
+            $cliente_id = $cliente;
+            $clientes   = \App\Cliente::where('id', $cliente_id)->get();
         }
+
         $datosCliente =[];
 
-        foreach ($clientes as $cliente){
+        foreach ($clientes as $index=>$cliente){
             
-            $datosCliente[$cliente->nombre]=[
-                'desAdulNac'      => 0,
-                'desInfNac'       => 0,
-                'desTercNac'      => 0,
-
-                'EmbAdulNac'      => 0,
-                'EmbInfNac'       => 0,
-                'EmbTercNac'      => 0,
-                'TranAdulNac'     => 0,
-                'TranInfNac'      => 0,
-                'TranTercNac'     => 0,
-                'cargaEmbNac'     => 0,
-                'cargaDesNac'     => 0,
-                'aeroAterrizaNac' => 0,
-                'aeroDespegueNac' => 0,
-
-                'desAdulInt'      => 0,
-                'desInfInt'       => 0,
-                'desTercInt'      => 0,
-
-                'EmbAdulInt'      => 0,
-                'EmbInfInt'       => 0,
-                'EmbTercInt'      => 0,
-                'TranAdulInt'     => 0,
-                'TranInfInt'      => 0,
-                'TranTercInt'     => 0,
-                'cargaEmbInt'     => 0,
-                'cargaDesInt'     => 0,
-                'aeroAterrizaInt' => 0,
-                'aeroDespegueInt' => 0,
-            ];
-
             $aterrizajes = \App\Aterrizaje::whereBetween('fecha', array($annoDesde.'-'.$mesDesde.'-'.$diaDesde,  $annoHasta.'-'.$mesHasta.'-'.$diaHasta))
                                         ->where('cliente_id', $cliente->id)
                                         ->where('aeropuerto_id', session('aeropuerto')->id)
@@ -147,46 +119,84 @@ class ReporteController extends Controller {
                                         ->where('aeropuerto_id', session('aeropuerto')->id)
                                         ->where('puerto_id', ($destino==0)?'>=':'=', $destino)
                                         ->get();
+            if ($aterrizajes->where('nacionalidadVuelo_id', 1)->count() != 0 || $aterrizajes->where('nacionalidadVuelo_id', 2)->count() != 0 || $aterrizajes->where('nacionalidadVuelo_id', 1)->count() != 0 || $aterrizajes->where('nacionalidadVuelo_id', 2)->count()!= 0){
 
-            foreach ($aterrizajes as $aterrizaje) {
-                if($aterrizaje->nacionalidadVuelo_id == 1){
-                    $datosCliente[$cliente->nombre]['desAdulNac'] += $aterrizaje->desembarqueAdultos;
-                    $datosCliente[$cliente->nombre]['desInfNac']  += $aterrizaje->desembarqueInfante;
-                    $datosCliente[$cliente->nombre]['desTercNac'] += $aterrizaje->desembarqueTercera;
-                }else{
-                    $datosCliente[$cliente->nombre]['desAdulInt'] += $aterrizaje->desembarqueAdultos;
-                    $datosCliente[$cliente->nombre]['desInfInt']  += $aterrizaje->desembarqueInfante;
-                    $datosCliente[$cliente->nombre]['desTercInt'] += $aterrizaje->desembarqueTercera;
+                $datosCliente[$cliente->nombre]=[
+                    'desAdulNac'      => 0,
+                    'desInfNac'       => 0,
+                    'desTercNac'      => 0,
+
+                    'EmbAdulNac'      => 0,
+                    'EmbInfNac'       => 0,
+                    'EmbTercNac'      => 0,
+                    'TranAdulNac'     => 0,
+                    'TranInfNac'      => 0,
+                    'TranTercNac'     => 0,
+                    'cargaEmbNac'     => 0,
+                    'cargaDesNac'     => 0,
+                    'aeroAterrizaNac' => 0,
+                    'aeroDespegueNac' => 0,
+
+                    'desAdulInt'      => 0,
+                    'desInfInt'       => 0,
+                    'desTercInt'      => 0,
+
+                    'EmbAdulInt'      => 0,
+                    'EmbInfInt'       => 0,
+                    'EmbTercInt'      => 0,
+                    'TranAdulInt'     => 0,
+                    'TranInfInt'      => 0,
+                    'TranTercInt'     => 0,
+                    'cargaEmbInt'     => 0,
+                    'cargaDesInt'     => 0,
+                    'aeroAterrizaInt' => 0,
+                    'aeroDespegueInt' => 0,
+                ];
+
+                if ($aterrizajes->where('nacionalidadVuelo_id', 1)->count() != 0 || $aterrizajes->where('nacionalidadVuelo_id', 2)->count() != 0){
+                    $datosCliente[$cliente->nombre]['aeroAterrizaNac'] = $aterrizajes->where('nacionalidadVuelo_id', 1)->count();
+                    $datosCliente[$cliente->nombre]['aeroAterrizaInt'] = $aterrizajes->where('nacionalidadVuelo_id', 2)->count();
+                    foreach ($aterrizajes as $aterrizaje) {
+                        if($aterrizaje->nacionalidadVuelo_id == 1){
+                            $datosCliente[$cliente->nombre]['desAdulNac'] += $aterrizaje->desembarqueAdultos;
+                            $datosCliente[$cliente->nombre]['desInfNac']  += $aterrizaje->desembarqueInfante;
+                            $datosCliente[$cliente->nombre]['desTercNac'] += $aterrizaje->desembarqueTercera;
+                        }else{
+                            $datosCliente[$cliente->nombre]['desAdulInt'] += $aterrizaje->desembarqueAdultos;
+                            $datosCliente[$cliente->nombre]['desInfInt']  += $aterrizaje->desembarqueInfante;
+                            $datosCliente[$cliente->nombre]['desTercInt'] += $aterrizaje->desembarqueTercera;
+                        }
+                    }     
+                }
+                if($aterrizajes->where('nacionalidadVuelo_id', 1)->count() != 0 || $aterrizajes->where('nacionalidadVuelo_id', 2)->count()!= 0){
+                    $datosCliente[$cliente->nombre]['aeroDespegueNac'] = $aterrizajes->where('nacionalidadVuelo_id', 1)->count();
+                    $datosCliente[$cliente->nombre]['aeroDespegueInt'] = $aterrizajes->where('nacionalidadVuelo_id', 2)->count();                
+                    foreach ($despegues as $despegue) {
+                        if($despegue->nacionalidadVuelo_id == 1){
+                            $datosCliente[$cliente->nombre]['EmbAdulNac']  += $despegue->embarqueAdultos;
+                            $datosCliente[$cliente->nombre]['EmbInfNac']   += $despegue->embarqueInfantes;
+                            $datosCliente[$cliente->nombre]['EmbTercNac']  += $despegue->embarqueTercera;
+                            $datosCliente[$cliente->nombre]['TranAdulNac'] += $despegue->transitoAdultos;
+                            $datosCliente[$cliente->nombre]['TranInfNac']  += $despegue->transitoInfantes;
+                            $datosCliente[$cliente->nombre]['TranTercNac'] += $despegue->transitoTercera;
+                            $datosCliente[$cliente->nombre]['cargaEmbNac'] += $despegue->peso_embarcado;
+                            $datosCliente[$cliente->nombre]['cargaDesNac'] += $despegue->peso_desembarcado;
+                        }else{
+                            $datosCliente[$cliente->nombre]['EmbAdulInt']  += $despegue->embarqueAdultos;
+                            $datosCliente[$cliente->nombre]['EmbInfInt']   += $despegue->embarqueInfantes;
+                            $datosCliente[$cliente->nombre]['EmbTercInt']  += $despegue->embarqueTercera;
+                            $datosCliente[$cliente->nombre]['TranAdulInt'] += $despegue->transitoAdultos;
+                            $datosCliente[$cliente->nombre]['TranInfInt']  += $despegue->transitoInfantes;
+                            $datosCliente[$cliente->nombre]['TranTercInt'] += $despegue->transitoTercera;
+                            $datosCliente[$cliente->nombre]['cargaEmbInt'] += $despegue->peso_embarcado;
+                            $datosCliente[$cliente->nombre]['cargaDesInt'] += $despegue->peso_desembarcado;
+                        }
+                    }
                 }
             }
-            foreach ($despegues as $despegue) {
-                if($despegue->nacionalidadVuelo_id == 1){
-                    $datosCliente[$cliente->nombre]['EmbAdulNac']  += $despegue->embarqueAdultos;
-                    $datosCliente[$cliente->nombre]['EmbInfNac']   += $despegue->embarqueInfantes;
-                    $datosCliente[$cliente->nombre]['EmbTercNac']  += $despegue->embarqueTercera;
-                    $datosCliente[$cliente->nombre]['TranAdulNac'] += $despegue->transitoAdultos;
-                    $datosCliente[$cliente->nombre]['TranInfNac']  += $despegue->transitoInfantes;
-                    $datosCliente[$cliente->nombre]['TranTercNac'] += $despegue->transitoTercera;
-                    $datosCliente[$cliente->nombre]['cargaEmbNac'] += $despegue->peso_embarcado;
-                    $datosCliente[$cliente->nombre]['cargaDesNac'] += $despegue->peso_desembarcado;
-                }else{
-                    $datosCliente[$cliente->nombre]['EmbAdulInt']  += $despegue->embarqueAdultos;
-                    $datosCliente[$cliente->nombre]['EmbInfInt']   += $despegue->embarqueInfantes;
-                    $datosCliente[$cliente->nombre]['EmbTercInt']  += $despegue->embarqueTercera;
-                    $datosCliente[$cliente->nombre]['TranAdulInt'] += $despegue->transitoAdultos;
-                    $datosCliente[$cliente->nombre]['TranInfInt']  += $despegue->transitoInfantes;
-                    $datosCliente[$cliente->nombre]['TranTercInt'] += $despegue->transitoTercera;
-                    $datosCliente[$cliente->nombre]['cargaEmbInt'] += $despegue->peso_embarcado;
-                    $datosCliente[$cliente->nombre]['cargaDesInt'] += $despegue->peso_desembarcado;
-                }
-            }
-            $datosCliente[$cliente->nombre]['aeroAterrizaNac'] = $aterrizajes->where('nacionalidadVuelo_id', 1)->count();
-            $datosCliente[$cliente->nombre]['aeroAterrizaInt'] = $aterrizajes->where('nacionalidadVuelo_id', 2)->count();
-            $datosCliente[$cliente->nombre]['aeroDespegueNac'] = $aterrizajes->where('nacionalidadVuelo_id', 1)->count();
-            $datosCliente[$cliente->nombre]['aeroDespegueInt'] = $aterrizajes->where('nacionalidadVuelo_id', 2)->count();
 
         }
-        return view('reportes.reporteTraficoAereo', compact('datosCliente', 'diaDesde', 'mesDesde', 'annoDesde', 'diaHasta', 'mesHasta', 'annoHasta'));
+        return view('reportes.reporteTraficoAereo', compact('datosCliente', 'cliente',  'aeropuerto','procedencia', 'destino', 'clientes',  'diaDesde', 'mesDesde', 'annoDesde', 'diaHasta', 'mesHasta', 'annoHasta'));
     }
 
     public function getReporteRelacionIngresoMensual(Request $request){

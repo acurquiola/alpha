@@ -21,7 +21,7 @@
                 {!! Form::open(["url" => action('ReporteController@getReporteTraficoAereo'), "method" => "GET", "class"=>"form-inline"]) !!}
                  <label><strong>DESDE: </strong></label>
 				<div class="form-group">
-					<input type="text" class="form-control" name="diaDesde" placeholder="Día">
+					<input type="text" class="form-control" name="diaDesde" value="{{$diaDesde}}" placeholder="Día">
                 </div>
                 <div class="form-group">
                       {!! Form::select('mesDesde', $meses, $mesDesde, ["class"=> "form-control"]) !!}
@@ -31,7 +31,7 @@
                 </div>
                 <label style="margin-left: 20px"><strong>HASTA: </strong></label>
 				<div class="form-group">
-					<input type="text" class="form-control" name="diaHasta" placeholder="Día">
+					<input type="text" class="form-control" name="diaHasta" value="{{$diaHasta}}" placeholder="Día">
                 </div>
                 <div class="form-group">
                       {!! Form::select('mesHasta', $meses, $mesHasta, ["class"=> "form-control"]) !!}
@@ -39,36 +39,22 @@
                 <div class="form-group">
                       {!! Form::select('annoHasta', $annos, $annoHasta, ["class"=> "form-control"]) !!}
                 </div>
-                <div class="pull-right">
-	                <button type="submit" class="btn btn-default">Buscar</button>
-	                <a class="btn btn-default" href="{{action('ReporteController@getReporteTraficoAereo')}}">Reset</a>
-                </div>
+                <br>
                 <div class="form-group" style="margin-top:20px">
                 <label style="width:100px"><strong>PROCEDENCIA: </strong></label>
-                    <select name="procedencia" id="procedencia" class="form-control  select-flt" >
-                        <option value="">TODOS</option>
-                            @foreach ($puertos as $index=>$puerto)
-                            <option value="{{$index}}">{{$puerto}}</option>
-                        @endforeach
-                    </select>               
+                	{!! Form::select('procedencia', $puertos, $procedencia, ["class"=> "form-control select-flt"]) !!}               
                 </div><br>
                 <div class="form-group" style="margin-top:20px">
                 <label style="width:100px"><strong>DESTINO: </strong></label>
-                    <select name="destino" id="destino" class="form-control  select-flt" >
-                        <option value="">TODOS</option>
-                            @foreach ($puertos as $index=>$puerto)
-                            <option value="{{$index}}">{{$puerto}}</option>
-                        @endforeach
-                    </select>               
+                	{!! Form::select('destino', $puertos, $destino, ["class"=> "form-control select-flt"]) !!}              
                 </div><br>
                 <div class="form-group" style="margin-top:20px">
-                <label style="width:100px"><strong>CLIENTE: </strong></label>
-                    <select name="cliente" id="cliente" class="form-control select-flt" >
-                        <option value="">TODOS</option>
-                            @foreach ($clientes as $index=>$cliente)
-                            <option value="{{$index}}">{{$cliente}}</option>
-                        @endforeach
-                    </select>               
+                <label style="width:100px"><strong>CLIENTE: </strong></label>                      
+                	{!! Form::select('cliente_id', $clientes, $cliente, ["class"=> "form-control select-flt"]) !!}
+                </div>
+                <div class="pull-right">
+	                <button type="submit" class="btn btn-default">Buscar</button>
+	                <a class="btn btn-default" href="{{action('ReporteController@getReporteTraficoAereo')}}">Reset</a>
                 </div>
                 {!! Form::close() !!}
             </div>
@@ -208,12 +194,33 @@
 @section('script')
 <script>
 	$(function(){
+
 		$('#export-btn').click(function(e){
-		    var table=$('table').clone();
-		    $(table).find('th').css({'border-bottom':'1px solid black','border-right':'1px solid black','border-left':'1px solid black','border-top':'1px solid black', 'font-weight': 'bold', 'text-align':"center"})
-		    var tableHtml= $(table)[0].outerHTML;
-		    $('[name=table]').val(tableHtml);
-		    $('#export-form').submit();
+			var table=$('table').clone();
+			$(table).find('td, th').filter(function() {
+				return $(this).css('display') == 'none';
+			}).remove();
+			$(table).find('tr').filter(function() {
+				return $(this).find('td,th').length == 0;
+			}).remove();
+			$(table).prepend('<thead>\
+								<tr>\
+									<th colspan="28" style="vertical-align: middle; margin-top:20px" align="center" class="text-center">TRÁFICO AEREO POR AEROLÍNEA\
+										</br>\
+										AEROPUERTO: {{$aeropuerto->nombre}}\
+										</br>\
+										CLIENTE: {{($clientes)?"TODOS":$clientes->nombre}}\
+									</th>\
+								</tr>\
+							</thead>')
+			$(table).find('thead, th').css({'border-top':'1px solid black', 'font-weight': 'bold', 'text-align':"center", 'font-size': '7px'})
+			$(table).find('th').css({'border-bottom':'1px solid black', 'font-weight': 'bold', 'text-align':"center", 'font-size': '7px'})
+			$(table).find('td').css({'font-size': '6px'})
+			$(table).find('tr:nth-child(even)').css({'background-color': '#E2E2E2'})
+			$(table).find('tr:last td').css({'border-bottom':'1px solid black','border-top':'1px solid black', 'font-weight': 'bold'})
+			var tableHtml= $(table)[0].outerHTML;
+			$('[name=table]').val(tableHtml);
+			$('#export-form').submit();
 		});
 
     $('.select-flt').chosen({width:'400px'});
