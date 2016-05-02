@@ -102,10 +102,11 @@ class ReporteController extends Controller {
         if($cliente == 0){
             $clientes   = \App\Cliente::where('tipo', 'Mixto')
                                         ->OrWhere('tipo', 'Aeronáutico')
+                                        ->orderBy('nombre')
                                         ->get();
         }else{
             $cliente_id = $cliente;
-            $clientes   = \App\Cliente::where('id', $cliente_id)->get();
+            $clientes   = \App\Cliente::where('id', $cliente_id)->orderBy('nombre')->get();
         }
 
         $datosCliente =[];
