@@ -107,7 +107,7 @@
                                 <tbody>
                                     @foreach($dosaFactura as $index => $df)
                                     <tr align="center">
-                                        <td class="text-center" align="center" colspan="2">{{$df['cliente']}}</td> 
+                                        <td class="text-left" align="left" colspan="2">{{$df['cliente']}}</td> 
 
                                         <td class="text-center" align="center">{{$df['nCobro']}}</td>                         
                                         <td class="text-center" align="center">{{$df['reciboCaja']}}</td>                         
@@ -228,7 +228,7 @@
                                 <tr>\
                                     <th colspan="17" style="vertical-align: middle; margin-top:20px" align="center" class="text-center">RELACIÓN DE FACTURAS AERONÁUTICAS CRÉDITO\
                                         </br>\
-                                        AEROPUERTO: {{$aeropuerto}} | CLIENTE: {{($cliente==0)?"TODOS":$cliente}}\
+                                        AEROPUERTO: {{$aeropuertoNombre}} | CLIENTE: {{($cliente==0)?"TODOS":$cliente}}\
                                     </th>\
                                 </tr>\
                             </thead>')

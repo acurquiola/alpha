@@ -401,6 +401,8 @@
 										CLIENTE: {{($clientes)?"TODOS":$clientes->nombre}}\
 										</br>\
 										PROCEDENCIA: {{$procedenciaNombre}} - DESTINO: {{$destinoNombre}}\
+										</br>\
+										DESDE: {{$diaDesde}}/{{$mesDesde}}/{{$annoDesde}} HASTA: {{$diaHasta}}/{{$mesHasta}}/{{$annoHasta}} </th>\
 									</th>\
 								</tr>\
 							</thead>')

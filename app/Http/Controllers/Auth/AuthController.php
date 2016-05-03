@@ -21,8 +21,6 @@ class AuthController extends Controller {
 
 	use AuthenticatesAndRegistersUsers;
 
-    protected $redirectTo    ="principal";
-    protected $redirectToSCV ="resources/views/dashboards/principalSCV.blade";
     protected $loginPath     ="/";
 
 	/**
@@ -65,7 +63,6 @@ class AuthController extends Controller {
         $aeropuerto =\App\Aeropuerto::find($request->get('aeropuerto_id'));
         $user       =\App\Usuario::where('userName', $userName)->first();
         $rol        = $user->roles->first();
-        
         if($user->estado == 1){
             $ingreso=0;
             foreach ($user->aeropuertos as $autorizado) {
@@ -77,11 +74,11 @@ class AuthController extends Controller {
                     { 
                         session(["aeropuerto"=> $aeropuerto]);
                         $ingreso=1;
-                        if ($rol->name == 'Admin' || $rol->name == 'AdministradorSCV' || $rol->name == 'OperadorSCV'){
+                        if ($rol->id == 1 || $rol->id == 2 || $rol->name == 5){
                             return redirect()->action('DashboardController@indexSCV');
-                        }elseif ($rol->name == 'AdminRecaudación' || $rol->name == 'Operador Recaudacion'){
+                        }elseif ($rol->id == 3 || $rol->name == 7){
                             return redirect()->action('DashboardController@indexRecaudacion');
-                        }elseif ($rol->name == 'direccion'){
+                        }elseif ($rol->id == 8){
                             return redirect()->action('DashboardController@indexDireccion');
                         }else{
                             return redirect()->action('DashboardController@indexOtros');

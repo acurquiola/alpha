@@ -214,7 +214,7 @@
                 	</a>
                 	<ul class="treeview-menu">
                 		@permission('menu.reporteSCV')
-						<li><a href="#"><i class="fa fa-folder-open"></i><span> Control de Vuelos</span><i class="fa fa-angle-left pull-right"></i></a>
+						<li {{ (\Request::is('reporte/reporterDES900*') || \Request::is('reporte/reporterCuadreCaja*') || \Request::is('reporte/reporteTraficoAereo*'))?"class=active":"" }}><a href="#"><i class="fa fa-folder-open"></i><span> Control de Vuelos</span><i class="fa fa-angle-left pull-right"></i></a>
 						<ul class="treeview-menu">
 							<li {{ (\Request::is('reporte/reporterDES900*'))?"class=active":"" }}><a href="{{ URL::to('reporte/reporterDES900') }}"><i class="fa fa-file-o"></i> DES 900</a></li>
 							<li {{ (\Request::is('reporte/reporterCuadreCaja*'))?"class=active":"" }}><a href="{{ URL::to('reporte/reporterCuadreCaja') }}"><i class="fa fa-file-o"></i> Cuadre de Caja</a></li>
@@ -222,17 +222,17 @@
 						</ul>
                 		@endpermission
                 		@permission('menu.reporteRecaudacion')
-						<li><a href="#"><i class="fa fa-folder-open"></i><span> Facturación</span><i class="fa fa-angle-left pull-right"></i></a>
+						<li {{ (\Request::is('reporte/reporteListadoFacturas*') || \Request::is('reporte/reporteListadoFacturaCliente*'))?"class=active":"" }}><a href="#"><i class="fa fa-folder-open"></i><span> Facturación</span><i class="fa fa-angle-left pull-right"></i></a>
 						<ul class="treeview-menu">
                        		<li {{ (\Request::is('reporte/reporteListadoFacturas*'))?"class=active":"" }}><a href="{{ URL::to('reporte/reporteListadoFacturas') }}"><i class="fa fa-file-o"></i> Listado de Facturas Emitidas</a></li>
 	                    	<li {{ (\Request::is('reporte/reporteListadoFacturaCliente*'))?"class=active":"" }}><a href="{{ URL::to('reporte/reporteListadoFacturaCliente') }}"><i class="fa fa-file-o"></i> Listado de Facturas Emitidas por Cliente</a></li>
 						</ul>  
-						<li><a href="#"><i class="fa fa-folder-open"></i><span> Cobranza</span><i class="fa fa-angle-left pull-right"></i></a>
+						<li {{ (\Request::is('reporte/reporteRelacionCobranza*') || \Request::is('reporte/reporteRelacionFacturasAeronauticasCredito*'))?"class=active":"" }}><a href="#"><i class="fa fa-folder-open"></i><span> Cobranza</span><i class="fa fa-angle-left pull-right"></i></a>
 						<ul class="treeview-menu">
 	                   		<li {{ (\Request::is('reporte/reporteRelacionCobranza*'))?"class=active":"" }}><a href="{{ URL::to('reporte/reporteRelacionCobranza') }}"><i class="fa fa-file-o"></i> Relación de Cobranza</a></li>        	
   							<li {{ (\Request::is('reporte/reporteRelacionFacturasAeronauticasCredito*'))?"class=active":"" }}><a href="{{ URL::to('reporte/reporteRelacionFacturasAeronauticasCredito') }}"><i class="fa fa-file-o"></i> Relación de Facturas Aeronáuticas Crédito</a></li>
 						</ul> 
-						<li><a href="#"><i class="fa fa-folder-open"></i><span> Movimientos</span><i class="fa fa-angle-left pull-right"></i></a>
+						<li {{ (\Request::is('reporte/reporteContratos*') || \Request::is('reporte/reporteRelacionIngresoMensual*') || \Request::is('reporte/reporteRelacionMensualDeIngresosRecaudacionPendiente*') || \Request::is('reporte/reporteRelacionMensualDeFacturacionCobradosYPorCobrar*')  || \Request::is('reporte/reporteRelacionEstacionamientoDiario*') || \Request::is('reporte/reporteRelacionMetaRecaudacionMensual*'))?"class=active":"" }}><a href="#"><i class="fa fa-folder-open"></i><span> Movimientos</span><i class="fa fa-angle-left pull-right"></i></a>
 						<ul class="treeview-menu">
 							<li {{ (\Request::is('reporte/reporteContratos*'))?"class=active":"" }}><a href="{{ URL::to('reporte/reporteContratos') }}"><i class="fa fa-file-o"></i> Relación de Contratos Registrados</a></li>        		
 							<li {{ (\Request::is('reporte/reporteRelacionIngresoMensual*'))?"class=active":"" }}><a href="{{ URL::to('reporte/reporteRelacionIngresoMensual') }}"><i class="fa fa-file-o"></i> Relación de Ingreso Mensual</a></li>        		
@@ -241,7 +241,7 @@
 							<li {{ (\Request::is('reporte/reporteRelacionEstacionamientoDiario*'))?"class=active":"" }}><a href="{{ URL::to('reporte/reporteRelacionEstacionamientoDiario') }}"><i class="fa fa-file-o"></i> Relación de Estacionamiento Diario</a></li>        		
 							<li {{ (\Request::is('reporte/reporteRelacionMetaRecaudacionMensual*'))?"class=active":"" }}><a href="{{ URL::to('reporte/reporteRelacionMetaRecaudacionMensual') }}"><i class="fa fa-file-o"></i> Relación de Meta y Recaudación Mensual</a></li>        		
 						</ul>  
-						<li><a href="#"><i class="fa fa-folder-open"></i><span> Cierre Mensual</span><i class="fa fa-angle-left pull-right"></i></a>
+						<li {{ (\Request::is('reporte/reporteModuloMetaMensual*'))?"class=active":"" }}><a href="#"><i class="fa fa-folder-open"></i><span> Cierre Mensual</span><i class="fa fa-angle-left pull-right"></i></a>
 						<ul class="treeview-menu">
 							<li {{ (\Request::is('reporte/reporteModuloMetaMensual*'))?"class=active":"" }}><a href="{{ URL::to('reporte/reporteModuloMetaMensual') }}"><i class="fa fa-file-o"></i> Libro de ventas</a></li>        		      		
 						</ul>   
