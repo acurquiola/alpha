@@ -326,7 +326,7 @@ class DashboardController extends Controller {
 
 
 		}
-		return view('dashboards.direccion.index', compact('hoy', 'aterrizajesComerciales', 'despeguesComerciales', 'aterrizajesComercialPrivado','despeguesComercialPrivado', 'aterrizajesPrivados', 'despeguesPrivados', 'otrosDespegues' ,'otrosAterrizajes', 'desembarqueComercial', 'desembarquePrivado', 'desembarqueComercialPrivado', 'desembarqueOtrosVuelos','embarqueComercial', 'embarquePrivado', 'embarqueComercialPrivado', 'embarqueOtrosVuelos', 'transitoTotal', 'embarqueTotal', 'desembarqueTotal'));
+		return view('dashboards.direccion.partials.index', compact('hoy', 'aterrizajesComerciales', 'despeguesComerciales', 'aterrizajesComercialPrivado','despeguesComercialPrivado', 'aterrizajesPrivados', 'despeguesPrivados', 'otrosDespegues' ,'otrosAterrizajes', 'desembarqueComercial', 'desembarquePrivado', 'desembarqueComercialPrivado', 'desembarqueOtrosVuelos','embarqueComercial', 'embarquePrivado', 'embarqueComercialPrivado', 'embarqueOtrosVuelos', 'transitoTotal', 'embarqueTotal', 'desembarqueTotal'));
 	}
 	public function indexOtros()
 	{
