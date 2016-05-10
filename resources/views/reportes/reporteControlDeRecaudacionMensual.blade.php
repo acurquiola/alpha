@@ -3,7 +3,7 @@
 @section('content')
 <ol class="breadcrumb">
   <li><a href="{{url('principal')}}">Inicio</a></li>
-  <li><a class="active">Desglose de Ingresos Recaudados por Mes</a></li>
+  <li><a class="active">Control de Recaudación Mensual</a></li>
 </ol>
     <div class="row" id="box-wrapper">
         <div class="col-md-12">
@@ -51,9 +51,9 @@
                             Fecha Recaudación
                          </th>
                          @foreach($modulos as $modulo)
-                          <th expandible data-colspan="{{$modulo->conceptos->count()}}" class="text-center" style="vertical-align: middle" >
-                             {{$modulo->nombre}}
-                          </th>
+                              <th expandible data-colspan="{{$modulo->conceptos->count()}}" class="text-center" style="vertical-align: middle" >
+                                 {{$modulo->nombre}}
+                              </th>
                          @endforeach
                          </tr>
                           <tr >
@@ -81,19 +81,6 @@
                         @endforeach
                         </tr>
                         @endforeach
-
-                        <tr class="bg-gray">
-                        <td>Totales</td>
-                        @foreach($montosTotales as $moduloNombre => $conceptos)
-                            @foreach($conceptos as $concepto => $monto)
-                                @if($concepto=="total")
-                                    <td style="text-align:right" main data-parent="{{$moduloNombre}}">{{$monto}}</td>
-                                @else
-                                    <td  details data-parent="{{$moduloNombre}}" style="display:none;text-align:right">{{$monto}}</td>
-                                @endif
-                            @endforeach
-                        @endforeach
-                        </tr>
 
 
 
@@ -133,38 +120,31 @@ $('#export-btn').click(function(e){
     $('#export-form').submit();
 })
 
-
-$('th[expandible]').click(function(){
     var moduloNombre=$(this).text().trim();
-    var thfecha=$('#fecha-col');
-    if(!$(this).hasClass('activo')){
-        $(this).attr('rowspan',1);
-        $(this).addClass('activo');
-        $(this).attr('colspan', $(this).data('colspan'));
-        $(thfecha).attr('rowspan', 2);
-        $('td[main][data-parent="'+moduloNombre+'"]').hide();
-        $('td[details][data-parent="'+moduloNombre+'"]').show();
-        $('th[details][data-parent="'+moduloNombre+'"]').show();
-        $('th[expandible]:not(".activo")').attr('rowspan',2)
+    if(moduloNombre == 'DOSAS'){
+        var thfecha=$('#fecha-col');
+        if(!$(this).hasClass('activo')){
+            $(this).attr('rowspan',1);
+            $(this).addClass('activo');
+            $(this).attr('colspan', $(this).data('colspan'));
+            $(thfecha).attr('rowspan', 2);
+            $('td[main][data-parent="'+moduloNombre+'"]').hide();
+            $('td[details][data-parent="'+moduloNombre+'"]').show();
+            $('th[details][data-parent="'+moduloNombre+'"]').show();
+            $('th[expandible]:not(".activo")').attr('rowspan',2)
 
-    }else{
-            $(this).removeClass('activo');
-            $(this).attr('colspan', 1);
-            $('td[details][data-parent="'+moduloNombre+'"]').hide();
-            $('th[details][data-parent="'+moduloNombre+'"]').hide();
-            $('td[main][data-parent="'+moduloNombre+'"]').show();
-            if($('th[expandible].activo').length==0){
-                $(thfecha).attr('rowspan', 1);
-                $('th[expandible]').attr('rowspan',1)
-            }
+        }else{
+                $(this).removeClass('activo');
+                $(this).attr('colspan', 1);
+                $('td[details][data-parent="'+moduloNombre+'"]').hide();
+                $('th[details][data-parent="'+moduloNombre+'"]').hide();
+                $('td[main][data-parent="'+moduloNombre+'"]').show();
+                if($('th[expandible].activo').length==0){
+                    $(thfecha).attr('rowspan', 1);
+                    $('th[expandible]').attr('rowspan',1)
+                }
+        }
     }
-
-
-
-
-
-})
-
 
 
 })

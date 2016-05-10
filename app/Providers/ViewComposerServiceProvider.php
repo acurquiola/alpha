@@ -190,7 +190,7 @@ class ViewComposerServiceProvider extends ServiceProvider {
             'reportes.reporteListadoFacturasCliente',
             'reportes.reporteRelacionIngresosAeronauticosContado',
             'reportes.reporteRelacionFacturasAeronauticasCredito',
-            'reportes.reporteDesgloseIngresos',
+            'reportes.reporteControlDeRecaudacionMensual',
             'reportes.reporteTraficoAereo'], function($view){
             $aeropuertos = \App\Aeropuerto::lists('nombre', 'id');
             $aeropuertos[0]="Todos";
@@ -214,7 +214,7 @@ class ViewComposerServiceProvider extends ServiceProvider {
             'reportes.reporteRelacionMetaRecaudacionMensual',
             'reportes.reporteRelacionFacturasAeronauticasCredito',
             'reportes.reporteRelacionMensualDeIngresosRecaudacionPendiente',
-            'reportes.reporteDesgloseIngresos',
+            'reportes.reporteControlDeRecaudacionMensual',
             'reportes.reporteTraficoAereo'], function($view){
             $meses=[
                 "01"=>"ENERO",
