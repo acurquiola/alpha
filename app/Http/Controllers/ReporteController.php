@@ -14,7 +14,7 @@ class ReporteController extends Controller {
     }
 
     //No sé si es el nombre
-	public function getReporteMensual(Request $request){
+    public function getReporteMensual(Request $request){
         $mes=$request->get('mes', \Carbon\Carbon::now()->month);
         $anno=$request->get('anno',  \Carbon\Carbon::now()->year);
         $aeropuerto=$request->get('aeropuerto',  0);
@@ -62,14 +62,80 @@ class ReporteController extends Controller {
         return view('reportes.reporteDiario', compact('modulos', 'montos', 'montosTotales', 'mes', 'anno', 'aeropuerto'));
     }
 
+
+    //Reporte de Desglose de Ingresos Recaudados por Mes
+	public function getReporteDesgloseIngresos(Request $request){
+        $mes           =$request->get('mes', \Carbon\Carbon::now()->month);
+        $anno          =$request->get('anno',  \Carbon\Carbon::now()->year);
+        $aeropuerto    =$request->get('aeropuerto',  0);
+        $modulos       =\App\Modulo::where('aeropuerto_id', session('aeropuerto')->id )->get();
+        $montos        =[];
+        $montosTotales =[];
+        $meses=[
+            1  =>"ENERO",
+            2  =>"FEBRERO",
+            3  =>"MARZO",
+            4  =>"ABRIL",
+            5  =>"MAYO",
+            6  =>"JUNIO",
+            7  =>"JULIO",
+            8  =>"AGOSTO",
+            9  =>"SEPTIEMBRE",
+            10 =>"OCTUBRE",
+            11 =>"NOVIEMBRE",
+            12 =>"DICIEMBRE"
+        ];
+        for($i=1;$i<=12; $i++){
+            $diaMes=\Carbon\Carbon::create($anno, $i,1);
+            $montos[$meses[$diaMes->month]]=[];
+            foreach($modulos as $modulo){
+                if(!isset($montos[$meses[$diaMes->month]][$modulo->nombre]))
+                    $montos[$meses[$diaMes->month]][$modulo->nombre]=[];
+                $montos[$meses[$diaMes->month]][$modulo->nombre]["total"]=\DB::table('facturas')
+                    ->join('facturadetalles','facturas.nFactura' , '=', 'facturadetalles.factura_id')
+                    ->join('conceptos','conceptos.id' , '=', 'facturadetalles.concepto_id')
+                    ->where('conceptos.modulo_id', "=",$modulo->id)
+                    ->where('facturas.fecha','>=' ,$diaMes->startOfMonth()->toDateTimeString())
+                    ->where('facturas.fecha','<=' ,$diaMes->endOfMonth()->toDateTimeString())
+                    ->where('facturas.aeropuerto_id',($aeropuerto==0)?">":"=" ,$aeropuerto)
+                    ->where('facturas.deleted_at', null)
+                    ->sum('facturas.total');
+                foreach($modulo->conceptos as $concepto){
+                    $montos[$meses[$diaMes->month]][$modulo->nombre][$concepto->nompre]=\DB::table('facturadetalles')
+                        ->join('facturas','facturas.nFactura' , '=', 'facturadetalles.factura_id')
+                        ->join('conceptos','conceptos.id' , '=', 'facturadetalles.concepto_id')
+                        ->where('conceptos.modulo_id', "=",$modulo->id)
+                        ->where('facturadetalles.concepto_id', $concepto->id)
+                        ->where('facturas.fecha','>=' ,$diaMes->startOfMonth()->toDateTimeString())
+                        ->where('facturas.fecha','<=' ,$diaMes->endOfMonth()->toDateTimeString())
+                        ->where('facturas.aeropuerto_id',($aeropuerto==0)?">":"=" ,$aeropuerto)
+                        ->where('facturas.deleted_at', null)
+                        ->sum('facturadetalles.montoDes');
+                };
+                if(!isset($montosTotales[$modulo->nombre]))
+                    $montosTotales[$modulo->nombre]=[];
+                if(!isset($montosTotales[$modulo->nombre]["total"]))
+                    $montosTotales[$modulo->nombre]["total"]=0;
+                $montosTotales[$modulo->nombre]["total"]+=($montos[$meses[$diaMes->month]][$modulo->nombre]["total"]);
+                foreach($modulo->conceptos as $concepto){
+                    if(!isset($montosTotales[$modulo->nombre][$concepto->nompre]))
+                        $montosTotales[$modulo->nombre][$concepto->nompre]=0;
+                    $montosTotales[$modulo->nombre][$concepto->nompre]+=($montos[$meses[$diaMes->month]][$modulo->nombre][$concepto->nompre]);
+                }
+            }
+                dd($montos);
+        }
+        return view('reportes.reporteDesgloseIngresos', compact('modulos', 'montos', 'montosTotales', 'anno', 'aeropuerto'));
+    }
+
     public function getReporteModuloMetaMensual(Request $request){
-        $mes=$request->get('mes', \Carbon\Carbon::now()->month);
-        $anno=$request->get('anno',  \Carbon\Carbon::now()->year);
-        $aeropuerto=$request->get('aeropuerto',  0);
-        $primerDiaMes=\Carbon\Carbon::create($anno, $mes,1)->startOfMonth();
-        $ultimoDiaMes=\Carbon\Carbon::create($anno, $mes,1)->endOfMonth();
-        $modulos=\App\Modulo::where('aeropuerto_id', session('aeropuerto')->id )->get();
-        $montos=[];
+        $mes          =$request->get('mes', \Carbon\Carbon::now()->month);
+        $anno         =$request->get('anno',  \Carbon\Carbon::now()->year);
+        $aeropuerto   =$request->get('aeropuerto',  0);
+        $primerDiaMes =\Carbon\Carbon::create($anno, $mes,1)->startOfMonth();
+        $ultimoDiaMes =\Carbon\Carbon::create($anno, $mes,1)->endOfMonth();
+        $modulos      =\App\Modulo::where('aeropuerto_id', session('aeropuerto')->id )->get();
+        $montos       =[];
         foreach($modulos as $modulo){
             $montos[$modulo->nombre]=\DB::table('facturas')
                 ->join('facturadetalles','facturas.nFactura' , '=', 'facturadetalles.factura_id')
@@ -84,6 +150,7 @@ class ReporteController extends Controller {
         return view('reportes.reporteModuloMetaMensual', compact('montos', 'mes', 'anno', 'aeropuerto'));
     }
 
+    //Reporte de Tráfico Aéreo (LISTO).
     public function getReporteTraficoAereo(Request $request){
         $diaDesde        =$request->get('diaDesde', \Carbon\Carbon::now()->day);
         $mesDesde        =$request->get('mesDesde', \Carbon\Carbon::now()->month);
