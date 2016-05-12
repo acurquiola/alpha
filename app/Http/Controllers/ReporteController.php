@@ -183,7 +183,7 @@ class ReporteController extends Controller {
                                         ->where('aeropuerto_id', session('aeropuerto')->id)
                                         ->where('puerto_id', ($destino==0)?'>=':'=', $destino)
                                         ->get();
-            if ($aterrizajes->where('nacionalidadVuelo_id', 1)->count() != 0 || $aterrizajes->where('nacionalidadVuelo_id', 2)->count() != 0 || $aterrizajes->where('nacionalidadVuelo_id', 1)->count() != 0 || $aterrizajes->where('nacionalidadVuelo_id', 2)->count()!= 0){
+            if ($aterrizajes->where('nacionalidadVuelo_id', 1)->count() != 0 || $aterrizajes->where('nacionalidadVuelo_id', 2)->count() != 0 || $despegues->where('nacionalidadVuelo_id', 1)->count() != 0 || $despegues->where('nacionalidadVuelo_id', 2)->count()!= 0){
 
                 $datosCliente[$cliente->nombre]=[
                     'desAdulNac'      => 0,
@@ -232,11 +232,10 @@ class ReporteController extends Controller {
                         }
                     }     
                 }
-                if($aterrizajes->where('nacionalidadVuelo_id', 1)->count() != 0 || $aterrizajes->where('nacionalidadVuelo_id', 2)->count()!= 0){
-                    $datosCliente[$cliente->nombre]['aeroDespegueNac'] = $aterrizajes->where('nacionalidadVuelo_id', 1)->count();
-                    $datosCliente[$cliente->nombre]['aeroDespegueInt'] = $aterrizajes->where('nacionalidadVuelo_id', 2)->count();                
+                if($despegues->where('nacionalidadVuelo_id', 1)->count() != 0 || $despegues->where('nacionalidadVuelo_id', 2)->count()!= 0){
+                    $datosCliente[$cliente->nombre]['aeroDespegueNac'] = $despegues->where('nacionalidadVuelo_id', 1)->count();
+                    $datosCliente[$cliente->nombre]['aeroDespegueInt'] = $despegues->where('nacionalidadVuelo_id', 2)->count();                
                     foreach ($despegues as $despegue) {
-                        dd($despegue);
                         if($despegue->nacionalidadVuelo_id == 1){
                             $datosCliente[$cliente->nombre]['EmbAdulNac']  += $despegue->embarqueAdultos;
                             $datosCliente[$cliente->nombre]['EmbInfNac']   += $despegue->embarqueInfantes;
