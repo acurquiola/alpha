@@ -51,9 +51,15 @@
                             Fecha Recaudación
                          </th>
                          @foreach($modulos as $modulo)
-                              <th expandible data-colspan="{{$modulo->conceptos->count()}}" class="text-center" style="vertical-align: middle" >
+                            @if($modulo->nombre=="DOSAS")
+                              <th expandible data-colspan="{{$modulo->conceptos->count()}}" class="text-center activo" style="vertical-align: middle" >
                                  {{$modulo->nombre}}
                               </th>
+                            @else
+                                <th expandible data-colspan="{{$modulo->conceptos->count()}}" class="text-center" style="vertical-align: middle" >
+                                   {{$modulo->nombre}}
+                                </th>
+                              @endif
                          @endforeach
                          </tr>
                           <tr >
@@ -73,14 +79,26 @@
                         @foreach($montoModulos as $moduloNombre => $conceptos)
                             @foreach($conceptos as $concepto => $monto)
                                 @if($concepto=="total")
-                                    <td style="text-align:right" main data-parent="{{$moduloNombre}}">{{$monto}}</td>
+                                    <td style="text-align:right" main data-parent="{{$moduloNombre}}">{{$traductor->format($monto)}}</td>
                                 @else
-                                    <td details data-parent="{{$moduloNombre}}" style="display:none;text-align:right">{{$monto}}</td>
+                                    <td details data-parent="{{$moduloNombre}}" style="display:none;text-align:right">{{$traductor->format($monto)}}</td>
                                 @endif
                             @endforeach
                         @endforeach
                         </tr>
                         @endforeach
+                        <tr class="bg-gray">
+                        <td>Totales</td>
+                        @foreach($montosTotales as $moduloNombre => $conceptos)
+                            @foreach($conceptos as $concepto => $monto)
+                                @if($concepto=="total")
+                                    <td style="text-align:right" main data-parent="{{$moduloNombre}}">{{$traductor->format($monto)}}</td>
+                                @else
+                                    <td  details data-parent="{{$moduloNombre}}" style="display:none;text-align:right">{{$traductor->format($monto)}}</td>
+                                @endif
+                            @endforeach
+                        @endforeach
+                        </tr>
 
 
 
@@ -120,31 +138,6 @@ $('#export-btn').click(function(e){
     $('#export-form').submit();
 })
 
-    var moduloNombre=$(this).text().trim();
-    if(moduloNombre == 'DOSAS'){
-        var thfecha=$('#fecha-col');
-        if(!$(this).hasClass('activo')){
-            $(this).attr('rowspan',1);
-            $(this).addClass('activo');
-            $(this).attr('colspan', $(this).data('colspan'));
-            $(thfecha).attr('rowspan', 2);
-            $('td[main][data-parent="'+moduloNombre+'"]').hide();
-            $('td[details][data-parent="'+moduloNombre+'"]').show();
-            $('th[details][data-parent="'+moduloNombre+'"]').show();
-            $('th[expandible]:not(".activo")').attr('rowspan',2)
-
-        }else{
-                $(this).removeClass('activo');
-                $(this).attr('colspan', 1);
-                $('td[details][data-parent="'+moduloNombre+'"]').hide();
-                $('th[details][data-parent="'+moduloNombre+'"]').hide();
-                $('td[main][data-parent="'+moduloNombre+'"]').show();
-                if($('th[expandible].activo').length==0){
-                    $(thfecha).attr('rowspan', 1);
-                    $('th[expandible]').attr('rowspan',1)
-                }
-        }
-    }
 
 
 })

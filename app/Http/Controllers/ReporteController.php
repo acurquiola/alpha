@@ -67,7 +67,8 @@ class ReporteController extends Controller {
 	public function getControlDeRecaudacionMensual(Request $request){
         $anno        =$request->get('anno',  \Carbon\Carbon::now()->year);
         $aeropuerto  =$request->get('aeropuerto',  session('aeropuerto')->id);
-        $montosMeses =[];
+        $montos=[];
+        $montosTotales=[];
         $modulos     =\App\Modulo::where('aeropuerto_id', $aeropuerto)->get();
         $meses=[
             1  =>"ENERO",
@@ -104,10 +105,20 @@ class ReporteController extends Controller {
 
 
                     }
+                    if(!isset($montosTotales[$modulo->nombre]))
+                        $montosTotales[$modulo->nombre]=[];
+                    if(!isset($montosTotales[$modulo->nombre]["total"]))
+                        $montosTotales[$modulo->nombre]["total"]=0;
+                    $montosTotales[$modulo->nombre]["total"]+=($montos[$meses[$diaMes->month]][$modulo->nombre]["total"]);
+                    foreach($modulo->conceptos as $concepto){
+                        if(!isset($montosTotales[$modulo->nombre][$concepto->nompre]))
+                            $montosTotales[$modulo->nombre][$concepto->nompre]=0;
+                        $montosTotales[$modulo->nombre][$concepto->nompre]+=($montos[$meses[$diaMes->month]][$modulo->nombre][$concepto->nompre]);
+                    }
                 }
             }
         
-        return view('reportes.reporteControlDeRecaudacionMensual', compact('modulos', 'montos', 'mes', 'anno', 'aeropuerto'));
+        return view('reportes.reporteControlDeRecaudacionMensual', compact('modulos', 'montos', 'montosTotales', 'mes', 'anno', 'aeropuerto'));
     }
 
     public function getReporteModuloMetaMensual(Request $request){
