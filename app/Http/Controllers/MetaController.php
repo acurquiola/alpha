@@ -24,10 +24,18 @@ class MetaController extends Controller {
 	 */
 	public function index()
 	{
-		$aeropuerto =session("aeropuerto");
-		$metas      =$aeropuerto->metas()->orderBy('fecha_inicio')->get();
+		$aeropuerto      =session("aeropuerto");
+		$metas           =$aeropuerto->metas()->orderBy('fecha_inicio')->get();
+		$metaGobernacion =0;
+		$metaSaar        =0;
+		foreach ($metas as $meta) {
+			foreach ($meta->detalles as $detalle) {
+				$metaGobernacion+=$detalle->gobernacion_meta;
+				$metaSaar+=$detalle->saar_meta;
+			}
+		}
 
-        return view("administracion/meta", compact("aeropuerto", "estacionamiento", "portons", "conceptosEstacionamiento", "metas"));
+        return view("administracion/meta", compact("aeropuerto", "estacionamiento", "portons", "conceptosEstacionamiento", "metas", "metaGobernacion", "metaSaar"));
 	}
 
 	/**

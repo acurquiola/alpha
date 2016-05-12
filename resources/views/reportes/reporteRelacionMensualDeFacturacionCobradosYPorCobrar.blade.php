@@ -35,8 +35,8 @@
             <div class="box-header">
                 {!! Form::open(["url" => action("ReporteController@postExportReport"), "id" =>"export-form", "target"=>"_blank"]) !!}
                 {!! Form::hidden('table') !!}
-                {!! Form::hidden('departamento', 'Departamento de Recaudación') !!}
-                {!! Form::hidden('gerencia', 'Gerencia de Administración') !!}
+                {!! Form::hidden('gerencia', $gerencia) !!}
+                {!! Form::hidden('departamento', $departamento) !!}
                     <h3 class="box-title">Reporte</h3>
                     <span class="pull-right">
                         <button type="button" class="btn btn-primary" id="export-btn">
@@ -82,10 +82,14 @@
                         @endforeach
                         <tr class="bg-gray">
                             <td  style="font-weight: bold" >TOTALES</td>
-                            <td  align="right"class="text-right" style="font-weight: bold" id="facturadoTotal">0</td>
-                            <td  align="right"class="text-right" style="font-weight: bold" id="cobradoTotal">0</td>
-                            <td  align="right"class="text-right" style="font-weight: bold" id="porCobrarTotal">0</td>
-                            <td  align="right"class="text-right" style="font-weight: bold" id="cobroAnteriorTotal">0</td>
+                            <td  align="right" class="text-right" style="font-weight: bold" id="facturadoTotal">0</td>
+                            <td  align="right" class="text-right" style="font-weight: bold" id="cobradoTotal">0</td>
+                            <td  align="right" class="text-right" style="font-weight: bold" id="porCobrarTotal">0</td>
+                            <td  align="right" class="text-right" style="font-weight: bold" id="cobroAnteriorTotal">0</td>
+                        </tr>
+                        <tr class="bg-gray">
+                            <td  colspan="4" align="right" class="text-right" style="font-weight: bold" >MONTO TOTAL RECAUDADO</td>
+                            <td  align="right" class="text-right" style="font-weight: bold" id="totalRecaudado">0</td>
                         </tr>
 
 
@@ -128,11 +132,13 @@ $(function(){
     $('.cobroAnterior').each(function(index,value){
         cobroAnteriorTotal+=commaToNum($(value).text().trim());
     });
+    var totalRecaudado=cobradoTotal+cobroAnteriorTotal;
 
     $('#facturadoTotal').text(numToComma(facturadoTotal));
     $('#cobradoTotal').text(numToComma(cobradoTotal));
     $('#porCobrarTotal').text(numToComma(porCobrarTotal));
     $('#cobroAnteriorTotal').text(numToComma(cobroAnteriorTotal));
+    $('#totalRecaudado').text(numToComma(totalRecaudado));
 
 
     $('#export-btn').click(function(e){
@@ -156,6 +162,30 @@ $(function(){
           $(table).find('td').css({'font-size': '7px'})
           $(table).find('tr:nth-child(even)').css({'background-color': '#E2E2E2'})
           $(table).find('tr:last td').css({'border-bottom':'1px solid black','border-top':'1px solid black', 'font-weight': 'bold'})
+          $(table).append('<tr>\
+                      <td colspan="5"><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br></td>\
+                      </tr><tr>\
+          						<td colspan="3" align="center" style="font-weight: bold; border-top: 1px solid black;border-right: 1px solid black;border-left: 1px solid black;border-bottom: 1px solid black;">REVISADO</td>\
+          						<td colspan="2" align="center" style="font-weight: bold; border-top: 1px solid black;border-right: 1px solid black;border-left: 1px solid black;border-bottom: 1px solid black;">CONFORMADO</td>\
+               			  </tr><tr>\
+          						<td style="border-right: 1px solid black;border-left: 1px solid black;"><br><br><br><br><br><br><br><br></td>\
+          						<td style="border-right: 1px solid black;border-left: 1px solid black;"></td>\
+          						<td style="border-right: 1px solid black;border-left: 1px solid black;"></td>\
+          						<td style="border-right: 1px solid black;border-left: 1px solid black;"></td>\
+          						<td style="border-right: 1px solid black;border-left: 1px solid black;"></td>\
+               			  </tr><tr>\
+          						<td align="center" style="border-top: 1px solid black;border-right: 1px solid black;border-left: 1px solid black;border-bottom: 1px solid black;">FIRMA</td>\
+          						<td align="center" style="border-top: 1px solid black;border-right: 1px solid black;border-left: 1px solid black;border-bottom: 1px solid black;">FIRMA</td>\
+          						<td align="center" style="border-top: 1px solid black;border-right: 1px solid black;border-left: 1px solid black;border-bottom: 1px solid black;">FIRMA</td>\
+          						<td align="center" style="border-top: 1px solid black;border-right: 1px solid black;border-left: 1px solid black;border-bottom: 1px solid black;">FIRMA</td>\
+          						<td align="center" style="border-top: 1px solid black;border-right: 1px solid black;border-left: 1px solid black;border-bottom: 1px solid black;">FIRMA</td>\
+               			  </tr><tr>\
+          						<td align="center" style="font-weight: bold; border-top: 1px solid black;border-right: 1px solid black;border-left: 1px solid black;border-bottom: 1px solid black;">JEFE DEPARTAMENTO RECAUDACIÓN</td>\
+          						<td align="center" style="font-weight: bold; border-top: 1px solid black;border-right: 1px solid black;border-left: 1px solid black;border-bottom: 1px solid black;">CONTADOR</td>\
+          						<td align="center" style="font-weight: bold; border-top: 1px solid black;border-right: 1px solid black;border-left: 1px solid black;border-bottom: 1px solid black;">GERENTE ADMINISTRACIÓN</td>\
+          						<td align="center" style="font-weight: bold; border-top: 1px solid black;border-right: 1px solid black;border-left: 1px solid black;border-bottom: 1px solid black;">SUB-DIRECTOR</td>\
+          						<td align="center" style="font-weight: bold; border-top: 1px solid black;border-right: 1px solid black;border-left: 1px solid black;border-bottom: 1px solid black;">DIRECTOR</td>\
+               			  </tr>')
           var tableHtml= $(table)[0].outerHTML;
           $('[name=table]').val(tableHtml);
           $('#export-form').submit();

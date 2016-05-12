@@ -38,53 +38,28 @@ class DespegueController extends Controller {
 	public function index(Request $request){
 
 		if($request->ajax()){
-			$sortName                  = $request->get('sortName','fecha');
-			$sortName                  =($sortName=="")?"fecha":$sortName;
-
-			$sortType                  = $request->get('sortType','DESC');
-			$sortType                  =($sortType=="")?"DESC":$sortType;
-
-			$fecha                     = $request->get('fecha', '%');
-			$fecha                     =($fecha=="")?"%":$fecha;
-
-			$hora                      = $request->get('hora', '%');
-			$hora                      =($hora=="")?"%":$hora;
-
-			$num_vuelo                 = $request->get('num_vuelo', '%');
-			$num_vuelo                 =($num_vuelo=="")?"%":$num_vuelo;
-
-			$aeronave_id               = $request->get('aeronave_id', 0);
-			$aeronaveOperador          =($aeronave_id=="")?">":"=";
-
-			$puerto_id                 = $request->get('puerto_id', 0);
-			$puertoOperador            =($puerto_id=="")?">":"=";
-
-			\Input::merge([
-			              'sortName'=>$sortName,
-			              'sortType'=>$sortType]);
-
-			$aeronave = Aterrizaje::with("aeronave")
-			->where('aeronave_id', '=', $aeronave_id)->get();
-
-			$despegues = Despegue::with("puerto", "piloto", "tipo", "factura")
-											->where('fecha', 'like', $fecha)
-											->where('hora', 'like', $hora)
-											->where('num_vuelo', 'like', $num_vuelo)
-											->where('aeronave_id', $aeronaveOperador, $aeronave_id)
-											->where('aeropuerto_id', session('aeropuerto')->id);
-
-											if($puerto_id==''){
-												$despegues=$despegues->orWhere('puerto_id','=' , null);
-											}
-											$despegues=	$despegues->orderBy($sortName, $sortType)
-											->orderBy('hora', 'DESC')
-											->paginate(10);
-			return view('despegues.partials.table', compact('despegues', 'aeronave'));
+			$fecha            = $request->get('fecha');
+			if($fecha == ""){
+				$fecha = "0000-00-00";
+			}else{
+				$fecha            =\Carbon\Carbon::createFromFormat('d/m/Y', $fecha);
+				$fecha            = $fecha->toDateString();
+			}
+			$hora            = $request->get('hora');
+			if($hora == ""){
+				$hora = "00:00:00";
+			}
+			$aeropuerto_id    =session('aeropuerto')->id;
+			$despegues      = Despegue::filter($fecha, $hora, $request->get('aeronave_id'), $request->get('num_vuelo'),$request->get('puerto_id'), $request->get('cliente_id'), $aeropuerto_id);
+			$despegues->with('factura');
+			$totalDespegues = $despegues->count();
+			$despegues      = $despegues->paginate(7);
+			return view('despegues.partials.table', compact('despegues', 'totalDespegues'));
 		}
 		else
 		{
 			$aterrizajes         = Aterrizaje::all();
-			$aeronaves         = Aeronave::all();
+			$aeronaves           = Aeronave::all();
 			$puertos             = Puerto::all();
 			$pilotos             = Piloto::all();
 			$nacionalidad_vuelos = NacionalidadVuelo::all();
@@ -133,7 +108,7 @@ class DespegueController extends Controller {
 	 */
 	public function store(DespegueRequest $request)
 	{
-		$despegue                         = Despegue::create($request->except("nacionalidadVuelo_id", "piloto_id", "puerto_id", "cliente_id", "cobrar_estacionamiento", "cobrar_puenteAbordaje", "cobrar_Formulario", "cobrar_AterDesp", "cobrar_habilitacion", "cobrar_carga", "cobrar_otrosCargos", "otrosCargo_id"));
+		$despegue                         = Despegue::create($request->except("piloto_id", "puerto_id", "cliente_id", "cobrar_estacionamiento", "cobrar_puenteAbordaje", "cobrar_Formulario", "cobrar_AterDesp", "cobrar_habilitacion", "cobrar_carga", "cobrar_otrosCargos", "otrosCargo_id"));
 		$aterrizaje                       = Aterrizaje::find($request->get("aterrizaje_id"));
 		$aterrizaje->despegue()->save($despegue);
 		$aterrizaje->update(["despego"    =>"1"]);

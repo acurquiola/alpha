@@ -29,72 +29,23 @@ class AterrizajeController extends Controller {
 	public function index(Request $request)
 	{
 		if($request->ajax()){
-		$sortName                  = $request->get('sortName','fecha');
-		$sortName                  =($sortName=="")?"fecha":$sortName;
-
-		$sortType                  = $request->get('sortType','DES');
-		$sortType                  =($sortType=="")?"DES":$sortType;
-
-		$fecha                     = $request->get('fecha', '%');
-		$fecha                     =($fecha=="")?"%":$fecha;
-
-		$hora                      = $request->get('hora', '%');
-		$hora                      =($hora=="")?"%":$hora;
-
-		$num_vuelo                 = $request->get('num_vuelo', '%');
-		$num_vuelo                 =($num_vuelo=="")?"%":$num_vuelo;
-
-		$aeronave_id               = $request->get('aeronave_id', 0);
-		$aeronaveOperador          =($aeronave_id=="")?">":"=";
-
-		$tipoMatricula_id          = $request->get('tipoMatricula_id', 0);
-		$tipoMatriculaOperador     =($tipoMatricula_id=="")?">":"=";
-
-		$puerto_id                 = $request->get('puerto_id', 0);
-		$puertoOperador            =($puerto_id=="")?">":"=";
-
-		$cliente_id                = $request->get('cliente_id', 0);
-		$clienteOperador           =($cliente_id=="")?">":"=";
-		 \Input::merge([
-            'sortName'=>$sortName,
-            'sortType'=>$sortType]);
-
-
-		$aterrizajes = Aterrizaje::with("puerto", "piloto", "nacionalidad_vuelo", "aeronave" , "cliente", "tipo", "factura")
-									->where('despego', '=', '0')
-									->where(function($query) use ($fecha,	$hora,
-									  $num_vuelo, $aeronaveOperador,
-									    $aeronave_id,
-									    $tipoMatriculaOperador, $tipoMatricula_id,
-									    $puertoOperador, $puerto_id,
-									    $clienteOperador, $cliente_id,
-									     $puerto_id,
-									      $cliente_id){
-										$query->where('fecha', 'like', $fecha)
-													->where('hora', 'like', $hora)
-													->where('num_vuelo', 'like', $num_vuelo)
-													->where('aeronave_id', $aeronaveOperador, $aeronave_id)
-													->where('tipoMatricula_id', $tipoMatriculaOperador, $tipoMatricula_id)
-													->where('puerto_id', $puertoOperador, $puerto_id)
-													->where('aeropuerto_id', '=', session('aeropuerto')->id)
-													->where('cliente_id', $clienteOperador, $cliente_id);
-
-											if($puerto_id==''){
-												$query->orWhere('puerto_id','=' , null);
-											}
-											if($cliente_id==''){
-												$query->orWhere('cliente_id','=' , null);
-											}
-
-									});
-
-
-
-		$aterrizajes=	$aterrizajes->orderBy($sortName, $sortType)
-									->orderBy('hora', 'DESC')
-									->paginate(10);
-
-		return view('aterrizajes.partials.table', compact('aterrizajes'));
+			$fecha            = $request->get('fecha');
+			if($fecha == ""){
+				$fecha = "0000-00-00";
+			}else{
+				$fecha            =\Carbon\Carbon::createFromFormat('d/m/Y', $fecha);
+				$fecha            = $fecha->toDateString();
+			}
+			$hora            = $request->get('hora');
+			if($hora == ""){
+				$hora = "00:00:00";
+			}
+			$despego=0;
+			$aeropuerto_id    =session('aeropuerto')->id;
+			$aterrizajes      = Aterrizaje::filter($fecha, $hora, $request->get('aeronave_id'), $request->get('num_vuelo'), $request->get('tipoMatricula_id'), $request->get('puerto_id'), $request->get('cliente_id'), $despego, $aeropuerto_id);
+			$totalAterrizajes = $aterrizajes->count();
+			$aterrizajes      = $aterrizajes->paginate(7);
+			return view('aterrizajes.partials.table', compact('aterrizajes', 'totalAterrizajes'));
 		}
 		else
 			{

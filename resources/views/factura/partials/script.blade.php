@@ -253,10 +253,6 @@ $('#advance-search-modal .modal-body').delegate('.operator-list li', 'click', fu
     var conceptoId=$('#concepto-select').val();
           if(conceptoId==0)
             return;
-        if($('#concepto-table tbody tr input[name="concepto_id[]"][value="'+conceptoId+'"]').length>0){
-            alertify.error("El concepto ya existe en la tabla");
-            return;
-        }
         var option=$('#concepto-select option[value="'+conceptoId+'"]');
         var conceptoNombre=$(option).text();
         var costo=$(option).data('costo');

@@ -3,7 +3,7 @@
 @section('content')
 <ol class="breadcrumb">
   <li><a href="{{url('principal')}}">Inicio</a></li>
-  <li><a class="active">Reporte Listado Facturas</a></li>
+  <li><a class="active">Reporte Listado Facturas Emitidas</a></li>
 </ol>
     <div class="row" id="box-wrapper">
         <div class="col-md-12">
@@ -97,8 +97,8 @@
                     <div class="box-header">
                         {!! Form::open(["url" => action("ReporteController@postExportReport"), "id" =>"export-form", "target"=>"_blank"]) !!}
                         {!! Form::hidden('table') !!}
-                        {!! Form::hidden('gerencia', 'Gerencia de Administración') !!}
-                        {!! Form::hidden('departamento', 'Departamento de Recaudación') !!}
+                        {!! Form::hidden('gerencia', $gerencia) !!}
+                        {!! Form::hidden('departamento', $departamento) !!}
                             <h3 class="box-title">Reporte</h3>
                             <span class="pull-right"><button class="btn btn-primary" id="export-btn"><span class="glyphicon glyphicon-file"></span> Exportar</button></span>
                         {!! Form::close() !!}
@@ -123,10 +123,10 @@
                                  <th style="vertical-align: middle; width:70px" align="center" class="text-center">
                                     RIF
                                  </th>
-                                 <th style="vertical-align: middle; width:30px" align="center" class="text-center">
+                                 <th style="vertical-align: middle; width:35px" align="center" class="text-center">
                                     Código
                                  </th>
-                                 <th style="vertical-align: middle; width:140px" align="center" class="text-center">
+                                 <th style="vertical-align: middle; width:180px" align="center" class="text-center">
                                     Nombre ó Razón Social
                                  </th>
                                  <th style="vertical-align: middle; width:150px" align="center"  class="text-center">
@@ -137,9 +137,6 @@
                                  </th>
                                  <th style="vertical-align: middle; width:60px" align="center" class="text-center">
                                     IVA
-                                 </th>
-                                 <th style="vertical-align: middle; width:40px" align="center" class="text-center">
-                                    ISLR
                                  </th>
                                  <th style="vertical-align: middle; width:70px" align="center" class="text-center">
                                     Monto
@@ -154,13 +151,12 @@
                                     <td style="vertical-align: middle; width:60px" align="center" >{{$factura->nFacturaPrefix}}-{{$factura->nFactura}}</td>
                                     <td style="vertical-align: middle; width:60px" align="center" >{{$factura->nControlPrefix}}-{{$factura->nControl}}</td>
                                     <td style="vertical-align: middle; width:70px" align="center" >{{$factura->cliente->cedRifPrefix}}-{{$factura->cliente->cedRif}}</td>
-                                    <td style="vertical-align: middle; width:30px" align="center" >{{$factura->cliente->codigo}}</td>
-                                    <td style="vertical-align: middle; width:140px" align="left" >{{$factura->cliente->nombre}}</td>
+                                    <td style="vertical-align: middle; width:35px" align="center" >{{$factura->cliente->codigo}}</td>
+                                    <td style="vertical-align: middle; width:180px" align="left" >{{$factura->cliente->nombre}}</td>
                                     <td style="vertical-align: middle; width:150px" align="left">{{$factura->descripcion}}</td>
                                     <td style="vertical-align: middle; width:70px" align="right">{{$traductor->format($factura->subtotal)}}</td>
                                     {{--@if(!$factura->metadata)--}}
                                     <td style="vertical-align: middle; width:60px" align="right">{{$traductor->format($factura->iva)}}</td>
-                                    <td style="vertical-align: middle; width:40px" align="right">{{$traductor->format($factura->islr)}}</td>
                                     {{--@else--}}
                                     {{--<td style="vertical-align: middle; width:60px" align="right">{{$factura->metadata->ivapercentage}}</td>--}}
                                     {{--<td style="vertical-align: middle; width:60px" align="right">{{$factura->metadata->islrpercentage}}</td>--}}
@@ -177,7 +173,6 @@
                                         <td> - </td>
                                         <td style="vertical-align: middle; width:70px" align="right">{{$traductor->format($subtotal)}}</td>
                                         <td style="vertical-align: middle; width:60px" align="right">{{$traductor->format($iva)}}</td>
-                                        <td style="vertical-align: middle; width:40px" align="right">{{$traductor->format($islr)}}</td>
                                         <td style="vertical-align: middle; width:70px" align="right">{{$traductor->format($total)}}</td>                                   
                                     </tr>     
                             @else
@@ -239,14 +234,14 @@ $('#export-btn').click(function(e){
                         <tr>\
                             <th colspan="11" style="vertical-align: middle; margin-top:20px" align="center" class="text-center">LISTADO DE FACTURAS EMITIDAS\
                                 </br>\
-                                DESDE: {{isset($desde)?$desde:"TODOS"}} HASTA: {{isset($hasta)?$hasta:"TODOS"}} | MÓDULO: {{isset($modulo)?$modulo:"TODOS"}}\
+                                DESDE: {{isset($desde)?$desde:"N/A"}} HASTA: {{isset($hasta)?$hasta:"N/A"}} | MÓDULO: {{isset($moduloNombre)?$moduloNombre:"TODOS"}}\
                                 </br>\
-                                CLIENTE: {{isset($cliente_id)?$cliente_id:"TODOS"}} | AEROPUERTO: {{isset($aeropuerto)?$aeropuerto:"TODOS"}}\
+                                CLIENTE: {{isset($clienteNombre)?$clienteNombre:"TODOS"}} | AEROPUERTO: {{isset($aeropuertoNombre)?$aeropuertoNombre:"TODOS"}}\
                             </th>\
                         </tr>\
                     </thead>')
-    $(table).find('thead, th').css({'border-top':'1px solid black', 'font-weight': 'bold', 'text-align':"center", 'font-size': '8px'})
-    $(table).find('th').css({'border-bottom':'1px solid black', 'font-weight': 'bold', 'text-align':"center", 'font-size': '8px'})
+    $(table).find('thead, th').css({'border-top':'1px solid black', 'font-weight': 'bold', 'text-align':"center", 'font-size': '7px'})
+    $(table).find('th').css({'border-bottom':'1px solid black', 'font-weight': 'bold', 'text-align':"center", 'font-size': '7px'})
     $(table).find('td').css({'font-size': '7px'})
     $(table).find('tr:nth-child(even)').css({'background-color': '#E2E2E2'})
     $(table).find('tr:last td').css({'border-bottom':'1px solid black','border-top':'1px solid black', 'font-weight': 'bold'})

@@ -38,30 +38,29 @@
 						<table class="table">
 							<thead class="bg-primary"><tr><th></th><th>Concepto</th><th>Porcentaje</th></tr></thead>
 							<tbody>
-							{{var_dump($cliente->isContribuyente == 1)}}
-							@if ($cliente->isContribuyente == 1)
-								<tr>
-									<td>{!! Form::checkbox('estado', '1', true, ["class"=>"retencion-check", "id"=>"islr-checkbox", "autocomplete"=>"off" ]) !!}</td>									
-									<td>ISLR</td>
-									<td><input type="text" class="form-control retencion-input" id="islrper-modal-input" data-target="#base-modal-input"/></td>
-								</tr>
-								<tr>
-									<td>{!! Form::checkbox('estado', '1', true, ["class"=>"retencion-check", "id"=>"iva-checkbox", "autocomplete"=>"off" ]) !!}</td>
-									<td>IVA</td>
-									<td><input type="text" class="form-control retencion-input" id="ivaper-modal-input" data-target="#iva-modal-input" /></td>
-								</tr>
-							@else
-								<tr>
-									<td>{!! Form::checkbox('estado', true, null, ["class"=>"retencion-check", "id"=>"islr-checkbox", "autocomplete"=>"off" ]) !!}</td>									
-									<td>ISLR</td>
-									<td><input type="text" class="form-control retencion-input" id="islrper-modal-input" data-target="#base-modal-input"/></td>
-								</tr>
-								<tr>
-									<td>{!! Form::checkbox('estado', true, null, ["class"=>"retencion-check", "id"=>"iva-checkbox", "autocomplete"=>"off" ]) !!}</td>
-									<td>IVA</td>
-									<td><input type="text" class="form-control retencion-input" id="ivaper-modal-input" data-target="#iva-modal-input" /></td>
-								</tr>
-							@endif
+								@if(isset($cliente) && $cliente->isContribuyente == 1)
+									<tr>
+										<td>{!! Form::checkbox('estado', '1', true, ["class"=>"retencion-check", "id"=>"islr-checkbox", "autocomplete"=>"off" ]) !!}</td>									
+										<td>ISLR</td>
+										<td><input type="text" class="form-control retencion-input" id="islrper-modal-input" data-target="#base-modal-input"/></td>
+									</tr>
+									<tr>
+										<td>{!! Form::checkbox('estado', '1', true, ["class"=>"retencion-check", "id"=>"iva-checkbox", "autocomplete"=>"off" ]) !!}</td>
+										<td>IVA</td>
+										<td><input type="text" class="form-control retencion-input" id="ivaper-modal-input" data-target="#iva-modal-input" /></td>
+									</tr>
+								@else
+									<tr>
+										<td>{!! Form::checkbox('estado', true, null, ["class"=>"retencion-check", "id"=>"islr-checkbox", "autocomplete"=>"off" ]) !!}</td>									
+										<td>ISLR</td>
+										<td><input type="text" class="form-control retencion-input" id="islrper-modal-input" data-target="#base-modal-input"/></td>
+									</tr>
+									<tr>
+										<td>{!! Form::checkbox('estado', true, null, ["class"=>"retencion-check", "id"=>"iva-checkbox", "autocomplete"=>"off" ]) !!}</td>
+										<td>IVA</td>
+										<td><input type="text" class="form-control retencion-input" id="ivaper-modal-input" data-target="#iva-modal-input" /></td>
+									</tr>
+								@endif
 							</tbody>
 						</table>
 					</div>

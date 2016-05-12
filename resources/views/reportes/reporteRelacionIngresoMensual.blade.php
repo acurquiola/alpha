@@ -31,8 +31,8 @@
             <div class="box-header">
                 {!! Form::open(["url" => action("ReporteController@postExportReport"), "id" =>"export-form", "target"=>"_blank"]) !!}
                 {!! Form::hidden('table') !!}
-                {!! Form::hidden('departamento', 'Departamento de Recaudación') !!}
-                {!! Form::hidden('gerencia', 'Gerencia de Administración') !!}
+                {!! Form::hidden('gerencia', $gerencia) !!}
+                {!! Form::hidden('departamento', $departamento) !!}
                     <h3 class="box-title">Reporte</h3>
                     <span class="pull-right">
                         <button type="button" class="btn btn-primary" id="export-btn">
@@ -109,12 +109,12 @@
 										<tr>
 											<td colspan="3"></td>
 											<td  style="font-weight: bold;">Meta anual asignada: </td>
-											<td  style="font-weight: bold;"  align="right" class="text-right" id="meta">0,00</td>
+											<td  style="font-weight: bold;"  align="right" class="text-right" id="meta">{{$traductor->format($metaGobernacion)}}</td>
 										</tr>
 										<tr>
 											<td colspan="3"></td>
 											<td  style="font-weight: bold;">Diferencia:</td>
-											<td class="text-right" id="diferencia"  align="right" style="font-weight: bold;">{{$traductor->format($montos["cobradoTotal"])}}</td>
+											<td class="text-right" id="diferencia"  align="right" style="font-weight: bold;">0,00</td>
 										</tr>
 								</tbody>
 							</table>

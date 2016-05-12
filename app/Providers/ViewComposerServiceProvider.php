@@ -35,9 +35,23 @@ class ViewComposerServiceProvider extends ServiceProvider {
 
 		view()->composer(['partials.navbar', 'partials.menu'], function($view){
             $user      =\Auth::user();
+            $rol        = $user->roles->first();
+            if ($rol->id == 1 || $rol->id == 2 || $rol->name == 5){
+                $url  ='DashboardController@indexSCV';
+                $name ='CONTROL DE VUELOS';
+            }elseif ($rol->id == 3 || $rol->name == 7){
+                $url  ='DashboardController@indexRecaudacion';
+                $name ='RECAUDACIÓN';
+            }elseif ($rol->id == 8){
+                $url  ='DashboardController@indexDireccion';
+                $name ='DIRECCION';
+            }else{
+                $url  ='DashboardController@indexOtros';
+                $name = $user->departamento->nombre;
+            }
             $userName  =ucwords($user->username);
             $createdAt =$user->created_at;
-            $view->with(compact('userName', 'createdAt'));
+            $view->with(compact('userName', 'createdAt', 'url', 'name'));
         });
 
         view()->composer(['aeronaves.partials.index'], function($view){
@@ -47,7 +61,7 @@ class ViewComposerServiceProvider extends ServiceProvider {
 
 
         view()->composer(['reportes.reporteTraficoAereo'], function($view){
-            $puertos= \App\Puerto::lists('nombre','id');
+            $puertos= [""=>"TODOS"]+\App\Puerto::lists('nombre','id');
             $view->with(compact('puertos'));
         });
 
@@ -56,8 +70,13 @@ class ViewComposerServiceProvider extends ServiceProvider {
             $view->with(compact('hangars'));
         });
 
-        view()->composer(['aeronaves.partials.form', 'aeronaves.index', 'aterrizajes.index', 'aterrizajes.create', 'aterrizajes.partials.form', 'aterrizajes.partials.edit', 'aterrizajes.partials.show', 'despegues.index', 'despegues.create', 'despegues.partials.form', 'despegues.partials.edit', 'despegues.partials.show', 'cargas.index', 'cargas.create', 'cargas.partials.edit', 'cargas.partials.form', 'cargas.partials.show', 'reportes.reporteTraficoAereo'], function($view){
-            $clientes= \App\Cliente::where("tipo","=", "Aeronáutico")->orWhere("tipo","=", "Mixto")->lists('nombre', 'id');
+        view()->composer(['reportes.reporteTraficoAereo'], function($view){
+            $clientes= [""=>"TODOS"]+\App\Cliente::where("tipo","=", "Aeronáutico")->orWhere("tipo","=", "Mixto")->lists('nombre', 'id');
+            $view->with(compact('clientes'));
+        });
+
+        view()->composer(['aeronaves.partials.form', 'aeronaves.index', 'aterrizajes.index', 'aterrizajes.create', 'aterrizajes.partials.form', 'aterrizajes.partials.edit', 'aterrizajes.partials.show', 'despegues.index', 'despegues.create', 'despegues.partials.form', 'despegues.partials.edit', 'despegues.partials.show', 'cargas.index', 'cargas.create', 'cargas.partials.edit', 'cargas.partials.form', 'cargas.partials.show', 'reportes.reporteRelacionFacturasAeronauticasCredito'], function($view){
+            $clientes= [""=>"-- Seleccione Cliente--"]+\App\Cliente::where("tipo","=", "Aeronáutico")->orWhere("tipo","=", "Mixto")->lists('nombre', 'id');
             $view->with(compact('clientes'));
         });
 
@@ -115,6 +134,31 @@ class ViewComposerServiceProvider extends ServiceProvider {
         });
 
 
+        view()->composer([  'reportes.reporteRelacionCobranza',
+                            'reportes.reporteListadoFacturas',
+                            'reportes.reporteListadoFacturasCliente',
+                            'reportes.reporteRelacionEstacionamientoDiario',
+                            'reportes.reporteRelacionMensualDeIngresosRecaudacionPendiente',
+                            'reportes.reporteRelacionMensualDeFacturacionCobradosYPorCobrar',
+                            'reportes.reporteRelacionIngresoMensual',
+                            'reportes.reporteRelacionIngresosAeronauticosContado',
+                            'reportes.reporteRelacionFacturasAeronauticasCredito',
+                            'reportes.reporteRelacionMetaRecaudacionMensual',
+                            'reportes.reporteDiario',
+                            'reportes.reporteModuloMetaMensual'], function($view){
+            $gerencia     = "Gerencia de Administración";
+            $departamento = "Departamento de Recaudación de Servicios Aeroportuarios";
+            $view->with(compact('gerencia', 'departamento'));
+        });
+
+        view()->composer([  'reportes.reporteTraficoAereo',
+                            'reportes.reporteCuadreCaja',
+                            'reportes.reporteDES900'], function($view){
+            $gerencia     = "Gerencia de Aeropuerto";
+            $departamento = "Sección de Control de Vuelos";
+            $view->with(compact('gerencia', 'departamento'));
+        });
+
         view()->composer(['contrato.partials.form','factura.partials.form', 'aeronaves.partials.table'], function($view){
             $clientes =\App\Cliente::select('codigo', 'id', 'nombre','cedRif','cedRifPrefix')->get();
             $view->with(compact('clientes'));
@@ -143,6 +187,10 @@ class ViewComposerServiceProvider extends ServiceProvider {
             'reportes.reporteRelacionMensualDeFacturacionCobradosYPorCobrar',
             'reportes.reporteDES900',
             'reportes.reporteListadoFacturas',
+            'reportes.reporteListadoFacturasCliente',
+            'reportes.reporteRelacionIngresosAeronauticosContado',
+            'reportes.reporteRelacionFacturasAeronauticasCredito',
+            'reportes.reporteControlDeRecaudacionMensual',
             'reportes.reporteTraficoAereo'], function($view){
             $aeropuertos = \App\Aeropuerto::lists('nombre', 'id');
             $aeropuertos[0]="Todos";
@@ -160,8 +208,13 @@ class ViewComposerServiceProvider extends ServiceProvider {
             'reportes.reporteCuadreCaja',
             'factura.automatica',
             'reportes.reporteListadoFacturas',
+            'reportes.reporteListadoFacturasCliente',
             'reportes.reporteRelacionIngresoMensual',
+            'reportes.reporteRelacionIngresosAeronauticosContado',
+            'reportes.reporteRelacionMetaRecaudacionMensual',
+            'reportes.reporteRelacionFacturasAeronauticasCredito',
             'reportes.reporteRelacionMensualDeIngresosRecaudacionPendiente',
+            'reportes.reporteControlDeRecaudacionMensual',
             'reportes.reporteTraficoAereo'], function($view){
             $meses=[
                 "01"=>"ENERO",

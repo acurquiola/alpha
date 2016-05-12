@@ -39,8 +39,8 @@
 			<div class="box-header">
 				{!! Form::open(["url" => action("ReporteController@postExportReport"), "id" =>"export-form", "target"=>"_blank"]) !!}
 				{!! Form::hidden('table') !!}
-				{!! Form::hidden('departamento', 'Departamento de Recaudación') !!}
-				{!! Form::hidden('gerencia', 'Gerencia de Administración') !!}
+                {!! Form::hidden('gerencia', $gerencia) !!}
+                {!! Form::hidden('departamento', $departamento) !!}
 				<h3 class="box-title">Reporte</h3>
 				<span class="pull-right">
 					<button type="button" class="btn btn-primary" id="export-btn">
@@ -60,87 +60,71 @@
 										<th style="vertical-align: middle" class="text-center" colspan="4">TICKETS DE ESTACIONAMIENTO</th>
 										<th style="vertical-align: middle" class="text-center" colspan="4">TICKETS DE PERNOCTA</th>
 										<th style="vertical-align: middle" class="text-center" colspan="4">TICKETS EXTRAVIADOS</th>
-										<th style="vertical-align: middle" class="text-center" colspan="10">TARJETAS ELECTRÓNICAS</th>
+										<th style="vertical-align: middle" class="text-center" colspan="3">TARJETAS ELECTRÓNICAS</th>
 										<th style="vertical-align: middle" class="text-center" colspan="3">RECAUDADO</th>
-										<th style="vertical-align: middle" class="text-center" colspan="1">DEP.</th>
+										<th style="vertical-align: middle" class="text-center">DEP.</th>
 									</tr>
 									<tr>
-										<th rowspan="2" style="vertical-align: middle" class="text-center">
+										<th   style="vertical-align: middle" class="text-center" align="center">
 											Fecha
 										</th>
-										<th rowspan="2" style="vertical-align: middle" class="text-center" style="width: 30px">
+										<th   style="vertical-align: middle" class="text-center" align="center">
 											Cant
 										</th>
-										<th rowspan="2" style="vertical-align: middle" class="text-center">
+										<th   style="vertical-align: middle" class="text-center" align="center">
 											Base
 										</th>
-										<th rowspan="2" style="vertical-align: middle" class="text-center">
+										<th   style="vertical-align: middle" class="text-center" align="center">
 											IVA
 										</th>
-										<th rowspan="2" style="vertical-align: middle" class="text-center">
+										<th   style="vertical-align: middle" class="text-center" align="center">
 											Total
 										</th>
-										<th rowspan="2" style="vertical-align: middle" class="text-center">
+										<th   style="vertical-align: middle" class="text-center" align="center">
 											Cant
 										</th>
-										<th rowspan="2" style="vertical-align: middle" class="text-center">
+										<th   style="vertical-align: middle" class="text-center" align="center">
 											Base
 										</th>
-										<th rowspan="2" style="vertical-align: middle" class="text-center">
+										<th   style="vertical-align: middle" class="text-center" align="center">
 											IVA
 										</th>
-										<th rowspan="2" style="vertical-align: middle" class="text-center">
+										<th   style="vertical-align: middle" class="text-center" align="center">
 											Total
 										</th>
-										<th rowspan="2" style="vertical-align: middle" class="text-center">
+										<th   style="vertical-align: middle" class="text-center" align="center">
 											Cant
 										</th>
-										<th rowspan="2" style="vertical-align: middle" class="text-center">
+										<th   style="vertical-align: middle" class="text-center" align="center">
 											Base
 										</th>
-										<th rowspan="2" style="vertical-align: middle" class="text-center">
+										<th   style="vertical-align: middle" class="text-center" align="center">
 											IVA
 										</th>
-										<th rowspan="2" style="vertical-align: middle" class="text-center">
+										<th   style="vertical-align: middle" class="text-center" align="center">
 											Total
 										</th>
-
-										<th colspan="3" style="vertical-align: middle" class="text-center">
-											Monto
-										</th>
-										<th colspan="3" style="vertical-align: middle" class="text-center">
-											Monto
-										</th>
-										<th colspan="3" style="vertical-align: middle" class="text-center">
-											Monto
-										</th>
-										<th rowspan="2" style="vertical-align: middle" class="text-center">
-											Total
-										</th>
-										<th rowspan="2" style="vertical-align: middle" class="text-center">
+										<th   style="vertical-align: middle" class="text-center" align="center">
 											Base
 										</th>
-										<th rowspan="2" style="vertical-align: middle" class="text-center">
+										<th   style="vertical-align: middle" class="text-center" align="center">
 											IVA
 										</th>
-										<th rowspan="2" style="vertical-align: middle" class="text-center">
+										<th   style="vertical-align: middle" class="text-center" align="center">
 											Total
 										</th>
-										<th rowspan="2" style="vertical-align: middle" class="text-center">
+										<th   style="vertical-align: middle" class="text-center" align="center">
+											Base
+										</th>
+										<th   style="vertical-align: middle" class="text-center" align="center">
+											IVA
+										</th>
+										<th   style="vertical-align: middle" class="text-center" align="center">
+											Total
+										</th>
+										<th   style="vertical-align: middle" class="text-center" align="center" align="center">
 											Ref
 										</th>
-									</tr>
-
-									<tr> 
-										<th style="vertical-align: middle" class="text-center">Base</th>
-										<th style="vertical-align: middle" class="text-center">IVA</th>
-										<th style="vertical-align: middle" class="text-center">Total</th>
-										<th style="vertical-align: middle" class="text-center">Base</th>
-										<th style="vertical-align: middle" class="text-center">IVA</th>
-										<th style="vertical-align: middle" class="text-center">Total</th>
-										<th style="vertical-align: middle" class="text-center">Base</th>
-										<th style="vertical-align: middle" class="text-center">IVA</th>
-										<th style="vertical-align: middle" class="text-center">Total</th>
 									</tr>
 								</thead>
 								<tbody>
@@ -159,16 +143,9 @@
 										<td class="text-right baseTicketExtraviado" align="right">{{$traductor->format($estacionamiento["baseTicketExtraviado"])}}</td>
 										<td class="text-right ivaTicketExtraviado" align="right">{{$traductor->format($estacionamiento["ivaTicketExtraviado"])}}</td>
 										<td class="text-right totalTicketExtraviado" align="right">{{$traductor->format($estacionamiento["totalTicketExtraviado"])}}</td>
-										<td class="text-right baseMontoA" align="right">0,00</td>
-										<td class="text-right ivaMontoA" align="right">0,00</td>
-										<td class="text-right totalMontoA" align="right">0,00</td>
-										<td class="text-right baseMontoB" align="right">0,00</td>
-										<td class="text-right ivaMontoB" align="right">0,00</td>
-										<td class="text-right totalMontoB" align="right">0,00</td>
-										<td class="text-right baseMontoC" align="right">0,00</td>
-										<td class="text-right ivaMontoC" align="right">0,00</td>
-										<td class="text-right totalMontoC" align="right">0,00</td>
-										<td class="text-right totalTarjetas" align="right">0,00</td>
+										<td class="text-right baseTarjetas" align="right">{{$traductor->format($estacionamiento["baseTarjetas"])}}</td>
+										<td class="text-right ivaTarjetas" align="right">{{$traductor->format($estacionamiento["ivaTarjetas"])}}</td>
+										<td class="text-right totalTarjetas" align="right">{{$traductor->format($estacionamiento["totalTarjetas"])}}</td>
 										<td class="text-right baseTotal" align="right">{{$traductor->format($estacionamiento["baseTotal"])}}</td>
 										<td class="text-right ivaTotal" align="right">{{$traductor->format($estacionamiento["ivaTotal"])}}</td>
 										<td class="text-right montoTotal" align="right">{{$traductor->format($estacionamiento["montoTotal"])}}</td>
@@ -177,32 +154,25 @@
 									@endforeach
 									<tr>
 										<td style="font-weight: bold">TOTALES</td>
-										<td class="text-right" style="font-weight: bold" align="right" id="ticketEstacionamiento">0</td>
+										<td class="text-right" style="font-weight: bold" align="center" id="ticketEstacionamiento">0</td>
 										<td class="text-right" style="font-weight: bold" align="right" id="baseTicketEstacionamiento">0</td>
 										<td class="text-right" style="font-weight: bold" align="right" id="ivaTicketEstacionamiento">0</td>
 										<td class="text-right" style="font-weight: bold" align="right" id="totalTicketEstacionamiento">0</td>
-										<td class="text-right" style="font-weight: bold" align="right" id="ticketPernocta">0</td>
+										<td class="text-right" style="font-weight: bold" align="center" id="ticketPernocta">0</td>
 										<td class="text-right" style="font-weight: bold" align="right" id="baseTicketPernocta">0</td>
 										<td class="text-right" style="font-weight: bold" align="right" id="ivaTicketPernocta">0</td>
 										<td class="text-right" style="font-weight: bold" align="right" id="totalTicketPernocta">0</td>
-										<td class="text-right" style="font-weight: bold" align="right" id="ticketExtraviado">0</td>
+										<td class="text-right" style="font-weight: bold" align="center" id="ticketExtraviado">0</td>
 										<td class="text-right" style="font-weight: bold" align="right" id="baseTicketExtraviado">0</td>
 										<td class="text-right" style="font-weight: bold" align="right" id="ivaTicketExtraviado">0</td>
 										<td class="text-right" style="font-weight: bold" align="right" id="totalTicketExtraviado">0</td>
-										<td class="text-right" style="font-weight: bold" align="right" id="baseMontoA">-</td>
-										<td class="text-right" style="font-weight: bold" align="right" id="ivaMontoA">-</td>
-										<td class="text-right" style="font-weight: bold" align="right" id="totalMontoA">-</td>
-										<td class="text-right" style="font-weight: bold" align="right" id="baseMontoB">-</td>
-										<td class="text-right" style="font-weight: bold" align="right" id="ivaMontoB">-</td>
-										<td class="text-right" style="font-weight: bold" align="right" id="totalMontoB">-</td>
-										<td class="text-right" style="font-weight: bold" align="right" id="baseMontoC">-</td>
-										<td class="text-right" style="font-weight: bold" align="right" id="ivaMontoC">-</td>
-										<td class="text-right" style="font-weight: bold" align="right" id="totalMontoC">-</td>
-										<td class="text-right" style="font-weight: bold" align="right" id="totalTarjetas">-</td>
+										<td class="text-right" style="font-weight: bold" align="right" id="baseTarjetas">0</td>
+										<td class="text-right" style="font-weight: bold" align="right" id="ivaTarjetas">0</td>
+										<td class="text-right" style="font-weight: bold" align="right" id="totalTarjetas">0</td>
 										<td class="text-right" style="font-weight: bold" align="right" id="baseTotal">0</td>
 										<td class="text-right" style="font-weight: bold" align="right" id="ivaTotal">0</td>
 										<td class="text-right" style="font-weight: bold" align="right" id="montoTotal">0</td>
-										<td class="text-right" style="font-weight: bold" align="right" id="deposito"></td>
+										<td class="text-right" style="font-weight: bold" align="center" id="deposito"></td>
 									</tr>
 								</tbody>
 							</table>
@@ -278,49 +248,14 @@
 			totalTicketExtraviado+=commaToNum($(value).text().trim());
 		});
 
-		var baseMontoA=0;
-		$('.baseMontoA').each(function(index,value){
-			baseMontoA+=commaToNum($(value).text().trim());
+		var baseTarjetas=0;
+		$('.baseTarjetas').each(function(index,value){
+			baseTarjetas+=commaToNum($(value).text().trim());
 		});
 
-		var ivaMontoA=0;
-		$('.ivaMontoA').each(function(index,value){
-			ivaMontoA+=commaToNum($(value).text().trim());
-		});
-
-		var totalMontoA=0;
-		$('.totalMontoA').each(function(index,value){
-			totalMontoA+=commaToNum($(value).text().trim());
-		});
-
-		var baseMontoB=0;
-		$('.baseMontoB').each(function(index,value){
-			baseMontoB+=commaToNum($(value).text().trim());
-		});
-
-		var ivaMontoB=0;
-		$('.ivaMontoB').each(function(index,value){
-			ivaMontoB+=commaToNum($(value).text().trim());
-		});
-
-		var totalMontoB=0;
-		$('.totalMontoB').each(function(index,value){
-			totalMontoB+=commaToNum($(value).text().trim());
-		});
-
-		var baseMontoC=0;
-		$('.baseMontoC').each(function(index,value){
-			baseMontoC+=commaToNum($(value).text().trim());
-		});
-
-		var ivaMontoC=0;
-		$('.ivaMontoC').each(function(index,value){
-			ivaMontoC+=commaToNum($(value).text().trim());
-		});
-
-		var totalMontoC=0;
-		$('.totalMontoC').each(function(index,value){
-			totalMontoC+=commaToNum($(value).text().trim());
+		var ivaTarjetas=0;
+		$('.ivaTarjetas').each(function(index,value){
+			ivaTarjetas+=commaToNum($(value).text().trim());
 		});
 
 		var totalTarjetas=0;
@@ -355,15 +290,8 @@
 		$('#baseTicketExtraviado').text(numToComma(baseTicketExtraviado));
 		$('#ivaTicketExtraviado').text(numToComma(ivaTicketExtraviado));
 		$('#totalTicketExtraviado').text(numToComma(totalTicketExtraviado));
-		$('#baseMontoA').text(numToComma(baseMontoA));
-		$('#ivaMontoA').text(numToComma(ivaMontoA));
-		$('#totalMontoA').text(numToComma(totalMontoA));
-		$('#baseMontoB').text(numToComma(baseMontoB));
-		$('#ivaMontoB').text(numToComma(ivaMontoB));
-		$('#totalMontoB').text(numToComma(totalMontoB));
-		$('#baseMontoC').text(numToComma(baseMontoC));
-		$('#ivaMontoC').text(numToComma(ivaMontoC));
-		$('#totalMontoC').text(numToComma(totalMontoC));
+		$('#baseTarjetas').text(numToComma(baseTarjetas));
+		$('#ivaTarjetas').text(numToComma(ivaTarjetas));
 		$('#totalTarjetas').text(numToComma(totalTarjetas));
 		$('#baseTotal').text(numToComma(baseTotal));
 		$('#ivaTotal').text(numToComma(ivaTotal));
@@ -381,7 +309,7 @@
 			}).remove();
 			$(table).prepend('<thead>\
 								<tr>\
-									<th colspan="27" style="vertical-align: middle; margin-top:20px" align="center" class="text-center">RELACIÓN DE ESTACIONAMIENTO DIARIO\
+									<th colspan="20" style="vertical-align: middle; margin-top:20px" align="center" class="text-center">RELACIÓN DE ESTACIONAMIENTO DIARIO\
 										</br>\
 										MES: {{$mes}} AÑO: {{$anno}}\
 										</br>\
@@ -389,9 +317,9 @@
 									</th>\
 								</tr>\
 							</thead>')
-			$(table).find('thead, th').css({'border-top':'1px solid black', 'font-weight': 'bold', 'text-align':"center", 'font-size': '6px'})
-			$(table).find('th').css({'border-bottom':'1px solid black', 'font-weight': 'bold', 'text-align':"center", 'font-size': '6px'})
-			$(table).find('td').css({'font-size': '5px'})
+			$(table).find('thead, th').css({'border-top':'1px solid black', 'font-weight': 'bold', 'text-align':"center", 'font-size': '7px'})
+			$(table).find('th').css({'border-bottom':'1px solid black', 'font-weight': 'bold', 'text-align':"center", 'font-size': '7px'})
+			$(table).find('td').css({'font-size': '6px'})
 			$(table).find('tr:nth-child(even)').css({'background-color': '#E2E2E2'})
 			$(table).find('tr:last td').css({'border-bottom':'1px solid black','border-top':'1px solid black', 'font-weight': 'bold'})
 			var tableHtml= $(table)[0].outerHTML;

@@ -243,15 +243,15 @@
             var facturas=[];
             var trs=$('#cxc-table tbody').find('tr.success, tr.info, tr.warning').not('.ajuste-row');
             $.each(trs, function(index,value){
-                var retencionInput=$(value).find('.retencion-pagar');
-                var isrlModal=$(retencionInput).data('islrModal');
-                var ivaModal=$(retencionInput).data('ivaModal');
-                var retencionFecha=$(retencionInput).data('retencionFecha');
-                var retencionComprobante=$(retencionInput).data('retencionComprobante');
-                isrlModal=(isrlModal===undefined)?0:isrlModal;
-                ivaModal=(ivaModal===undefined)?0:ivaModal;
-                retencionFecha=(retencionFecha===undefined)?0:retencionFecha;
-                retencionComprobante=(retencionComprobante===undefined)?0:retencionComprobante
+				var retencionInput       =$(value).find('.retencion-pagar');
+				var isrlModal            =$(retencionInput).data('islrModal');
+				var ivaModal             =$(retencionInput).data('ivaModal');
+				var retencionFecha       =$(retencionInput).data('retencionFecha');
+				var retencionComprobante =$(retencionInput).data('retencionComprobante');
+				isrlModal                =(isrlModal===undefined)?0:isrlModal;
+				ivaModal                 =(ivaModal===undefined)?0:ivaModal;
+				retencionFecha           =(retencionFecha===undefined)?0:retencionFecha;
+				retencionComprobante     =(retencionComprobante===undefined)?0:retencionComprobante
                 var o={
                     id:$(value).data('id'),
                     montoAbonado: commaToNum($(value).find('.saldo-abonado-input').val()),
