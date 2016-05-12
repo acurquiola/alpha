@@ -241,6 +241,7 @@
 							<li {{ (\Request::is('reporte/reporteRelacionMensualDeFacturacionCobradosYPorCobrar*'))?"class=active":"" }}><a href="{{ URL::to('reporte/reporteRelacionMensualDeFacturacionCobradosYPorCobrar') }}"><i class="fa fa-file-o"></i> Relación Mensual de Saldo Facturado, Cobrado y Por Cobrar</a></li>        		
 							<li {{ (\Request::is('reporte/reporteRelacionEstacionamientoDiario*'))?"class=active":"" }}><a href="{{ URL::to('reporte/reporteRelacionEstacionamientoDiario') }}"><i class="fa fa-file-o"></i> Relación de Estacionamiento Diario</a></li>        		
 							<li {{ (\Request::is('reporte/reporteRelacionMetaRecaudacionMensual*'))?"class=active":"" }}><a href="{{ URL::to('reporte/reporteRelacionMetaRecaudacionMensual') }}"><i class="fa fa-file-o"></i> Relación de Meta y Recaudación Mensual</a></li>        		
+                		<li><a href="{{action('ReporteController@getReporteModuloMetaMensual')}}"><i class="fa fa-folder-o"></i> Libro de ventas</a></li>
 						</ul>  
 						<li {{ (\Request::is('reporte/reporteModuloMetaMensual*'))?"class=active":"" }}><a href="#"><i class="fa fa-folder-open"></i><span> Cierre Mensual</span><i class="fa fa-angle-left pull-right"></i></a>
 						<ul class="treeview-menu">
@@ -249,7 +250,6 @@
 <!-- 						<li {{ (\Request::is('reporte/reporteRelacionIngresosAeronauticosContado*'))?"class=active":"" }}><a href="{{ URL::to('reporte/reporteRelacionIngresosAeronauticosContado') }}"><i class="fa fa-folder-o"></i> Relación de Ingresos Aeronáuticos Contado</a></li>-->						
 <!-- 						<li {{ (\Request::is('reporte/mensual*'))?"class=active":"" }}><a href="{{ URL::to('reporte/mensual') }}"><i class="fa fa-folder-o"></i> Recaudación consolidada</a></li>-->
 <!--                 	<li><a href="{{action('ReporteController@getReporteMensual')}}"><i class="fa fa-folder-o"></i> Recaudación consolidada</a></li>
-                		<li><a href="{{action('ReporteController@getReporteModuloMetaMensual')}}"><i class="fa fa-folder-o"></i> Libro de ventas</a></li>
                 		<li><a href="#"><i class="fa fa-folder-o"></i> Relación facturado/cobrado</a></li>
                 		<li><a href="#"><i class="fa fa-folder-o"></i> Relación de contratos</a></li>
                 		<li><a href="#"><i class="fa fa-folder-o"></i> Listado facturas emitidas</a></li> -->
