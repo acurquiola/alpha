@@ -236,6 +236,7 @@ class ReporteController extends Controller {
                     $datosCliente[$cliente->nombre]['aeroDespegueNac'] = $aterrizajes->where('nacionalidadVuelo_id', 1)->count();
                     $datosCliente[$cliente->nombre]['aeroDespegueInt'] = $aterrizajes->where('nacionalidadVuelo_id', 2)->count();                
                     foreach ($despegues as $despegue) {
+                        dd($despegue);
                         if($despegue->nacionalidadVuelo_id == 1){
                             $datosCliente[$cliente->nombre]['EmbAdulNac']  += $despegue->embarqueAdultos;
                             $datosCliente[$cliente->nombre]['EmbInfNac']   += $despegue->embarqueInfantes;

@@ -153,6 +153,7 @@
 								<tbody>
 									@foreach($datosCliente as $index => $cliente)
 									<tr>
+                                    {{dd($cliente)}}
 										<td colspan="3" align="left">{{$index}}</td>
 										<td class="text-center desAdulNac" align="center">{{$cliente['desAdulNac']}}</td>
 										<td class="text-center desInfNac" align="center">{{$cliente['desInfNac']}}</td>

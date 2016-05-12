@@ -98,7 +98,13 @@
 										<div class="input-group-addon">
 											<i class="fa fa-globe"></i>
 										</div>
-										<input id="nacionalidadVuelo_id" name="nacionalidadVuelo_id" type="text" class="form-control" readonly value="{{($aterrizaje->nacionalidad_vuelo)?$aterrizaje->nacionalidad_vuelo->nombre:'N/A'}}" placeholder="Nacionalidad" />
+					
+										<select name="nacionalidadVuelo_id" class="form-control nacionalidad" id="nacionalidad_id-select">
+											<option value="">--Nacionalidad--</option>
+											@foreach ($nacionalidad_vuelos as $nacionalidad)
+											<option  value="{{$nacionalidad->id}}"> {{$nacionalidad->nombre}}</option>
+											@endforeach
+										</select>	
 									</div><!-- /.input group -->
 								</div><!-- /.form group -->
 								<div class="form-group">
