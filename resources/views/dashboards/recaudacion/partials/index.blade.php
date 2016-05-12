@@ -7,8 +7,7 @@
 	</h1>
 </section>
 
-@include('dashboards.recaudacion.partials.infoBox') 
 @include('dashboards.recaudacion.partials.facturasRecientes') 
-@include('dashboards.recaudacion.partials.cobranzaReciente') 
+@include('dashboards.recaudacion.partials.resumenRelacionRecaudacionMeta') 
 
 @endsection

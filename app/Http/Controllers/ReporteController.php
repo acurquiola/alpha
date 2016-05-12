@@ -67,7 +67,8 @@ class ReporteController extends Controller {
 	public function getControlDeRecaudacionMensual(Request $request){
         $anno        =$request->get('anno',  \Carbon\Carbon::now()->year);
         $aeropuerto  =$request->get('aeropuerto',  session('aeropuerto')->id);
-        $montosMeses =[];
+        $montos=[];
+        $montosTotales=[];
         $modulos     =\App\Modulo::where('aeropuerto_id', $aeropuerto)->get();
         $meses=[
             1  =>"ENERO",
@@ -104,10 +105,20 @@ class ReporteController extends Controller {
 
 
                     }
+                    if(!isset($montosTotales[$modulo->nombre]))
+                        $montosTotales[$modulo->nombre]=[];
+                    if(!isset($montosTotales[$modulo->nombre]["total"]))
+                        $montosTotales[$modulo->nombre]["total"]=0;
+                    $montosTotales[$modulo->nombre]["total"]+=($montos[$meses[$diaMes->month]][$modulo->nombre]["total"]);
+                    foreach($modulo->conceptos as $concepto){
+                        if(!isset($montosTotales[$modulo->nombre][$concepto->nompre]))
+                            $montosTotales[$modulo->nombre][$concepto->nompre]=0;
+                        $montosTotales[$modulo->nombre][$concepto->nompre]+=($montos[$meses[$diaMes->month]][$modulo->nombre][$concepto->nompre]);
+                    }
                 }
             }
         
-        return view('reportes.reporteControlDeRecaudacionMensual', compact('modulos', 'montos', 'mes', 'anno', 'aeropuerto'));
+        return view('reportes.reporteControlDeRecaudacionMensual', compact('modulos', 'montos', 'montosTotales', 'mes', 'anno', 'aeropuerto'));
     }
 
     public function getReporteModuloMetaMensual(Request $request){
@@ -172,7 +183,7 @@ class ReporteController extends Controller {
                                         ->where('aeropuerto_id', session('aeropuerto')->id)
                                         ->where('puerto_id', ($destino==0)?'>=':'=', $destino)
                                         ->get();
-            if ($aterrizajes->where('nacionalidadVuelo_id', 1)->count() != 0 || $aterrizajes->where('nacionalidadVuelo_id', 2)->count() != 0 || $aterrizajes->where('nacionalidadVuelo_id', 1)->count() != 0 || $aterrizajes->where('nacionalidadVuelo_id', 2)->count()!= 0){
+            if ($aterrizajes->where('nacionalidadVuelo_id', 1)->count() != 0 || $aterrizajes->where('nacionalidadVuelo_id', 2)->count() != 0 || $despegues->where('nacionalidadVuelo_id', 1)->count() != 0 || $despegues->where('nacionalidadVuelo_id', 2)->count()!= 0){
 
                 $datosCliente[$cliente->nombre]=[
                     'desAdulNac'      => 0,
@@ -221,9 +232,9 @@ class ReporteController extends Controller {
                         }
                     }     
                 }
-                if($aterrizajes->where('nacionalidadVuelo_id', 1)->count() != 0 || $aterrizajes->where('nacionalidadVuelo_id', 2)->count()!= 0){
-                    $datosCliente[$cliente->nombre]['aeroDespegueNac'] = $aterrizajes->where('nacionalidadVuelo_id', 1)->count();
-                    $datosCliente[$cliente->nombre]['aeroDespegueInt'] = $aterrizajes->where('nacionalidadVuelo_id', 2)->count();                
+                if($despegues->where('nacionalidadVuelo_id', 1)->count() != 0 || $despegues->where('nacionalidadVuelo_id', 2)->count()!= 0){
+                    $datosCliente[$cliente->nombre]['aeroDespegueNac'] = $despegues->where('nacionalidadVuelo_id', 1)->count();
+                    $datosCliente[$cliente->nombre]['aeroDespegueInt'] = $despegues->where('nacionalidadVuelo_id', 2)->count();                
                     foreach ($despegues as $despegue) {
                         if($despegue->nacionalidadVuelo_id == 1){
                             $datosCliente[$cliente->nombre]['EmbAdulNac']  += $despegue->embarqueAdultos;

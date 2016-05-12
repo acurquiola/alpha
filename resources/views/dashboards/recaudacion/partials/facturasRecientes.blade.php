@@ -1,6 +1,6 @@
-<div class="col-md-6 connectedSortable" >
-	<div class="box box-info">
-		<div class="box-header with-border">
+<div class="col-md-6 connectedSortable" style="margin-top:20px">
+	<div class="box box-warning">
+		<div class="box-header  with-border">
 			<h3 class="box-title"><span class="fa fa-road"></span> ÚLTIMAS FACTURAS GENERADAS (PENDIENTES)</h3>
 			<div class="box-tools pull-right">
 				<button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
@@ -45,4 +45,4 @@
 			</div><!-- /.table-responsive -->
 		</div><!-- /.box-body -->
 	</div><!-- /.box -->
-</div><!-- /.col -->
+</div>

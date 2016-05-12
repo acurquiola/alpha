@@ -80,6 +80,21 @@ $(document).ready(function(){
 			return;
 		}
 
+		var valor=0;
+		var errorTotalConcepto=false;
+		$('.monto-input').each(function(index, value){
+			valor=commaToNum($(value).val());
+			if(valor<=0){
+				errorTotalConcepto=true;
+				return;
+			}
+		});
+
+		if(errorTotalConcepto==true){
+			alertify.error("El total por concepto no puede ser menor o igual a cero");
+			return;
+		}
+
 		var form=$(this).closest('form');
 		var data=$(form).serializeArray();
 		addLoadingOverlay('#main-box');
