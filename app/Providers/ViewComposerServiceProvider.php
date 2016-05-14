@@ -134,7 +134,8 @@ class ViewComposerServiceProvider extends ServiceProvider {
         });
 
 
-        view()->composer([  'reportes.reporteRelacionCobranza',
+        view()->composer([  'dashboards.recaudacion.partials.index',
+                            'reportes.reporteRelacionCobranza',
                             'reportes.reporteListadoFacturas',
                             'reportes.reporteListadoFacturasCliente',
                             'reportes.reporteRelacionEstacionamientoDiario',
