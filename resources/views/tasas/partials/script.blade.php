@@ -32,9 +32,29 @@ $(function(){
             url:$btn.data('url'),
             data:{fecha:dia, taquilla:taquilla, turno:turno}
         }).done(function(response, status, responseObject){
-            $wrapper.append(response);
-        });
+            $wrapper.html(response);
 
+        	$('#fecha-modal-input').datepicker({
+        		closeText: 'Cerrar',
+        		prevText: '&#x3C;Ant',
+        		nextText: 'Sig&#x3E;',
+        		currentText: 'Hoy',
+        		monthNames: ['Enero','Febrero','Marzo','Abril','Mayo','Junio',
+        		'Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'],
+        		monthNamesShort: ['Ene','Feb','Mar','Abr','May','Jun',
+        		'Jul','Ago','Sep','Oct','Nov','Dic'],
+        		dayNames: ['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'],
+        		dayNamesShort: ['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'],
+        		dayNamesMin: ['D','L','M','M','J','V','S'],
+        		weekHeader: 'Sm',
+        		firstDay: 1,
+        		isRTL: false,
+        		showMonthAfterYear: false,
+        		yearSuffix: '',
+        		dateFormat: "dd/mm/yy"});
+                });
+            $('#banco-modal-input').change();
+            setTimeout(calculateTotalPagar, 1000);
     });
 
     $('body').delegate('#add-serie-btn', 'click', function(){
@@ -138,17 +158,25 @@ $(function(){
             if($(value).val()=="")
                 canUpload=false;
         })
+        var pagos=[];
+        console.log($('#formas-pago-table tbody tr'));
+        $('#formas-pago-table tbody tr').each(function(index,value){
+            pagos.push($(value).data('object'));
+        })
+        var data=$form.serializeArray();
+        data.push({name:'pagos', value:JSON.stringify(pagos)});
+console.log(data);
         if(canUpload)
             $.ajax({
                 url: $form.data('url'),
-                data:$form.serializeArray(),
+                data: data,
                 method: "POST"
             }).always(function(response, status, responseObject){
                 if(status!="error"){
                     if(isSupervisor){
                         $consulta.html(response);
                     }else{
-                        $('#consultas_wrapper').html(response);
+                        $form.closest('.consulta').html($(response).find('.consulta').html());
                     }
                     alertify.success('Los datos han sido guardados.');
                 }else

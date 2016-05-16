@@ -41,77 +41,7 @@
         </div>
     </div>
 
-    <div class="modal fade" id="register-payment-modal" tabindex="-1" role="dialog" aria-labelledby="register-payment-modal" aria-hidden="true" data-backdrop="static">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Cancelar</span></button>
-                    <h4 class="modal-title">Registrar una forma de pago</h4>
-                </div>
-                <div class="modal-body">
-                    <div class="form-horizontal">
-                        <div class="form-group">
-                            <label for="forma-modal-input" class="col-sm-2 control-label">Forma de pago</label>
-                            <div class="col-md-10">
-                                <select class="form-control" id="forma-modal-input">
-                                    <option>Deposito</option>
-                                    <option>Nota de credito</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="fecha-modal-input" class="col-sm-2 control-label">Fecha</label>
-                            <div class="col-md-10">
-                                <input type="text" class="form-control" id="fecha-modal-input" autocomplete='off'>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="banco-modal-input" class="col-sm-2 control-label">Banco</label>
-                            <div class="col-md-10">
-                                <select id="banco-modal-input" class="form-control">
-                                    <option>Banco 1</option>
-                                    <option>Banco 2</option>
-                                    <option>Banco 3</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="cuenta-modal-input" class="col-sm-2 control-label">Cuenta</label>
-                            <div class="col-md-10">
-                                <select id="cuenta-modal-input" class="form-control">
-                                    <option>000-000-0-0-0-0000-0000-00</option>
-                                    <option>000-000-0-0-0-0000-0000-00</option>
-                                    <option>000-000-0-0-0-0000-0000-00</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="deposito-modal-input" class="col-sm-2 control-label">#Deposito/#Lote</label>
-                            <div class="col-md-10">
-                                <input type="text" class="form-control" id="deposito-modal-input" autocomplete='off'>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="acta-modal-input" class="col-sm-2 control-label">Acta</label>
-                            <div class="col-md-10">
-                                <input type="text" class="form-control" id="acta-modal-input" autocomplete='off' readonly value="000000">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="monto-modal-input" class="col-sm-2 control-label">Monto</label>
-                            <div class="col-md-10">
-                                <input type="text" class="form-control" id="monto-modal-input" autocomplete='off'>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                    <button type="button" class="btn btn-primary" id="delete-modal-btn">Aceptar</button>
-                </div>
-            </div>
-        </div>
-    </div>
+@include('cobranza.partials.pagoModal')
 
 
 @endsection
@@ -119,8 +49,93 @@
 @section('script')
 
     <script>
-        @include('tasas.partials.script')
+        function calculateTotalPagar(){
+        	var total =0;
+console.log($('.totales-tasas'));
+        	$('.totales-tasas').each(function(index,value){
+console.log($(value), $(value).text().trim());
+        		total+=commaToNum($(value).text().trim());
+        	})
+console.log(total);
+        	$('.total-a-pagar-doc-input').val(numToComma(total));
+        	$('#total-diferencia-doc-input').val(numToComma(commaToNum($('#total-a-depositar-doc-input').val())-total));
+        }
 
+
+        function calculateTotalDepositar(){
+        	var total  =0;
+        	$('#formas-pago-table tbody tr').each(function(index,value){
+        		var o =$(value).data('object');
+        		total +=parseFloat(o.monto);
+        	})
+        	$('#total-a-depositar-doc-input').val(numToComma(total));
+        	$('#total-diferencia-doc-input').val(numToComma(total-commaToNum($('.total-a-pagar-doc-input').val())));
+        }
+
+        @include('tasas.partials.script')
+        $(function(){
+            	$('#accept-deposito-modal-btn').click(function(){
+
+            		var o={
+            			tipo:$('#forma-modal-input option:selected').val(),
+            			fecha:$('#fecha-modal-input').val(),
+            			banco_id:$('#banco-modal-input option:selected').val(),
+            			cuenta_id:$('#cuenta-modal-input option:selected').val(),
+            			ncomprobante:$('#deposito-modal-input').val(),
+            			monto:commaToNum($('#monto-modal-input').val())
+            		};
+            		if(o.ncomprobante=="" || o.fecha=="" || o.monto==""){
+            			alertify.error('Debe llenar todos los campos del deposito.')
+            			return;
+            		}
+            		if(isNaN(parseFloat(o.monto))){
+            			alertify.error('El monto del deposito debe ser un numéro valido.')
+            			return;
+            		}
+
+            		var tr="<tr>\
+            		<td>"+o.fecha+"</td>\
+            		<td>"+$('#banco-modal-input option:selected').text()+"</td>\
+            		<td>"+$('#cuenta-modal-input option:selected').text()+"</td>\
+            		<td>"+$('#forma-modal-input option:selected').text()+"</td>\
+            		<td>"+o.ncomprobante+"</td>\
+            		<td>"+numToComma(o.monto)+"</td>\
+            		<td>\
+            			<button class='btn btn-danger remove-payment-btn'><span class='glyphicon glyphicon-minus'></span></button>\
+            		</td>\
+            	</tr>";
+            	tr=$(tr);
+            	$(tr).data("object",o);
+            	$('#formas-pago-table tbody').append(tr);
+            	$('#register-payment-modal').modal('hide');
+            	calculateTotalDepositar();
+            })
+
+            $('body').delegate('.remove-payment-btn', 'click', function(){
+            	$(this).closest('tr').remove();
+            	calculateTotalDepositar();
+            })
+
+            $('body').delegate('.register-payment-btn','click',function(){
+            	var diferencia=commaToNum($('#total-diferencia-doc-input').val());
+            	if(diferencia<0)
+            		$('#register-payment-modal #monto-modal-input').val(numToComma(Math.abs(diferencia)));
+            	$('#register-payment-modal').modal('show');
+
+            })
+
+            $('body').delegate('#banco-modal-input', 'change', function(){
+            	var cuentas=$(this).find(':selected').data('cuentas');
+            	cuentas=eval(cuentas);
+            	var options="";
+            	$.each(cuentas,function(index,value){
+            		options+="<option value='"+value.id+"'>"+value.descripcion+"</option>";
+            	})
+            	var seleccione = "<option>Seleccione</option>\ ";
+            	options=seleccione+options;
+            	$('#cuenta-modal-input').html(options);
+            });
+        })
     </script>
 
 @endsection

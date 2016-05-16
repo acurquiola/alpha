@@ -14,7 +14,8 @@ class TasaController extends Controller {
 
     public function supervisor(){
         $aeropuerto=session('aeropuerto');
-        return view('tasas.supervisor', compact('aeropuerto'));
+        $bancos=\App\Banco::with('cuentas')->get();
+        return view('tasas.supervisor', compact('aeropuerto', 'bancos'));
     }
 
     public function getSupervisorOperacion(Request $request){
@@ -42,6 +43,52 @@ class TasaController extends Controller {
         return view('tasas.partials.supervisorForm', compact('tasas' ,'tasaOps' ,'tasaOpsArray', 'fecha', 'taquilla', 'aeropuerto', 'serieTasas'));
     }
 
+    public function postSupervisor(Request $request){
+
+        $aeropuerto=$this->getAeropuerto();
+        $aeropuertoId=$aeropuerto->id;
+        $fecha=$request->get('fecha');
+        $taquilla=$request->get('taquilla');
+        $pagos=json_decode($request->get('pagos'));
+        $tasaOps=\App\Tasaop::where([
+            'aeropuerto_id' => $aeropuerto->id,
+            'fecha' => \Carbon\Carbon::createFromFormat('d/m/Y', $fecha)->format('Y-m-d'),
+            'cv' => $taquilla=="CV"
+        ])->with('detalles')->get();
+        $serieTasas=[];
+        $tasaCobro=\App\TasaCobro::create([
+            'aeropuerto_id' => $aeropuerto->id,
+            'fecha' => \Carbon\Carbon::createFromFormat('d/m/Y', $fecha)->format('Y-m-d'),
+            'cv' => $taquilla=="CV"
+        ]);
+        foreach($pagos as $pago){
+            $tasaCobro->detalles()->create([
+                "tipo"        =>$pago->tipo,
+                "fecha"        =>$pago->fecha,
+                "banco_id"     =>$pago->banco_id,
+                "cuenta_id"    =>$pago->cuenta_id,
+                "ncomprobante" =>$pago->ncomprobante,
+                "monto"        =>$pago->monto+0
+            ]);
+        }
+        foreach($tasaOps as $tasaOp){
+            dd($tasaOp->cobro);
+            $tasaOp->update(["consolidado" => true]);
+            $tasaCobro->operaciones()->save($tasaOp);
+            foreach($tasaOp->detalles as $tasa){
+                if(!array_key_exists($tasa->serie, $serieTasas)){
+                    $serieTasas[$tasa->serie]=0;
+                }
+                $serieTasas[$tasa->serie]+=$tasa->total;
+            }
+        }
+        $tasaOpsArray=$tasaOps->sortBy(function($tasaOp, $index){ return ($tasaOp['taquilla'] << 16) + $tasaOp['turno']; })->groupBy('taquilla');
+
+        $tasas=$this->getTasasByAeropuerto($aeropuerto, $taquilla);
+
+        return view('tasas.partials.supervisorForm', compact('tasas' ,'tasaOps' ,'tasaOpsArray', 'fecha', 'taquilla', 'aeropuerto', 'serieTasas'));
+    }
+
 	public function getOperacion(Request $request){
         $aeropuerto=$this->getAeropuerto();
         $fecha=$request->get('fecha');
@@ -58,10 +105,7 @@ class TasaController extends Controller {
         return view('tasas.partials.taquillaForm', compact('tasaOp', 'fecha', 'taquilla', 'turno', 'tasas', 'aeropuerto'));
     }
 
-    public function postSupervisor(Request $request){
-        $aeropuerto=$this->getAeropuerto();
 
-    }
 
     public function postOperacion(Request $request){
         $aeropuerto=$this->getAeropuerto();
