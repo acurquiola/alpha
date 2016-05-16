@@ -72,7 +72,6 @@ class TasaController extends Controller {
             ]);
         }
         foreach($tasaOps as $tasaOp){
-            dd($tasaOp->cobro);
             $tasaOp->update(["consolidado" => true]);
             $tasaCobro->operaciones()->save($tasaOp);
             foreach($tasaOp->detalles as $tasa){
