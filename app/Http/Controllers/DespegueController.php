@@ -108,7 +108,7 @@ class DespegueController extends Controller {
 	 */
 	public function store(DespegueRequest $request)
 	{
-		$despegue                         = Despegue::create($request->except("nacionalidadVuelo_id", "piloto_id", "puerto_id", "cliente_id", "cobrar_estacionamiento", "cobrar_puenteAbordaje", "cobrar_Formulario", "cobrar_AterDesp", "cobrar_habilitacion", "cobrar_carga", "cobrar_otrosCargos", "otrosCargo_id"));
+		$despegue                         = Despegue::create($request->except("piloto_id", "puerto_id", "cliente_id", "cobrar_estacionamiento", "cobrar_puenteAbordaje", "cobrar_Formulario", "cobrar_AterDesp", "cobrar_habilitacion", "cobrar_carga", "cobrar_otrosCargos", "otrosCargo_id"));
 		$aterrizaje                       = Aterrizaje::find($request->get("aterrizaje_id"));
 		$aterrizaje->despegue()->save($despegue);
 		$aterrizaje->update(["despego"    =>"1"]);

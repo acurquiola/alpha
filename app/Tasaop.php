@@ -14,12 +14,9 @@ class Tasaop extends Model {
         return $this->hasMany('App\Tasaopdetalle');
     }
 
-//    public function setFechaAttribute($fecha)
-//    {
-//        $this->setFecha($fecha,'fecha');
-//    }
-//    public function getFechaAttribute($fecha)
-//    {
-//        return $this->getFecha($fecha);
-//    }
+    public function cobro()
+    {
+        return $this->belongsTo('App\TasaCobro', 'tasa_cobro_id');
+    }
+
 }

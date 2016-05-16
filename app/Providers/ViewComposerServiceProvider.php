@@ -36,13 +36,13 @@ class ViewComposerServiceProvider extends ServiceProvider {
 		view()->composer(['partials.navbar', 'partials.menu'], function($view){
             $user      =\Auth::user();
             $rol        = $user->roles->first();
-            if ($rol->name == 'Admin' || $rol->name == 'AdministradorSCV' || $rol->name == 'OperadorSCV'){
+            if ($rol->id == 1 || $rol->id == 2 || $rol->name == 5){
                 $url  ='DashboardController@indexSCV';
                 $name ='CONTROL DE VUELOS';
-            }elseif ($rol->name == 'AdminRecaudación' || $rol->name == 'Operador Recaudacion'){
+            }elseif ($rol->id == 3 || $rol->name == 7){
                 $url  ='DashboardController@indexRecaudacion';
                 $name ='RECAUDACIÓN';
-            }elseif ($rol->name == 'Direccion'){
+            }elseif ($rol->id == 8){
                 $url  ='DashboardController@indexDireccion';
                 $name ='DIRECCION';
             }else{
@@ -190,6 +190,7 @@ class ViewComposerServiceProvider extends ServiceProvider {
             'reportes.reporteListadoFacturasCliente',
             'reportes.reporteRelacionIngresosAeronauticosContado',
             'reportes.reporteRelacionFacturasAeronauticasCredito',
+            'reportes.reporteControlDeRecaudacionMensual',
             'reportes.reporteTraficoAereo'], function($view){
             $aeropuertos = \App\Aeropuerto::lists('nombre', 'id');
             $aeropuertos[0]="Todos";
@@ -213,6 +214,7 @@ class ViewComposerServiceProvider extends ServiceProvider {
             'reportes.reporteRelacionMetaRecaudacionMensual',
             'reportes.reporteRelacionFacturasAeronauticasCredito',
             'reportes.reporteRelacionMensualDeIngresosRecaudacionPendiente',
+            'reportes.reporteControlDeRecaudacionMensual',
             'reportes.reporteTraficoAereo'], function($view){
             $meses=[
                 "01"=>"ENERO",
