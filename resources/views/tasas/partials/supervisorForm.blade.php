@@ -91,11 +91,13 @@
                         </table>
                     </div>
 	            <h5>Formas de Pago</h5>
+                @if(!$tasaCobro)
 	            <div class="row">
 		            <div class="col-xs-12 text-right">
 			            <button type="button" class="btn btn-primary register-payment-btn"><span class="glyphicon glyphicon-plus"></span> Registrar Pago</button>
 		            </div>
 	            </div>
+                @endif
 	            <div class="table-responsive" style="margin-top:15px;margin-bottom:15px">
 		            <table id="formas-pago-table" class="table table-condensed text-center">
 			            <thead class="bg-primary">
@@ -108,7 +110,19 @@
 				            <th>Acción</th>
 			            </thead>
 			            <tbody>
-
+                            @if($tasaCobro && $tasaCobro->detalles->count()>0)
+                                @foreach($tasaCobro->detalles as $pago)
+                                    <tr>
+                                        <td>{{$pago->fecha}}</td>
+                                        <td>{{$pago->banco->nombre}}</td>
+                                        <td>{{$pago->cuenta->descripcion}}</td>
+                                        <td>{{$pago->tipo}}</td>
+                                        <td>{{$pago->ncomprobante}}</td>
+                                        <td>{{$traductor->format($pago->monto)}}</td>
+                                        <td></td>
+                                    </tr>
+                                @endforeach
+                            @endif
 			            </tbody>
 		            </table>
 	            </div>
@@ -132,25 +146,28 @@
 			            </div>
 		            </div>
 	            </div>
+                @if(!$tasaCobro)
                 <div class="row">
                     <div class="col-md-6 col-md-offset-6 text-right">
                         <button type="button" class="save-tasa-btn btn btn-primary">Consolidar</button>
                     </div>
                 </div>
+                @endif
                 </form>
             </div><!-- /.box-body -->
         </div><!-- /.box -->
     </div>
 
-
-    @foreach ($tasaOps as $tasa)
-        @include('tasas.partials.taquillaForm', [
-            'tasaOp' => $tasa,
-            'fecha' => \Carbon\Carbon::createFromFormat('Y-m-d', $tasa->fecha)->format('d/m/Y'),
-            'taquilla' => $tasa->taquilla,
-            'turno' => $tasa->turno,
-            'tasas' => $tasas,
-            'aeropuerto' => $aeropuerto,
-            'isSupervisor' => true
-        ])
-    @endforeach
+    @if(!$tasaCobro)
+        @foreach ($tasaOps as $tasa)
+            @include('tasas.partials.taquillaForm', [
+                'tasaOp' => $tasa,
+                'fecha' => \Carbon\Carbon::createFromFormat('Y-m-d', $tasa->fecha)->format('d/m/Y'),
+                'taquilla' => $tasa->taquilla,
+                'turno' => $tasa->turno,
+                'tasas' => $tasas,
+                'aeropuerto' => $aeropuerto,
+                'isSupervisor' => true
+            ])
+        @endforeach
+    @endif

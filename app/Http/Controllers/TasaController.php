@@ -28,6 +28,11 @@ class TasaController extends Controller {
             'fecha' => \Carbon\Carbon::createFromFormat('d/m/Y', $fecha)->format('Y-m-d'),
             'cv' => $taquilla=="CV"
         ])->with('detalles')->get();
+        $tasaCobro=\App\TasaCobro::where([
+            'aeropuerto_id' => $aeropuerto->id,
+            'fecha' => \Carbon\Carbon::createFromFormat('d/m/Y', $fecha)->format('Y-m-d'),
+            'cv' => $taquilla=="CV"
+        ])->with('detalles')->first();
         $serieTasas=[];
         foreach($tasaOps as $tasaOp)
             foreach($tasaOp->detalles as $tasa){
@@ -40,7 +45,7 @@ class TasaController extends Controller {
 
         $tasas=$this->getTasasByAeropuerto($aeropuerto, $taquilla);
 
-        return view('tasas.partials.supervisorForm', compact('tasas' ,'tasaOps' ,'tasaOpsArray', 'fecha', 'taquilla', 'aeropuerto', 'serieTasas'));
+        return view('tasas.partials.supervisorForm', compact('tasaCobro' ,'tasas' ,'tasaOps' ,'tasaOpsArray', 'fecha', 'taquilla', 'aeropuerto', 'serieTasas'));
     }
 
     public function postSupervisor(Request $request){
@@ -84,8 +89,8 @@ class TasaController extends Controller {
         $tasaOpsArray=$tasaOps->sortBy(function($tasaOp, $index){ return ($tasaOp['taquilla'] << 16) + $tasaOp['turno']; })->groupBy('taquilla');
 
         $tasas=$this->getTasasByAeropuerto($aeropuerto, $taquilla);
-
-        return view('tasas.partials.supervisorForm', compact('tasas' ,'tasaOps' ,'tasaOpsArray', 'fecha', 'taquilla', 'aeropuerto', 'serieTasas'));
+        $tasaCobro->load('detalles');
+        return view('tasas.partials.supervisorForm', compact('tasaCobro' ,'tasas' ,'tasaOps' ,'tasaOpsArray', 'fecha', 'taquilla', 'aeropuerto', 'serieTasas'));
     }
 
 	public function getOperacion(Request $request){
@@ -93,6 +98,14 @@ class TasaController extends Controller {
         $fecha=$request->get('fecha');
         $taquilla=$request->get('taquilla');
         $turno=$request->get('turno');
+        $tasaCobro=\App\TasaCobro::where([
+            'aeropuerto_id' => $aeropuerto->id,
+            'fecha' => \Carbon\Carbon::createFromFormat('d/m/Y', $fecha)->format('Y-m-d'),
+            'cv' => $taquilla=="CV"
+        ])->first();
+        if($tasaCobro){
+                return "<di class='col-md-12'><h2 class='text-center bg-primary'>Ya este día fue consolidado</h2></div>";
+        }
         $tasaAttrs=$this->getTasasAttrs($request);
         $tasaOp=\App\Tasaop::where($tasaAttrs)->first();
         if(!$tasaOp){

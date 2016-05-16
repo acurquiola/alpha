@@ -54,7 +54,13 @@ $(function(){
         		dateFormat: "dd/mm/yy"});
                 });
             $('#banco-modal-input').change();
-            setTimeout(calculateTotalPagar, 1000);
+            setTimeout(function(){
+                if (typeof calculateTotalDepositar == 'function'){
+                    calculateTotalDepositar();
+                    calculateTotalPagar();
+
+                }
+            }, 1000);
     });
 
     $('body').delegate('#add-serie-btn', 'click', function(){
@@ -153,19 +159,19 @@ $(function(){
         var $form= $btn.closest('form');
         var $consulta= $form.closest('.consulta');
         var canUpload=true;
-        var isSupervisor=$form.data('isSupervisor')=="true";
+        var isSupervisor=$form.data('isSupervisor');
         $form.find('.hasta-input, .desde-input').each(function(index, value){
             if($(value).val()=="")
                 canUpload=false;
         })
         var pagos=[];
-        console.log($('#formas-pago-table tbody tr'));
+
         $('#formas-pago-table tbody tr').each(function(index,value){
             pagos.push($(value).data('object'));
         })
         var data=$form.serializeArray();
         data.push({name:'pagos', value:JSON.stringify(pagos)});
-console.log(data);
+
         if(canUpload)
             $.ajax({
                 url: $form.data('url'),
@@ -174,7 +180,7 @@ console.log(data);
             }).always(function(response, status, responseObject){
                 if(status!="error"){
                     if(isSupervisor){
-                        $consulta.html(response);
+                        $('#consultas_wrapper').html(response);
                     }else{
                         $form.closest('.consulta').html($(response).find('.consulta').html());
                     }

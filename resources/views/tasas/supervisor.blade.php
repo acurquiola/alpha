@@ -49,14 +49,12 @@
 @section('script')
 
     <script>
+
         function calculateTotalPagar(){
         	var total =0;
-console.log($('.totales-tasas'));
         	$('.totales-tasas').each(function(index,value){
-console.log($(value), $(value).text().trim());
         		total+=commaToNum($(value).text().trim());
         	})
-console.log(total);
         	$('.total-a-pagar-doc-input').val(numToComma(total));
         	$('#total-diferencia-doc-input').val(numToComma(commaToNum($('#total-a-depositar-doc-input').val())-total));
         }
@@ -65,8 +63,8 @@ console.log(total);
         function calculateTotalDepositar(){
         	var total  =0;
         	$('#formas-pago-table tbody tr').each(function(index,value){
-        		var o =$(value).data('object');
-        		total +=parseFloat(o.monto);
+        		var o =commaToNum($(value).find('td:eq(5)').text().trim());
+        		total +=o;
         	})
         	$('#total-a-depositar-doc-input').val(numToComma(total));
         	$('#total-diferencia-doc-input').val(numToComma(total-commaToNum($('.total-a-pagar-doc-input').val())));

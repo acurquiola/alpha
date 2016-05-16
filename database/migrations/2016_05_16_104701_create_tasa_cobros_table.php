@@ -42,7 +42,7 @@ class CreateTasaCobrosTable extends Migration {
         Schema::table('tasaops', function(Blueprint $table)
         {
             $table->integer('tasa_cobro_id')->unsigned()->nullable();
-            $table->foreign('tasa_cobro_id')->references('id')->on('tasa_cobros')->onDelete('cascade');
+            $table->foreign('tasa_cobro_id')->references('id')->on('tasa_cobros')->onDelete('set null');
         });
 	}
 
