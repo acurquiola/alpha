@@ -14,6 +14,7 @@
                     <!-- Nav tabs -->
                     <ul class="nav nav-tabs" role="tablist">
                         <li role="presentation" class="active"><a href="#aeropuertoTab" aria-controls="aeropuertoTab" role="tab" data-toggle="tab">Aeropuerto</a></li>
+                        <li role="presentation"><a href="#cuentasBancariasTab" aria-controls="cuentasBancariasTab" role="tab" data-toggle="tab">Cuentas Bancarias</a></li>
                         <li role="presentation"><a href="#tasasTab" aria-controls="tasasTab" role="tab" data-toggle="tab">Tasas</a></li>
                         <li role="presentation"><a href="#estacionamiento" aria-controls="estacionamiento" role="tab" data-toggle="tab">Estacionamiento</a></li>
                     </ul>
@@ -58,6 +59,39 @@
                                     <div class="form-group">
                                         <label for="numero-input">Gerente de Administración</label>
                                         {!! Form::text('aeropuerto[gerente]', $aeropuerto->gerente , ["class" => "form-control"]) !!}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div role="tabpanel" class="tab-pane" id="cuentasBancariasTab">
+                            <div class="row">
+                                <div class="col-md-6 col-md-offset-2">
+                                    <div class="form-group">
+                                        <label for="bancos-input">Bancos</label>
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" id="banco-input" autocomplete="off">
+                                            <span class="input-group-btn">
+                                                <button class="btn btn-primary" type="button" id="add-banco-btn"><span class="glyphicon glyphicon-plus"></span></button>
+                                            </span>
+                                        </div><!-- /input-group -->
+                                    </div>
+                                    <div class="form-group">
+                                        <table class="table" id="banco-table">
+                                            <thead>
+                                                <tr><th>Banco</th><th>Acción</th></tr>
+                                            </thead>
+                                            <tbody>
+
+                                                @if($bancos->count()>0)
+                                                    @foreach($bancos as $banco)
+                                                        <tr>
+                                                            <td><input type="text" class="form-control" value="{{$banco->nombre}}" name="bancos[{{$banco->id}}][nombre]"></td>
+                                                            <td><button type="button" class='btn btn-danger remove-porton-btn'><span class='glyphicon glyphicon-minus'></span></button></td>
+                                                        </tr>
+                                                    @endforeach
+                                                @endif
+                                            </tbody>
+                                        </table>
                                     </div>
                                 </div>
                             </div>
@@ -259,6 +293,16 @@ $(function(){
           return;
       $('#porton-table tbody').append("<tr>\
         <td><input type='text' class='form-control' value='"+value+"' name='portonesNuevos[][nombre]'></td>\
+        <td><button type='button' class='btn btn-danger remove-porton-btn'><span class='glyphicon glyphicon-minus'></span></button></td>\
+        </tr>");
+    });
+
+    $('#add-banco-btn').click(function(){
+        var value=$('#banco-input').val();
+        if(value=="")
+          return;
+      $('#banco-table tbody').append("<tr>\
+        <td><input type='text' class='form-control' value='"+value+"' name='bancosNuevos[][nombre]'></td>\
         <td><button type='button' class='btn btn-danger remove-porton-btn'><span class='glyphicon glyphicon-minus'></span></button></td>\
         </tr>");
     });
