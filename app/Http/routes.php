@@ -122,6 +122,7 @@ Route::group(['prefix' => 'tasas/'], function () {
 
     Route::get('supervisor',"TasaController@supervisor");
     Route::get('supervisor-operacion',"TasaController@getSupervisorOperacion");
+    Route::post('supervisor',"TasaController@postSupervisor");
 
     Route::get('taquilla',"TasaController@taquilla");
     Route::get('operacion',"TasaController@getOperacion");
@@ -182,4 +183,3 @@ Route::group(['prefix' => 'reporte/'], function () {
     Route::post('reporteListadoFacturaCliente', 'ReporteController@getReporteListadoFacturasCliente');
 
 });
-

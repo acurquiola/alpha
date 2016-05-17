@@ -14,18 +14,25 @@ class TasaController extends Controller {
 
     public function supervisor(){
         $aeropuerto=session('aeropuerto');
-        return view('tasas.supervisor', compact('aeropuerto'));
+        $bancos=\App\Banco::with('cuentas')->get();
+        return view('tasas.supervisor', compact('aeropuerto', 'bancos'));
     }
 
     public function getSupervisorOperacion(Request $request){
-        $aeropuerto=session('aeropuerto');
+        $aeropuerto=$this->getAeropuerto();
         $aeropuertoId=$aeropuerto->id;
         $fecha=$request->get('fecha');
         $taquilla=$request->get('taquilla');
         $tasaOps=\App\Tasaop::where([
-            'aeropuerto_id' => $aeropuertoId,
-            'fecha' => \Carbon\Carbon::createFromFormat('d/m/Y', $fecha)->format('Y-m-d')
-        ])->where('cv', '=', $taquilla=="CV")->with('detalles')->get();
+            'aeropuerto_id' => $aeropuerto->id,
+            'fecha' => \Carbon\Carbon::createFromFormat('d/m/Y', $fecha)->format('Y-m-d'),
+            'cv' => $taquilla=="CV"
+        ])->with('detalles')->get();
+        $tasaCobro=\App\TasaCobro::where([
+            'aeropuerto_id' => $aeropuerto->id,
+            'fecha' => \Carbon\Carbon::createFromFormat('d/m/Y', $fecha)->format('Y-m-d'),
+            'cv' => $taquilla=="CV"
+        ])->with('detalles')->first();
         $serieTasas=[];
         foreach($tasaOps as $tasaOp)
             foreach($tasaOp->detalles as $tasa){
@@ -34,53 +41,94 @@ class TasaController extends Controller {
                 }
                 $serieTasas[$tasa->serie]+=$tasa->total;
             }
-        $tasaOps=$tasaOps->sortBy(function($tasaOp, $index){ return ($tasaOp['taquilla'] << 16) + $tasaOp['turno']; })->groupBy('taquilla');
+        $tasaOpsArray=$tasaOps->sortBy(function($tasaOp, $index){ return ($tasaOp['taquilla'] << 16) + $tasaOp['turno']; })->groupBy('taquilla');
 
-        return view('tasas.partials.supervisorForm', compact('tasaOps', 'fecha', 'taquilla', 'aeropuerto', 'serieTasas'));
+        $tasas=$this->getTasasByAeropuerto($aeropuerto, $taquilla);
+
+        return view('tasas.partials.supervisorForm', compact('tasaCobro' ,'tasas' ,'tasaOps' ,'tasaOpsArray', 'fecha', 'taquilla', 'aeropuerto', 'serieTasas'));
     }
 
-	public function getOperacion(Request $request){
-        $aeropuerto=session('aeropuerto');
+    public function postSupervisor(Request $request){
+
+        $aeropuerto=$this->getAeropuerto();
         $aeropuertoId=$aeropuerto->id;
         $fecha=$request->get('fecha');
         $taquilla=$request->get('taquilla');
-        $turno=$request->get('turno');
-        $tasaOp=\App\Tasaop::where([
-            'aeropuerto_id' => $aeropuertoId,
+        $pagos=json_decode($request->get('pagos'));
+        $tasaOps=\App\Tasaop::where([
+            'aeropuerto_id' => $aeropuerto->id,
             'fecha' => \Carbon\Carbon::createFromFormat('d/m/Y', $fecha)->format('Y-m-d'),
-            'taquilla' => $taquilla,
-            'turno' => $turno,
-        ])->first();
-        if(!$tasaOp){
-            $tasaOp= \App\Tasaop::create([
-                'aeropuerto_id' => $aeropuertoId,
-                'fecha' => \Carbon\Carbon::createFromFormat('d/m/Y', $fecha)->format('Y-m-d'),
-                'taquilla' => $taquilla,
-                'turno' => $turno,
-                'cv' => $taquilla=="CV"
+            'cv' => $taquilla=="CV"
+        ])->with('detalles')->get();
+        $serieTasas=[];
+        $tasaCobro=\App\TasaCobro::create([
+            'aeropuerto_id' => $aeropuerto->id,
+            'fecha' => \Carbon\Carbon::createFromFormat('d/m/Y', $fecha)->format('Y-m-d'),
+            'cv' => $taquilla=="CV"
+        ]);
+        foreach($pagos as $pago){
+            $tasaCobro->detalles()->create([
+                "tipo"        =>$pago->tipo,
+                "fecha"        =>$pago->fecha,
+                "banco_id"     =>$pago->banco_id,
+                "cuenta_id"    =>$pago->cuenta_id,
+                "ncomprobante" =>$pago->ncomprobante,
+                "monto"        =>$pago->monto+0
             ]);
         }
-        $tasaOp->load('detalles');
-
-        $tasas=$aeropuerto->tasas()->where('activa', '=', true)->where('cv', '=', $taquilla=="CV")->get();
-
-        foreach($tasas as $tasa){
-            $tasa->max=\DB::table('tasaopdetalles')->where('serie', $tasa->nombre)->max('fin')+1;
+        foreach($tasaOps as $tasaOp){
+            $tasaOp->update(["consolidado" => true]);
+            $tasaCobro->operaciones()->save($tasaOp);
+            foreach($tasaOp->detalles as $tasa){
+                if(!array_key_exists($tasa->serie, $serieTasas)){
+                    $serieTasas[$tasa->serie]=0;
+                }
+                $serieTasas[$tasa->serie]+=$tasa->total;
+            }
         }
-        return view('tasas.partials.taquillaForm', compact('tasaOp', 'fecha', 'taquilla', 'turno', 'tasas', 'aeropuerto'));
+        $tasaOpsArray=$tasaOps->sortBy(function($tasaOp, $index){ return ($tasaOp['taquilla'] << 16) + $tasaOp['turno']; })->groupBy('taquilla');
+
+        $tasas=$this->getTasasByAeropuerto($aeropuerto, $taquilla);
+        $tasaCobro->load('detalles');
+        return view('tasas.partials.supervisorForm', compact('tasaCobro' ,'tasas' ,'tasaOps' ,'tasaOpsArray', 'fecha', 'taquilla', 'aeropuerto', 'serieTasas'));
     }
 
-    public function postOperacion(Request $request){
-        $aeropuertoId=session('aeropuerto')->id;
+	public function getOperacion(Request $request){
+        $aeropuerto=$this->getAeropuerto();
         $fecha=$request->get('fecha');
         $taquilla=$request->get('taquilla');
         $turno=$request->get('turno');
-        $tasaOp=\App\Tasaop::where([
-            'aeropuerto_id' => $aeropuertoId,
+        $tasaCobro=\App\TasaCobro::where([
+            'aeropuerto_id' => $aeropuerto->id,
             'fecha' => \Carbon\Carbon::createFromFormat('d/m/Y', $fecha)->format('Y-m-d'),
-            'taquilla' => $taquilla,
-            'turno' => $turno,
+            'cv' => $taquilla=="CV"
         ])->first();
+        if($tasaCobro){
+                return "<di class='col-md-12'><h2 class='text-center bg-primary'>Ya este día fue consolidado</h2></div>";
+        }
+        $tasaAttrs=$this->getTasasAttrs($request);
+        $tasaOp=\App\Tasaop::where($tasaAttrs)->first();
+        if(!$tasaOp){
+            $tasaOp= new \App\Tasaop();
+            $tasaOp->fill($tasaAttrs);
+        }
+        $tasaOp->load('detalles');
+        $tasas=$this->getTasasByAeropuerto($aeropuerto, $taquilla);
+        return view('tasas.partials.taquillaForm', compact('tasaOp', 'fecha', 'taquilla', 'turno', 'tasas', 'aeropuerto'));
+    }
+
+
+
+    public function postOperacion(Request $request){
+        $aeropuerto=$this->getAeropuerto();
+        $fecha=$request->get('fecha');
+        $taquilla=$request->get('taquilla');
+        $turno=$request->get('turno');
+        $tasaAttrs=$this->getTasasAttrs($request);
+        $tasaOp=\App\Tasaop::where($tasaAttrs)->first();
+        if(!$tasaOp){
+            $tasaOp= \App\Tasaop::create($tasaAttrs);
+        }
         $tasaOp->detalles()->delete();
         $detalles=$request->only('serie', 'desde', 'hasta', 'cantidad', 'monto');
         if(isset($detalles['serie']))
@@ -95,5 +143,39 @@ class TasaController extends Controller {
                 ]);
             }
 
+        $tasaOp->load('detalles');
+
+        $tasas=$this->getTasasByAeropuerto($aeropuerto, $taquilla);
+
+        return view('tasas.partials.taquillaForm', compact('tasaOp', 'fecha', 'taquilla', 'turno', 'tasas', 'aeropuerto'));
     }
+
+    protected function getAeropuerto(){
+        return session('aeropuerto');
+    }
+
+
+    protected function getTasasAttrs($request){
+        return [
+                'aeropuerto_id' => $this->getAeropuerto()->id,
+                'fecha' => \Carbon\Carbon::createFromFormat('d/m/Y', $request->get('fecha'))->format('Y-m-d'),
+                'taquilla' => $request->get('taquilla'),
+                'turno' => $request->get('turno'),
+                'cv' => $request->get('taquilla')=="CV"
+               ];
+    }
+
+
+
+    protected function getTasasByAeropuerto($aeropuerto, $taquilla){
+        $tasas=$aeropuerto->tasas()->where('activa', '=', true)->where('cv', '=', $taquilla=="CV")->get();
+        foreach($tasas as $tasa){
+            $tasa->max=\DB::table('tasaopdetalles')->where('serie', $tasa->nombre)->max('fin')+1;
+        };
+        return $tasas;
+    }
+
+
+
+
 }
