@@ -51,15 +51,9 @@
                             Fecha Recaudación
                          </th>
                          @foreach($modulos as $modulo)
-                            @if($modulo->nombre=="DOSAS")
-                              <th expandible data-colspan="{{$modulo->conceptos->count()}}" class="text-center activo" style="vertical-align: middle" >
+                              <th expandible data-colspan="{{$modulo->conceptos->count()}}" class="text-center" style="vertical-align: middle" >
                                  {{$modulo->nombre}}
                               </th>
-                            @else
-                                <th expandible data-colspan="{{$modulo->conceptos->count()}}" class="text-center" style="vertical-align: middle" >
-                                   {{$modulo->nombre}}
-                                </th>
-                              @endif
                          @endforeach
                          </tr>
                           <tr >
@@ -119,25 +113,63 @@
 @section('script')
 <script>
 
-$(function(){
+$(document).ready(function(){
+
+
+      $.each($('th[expandible]'), function(index,value){
+        if(($(this).text().trim())=='DOSAS'){
+          var moduloNombre=$(this).text().trim();
+          var thfecha=$('#fecha-col');
+          if(!$(this).hasClass('activo')){
+              $(this).attr('rowspan',1);
+              $(this).addClass('activo');
+              col=$(this).attr('colspan', $(this).data('colspan'));
+              $(thfecha).attr('rowspan', 2);
+              $('td[main][data-parent="'+moduloNombre+'"]').hide();
+              $('td[details][data-parent="'+moduloNombre+'"]').show();
+              $('th[details][data-parent="'+moduloNombre+'"]').show();
+              $('th[expandible]:not(".activo")').attr('rowspan',2)
+
+          }else{
+                  $(this).removeClass('activo');
+                  $(this).attr('colspan', 1);
+                  $('td[details][data-parent="'+moduloNombre+'"]').hide();
+                  $('th[details][data-parent="'+moduloNombre+'"]').hide();
+                  $('td[main][data-parent="'+moduloNombre+'"]').show();
+                  if($('th[expandible].activo').length==0){
+                      $(thfecha).attr('rowspan', 1);
+                      $('th[expandible]').attr('rowspan',1)
+                  }
+          }
+        }
+      })
 
 
 
-$('#export-btn').click(function(e){
-    var table=$('table').clone();
-    $(table).find('td, th').filter(function() {
-      return $(this).css('display') == 'none';
-    }).remove();
-    $(table).find('tr').filter(function() {
-      return $(this).find('td,th').length == 0;
-    }).remove();
-    $(table).find('th').css({'border-bottom':'1px solid black','border-top':'1px solid black', 'font-weight': 'bold'})
-    $(table).find('tr:last td').css({'border-bottom':'1px solid black','border-top':'1px solid black', 'font-weight': 'bold'})
-    var tableHtml= $(table)[0].outerHTML;
-    $('[name=table]').val(tableHtml);
-    $('#export-form').submit();
-})
-
+    $('#export-btn').click(function(e){
+      var table=$('table').clone();
+      $(table).find('td, th').filter(function() {
+        return $(this).css('display') == 'none';
+      }).remove();
+      $(table).find('tr').filter(function() {
+        return $(this).find('td,th').length == 0;
+      }).remove();
+      $(table).prepend('<thead>\
+                <tr>\
+                  <th colspan="24" style="vertical-align: middle; margin-top:20px" align="center" class="text-center">CONTROL DE RECAUDACIÓN \
+                    </br>\
+                  </th>\
+                </tr>\
+              </thead>')
+      $(table).find('thead, th').css({'border-top':'1px solid black', 'font-weight': 'bold', 'text-align':"center", 'font-size': '7px'})
+      $(table).find('th').css({'border-bottom':'1px solid black', 'font-weight': 'bold', 'text-align':"center", 'font-size': '7px'})
+      $(table).find('td').css({'font-size': '6px'})
+      $(table).find('tr:nth-child(even)').css({'background-color': '#E2E2E2'})
+      $(table).find('tr:last td').css({'border-bottom':'1px solid black','border-top':'1px solid black', 'font-weight': 'bold'})
+      var tableHtml= $(table)[0].outerHTML;
+      $('[name=table]').val(tableHtml);
+      $('#export-form').submit();
+    })
 
 
 })
