@@ -137,21 +137,21 @@
 									@if($recibos->count()>0)
 									@foreach($recibos as $recibo)
 									<tr>
-										<td style="vertical-align: middle; width:40px" align="center">{{$recibo->fecha}}</td>
-										<td align="center"  style="width:30px">{{$recibo->cobro->id}}</td>
-										<td style="vertical-align: middle; width:40px" align="center" >{{($recibo->cobro->nRecibo)?$recibo->cobro->nRecibo:'N/A'}}</td>
-										<td style="vertical-align: middle; width:40px" align="center"  >{{$recibo->cobro->cliente->codigo}}</td>
-										<td style="vertical-align: middle; width:150px" align="left" >{{$recibo->cobro->cliente->nombre}}</td>
-										<td style="vertical-align: middle; width:30px" align="center">{{$recibo->tipo}}</td>
-										<td style="vertical-align: middle; width:40px" align="center">{{substr($recibo->cuenta->descripcion, -6)}}</td>
-										<td style="vertical-align: middle; width:40px" align="center">{{$recibo->ncomprobante}}</td>
-										<td style="vertical-align: middle; width:40px" align="center">-</td>
-										<td style="vertical-align: middle; width:50px" align="center">-</td>
-										<td style="vertical-align: middle; width:50px" align="center">-</td>
-										<td style="vertical-align: middle; width:50px" align="center">-</td>
-										<td style="vertical-align: middle; width:80px" align="right">{{$traductor->format($recibo->cobro->montofacturas)}}</td>
-										<td style="vertical-align: middle; width:70px" align="right">{{$traductor->format($recibo->cobro->montodepositado)}}</td>
-										<td style="vertical-align: middle; width:70px" align="right">{{$traductor->format(($recibo->cobro->montofacturas-$recibo->cobro->montodepositado))}}</td>
+										<td style="vertical-align: middle; width:40px" align="center">{{$recibo->created_at}}</td>
+										<td align="center"  style="width:30px">{{$recibo->id}}</td>
+										<td style="vertical-align: middle; width:40px" align="center" >{{($recibo->nRecibo)?$recibo->nRecibo:'N/A'}}</td>
+										<td style="vertical-align: middle; width:40px" align="center" >{{$recibo->cliente->codigo}}</td>
+										<td style="vertical-align: middle; width:150px" align="left" >{{$recibo->cliente->nombre}}</td>
+										<td style="vertical-align: middle; width:30px" align="center">@foreach($recibo->pagos as $pagos) {{$pagos->tipo}} @endforeach</td>
+										<td style="vertical-align: middle; width:40px" align="center">@foreach($recibo->pagos as $pagos) {{substr($pagos->cuenta->descripcion, -6)}} @endforeach</td>
+										<td style="vertical-align: middle; width:40px" align="center">@foreach($recibo->pagos as $pagos) {{$pagos->ncomprobante}} @endforeach</td>
+										<td style="vertical-align: middle; width:40px" align="center">@foreach($recibo->facturas as $comprobante) {{$comprobante->pivot->retencionFecha}} @endforeach</td>
+										<td style="vertical-align: middle; width:50px" align="center">@foreach($recibo->facturas as $comprobante) {{$comprobante->pivot->retencionComprobante}} @endforeach</td>
+										<td style="vertical-align: middle; width:50px" align="center">@foreach($recibo->facturas as $comprobante) {{$traductor->format($comprobante->pivot->iva)}} @endforeach</td>
+										<td style="vertical-align: middle; width:50px" align="center">@foreach($recibo->facturas as $comprobante) {{$traductor->format(($comprobante->pivot->base * $comprobante->pivot->islrpercentage)/100)}} @endforeach</td>
+										<td style="vertical-align: middle; width:80px" align="right">{{$traductor->format($recibo->montofacturas)}}</td>
+										<td style="vertical-align: middle; width:70px" align="right">{{$traductor->format($recibo->montodepositado)}}</td>
+										<td style="vertical-align: middle; width:70px" align="right">{{$traductor->format(($recibo->montofacturas-$recibo->montodepositado))}}</td>
 									</tr>
 									@endforeach
 
@@ -174,7 +174,7 @@
 									</tr>   
 									@else
 									<tr>
-										<td colspan="12" class="text-center">No hay registros para las fechas seleccionadas</td>
+										<td colspan="15" class="text-center">No hay registros para las fechas seleccionadas</td>
 									</tr>
 									@endif
 <!--                         <tr class="bg-gray">

@@ -80,7 +80,7 @@ class ViewComposerServiceProvider extends ServiceProvider {
             $view->with(compact('clientes'));
         });
 
-        view()->composer(['index','cliente.partials.form','factura.partials.form', 'usuarios.index', 'usuarios.partials.form'], function($view){
+        view()->composer(['index','cliente.partials.form','factura.partials.form', 'usuarios.index', 'usuarios.partials.form', 'reportes.reporteControlDeRecaudacionMensual'], function($view){
             $aeropuertos = \App\Aeropuerto::lists('nombre', 'id');
             $view->with(compact('aeropuertos'));
         });
@@ -191,7 +191,6 @@ class ViewComposerServiceProvider extends ServiceProvider {
             'reportes.reporteListadoFacturasCliente',
             'reportes.reporteRelacionIngresosAeronauticosContado',
             'reportes.reporteRelacionFacturasAeronauticasCredito',
-            'reportes.reporteControlDeRecaudacionMensual',
             'reportes.reporteTraficoAereo'], function($view){
             $aeropuertos = \App\Aeropuerto::lists('nombre', 'id');
             $aeropuertos[0]="Todos";
