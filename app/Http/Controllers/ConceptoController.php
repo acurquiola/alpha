@@ -82,7 +82,7 @@ class ConceptoController extends Controller {
     public function update($id, ConceptoRequest $request)
     {
         $concepto=\App\Concepto::find($id);
-        $concepto->update($request->only('nompre', 'iva', 'condicionPago'));
+        $concepto->update($request->only('nompre', 'iva', 'condicionPago', 'nombreImprimible'));
 
         return redirect("administracion/concepto")->with('status','El concepto fue actualizado con �xito.');
     }

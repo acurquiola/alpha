@@ -33,9 +33,8 @@
 				</table>
 				<div class="box-footer clearfix">
 					<a href="{{ URL::to('reporte/reporterCuadreCaja') }}" class="pull-right btn btn-default">Ver más <i class="fa fa-arrow-circle-right"></i></a>
-				</a>	
-			</div>
-		</div><!-- /.table-responsive -->
-	</div><!-- /.box-body -->
-</div><!-- /.box -->
+				</div>
+			</div><!-- /.table-responsive -->
+		</div><!-- /.box-body -->
+	</div><!-- /.box -->
 </div><!-- /.box -->

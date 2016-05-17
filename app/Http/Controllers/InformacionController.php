@@ -44,7 +44,9 @@ class InformacionController extends Controller {
 
         $tasas=$aeropuerto->tasas()->get();
 
-        return view("administracion/informacion", compact("aeropuerto", "estacionamiento", "portons", "conceptosEstacionamiento", "tasas"));
+        $bancos = \App\Banco::get();
+
+        return view("administracion/informacion", compact("aeropuerto", "estacionamiento", "portons", "conceptosEstacionamiento", "tasas", "bancos"));
 	}
 
 	/**
@@ -101,6 +103,10 @@ class InformacionController extends Controller {
 		$aeropuerto=session("aeropuerto");
         $aeropuerto->update($request->get("aeropuerto"));
 
+        //actualizando bancos
+        $bancos=\App\Banco::all();
+        $this->actualizarBancos($bancos, $request->get('bancosNuevos',[]), $request->get("bancos", []));
+
         //actualizando estacionamientos del aeropuerto de la sesion
         $estacionamiento=$aeropuerto->estacionamiento;
         $estacionamiento->update($request->get("estacionamiento"));
@@ -154,6 +160,22 @@ class InformacionController extends Controller {
      * pero se los dejo de tarea.
      *
      */
+    protected function actualizarBancos($bancos, $nuevos, $actualizados){
+
+        foreach($actualizados as $bancoID => $banco){
+            $bancos->find($bancoID)->update($banco);
+        }
+        list($keys, $values) = array_divide($actualizados);
+        $bancosBorrar=\App\Banco::whereNotIn('id',$keys)->get();
+        $bancosBorrar->each(function($banco){
+            $banco->delete();
+        });
+        foreach($nuevos as $banco){
+            $bancosCreate = \App\Banco::create($banco);
+        }
+
+    }
+
     protected function actualizarEstacionamientos($estacionamiento, $nuevos, $actualizados){
 
         foreach($actualizados as $portonId => $porton){
