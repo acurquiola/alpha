@@ -861,6 +861,9 @@ class ReporteController extends Controller {
                                 ->where('facturas.deleted_at', null)
                                 ->where('aeropuerto_id', session('aeropuerto')->id)
                                 ->where('nroDosa', '<>', 'NULL')
+                                ->orderBy('nControl', 'ASC')
+                                ->orderBy('nFactura', 'ASC')
+                                ->orderBy('nroDosa', 'ASC')
                                 ->get();
 
         $facturasTotal   = $facturas->sum('total');

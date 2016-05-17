@@ -78,7 +78,7 @@
 								<tbody>
 									@foreach($facturas as $factura)
 									<tr title="{{$factura->fecha}}" align="center">
-										<td>{{$factura->nControl}}</td>
+										<td>{{$factura->nControlPrefix}}-{{$factura->nControl}}</td>
 										<td>{{$factura->nroDosa}}</td>
 										<td>{{$factura->nFacturaPrefix}}-{{$factura->nFactura}}</td>
 										<td align="left">{{$factura->cliente->nombre}}</td>
@@ -125,8 +125,16 @@
 @section('script')
 <script>
 	$(function(){
+
+
 		$('#export-btn').click(function(e){
-		    var table=$('table').clone();
+			var table=$('table').clone();
+			$(table).find('td, th').filter(function() {
+				return $(this).css('display') == 'none';
+			}).remove();
+			$(table).find('tr').filter(function() {
+				return $(this).find('td,th').length == 0;
+			}).remove();
 		    $(table).prepend('<thead>\
 		    					<tr>\
 									<th colspan="6" style="vertical-align: middle; margin-top:20px" align="center" class="text-center">CUADRE DE CAJA\
@@ -134,12 +142,14 @@
 									DESDE: {{$diaDesde}}/{{$mesDesde}}/{{$annoDesde}} HASTA: {{$diaHasta}}/{{$mesHasta}}/{{$annoHasta}} </th>\
 								</tr>\
 							</thead>')
-		    $(table).find('thead, th').css({'border-top':'1px solid black', 'font-weight': 'bold', 'text-align':"center"})
-		    $(table).find('th').css({'border-bottom':'1px solid black','border-top':'1px solid black', 'font-weight': 'bold', 'text-align':"center"})
-		    $(table).find('tr:last td').css({'border-bottom':'1px solid black','border-top':'1px solid black', 'font-weight': 'bold'})
-		    var tableHtml= $(table)[0].outerHTML;
-		    $('[name=table]').val(tableHtml);
-		    $('#export-form').submit();
+			$(table).find('thead, th').css({'border-top':'1px solid black', 'font-weight': 'bold', 'text-align':"center", 'font-size': '8px'})
+			$(table).find('th').css({'border-bottom':'1px solid black', 'font-weight': 'bold', 'text-align':"center", 'font-size': '8px'})
+			$(table).find('td').css({'font-size': '7px'})
+			$(table).find('tr:nth-child(even)').css({'background-color': '#E2E2E2'})
+			$(table).find('tr:last td').css({'border-bottom':'1px solid black','border-top':'1px solid black', 'font-weight': 'bold'})
+			var tableHtml= $(table)[0].outerHTML;
+			$('[name=table]').val(tableHtml);
+			$('#export-form').submit();
 		});
 	});
 </script>

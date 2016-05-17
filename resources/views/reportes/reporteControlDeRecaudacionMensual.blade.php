@@ -52,7 +52,7 @@
 										</th>
 										@foreach($modulos as $modulo)
 										<th expandible data-colspan="{{$modulo->conceptos->count()}}" class="text-center" style="vertical-align: middle" >
-											{{$modulo->nombre}}
+											{{$modulo->nombreImprimible}}
 										</th>
 										@endforeach
 									</tr>

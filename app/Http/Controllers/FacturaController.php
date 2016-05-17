@@ -271,7 +271,7 @@ class FacturaController extends Controller {
                                             ->where('facturas.aeropuerto_id','=', session('aeropuerto')->id)
                                             ->where('deleted_at', '<>', 'NULL')
                                             ->with('cliente')->groupBy("facturas.nFactura")
-                                            ->orderBy($sortName, $sortType)->paginate(10);
+                                            ->orderBy('nFactura', $sortType)->paginate(10);
         }else{
             $modulo->facturas=\App\Factura::select("facturas.*","clientes.nombre as clienteNombre")
                                 ->join('clientes','clientes.id' , '=', 'facturas.cliente_id')
@@ -285,7 +285,7 @@ class FacturaController extends Controller {
                                 ->where('facturas.aeropuerto_id','=', session('aeropuerto')->id)
                                 ->where('estado', 'like', $estado)
                                 ->with('cliente')->groupBy("facturas.nFactura")
-                                ->orderBy($sortName, $sortType)->paginate(10);
+                                ->orderBy('nFactura', $sortType)->paginate(10);
         }
 
         $modulo->facturas->setPath('');
