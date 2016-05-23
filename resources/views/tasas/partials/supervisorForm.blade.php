@@ -5,7 +5,7 @@
             <div class="box-header">
                 <div class="row">
                     <div class="col-md-6">
-                        <h3 class="box-title">Tasas-taquilla</h3>
+                        <h3 class="box-title">TAQUILLA</h3>
                     </div>
                     <div class="col-md-offset-4 col-md-2 text-right">
                         <span class="pull-right">Fecha: {{$fecha}}</span>
@@ -21,21 +21,21 @@
                     <input type="hidden" name="taquilla" value="{{$taquilla}}">
                     <div class="table-responsive">
                         <table class="table table-bordered" id="serie-table">
-                            <thead>
+                            <thead class="bg-primary">
                                 <tr>
-                                    <th class="text-center" rowspan="2" style="min-width:100px; vertical-align: middle">Taquilla</th>
-                                    <th class="text-center"  rowspan="2" style="min-width:100px; vertical-align: middle">Turno</th>
+                                    <th class="text-center" rowspan="2" style="min-width:100px; vertical-align: middle">TAQUILLA</th>
+                                    <th class="text-center"  rowspan="2" style="min-width:100px; vertical-align: middle">TURNO</th>
                                     @foreach($serieTasas as $serie => $serieTotal)
                                         <th colspan="5" style="min-width:100px;" class="text-center">{{$serie}}</th>
                                     @endforeach
                                 </tr>
                                 <tr>
                                     @foreach($serieTasas as $serie => $serieTotal)
-                                        <th class="text-right">Desde</th>
-                                        <th class="text-right">Hasta</th>
-                                        <th class="text-right">Costo</th>
-                                        <th class="text-right">Cantidad</th>
-                                        <th class="text-right">Total</th>
+                                        <th class="text-right">DESDE</th>
+                                        <th class="text-right">HASTA</th>
+                                        <th class="text-right">COSTO</th>
+                                        <th class="text-right">CANTIDAD</th>
+                                        <th class="text-right">TOTAL</th>
                                     @endforeach
                                 </tr>
                             </thead>
@@ -74,13 +74,13 @@
                                     @endforeach
                                 @endif
                             </tbody>
-                            <tfoot>
+                            <tfoot class="bg-gray">
                                 <tr>
-                                    <td colspan="2"><strong>Totales</strong></td>
+                                    <td colspan="6" class="text-right"><strong>TOTAL</strong></td>
                                     @foreach($serieTasas as $serie => $serieTotal)
                                         @foreach($turno->detalles as $detalle)
                                             @if($detalle->serie == $serie)
-                                                <td colspan="5" class="text-right totales-tasas">
+                                                <td  class="text-right totales-tasas">
                                                     {{$traductor->format($serieTotal)}}
                                                 </td>
                                             @endif

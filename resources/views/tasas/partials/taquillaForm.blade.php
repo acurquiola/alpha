@@ -5,16 +5,16 @@
             <div class="box-header">
                 <div class="row">
                     <div class="col-md-6">
-                        <h3 class="box-title">Tasas-taquilla</h3>
+                        <h3 class="box-title">TASAS - TAQUILLA</h3>
                     </div>
                     <div class="col-md-2 text-right">
-                        <span class="pull-right">Taquilla: {{$taquilla}} </span>
+                        <span class="pull-right"><<strong>TAQUILLA:</strong> {{($taquilla=='CV')?'Sección de Control de Vuelos':$taquilla}} </span>
                     </div>
                     <div class="col-md-2 text-right">
-                        <span class="pull-right">Turno: {{$turno}}</span>
+                        <span class="pull-right"><strong>TURNO:</strong> {{($taquilla=='CV')?'Único':$turno}}</span>
                     </div>
                     <div class="col-md-2 text-right">
-                        <span class="pull-right">Fecha: {{$fecha}}</span>
+                        <span class="pull-right"><strong>FECHA:</strong> {{$fecha}}</span>
                     </div>
                 </div>
 
@@ -29,13 +29,13 @@
 
                     <table class="table" id="serie-table">
                         <thead>
-                            <th style="min-width:100px">Serie</th>
-                            <th class="text-right">Desde</th>
-                            <th class="text-right">Hasta</th>
-                            <th style="min-width:100px">Cantidad</th>
-                            <th class="text-right" style="min-width:150px">Monto</th>
-                            <th class="text-right" style="min-width:150px">Total</th>
-                            <th>Acción</th>
+                            <th class="text-center" style="min-width:100px">SERIE</th>
+                            <th class="text-center">DESDE</th>
+                            <th class="text-center">HASTA</th>
+                            <th class="text-center" style="min-width:100px">CANTIDAD</th>
+                            <th class="text-center" style="min-width:150px">MONTO</th>
+                            <th class="text-center" style="min-width:150px">TOTAL</th>
+                            <th>ACCIÓN</th>
 
                         </thead>
                         <tbody>
@@ -48,14 +48,14 @@
                                             <input type="hidden" name="serie[]" class="serie-val" value="{{$tasa->nombre}}">
                                             <p class="form-control-static">Serie {{$tasa->nombre}}</p>
                                         </td>
-                                        <td>
+                                        <td  style="width: 200px">
                                             <input name="desde[]" class="form-control text-right desde-input" value="{{max($tasa->inicio, $tasa->max)}}">
                                         </td>
-                                        <td>
+                                        <td  style="width: 200px">
                                             <input name="hasta[]" class="form-control text-right hasta-input" value="{{max($tasa->inicio, $tasa->max)}}">
                                         </td>
                                         <td>
-                                            <div class="input-group">
+                                            <div class="input-group" style="width: 300px; margin-left: 50px">
                                                 <span class="input-group-btn">
                                                     <button type="button" class="btn btn-danger subtract-tasa" type="button">
                                                         <span class="glyphicon glyphicon-minus"></span>
@@ -71,7 +71,7 @@
                                         </td>
                                         <td>
                                             <input type="hidden" name="monto[]" class="serie-val" value="{{$tasa->monto}}">
-                                            <p class="form-control-static text-right bs-input">{{$tasa->monto}}</p>
+                                            <p class="form-control-static text-right bs-input">{{$traductor->format($tasa->monto)}}</p>
                                         </td>
                                         <td>
                                             <p class="form-control-static text-right monto-input">0,00</p>
@@ -113,10 +113,10 @@
                                         </td>
                                         <td>
                                             <input {{isset($isSupervisor)?"":"disabled"}} type="hidden" name="monto[]" class="serie-val" value="{{$detalle->costo}}">
-                                            <p class="form-control-static text-right bs-input">{{$detalle->costo}}</p>
+                                            <p class="form-control-static text-right bs-input">{{$traductor->format($detalle->costo)}}</p>
                                         </td>
                                         <td>
-                                            <p class="form-control-static text-right monto-input">{{$detalle->total}}</p>
+                                            <p class="form-control-static text-right monto-input">{{$traductor->format($detalle->total)}}</p>
                                         </td>
                                         <td>
                                             <button {{isset($isSupervisor)?"":"disabled"}} type="button" class="btn btn-danger delete-serie-btn">
