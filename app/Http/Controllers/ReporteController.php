@@ -268,7 +268,6 @@ class ReporteController extends Controller {
                         }
                     }
                 }
-                dd($datosCliente);
             }
 
         }
