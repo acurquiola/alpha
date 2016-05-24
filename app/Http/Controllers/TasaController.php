@@ -9,7 +9,8 @@ class TasaController extends Controller {
 
     public function taquilla(){
         $aeropuerto=session('aeropuerto');
-        return view('tasas.taquilla', compact('aeropuerto'));
+        $today = \Carbon\Carbon::now()->format('d/m/Y');
+        return view('tasas.taquilla', compact('aeropuerto', 'today'));
     }
 
     public function supervisor(){
@@ -25,13 +26,13 @@ class TasaController extends Controller {
         $taquilla=$request->get('taquilla');
         $tasaOps=\App\Tasaop::where([
             'aeropuerto_id' => $aeropuerto->id,
-            'fecha' => \Carbon\Carbon::createFromFormat('d/m/Y', $fecha)->format('Y-m-d'),
-            'cv' => $taquilla=="CV"
+            'fecha'         => \Carbon\Carbon::createFromFormat('d/m/Y', $fecha)->format('Y-m-d'),
+            'cv'            => $taquilla=="CV"
         ])->with('detalles')->get();
         $tasaCobro=\App\TasaCobro::where([
             'aeropuerto_id' => $aeropuerto->id,
-            'fecha' => \Carbon\Carbon::createFromFormat('d/m/Y', $fecha)->format('Y-m-d'),
-            'cv' => $taquilla=="CV"
+            'fecha'         => \Carbon\Carbon::createFromFormat('d/m/Y', $fecha)->format('Y-m-d'),
+            'cv'            => $taquilla=="CV"
         ])->with('detalles')->first();
         $serieTasas=[];
         foreach($tasaOps as $tasaOp)
@@ -50,21 +51,21 @@ class TasaController extends Controller {
 
     public function postSupervisor(Request $request){
 
-        $aeropuerto=$this->getAeropuerto();
-        $aeropuertoId=$aeropuerto->id;
-        $fecha=$request->get('fecha');
-        $taquilla=$request->get('taquilla');
-        $pagos=json_decode($request->get('pagos'));
-        $tasaOps=\App\Tasaop::where([
-            'aeropuerto_id' => $aeropuerto->id,
-            'fecha' => \Carbon\Carbon::createFromFormat('d/m/Y', $fecha)->format('Y-m-d'),
-            'cv' => $taquilla=="CV"
-        ])->with('detalles')->get();
+        $aeropuerto     =$this->getAeropuerto();
+        $aeropuertoId   =$aeropuerto->id;
+        $fecha          =$request->get('fecha');
+        $taquilla       =$request->get('taquilla');
+        $pagos          =json_decode($request->get('pagos'));
+        $tasaOps        =\App\Tasaop::where([
+                                            'aeropuerto_id' => $aeropuerto->id,
+                                            'fecha'         => \Carbon\Carbon::createFromFormat('d/m/Y', $fecha)->format('Y-m-d'),
+                                            'cv'            => $taquilla=="CV"
+                                        ])->with('detalles')->get();
         $serieTasas=[];
         $tasaCobro=\App\TasaCobro::create([
             'aeropuerto_id' => $aeropuerto->id,
-            'fecha' => \Carbon\Carbon::createFromFormat('d/m/Y', $fecha)->format('Y-m-d'),
-            'cv' => $taquilla=="CV"
+            'fecha'         => \Carbon\Carbon::createFromFormat('d/m/Y', $fecha)->format('Y-m-d'),
+            'cv'            => $taquilla=="CV"
         ]);
         foreach($pagos as $pago){
             $tasaCobro->detalles()->create([

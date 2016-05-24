@@ -102,9 +102,9 @@ class AterrizajeController extends Controller {
 			$pilotoID  =($pilotoID)?$piloto->id:NULL;
 			$clienteID =($clienteID)?$cliente->id:NULL;
 
-			$aterrizaje->puerto_id            =$puertoID;
-			$aterrizaje->piloto_id            =$pilotoID;
-			$aterrizaje->cliente_id           =$clienteID;
+			$aterrizaje->puerto_id  =$puertoID;
+			$aterrizaje->piloto_id  =$pilotoID;
+			$aterrizaje->cliente_id =$clienteID;
 
 			if ($puertoID)
 			{
