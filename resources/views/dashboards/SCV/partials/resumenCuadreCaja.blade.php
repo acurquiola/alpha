@@ -1,4 +1,4 @@
-<div class="col-md-6 connectedSortable" >
+<div class="col-md-5 connectedSortable" >
 	<div class="box box-warning">
 		<div class="box-header  with-border">
 			<h3 class="box-title"><span class="fa fa-bars"></span> RESUMEN DE CUADRE DE CAJA</h3>
@@ -19,15 +19,15 @@
 						<tbody>
 							<tr>
 								<td>Total Contado: </td>
-								<td>{{$traductor->format($facturasContado)}}</td>
+								<td class="text-right">{{$traductor->format($facturasContado)}}</td>
 							</tr> 
 							<tr>
 								<td>Total Crédito: </td>
-								<td>{{$traductor->format($facturasCredito)}}</td>	
+								<td class="text-right">{{$traductor->format($facturasCredito)}}</td>	
 							</tr>
 							<tr>
-								<td>Total: </td>
-								<td>{{$traductor->format($facturasTotal)}}</td>
+								<td><strong>Total: </strong></td>
+								<td class="text-right"><strong>{{$traductor->format($facturasTotal)}}</strong></td>
 							</tr>
 					</tbody>
 				</table>

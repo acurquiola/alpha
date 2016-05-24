@@ -1,4 +1,4 @@
-<div class="col-md-6 connectedSortable" >
+<div class="col-md-7 connectedSortable" >
 	<div class="box box-success">
 		<div class="box-header with-border">
 			<h3 class="box-title"><span class="fa fa-road"></span> ATERRIZAJES PENDIENTES DEL DÍA</h3>

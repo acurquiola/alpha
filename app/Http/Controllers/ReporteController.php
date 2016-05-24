@@ -268,6 +268,7 @@ class ReporteController extends Controller {
                         }
                     }
                 }
+                dd($datosCliente);
             }
 
         }
@@ -591,7 +592,14 @@ class ReporteController extends Controller {
         $mesHasta   =$request->get('mesHasta', \Carbon\Carbon::now()->month);
         $annoHasta  =$request->get('annoHasta',  \Carbon\Carbon::now()->year);
         $aeropuerto =session('aeropuerto');
-        $despegues  = \App\Despegue::with("factura", "aterrizaje")->whereBetween('fecha', array($annoDesde.'-'.$mesDesde.'-'.$diaDesde,  $annoHasta.'-'.$mesHasta.'-'.$diaHasta) )->where('aeropuerto_id', session('aeropuerto')->id)->get();
+        $aterrizajes = \App\Aterrizaje::whereBetween('fecha', array($annoDesde.'-'.$mesDesde.'-'.$diaDesde,  $annoHasta.'-'.$mesHasta.'-'.$diaHasta))->lists('id');
+        $despegues  = \App\Despegue::with("factura", "aterrizaje")
+                                ->where('aeropuerto_id', session('aeropuerto')->id)
+                                ->whereBetween('fecha', array($annoDesde.'-'.$mesDesde.'-'.$diaDesde,  $annoHasta.'-'.$mesHasta.'-'.$diaHasta) )
+                                ->OrwhereIn('aterrizaje_id', $aterrizajes)
+                                ->orderBy('fecha')
+                                ->get();
+
         return view('reportes.reporteDES900', compact('diaDesde', 'mesDesde', 'annoDesde', 'diaHasta', 'mesHasta', 'annoHasta', 'aeropuerto', 'despegues'));
     }
 

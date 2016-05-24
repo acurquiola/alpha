@@ -467,11 +467,11 @@ class FacturaController extends Controller {
 	public function destroy($id,Factura $factura)
 	{
         if($factura->cobros()->count()>0){
-            return ["success"=>0, "text"=>"No se pudo eliminar la factura ya que posee cobros asociados"];
+            return ["success"=>0, "text"=>"No se pudo anular la factura ya que posee cobros asociados"];
         }
 
         if($factura->delete())
-            return ["success"=>1, "text"=>"La factura se ha anulado con exito."];
+            return ["success"=>1, "text"=>"La factura se ha anulado con éxito."];
         else
             return ["success"=>0, "text"=>"No se pudo anular la factura."];
 	}
