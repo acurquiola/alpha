@@ -94,9 +94,9 @@ class AterrizajeController extends Controller {
 		if($aterrizaje)
 		{
 
-			$puertoID  =$puerto=Puerto::find($request->get("puerto_id"));
-			$pilotoID  =$piloto=Piloto::find($request->get("piloto_id"));
-			$clienteID =$cliente=Cliente::find($request->get("cliente_id"));
+			$puertoID  =$puerto = Puerto::find($request->get("puerto_id"));
+			$pilotoID  =$piloto = Piloto::find($request->get("piloto_id"));
+			$clienteID =$cliente = Cliente::find($request->get("cliente_id"));
 			
 			$puertoID  =($puertoID)?$puerto->id:NULL;
 			$pilotoID  =($pilotoID)?$piloto->id:NULL;
@@ -108,9 +108,9 @@ class AterrizajeController extends Controller {
 
 			if ($puertoID)
 			{
-				$nacionalidadMatricula = $aterrizaje->aeronave->nacionalidad_id;
+				//$nacionalidadMatricula = $aterrizaje->aeronave->nacionalidad_id;
 				$nacionalidadPuerto    = $aterrizaje->puerto->pais_id;
-				if(($nacionalidadMatricula != '246') || ($nacionalidadMatricula == '246' && $nacionalidadPuerto != '232')){
+				if($nacionalidadPuerto != '232'){
 					$aterrizaje->nacionalidadVuelo_id = '2';
 				}else{
 					$aterrizaje->nacionalidadVuelo_id = '1';
