@@ -149,13 +149,13 @@
 
 													<div class="btn-group dropup">
 														<a target="_blank" class='btn btn-default  btn-sm' href='{{action('CobranzaController@getPrint', ["cobro"=>$cobro->id, "modulo"=>$modulo->id])}}'><span class='glyphicon glyphicon-print'  ></span></a>
-														<button type="button" class="btn btn-default dropdown-toggle btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+														<!-- <button type="button" class="btn btn-default dropdown-toggle btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 															<span class="caret"></span>
 															<span class="sr-only">Toggle Dropdown</span>
 														</button>
 														<ul class="dropdown-menu">
 															<li><a target="_blank" href='{{action('CobranzaController@getPrint', ["cobro"=>$cobro->id, "modulo"=>$modulo->id])}}'>Anular Recibo</a></li>
-														</ul>
+														</ul> -->
 													</div>
 													@endif
 													<button class='btn btn-danger delete-cobro-btn' data-id="{{$cobro->id}}"><span class='glyphicon glyphicon-remove'></span></button>

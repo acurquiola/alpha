@@ -102,16 +102,16 @@ class AterrizajeController extends Controller {
 			$pilotoID  =($pilotoID)?$piloto->id:NULL;
 			$clienteID =($clienteID)?$cliente->id:NULL;
 
-			$aterrizaje->puerto_id            =$puertoID;
-			$aterrizaje->piloto_id            =$pilotoID;
-			$aterrizaje->cliente_id           =$clienteID;
+			$aterrizaje->puerto_id  =$puertoID;
+			$aterrizaje->piloto_id  =$pilotoID;
+			$aterrizaje->cliente_id =$clienteID;
 
 			if ($puertoID)
 			{
-				//$nacionalidadMatricula = $aterrizaje->aeronave->nacionalidad_id;
+				$nacionalidadMatricula = $aterrizaje->aeronave->nacionalidad_id;
 				$nacionalidadPuerto    = $aterrizaje->puerto->pais_id;
-				if($nacionalidadPuerto != '232'){
-					$aterrizaje->nacionalidadVuelo_id = '2';
+			if(($nacionalidadMatricula != '246') || ($nacionalidadMatricula == '246' && $nacionalidadPuerto != '232')){					
+				$aterrizaje->nacionalidadVuelo_id = '2';
 				}else{
 					$aterrizaje->nacionalidadVuelo_id = '1';
 				}

@@ -5,12 +5,12 @@
             <div class="box-header">
                 <div class="row">
                     <div class="col-md-6">
-                        <h3 class="box-title">TASAS - TAQUILLA</h3>
+                        <h3 class="box-title">TAQUILLA</h3>
                     </div>
-                    <div class="col-md-2 text-right">
-                        <span class="pull-right"><<strong>TAQUILLA:</strong> {{($taquilla=='CV')?'Sección de Control de Vuelos':$taquilla}} </span>
+                    <div class="col-md-3 text-right">
+                        <span class="pull-right"><strong>TAQUILLA:</strong> {{($taquilla=='CV')?'Sección de Control de Vuelos':$taquilla}} </span>
                     </div>
-                    <div class="col-md-2 text-right">
+                    <div class="col-md-1 text-right">
                         <span class="pull-right"><strong>TURNO:</strong> {{($taquilla=='CV')?'Único':$turno}}</span>
                     </div>
                     <div class="col-md-2 text-right">
