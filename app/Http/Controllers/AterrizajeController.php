@@ -56,7 +56,7 @@ class AterrizajeController extends Controller {
 				$aeronaves           = Aeronave::all();
 				$tipoMatriculas      = TipoMatricula::all();
 				$today               = Carbon::now();
-				$today->timezone     = 'America/Caracas';
+				$today->timezone     = 'America/New_York';
 
 			return view("aterrizajes.index", compact('aterrizajes',"nacionalidad_vuelos", "tipoMatriculas", "aeronaves", "puertos", "pilotos", "today"));
 		}
@@ -76,7 +76,7 @@ class AterrizajeController extends Controller {
 			$aeronaves           = Aeronave::all();
 			$tipoMatriculas      = TipoMatricula::all();
 			$today               = Carbon::now();
-			$today->timezone     = 'America/Caracas';
+			$today->timezone     = 'America/New_York';
 		return view("aterrizajes.create", compact("nacionalidad_vuelos", "tipoMatriculas", "aeronaves", "puertos", "pilotos", "today"));
 
 
