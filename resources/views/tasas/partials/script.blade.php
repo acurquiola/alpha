@@ -136,20 +136,24 @@ $(function(){
         calcularMonto(this,0);
     })
     var hastaTimeOut=null;
-    $('body').delegate('.hasta-input, .desde-input','keyup',function(){
-
-        clearTimeout(hastaTimeOut);
-        var input=this;
-        hastaTimeOut=setTimeout(function(){
-          var row=$(input).closest('tr');
-        var hastaInput=$(row).find('.hasta-input').val();
-        var desdeInput=$(row).find('.desde-input').val();
-          desdeInput=parseInt(desdeInput);
-          hastaInput=parseInt(hastaInput);
-        hastaInput=(isNaN(hastaInput)?0:hastaInput);
-        var cantidad=hastaInput-desdeInput+1;
-        $(row).find('.cantidad-input').val(cantidad);
-        calcularMonto(input,0);},500)
+    $('body').delegate('.hasta-input, .desde-input','keyup keypress',function(e){
+                
+          var code = e.keyCode || e.which;
+          if (code == 13) {
+                clearTimeout(hastaTimeOut);
+                var input=this;
+                hastaTimeOut=setTimeout(function(){
+                    var row=$(input).closest('tr');
+                    var hastaInput=$(row).find('.hasta-input').val();
+                    var desdeInput=$(row).find('.desde-input').val();
+                    desdeInput=parseInt(desdeInput);
+                    hastaInput=parseInt(hastaInput);
+                    hastaInput=(isNaN(hastaInput)?0:hastaInput);
+                    var cantidad=hastaInput-desdeInput+1;
+                    $(row).find('.cantidad-input').val(cantidad);
+                    calcularMonto(input,0);
+                },500)
+          }
 
     })
 

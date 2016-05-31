@@ -31,7 +31,7 @@
                     <div class="col-md-4">
                         <div class="form-horizontal">
                             <div class="form-group" id="dia-div">
-                                <div class="col-xs-8 col-xs-offset-2  text-center">
+                                <div class="col-xs-8  text-center">
                                     <div class="input-group">
                                     <span class="pull-left"><strong>FECHA:</strong></span>
                                         <input type="text" id="dia-datepicker" value="{{$today}}"" class="form-control" placeholder="Seleccione un día." autocomplete="off">
