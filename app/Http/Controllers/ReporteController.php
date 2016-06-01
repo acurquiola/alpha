@@ -194,6 +194,7 @@ class ReporteController extends Controller {
                                         ->where('aeropuerto_id', session('aeropuerto')->id)
                                         ->where('puerto_id', ($destino==0)?'>=':'=', $destino)
                                         ->get();
+
             if ($aterrizajes->where('nacionalidadVuelo_id', 1)->count() != 0 || $aterrizajes->where('nacionalidadVuelo_id', 2)->count() != 0 || $despegues->where('nacionalidadVuelo_id', 1)->count() != 0 || $despegues->where('nacionalidadVuelo_id', 2)->count()!= 0){
 
                 $datosCliente[$cliente->nombre]=[
