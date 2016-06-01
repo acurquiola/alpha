@@ -67,7 +67,7 @@ class DespegueController extends Controller {
 			$tipoMatriculas      = TipoMatricula::all();
 			$otrosCargos         = OtrosCargo::all();
 			$today               = Carbon::now();
-			$today->timezone     = 'America/Caracas';
+			$today->timezone     = 'America/New_York';
 
 
 			return view("despegues.index", compact("aterrizajes", "otrosCargos", "nacionalidad_vuelos", "tipoMatriculas", "aeronaves", "puertos", "pilotos", "today"));
@@ -97,7 +97,7 @@ class DespegueController extends Controller {
 		$tipoMatriculas      = TipoMatricula::all();
 		$otrosCargos         = OtrosCargo::lists('nombre_cargo', 'id');
 		$today               = Carbon::now();
-		$today->timezone     = 'America/Caracas';
+		$today->timezone     = 'America/New_York';
 		return view("despegues.create", compact("aterrizaje", "hangarLocal", "otrosCargos", "nacionalidad_vuelos", "tipoMatriculas", "aeronaves", "puertos", "pilotos", "today"));
 	}
 
