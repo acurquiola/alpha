@@ -35,7 +35,7 @@ class RedirectIfAuthenticated {
 	{
 		if ($this->auth->check())
 		{
-			return new RedirectResponse(url('/principal'));
+			return new RedirectResponse(url('/dashboard/SCV'));
 		}
 
 		return $next($request);

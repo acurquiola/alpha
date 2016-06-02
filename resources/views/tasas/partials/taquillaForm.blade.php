@@ -1,6 +1,4 @@
-    <!-- left column -->
     <div class="col-md-12 consulta">
-        <!-- general form elements -->
         <div class="box box-primary">
             <div class="box-header">
                 <div class="row">
@@ -27,7 +25,7 @@
                     <input type="hidden" name="taquilla" value="{{$taquilla}}">
                     <input type="hidden" name="turno" value="{{$turno}}">
 
-                    <table class="table" id="serie-table">
+                    <table class="table operador-table" id="serie-table">
                         <thead>
                             <th class="text-center" style="min-width:100px">SERIE</th>
                             <th class="text-center">DESDE</th>
@@ -126,6 +124,12 @@
                                     </tr>
                                 @endforeach
                             @endif
+                            <tr>
+                                <td colspan="4"></td>
+                                <td class="text-right">TOTAL</td>
+                                <td class="total-operador text-right">0,00</td>
+                                <td></td>
+                            </tr>
                         </tbody>
                     </table>
                     <div class="row">

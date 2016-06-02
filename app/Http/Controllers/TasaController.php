@@ -7,6 +7,10 @@ use Illuminate\Http\Request;
 
 class TasaController extends Controller {
 
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     public function taquilla(){
         $aeropuerto=session('aeropuerto');
         $today = \Carbon\Carbon::now()->format('d/m/Y');
