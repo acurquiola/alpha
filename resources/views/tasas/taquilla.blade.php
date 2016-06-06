@@ -25,7 +25,7 @@
                             @for($i=1; $i<=$aeropuerto->n_tasas_taquillas; $i++)
                                 <option value="{{$i}}">Taquilla {{$i}}</option>
                             @endfor
-                            <option value="CV" >Control de Vuelos</option>
+                            <option value="CV" @if(session('rolUsuario')->id == '2' || session('rolUsuario')->id == '5') selected @endif>Control de Vuelos</option>
                         </select>
                     </div>
                     <div class="col-md-4">

@@ -15,7 +15,7 @@
                         <div class="col-md-4">
                             <select class="form-control" id="taquilla-input">
                                 <option value="TQ">Regulares</option>
-                                <option value="CV">Control de vuelo</option>
+                                <option value="CV"  @if(session('rolUsuario')->id == '2' || session('rolUsuario')->id == '5') selected @endif>Control de vuelo</option>
                             </select>
                         </div>
                         <div class="col-md-6">
