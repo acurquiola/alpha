@@ -50,7 +50,7 @@
                                             <input name="desde[]" class="form-control text-right desde-input" value="{{max($tasa->inicio, $tasa->max)}}">
                                         </td>
                                         <td  style="width: 200px">
-                                            <input name="hasta[]" class="form-control text-right hasta-input" value="{{max($tasa->inicio, $tasa->max)}}">
+                                            <input name="hasta[]" class="form-control text-right hasta-input" >
                                         </td>
                                         <td>
                                             <div class="input-group" style="width: 300px; margin-left: 50px">

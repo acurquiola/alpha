@@ -65,6 +65,16 @@ class ViewComposerServiceProvider extends ServiceProvider {
             $view->with(compact('puertos'));
         });
 
+        view()->composer(['administracion.informacion'], function($view){
+            $bancos= \App\Banco::get();
+            $view->with(compact('bancos'));
+        });
+
+        view()->composer(['administracion.informacion'], function($view){
+            $cuentas= \App\Bancoscuenta::get();
+            $view->with(compact('cuentas'));
+        });
+
         view()->composer(['cliente.partials.form', 'aeronaves.index', 'aeronaves.partials.form'], function($view){
             $hangars= \App\Hangar::where("aeropuerto_id","=", session('aeropuerto')->id)->lists('nombre', 'id');
             $view->with(compact('hangars'));
