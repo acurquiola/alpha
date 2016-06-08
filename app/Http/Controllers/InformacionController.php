@@ -4,6 +4,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
+use App\Bancoscuenta;
 
 class InformacionController extends Controller {
 
@@ -107,6 +108,10 @@ class InformacionController extends Controller {
         $bancos=\App\Banco::all();
         $this->actualizarBancos($bancos, $request->get('bancosNuevos',[]), $request->get("bancos", []));
 
+        //actualizando cuentas bancarias
+        $cuentas=\App\Bancoscuenta::all();
+        $this->actualizarCuentas($cuentas, $request->get('cuentasNuevas',[]), $request->get("cuentas", []));
+
         //actualizando estacionamientos del aeropuerto de la sesion
         $estacionamiento=$aeropuerto->estacionamiento;
         $estacionamiento->update($request->get("estacionamiento"));
@@ -132,6 +137,10 @@ class InformacionController extends Controller {
          * topes
          * concils
          *
+
+
+
+         OK! Lo haré
          */
 
         $this->actualizarTasas($aeropuerto, $request->get('tasasNuevas',[]), $request->get('tasas',[]));
@@ -173,7 +182,26 @@ class InformacionController extends Controller {
         foreach($nuevos as $banco){
             $bancosCreate = \App\Banco::create($banco);
         }
+    }
 
+    protected function actualizarCuentas($cuentas, $nuevos, $actualizados){
+
+        foreach($actualizados as $cuentaID => $cuenta){
+            $cuentas->find($cuentaID)->update($cuenta);
+        }
+        list($keys, $values) = array_divide($actualizados);
+        $cuentasBorrar=\App\Bancoscuenta::whereNotIn('id',$keys)->get();
+        $cuentasBorrar->each(function($cuenta){
+            $cuenta->delete();
+        });
+        foreach($nuevos as $cuenta){
+            $cuenta['banco_id'] = (int)$cuenta['banco_id'];
+            $cuentasCreate = new Bancoscuenta();
+            $cuentasCreate->descripcion = $cuenta['descripcion'];
+            $cuentasCreate->banco_id    = $cuenta['banco_id'];
+            $cuentasCreate->isActivo    = 1;
+            $cuentasCreate->save();
+        }
     }
 
     protected function actualizarEstacionamientos($estacionamiento, $nuevos, $actualizados){
@@ -189,7 +217,6 @@ class InformacionController extends Controller {
         foreach($nuevos as $porton){
             $estacionamiento->portons()->create($porton);
         }
-
     }
 
     protected function actualizarConceptos($estacionamiento, $nuevos, $actualizados){

@@ -196,23 +196,32 @@ $(function(){
         })
         var data=$form.serializeArray();
         data.push({name:'pagos', value:JSON.stringify(pagos)});
+            
 
-        if(canUpload)
-            $.ajax({
-                url: $form.data('url'),
-                data: data,
-                method: "POST"
-            }).always(function(response, status, responseObject){
-                if(status!="error"){
-                    if(isSupervisor){
-                        $('#consultas_wrapper').html(response);
-                    }else{
-                        $form.closest('.consulta').html($(response).html());
-                    }
-                    alertify.success('Los datos han sido guardados.');
-                }else
-                    alertify.error('Error procesando los datos en el servidor.');
-            });
+        if(canUpload){
+
+        alertify.confirm("¿Desea guardar la ínformación?", function (e) {
+            if (e) {
+                $.ajax({
+                    url: $form.data('url'),
+                    data: data,
+                    method: "POST"
+                }).always(function(response, status, responseObject){
+                    if(status!="error"){
+                        if(isSupervisor){
+                            $('#consultas_wrapper').html(response);
+                        }else{
+                            $form.closest('.consulta').html($(response).html());
+                        }
+                        alertify.success('Los datos han sido guardados.');
+                    }else
+                        alertify.error('Error procesando los datos en el servidor.');
+                    });
+                }    
+            })
+        }else{
+            alertify.error('Los campos no pueden estar vacios.');
+        }
     })
 
 })
