@@ -13,6 +13,58 @@
 
 use Illuminate\Support\Facades\Mail;
 
+Route::get('oracleTest', function(){
+
+
+
+    //Ejemplo 1
+    //buscamos un objeto oracle
+
+    $empresa=\App\Models\Oracle\Empresa::find(1);
+
+    //buscamos un objeto de mysql
+    //
+    //
+
+    $aeropuerto=\App\Aeropuerto::find(1);
+
+
+    //actualizamos el nombre de la empresa de oracle con el nombre que se le haya dado en el sistema
+    $empresa->em_nombre=$aeropuerto->nombre;
+
+    $empresa->save();
+
+
+    //Ejemplo 2
+    //buscamos fascturas de mysql
+    //
+    //
+    $facturas=\App\Facturas::where('...')->get();
+
+    foreach($facturas as $factura){
+
+        $facturaOracle=\App\Models\Oracle\Factura::create(
+            [
+            //como estamos creadon un objeto oracle
+            //se coloca a la izuierda campos de oracle
+            //y a la derecha los campos correspondientes en mysql
+            "prc_fec" =>$factura->fecha,
+            //y asi con todos los datos
+            //
+            //...
+
+            ]);
+        //y seguimos manejando las relcaCIONES DE FACTURA QUE HAGAN FALTA
+        foreach($factura->detalles as $detalle){
+            //manejamos los detalles
+        }
+
+    }
+
+});
+
+
+
 Route::group(['prefix' => 'systas/'], function () {
     Route::get('configurar', 'SysTasController@configurar');
     Route::get('imprimir', 'SysTasController@imprimir');
