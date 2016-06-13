@@ -95,8 +95,8 @@
 									</tr>
 								</thead>
 								<tbody>
-								@foreach($dosas as $dosa)
-									{{dd($dosa)}}
+								@foreach($facturas as $factura)
+									{{dd($factura)}}
 								@endforeach
 								</tbody>
 							</table>
@@ -235,9 +235,6 @@
 								<tr>\
 									<th colspan="20" style="vertical-align: middle; margin-top:20px" align="center" class="text-center">RELACIÓN DE ESTACIONAMIENTO DIARIO\
 										</br>\
-										MES: {{$mes}} AÑO: {{$anno}}\
-										</br>\
-										AEROPUERTO: {{$aeropuertoNombre}}\
 									</th>\
 								</tr>\
 							</thead>')

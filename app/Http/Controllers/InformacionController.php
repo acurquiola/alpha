@@ -162,6 +162,41 @@ class InformacionController extends Controller {
 		//
 	}
 
+    /**
+     * Habilita/Inhabilita un registro
+     * @param  int  $id
+     * @return Response
+     */
+     public function estadoCuenta(Request $request)
+   {
+        $id      = $request->input('id');
+        $account = Bancoscuenta::find($id);
+
+       if ($account->isActivo == '0')
+       {
+            $account->isActivo = '1';
+            $mensaje       = "Número de cuenta activada exitósamente";
+            $mensajeError  = "Ocurrió un error activando la cuenta.";
+       } 
+       else
+       {
+            $account->isActivo = '0';
+            $mensaje       = "Número de cuenta desactivada exitósamente";
+            $mensajeError  = "Ocurrió un error desactivando la cuenta.";
+       }
+       if($account->save())
+       {
+           return response()->json(array("text"=>$mensaje,
+               "cuenta"=>$account,
+               "success"=>1));
+
+       }
+       else
+       {
+           return response()->json(array("text"=>$mensajeError, "success"=>0));
+       }
+   }
+
 
     /**
      *
@@ -250,4 +285,6 @@ class InformacionController extends Controller {
         }
 
     }
+
+    
 }

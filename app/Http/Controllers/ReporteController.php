@@ -599,7 +599,7 @@ class ReporteController extends Controller {
         return view('reportes.reporteRelacionEstacionamientoDiario', compact('mes', 'anno', 'aeropuerto', 'estacionamientoDiario'));
     }
 
-//DES 900
+    //DES 900
     public function getReporteDES900(Request $request){
         $diaDesde   =$request->get('diaDesde', \Carbon\Carbon::now()->day);
         $mesDesde   =$request->get('mesDesde', \Carbon\Carbon::now()->month);
@@ -619,24 +619,119 @@ class ReporteController extends Controller {
         return view('reportes.reporteDES900', compact('diaDesde', 'mesDesde', 'annoDesde', 'diaHasta', 'mesHasta', 'annoHasta', 'aeropuerto', 'despegues'));
     }
 
+    //Formularios Anulados
+    public function getFormulariosAnulados(Request $request){
+        $mes          =$request->get('mes', \Carbon\Carbon::now()->month);
+        $anno         =$request->get('anno',  \Carbon\Carbon::now()->year);
+        $primerDiaMes =\Carbon\Carbon::create($anno, $mes,1)->startOfMonth();
+        $ultimoDiaMes =\Carbon\Carbon::create($anno, $mes,1)->endOfMonth();
+        $aeropuerto   =$request->get('aeropuerto', session('aeropuerto')->id);
+        $recibosAnulados = \App\RecibosAnulado::where('fecha', '<=', $primerDiaMes)
+                                                ->where('fecha', '=>', $ultimoDiaMes)
+                                                ->where('aeropuerto_id', $aeropuerto)
+                                                ->get();
+        $facturasAnuladas = \App\Factura::onlyTrashed()
+                                        ->where('fecha', '<=', $primerDiaMes)
+                                        ->where('fecha', '=>', $ultimoDiaMes)
+                                        ->where('aeropuerto_id', $aeropuerto)
+                                        ->get();
+        $meses=[
+            1=>"ENERO",
+            2=>"FEBRERO",
+            3=>"MARZO",
+            4=>"ABRIL",
+            5=>"MAYO",
+            6=>"JUNIO",
+            7=>"JULIO",
+            8=>"AGOSTO",
+            9=>"SEPTIEMBRE",
+            10=>"OCTUBRE",
+            11=>"NOVIEMBRE",
+            12=>"DICIEMBRE"];
+
+        $mesLetras = $meses[$mes];
+
+        return view('reportes.reporteFormulariosAnulados', compact('mes', 'mesLetras', 'anno', 'aeropuerto', 'recibosAnulados', 'facturasAnuladas'));
+    }
+
+    //Listado de Clientes
+    public function getListadoClientes(Request $request){
+        $tipo = $request->get('tipo');
+        if($tipo == 'TODOS'){
+            $clientes = \App\Cliente::all();
+        }else{
+            $clientes = \App\Cliente::where('tipo', $tipo)->get();
+        }
+        return view('reportes.reporteListadoClientes', compact('clientes', 'tipo'));
+    }
+
     //Relacion de Ingresos Aeronáuticos de Contado
     public function getReporteRelacionIngresosAeronauticosContado(Request $request){
         $modulos          =\App\Modulo::where('nombre', 'DOSAS')->lists('nombre','id');
         $mes              =$request->get('mes', \Carbon\Carbon::now()->month);
         $anno             =$request->get('anno',  \Carbon\Carbon::now()->year);
-        $aeropuerto       =$request->get('aeropuerto', session('aeropuerto')->id);
+        $aeropuerto       =session('aeropuerto')->id;
         $primerDiaMes     =\Carbon\Carbon::create($anno, $mes,1)->startOfMonth();
         $ultimoDiaMes     =\Carbon\Carbon::create($anno, $mes,1)->endOfMonth();
 
-        $dosas = \App\Factura::join('facturadetalles', 'facturas.id', '=', 'facturadetalles.factura_id')
+
+        
+        $formulario      =\App\Concepto::where('aeropuerto_id', $aeropuerto)->where('nompre', 'FORMULARIO DOSA')->first();
+        $aterrizaje      =\App\Concepto::where('aeropuerto_id', $aeropuerto)->where('nompre', 'ATERRIZAJE Y DESPEGUE DE AERONAVES')->first();
+        $estacionamiento =\App\Concepto::where('aeropuerto_id', $aeropuerto)->where('nompre', 'ESTACIONAMIENTO DE AERONAVES')->first();
+        $habilitacion    =\App\Concepto::where('aeropuerto_id', $aeropuerto)->where('nompre', 'HABILITACION')->first();
+        $jetway          =\App\Concepto::where('aeropuerto_id', $aeropuerto)->where('nompre', 'JETWAY')->first();
+        $carga           =\App\Concepto::where('aeropuerto_id', $aeropuerto)->where('nompre', 'CARGA')->first();
+
+        $facturas = \App\Factura::with('detalles')
                              ->where('nroDosa', '<>', 'NULL')
                              ->where('aeropuerto_id', $aeropuerto)
                              ->where('fecha','>=' ,$primerDiaMes)
                              ->where('fecha','<=' ,$ultimoDiaMes)
                             ->get();
 
-        dd($dosas);
-        return view('reportes.reporteRelacionIngresosAeronauticosContado', compact('dosas', 'mes', 'anno', 'aeropuerto'));
+                
+
+        foreach ($facturas as $factura) {
+
+        $dosaFactura[$factura->nroDosa]=[
+            "formulario"        =>0,
+            "aterrizaje"        =>0,
+            "estacionamiento"   =>0,
+            "habilitacion"      =>0,
+            "jetway"            =>0,
+            "carga"             =>0,
+            "otros"             =>0,
+            "tasaNacional"      =>0,
+            "tasaInternacional" =>0,
+            "montoFacturado"    =>0,
+            "montoDepositado"   =>0
+        ];
+
+        dd($factura->detalles);
+            foreach ($factura->detalles as $detalle) {
+                if($detalle->concepto_id == $formulario->id){
+                    $dosaFactura[$factura->nroDosa]["formulario"]=$detalle->totalDes;
+                }elseif($detalle->concepto_id == $aterrizaje->id){
+                    $dosaFactura[$factura->nroDosa]["aterrizaje"]=$detalle->totalDes;
+                }elseif($detalle->concepto_id == $estacionamiento->id){
+                    $dosaFactura[$factura->nroDosa]["estacionamiento"]=$detalle->totalDes;
+                }elseif($detalle->concepto_id == $habilitacion->id){
+                    $dosaFactura[$factura->nroDosa]["habilitacion"]=$detalle->totalDes;
+                }elseif($detalle->concepto_id == $jetway->id){
+                    $dosaFactura[$factura->nroDosa]["jetway"]=$detalle->totalDes;
+                }elseif($detalle->concepto_id == $carga->id){
+                    $dosaFactura[$factura->nroDosa]["carga"]=$detalle->totalDes;
+                }else{
+                    $dosaFactura[$factura->nroDosa]["otros"]=$detalle->totalDes;
+                }
+                dd($dosaFactura);
+            }
+        }
+        
+
+
+        return view('reportes.reporteRelacionIngresosAeronauticosContado', compact('facturas', 'mes', 'anno', 'aeropuerto'));
 
     }
 

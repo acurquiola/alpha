@@ -89,6 +89,7 @@ Route::group(['prefix' => 'operaciones/'], function () {
 
 Route::group(['prefix' => 'cobranza/{modulo}/'], function () {
     Route::get('print/{cobro}', 'CobranzaController@getPrint');
+    Route::get('anularRecibo', 'CobranzaController@cambiarRecibo');
     Route::get('main', 'CobranzaController@main');
     Route::get('getFacturasClientes', 'CobranzaController@getFacturasClientes');
     Route::resource('cobro', 'CobranzaController');
@@ -140,8 +141,8 @@ Route::group(['prefix' => 'administracion/'], function () {
     Route::resource('configuracionSCV/CargosVarios', 'CargosVarioController', ['only'=>['update', 'index']]);
     Route::resource('configuracionSCV/Carga', 'PreciosCargaController', ['only'=>['update', 'index']]);
     Route::resource('configuracionSCV/OtrosCargos', 'OtrosCargoController');
-
     Route::get('informacion', 'InformacionController@index');
+    Route::get('informacion/estadoCuenta', 'InformacionController@estadoCuenta');
     Route::get('meta', 'MetaController@index');
     Route::post('informacion/update', 'InformacionController@update');
     Route::post('meta/update', 'MetaController@update');
@@ -172,6 +173,8 @@ Route::group(['prefix' => 'reporte/'], function () {
     Route::get('reporteRelacionMetaRecaudacionMensual', 'ReporteController@getReporteRelacionMetaRecaudacionMensual');
     Route::get('reporteTraficoAereo', 'ReporteController@getReporteTraficoAereo');
     Route::get('reporteControlDeRecaudacionMensual', 'ReporteController@getControlDeRecaudacionMensual');
+    Route::get('reporteFormulariosAnulados', 'ReporteController@getFormulariosAnulados');
+    Route::get('reporteListadoClientes', 'ReporteController@getListadoClientes');
     Route::post('exportReport', "ReporteController@postExportReport");
 
     Route::get('reporterDES900', 'ReporteController@getReporteDES900');

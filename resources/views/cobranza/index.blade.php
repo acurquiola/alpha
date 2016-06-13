@@ -131,7 +131,7 @@
 									</thead>
 									<tbody>
 										@foreach($cobros as $cobro)
-										<tr>
+										<tr  data-id="{{$cobro->id}}">
 											<td class='text-justify'>{{$cobro->id}}</td>
 											<td class='text-justify'>{{($cobro->nRecibo)?$cobro->nRecibo:'N/A'}}</td>
 											<td style="text-align: left">{{$cobro->cliente->nombre}}</td>
@@ -143,19 +143,19 @@
 												<div class='btn-group  btn-group-sm' role='group' aria-label='...'>
 													<a class='btn btn-primary' href='{{action('CobranzaController@show', [$modulo->nombre,$cobro->id])}}'><span class='glyphicon glyphicon-eye-open'></span></a>
 													<a class='btn btn-warning' href='{{action('CobranzaController@edit', [$modulo->nombre,$cobro->id])}}'><span class='glyphicon glyphicon-pencil'></span></a>
-
-
 													@if($cobro->nRecibo != NULL)
-
 													<div class="btn-group dropup">
 														<a target="_blank" class='btn btn-default  btn-sm' href='{{action('CobranzaController@getPrint', ["cobro"=>$cobro->id, "modulo"=>$modulo->id])}}'><span class='glyphicon glyphicon-print'  ></span></a>
-														<!-- <button type="button" class="btn btn-default dropdown-toggle btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+														<button type="button" class="btn btn-default dropdown-toggle btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 															<span class="caret"></span>
 															<span class="sr-only">Toggle Dropdown</span>
 														</button>
 														<ul class="dropdown-menu">
-															<li><a target="_blank" href='{{action('CobranzaController@getPrint', ["cobro"=>$cobro->id, "modulo"=>$modulo->id])}}'>Anular Recibo</a></li>
-														</ul> -->
+															<li><a href="#" data-toggle="modal" data-id="{{$cobro->id}}" id="anularRecibo-btn">
+																  	Anular Recibo
+																</a>
+															</li>
+														</ul> 
 													</div>
 													@endif
 													<button class='btn btn-danger delete-cobro-btn' data-id="{{$cobro->id}}"><span class='glyphicon glyphicon-remove'></span></button>
@@ -175,6 +175,32 @@
 			</div>
 		</div>
 	</div>
+    <div class="modal fade" id="show-modal" tabindex="-1" role="dialog" aria-labelledby="nvoRecibo-modalLabel" aria-hidden="true">
+        <div class="modal-dialog  modal-sm">
+            <div class="modal-content">
+                <div class="modal-header" id="titulo-div-modal">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="titulo-modal">Recibo de Caja</h4>
+                </div>
+                <div class="modal-body">
+	                <form>
+						<div class="form-group">
+							<label style="font-weight: bold;" >Inserte nuevo número de recibo de caja </label>
+							<div class="input-group">
+								<input type="hidden" id="cobro_id" name="cobro_id" value="{{$cobro->id}}"/>
+								<input type="text" id="nRecibo-input" name="nRecibo" class="form-control" placeholder="Número"/>
+							</div><!-- /.input group -->
+						</div>    
+	                </form>
+	            </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                    <button id="save-nvoRecibo-btn-modal" type="button" class="btn btn-primary" data-dismiss="modal">Guardar</button>
+                </div>
+            </div>
+        </div> <!-- /.Modal-dialog-->
+    </div> <!-- /.Modal- fade-->
+
 </div>
 
 
@@ -211,6 +237,44 @@
 					})
 				}
 			});
+
+		})
+
+		$('body').delegate('#anularRecibo-btn', 'click', function(){
+                var fila = $(this).closest('tr');
+                var id   = $(fila).data('id');
+                $('#show-modal #cobro_id').val(id);
+                $('#show-modal').modal('show');
+            })
+
+
+		$('#save-nvoRecibo-btn-modal').click(function(){
+    		var data =$('#show-modal form').serializeArray()
+    		var url  ='{{action('CobranzaController@cambiarRecibo')}}';
+    	
+
+    		$.ajax({data:data,
+    			method:'get',
+    			url:url})
+    		.always(function(text, status, responseObject){
+    			try
+    			{
+    				var respuesta = JSON.parse(responseObject.responseText);
+    				if (respuesta.success==1)
+    				{
+    					alertify.success(respuesta.text);
+    				}
+    				else
+    				{
+    					alertify.error(respuesta.text);
+    				}
+    			}
+    			catch(e)
+    			{
+    				console.log(e);
+    				alertify.error('Error procesando la información');
+    			}
+    		})
 
 		})
 	})

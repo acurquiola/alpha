@@ -91,71 +91,27 @@
 		@endpermission
 
 		@permission('menu.aterrizaje|menu.despegue|menu.carga')
-		<li class="treeview {{ (\Request::is('operaciones*'))?"active":""}}">
-			<a href="#">
-				<i class="fa fa-cubes"></i> <span>Gestor de Operaciones</span> <i class="fa fa-angle-left pull-right"></i>
-			</a>
-			<ul class="treeview-menu">
-				@permission('menu.aterrizaje|menu.despegue|menu.carga')
-				@endpermission
-				@permission('menu.aterrizaje')
-				<li {{ (\Request::is('operaciones/Aterrizajes*'))?"class=active":"" }}><a href="{{ URL::to('operaciones/Aterrizajes') }}"><i class="fa fa-fighter-jet"></i> Aterrizajes</a></li>
-				@endpermission
-				@permission('menu.despegue')
-				<li {{ (\Request::is('operaciones/*/Despegues*'))?"class=active":"" }}><a href="{{action('DespegueController@index')}}"><i class="fa fa-plane"></i> Despegues</a></li>
-				@endpermission
-				@permission('menu.carga')
-				<li {{ (\Request::is('operaciones/Cargas*'))?"class=active":"" }}><a href="{{ URL::to('operaciones/Cargas') }}"><i class="fa fa-truck"></i> Cargas</a></li>
-				@endpermission
-			</ul>
-		</li>
-		@endpermission
-	<!--		<li class="treeview">
+			<li class="treeview {{ (\Request::is('operaciones*'))?"active":""}}">
 				<a href="#">
-					<i class="fa fa-road"></i>
-					<span>Gestor de Operaciones</span>
-					<i class="fa fa-angle-left pull-right"></i>
+					<i class="fa fa-cubes"></i> <span>Gestor de Operaciones</span> <i class="fa fa-angle-left pull-right"></i>
 				</a>
 				<ul class="treeview-menu">
-					<li class="header">ATERRIZAJES</li>
-					<li>
-						<a href="" ><i class="fa fa-circle-o"></i> Registrar</a>
-					</li>
-					<li>
-						<a href="" ><i class="fa fa-circle-o"></i> Consultar pendientes</a>
-					</li>
-					<li class="header">DESPEGUES</li>
-					<li>
-						<a href=""><i class="fa fa-circle-o"></i> Consultar</a>
-					</li>
-					<li class="header">CARGA</li>
-					<li>
-						<a href=""><i class="fa fa-circle-o"></i> Registrar</a>
-					</li>
-					<li>
-						<a href=""><i class="fa fa-circle-o"></i> Consultar</a>
-					</li>
+					@permission('menu.aterrizaje|menu.despegue|menu.carga')
+					@endpermission
+					@permission('menu.aterrizaje')
+					<li {{ (\Request::is('operaciones/Aterrizajes*'))?"class=active":"" }}><a href="{{ URL::to('operaciones/Aterrizajes') }}"><i class="fa fa-fighter-jet"></i> Aterrizajes</a></li>
+					@endpermission
+					@permission('menu.despegue')
+					<li {{ (\Request::is('operaciones/*/Despegues*'))?"class=active":"" }}><a href="{{action('DespegueController@index')}}"><i class="fa fa-plane"></i> Despegues</a></li>
+					@endpermission
+					@permission('menu.carga')
+					<li {{ (\Request::is('operaciones/Cargas*'))?"class=active":"" }}><a href="{{ URL::to('operaciones/Cargas') }}"><i class="fa fa-truck"></i> Cargas</a></li>
+					@endpermission
 				</ul>
 			</li>
-			<li>
-				<a href="">
-					<i class="ion ion-clipboard"> </i>
-					<span>  Proyecciones</span>
-				</a>
-			</li>
-			<li>
-				<a href="#">
-					<i class="fa fa-file-text-o"></i>
-					<span> Dosas</span>
-				</a>
-			</li>
-			<li>
-				<a href="#">
-					<i class="fa fa-pie-chart"></i> <span>Reportes</span>
-				</a>
-			</li> -->
-		@permission('menu.tasas')
+		@endpermission
 
+		@permission('menu.tasas')
 			<li class="treeview {{ (\Request::is('estacionamiento*'))?"active":""}}">
 				<a href="#">
 					<i class="fa fa-share"></i> <span>Taquillas</span> <i class="fa fa-angle-left pull-right"></i>
@@ -178,106 +134,123 @@
 		@endpermission
 
 		@permission('menu.contrato|menu.factura|menu.cobranza|menu.cliente|menu.role|menu.usuario|menu.modulo|menu.concepto|menu.reporteSCV|menu.reporteRecaudacion|menu.informacion')
-
-
-				@permission('menu.contrato|menu.factura|menu.cobranza')
-				<li class="treeview {{ (\Request::is('contrato*') or \Request::is('factura*') or \Request::is('cobranza*'))?"active":""}}">
-					<a href="#">
-						<i class="fa fa-money"></i> <span>Recaudación</span> <i class="fa fa-angle-left pull-right"></i>
-					</a>
-					<ul class="treeview-menu">
-						@permission('menu.contrato')
-						<li {{ (\Request::is('contrato*'))?"class=active":"" }}><a href="{{ URL::to('contrato') }}"><i class="fa fa-files-o"></i> Contratos</a></li>
-						@endpermission
-						@permission('menu.factura')
-						<li {{ (\Request::is('factura*'))?"class=active":"" }}><a href="{{ URL::to('facturacion/Todos/main') }}"><i class="fa fa-folder"></i> Facturación</a></li>
-						@endpermission
-						@permission('menu.cobranza')
-						<li {{ (\Request::is('cobranza*'))?"class=active":"" }}><a href="{{ URL::to('cobranza/Todos/main') }}"><i class="fa fa-folder-o"></i> Cobranza</a></li>
-						@endpermission
-					</ul>
-				</li>
-				@endpermission
-	 		<!-- <li class="treeview">
-	                <a href="#">
-	                  <i class="fa fa-circle-o"></i> <span>Simulación</span>  <i class="fa fa-angle-left pull-right"></i>
-	                </a>
-	               <ul class="treeview-menu">
-	                  <li><a href="#"><i class="fa fa-folder-o"></i> Proyección de cobranza</a></li>
-	                  <li><a href="#"><i class="fa fa-folder-o"></i> Estimación de metas</a></li>
-	                    </ul>
-                </li>-->
-                @permission('menu.reporteSCV|menu.reporteRecaudacion')
-                <li class="treeview {{ (\Request::is('reporte*'))?"active":""}}">
-                	<a href="#">
-                		<i class="fa fa-signal"></i> <span>Reportes</span>  <i class="fa fa-angle-left pull-right"></i>
-                	</a>
-                	<ul class="treeview-menu">
-                		@permission('menu.reporteSCV')
-						<li {{ (\Request::is('reporte/reporterDES900*') || \Request::is('reporte/reporterCuadreCaja*') || \Request::is('reporte/reporteTraficoAereo*'))?"class=active":"" }}><a href="#"><i class="fa fa-folder-open"></i><span> Control de Vuelos</span><i class="fa fa-angle-left pull-right"></i></a>
+			@permission('menu.contrato|menu.factura|menu.cobranza')
+			<li class="treeview {{ (\Request::is('contrato*') or \Request::is('factura*') or \Request::is('cobranza*'))?"active":""}}">
+				<a href="#">
+					<i class="fa fa-money"></i> <span>Recaudación</span> <i class="fa fa-angle-left pull-right"></i>
+				</a>
+				<ul class="treeview-menu">
+					@permission('menu.contrato')
+					<li {{ (\Request::is('contrato*'))?"class=active":"" }}><a href="{{ URL::to('contrato') }}"><i class="fa fa-files-o"></i> Contratos</a></li>
+					@endpermission
+					@permission('menu.factura')
+					<li {{ (\Request::is('factura*'))?"class=active":"" }}><a href="{{ URL::to('facturacion/Todos/main') }}"><i class="fa fa-folder"></i> Facturación</a></li>
+					@endpermission
+					@permission('menu.cobranza')
+					<li {{ (\Request::is('cobranza*'))?"class=active":"" }}><a href="{{ URL::to('cobranza/Todos/main') }}"><i class="fa fa-folder-o"></i> Cobranza</a></li>
+					@endpermission
+				</ul>
+			</li>
+			@endpermission
+ 		<!-- <li class="treeview">
+                <a href="#">
+                  <i class="fa fa-circle-o"></i> <span>Simulación</span>  <i class="fa fa-angle-left pull-right"></i>
+                </a>
+               <ul class="treeview-menu">
+                  <li><a href="#"><i class="fa fa-folder-o"></i> Proyección de cobranza</a></li>
+                  <li><a href="#"><i class="fa fa-folder-o"></i> Estimación de metas</a></li>
+                    </ul>
+            </li>-->
+            @permission('menu.reporteSCV|menu.reporteRecaudacion')
+            <li class="treeview {{ (\Request::is('reporte*'))?"active":""}}">
+            	<a href="#">
+            		<i class="fa fa-signal"></i> <span>Reportes</span>  <i class="fa fa-angle-left pull-right"></i>
+            	</a>
+            	<ul class="treeview-menu">
+            		@permission('menu.reporteSCV')
+					<li {{ (\Request::is('reporte/reporterDES900*') || \Request::is('reporte/reporterCuadreCaja*') || \Request::is('reporte/reporteTraficoAereo*'))?"class=active":"" }}>
+						<a href="#">
+							<i class="fa fa-folder-open"></i>
+							<span> Control de Vuelos</span>
+							<i class="fa fa-angle-left pull-right"></i>
+						</a>
 						<ul class="treeview-menu">
-							<li {{ (\Request::is('reporte/reporterDES900*'))?"class=active":"" }}><a href="{{ URL::to('reporte/reporterDES900') }}"><i class="fa fa-file-o"></i> DES 900</a></li>
-							<li {{ (\Request::is('reporte/reporterCuadreCaja*'))?"class=active":"" }}><a href="{{ URL::to('reporte/reporterCuadreCaja') }}"><i class="fa fa-file-o"></i> Cuadre de Caja</a></li>
-							<li {{ (\Request::is('reporte/reporteTraficoAereo*'))?"class=active":"" }}><a href="{{ URL::to('reporte/reporteTraficoAereo') }}"><i class="fa fa-file-o"></i> Tráfico Aéreo</a></li>
+							<li {{ (\Request::is('reporte/reporterDES900*'))?"class=active":"" }}>
+								<a href="{{ URL::to('reporte/reporterDES900') }}">
+									<i class="fa fa-file-o"></i> DES 900
+								</a>
+							</li>
+							<li {{ (\Request::is('reporte/reporterCuadreCaja*'))?"class=active":"" }}>
+								<a href="{{ URL::to('reporte/reporterCuadreCaja') }}">
+									<i class="fa fa-file-o"></i> Cuadre de Caja
+								</a>
+							</li>
+							<li {{ (\Request::is('reporte/reporteTraficoAereo*'))?"class=active":"" }}>
+								<a href="{{ URL::to('reporte/reporteTraficoAereo') }}">
+									<i class="fa fa-file-o"></i> Tráfico Aéreo
+								</a>
+							</li>
 						</ul>
-                		@endpermission
-                		@permission('menu.reporteRecaudacion')
-						<li {{ (\Request::is('reporte/reporteListadoFacturas*') || \Request::is('reporte/reporteListadoFacturaCliente*'))?"class=active":"" }}><a href="#"><i class="fa fa-folder-open"></i><span> Facturación</span><i class="fa fa-angle-left pull-right"></i></a>
+            		@endpermission
+            		@permission('menu.reporteRecaudacion')
+					<li {{ (\Request::is('reporte/reporteListadoFacturas*') || \Request::is('reporte/reporteListadoFacturaCliente*'))?"class=active":"" }}><a href="#"><i class="fa fa-folder-open"></i><span> Facturación</span><i class="fa fa-angle-left pull-right"></i></a>
 						<ul class="treeview-menu">
-                       		<li {{ (\Request::is('reporte/reporteListadoFacturas*'))?"class=active":"" }}><a href="{{ URL::to('reporte/reporteListadoFacturas') }}"><i class="fa fa-file-o"></i> Listado de Facturas Emitidas</a></li>
+	                   		<li {{ (\Request::is('reporte/reporteListadoFacturas*'))?"class=active":"" }}><a href="{{ URL::to('reporte/reporteListadoFacturas') }}"><i class="fa fa-file-o"></i> Listado de Facturas Emitidas</a></li>
 	                    	<li {{ (\Request::is('reporte/reporteListadoFacturaCliente*'))?"class=active":"" }}><a href="{{ URL::to('reporte/reporteListadoFacturaCliente') }}"><i class="fa fa-file-o"></i> Listado de Facturas Emitidas por Cliente</a></li>
 						</ul>  
-						<li {{ (\Request::is('reporte/reporteRelacionCobranza*') || \Request::is('reporte/reporteRelacionFacturasAeronauticasCredito*'))?"class=active":"" }}><a href="#"><i class="fa fa-folder-open"></i><span> Cobranza</span><i class="fa fa-angle-left pull-right"></i></a>
-						<ul class="treeview-menu">
-	                   		<li {{ (\Request::is('reporte/reporteRelacionCobranza*'))?"class=active":"" }}><a href="{{ URL::to('reporte/reporteRelacionCobranza') }}"><i class="fa fa-file-o"></i> Relación de Cobranza</a></li>        	
-  							<li {{ (\Request::is('reporte/reporteRelacionFacturasAeronauticasCredito*'))?"class=active":"" }}><a href="{{ URL::to('reporte/reporteRelacionFacturasAeronauticasCredito') }}"><i class="fa fa-file-o"></i> Relación de Facturas Aeronáuticas Crédito</a></li>
-						</ul> 
-						<li {{ (\Request::is('reporte/reporteContratos*') || \Request::is('reporte/reporteRelacionIngresoMensual*') || \Request::is('reporte/reporteRelacionMensualDeIngresosRecaudacionPendiente*') || \Request::is('reporte/reporteRelacionMensualDeFacturacionCobradosYPorCobrar*')  || \Request::is('reporte/reporteRelacionEstacionamientoDiario*') || \Request::is('reporte/reporteRelacionMetaRecaudacionMensual*') || \Request::is('reporte/reporteControlDeRecaudacionMensual*'))?"class=active":"" }}><a href="#"><i class="fa fa-folder-open"></i><span> Movimientos</span><i class="fa fa-angle-left pull-right"></i></a>
-						<ul class="treeview-menu">
-							<li {{ (\Request::is('reporte/reporteContratos*'))?"class=active":"" }}><a href="{{ URL::to('reporte/reporteContratos') }}"><i class="fa fa-file-o"></i> Relación de Contratos Registrados</a></li>        		
-							<li {{ (\Request::is('reporte/reporteRelacionIngresoMensual*'))?"class=active":"" }}><a href="{{ URL::to('reporte/reporteRelacionIngresoMensual') }}"><i class="fa fa-file-o"></i> Relación de Ingreso Mensual</a></li>        		
-							<li {{ (\Request::is('reporte/reporteControlDeRecaudacionMensual*'))?"class=active":"" }}><a href="{{ URL::to('reporte/reporteControlDeRecaudacionMensual') }}"><i class="fa fa-file-o"></i> Control de Recaudación Mensual</a></li>        		
-							<li {{ (\Request::is('reporte/reporteRelacionMensualDeIngresosRecaudacionPendiente*'))?"class=active":"" }}><a href="{{ URL::to('reporte/reporteRelacionMensualDeIngresosRecaudacionPendiente') }}"><i class="fa fa-file-o"></i> Relación Mensual de Ingresos y Recaudación Pendiente</a></li>        		
-							<li {{ (\Request::is('reporte/reporteRelacionMensualDeFacturacionCobradosYPorCobrar*'))?"class=active":"" }}><a href="{{ URL::to('reporte/reporteRelacionMensualDeFacturacionCobradosYPorCobrar') }}"><i class="fa fa-file-o"></i> Relación Mensual de Saldo Facturado, Cobrado y Por Cobrar</a></li>        		
-							<li {{ (\Request::is('reporte/reporteRelacionEstacionamientoDiario*'))?"class=active":"" }}><a href="{{ URL::to('reporte/reporteRelacionEstacionamientoDiario') }}"><i class="fa fa-file-o"></i> Relación de Estacionamiento Diario</a></li>        		
-							<li {{ (\Request::is('reporte/reporteRelacionMetaRecaudacionMensual*'))?"class=active":"" }}><a href="{{ URL::to('reporte/reporteRelacionMetaRecaudacionMensual') }}"><i class="fa fa-file-o"></i> Relación de Meta y Recaudación Mensual</a></li>        		
-                		<li><a href="{{action('ReporteController@getReporteModuloMetaMensual')}}"><i class="fa fa-folder-o"></i> Libro de ventas</a></li>
-						</ul>  
-						<li {{ (\Request::is('reporte/reporteModuloMetaMensual*'))?"class=active":"" }}><a href="#"><i class="fa fa-folder-open"></i><span> Cierre Mensual</span><i class="fa fa-angle-left pull-right"></i></a>
-						<ul class="treeview-menu">
-							<li {{ (\Request::is('reporte/reporteModuloMetaMensual*'))?"class=active":"" }}><a href="{{ URL::to('reporte/reporteModuloMetaMensual') }}"><i class="fa fa-file-o"></i> Libro de ventas</a></li>        		      		
-						</ul>   
-<!-- 						<li {{ (\Request::is('reporte/reporteRelacionIngresosAeronauticosContado*'))?"class=active":"" }}><a href="{{ URL::to('reporte/reporteRelacionIngresosAeronauticosContado') }}"><i class="fa fa-folder-o"></i> Relación de Ingresos Aeronáuticos Contado</a></li>-->						
+					<li {{ (\Request::is('reporte/reporteRelacionCobranza*') || \Request::is('reporte/reporteRelacionFacturasAeronauticasCredito*'))?"class=active":"" }}><a href="#"><i class="fa fa-folder-open"></i><span> Cobranza</span><i class="fa fa-angle-left pull-right"></i></a>
+					<ul class="treeview-menu">
+                   		<li {{ (\Request::is('reporte/reporteRelacionCobranza*'))?"class=active":"" }}><a href="{{ URL::to('reporte/reporteRelacionCobranza') }}"><i class="fa fa-file-o"></i> Relación de Cobranza</a></li>        	
+							<li {{ (\Request::is('reporte/reporteRelacionFacturasAeronauticasCredito*'))?"class=active":"" }}><a href="{{ URL::to('reporte/reporteRelacionFacturasAeronauticasCredito') }}"><i class="fa fa-file-o"></i> Relación de Facturas Aeronáuticas Crédito</a></li>
+					</ul> 
+					<li {{ (\Request::is('reporte/reporteContratos*') || \Request::is('reporte/reporteRelacionIngresoMensual*') || \Request::is('reporte/reporteRelacionMensualDeIngresosRecaudacionPendiente*') || \Request::is('reporte/reporteRelacionMensualDeFacturacionCobradosYPorCobrar*')  || \Request::is('reporte/reporteRelacionEstacionamientoDiario*') || \Request::is('reporte/reporteRelacionMetaRecaudacionMensual*') || \Request::is('reporte/reporteControlDeRecaudacionMensual*') || \Request::is('reporte/reporteFormulariosAnulados*'))?"class=active":"" }}><a href="#"><i class="fa fa-folder-open"></i><span> Movimientos</span><i class="fa fa-angle-left pull-right"></i></a>
+					<ul class="treeview-menu">
+						<li {{ (\Request::is('reporte/reporteContratos*'))?"class=active":"" }}><a href="{{ URL::to('reporte/reporteContratos') }}"><i class="fa fa-file-o"></i> Relación de Contratos Registrados</a></li>        		
+						<li {{ (\Request::is('reporte/reporteRelacionIngresoMensual*'))?"class=active":"" }}><a href="{{ URL::to('reporte/reporteRelacionIngresoMensual') }}"><i class="fa fa-file-o"></i> Relación de Ingreso Mensual</a></li>        		
+						<li {{ (\Request::is('reporte/reporteControlDeRecaudacionMensual*'))?"class=active":"" }}><a href="{{ URL::to('reporte/reporteControlDeRecaudacionMensual') }}"><i class="fa fa-file-o"></i> Control de Recaudación Mensual</a></li>        		
+						<li {{ (\Request::is('reporte/reporteRelacionMensualDeIngresosRecaudacionPendiente*'))?"class=active":"" }}><a href="{{ URL::to('reporte/reporteRelacionMensualDeIngresosRecaudacionPendiente') }}"><i class="fa fa-file-o"></i> Relación Mensual de Ingresos y Recaudación Pendiente</a></li>        		
+						<li {{ (\Request::is('reporte/reporteRelacionMensualDeFacturacionCobradosYPorCobrar*'))?"class=active":"" }}><a href="{{ URL::to('reporte/reporteRelacionMensualDeFacturacionCobradosYPorCobrar') }}"><i class="fa fa-file-o"></i> Relación Mensual de Saldo Facturado, Cobrado y Por Cobrar</a></li>        		
+						<li {{ (\Request::is('reporte/reporteRelacionEstacionamientoDiario*'))?"class=active":"" }}><a href="{{ URL::to('reporte/reporteRelacionEstacionamientoDiario') }}"><i class="fa fa-file-o"></i> Relación de Estacionamiento Diario</a></li>        		
+						<li {{ (\Request::is('reporte/reporteRelacionMetaRecaudacionMensual*'))?"class=active":"" }}><a href="{{ URL::to('reporte/reporteRelacionMetaRecaudacionMensual') }}"><i class="fa fa-file-o"></i> Relación de Meta y Recaudación Mensual</a></li>        		
+						<li {{ (\Request::is('reporte/reporteFormulariosAnulados*'))?"class=active":"" }}><a href="{{ URL::to('reporte/reporteFormulariosAnulados') }}"><i class="fa fa-file-o"></i> Relación de Formularios Anulados</a></li>        		
+						<li {{ (\Request::is('reporte/reporteListadoClientes*'))?"class=active":"" }}><a href="{{ URL::to('reporte/reporteListadoClientes') }}"><i class="fa fa-file-o"></i> Relación de Clientes</a></li>        		
+					</ul>  
+					<li {{ (\Request::is('reporte/reporteModuloMetaMensual*'))?"class=active":"" }}><a href="#"><i class="fa fa-folder-open"></i><span> Cierre Mensual</span><i class="fa fa-angle-left pull-right"></i></a>
+					<ul class="treeview-menu">
+						<li {{ (\Request::is('reporte/reporteModuloMetaMensual*'))?"class=active":"" }}><a href="{{ URL::to('reporte/reporteModuloMetaMensual') }}"><i class="fa fa-file-o"></i> Libro de ventas</a></li>        		      		
+					</ul>   
+<!--             			<li><a href="{{action('ReporteController@getReporteModuloMetaMensual')}}"><i class="fa fa-folder-o"></i> Libro de ventas</a></li> -->
+						<li {{ (\Request::is('reporte/reporteRelacionIngresosAeronauticosContado*'))?"class=active":"" }}><a href="{{ URL::to('reporte/reporteRelacionIngresosAeronauticosContado') }}"><i class="fa fa-folder-o"></i> Relación de Ingresos Aeronáuticos Contado</a></li>
 <!-- 						<li {{ (\Request::is('reporte/mensual*'))?"class=active":"" }}><a href="{{ URL::to('reporte/mensual') }}"><i class="fa fa-folder-o"></i> Recaudación consolidada</a></li>-->
 <!--                 	<li><a href="{{action('ReporteController@getReporteMensual')}}"><i class="fa fa-folder-o"></i> Recaudación consolidada</a></li>
-                		<li><a href="#"><i class="fa fa-folder-o"></i> Relación facturado/cobrado</a></li>
-                		<li><a href="#"><i class="fa fa-folder-o"></i> Relación de contratos</a></li>
-                		<li><a href="#"><i class="fa fa-folder-o"></i> Listado facturas emitidas</a></li> -->
-                		@endpermission
-                	</ul>
-                </li>
-               	@endpermission
+            		<li><a href="#"><i class="fa fa-folder-o"></i> Relación facturado/cobrado</a></li>
+            		<li><a href="#"><i class="fa fa-folder-o"></i> Relación de contratos</a></li>
+            		<li><a href="#"><i class="fa fa-folder-o"></i> Listado facturas emitidas</a></li> -->
+            		@endpermission
+            	</ul>
+            </li>
+           	@endpermission
 
 
-                @permission('menu.informacion|menu.cliente|menu.role|menu.usuario|menu.modulo|menu.concepto|menu.preciosSCV')
-                <li class="treeview {{ (\Request::is('administracion*'))?"active":""}}">
-                	<a href="#">
-                		<i class="fa fa-cogs"></i> <span>Administración</span> <i class="fa fa-angle-left pull-right"></i>
-                	</a>
-                	<ul class="treeview-menu">
-                	<li {{ (\Request::is('administracion/informacion*'))?"class=active":"" }}><a href="{{ URL::to('administracion/informacion') }}"><i class="fa fa-info-circle"></i> Información</a></li>
-                		@permission('menu.informacion')
-                		<li {{ (\Request::is('administracion/meta*'))?"class=active":"" }}><a href="{{ URL::to('administracion/meta') }}"><i class="fa fa-area-chart"></i> Metas</a></li>
-                		@endpermission
-                		@permission('menu.cliente')
-                		<li {{ (\Request::is('administracion/cliente*'))?"class=active":"" }}><a href="{{ URL::to('administracion/cliente') }}"><i class="fa  fa-smile-o"></i> Cliente</a></li>
-                		@endpermission
-                		@permission('menu.role')
-                		<li {{ (\Request::is('administracion/roles*'))?"class=active":"" }}><a href="{{ URL::to('administracion/roles') }}"><i class="fa fa-users"></i> Grupos de usuarios</a></li>
-                		@endpermission
-                		@permission('menu.usuario')
-                		<li><a href="{{ URL::to('administracion/usuarios') }}"><i class="fa fa-user"></i> Usuarios</a></li>
-                		@endpermission
+            @permission('menu.informacion|menu.cliente|menu.role|menu.usuario|menu.modulo|menu.concepto|menu.preciosSCV')
+            <li class="treeview {{ (\Request::is('administracion*'))?"active":""}}">
+            	<a href="#">
+            		<i class="fa fa-cogs"></i> <span>Administración</span> <i class="fa fa-angle-left pull-right"></i>
+            	</a>
+            	<ul class="treeview-menu">
+            	<li {{ (\Request::is('administracion/informacion*'))?"class=active":"" }}><a href="{{ URL::to('administracion/informacion') }}"><i class="fa fa-info-circle"></i> Información</a></li>
+            		@permission('menu.informacion')
+            		<li {{ (\Request::is('administracion/meta*'))?"class=active":"" }}><a href="{{ URL::to('administracion/meta') }}"><i class="fa fa-area-chart"></i> Metas</a></li>
+            		@endpermission
+            		@permission('menu.cliente')
+            		<li {{ (\Request::is('administracion/cliente*'))?"class=active":"" }}><a href="{{ URL::to('administracion/cliente') }}"><i class="fa  fa-smile-o"></i> Cliente</a></li>
+            		@endpermission
+            		@permission('menu.role')
+            		<li {{ (\Request::is('administracion/roles*'))?"class=active":"" }}><a href="{{ URL::to('administracion/roles') }}"><i class="fa fa-users"></i> Grupos de usuarios</a></li>
+            		@endpermission
+            		@permission('menu.usuario')
+            		<li><a href="{{ URL::to('administracion/usuarios') }}"><i class="fa fa-user"></i> Usuarios</a></li>
+            		@endpermission
 	                 <!-- <li><a href="{{ URL::to('tasas/impresion') }}"><i class="fa fa-print"></i> Impresión tasas</a></li>
 	                 <li><a href="{{ URL::to('administracion/sincronizacion') }}"><i class="fa fa-refresh"></i> Sincronización</a></li>-->
 	                 @permission('menu.modulo')

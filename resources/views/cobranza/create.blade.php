@@ -221,8 +221,8 @@
 		    var nRecibo   =$('#nRecibo-input').val();
 
 		    if(nRecibo==''){
-			alertify.error("Número de Recibo de Caja es requerido.");
-			return;
+				alertify.error("Número de Recibo de Caja es requerido.");
+				return;
 		    }
             if(pagar>depositar){
                 alertify.error("El monto a cobrar no puede ser mayor al depositado.");

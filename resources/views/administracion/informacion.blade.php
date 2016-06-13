@@ -131,10 +131,13 @@
                                             <tbody>
                                                 @if($cuentas->count()>0)
                                                     @foreach($cuentas as $cuenta)
-                                                        <tr>
+                                                        <tr data-id='{{$cuenta->id}}'>
                                                             <td><input type="text" class="form-control" value="{{$cuenta->descripcion}}" name="cuentas[{{$cuenta->id}}][descripcion]"></td>
                                                             <td><input type="text" class="form-control" value="{{$cuenta->banco->nombre}}" name="cuentas[{{$cuenta->banco->id}}][nombre]"></td>
-                                                            <td><button type="button" class='btn btn-danger remove-porton-btn'><span class='glyphicon glyphicon-minus'></span></button></td>
+                                                            <td>                    
+                                                                <button type="button" class='btn {{($cuenta->isActivo==1)?"btn-primary":"btn-default"}} activarCuenta-btn' data-id='{{$cuenta->id}}'><i class='glyphicon glyphicon-adjust' title='{{($cuenta->isActivo==1)?"Cuenta Activa":"Cuenta Inactiva"}}'></i></button>
+                                                                <button type="button" class='btn btn-danger remove-porton-btn'><span class='glyphicon glyphicon-minus'></span></button>
+                                                            </td>
                                                         </tr>
                                                     @endforeach
                                                 @endif
@@ -296,24 +299,24 @@
     var tasasNuevas=0;
 $(function(){
 
-          $('#fecha-inicio-datepicker').datepicker({
-            closeText: 'Cerrar',
-            prevText: '&#x3C;Ant',
-            nextText: 'Sig&#x3E;',
-            currentText: 'Hoy',
-            monthNames: ['Enero','Febrero','Marzo','Abril','Mayo','Junio',
-            'Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'],
-            monthNamesShort: ['Ene','Feb','Mar','Abr','May','Jun',
-            'Jul','Ago','Sep','Oct','Nov','Dic'],
-            dayNames: ['Domingo','Lunes','Martes','MiÃ©rcoles','Jueves','Viernes','SÃ¡bado'],
-            dayNamesShort: ['Dom','Lun','Mar','MiÃ©','Jue','Vie','SÃ¡b'],
-            dayNamesMin: ['D','L','M','M','J','V','S'],
-            weekHeader: 'Sm',
-            firstDay: 1,
-            isRTL: false,
-            showMonthAfterYear: false,
-            yearSuffix: '',
-            dateFormat: "dd/mm/yy"});
+  $('#fecha-inicio-datepicker').datepicker({
+    closeText: 'Cerrar',
+    prevText: '&#x3C;Ant',
+    nextText: 'Sig&#x3E;',
+    currentText: 'Hoy',
+    monthNames: ['Enero','Febrero','Marzo','Abril','Mayo','Junio',
+    'Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'],
+    monthNamesShort: ['Ene','Feb','Mar','Abr','May','Jun',
+    'Jul','Ago','Sep','Oct','Nov','Dic'],
+    dayNames: ['Domingo','Lunes','Martes','MiÃ©rcoles','Jueves','Viernes','SÃ¡bado'],
+    dayNamesShort: ['Dom','Lun','Mar','MiÃ©','Jue','Vie','SÃ¡b'],
+    dayNamesMin: ['D','L','M','M','J','V','S'],
+    weekHeader: 'Sm',
+    firstDay: 1,
+    isRTL: false,
+    showMonthAfterYear: false,
+    yearSuffix: '',
+    dateFormat: "dd/mm/yy"});
 
     $('#tarjeta_costo').focusout(function(){
         $(this).val(numToComma($(this).val()))
@@ -332,7 +335,9 @@ $(function(){
   });
 
     $('body').delegate('.remove-concepto-btn, .remove-porton-btn, .remove-serie-btn','click',function(){
-        $(this).closest('tr').remove();
+      
+                $(this).closest('tr').remove();
+
     });
 
     $('#add-porton-btn').click(function(){
@@ -401,6 +406,58 @@ $(function(){
         });
         tasasNuevas++;
     });
+
+
+     // Botón para habilitar/inhabilitar
+    $('.activarCuenta-btn').click(function(){
+        var fila =  $(this).closest('tr');
+        var id   =  $(fila).data('id');
+
+            // confirm dialog
+            alertify.confirm("¿Realmente desea cambiarle el estado a este número de cuenta?", function (e) {
+                if (e) {        
+
+                    $.ajax({
+                        data:{id:id},
+                        method:'get',
+                        url:"{{action('InformacionController@estadoCuenta')}}"})
+                    .always(function(text, status, responseObject){
+                        try{
+                            var respuesta=JSON.parse(responseObject.responseText);
+                            if(respuesta.success==1){
+                                if (respuesta.cuenta.isActivo==0){
+                                    $(fila).find('.activarCuenta-btn')
+                                    .removeClass('btn-primary')
+                                    .addClass('btn-default')
+                                    .prop('title', 'Cuenta Inactiva');
+
+                                }
+                                else if (respuesta.cuenta.isActivo==1){
+
+                                    $(fila).find('.activarCuenta-btn')
+                                    .addClass('btn-primary')
+                                    .removeClass('btn-default')
+                                    .prop('title', 'Cuenta Activa');                                
+                                }
+                                alertify.success(respuesta.text);
+                            }
+                            else
+                            {
+                                alertify.error(respuesta.text);
+                            }
+                            
+                        }catch (e){
+                            console.log(e);
+                            alertify.error("Error procensando la información del servidor")
+
+                        }
+
+                    })
+                } 
+            });
+
+});
+
 
 });
 
