@@ -62,4 +62,14 @@ class Cobro extends Model {
     {
         $this->parseDecimal($numero,'montodepositado');
     }
+    
+    public function setFechaAttribute($fecha)
+    {
+        $this->setFecha($fecha,'fecha');
+    }
+
+    public function getFechaAttribute($fecha)
+    {
+        return $this->getFecha($fecha);
+    }
 }
