@@ -68,7 +68,7 @@
 						<div class="table-responsive" style="max-height: 500px">
 							<table  class="table table-condensed">
 									<tr class="bg-primary" >
-										<th class="text-center">Op. N°</th>
+										<th class="text-center" >Op. N°</th>
 										<th class="text-center">Fecha</th>
 										<th class="text-center">RIF</th>
 										<th class="text-center">Nombre o Razón Social</th>
@@ -90,62 +90,28 @@
 									@if($facturas->count()>0)
 										@foreach($facturas as $index => $factura)
 											<tr>
-												<td   style="vertical-align: middle" class="text-center" align="center">
-													{{$index+1}}
-												</td>
-												<td   style="vertical-align: middle" class="text-center" align="center">
-													{{$factura->fecha}}
-												</td>
-												<td   style="vertical-align: middle" class="text-left formulario-bs" align="left">
-													{{$factura->cliente->cedRifPrefix}}-{{$factura->cliente->cedRif}}
-												</td>
-												<td   style="vertical-align: middle" class="text-left aterrizaje-bs" align="left">
-													{{$factura->cliente->nombre}}
-												</td>
-												<td   style="vertical-align: middle" class="text-left aterrizaje-bs" align="left">
-													{{($factura->retencionComprobante == 0)?'':$factura->retencionComprobante}}
-												</td>
-												<td   style="vertical-align: middle" class="text-right estacionamiento-bs" align="right">
-													{{$factura->nFacturaPrefix}}-{{$factura->nFactura}}
-												</td>
-												<td   style="vertical-align: middle" class="text-right habilitacion-bs" align="right">
-													{{$factura->nControlPrefix}}-{{$factura->nControl}}
-												</td>
-												<td   style="vertical-align: middle" class="text-right jetway-bs" align="right">
-												</td>
-												<td   style="vertical-align: middle" class="text-right carga-bs" align="right">
-												</td>
-												<td   style="vertical-align: middle" class="text-right" align="right">
-													01-reg
-												</td>
-												<td   style="vertical-align: middle" class="text-right jetway-bs" align="right">
-												</td>
-												<td   style="vertical-align: middle" class="text-right montoFacturado-bs" align="right">
-													{{$factura->monto}}
-												</td>
-												<td   style="vertical-align: middle" class="text-right montoDepositado-bs" align="right">
-													{{($factura->retencion == 0.0)?$factura->monto:''}}
-												</td>
-												<td   style="vertical-align: middle" class="text-right montoDepositado-bs" align="right">
-													{{($factura->base == $factura->monto)?$factura->monto:''}}
-												</td>
-												<td   style="vertical-align: middle" class="text-right montoDepositado-bs" align="right">
-													{{($factura->base == $factura->monto)?'':$factura->base}}
-												</td>
-												<td   style="vertical-align: middle" class="text-right montoDepositado-bs" align="right">
-													{{($factura->base == $factura->monto)?'':$factura->detalles->concepto->iva}}
-												</td>
-												<td   style="vertical-align: middle" class="text-right montoDepositado-bs" align="right">
-													{{($factura->base == $factura->monto)?'':$factura->ivapercentage}}
-												</td>
-												<td   style="vertical-align: middle" class="text-right montoDepositado-bs" align="right">
-													{{($factura->base == $factura->monto)?'':(($factura->monto-$factura->base)*$factura->ivapercentage)/100}}
-												</td>
+												<td   style="vertical-align: middle" class="text-center" align="center">{{$index+1}}</td>
+												<td   style="vertical-align: middle" class="text-center" align="center">{{$factura->fecha}}</td>
+												<td   style="vertical-align: middle" class="text-left formulario-bs" align="left">{{$factura->cliente->cedRifPrefix}}-{{$factura->cliente->cedRif}}</td>
+												<td   style="vertical-align: middle" class="text-left aterrizaje-bs" align="left">{{$factura->cliente->nombre}}</td>
+												<td   style="vertical-align: middle" class="text-left aterrizaje-bs" align="left">{{($factura->retencionComprobante == 0)?'':$factura->retencionComprobante}}</td>
+												<td   style="vertical-align: middle" class="text-right estacionamiento-bs" align="right">{{$factura->nFactura}}</td>
+												<td   style="vertical-align: middle" class="text-right habilitacion-bs" align="right">{{$factura->nControl}}</td>
+												<td   style="vertical-align: middle" class="text-right jetway-bs" align="right"> </td>
+												<td   style="vertical-align: middle" class="text-right carga-bs" align="right"> </td>
+												<td   style="vertical-align: middle" class="text-right" align="right">01-reg</td>
+												<td   style="vertical-align: middle" class="text-right jetway-bs" align="right"> </td>
+												<td   style="vertical-align: middle" class="text-right montoFacturado-bs" align="right">{{$factura->monto}}</td>
+												<td   style="vertical-align: middle" class="text-right montoDepositado-bs" align="right">{{($factura->base == $factura->monto)?$factura->monto:''}}</td>
+												<td   style="vertical-align: middle" class="text-right montoDepositado-bs" align="right">{{($factura->base == $factura->monto)?'':$factura->base}}</td>
+												<td   style="vertical-align: middle" class="text-right montoDepositado-bs" align="right"> </td>
+												<td   style="vertical-align: middle" class="text-right montoDepositado-bs" align="right">{{($factura->base == $factura->monto)?'':$factura->ivapercentage}}</td>
+												<td   style="vertical-align: middle" class="text-right montoDepositado-bs" align="right">{{($factura->base == $factura->monto)?'':(($factura->monto-$factura->base)*$factura->ivapercentage)/100}}</td>
 											</tr>
 										@endforeach
 									@else
 										<tr>
-											<td colspan="12" class="text-center">No hay registros para los datos suministrados.</td>
+											<td colspan="18" class="text-center">No hay registros para los datos suministrados.</td>
 										</tr>
 									@endif
 								</tbody>
@@ -174,14 +140,13 @@
 			}).remove();
 		    $(table).prepend('<thead>\
 		    					<tr>\
-									<th colspan="6" style="vertical-align: middle; margin-top:20px" align="center" class="text-center">CUADRE DE CAJA\
+									<th colspan="18" style="vertical-align: middle; margin-top:20px" align="center" class="text-center">CUADRE DE CAJA\
 									</br>\
-									DESDE: {{$diaDesde}}/{{$mesDesde}}/{{$annoDesde}} HASTA: {{$diaHasta}}/{{$mesHasta}}/{{$annoHasta}} </th>\
 								</tr>\
 							</thead>')
-			$(table).find('thead, th').css({'border-top':'1px solid black', 'font-weight': 'bold', 'text-align':"center", 'font-size': '8px'})
-			$(table).find('th').css({'border-bottom':'1px solid black', 'font-weight': 'bold', 'text-align':"center", 'font-size': '8px'})
-			$(table).find('td').css({'font-size': '7px'})
+			$(table).find('thead, th').css({'border-top':'1px solid black', 'font-weight': 'bold', 'text-align':"center", 'font-size': '7px'})
+			$(table).find('th').css({'border-bottom':'1px solid black', 'font-weight': 'bold', 'text-align':"center", 'font-size': '7px'})
+			$(table).find('td').css({'font-size': '6px'})
 			$(table).find('tr:nth-child(even)').css({'background-color': '#E2E2E2'})
 			$(table).find('tr:last td').css({'border-bottom':'1px solid black','border-top':'1px solid black', 'font-weight': 'bold'})
 			var tableHtml= $(table)[0].outerHTML;

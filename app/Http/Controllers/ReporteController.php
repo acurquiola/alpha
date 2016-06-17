@@ -1053,14 +1053,11 @@ class ReporteController extends Controller {
         $annoHasta  =$request->get('annoHasta',  \Carbon\Carbon::now()->year);
         $aeropuerto =session('aeropuerto');
 
-        $facturas = \App\Factura::with('cobros')
+        $facturas = \App\Factura::with('cobros', 'detalles')
                                 ->join('cobro_factura', 'facturas.id', '=', 'cobro_factura.factura_id')
                                 ->whereBetween('fecha', array($annoDesde.'-'.$mesDesde.'-'.$diaDesde,  $annoHasta.'-'.$mesHasta.'-'.$diaHasta) )
-                                ->where('facturas.deleted_at', null)
                                 ->where('aeropuerto_id', session('aeropuerto')->id)
                                 ->get();        
-
-     // dd($facturas);
 
         return view('reportes.reporteLibroDeVentas', compact('diaDesde', 'mesDesde', 'annoDesde', 'diaHasta', 'mesHasta', 'annoHasta', 'aeropuerto', 'facturas'));
     }
