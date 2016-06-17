@@ -66,7 +66,7 @@
 											Formulario
 										</th>
 										<th   style="vertical-align: middle" class="text-center" align="center">
-											Aterrizaje/Despegue
+											Aterrizaje
 										</th>
 										<th   style="vertical-align: middle" class="text-center" align="center">
 											Estacionamiento
@@ -81,23 +81,80 @@
 											Carga
 										</th>
 										<th   style="vertical-align: middle" class="text-center" align="center">
-											Monto Facturado
-										</th>
-										<th   style="vertical-align: middle" class="text-center" align="center">
-											Monto Depositado
-										</th>
-										<th   style="vertical-align: middle" class="text-center" align="center">
-											Diferencia
-										</th>
-										<th   style="vertical-align: middle" class="text-center" align="center">
 											Nro. Cobro
+										</th>
+										<th   style="vertical-align: middle" class="text-center" align="center">
+											Facturado Bs.
+										</th>
+										<th   style="vertical-align: middle" class="text-center" align="center">
+											Depositado Bs.
+										</th>
+										<th   style="vertical-align: middle" class="text-center" align="center">
+											Diferencia Bs.
 										</th>
 									</tr>
 								</thead>
 								<tbody>
-								@foreach($facturas as $factura)
-									{{dd($factura)}}
-								@endforeach
+								@if($dosaFactura == [])
+									<tr>
+										<td colspan="12" class="text-center">No hay registros para los datos suministrados.</td>
+									</tr>
+								@else
+									@foreach($dosaFactura as $nroDosa => $dosaFactura)
+										<tr>
+											<td   style="vertical-align: middle" class="text-center" align="center">
+												{{$dosaFactura['fecha']}}
+											</td>
+											<td   style="vertical-align: middle" class="text-center" align="center">
+												{{$nroDosa}}
+											</td>
+											<td   style="vertical-align: middle" class="text-right formulario-bs" align="right">
+												{{$traductor->format($dosaFactura['formulario'])}}
+											</td>
+											<td   style="vertical-align: middle" class="text-right aterrizaje-bs" align="right">
+												{{$traductor->format($dosaFactura['aterrizaje'])}}
+											</td>
+											<td   style="vertical-align: middle" class="text-right estacionamiento-bs" align="right">
+												{{$traductor->format($dosaFactura['estacionamiento'])}}
+											</td>
+											<td   style="vertical-align: middle" class="text-right habilitacion-bs" align="right">
+												{{$traductor->format($dosaFactura['habilitacion'])}}
+											</td>
+											<td   style="vertical-align: middle" class="text-right jetway-bs" align="right">
+												{{$traductor->format($dosaFactura['jetway'])}}
+											</td>
+											<td   style="vertical-align: middle" class="text-right carga-bs" align="right">
+												{{$traductor->format($dosaFactura['carga'])}}
+											</td>
+											<td   style="vertical-align: middle" class="text-right" align="right">
+												{{$dosaFactura['nroCobro']}}
+											</td>
+											<td   style="vertical-align: middle" class="text-right montoFacturado-bs" align="right">
+												{{$traductor->format($dosaFactura['montoFacturado'])}}
+											</td>
+											<td   style="vertical-align: middle" class="text-right montoDepositado-bs" align="right">
+												{{$traductor->format($dosaFactura['montoDepositado'])}}
+											</td>
+											<td   style="vertical-align: middle" class="text-right diferencia-bs" align="right">
+												{{$traductor->format($dosaFactura['montoFacturado']-$dosaFactura['montoDepositado'])}}
+											</td>
+										</tr>
+									@endforeach
+										<tr class="bg-gray">
+											<td align="center" class="text-center" style="font-weight: bold;">TOTALES</td>
+											<td align="center" class="text-center">-</td>
+											<td align="right" class="text-right" id="formularioTotal" style="font-weight: bold;" align="right">0</td>
+											<td align="right" class="text-right" id="aterrizajeTotal" style="font-weight: bold;" align="right">0</td>
+											<td align="right" class="text-right" id="estacionamientoTotal" style="font-weight: bold;" align="right">0</td>
+											<td align="right" class="text-right" id="habilitacionTotal" style="font-weight: bold;" align="right">0</td>
+											<td align="right" class="text-right" id="jetwayTotal" style="font-weight: bold;" align="right">0</td>
+											<td align="right" class="text-right" id="cargaTotal" style="font-weight: bold;" align="right">0</td>
+											<td align="center" class="text-center">-</td>
+											<td align="right" class="text-right" id="montoFacturadoTotal" style="font-weight: bold;" align="right">0</td>
+											<td align="right" class="text-right" id="montoDepositadoTotal" style="font-weight: bold;" align="right">0</td>
+											<td align="right" class="text-right" id="montoDiferenciaTotal" style="font-weight: bold;" align="right">0</td>
+										</tr>
+								@endif
 								</tbody>
 							</table>
 						</div>
@@ -112,115 +169,53 @@
 <script>
 	$(function(){
 
-		var ticketEstacionamiento=0;
-		$('.ticketEstacionamiento').each(function(index,value){
-			ticketEstacionamiento+=commaToNum($(value).text().trim());
+		var formularioTotal=0;
+		$('.formulario-bs').each(function(index,value){
+			formularioTotal+=commaToNum($(value).text().trim());
+		});
+		var aterrizajeTotal=0;
+		$('.aterrizaje-bs').each(function(index,value){
+			aterrizajeTotal+=commaToNum($(value).text().trim());
+		});
+		var estacionamientoTotal=0;
+		$('.estacionamiento-bs').each(function(index,value){
+			estacionamientoTotal+=commaToNum($(value).text().trim());
+		});
+		var habilitacionTotal=0;
+		$('.habilitacion-bs').each(function(index,value){
+			habilitacionTotal+=commaToNum($(value).text().trim());
+		});
+		var jetwayTotal=0;
+		$('.jetway-bs').each(function(index,value){
+			jetwayTotal+=commaToNum($(value).text().trim());
+		});
+		var cargaTotal=0;
+		$('.carga-bs').each(function(index,value){
+			cargaTotal+=commaToNum($(value).text().trim());
+		});
+		var montoFacturadoTotal=0;
+		$('.montoFacturado-bs').each(function(index,value){
+			montoFacturadoTotal+=commaToNum($(value).text().trim());
+		});
+		var montoDepositadoTotal=0;
+		$('.montoDepositado-bs').each(function(index,value){
+			montoDepositadoTotal+=commaToNum($(value).text().trim());
+		});
+		var montoDiferenciaTotal=0;
+		$('.diferencia-bs').each(function(index,value){
+			montoDiferenciaTotal+=commaToNum($(value).text().trim());
 		});
 
-		var baseTicketEstacionamiento=0;
-		$('.baseTicketEstacionamiento').each(function(index,value){
-			baseTicketEstacionamiento+=commaToNum($(value).text().trim());
-		});
 
-		var ivaTicketEstacionamiento=0;
-		$('.ivaTicketEstacionamiento').each(function(index,value){
-			ivaTicketEstacionamiento+=commaToNum($(value).text().trim());
-		});
-
-		var totalTicketEstacionamiento=0;
-		$('.totalTicketEstacionamiento').each(function(index,value){
-			totalTicketEstacionamiento+=commaToNum($(value).text().trim());
-		});
-
-		var ticketPernocta=0;
-		$('.ticketPernocta').each(function(index,value){
-			ticketPernocta+=commaToNum($(value).text().trim());
-		});
-
-		var baseTicketPernocta=0;
-		$('.baseTicketPernocta').each(function(index,value){
-			baseTicketPernocta+=commaToNum($(value).text().trim());
-		});
-
-		var ivaTicketPernocta=0;
-		$('.ivaTicketPernocta').each(function(index,value){
-			ivaTicketPernocta+=commaToNum($(value).text().trim());
-		});
-
-		var totalTicketPernocta=0;
-		$('.totalTicketPernocta').each(function(index,value){
-			totalTicketPernocta+=commaToNum($(value).text().trim());
-		});
-
-		var ticketExtraviado=0;
-		$('.ticketExtraviado').each(function(index,value){
-			ticketExtraviado+=commaToNum($(value).text().trim());
-		});
-
-		var baseTicketExtraviado=0;
-		$('.baseTicketExtraviado').each(function(index,value){
-			baseTicketExtraviado+=commaToNum($(value).text().trim());
-		});
-
-		var ivaTicketExtraviado=0;
-		$('.ivaTicketExtraviado').each(function(index,value){
-			ivaTicketExtraviado+=commaToNum($(value).text().trim());
-		});
-
-		var totalTicketExtraviado=0;
-		$('.totalTicketExtraviado').each(function(index,value){
-			totalTicketExtraviado+=commaToNum($(value).text().trim());
-		});
-
-		var baseTarjetas=0;
-		$('.baseTarjetas').each(function(index,value){
-			baseTarjetas+=commaToNum($(value).text().trim());
-		});
-
-		var ivaTarjetas=0;
-		$('.ivaTarjetas').each(function(index,value){
-			ivaTarjetas+=commaToNum($(value).text().trim());
-		});
-
-		var totalTarjetas=0;
-		$('.totalTarjetas').each(function(index,value){
-			totalTarjetas+=commaToNum($(value).text().trim());
-		});
-
-		var baseTotal=0;
-		$('.baseTotal').each(function(index,value){
-			baseTotal+=commaToNum($(value).text().trim());
-		});
-
-		var ivaTotal=0;
-		$('.ivaTotal').each(function(index,value){
-			ivaTotal+=commaToNum($(value).text().trim());
-		});
-
-		var montoTotal=0;
-		$('.montoTotal').each(function(index,value){
-			montoTotal+=commaToNum($(value).text().trim());
-		});
-
-		$('#ticketEstacionamiento').text(ticketEstacionamiento);
-		$('#baseTicketEstacionamiento').text(numToComma(baseTicketEstacionamiento));
-		$('#ivaTicketEstacionamiento').text(numToComma(ivaTicketEstacionamiento));
-		$('#totalTicketEstacionamiento').text(numToComma(totalTicketEstacionamiento));
-		$('#ticketPernocta').text(ticketPernocta);
-		$('#baseTicketPernocta').text(numToComma(baseTicketPernocta));
-		$('#ivaTicketPernocta').text(numToComma(ivaTicketPernocta));
-		$('#totalTicketPernocta').text(numToComma(totalTicketPernocta));
-		$('#ticketExtraviado').text(ticketExtraviado);
-		$('#baseTicketExtraviado').text(numToComma(baseTicketExtraviado));
-		$('#ivaTicketExtraviado').text(numToComma(ivaTicketExtraviado));
-		$('#totalTicketExtraviado').text(numToComma(totalTicketExtraviado));
-		$('#baseTarjetas').text(numToComma(baseTarjetas));
-		$('#ivaTarjetas').text(numToComma(ivaTarjetas));
-		$('#totalTarjetas').text(numToComma(totalTarjetas));
-		$('#baseTotal').text(numToComma(baseTotal));
-		$('#ivaTotal').text(numToComma(ivaTotal));
-		$('#montoTotal').text(numToComma(montoTotal));
-
+		$('#formularioTotal').text(numToComma(formularioTotal));
+		$('#aterrizajeTotal').text(numToComma(aterrizajeTotal));
+		$('#estacionamientoTotal').text(numToComma(estacionamientoTotal));
+		$('#habilitacionTotal').text(numToComma(habilitacionTotal));
+		$('#jetwayTotal').text(numToComma(jetwayTotal));
+		$('#cargaTotal').text(numToComma(cargaTotal));
+		$('#montoFacturadoTotal').text(numToComma(montoFacturadoTotal));
+		$('#montoDepositadoTotal').text(numToComma(montoDepositadoTotal));
+		$('#montoDiferenciaTotal').text(numToComma(montoDiferenciaTotal));
 
 
 		$('#export-btn').click(function(e){
@@ -233,8 +228,11 @@
 			}).remove();
 			$(table).prepend('<thead>\
 								<tr>\
-									<th colspan="20" style="vertical-align: middle; margin-top:20px" align="center" class="text-center">RELACIÓN DE ESTACIONAMIENTO DIARIO\
+									<th colspan="12" style="vertical-align: middle; margin-top:20px" align="center" class="text-center">RELACIÓN DE INGRESOS AERONÁUTICOS CONTADO\
 										</br>\
+		                    			MES: {{$mesLetras}} | AÑO: {{$anno}}\
+		                    			</br>\
+		                    			AEROPUERTO: {{$aeropuertoNombre}}\
 									</th>\
 								</tr>\
 							</thead>')
