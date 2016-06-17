@@ -94,6 +94,12 @@
 						<div class="input-group">
 							<input type="text" id="nRecibo-input" name="nRecibo" class="form-control" placeholder="Número"/>
 						</div><!-- /.input group -->
+					</div>  
+					<div class="form-group">
+					<label style="font-weight: bold;" >Fecha: </label>
+						<div class="input-group">
+							<input type="text" id="fecha-datepicker" name="fecha" class="form-control" placeholder="Fecha" value="{{$today->format('d/m/Y')}}"/>
+						</div><!-- /.input group -->
 					</div>                          
 		            <div class="form-group pull-right">
 			            <label for="total-a-pagar-doc-input" class="col-sm-6 control-label"><h5>Total a Cobrar</h5></label>
@@ -213,12 +219,32 @@
 
         @include('cobranza.partials.script')
 
+		$('#fecha-datepicker').datepicker({
+			closeText: 'Cerrar',
+			prevText: '&#x3C;Ant',
+			nextText: 'Sig&#x3E;',
+			currentText: 'Hoy',
+			monthNames: ['Enero','Febrero','Marzo','Abril','Mayo','Junio',
+			'Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'],
+			monthNamesShort: ['Ene','Feb','Mar','Abr','May','Jun',
+			'Jul','Ago','Sep','Oct','Nov','Dic'],
+			dayNames: ['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'],
+			dayNamesShort: ['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'],
+			dayNamesMin: ['D','L','M','M','J','V','S'],
+			weekHeader: 'Sm',
+			firstDay: 1,
+			isRTL: false,
+			showMonthAfterYear: false,
+			yearSuffix: '',
+			dateFormat: 'yy-mm-dd'});
+
         $('#save-cobro-btn').click(function(){
 
-            var pagar     =commaToNum($('.total-a-pagar-doc-input').first().val());
-            var depositar =commaToNum($('#total-a-depositar-doc-input').val());
-            var ajuste    =commaToNum($('#ajuste-input').val());
-		    var nRecibo   =$('#nRecibo-input').val();
+			var pagar     =commaToNum($('.total-a-pagar-doc-input').first().val());
+			var depositar =commaToNum($('#total-a-depositar-doc-input').val());
+			var ajuste    =commaToNum($('#ajuste-input').val());
+			var nRecibo   =$('#nRecibo-input').val();
+			var fecha     =$('#fecha-datepicker').val();
 
 		    if(nRecibo==''){
 				alertify.error("Número de Recibo de Caja es requerido.");
@@ -283,7 +309,8 @@
                     hasrecaudos:$('#hasrecaudos-check').prop('checked'),
                     ajuste:ajuste,
                     modulo_id:'{{$id}}',
-                    nRecibo:$('#nRecibo-input').val()
+                    nRecibo:$('#nRecibo-input').val(),
+                    fecha:$('#fecha-datepicker').val()
                 },
                 url: '{{action('CobranzaController@store')}}'
             }).done(function(data, status, jx){

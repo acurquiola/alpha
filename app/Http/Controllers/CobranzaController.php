@@ -109,8 +109,10 @@ class CobranzaController extends Controller {
         }
         $clientes=$this->getClientesPendietesByModulo($idOperator, $id);
         $bancos=\App\Banco::with('cuentas')->get();
+        $today               = \Carbon\Carbon::now();
+        $today->timezone     = 'America/New_York';
 
-        return view('cobranza.create',compact('clientes','moduloName', 'bancos','id', 'recibosAnulados'));
+        return view('cobranza.create',compact('clientes','moduloName', 'bancos','id', 'recibosAnulados', 'today'));
     }
 
 	/**
@@ -126,6 +128,7 @@ class CobranzaController extends Controller {
             $cobro=\App\Cobro::create([
                 'cliente_id'    => $request->get('cliente_id'),
                 'modulo_id'     => $request->get('modulo_id'),
+                'fecha'         => $request->get('fecha'),
                 'aeropuerto_id' => session('aeropuerto')->id,
                 'nRecibo'       => $request->get('nRecibo')]);
 
@@ -285,7 +288,9 @@ return ["success"=>1, "impresion" => $impresion];
         $ajusteCliente= \DB::table('ajustes')
             ->where('cliente_id', $cobro->cliente->id)
             ->sum('monto');
-        return view('cobranza.edit',compact('moduloName', 'bancos','id', 'cobro', 'ajusteCliente'));
+        $today               = \Carbon\Carbon::now();
+        $today->timezone     = 'America/New_York';
+        return view('cobranza.edit',compact('moduloName', 'bancos','id', 'cobro', 'ajusteCliente', 'today'));
 	}
 
     /**
