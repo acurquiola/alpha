@@ -129,7 +129,7 @@
                                     </br>\
                                     Nro. Recibo de Caja: {{($cobro->nRecibo)?$cobro->nRecibo:"No Dispone"}} \
                                     </br>\
-                                    Fecha de Cobro: {{$cobro->created_at}} \
+                                    Fecha de Cobro: {{($cobro->fecha=='30/11/-0001')?$cobro->created_at:$cobro->fecha}} \
                                     </br>\
                                     Observaciones: {{($cobro->observacion)?$cobro->observacion:"No Dispone"}} \
                                     </br>\
