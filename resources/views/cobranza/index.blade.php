@@ -135,7 +135,7 @@
 											<td class='text-justify'>{{$cobro->id}}</td>
 											<td class='text-justify'>{{($cobro->nRecibo)?$cobro->nRecibo:'N/A'}}</td>
 											<td style="text-align: left">{{$cobro->cliente->nombre}}</td>
-											<td>{{$cobro->created_at}}</td>
+											<td>{{$cobro->fecha}}</td>
 											<td style="text-align: right">{{$traductor->format($cobro->montofacturas)}}</td>
 											<td style="text-align: right">{{$traductor->format($cobro->montodepositado)}}</td>
 											<td class='text-justify'>{{$cobro->observacion}}</td>
