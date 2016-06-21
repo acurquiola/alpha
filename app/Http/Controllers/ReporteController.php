@@ -725,7 +725,6 @@ class ReporteController extends Controller {
                 }else{
                     $dosaFactura[$factura->nroDosa]["otros"]=$detalle->totalDes;
                 }
-                dd($dosaFactura);
             }
         }
         

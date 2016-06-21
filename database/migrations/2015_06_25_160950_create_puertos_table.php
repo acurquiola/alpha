@@ -19,7 +19,6 @@ class CreatePuertosTable extends Migration {
             $table->string('siglas', 20);
             $table->integer('estado')->default(0);
             $table->integer('pais_id')->unsigned();
-            $table->foreign('pais_id')->references('id')->on('pais');
             $table->timestamps();
 		});
 	}
