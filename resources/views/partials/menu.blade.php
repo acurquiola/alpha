@@ -220,15 +220,12 @@
 					<ul class="treeview-menu">
 						<li {{ (\Request::is('reporte/reporteLibroDeVentas*'))?"class=active":"" }}><a href="{{ URL::to('reporte/reporteLibroDeVentas') }}"><i class="fa fa-folder-o"></i> Libro de Ventas</a></li>
 					</ul>   
-<<<<<<< HEAD
 <!--             			<li><a href="{{action('ReporteController@getReporteModuloMetaMensual')}}"><i class="fa fa-folder-o"></i> Libro de ventas</a></li> -->
 <!-- 						<li {{ (\Request::is('reporte/mensual*'))?"class=active":"" }}><a href="{{ URL::to('reporte/mensual') }}"><i class="fa fa-folder-o"></i> Recaudación consolidada</a></li>-->
 <!--                  	<li><a href="{{action('ReporteController@getReporteMensual')}}"><i class="fa fa-folder-o"></i> Recaudación consolidada</a></li>-->            		<!-- <li><a href="#"><i class="fa fa-folder-o"></i> Relación facturado/cobrado</a></li> 
             		<li><a href="#"><i class="fa fa-folder-o"></i> Relación de contratos</a></li>
             		<li><a href="#"><i class="fa fa-folder-o"></i> Listado facturas emitidas</a></li>  -->
-=======
-						<li {{ (\Request::is('reporte/reporteRelacionIngresosAeronauticosContado*'))?"class=active":"" }}><a href="{{ URL::to('reporte/reporteRelacionIngresosAeronauticosContado') }}"><i class="fa fa-folder-o"></i> Relación de Ingresos Aeronáuticos Contado</a></li>
->>>>>>> 84f6d8f898532643f5817bc53a46b581f705fe8e
+
             		@endpermission
             	</ul>
             </li>

@@ -747,10 +747,6 @@ class ReporteController extends Controller {
                 }else{
                     $dosaFactura[$factura->nroDosa]["otros"]=$detalle->totalDes;
                 }
-<<<<<<< HEAD
-=======
-
->>>>>>> 84f6d8f898532643f5817bc53a46b581f705fe8e
             }
        /*     foreach ($tasasNac as $tNac) {
                 $dosaFactura[$factura->nroDosa]["tasaNacional"]+=$tNac->total;
