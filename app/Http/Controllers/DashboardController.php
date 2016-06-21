@@ -112,8 +112,6 @@ class DashboardController extends Controller {
 			$embarqueOtrosVuelos             = $embarqueTotal-($embarqueComercial+$embarquePrivado+$embarqueComercialPrivado);
 
 			$transitoTotal                   = $despegues->sum('transitoAdultos')+$despegues->sum('transitoInfante')+$despegues->sum('transitoTercera');
-
-
 		}
 
 		$aterrizajesPendientes = \App\Aterrizaje::where('aeropuerto_id',session('aeropuerto')->id)
@@ -122,7 +120,6 @@ class DashboardController extends Controller {
 												->orderBy('hora', 'DESC')
 												->limit(5)
 												->get();
-
 
 		$despeguesRecientes = \App\Despegue::where('aeropuerto_id', session('aeropuerto')->id)
 											->orderBy('fecha', 'DESC')
@@ -150,7 +147,6 @@ class DashboardController extends Controller {
 
 	public function indexRecaudacion()
 	{
-
 		$hoy  =\Carbon\Carbon::now()->toDateString();
 		$anno =\Carbon\Carbon::now()->year;        
 		$mes  =\Carbon\Carbon::now()->month;        

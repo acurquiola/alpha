@@ -11,9 +11,27 @@ function calcularMonto(e,increment){
     cantidad=(isNaN(cantidad)?0:cantidad);
     cantidad+=increment;
     if(cantidad<0) cantidad=0;
-    $(montoInput).text(parseFloat($(bsInput).text())*cantidad);
+    $(montoInput).text(numToComma(parseFloat($(bsInput).text())*cantidad));
     $(cantidadInput).val(cantidad);
     $(hastaInput).val(parseInt($(desdeInput).val())+cantidad-1);
+
+
+    var $table= $(row).closest('table');
+    calcularTableOperadorTotal($table);
+
+
+}
+
+
+function calcularTableOperadorTotal($table){
+    
+    var totalOperador=0;
+
+    $table.find('.monto-input').each(function(){
+        totalOperador+=commaToNum($(this).text());
+    })
+
+    $table.find('.total-operador').text(numToComma(totalOperador));
 }
 
 $(function(){
@@ -33,7 +51,10 @@ $(function(){
             data:{fecha:dia, taquilla:taquilla, turno:turno}
         }).done(function(response, status, responseObject){
             $wrapper.html(response);
-
+            $wrapper.find('.operador-table').each(function(){
+                var $table=$(this);
+                calcularTableOperadorTotal($table)
+            })
         	$('#fecha-modal-input').datepicker({
         		closeText: 'Cerrar',
         		prevText: '&#x3C;Ant',
@@ -175,23 +196,32 @@ $(function(){
         })
         var data=$form.serializeArray();
         data.push({name:'pagos', value:JSON.stringify(pagos)});
+            
 
-        if(canUpload)
-            $.ajax({
-                url: $form.data('url'),
-                data: data,
-                method: "POST"
-            }).always(function(response, status, responseObject){
-                if(status!="error"){
-                    if(isSupervisor){
-                        $('#consultas_wrapper').html(response);
-                    }else{
-                        $form.closest('.consulta').html($(response).find('.consulta').html());
-                    }
-                    alertify.success('Los datos han sido guardados.');
-                }else
-                    alertify.error('Error procesando los datos en el servidor.');
-            });
+        if(canUpload){
+
+        alertify.confirm("¿Desea guardar la ínformación?", function (e) {
+            if (e) {
+                $.ajax({
+                    url: $form.data('url'),
+                    data: data,
+                    method: "POST"
+                }).always(function(response, status, responseObject){
+                    if(status!="error"){
+                        if(isSupervisor){
+                            $('#consultas_wrapper').html(response);
+                        }else{
+                            $form.closest('.consulta').html($(response).html());
+                        }
+                        alertify.success('Los datos han sido guardados.');
+                    }else
+                        alertify.error('Error procesando los datos en el servidor.');
+                    });
+                }    
+            })
+        }else{
+            alertify.error('Los campos no pueden estar vacios.');
+        }
     })
 
 })

@@ -14,6 +14,7 @@
                     <!-- Nav tabs -->
                     <ul class="nav nav-tabs" role="tablist">
                         <li role="presentation" class="active"><a href="#aeropuertoTab" aria-controls="aeropuertoTab" role="tab" data-toggle="tab">Aeropuerto</a></li>
+                        <li role="presentation"><a href="#bancosTab" aria-controls="bancosTab" role="tab" data-toggle="tab">Bancos</a></li>
                         <li role="presentation"><a href="#cuentasBancariasTab" aria-controls="cuentasBancariasTab" role="tab" data-toggle="tab">Cuentas Bancarias</a></li>
                         <li role="presentation"><a href="#tasasTab" aria-controls="tasasTab" role="tab" data-toggle="tab">Tasas</a></li>
                         <li role="presentation"><a href="#estacionamiento" aria-controls="estacionamiento" role="tab" data-toggle="tab">Estacionamiento</a></li>
@@ -63,13 +64,13 @@
                                 </div>
                             </div>
                         </div>
-                        <div role="tabpanel" class="tab-pane" id="cuentasBancariasTab">
+                        <div role="tabpanel" class="tab-pane" id="bancosTab">
                             <div class="row">
                                 <div class="col-md-6 col-md-offset-2">
                                     <div class="form-group">
-                                        <label for="bancos-input">Bancos</label>
+                                        <label for="bancos-input">Banco</label>
                                         <div class="input-group">
-                                            <input type="text" class="form-control" id="banco-input" autocomplete="off">
+                                            <input type="text" class="form-control" id="banco-input" placeholder="Indique nombre del banco a registrar" autocomplete="off">
                                             <span class="input-group-btn">
                                                 <button class="btn btn-primary" type="button" id="add-banco-btn"><span class="glyphicon glyphicon-plus"></span></button>
                                             </span>
@@ -81,12 +82,62 @@
                                                 <tr><th>Banco</th><th>Acción</th></tr>
                                             </thead>
                                             <tbody>
-
                                                 @if($bancos->count()>0)
                                                     @foreach($bancos as $banco)
                                                         <tr>
                                                             <td><input type="text" class="form-control" value="{{$banco->nombre}}" name="bancos[{{$banco->id}}][nombre]"></td>
                                                             <td><button type="button" class='btn btn-danger remove-porton-btn'><span class='glyphicon glyphicon-minus'></span></button></td>
+                                                        </tr>
+                                                    @endforeach
+                                                @endif
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div role="tabpanel" class="tab-pane" id="cuentasBancariasTab">
+                            <div class="row">
+                                <div class="col-md-6 col-md-offset-2">
+                                    <div class="form-group">
+                                        <label for="bancos-input">Cuenta Bancaria</label>
+                                        <div class="input-group">
+                                            <div class="col-xs-6">
+                                                <input type="text" class="form-control" id="cuentaBancaria-input" placeholder="Indique el número de la cuenta bancaria" autocomplete="off">
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="col-xs-6">
+                                                    <select id="banco-select"  class="form-control" >
+                                                        @foreach($bancos as $banco)
+                                                        <option value="{{$banco->id}}" data-nombre="{{$banco->nombre}}">{{$banco->nombre}}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <span class="input-group-btn">
+                                                <button class="btn btn-primary" type="button" id="add-cuentasBancarias-btn"><span class="glyphicon glyphicon-plus"></span></button>
+                                            </span>
+                                        </div><!-- /input-group -->
+                                    </div>
+                                    <div class="form-group">
+                                        <table class="table" id="cuentasBancarias-table">
+                                            <thead>
+                                                <tr>
+                                                    <th>Número de Cuenta</th>
+                                                    <th>Banco</th>
+                                                    <th>Acción</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @if($cuentas->count()>0)
+                                                    @foreach($cuentas as $cuenta)
+                                                        <tr data-id='{{$cuenta->id}}'>
+                                                            <td><input type="text" class="form-control" value="{{$cuenta->descripcion}}" name="cuentas[{{$cuenta->id}}][descripcion]"></td>
+                                                            <td><input type="text" class="form-control" value="{{$cuenta->banco->nombre}}" name="cuentas[{{$cuenta->banco->id}}][nombre]"></td>
+                                                            <td>                    
+                                                                <button type="button" class='btn {{($cuenta->isActivo==1)?"btn-primary":"btn-default"}} activarCuenta-btn' data-id='{{$cuenta->id}}'><i class='glyphicon glyphicon-adjust' title='{{($cuenta->isActivo==1)?"Cuenta Activa":"Cuenta Inactiva"}}'></i></button>
+                                                                <button type="button" class='btn btn-danger remove-porton-btn'><span class='glyphicon glyphicon-minus'></span></button>
+                                                            </td>
                                                         </tr>
                                                     @endforeach
                                                 @endif
@@ -248,24 +299,24 @@
     var tasasNuevas=0;
 $(function(){
 
-          $('#fecha-inicio-datepicker').datepicker({
-            closeText: 'Cerrar',
-            prevText: '&#x3C;Ant',
-            nextText: 'Sig&#x3E;',
-            currentText: 'Hoy',
-            monthNames: ['Enero','Febrero','Marzo','Abril','Mayo','Junio',
-            'Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'],
-            monthNamesShort: ['Ene','Feb','Mar','Abr','May','Jun',
-            'Jul','Ago','Sep','Oct','Nov','Dic'],
-            dayNames: ['Domingo','Lunes','Martes','MiÃ©rcoles','Jueves','Viernes','SÃ¡bado'],
-            dayNamesShort: ['Dom','Lun','Mar','MiÃ©','Jue','Vie','SÃ¡b'],
-            dayNamesMin: ['D','L','M','M','J','V','S'],
-            weekHeader: 'Sm',
-            firstDay: 1,
-            isRTL: false,
-            showMonthAfterYear: false,
-            yearSuffix: '',
-            dateFormat: "dd/mm/yy"});
+  $('#fecha-inicio-datepicker').datepicker({
+    closeText: 'Cerrar',
+    prevText: '&#x3C;Ant',
+    nextText: 'Sig&#x3E;',
+    currentText: 'Hoy',
+    monthNames: ['Enero','Febrero','Marzo','Abril','Mayo','Junio',
+    'Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'],
+    monthNamesShort: ['Ene','Feb','Mar','Abr','May','Jun',
+    'Jul','Ago','Sep','Oct','Nov','Dic'],
+    dayNames: ['Domingo','Lunes','Martes','MiÃ©rcoles','Jueves','Viernes','SÃ¡bado'],
+    dayNamesShort: ['Dom','Lun','Mar','MiÃ©','Jue','Vie','SÃ¡b'],
+    dayNamesMin: ['D','L','M','M','J','V','S'],
+    weekHeader: 'Sm',
+    firstDay: 1,
+    isRTL: false,
+    showMonthAfterYear: false,
+    yearSuffix: '',
+    dateFormat: "dd/mm/yy"});
 
     $('#tarjeta_costo').focusout(function(){
         $(this).val(numToComma($(this).val()))
@@ -284,7 +335,9 @@ $(function(){
   });
 
     $('body').delegate('.remove-concepto-btn, .remove-porton-btn, .remove-serie-btn','click',function(){
-        $(this).closest('tr').remove();
+      
+                $(this).closest('tr').remove();
+
     });
 
     $('#add-porton-btn').click(function(){
@@ -303,6 +356,19 @@ $(function(){
           return;
       $('#banco-table tbody').append("<tr>\
         <td><input type='text' class='form-control' value='"+value+"' name='bancosNuevos[][nombre]'></td>\
+        <td><button type='button' class='btn btn-danger remove-porton-btn'><span class='glyphicon glyphicon-minus'></span></button></td>\
+        </tr>");
+    });
+    $('#add-cuentasBancarias-btn').click(function(){
+        var valueA      =$('#cuentaBancaria-input').val();
+        var valueB      =$('#banco-select').val();
+        var $option     =$('#banco-select option:selected');
+        var nombrebanco =$option.data('nombre');
+        if(valueA==""||valueB=="")
+          return;
+      $('#cuentasBancarias-table tbody').append("<tr>\
+        <td><input type='text' class='form-control' value='"+valueA+"' name='cuentasNuevas[cuenta][descripcion]'></td>\
+        <td><input type='text' class='form-control' value='"+nombrebanco+"'><input type='hidden' value='"+valueB+"' name='cuentasNuevas[cuenta][banco_id]'></td>\
         <td><button type='button' class='btn btn-danger remove-porton-btn'><span class='glyphicon glyphicon-minus'></span></button></td>\
         </tr>");
     });
@@ -340,6 +406,58 @@ $(function(){
         });
         tasasNuevas++;
     });
+
+
+     // Botón para habilitar/inhabilitar
+    $('.activarCuenta-btn').click(function(){
+        var fila =  $(this).closest('tr');
+        var id   =  $(fila).data('id');
+
+            // confirm dialog
+            alertify.confirm("¿Realmente desea cambiarle el estado a este número de cuenta?", function (e) {
+                if (e) {        
+
+                    $.ajax({
+                        data:{id:id},
+                        method:'get',
+                        url:"{{action('InformacionController@estadoCuenta')}}"})
+                    .always(function(text, status, responseObject){
+                        try{
+                            var respuesta=JSON.parse(responseObject.responseText);
+                            if(respuesta.success==1){
+                                if (respuesta.cuenta.isActivo==0){
+                                    $(fila).find('.activarCuenta-btn')
+                                    .removeClass('btn-primary')
+                                    .addClass('btn-default')
+                                    .prop('title', 'Cuenta Inactiva');
+
+                                }
+                                else if (respuesta.cuenta.isActivo==1){
+
+                                    $(fila).find('.activarCuenta-btn')
+                                    .addClass('btn-primary')
+                                    .removeClass('btn-default')
+                                    .prop('title', 'Cuenta Activa');                                
+                                }
+                                alertify.success(respuesta.text);
+                            }
+                            else
+                            {
+                                alertify.error(respuesta.text);
+                            }
+                            
+                        }catch (e){
+                            console.log(e);
+                            alertify.error("Error procensando la información del servidor")
+
+                        }
+
+                    })
+                } 
+            });
+
+});
+
 
 });
 

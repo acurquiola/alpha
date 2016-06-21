@@ -307,7 +307,6 @@
             */
         $('body').delegate('.eliminarAeronave-btn', 'click', function(){
             var tr  =$(this).closest('tr');
-            console.log(tr)
             var id  =$(this).data('id');
             var url ="{{action('AeronaveController@index')}}/"+id;
             

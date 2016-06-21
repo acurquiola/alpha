@@ -13,6 +13,58 @@
 
 use Illuminate\Support\Facades\Mail;
 
+Route::get('oracleTest', function(){
+
+
+
+    //Ejemplo 1
+    //buscamos un objeto oracle
+
+    $empresa=\App\Models\Oracle\Empresa::find(1);
+
+    //buscamos un objeto de mysql
+    //
+    //
+
+    $aeropuerto=\App\Aeropuerto::find(1);
+
+
+    //actualizamos el nombre de la empresa de oracle con el nombre que se le haya dado en el sistema
+    $empresa->em_nombre=$aeropuerto->nombre;
+
+    $empresa->save();
+
+
+    //Ejemplo 2
+    //buscamos fascturas de mysql
+    //
+    //
+    $facturas=\App\Facturas::where('...')->get();
+
+    foreach($facturas as $factura){
+
+        $facturaOracle=\App\Models\Oracle\Factura::create(
+            [
+            //como estamos creadon un objeto oracle
+            //se coloca a la izuierda campos de oracle
+            //y a la derecha los campos correspondientes en mysql
+            "prc_fec" =>$factura->fecha,
+            //y asi con todos los datos
+            //
+            //...
+
+            ]);
+        //y seguimos manejando las relcaCIONES DE FACTURA QUE HAGAN FALTA
+        foreach($factura->detalles as $detalle){
+            //manejamos los detalles
+        }
+
+    }
+
+});
+
+
+
 Route::group(['prefix' => 'systas/'], function () {
     Route::get('configurar', 'SysTasController@configurar');
     Route::get('imprimir', 'SysTasController@imprimir');
@@ -89,6 +141,7 @@ Route::group(['prefix' => 'operaciones/'], function () {
 
 Route::group(['prefix' => 'cobranza/{modulo}/'], function () {
     Route::get('print/{cobro}', 'CobranzaController@getPrint');
+    Route::get('anularRecibo', 'CobranzaController@cambiarRecibo');
     Route::get('main', 'CobranzaController@main');
     Route::get('getFacturasClientes', 'CobranzaController@getFacturasClientes');
     Route::resource('cobro', 'CobranzaController');
@@ -140,8 +193,8 @@ Route::group(['prefix' => 'administracion/'], function () {
     Route::resource('configuracionSCV/CargosVarios', 'CargosVarioController', ['only'=>['update', 'index']]);
     Route::resource('configuracionSCV/Carga', 'PreciosCargaController', ['only'=>['update', 'index']]);
     Route::resource('configuracionSCV/OtrosCargos', 'OtrosCargoController');
-
     Route::get('informacion', 'InformacionController@index');
+    Route::get('informacion/estadoCuenta', 'InformacionController@estadoCuenta');
     Route::get('meta', 'MetaController@index');
     Route::post('informacion/update', 'InformacionController@update');
     Route::post('meta/update', 'MetaController@update');
@@ -172,6 +225,9 @@ Route::group(['prefix' => 'reporte/'], function () {
     Route::get('reporteRelacionMetaRecaudacionMensual', 'ReporteController@getReporteRelacionMetaRecaudacionMensual');
     Route::get('reporteTraficoAereo', 'ReporteController@getReporteTraficoAereo');
     Route::get('reporteControlDeRecaudacionMensual', 'ReporteController@getControlDeRecaudacionMensual');
+    Route::get('reporteFormulariosAnulados', 'ReporteController@getFormulariosAnulados');
+    Route::get('reporteListadoClientes', 'ReporteController@getListadoClientes');
+    Route::get('reporteLibroDeVentas', 'ReporteController@getReporteLibroDeVentas');
     Route::post('exportReport', "ReporteController@postExportReport");
 
     Route::get('reporterDES900', 'ReporteController@getReporteDES900');

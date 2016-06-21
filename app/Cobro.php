@@ -21,6 +21,11 @@ class Cobro extends Model {
         return $this->hasMany('App\Cobrospago');
     }
 
+    public function recibosAnulados()
+    {
+        return $this->hasMany('App\RecibosAnulado');
+    }
+
     public function facturas()
     {
         return $this->belongsToMany('App\Factura', 'cobro_factura', 'cobro_id', 'factura_id')
@@ -56,5 +61,15 @@ class Cobro extends Model {
     public function setMontodepositadoAttribute($numero)
     {
         $this->parseDecimal($numero,'montodepositado');
+    }
+    
+    public function setFechaAttribute($fecha)
+    {
+        $this->setFecha($fecha,'fecha');
+    }
+
+    public function getFechaAttribute($fecha)
+    {
+        return $this->getFecha($fecha);
     }
 }

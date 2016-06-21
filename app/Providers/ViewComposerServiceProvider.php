@@ -65,6 +65,16 @@ class ViewComposerServiceProvider extends ServiceProvider {
             $view->with(compact('puertos'));
         });
 
+        view()->composer(['administracion.informacion'], function($view){
+            $bancos= \App\Banco::get();
+            $view->with(compact('bancos'));
+        });
+
+        view()->composer(['administracion.informacion'], function($view){
+            $cuentas= \App\Bancoscuenta::get();
+            $view->with(compact('cuentas'));
+        });
+
         view()->composer(['cliente.partials.form', 'aeronaves.index', 'aeronaves.partials.form'], function($view){
             $hangars= \App\Hangar::where("aeropuerto_id","=", session('aeropuerto')->id)->lists('nombre', 'id');
             $view->with(compact('hangars'));
@@ -80,7 +90,7 @@ class ViewComposerServiceProvider extends ServiceProvider {
             $view->with(compact('clientes'));
         });
 
-        view()->composer(['index','cliente.partials.form','factura.partials.form', 'usuarios.index', 'usuarios.partials.form', 'reportes.reporteControlDeRecaudacionMensual'], function($view){
+        view()->composer(['index','cliente.partials.form','factura.partials.form', 'usuarios.index', 'usuarios.partials.form', 'reportes.reporteControlDeRecaudacionMensual', 'reportes.reporteFormulariosAnulados'], function($view){
             $aeropuertos = \App\Aeropuerto::lists('nombre', 'id');
             $view->with(compact('aeropuertos'));
         });
@@ -146,6 +156,9 @@ class ViewComposerServiceProvider extends ServiceProvider {
                             'reportes.reporteRelacionFacturasAeronauticasCredito',
                             'reportes.reporteRelacionMetaRecaudacionMensual',
                             'reportes.reporteDiario',
+                            'reportes.reporteFormulariosAnulados',
+                            'reportes.reporteListadoClientes',
+                            'reportes.reporteLibroDeVentas',
                             'reportes.reporteModuloMetaMensual'], function($view){
             $gerencia     = "Gerencia de Administración";
             $departamento = "Departamento de Recaudación de Servicios Aeroportuarios";
@@ -190,6 +203,7 @@ class ViewComposerServiceProvider extends ServiceProvider {
             'reportes.reporteListadoFacturas',
             'reportes.reporteListadoFacturasCliente',
             'reportes.reporteRelacionIngresosAeronauticosContado',
+            'reportes.reporteLibroDeVentas',
             'reportes.reporteRelacionFacturasAeronauticasCredito',
             'reportes.reporteTraficoAereo'], function($view){
             $aeropuertos = \App\Aeropuerto::lists('nombre', 'id');
@@ -215,6 +229,8 @@ class ViewComposerServiceProvider extends ServiceProvider {
             'reportes.reporteRelacionFacturasAeronauticasCredito',
             'reportes.reporteRelacionMensualDeIngresosRecaudacionPendiente',
             'reportes.reporteControlDeRecaudacionMensual',
+            'reportes.reporteLibroDeVentas',
+            'reportes.reporteFormulariosAnulados',
             'reportes.reporteTraficoAereo'], function($view){
             $meses=[
                 "01"=>"ENERO",

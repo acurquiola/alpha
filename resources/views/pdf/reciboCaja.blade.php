@@ -9,7 +9,7 @@
 <td  colspan="8">
 </td>
 <td  colspan="2">
-{{$cobro->created_at}}
+{{$cobro->fecha}}
 </td>
 </tr>
 <tr>
@@ -52,37 +52,37 @@
 <br>
 <table>
 <tr>
-<td colspan="2" style="border-bottom: 1px solid black; text-align:center"> 
-<strong>FORMA DE PAGO</strong>   
+<td colspan="2" style="border-bottom: 1px solid black; text-align:center">
+<strong>FORMA DE PAGO</strong>
 </td>
-<td colspan="2" style="border-bottom: 1px solid black; text-align:center">  
+<td colspan="2" style="border-bottom: 1px solid black; text-align:center">
 <strong>MONTO</strong>
 </td>
-<td colspan="2" style="border-bottom: 1px solid black; text-align:center">    
+<td colspan="2" style="border-bottom: 1px solid black; text-align:center">
 <strong>REF</strong>
 </td>
-<td colspan="5" style="border-bottom: 1px solid black; text-align:center">    
+<td colspan="5" style="border-bottom: 1px solid black; text-align:center">
 <strong>BANCO</strong>
 </td>
-<td colspan="4" style="border-bottom: 1px solid black; text-align:center">    
+<td colspan="4" style="border-bottom: 1px solid black; text-align:center">
 <strong>CUENTA</strong>
 </td>
-<td colspan="2" style="border-bottom: 1px solid black; text-align:center">    
+<td colspan="2" style="border-bottom: 1px solid black; text-align:center">
 <strong>FECHA</strong>
 </td>
-</tr> 
-<tr>	
-<td colspan="2" > 
+</tr>
+<tr>
+<td colspan="2" >
 </td>
-<td colspan="2" >  
+<td colspan="2" >
 </td>
-<td colspan="2">    
+<td colspan="2">
 </td>
-<td colspan="2" >    
+<td colspan="2" >
 </td>
-<td colspan="2" >    
+<td colspan="2" >
 </td>
-<td colspan="2" >    
+<td colspan="2" >
 </td>
 </tr>
 @foreach($cobro->pagos as $index => $pago)
@@ -130,8 +130,7 @@
 </td>
 <td colspan="1"></td>
 <td  colspan="4" style="border-top: 1px solid black;">
-<strong>RECIBE CONFORME</strong> 
+<strong>RECIBE CONFORME</strong>
 </td>
 </tr>
 </table>
-

@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class UpdateModulosAddedNombreImprimible extends Migration {
+class UpdateCobrosAddedFecha extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -12,9 +12,9 @@ class UpdateModulosAddedNombreImprimible extends Migration {
 	 */
 	public function up()
 	{
-		Schema::table('modulos', function(Blueprint $table)
+		Schema::table('cobros', function(Blueprint $table)
 		{
-            $table->string('nombreImprimible', 100);
+            $table->date('fecha');
 		});
 	}
 
@@ -25,7 +25,7 @@ class UpdateModulosAddedNombreImprimible extends Migration {
 	 */
 	public function down()
 	{
-		Schema::table('modulos', function(Blueprint $table)
+		Schema::table('cobros', function(Blueprint $table)
 		{
 			//
 		});

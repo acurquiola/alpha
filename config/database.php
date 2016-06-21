@@ -83,6 +83,16 @@ return [
 			'password' => env('DB_PASSWORD', ''),
 			'prefix'   => '',
 		],
+		'oracle' => [
+		    'driver' => 'oracle',
+		    'host' => '172.16.2.4',
+		    'port' => '1521',
+		    'database' => 'sima',
+		    'username' => 'sima016',
+		    'password' => 'sima016',
+		    'charset' => 'AL32UTF8',
+		    'prefix' => '',
+		]
 
 	],
 

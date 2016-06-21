@@ -3,7 +3,6 @@
 use App\Facturametadata;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-
 use Illuminate\Http\Request;
 
 class CobranzaController extends Controller {
@@ -26,6 +25,7 @@ class CobranzaController extends Controller {
 	 */
 	public function index($moduloNombre, Request $request)
 	{
+
         $sortName           = $request->get('sortName','id');
         $sortName           = ($sortName=="")?"id":$sortName;
         
@@ -109,8 +109,10 @@ class CobranzaController extends Controller {
         }
         $clientes=$this->getClientesPendietesByModulo($idOperator, $id);
         $bancos=\App\Banco::with('cuentas')->get();
+        $today               = \Carbon\Carbon::now();
+        $today->timezone     = 'America/New_York';
 
-        return view('cobranza.create',compact('clientes','moduloName', 'bancos','id'));
+        return view('cobranza.create',compact('clientes','moduloName', 'bancos','id', 'recibosAnulados', 'today'));
     }
 
 	/**
@@ -126,6 +128,7 @@ class CobranzaController extends Controller {
             $cobro=\App\Cobro::create([
                 'cliente_id'    => $request->get('cliente_id'),
                 'modulo_id'     => $request->get('modulo_id'),
+                'fecha'         => $request->get('fecha'),
                 'aeropuerto_id' => session('aeropuerto')->id,
                 'nRecibo'       => $request->get('nRecibo')]);
 
@@ -285,8 +288,21 @@ return ["success"=>1, "impresion" => $impresion];
         $ajusteCliente= \DB::table('ajustes')
             ->where('cliente_id', $cobro->cliente->id)
             ->sum('monto');
-        return view('cobranza.edit',compact('moduloName', 'bancos','id', 'cobro', 'ajusteCliente'));
+        $today               = \Carbon\Carbon::now();
+        $today->timezone     = 'America/New_York';
+        return view('cobranza.edit',compact('moduloName', 'bancos','id', 'cobro', 'ajusteCliente', 'today'));
 	}
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  int  $id
+     * @return Response
+     */
+    public function update($moduloName, $id, Request $request)
+    {
+        dd($request->all());
+    }
 
 	/**
 	 * Update the specified resource in storage.
@@ -294,9 +310,17 @@ return ["success"=>1, "impresion" => $impresion];
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function update($moduloName, $id, Request $request)
+	public function cambiarRecibo(Request $request)
 	{
-		dd($request->all());
+        $cobro = \App\Cobro::find($request->cobro_id);
+        $reciboAnulado=$this->anularRecibo($cobro);
+        if($reciboAnulado){
+            $cobro->update(["nRecibo"=>$request->nRecibo]);
+            return ["success"=>1, "text" => "Número de recibo de caja cambiado exitósamente."];
+        }
+        else{
+           return ["success"=>0, "text" => "Ocurrió un problema cambiando el número de recibo."];
+       }
 	}
 
 	/**
@@ -309,8 +333,10 @@ return ["success"=>1, "impresion" => $impresion];
 	{
 
         \DB::transaction(function () use ($moduloNombre, $id) {
-            $cobro    =\App\Cobro::find($id);
-            $facturas =$cobro->facturas;
+            $cobro                    =\App\Cobro::find($id);
+            $facturas                 =$cobro->facturas;
+            $reciboAnulado=$this->anularRecibo($cobro);
+            
             foreach($facturas as $factura){
 
                 $facturaMetadata=$factura->metadata;
@@ -334,10 +360,24 @@ return ["success"=>1, "impresion" => $impresion];
                     }
                 }
             }
-            $cobro->delete();
+            if($reciboAnulado){
+                $cobro->delete();
+            }
         });
 
-    return ["success"=>1, "text"=>"El cobro se ha eliminado con exito"];
+    return ["success"=>1, "text"=>"El cobro se ha eliminado con éxito"];
+    }
+
+
+    protected function anularRecibo($cobro){
+
+        $reciboAnulado=\App\RecibosAnulado::create([
+            'fecha'         => \Carbon\Carbon::now()->toDateString(),
+            'nroRecibo'     => $cobro->nRecibo,
+            'cobro_id'      => $cobro->id,
+            'aeropuerto_id' => session('aeropuerto')->id
+        ]);
+        return $reciboAnulado;
     }
 
 

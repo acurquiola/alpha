@@ -1,6 +1,4 @@
-    <!-- left column -->
     <div class="col-md-12 consulta">
-        <!-- general form elements -->
         <div class="box box-primary">
             <div class="box-header">
                 <div class="row">
@@ -76,11 +74,11 @@
                             </tbody>
                             <tfoot class="bg-gray">
                                 <tr>
-                                    <td colspan="6" class="text-right"><strong>TOTAL</strong></td>
+                                    <td colspan="2" class="text-left"><strong>TOTAL</strong></td>
                                     @foreach($serieTasas as $serie => $serieTotal)
                                         @foreach($turno->detalles as $detalle)
                                             @if($detalle->serie == $serie)
-                                                <td  class="text-right totales-tasas">
+                                                <td colspan="5" class="text-right totales-tasas">
                                                     {{$traductor->format($serieTotal)}}
                                                 </td>
                                             @endif
