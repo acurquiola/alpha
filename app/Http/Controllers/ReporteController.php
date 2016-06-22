@@ -64,7 +64,7 @@ class ReporteController extends Controller {
 
 
     //Control de Recaudacíón Mensual
-	public function getControlDeRecaudacionMensual(Request $request){
+    public function getControlDeRecaudacionMensual(Request $request){
         $anno          =$request->get('anno',  \Carbon\Carbon::now()->year);
         $aeropuerto    =$request->get('aeropuerto',  session('aeropuerto')->id);
         $montos        =[];
@@ -130,6 +130,63 @@ class ReporteController extends Controller {
             }
 
         return view('reportes.reporteControlDeRecaudacionMensual', compact('modulos', 'montos', 'montosTotales', 'mes', 'anno', 'aeropuerto'));
+    }
+
+    //Control de Recaudacíón Mensual
+	public function getControlDeRecaudacionDiario(Request $request){
+        $mes           =$request->get('mes', \Carbon\Carbon::now()->month);
+        $anno          =$request->get('anno',  \Carbon\Carbon::now()->year);
+        $aeropuerto    =$request->get('aeropuerto',  session('aeropuerto')->id);
+        $montos        =[];
+        $montosTotales =[];
+        $modulos       =\App\Modulo::where('aeropuerto_id', $aeropuerto)->get();
+        $primerDiaMes  =\Carbon\Carbon::create($anno, $mes,1)->startOfMonth();
+        $ultimoDiaMes  =\Carbon\Carbon::create($anno, $mes,1)->endOfMonth();
+        for(;$primerDiaMes<=$ultimoDiaMes; $primerDiaMes->addDay()){
+            $estacionamientos = 0;
+            foreach ($modulos as $modulo) {
+                $montos[$primerDiaMes->format('d/m/Y')][$modulo->nombre]["total"]    =\App\Cobro::where('modulo_id', $modulo->id)
+                                                                                ->where('created_at','>=' ,$primerDiaMes>toDateTimeString())
+                                                                                ->where('created_at','<=' ,$ultimoDiaMes->toDateTimeString())
+                                                                                ->sum('montodepositado');
+                if($modulo->nombre == 'ESTACIONAMIENTO'){
+                    $estacionamientos = \App\Estacionamiento::join('estacionamientoops', 'estacionamientoops.estacionamiento_id', '=', 'estacionamientos.id')
+                                                                ->where('estacionamientos.aeropuerto_id', $aeropuerto)
+                                                                ->where('estacionamientoops.fecha','>=' ,$primerDiaMes->toDateTimeString())
+                                                                ->where('estacionamientoops.fecha','<=' ,$ultimoDiaMes->toDateTimeString())
+                                                                ->sum('depositado');
+
+                }
+
+                $montos[$primerDiaMes->format('d/m/Y')][$modulo->nombre]["total"]    += $estacionamientos;
+
+                foreach($modulo->conceptos as $concepto){
+                    $montos[$primerDiaMes->format('d/m/Y')][$modulo->nombre][$concepto->nompre]    =\App\Cobro::join('cobro_factura', 'cobro_factura.cobro_id', '=', 'cobros.id')
+                                                                    ->join('facturas', 'facturas.id', '=', 'cobro_factura.factura_id')
+                                                                    ->join('facturadetalles', 'facturadetalles.factura_id', '=', 'facturas.id')
+                                                                    ->where('cobros.modulo_id', $modulo->id)
+                                                                    ->where('facturas.modulo_id', $modulo->id)
+                                                                    ->where('cobros.created_at','>=' ,$primerDiaMes->toDateTimeString())
+                                                                    ->where('cobros.created_at','<=' ,$ultimoDiaMes->toDateTimeString())
+                                                                    ->where('facturadetalles.concepto_id', $concepto->id)
+                                                                    ->sum('facturadetalles.montoDes');
+
+
+                }
+                if(!isset($montosTotales[$modulo->nombre]))
+                    $montosTotales[$modulo->nombre]=[];
+                if(!isset($montosTotales[$modulo->nombre]["total"]))
+                    $montosTotales[$modulo->nombre]["total"]=0;
+                $montosTotales[$modulo->nombre]["total"]+=($montos[$primerDiaMes->format('d/m/Y')][$modulo->nombre]["total"]);
+                foreach($modulo->conceptos as $concepto){
+                    if(!isset($montosTotales[$modulo->nombre][$concepto->nompre]))
+                        $montosTotales[$modulo->nombre][$concepto->nompre]=0;
+                    $montosTotales[$modulo->nombre][$concepto->nompre]+=($montos[$primerDiaMes->format('d/m/Y')][$modulo->nombre][$concepto->nompre]);
+                }
+            }
+        }
+
+        return view('reportes.reporteControlDeRecaudacionDiario', compact('modulos', 'montos', 'montosTotales', 'mes', 'anno', 'aeropuerto'));
     }
 
     public function getReporteModuloMetaMensual(Request $request){
