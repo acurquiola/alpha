@@ -146,7 +146,7 @@ class ReporteController extends Controller {
             $estacionamientos = 0;
             foreach ($modulos as $modulo) {
                 $montos[$primerDiaMes->format('d/m/Y')][$modulo->nombre]["total"]    =\App\Cobro::where('modulo_id', $modulo->id)
-                                                                                ->where('created_at','>=' ,$primerDiaMes>toDateTimeString())
+                                                                                ->where('created_at','>=' ,$primerDiaMes->toDateTimeString())
                                                                                 ->where('created_at','<=' ,$ultimoDiaMes->toDateTimeString())
                                                                                 ->sum('montodepositado');
                 if($modulo->nombre == 'ESTACIONAMIENTO'){

@@ -15,7 +15,7 @@
 				</div><!-- /.box-tools -->
 			</div>
 			<div class="box-body text-right">
-				{!! Form::open(["url" => action('ReporteController@getControlDeRecaudacionMensual'), "method" => "GET", "class"=>"form-inline"]) !!}
+				{!! Form::open(["url" => action('ReporteController@getControlDeRecaudacionDiario'), "method" => "GET", "class"=>"form-inline"]) !!}
 				<div class="form-group" style="margin-left: 20px">
 					<label>Mes:</label>
 					{!! Form::select('mes', $meses, $mes, ["class"=> "form-control"]) !!}
@@ -29,7 +29,7 @@
 					{!! Form::select('aeropuerto', $aeropuertos, $aeropuerto, ["class"=> "form-control"]) !!}
 				</div>
 				<button type="submit" class="btn btn-default">Buscar</button>
-				<a class="btn btn-default" href="{{action('ReporteController@getControlDeRecaudacionMensual')}}">Reset</a>
+				<a class="btn btn-default" href="{{action('ReporteController@getControlDeRecaudacionDiario')}}">Reset</a>
 				{!! Form::close() !!}
 			</div>
 		</div>
