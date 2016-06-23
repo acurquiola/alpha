@@ -15,7 +15,7 @@
 				</div><!-- /.box-tools -->
 			</div>
 			<div class="box-body text-right">
-				{!! Form::open(["url" => action('ReporteController@getControlDeRecaudacionMensual'), "method" => "GET", "class"=>"form-inline"]) !!}
+				{!! Form::open(["url" => action('ReporteController@getControlDeRecaudacionDiario'), "method" => "GET", "class"=>"form-inline"]) !!}
 				<div class="form-group" style="margin-left: 20px">
 					<label>Mes:</label>
 					{!! Form::select('mes', $meses, $mes, ["class"=> "form-control"]) !!}
@@ -29,7 +29,7 @@
 					{!! Form::select('aeropuerto', $aeropuertos, $aeropuerto, ["class"=> "form-control"]) !!}
 				</div>
 				<button type="submit" class="btn btn-default">Buscar</button>
-				<a class="btn btn-default" href="{{action('ReporteController@getControlDeRecaudacionMensual')}}">Reset</a>
+				<a class="btn btn-default" href="{{action('ReporteController@getControlDeRecaudacionDiario')}}">Reset</a>
 				{!! Form::close() !!}
 			</div>
 		</div>
@@ -51,8 +51,8 @@
 							<table class="table table-hover table-condensed">
 								<thead  class="bg-primary">
 									<tr>
-										<th id="fecha-col" style="vertical-align: middle; width: 20px;" class="text-center" align="left">
-											Mes
+										<th id="fecha-col" style="vertical-align: middle; width: 30px;" class="text-center" align="left">
+											Fecha
 										</th>
 										@foreach($modulos as $modulo)
 										<th expandible data-colspan="{{$modulo->conceptos->count()}}" class="text-center" style="vertical-align: middle" >
@@ -73,7 +73,7 @@
 								<tbody>
 									@foreach($montos as $fecha => $montoModulos)
 									<tr title="{{$fecha}}" >
-										<td align="left" style="width: 20px;">{{substr($fecha, 0, 3)}}</td>
+										<td align="left" style="width: 30px;">{{$fecha}}</td>
 											@foreach($montoModulos as $moduloNombre => $conceptos)
 												@foreach($conceptos as $concepto => $monto)
 													@if($concepto=="total")

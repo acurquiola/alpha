@@ -619,6 +619,9 @@ class DespegueController extends Controller {
         $modulo=\App\Modulo::where("nombre","like",$moduloName)->orderBy("nombre")->first();
         $id=$modulo->id;
         $idOperator="=";
+        $today               = \Carbon\Carbon::now();
+        $today->timezone     = 'America/New_York';
+
 /*
         $clientes=\App\Cliente::join('facturas','facturas.cliente_id' , '=', 'clientes.id')
             ->join('facturadetalles','facturas.nFactura' , '=', 'facturadetalles.factura_id')
@@ -631,7 +634,7 @@ class DespegueController extends Controller {
         ->orderBy('clientes.nombre')
         ->groupBy("clientes.id")->get();*/
         $bancos=\App\Banco::with('cuentas')->get();
-        return view('cobranza.cobranzaSCV.create',compact('factura', 'cliente','moduloName', 'bancos','id', 'despegue'));
+        return view('cobranza.cobranzaSCV.create',compact('factura', 'cliente','moduloName', 'bancos','id', 'despegue', 'today'));
 	}
 
 

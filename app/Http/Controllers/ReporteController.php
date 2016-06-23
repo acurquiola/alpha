@@ -146,14 +146,12 @@ class ReporteController extends Controller {
             $estacionamientos = 0;
             foreach ($modulos as $modulo) {
                 $montos[$primerDiaMes->format('d/m/Y')][$modulo->nombre]["total"]    =\App\Cobro::where('modulo_id', $modulo->id)
-                                                                                ->where('created_at','>=' ,$primerDiaMes>toDateTimeString())
-                                                                                ->where('created_at','<=' ,$ultimoDiaMes->toDateTimeString())
+                                                                                ->where('created_at', 'like', $primerDiaMes->toDateString().'%')
                                                                                 ->sum('montodepositado');
                 if($modulo->nombre == 'ESTACIONAMIENTO'){
                     $estacionamientos = \App\Estacionamiento::join('estacionamientoops', 'estacionamientoops.estacionamiento_id', '=', 'estacionamientos.id')
                                                                 ->where('estacionamientos.aeropuerto_id', $aeropuerto)
-                                                                ->where('estacionamientoops.fecha','>=' ,$primerDiaMes->toDateTimeString())
-                                                                ->where('estacionamientoops.fecha','<=' ,$ultimoDiaMes->toDateTimeString())
+                                                                ->where('estacionamientoops.fecha',$primerDiaMes->toDateString())
                                                                 ->sum('depositado');
 
                 }
@@ -166,11 +164,9 @@ class ReporteController extends Controller {
                                                                     ->join('facturadetalles', 'facturadetalles.factura_id', '=', 'facturas.id')
                                                                     ->where('cobros.modulo_id', $modulo->id)
                                                                     ->where('facturas.modulo_id', $modulo->id)
-                                                                    ->where('cobros.created_at','>=' ,$primerDiaMes->toDateTimeString())
-                                                                    ->where('cobros.created_at','<=' ,$ultimoDiaMes->toDateTimeString())
+                                                                    ->where('cobros.created_at' , 'like', $primerDiaMes->toDateString().'%')
                                                                     ->where('facturadetalles.concepto_id', $concepto->id)
                                                                     ->sum('facturadetalles.montoDes');
-
 
                 }
                 if(!isset($montosTotales[$modulo->nombre]))
@@ -185,6 +181,7 @@ class ReporteController extends Controller {
                 }
             }
         }
+
 
         return view('reportes.reporteControlDeRecaudacionDiario', compact('modulos', 'montos', 'montosTotales', 'mes', 'anno', 'aeropuerto'));
     }
