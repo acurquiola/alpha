@@ -51,8 +51,8 @@
 							<table class="table table-hover table-condensed">
 								<thead  class="bg-primary">
 									<tr>
-										<th id="fecha-col" style="vertical-align: middle; width: 20px;" class="text-center" align="left">
-											Mes
+										<th id="fecha-col" style="vertical-align: middle; width: 30px;" class="text-center" align="left">
+											Fecha
 										</th>
 										@foreach($modulos as $modulo)
 										<th expandible data-colspan="{{$modulo->conceptos->count()}}" class="text-center" style="vertical-align: middle" >
@@ -73,7 +73,7 @@
 								<tbody>
 									@foreach($montos as $fecha => $montoModulos)
 									<tr title="{{$fecha}}" >
-										<td align="left" style="width: 20px;">{{substr($fecha, 0, 3)}}</td>
+										<td align="left" style="width: 30px;">{{$fecha}}</td>
 											@foreach($montoModulos as $moduloNombre => $conceptos)
 												@foreach($conceptos as $concepto => $monto)
 													@if($concepto=="total")

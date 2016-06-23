@@ -3,7 +3,7 @@
 
     		<header class="main-header">
     			<!-- Logo -->
-    			<a href={{action($url)}} class="logo"><b>SAAR-ALPHA</b></a>
+    			<a href={{action($url)}} class="logo"><b>ALPHA</b></a>
 
     			<nav class="navbar navbar-static-top" role="navigation">
 
