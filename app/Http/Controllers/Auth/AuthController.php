@@ -62,6 +62,7 @@ class AuthController extends Controller {
         $userName   =$request->get('userName');
         $aeropuerto =\App\Aeropuerto::find($request->get('aeropuerto_id'));
         $user       =\App\Usuario::where('userName', $userName)->first();
+
         $rol        =$user->roles->first();
         $request->session()->put('user', $user);
         $request->session()->put('rolUsuario', $rol);
