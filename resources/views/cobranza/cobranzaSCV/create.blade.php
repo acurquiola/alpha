@@ -85,13 +85,20 @@
 			            </tbody>
 		            </table>
 	            </div> 
-	            <div class="form-group pull-right">
-		            <label for="total-a-pagar-doc-input" class="col-sm-6 control-label"><h5>Total a cobrar</h5></label>
-		            <div class="col-sm-6">
-			            <input autocomplete="off" type="text" class="form-control total-a-pagar-doc-input" style="font-weight: bold;" readonly value="0,00">
+				<div class="form-inline" style="margin-bottom: 30px">   
+					<div class="form-group">
+					<label style="font-weight: bold;" >Fecha: </label>
+						<div class="input-group">
+							<input type="text" id="fecha-datepicker" name="fecha" class="form-control" placeholder="Fecha" value="{{$today->format('d/m/Y')}}"/>
+						</div><!-- /.input group -->
+					</div>                          
+		            <div class="form-group pull-right">
+			            <label for="total-a-pagar-doc-input" class="col-sm-6 control-label"><h5>Total a Cobrar</h5></label>
+			            <div class="col-sm-6">
+				            <input autocomplete="off" type="text" class="form-control total-a-pagar-doc-input" style="font-weight: bold;" readonly value="0,00">
+			            </div>
 		            </div>
-	            </div>
-
+				</div>
 
 	            <div class="row">
 		            <div class="col-xs-12">
@@ -836,6 +843,7 @@ $('#save-cobro-btn').click(function(){
 	var pagar     =parseFloat($('#total-a-pagar-doc-input').val());
 	var depositar =parseFloat($('#total-a-depositar-doc-input').val());
 	var ajuste    =parseFloat($('#ajuste-input').val());
+	var fecha     =$('#fecha-datepicker').val();
 	ajuste        =isNaN(ajuste)?0:ajuste;
 	if(pagar>depositar){
 		alertify.error("El monto a cobrar no puede ser mayor al depositado.");
@@ -893,6 +901,7 @@ $('#save-cobro-btn').click(function(){
 			totalDepositado:$('#total-a-depositar-doc-input').val(),
 			observacion:$('#observaciones-documento').val(),
 			hasrecaudos:$('#hasrecaudos-check').prop('checked'),
+            fecha:$('#fecha-datepicker').val(),
 			ajuste:ajuste,
 			modulo_id:'{{$id}}'
 		},

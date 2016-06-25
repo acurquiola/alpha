@@ -85,11 +85,6 @@
 				<button type="submit" class="btn btn-default">Buscar</button>
 				<a class="btn btn-default" href="{{action('CobranzaController@index',[$modulo->nombre])}}">Reset</a>
 				{!! Form::close() !!}
-
-
-
-
-				{{--                       --}}
 			</div>
 		</div>
 	</div>
@@ -115,7 +110,6 @@
 								</div>
 							</li>
 							<li class="list-group-item">
-
 								<table class="table text-center">
 									<thead class="bg-primary">
 										<tr>
@@ -130,39 +124,45 @@
 										</tr>
 									</thead>
 									<tbody>
-										@foreach($cobros as $cobro)
-										<tr  data-id="{{$cobro->id}}">
-											<td class='text-justify'>{{$cobro->id}}</td>
-											<td class='text-justify'>{{($cobro->nRecibo)?$cobro->nRecibo:'N/A'}}</td>
-											<td style="text-align: left">{{$cobro->cliente->nombre}}</td>
-											<td>{{$cobro->created_at}}</td>
-											<td style="text-align: right">{{$traductor->format($cobro->montofacturas)}}</td>
-											<td style="text-align: right">{{$traductor->format($cobro->montodepositado)}}</td>
-											<td class='text-justify'>{{$cobro->observacion}}</td>
-											<td>
-												<div class='btn-group  btn-group-sm' role='group' aria-label='...'>
-													<a class='btn btn-primary' href='{{action('CobranzaController@show', [$modulo->nombre,$cobro->id])}}'><span class='glyphicon glyphicon-eye-open'></span></a>
-													<a class='btn btn-warning' href='{{action('CobranzaController@edit', [$modulo->nombre,$cobro->id])}}'><span class='glyphicon glyphicon-pencil'></span></a>
-													@if($cobro->nRecibo != NULL)
-													<div class="btn-group dropup">
-														<a target="_blank" class='btn btn-default  btn-sm' href='{{action('CobranzaController@getPrint', ["cobro"=>$cobro->id, "modulo"=>$modulo->id])}}'><span class='glyphicon glyphicon-print'  ></span></a>
-														<button type="button" class="btn btn-default dropdown-toggle btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-															<span class="caret"></span>
-															<span class="sr-only">Toggle Dropdown</span>
-														</button>
-														<ul class="dropdown-menu">
-															<li><a href="#" data-toggle="modal" data-id="{{$cobro->id}}" id="anularRecibo-btn">
-																  	Anular Recibo
-																</a>
-															</li>
-														</ul> 
+							            @if($cobros->count()>0) 
+											@foreach($cobros as $cobro)
+											<tr  data-id="{{$cobro->id}}">
+												<td class='text-justify'>{{$cobro->id}}</td>
+												<td class='text-justify'>{{($cobro->nRecibo)?$cobro->nRecibo:'N/A'}}</td>
+												<td style="text-align: left">{{$cobro->cliente->nombre}}</td>
+												<td style="text-align: left">{{($cobro->fecha=='30/11/-0001')?$cobro->created_at:$cobro->fecha}}</td>
+												<td style="text-align: right">{{$traductor->format($cobro->montofacturas)}}</td>
+												<td style="text-align: right">{{$traductor->format($cobro->montodepositado)}}</td>
+												<td class='text-justify'>{{$cobro->observacion}}</td>
+												<td>
+													<div class='btn-group  btn-group-sm' role='group' aria-label='...'>
+														<a class='btn btn-primary' href='{{action('CobranzaController@show', [$modulo->nombre,$cobro->id])}}'><span class='glyphicon glyphicon-eye-open'></span></a>
+														<a class='btn btn-warning' href='{{action('CobranzaController@edit', [$modulo->nombre,$cobro->id])}}'><span class='glyphicon glyphicon-pencil'></span></a>
+														@if($cobro->nRecibo != NULL)
+														<div class="btn-group dropup">
+															<a target="_blank" class='btn btn-default  btn-sm' href='{{action('CobranzaController@getPrint', ["cobro"=>$cobro->id, "modulo"=>$modulo->id])}}'><span class='glyphicon glyphicon-print'  ></span></a>
+															<button type="button" class="btn btn-default dropdown-toggle btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+																<span class="caret"></span>
+																<span class="sr-only">Toggle Dropdown</span>
+															</button>
+															<ul class="dropdown-menu">
+																<li><a href="#" data-toggle="modal" data-id="{{$cobro->id}}" id="anularRecibo-btn">
+																	  	Anular Recibo
+																	</a>
+																</li>
+															</ul> 
+														</div>
+														@endif
+														<button class='btn btn-danger delete-cobro-btn' data-id="{{$cobro->id}}"><span class='glyphicon glyphicon-remove'></span></button>
 													</div>
-													@endif
-													<button class='btn btn-danger delete-cobro-btn' data-id="{{$cobro->id}}"><span class='glyphicon glyphicon-remove'></span></button>
-												</div>
-											</td>
-										</tr>
-										@endforeach
+												</td>
+											</tr>
+											@endforeach
+										@else
+							                <tr>
+							                     <td colspan="8" class="text-center">No se consiguió ningún registro</td>
+							                </tr>
+										@endif
 									</tbody>
 								</table>
 
@@ -175,31 +175,34 @@
 			</div>
 		</div>
 	</div>
-    <div class="modal fade" id="show-modal" tabindex="-1" role="dialog" aria-labelledby="nvoRecibo-modalLabel" aria-hidden="true">
-        <div class="modal-dialog  modal-sm">
-            <div class="modal-content">
-                <div class="modal-header" id="titulo-div-modal">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="titulo-modal">Recibo de Caja</h4>
-                </div>
-                <div class="modal-body">
-	                <form>
-						<div class="form-group">
-							<label style="font-weight: bold;" >Inserte nuevo número de recibo de caja </label>
-							<div class="input-group">
-								<input type="hidden" id="cobro_id" name="cobro_id" value="{{$cobro->id}}"/>
-								<input type="text" id="nRecibo-input" name="nRecibo" class="form-control" placeholder="Número"/>
-							</div><!-- /.input group -->
-						</div>    
-	                </form>
+	
+	@if($cobros->count()>0) 
+	    <div class="modal fade" id="show-modal" tabindex="-1" role="dialog" aria-labelledby="nvoRecibo-modalLabel" aria-hidden="true">
+	        <div class="modal-dialog  modal-sm">
+	            <div class="modal-content">
+	                <div class="modal-header" id="titulo-div-modal">
+	                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	                    <h4 class="modal-title" id="titulo-modal">Recibo de Caja</h4>
+	                </div>
+	                <div class="modal-body">
+		                <form>
+							<div class="form-group">
+								<label style="font-weight: bold;" >Inserte nuevo número de recibo de caja </label>
+								<div class="input-group">
+									<input type="hidden" id="cobro_id" name="cobro_id" value="{{($cobro->id)}}"/>
+									<input type="text" id="nRecibo-input" name="nRecibo" class="form-control" placeholder="Número"/>
+								</div><!-- /.input group -->
+							</div>    
+		                </form>
+		            </div>
+	                <div class="modal-footer">
+	                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+	                    <button id="save-nvoRecibo-btn-modal" type="button" class="btn btn-primary" data-dismiss="modal">Guardar</button>
+	                </div>
 	            </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                    <button id="save-nvoRecibo-btn-modal" type="button" class="btn btn-primary" data-dismiss="modal">Guardar</button>
-                </div>
-            </div>
-        </div> <!-- /.Modal-dialog-->
-    </div> <!-- /.Modal- fade-->
+	        </div> <!-- /.Modal-dialog-->
+	    </div> <!-- /.Modal- fade-->
+	@endif
 
 </div>
 

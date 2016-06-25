@@ -198,16 +198,18 @@
 	                   		<li {{ (\Request::is('reporte/reporteListadoFacturas*'))?"class=active":"" }}><a href="{{ URL::to('reporte/reporteListadoFacturas') }}"><i class="fa fa-file-o"></i> Listado de Facturas Emitidas</a></li>
 	                    	<li {{ (\Request::is('reporte/reporteListadoFacturaCliente*'))?"class=active":"" }}><a href="{{ URL::to('reporte/reporteListadoFacturaCliente') }}"><i class="fa fa-file-o"></i> Listado de Facturas Emitidas por Cliente</a></li>
 						</ul>  
-					<li {{ (\Request::is('reporte/reporteRelacionCobranza*') || \Request::is('reporte/reporteRelacionFacturasAeronauticasCredito*'))?"class=active":"" }}><a href="#"><i class="fa fa-folder-open"></i><span> Cobranza</span><i class="fa fa-angle-left pull-right"></i></a>
+					<li {{ (\Request::is('reporte/reporteRelacionCobranza*') || \Request::is('reporte/reporteRelacionFacturasAeronauticasCredito*') || \Request::is('reporte/reporteRelacionIngresosAeronauticosContado*'))?"class=active":"" }}><a href="#"><i class="fa fa-folder-open"></i><span> Cobranza</span><i class="fa fa-angle-left pull-right"></i></a>
 					<ul class="treeview-menu">
                    		<li {{ (\Request::is('reporte/reporteRelacionCobranza*'))?"class=active":"" }}><a href="{{ URL::to('reporte/reporteRelacionCobranza') }}"><i class="fa fa-file-o"></i> Relación de Cobranza</a></li>        	
 							<li {{ (\Request::is('reporte/reporteRelacionFacturasAeronauticasCredito*'))?"class=active":"" }}><a href="{{ URL::to('reporte/reporteRelacionFacturasAeronauticasCredito') }}"><i class="fa fa-file-o"></i> Relación de Facturas Aeronáuticas Crédito</a></li>
+							<li {{ (\Request::is('reporte/reporteRelacionIngresosAeronauticosContado*'))?"class=active":"" }}><a href="{{ URL::to('reporte/reporteRelacionIngresosAeronauticosContado') }}"><i class="fa fa-folder-o"></i> Relación de Ingresos Aeronáuticos Contado</a></li>
 					</ul> 
-					<li {{ (\Request::is('reporte/reporteContratos*') || \Request::is('reporte/reporteRelacionIngresoMensual*') || \Request::is('reporte/reporteRelacionMensualDeIngresosRecaudacionPendiente*') || \Request::is('reporte/reporteRelacionMensualDeFacturacionCobradosYPorCobrar*')  || \Request::is('reporte/reporteRelacionEstacionamientoDiario*') || \Request::is('reporte/reporteRelacionMetaRecaudacionMensual*') || \Request::is('reporte/reporteControlDeRecaudacionMensual*') || \Request::is('reporte/reporteFormulariosAnulados*'))?"class=active":"" }}><a href="#"><i class="fa fa-folder-open"></i><span> Movimientos</span><i class="fa fa-angle-left pull-right"></i></a>
+					<li {{ (\Request::is('reporte/reporteContratos*') || \Request::is('reporte/reporteRelacionIngresoMensual*') || \Request::is('reporte/reporteRelacionMensualDeIngresosRecaudacionPendiente*') || \Request::is('reporte/reporteRelacionMensualDeFacturacionCobradosYPorCobrar*')  || \Request::is('reporte/reporteRelacionEstacionamientoDiario*') || \Request::is('reporte/reporteRelacionMetaRecaudacionMensual*') || \Request::is('reporte/reporteControlDeRecaudacionDiario*') || \Request::is('reporte/reporteControlDeRecaudacionMensual*') || \Request::is('reporte/reporteFormulariosAnulados*'))?"class=active":"" }}><a href="#"><i class="fa fa-folder-open"></i><span> Movimientos</span><i class="fa fa-angle-left pull-right"></i></a>
 					<ul class="treeview-menu">
 						<li {{ (\Request::is('reporte/reporteContratos*'))?"class=active":"" }}><a href="{{ URL::to('reporte/reporteContratos') }}"><i class="fa fa-file-o"></i> Relación de Contratos Registrados</a></li>        		
 						<li {{ (\Request::is('reporte/reporteRelacionIngresoMensual*'))?"class=active":"" }}><a href="{{ URL::to('reporte/reporteRelacionIngresoMensual') }}"><i class="fa fa-file-o"></i> Relación de Ingreso Mensual</a></li>        		
 						<li {{ (\Request::is('reporte/reporteControlDeRecaudacionMensual*'))?"class=active":"" }}><a href="{{ URL::to('reporte/reporteControlDeRecaudacionMensual') }}"><i class="fa fa-file-o"></i> Control de Recaudación Mensual</a></li>        		
+						<li {{ (\Request::is('reporte/reporteControlDeRecaudacionDiario*'))?"class=active":"" }}><a href="{{ URL::to('reporte/reporteControlDeRecaudacionDiario') }}"><i class="fa fa-file-o"></i> Control de Recaudación Diario</a></li>        		
 						<li {{ (\Request::is('reporte/reporteRelacionMensualDeIngresosRecaudacionPendiente*'))?"class=active":"" }}><a href="{{ URL::to('reporte/reporteRelacionMensualDeIngresosRecaudacionPendiente') }}"><i class="fa fa-file-o"></i> Relación Mensual de Ingresos y Recaudación Pendiente</a></li>        		
 						<li {{ (\Request::is('reporte/reporteRelacionMensualDeFacturacionCobradosYPorCobrar*'))?"class=active":"" }}><a href="{{ URL::to('reporte/reporteRelacionMensualDeFacturacionCobradosYPorCobrar') }}"><i class="fa fa-file-o"></i> Relación Mensual de Saldo Facturado, Cobrado y Por Cobrar</a></li>        		
 						<li {{ (\Request::is('reporte/reporteRelacionEstacionamientoDiario*'))?"class=active":"" }}><a href="{{ URL::to('reporte/reporteRelacionEstacionamientoDiario') }}"><i class="fa fa-file-o"></i> Relación de Estacionamiento Diario</a></li>        		
@@ -219,7 +221,12 @@
 					<ul class="treeview-menu">
 						<li {{ (\Request::is('reporte/reporteLibroDeVentas*'))?"class=active":"" }}><a href="{{ URL::to('reporte/reporteLibroDeVentas') }}"><i class="fa fa-folder-o"></i> Libro de Ventas</a></li>
 					</ul>   
-						<li {{ (\Request::is('reporte/reporteRelacionIngresosAeronauticosContado*'))?"class=active":"" }}><a href="{{ URL::to('reporte/reporteRelacionIngresosAeronauticosContado') }}"><i class="fa fa-folder-o"></i> Relación de Ingresos Aeronáuticos Contado</a></li>
+<!--             			<li><a href="{{action('ReporteController@getReporteModuloMetaMensual')}}"><i class="fa fa-folder-o"></i> Libro de ventas</a></li> -->
+<!-- 						<li {{ (\Request::is('reporte/mensual*'))?"class=active":"" }}><a href="{{ URL::to('reporte/mensual') }}"><i class="fa fa-folder-o"></i> Recaudación consolidada</a></li>-->
+<!--                  	<li><a href="{{action('ReporteController@getReporteMensual')}}"><i class="fa fa-folder-o"></i> Recaudación consolidada</a></li>-->            		<!-- <li><a href="#"><i class="fa fa-folder-o"></i> Relación facturado/cobrado</a></li> 
+            		<li><a href="#"><i class="fa fa-folder-o"></i> Relación de contratos</a></li>
+            		<li><a href="#"><i class="fa fa-folder-o"></i> Listado facturas emitidas</a></li>  -->
+
             		@endpermission
             	</ul>
             </li>

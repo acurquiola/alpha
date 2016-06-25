@@ -21,7 +21,6 @@ Route::get('oracleTest', function(){
     //buscamos un objeto oracle
 
     $empresa=\App\Models\Oracle\Empresa::find(1);
-
     //buscamos un objeto de mysql
     //
     //
@@ -226,6 +225,7 @@ Route::group(['prefix' => 'reporte/'], function () {
     Route::get('reporteRelacionMetaRecaudacionMensual', 'ReporteController@getReporteRelacionMetaRecaudacionMensual');
     Route::get('reporteTraficoAereo', 'ReporteController@getReporteTraficoAereo');
     Route::get('reporteControlDeRecaudacionMensual', 'ReporteController@getControlDeRecaudacionMensual');
+    Route::get('reporteControlDeRecaudacionDiario', 'ReporteController@getControlDeRecaudacionDiario');
     Route::get('reporteFormulariosAnulados', 'ReporteController@getFormulariosAnulados');
     Route::get('reporteListadoClientes', 'ReporteController@getListadoClientes');
     Route::get('reporteLibroDeVentas', 'ReporteController@getReporteLibroDeVentas');
