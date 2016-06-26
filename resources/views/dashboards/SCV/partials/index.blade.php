@@ -3,7 +3,7 @@
 <section class="content-header">
 	<h1>
 		<i class="ion-speedometer"></i> Dashboard
-		<small><b><i class="ion ion-android-calendar"></i> {{$hoy}}</b></small>
+		<small><b><i class="ion ion-android-calendar"></i> {{$today->format('d/m/Y')}}</b></small>
 	</h1>
 </section>
 

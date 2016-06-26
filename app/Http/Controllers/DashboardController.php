@@ -5,10 +5,17 @@ use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
 
+
+use DB;
+
 class DashboardController extends Controller {
 
 	public function indexSCV()
 	{
+
+        $today               = \Carbon\Carbon::now();
+        $today->timezone     = 'America/New_York';
+
 		$comerciales      = \App\TipoMatricula::where('nombre', 'Comercial')->first()->id;
 		$comercialPrivado = \App\TipoMatricula::where('nombre', 'Comercial Privado')->first()->id;
 		$privado          = \App\TipoMatricula::where('nombre', 'Privado')->first()->id;
@@ -142,11 +149,15 @@ class DashboardController extends Controller {
                                     ->sum('total');
 
 
-		return view('dashboards.SCV.partials.index', compact('hoy', 'aterrizajesComerciales', 'despeguesComerciales', 'aterrizajesComercialPrivado','despeguesComercialPrivado', 'aterrizajesPrivados', 'despeguesPrivados', 'otrosDespegues' ,'otrosAterrizajes', 'desembarqueComercial', 'desembarquePrivado', 'desembarqueComercialPrivado', 'desembarqueOtrosVuelos','embarqueComercial', 'embarquePrivado', 'embarqueComercialPrivado', 'embarqueOtrosVuelos', 'transitoTotal', 'embarqueTotal', 'desembarqueTotal', 'aterrizajesPendientes', 'aterrizajesTotal', 'despeguesRecientes', 'facturasTotal', 'facturasCredito', 'facturasContado'));
+		return view('dashboards.SCV.partials.index', compact('today', 'aterrizajesComerciales', 'despeguesComerciales', 'aterrizajesComercialPrivado','despeguesComercialPrivado', 'aterrizajesPrivados', 'despeguesPrivados', 'otrosDespegues' ,'otrosAterrizajes', 'desembarqueComercial', 'desembarquePrivado', 'desembarqueComercialPrivado', 'desembarqueOtrosVuelos','embarqueComercial', 'embarquePrivado', 'embarqueComercialPrivado', 'embarqueOtrosVuelos', 'transitoTotal', 'embarqueTotal', 'desembarqueTotal', 'aterrizajesPendientes', 'aterrizajesTotal', 'despeguesRecientes', 'facturasTotal', 'facturasCredito', 'facturasContado'));
 	}
 
 	public function indexRecaudacion()
 	{
+
+        $today               = \Carbon\Carbon::now();
+        $today->timezone     = 'America/New_York';
+
 		$hoy  =\Carbon\Carbon::now()->toDateString();
 		$anno =\Carbon\Carbon::now()->year;        
 		$mes  =\Carbon\Carbon::now()->month;        
@@ -281,14 +292,15 @@ class DashboardController extends Controller {
 		$montosMeses[$mes]["recaudadoTotalAnual"]  =$montosMeses[$mes]["recaudadoPZOAnual"]+$montosMeses[$mes]["recaudadoCBLAnual"]+$montosMeses[$mes]["recaudadoSNVAnual"];
 		$montosMeses[$mes]["diferenciaTotalAnual"] =$montosMeses[$mes]["diferenciaPZOAnual"]+$montosMeses[$mes]["diferenciaCBLAnual"]+$montosMeses[$mes]["diferenciaSNVAnual"];
 		
-		return view('dashboards.recaudacion.partials.index', compact('hoy', 'facturas', 'montosMeses' ));
+		return view('dashboards.recaudacion.partials.index', compact('today', 'facturas', 'montosMeses' ));
 	}
 
 	public function indexDireccion()
 	{
-		$fecha            = \Carbon\Carbon::now();
-		$hoy              = $fecha->toDateString();
 
+
+        $today               = \Carbon\Carbon::now();
+        $today->timezone     = 'America/New_York';
 
 		$comerciales      = \App\TipoMatricula::where('nombre', 'Comercial')->first()->id;
 		$comercialPrivado = \App\TipoMatricula::where('nombre', 'Comercial Privado')->first()->id;
@@ -347,6 +359,9 @@ class DashboardController extends Controller {
 								   ->where('fecha', $hoy)
 								   ->get();
 
+
+
+
 		$aterrizajesTotal =$aterrizajes->count();
 		$despeguesTotal   =$despegues->count();
 
@@ -394,9 +409,39 @@ class DashboardController extends Controller {
 
 			$transitoTotal                   = $despegues->sum('transitoAdultos')+$despegues->sum('transitoInfante')+$despegues->sum('transitoTercera');
 
-
 		}
-		return view('dashboards.direccion.partials.index', compact('hoy', 'aterrizajesComerciales', 'despeguesComerciales', 'aterrizajesComercialPrivado','despeguesComercialPrivado', 'aterrizajesPrivados', 'despeguesPrivados', 'otrosDespegues' ,'otrosAterrizajes', 'desembarqueComercial', 'desembarquePrivado', 'desembarqueComercialPrivado', 'desembarqueOtrosVuelos','embarqueComercial', 'embarquePrivado', 'embarqueComercialPrivado', 'embarqueOtrosVuelos', 'transitoTotal', 'embarqueTotal', 'desembarqueTotal'));
+			/*Gráficos*/
+
+			$puertosFrecuentes = \App\Aterrizaje::select(DB::raw('count(puerto_id) as total, puerto_id, puertos.nombre'))
+									   				->where('fecha', $hoy)
+													->where('aeropuerto_id', session('aeropuerto')->id)
+													->join('puertos', 'aterrizajes.puerto_id', '=', 'puertos.id')
+													->groupBy('puerto_id')
+													->orderBy('total', 'DESC')
+													->limit(5)
+													->lists('puertos.nombre');
+
+			$procedenciaFrecuente = \App\Aterrizaje::select(DB::raw('count(puerto_id) as total, puerto_id, puertos.nombre'))
+									   				->where('fecha', $hoy)
+													->where('aeropuerto_id', session('aeropuerto')->id)
+													->join('puertos', 'aterrizajes.puerto_id', '=', 'puertos.id')
+													->groupBy('puerto_id')
+													->orderBy('total', 'DESC')
+													->limit(5)
+													->lists('total');
+			$destinoFrecuente = \App\Despegue::select(DB::raw('count(puerto_id) as total, puerto_id, puertos.nombre'))
+									   				->where('fecha', $hoy)
+													->where('aeropuerto_id', session('aeropuerto')->id)
+													->join('puertos', 'despegues.puerto_id', '=', 'puertos.id')
+													->groupBy('puerto_id')
+													->orderBy('total', 'DESC')
+													->limit(5)
+													->lists('total');
+
+			/*Cantidad de Operaciones*/
+
+
+		return view('dashboards.direccion.partials.index', compact('puertosFrecuentes', 'procedenciaFrecuente', 'destinoFrecuente', 'today', 'aterrizajesComerciales', 'despeguesComerciales', 'aterrizajesComercialPrivado','despeguesComercialPrivado', 'aterrizajesPrivados', 'despeguesPrivados', 'otrosDespegues' ,'otrosAterrizajes', 'desembarqueComercial', 'desembarquePrivado', 'desembarqueComercialPrivado', 'desembarqueOtrosVuelos','embarqueComercial', 'embarquePrivado', 'embarqueComercialPrivado', 'embarqueOtrosVuelos', 'transitoTotal', 'embarqueTotal', 'desembarqueTotal'));
 	}
 	public function indexOtros()
 	{
