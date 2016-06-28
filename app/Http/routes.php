@@ -208,6 +208,7 @@ Route::group(['prefix' => 'administracion/'], function () {
     Route::resource('roles', 'RolesController');
 
 });
+
 Route::group(['prefix' => 'reporte/'], function () {
 
     Route::get('mensual', 'ReporteController@getReporteMensual');

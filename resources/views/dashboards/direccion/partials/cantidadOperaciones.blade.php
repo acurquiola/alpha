@@ -26,14 +26,14 @@
 					</thead>
 					<tbody>
 						<tr>
-							<td  class="text-left">Aterrizajes</td>
+							<td  class="text-left">NACIONAL</td>
 							<td  class="text-center"> 0 </td>
 							<td  class="text-center"> 0 </td>
 							<td  class="text-center"> 0 </td>
 							<td  class="text-center"> 0 </td>
 						</tr>
 						<tr>
-							<td  class="text-left">Despegues</td>
+							<td  class="text-left">INTERNACIONAL</td>
 							<td  class="text-center"> 0 </td>
 							<td  class="text-center"> 0 </td>
 							<td  class="text-center"> 0 </td>
