@@ -1,5 +1,5 @@
 <div class="row">
-	<div class="col-md-8">
+	<div class="col-md-6">
 		<!-- BAR CHART -->
 		<div class="box box-default">
 			<div class="box-header">
