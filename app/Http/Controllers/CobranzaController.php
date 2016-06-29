@@ -25,7 +25,6 @@ class CobranzaController extends Controller {
 	 */
 	public function index($moduloNombre, Request $request)
 	{
-
         $sortName           = $request->get('sortName','id');
         $sortName           = ($sortName=="")?"id":$sortName;
         
@@ -73,7 +72,8 @@ class CobranzaController extends Controller {
                         'sortName'           =>$sortName,
                         'sortType'           =>$sortType]);
 
-        $modulo=\App\Modulo::where("nombre","like",$moduloNombre)->first();
+        $modulo=\App\Modulo::where("nombre","like",$moduloNombre)
+                            ->where('aeropuerto_id','=', session('aeropuerto')->id)->first();
 
         $cobros=\App\Cobro::select("cobros.*","clientes.nombre as clienteNombre")
         ->join('clientes','clientes.id' , '=', 'cobros.cliente_id')
@@ -89,6 +89,7 @@ class CobranzaController extends Controller {
         $cobros=$cobros->orderBy($sortName, $sortType)->paginate(50);
 
         $cobros->setPath('');
+
 
         return view('cobranza.index', compact('cobros','modulo'))->withInput(\Input::all());
     }
