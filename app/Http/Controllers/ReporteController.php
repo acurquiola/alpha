@@ -689,16 +689,18 @@ class ReporteController extends Controller {
                                         ->where('fecha', '=>', $ultimoDiaMes)
                                         ->where('aeropuerto_id', $aeropuerto)
                                         ->get();
+
+        $mes = (int)$mes;
         $meses=[
-            1=>"ENERO",
-            2=>"FEBRERO",
-            3=>"MARZO",
-            4=>"ABRIL",
-            5=>"MAYO",
-            6=>"JUNIO",
-            7=>"JULIO",
-            8=>"AGOSTO",
-            9=>"SEPTIEMBRE",
+            01=>"ENERO",
+            02=>"FEBRERO",
+            03=>"MARZO",
+            04=>"ABRIL",
+            05=>"MAYO",
+            06=>"JUNIO",
+            07=>"JULIO",
+            08=>"AGOSTO",
+            09=>"SEPTIEMBRE",
             10=>"OCTUBRE",
             11=>"NOVIEMBRE",
             12=>"DICIEMBRE"];
