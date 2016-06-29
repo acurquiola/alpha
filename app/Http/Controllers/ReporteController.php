@@ -1154,16 +1154,19 @@ class ReporteController extends Controller {
             $desde= $request->get('desde');
             if($desde!="")
                 $desdeC        =\Carbon\Carbon::createFromFormat('d/m/Y', $desde);
-            else
+            else{
+
                 $desdeC        =\Carbon\Carbon::minValue();
-            $facturas->where('facturas.fecha', '>=', $desdeC);
+            }
+
+            $facturas->where('facturas.fecha', '=', $desdeC->toDateString());
 
             $hasta= $request->get('hasta');
             if($desde!="")
                 $hastaC        =\Carbon\Carbon::createFromFormat('d/m/Y', $hasta);
             else
                 $hastaC        =\Carbon\Carbon::maxValue();
-            $facturas->where('facturas.fecha', '<=', $hastaC);
+            $facturas->where('facturas.fecha', '<=', $hastaC->toDateString());
 
             $nFactura     =$request->get('nFactura');
             if($nFactura!="")
@@ -1208,12 +1211,7 @@ class ReporteController extends Controller {
             }else{
                 $clienteNombre="TODOS";
             }
-            if($desde == ''){
-                $desde="N/A";
-            }
-            if($hasta == ''){
-                $hasta="N/A";
-            }
+
 
             $view->with( compact('facturas', 'aeropuerto','cliente', 'cliente_id', 'modulo', 'desde', 'hasta', 'nFactura', 'rif', 'nombre', 'estatus', 'total', 'subtotal', 'islr', 'iva', 'moduloNombre', 'aeropuertoNombre', 'clienteNombre'));
 
