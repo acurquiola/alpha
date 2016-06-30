@@ -1159,7 +1159,7 @@ class ReporteController extends Controller {
                 $desdeC        =\Carbon\Carbon::minValue();
             }
 
-            $facturas->where('facturas.fecha', '=', $desdeC->toDateString());
+            $facturas->where('facturas.fecha', '>=', $desdeC->toDateString());
 
             $hasta= $request->get('hasta');
             if($desde!="")
