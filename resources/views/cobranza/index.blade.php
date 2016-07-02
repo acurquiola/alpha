@@ -82,8 +82,8 @@
 				<div class="form-group">
 					{!! Form::text('observacion', array_get( $input, 'observacion'), [ 'class'=>"form-control", 'placeholder'=>'Observación', 'style'=>'max-width:150px']) !!}
 				</div>
-				<button type="submit" class="btn btn-default">Buscar</button>
-				<a class="btn btn-default" href="{{action('CobranzaController@index',[$modulo->nombre])}}">Reset</a>
+				<button type="submit" id="buscar-btn" class="btn btn-default">Buscar</button>
+				<a class="btn btn-default" id="reset-btn"  href="{{action('CobranzaController@index',[$modulo->nombre])}}">Reset</a>
 				{!! Form::close() !!}
 			</div>
 		</div>
@@ -138,6 +138,9 @@
 													<div class='btn-group  btn-group-sm' role='group' aria-label='...'>
 														<a class='btn btn-primary' href='{{action('CobranzaController@show', [$modulo->nombre,$cobro->id])}}'><span class='glyphicon glyphicon-eye-open'></span></a>
 														<a class='btn btn-warning' href='{{action('CobranzaController@edit', [$modulo->nombre,$cobro->id])}}'><span class='glyphicon glyphicon-pencil'></span></a>
+														@if($cobro->fecha == '30/11/-0001')
+															<a class='btn btn-info' id="fecha-btn" href='#'><span class='glyphicon glyphicon-calendar'></span></a>
+														@endif
 														@if($cobro->nRecibo != NULL)
 														<div class="btn-group dropup">
 															<a target="_blank" class='btn btn-default  btn-sm' href='{{action('CobranzaController@getPrint', ["cobro"=>$cobro->id, "modulo"=>$modulo->id])}}'><span class='glyphicon glyphicon-print'  ></span></a>
@@ -165,8 +168,12 @@
 										@endif
 									</tbody>
 								</table>
-
 							</li>
+							<div class="row">
+							     <div class="col-xs-12 text-center">
+							          {!! $cobros->appends(Input::except('page'))->render() !!}
+							     </div>
+							</div>
 						</ul>
 					</div>
 				</div>
@@ -198,6 +205,32 @@
 	                <div class="modal-footer">
 	                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
 	                    <button id="save-nvoRecibo-btn-modal" type="button" class="btn btn-primary" data-dismiss="modal">Guardar</button>
+	                </div>
+	            </div>
+	        </div> <!-- /.Modal-dialog-->
+	    </div> <!-- /.Modal- fade-->
+
+	    <div class="modal fade" id="show-modal-fecha" tabindex="-1" role="dialog" aria-labelledby="fechaCobro-modalLabel" aria-hidden="true">
+	        <div class="modal-dialog  modal-sm">
+	            <div class="modal-content">
+	                <div class="modal-header" id="titulo-div-modal">
+	                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	                    <h4 class="modal-title" id="titulo-modal">Fecha de Cobro</h4>
+	                </div>
+	                <div class="modal-body">
+		                <form>
+							<div class="form-group">
+								<label style="font-weight: bold;" >Inserte fecha de cobro</label>
+								<div class="input-group">
+									<input type="hidden" id="cobro_id" name="cobro_id" value="{{($cobro->id)}}"/>
+									<input type="text" id="fecha-input" name="fecha" class="form-control" placeholder="Ej. 01/03/2016" />
+								</div><!-- /.input group -->
+							</div>    
+		                </form>
+		            </div>
+	                <div class="modal-footer">
+	                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+	                    <button id="save-fecha-btn-modal" type="button" class="btn btn-primary" data-dismiss="modal">Guardar</button>
 	                </div>
 	            </div>
 	        </div> <!-- /.Modal-dialog-->
@@ -243,6 +276,13 @@
 
 		})
 
+		$('body').delegate('#fecha-btn', 'click', function(){
+                var fila = $(this).closest('tr');
+                var id   = $(fila).data('id');
+                $('#show-modal-fecha #cobro_id').val(id);
+                $('#show-modal-fecha').modal('show');
+            })
+
 		$('body').delegate('#anularRecibo-btn', 'click', function(){
                 var fila = $(this).closest('tr');
                 var id   = $(fila).data('id');
@@ -266,6 +306,38 @@
     				if (respuesta.success==1)
     				{
     					alertify.success(respuesta.text);
+    				}
+    				else
+    				{
+    					alertify.error(respuesta.text);
+    				}
+    			}
+    			catch(e)
+    			{
+    				console.log(e);
+    				alertify.error('Error procesando la información');
+    			}
+    		})
+
+		})
+
+
+		$('#save-fecha-btn-modal').click(function(){
+    		var data =$('#show-modal-fecha form').serializeArray()
+    		var url  ='{{action('CobranzaController@editDate')}}';
+    	
+
+    		$.ajax({data:data,
+    			method:'get',
+    			url:url})
+    		.always(function(text, status, responseObject){
+    			try
+    			{
+    				var respuesta = JSON.parse(responseObject.responseText);
+    				if (respuesta.success==1)
+    				{
+    					alertify.success(respuesta.text);
+                        $('#buscar-btn').trigger('click');
     				}
     				else
     				{
