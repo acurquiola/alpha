@@ -90,11 +90,11 @@
 <td colspan="2" >
 </td>
 </tr>
+@if($ajuste=='')
 @foreach($cobro->pagos as $index => $pago)
 <tr>
 <td colspan="2" style=" text-align:center; font-size: 7px" >
 {{$pago->tipo}}
-
 </td>
 <td colspan="2" style="text-align:right; font-size: 7px" >
 {{$traductor->format($pago->monto)}}
@@ -113,6 +113,79 @@
 </td>
 </tr>
 @endforeach
+@elseif($ajuste != '' && $cobro->pagos->count() == 0 )
+@foreach($ajuste as $a)
+@foreach($a->cobro->pagos as $index => $pago)
+<tr>
+<td colspan="2" style=" text-align:center; font-size: 7px" >
+{{$pago->tipo}}
+</td>
+<td colspan="2" style="text-align:right; font-size: 7px" >
+{{$traductor->format($pago->monto)}}
+</td>
+<td colspan="2"  style="text-align:center; font-size: 7px">
+{{$pago->ncomprobante}}
+</td>
+<td colspan="5" style="text-align:center; font-size: 7px">
+{{$pago->banco->nombre}}
+</td>
+<td colspan="4" style="text-align:center; font-size: 7px">
+{{$pago->cuenta->descripcion}}
+</td>
+<td colspan="2" style="text-align:center; font-size: 7px">
+{{$pago->fecha}}
+</td>
+</tr>
+@endforeach
+@endforeach
+@else
+@foreach($ajuste as $a)
+@foreach($a->cobro->pagos as $index => $pago)
+<tr>
+<td colspan="2" style=" text-align:center; font-size: 7px" >
+{{$pago->tipo}}
+</td>
+<td colspan="2" style="text-align:right; font-size: 7px" >
+{{$traductor->format($pago->monto)}}
+</td>
+<td colspan="2"  style="text-align:center; font-size: 7px">
+{{$pago->ncomprobante}}
+</td>
+<td colspan="5" style="text-align:center; font-size: 7px">
+{{$pago->banco->nombre}}
+</td>
+<td colspan="4" style="text-align:center; font-size: 7px">
+{{$pago->cuenta->descripcion}}
+</td>
+<td colspan="2" style="text-align:center; font-size: 7px">
+{{$pago->fecha}}
+</td>
+</tr>
+@endforeach
+@endforeach
+@foreach($cobro->pagos as $index => $pago)
+<tr>
+<td colspan="2" style=" text-align:center; font-size: 7px" >
+{{$pago->tipo}}
+</td>
+<td colspan="2" style="text-align:right; font-size: 7px" >
+{{$traductor->format($pago->monto)}}
+</td>
+<td colspan="2"  style="text-align:center; font-size: 7px">
+{{$pago->ncomprobante}}
+</td>
+<td colspan="5" style="text-align:center; font-size: 7px">
+{{$pago->banco->nombre}}
+</td>
+<td colspan="4" style="text-align:center; font-size: 7px">
+{{$pago->cuenta->descripcion}}
+</td>
+<td colspan="2" style="text-align:center; font-size: 7px">
+{{$pago->fecha}}
+</td>
+</tr>
+@endforeach
+@endif
 </table>
 <br>
 <br>
