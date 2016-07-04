@@ -86,7 +86,7 @@ class CobranzaController extends Controller {
         ->where('clientes.nombre', 'like', "%$clienteNombre%")
         ->where('cobros.aeropuerto_id','=', session('aeropuerto')->id)
         ->with('cliente');
-        $cobros=$cobros->orderBy($sortName, $sortType)->paginate(50);
+        $cobros=$cobros->orderBy($sortName, $sortType)->paginate(15);
 
         $cobros->setPath('');
 
@@ -305,14 +305,14 @@ return ["success"=>1, "impresion" => $impresion];
         dd($request->all());
     }
 
-	/**
-	 * Update the specified resource in storage.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function cambiarRecibo(Request $request)
-	{
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  int  $id
+     * @return Response
+     */
+    public function cambiarRecibo(Request $request)
+    {
         $cobro = \App\Cobro::find($request->cobro_id);
         $reciboAnulado=$this->anularRecibo($cobro);
         if($reciboAnulado){
@@ -321,6 +321,24 @@ return ["success"=>1, "impresion" => $impresion];
         }
         else{
            return ["success"=>0, "text" => "Ocurrió un problema cambiando el número de recibo."];
+       }
+    }
+
+	/**
+	 * Update the specified resource in storage.
+	 *
+	 * @param  int  $id
+	 * @return Response
+	 */
+	public function editDate(Request $request)
+	{
+        $cobro = \App\Cobro::find($request->cobro_id);
+        $date  =  $cobro->update(["fecha"=>$request->fecha]);
+        if($date){
+            return ["success"=>1, "text" => "Fecha actualizada exitósamente."];
+        }
+        else{
+           return ["success"=>0, "text" => "Ocurrió un problema cambiando la fecha."];
        }
 	}
 

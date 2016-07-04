@@ -140,6 +140,7 @@ Route::group(['prefix' => 'operaciones/'], function () {
 
 Route::group(['prefix' => 'cobranza/{modulo}/'], function () {
     Route::get('print/{cobro}', 'CobranzaController@getPrint');
+    Route::get('editDate', 'CobranzaController@editDate');
     Route::get('anularRecibo', 'CobranzaController@cambiarRecibo');
     Route::get('main', 'CobranzaController@main');
     Route::get('getFacturasClientes', 'CobranzaController@getFacturasClientes');
