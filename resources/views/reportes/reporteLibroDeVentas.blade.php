@@ -128,34 +128,31 @@
 @section('script')
 <script>
 	$(function(){
-
-
 		$('#export-btn').click(function(e){
-			var table=$('table').clone();
-			$(table).find('td, th').filter(function() {
-				return $(this).css('display') == 'none';
-			}).remove();
-			$(table).find('tr').filter(function() {
-				return $(this).find('td,th').length == 0;
-			}).remove();
+		    var table=$('table').clone();
+		    $(table).find('td, th').filter(function() {
+		        return $(this).css('display') == 'none';
+		    }).remove();
+		    $(table).find('tr').filter(function() {
+		        return $(this).find('td,th').length == 0;
+		    }).remove();
 		    $(table).prepend('<thead>\
-		    					<tr>\
-									<th colspan="18" style="vertical-align: middle; margin-top:20px" align="center" class="text-center">LIBRO DE VENTAS\
-									</br>\
-									DESDE: {{$diaDesde}}/{{$mesDesde}}/{{$annoDesde}} HASTA: {{$diaHasta}}/{{$mesHasta}}/{{$annoHasta}} </th>\
-									</br>\
-								</tr>\
-							</thead>')
-			$(table).find('thead, th').css({'border-top':'1px solid black', 'font-weight': 'bold', 'text-align':"center", 'font-size': '6px'})
-			$(table).find('th').css({'border-bottom':'1px solid black', 'font-weight': 'bold', 'text-align':"center", 'font-size': '6px'})
-			$(table).find('td').css({'font-size': '5px'})
-			$(table).find('tr:nth-child(even)').css({'background-color': '#E2E2E2'})
-			$(table).find('tr:last td').css({'border-bottom':'1px solid black'})
-			// $(table).find('tr:last td').css({'border-bottom':'1px solid black','border-top':'1px solid black', 'font-weight': 'bold'})
-			var tableHtml= $(table)[0].outerHTML;
-			$('[name=table]').val(tableHtml);
-			$('#export-form').submit();
-		});
+		                        <tr>\
+		                            <th colspan="18" style="vertical-align: middle; margin-top:20px" align="center" class="text-center">LIBRP DE VENTAS\
+		                                </br>\
+										DESDE: {{$diaDesde}}/{{$mesDesde}}/{{$annoDesde}} HASTA: {{$diaHasta}}/{{$mesHasta}}/{{$annoHasta}}\
+		                            </th>\
+		                        </tr>\
+		                    </thead>')
+		    $(table).find('thead, th').css({'border-top':'1px solid black', 'font-weight': 'bold', 'text-align':"center", 'font-size': '7px'})
+		    $(table).find('th').css({'border-bottom':'1px solid black', 'font-weight': 'bold', 'text-align':"center", 'font-size': '7px'})
+		    $(table).find('td').css({'font-size': '6px'})
+		    $(table).find('tr:nth-child(even)').css({'background-color': '#E2E2E2'})
+		    $(table).find('tr:last td').css({'border-bottom':'1px solid black','border-top':'1px solid black', 'font-weight': 'bold'})
+		    var tableHtml= $(table)[0].outerHTML;
+		    $('[name=table]').val(tableHtml);
+		    $('#export-form').submit();
+		})
 	});
 </script>
 @endsection
