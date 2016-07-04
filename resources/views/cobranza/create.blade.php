@@ -261,7 +261,8 @@
             if(ajuste>0){
                 var ajusteMaximo=parseFloat(
                 	$('.ajuste-row').find('.saldo-pagar').text());
-                if(ajuste>commaToNum(ajusteMaximo)){
+                if(ajuste>numToComma(ajusteMaximo)){
+                	console.log(ajuste, ajusteMaximo);
                     alertify.error("El ajuste no puede superar " +ajusteMaximo+ "Bs.");
                     return;
                 }
