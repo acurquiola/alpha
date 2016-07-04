@@ -29,7 +29,12 @@
 <br>
 
 
-<table style="width:100%; border-collapse: collapse; padding:2px">
+<table style="width:100%; border-collapse: collapse; padding:2px; font-size: 8px">
+<tr>
+<td  colspan="7">
+<strong>NRO. COBRO:</strong> {{$cobro->id}}
+</td>
+</tr>
 <tr>
 <td  colspan="7">
 <strong>HEMOS RECIDO DE:</strong> {{$cobro->cliente->nombre}}
@@ -87,23 +92,23 @@
 </tr>
 @foreach($cobro->pagos as $index => $pago)
 <tr>
-<td colspan="2" style=" text-align:center" >
+<td colspan="2" style=" text-align:center; font-size: 7px" >
 {{$pago->tipo}}
 
 </td>
-<td colspan="2" style="text-align:right" >
+<td colspan="2" style="text-align:right; font-size: 7px" >
 {{$traductor->format($pago->monto)}}
 </td>
-<td colspan="2"  style="text-align:center">
+<td colspan="2"  style="text-align:center; font-size: 7px">
 {{$pago->ncomprobante}}
 </td>
-<td colspan="5" style="text-align:left">
+<td colspan="5" style="text-align:center; font-size: 7px">
 {{$pago->banco->nombre}}
 </td>
-<td colspan="4" style="text-align:center">
+<td colspan="4" style="text-align:center; font-size: 7px">
 {{$pago->cuenta->descripcion}}
 </td>
-<td colspan="2" style="text-align:right">
+<td colspan="2" style="text-align:center; font-size: 7px">
 {{$pago->fecha}}
 </td>
 </tr>
