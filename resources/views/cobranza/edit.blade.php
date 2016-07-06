@@ -34,7 +34,7 @@
 					</div>
 				</div>
 				<h5>Cuentas por cobrar</h5>
-				<div class="row">
+				<!--<div class="row">
 					<div class="col-xs-2 col-xs-offset-8 text-right">
 						<select class="form-control" id="type-rows-cxc-table-wrapper-select">
 							<option value="t">Todas</option>
@@ -51,7 +51,7 @@
 							<option>50</option>
 						</select>
 					</div>
-				</div>
+				</div>-->
 
 <!--Poner un input pegado al boton de retencion que muestre el total de retencion
 	Poner subtotal de la operacion del saldo abonado y la retencion -->
@@ -62,14 +62,14 @@
 				            <th style="min-width:120px"># Control</th>
 				            <th style="min-width:120px">Fecha emisión</th>
 				            <th style="min-width:120px">Monto documento</th>
-				            <th style="min-width:120px">Saldo Cancelado</th>
-				            <th style="min-width:120px">Saldo Pendiente</th>
+				            {{-- <th style="min-width:120px">Saldo Cancelado</th> --}}
+				            {{-- <th style="min-width:120px">Saldo Pendiente</th> --}}
 
 				            <th style="min-width:120px">Retencion</th>
 				            <th style="min-width:120px">Saldo a pagar</th>
-				            <th style="min-width:120px">Saldo Abonado</th>
-				            <th style="min-width:120px">Saldo Restante</th>
-				            <th style="min-width:200px">Acción</th>
+				            {{-- <th style="min-width:120px">Saldo Abonado</th> --}}
+				            {{-- <th style="min-width:120px">Saldo Restante</th> --}}
+				            {{-- <th style="min-width:200px">Acción</th> --}}
 			            </thead>
 			            <tbody>
 			            {{--@if($ajusteCliente>0)--}}
@@ -100,92 +100,92 @@
                         {{--</tr>--}}
                         {{--@endif--}}
 			            @foreach($cobro->facturas as $factura)
-                            <tr data-id="{{$factura->id}}" data-is-retencion-editable=1
+                            <tr class="success" data-id="{{$factura->id}}" data-is-retencion-editable=1
                             data-islrper="'+metadata.islrpercentage+'" data-ivaper="'+metadata.ivapercentage+'"
                             data-base="'+base+'" data-iva="'+ivaPagado+'" >
                                 <td><p class="form-control-static">{{$factura->nFacturaPrefix}}-{{$factura->nFactura}}</p></td>
                                 <td><p class="form-control-static">{{$factura->nControlPrefix}}-{{$factura->nControl}}</p></td>
                                 <td><p class="form-control-static">{{$factura->fecha}}</p></td>
                                 <td class="monto-documento"><p class="form-control-static">{{$traductor->format($factura->total)}}</p></td>
-                                <td><p class="form-control-static">{{$traductor->format($factura->metadata->total-$factura->pivot->total)}}</p></td>
-                                <td ><p class="form-control-static"><span class="saldo-pendiente">{{$traductor->format(abs($factura->total-$factura->metadata->total-$factura->pivot->total))}}</span></p></td>
+                                {{-- <td><p class="form-control-static">{{$traductor->format($factura->metadata->total-$factura->pivot->total)}}</p></td> --}}
+                                {{-- <td ><p class="form-control-static"><span class="saldo-pendiente">{{$traductor->format(abs($factura->total-$factura->metadata->total-$factura->pivot->total))}}</span></p></td> --}}
                                 <td>
                                     <div class="input-group">
                                         <input type="text" class="form-control retencion-pagar"  readonly value="" '+((!isRetencionEditable)?('data-islr-modal="'+metadata.islrpercentage+'" data-iva-modal="'+metadata.ivapercentage+'"'):"")+'>
-                                        <div class="input-group-btn">
-                                            <button type="button" class="btn btn-warning retencion-btn"><span class="glyphicon glyphicon-search"></span></button>\
-                                        </div>
+                                        {{-- <div class="input-group-btn"> --}}
+                                            {{-- <button type="button" class="btn btn-warning retencion-btn"><span class="glyphicon glyphicon-search"></span></button> --}}
+                                        {{-- </div> --}}
                                     </div>
                                 </td>
-                                <td ><p class="form-control-static"><span class="saldo-pagar"></span></p></td>
-                                <td><input class="form-control saldo-abonado-input"  autocomplete="off"></td>
-                                <td><p class="form-control-static saldo-restante"></p></td>
-                                <td>
-                                    <div class="btn-group" role="group" aria-label="...">
-                                        <div class="btn-group" role="group">
-                                            <button type="button" class="btn btn-primary pay-all-btn">Abono total</button>
-                                            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                                                <span class="caret"></span>
-                                            </button>
-                                            <ul class="dropdown-menu" role="menu">
-                                                <li><a class="pay-all-btn">Abono total</a></li>
-                                                <li><a class="pay-partial-btn">Abono por cuota</a></li>
-                                            </ul>
-                                        </div>
-                                        <button type="button" class="btn btn-default reset-btn"><span class="glyphicon glyphicon-repeat"></span></button>
-                                    </div>
-                                </td>
+                                {{-- <td ><p class="form-control-static"><span class="saldo-pagar"></span></p></td> --}}
+                                <td><input readonly class=" text-right form-control saldo-abonado-input"  autocomplete="off" value="{{$traductor->format($factura->pivot->total)}}"></td>
+                                {{-- <td><p class="form-control-static saldo-restante"></p></td> --}}
+                                {{-- <td> --}}
+                                    {{-- <div class="btn-group" role="group" aria-label="..."> --}}
+                                        {{-- <div class="btn-group" role="group"> --}}
+                                            {{-- <button type="button" class="btn btn-primary pay-all-btn">Abono total</button> --}}
+                                            {{-- <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false"> --}}
+                                                {{-- <span class="caret"></span> --}}
+                                            {{-- </button> --}}
+                                            {{-- <ul class="dropdown-menu" role="menu"> --}}
+                                                {{-- <li><a class="pay-all-btn">Abono total</a></li> --}}
+                                                {{-- <li><a class="pay-partial-btn">Abono por cuota</a></li> --}}
+                                            {{-- </ul> --}}
+                                        {{-- </div> --}}
+                                        {{-- <button type="button" class="btn btn-default reset-btn"><span class="glyphicon glyphicon-repeat"></span></button> --}}
+                                    {{-- </div> --}}
+                                {{-- </td> --}}
                             </tr>
-			            
+
 			            @endforeach
 			            </tbody>
 		            </table>
-	            </div> 
-				<div class="form-inline" style="margin-bottom: 30px"> 
+	            </div>
+				<div class="form-inline" style="margin-bottom: 30px">
 					<div class="form-group">
 					<label style="font-weight: bold;" >Recibo de Caja: </label>
 						<div class="input-group">
-							<input type="text" id="nRecibo-input" name="nRecibo" class="form-control" placeholder="Número"/>
+							<input autocomplete="off" type="text" id="nRecibo-input" name="nRecibo" class="form-control" placeholder="Número" value="{{$cobro->nRecibo}}"/>
 						</div><!-- /.input group -->
-					</div>  
+					</div>
 					<div class="form-group">
 					<label style="font-weight: bold;" >Fecha: </label>
 						<div class="input-group">
-							<input type="text" id="fecha-datepicker" name="fecha" class="form-control" placeholder="Fecha" value="{{$today->format('d/m/Y')}}"/>
+							<input autocomplete="off" type="text" id="fecha-datepicker" name="fecha" class="form-control" placeholder="Fecha" value="{{$cobro->fecha}}"/>
 						</div><!-- /.input group -->
-					</div>    
+					</div>
 		            <div class="form-group pull-right">
 			            <label for="total-a-pagar-doc-input" class="col-sm-6 control-label"><h5>Total a cobrar</h5></label>
 			            <div class="col-sm-6">
-				            <input autocomplete="off" type="text" class="form-control total-a-pagar-doc-input" style="font-weight: bold;" readonly value="0,00">
+				            <input autocomplete="off" type="text" class="form-control total-a-pagar-doc-input text-right" style="font-weight: bold;" readonly value="0,00">
 			            </div>
 		            </div>
 		        <div>
+	            {{-- <div class="row"> --}}
+		            {{-- <div class="col-xs-12"> --}}
+			            {{-- <label>Leyenda:[<span class="text-success">Pago completo</span> | <span class="text-info">Sobrepagado</span> | <span class="text-warning">Pago parcial</span> | <span class="text-danger">Error en saldo ingresado</span>]</label> --}}
+		            {{-- </div> --}}
+	            {{-- </div> --}}
+	            <h5>Formas de pago</h5>
 	            <div class="row">
-		            <div class="col-xs-12">
-			            <label>Leyenda:[<span class="text-success">Pago completo</span> | <span class="text-info">Sobrepagado</span> | <span class="text-warning">Pago parcial</span> | <span class="text-danger">Error en saldo ingresado</span>]</label>
+		            <div class="col-xs-12 text-right">
+			            {{-- <button class="btn btn-primary register-payment-btn"><span class="glyphicon glyphicon-plus"></span> Registrar pago</button> --}}
 		            </div>
 	            </div>
-	            <h5>Formas de pago</h5>
-	            <div class="row"> 
-		            <div class="col-xs-12 text-right"> 
-			            <button class="btn btn-primary register-payment-btn"><span class="glyphicon glyphicon-plus"></span> Registrar pago</button> 
-		            </div> 
-	            </div> 
 	            <div class="table-responsive" style="margin-top:15px;margin-bottom:15px">
 		            <table id="formas-pago-table" class="table table-condensed text-center">
 			            <thead class="bg-primary">
 				            <th>Fecha</th>
-				            <th>Banco</th> 
+				            <th>Banco</th>
 				            <th>Cuenta</th>
 				            <th>Forma de pago</th>
 				            <th>#Deposito/#Lote</th>
 				            <th>Monto</th>
 				            <th>Acción</th>
-			            </thead> 
+			            </thead>
 			            <tbody>
                             @foreach($cobro->pagos as $pago)
-                                <tr>
+                                <tr data-object="{{$pago->toJson()}}">
                                     <td>{{$pago->fecha}}</td>
                                     <td>{{$pago->banco->nombre}}</td>
                                     <td>{{$pago->cuenta->descripcion}}</td>
@@ -193,7 +193,7 @@
                                     <td>{{$pago->ncomprobante}}</td>
                                     <td>{{$traductor->format($pago->monto)}}</td>
                                     <td>
-                                        <button class='btn btn-danger remove-payment-btn'><span class='glyphicon glyphicon-minus'></span></button>
+                                        <button class='btn btn-warning edit-payment-btn'><span class='glyphicon glyphicon-pencil'></span></button>
                                     </td>
                                 </tr>
 
@@ -208,9 +208,9 @@
 		            <div class="col-xs-12">
 			            <div class="form-horizontal">
 				            <div class="form-group">
-					            <label for="inputEmail3" class="col-sm-2 control-label">Observaciones</label>
+					            <label for="inputEmail3" class="col-sm-3 control-label">Observaciones</label>
 					            <div class="col-sm-9">
-						            <textarea id="observaciones-documento" class="form-control" row="5"></textarea>
+						            <textarea value="{{$cobro->observacion}}" id="observaciones-documento" class="form-control" row="5"></textarea>
 					            </div>
 				            </div>
 			            </div>
@@ -240,7 +240,7 @@
             </div><!-- /.box-body -->
             <div class="box-footer">
             <!--                 Se debe validar que el monto a cobrar y el monto depositado sean iguales, mostrar un alert de confirmacion
-            -->               
+            -->
                 <div class="row">
 	                <div class="col-xs-6">
 		                <div class="checkbox">
@@ -260,7 +260,7 @@
 
 
 @include('cobranza.partials.cuotaModal')
-@include('cobranza.partials.pagoModal')
+@include('cobranza.partials.pagoModal', ["edit" => true])
 @include('cobranza.partials.retencionModal')
 
 
@@ -275,6 +275,51 @@
     $(document).ready(function(){
 
         @include('cobranza.partials.script')
+        calculateTotalPagar();
+        calculateTotalDepositar();
+        $('body').delegate('.edit-payment-btn', 'click', function(){
+            var $tr=$(this).closest('tr');
+            var pago=$tr.data('object');
+            $('#forma-modal-input').val(pago.tipo);
+            $('#fecha-modal-input').val(pago.fecha);
+            $('#banco-modal-input').val(pago.banco_id);
+            $('#banco-modal-input').change();
+            setTimeout(function(){$('#cuenta-modal-input').val(pago.cuenta_id);}, 500);
+            $('#deposito-modal-input').val(pago.ncomprobante);
+            $('#monto-modal-input').val(numToComma(pago.monto));
+            $('#register-payment-modal').modal('show');
+            $('#register-payment-modal').data('tr', $tr);
+        })
+
+        $('body').delegate('#edit-deposito-modal-btn', 'click', function(){
+            var $tr=$('#register-payment-modal').data('tr');
+            var pago=$tr.data('object');
+            pago.tipo=$('#forma-modal-input option:selected').val();
+            pago.fecha=$('#fecha-modal-input').val();
+            pago.banco_id=$('#banco-modal-input option:selected').val();
+            pago.cuenta_id=$('#cuenta-modal-input option:selected').val();
+            pago.ncomprobante=$('#deposito-modal-input').val();
+            pago.monto=commaToNum($('#monto-modal-input').val());
+            if(pago.ncomprobante=="" || pago.fecha=="" || pago.monto==""){
+                alertify.error('Debe llenar todos los campos del deposito.')
+                return;
+            }
+            if(isNaN(parseFloat(pago.monto))){
+                alertify.error('El monto del deposito debe ser un numéro valido.')
+                return;
+            }
+            $tr.data('object', pago);
+            $tr.find('td:eq(0)').text(pago.fecha);
+            $tr.find('td:eq(1)').text($('#banco-modal-input option:selected').text());
+            $tr.find('td:eq(2)').text($('#cuenta-modal-input option:selected').text());
+            $tr.find('td:eq(3)').text($('#forma-modal-input option:selected').text());
+            $tr.find('td:eq(4)').text(pago.ncomprobante);
+            $tr.find('td:eq(5)').text(numToComma(pago.monto));
+            $('#register-payment-modal').data('tr', null);
+            $('#register-payment-modal').modal('hide');
+
+            calculateTotalDepositar();
+        })
 
         $('#save-cobro-btn').click(function(){
 
@@ -296,29 +341,6 @@
                     return;
                 }
             }
-            var facturas=[];
-            var trs=$('#cxc-table tbody').find('tr.success, tr.info, tr.warning').not('.ajuste-row');
-            $.each(trs, function(index,value){
-                var retencionInput=$(value).find('.retencion-pagar');
-                var isrlModal=$(retencionInput).data('islrModal');
-                var ivaModal=$(retencionInput).data('ivaModal');
-                var retencionFecha=$(retencionInput).data('retencionFecha');
-                var retencionComprobante=$(retencionInput).data('retencionComprobante');
-                isrlModal=(isrlModal===undefined)?0:isrlModal;
-                ivaModal=(ivaModal===undefined)?0:ivaModal;
-                retencionFecha=(retencionFecha===undefined)?0:retencionFecha;
-                retencionComprobante=(retencionComprobante===undefined)?0:retencionComprobante;
-                var o={
-                    id:$(value).data('id'),
-                    montoAbonado: commaToNum($(value).find('.saldo-abonado-input').val()),
-                    islrpercentage:isrlModal,
-                    ivapercentage:ivaModal,
-                    retencionFecha:retencionFecha,
-                    retencionComprobante:retencionComprobante
-                }
-
-                facturas.push(o);
-            });
 
             var pagos=[];
             $('#formas-pago-table tbody tr').each(function(index,value){
@@ -327,16 +349,13 @@
 
             addLoadingOverlay('#main-box');
             $.ajax({
-                method:'POST',
+                method:'PUT',
                 data:{
-                    facturas:facturas,
                     pagos:pagos,
-                    cliente_id: $('#cliente_id-input').val(),
-                    totalFacturas:$('.total-a-pagar-doc-input').first().val() ,
-                    totalDepositado:$('#total-a-depositar-doc-input').val(),
+                    nRecibo: $('#nRecibo-input').val(),
+                    fecha: $('#fecha-datepicker').val(),
                     observacion:$('#observaciones-documento').val(),
                     hasrecaudos:$('#hasrecaudos-check').prop('checked'),
-                    ajuste:ajuste,
                     modulo_id:'{{$id}}'
                 },
                 url: '{{action('CobranzaController@update', [$moduloName, $cobro->id])}}'
@@ -344,14 +363,9 @@
                 try{
                     var response=JSON.parse(jx.responseText);
                     if(response.success){
-                        alertify.success("El pago se efectuó con éxito.");
-                        setTimeout(
-                            function()
-                            {
-                                location.reload();
-                            }, 2000);
+                        alertify.success("El pago se actualizo con éxito.");
                     }
-
+                    removeLoadingOverlay('#main-box');
                 }catch(e){
                     removeLoadingOverlay('#main-box');
                     alertify.error("Error en el servidor");
