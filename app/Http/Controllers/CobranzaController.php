@@ -27,37 +27,37 @@ class CobranzaController extends Controller {
 	{
         $sortName           = $request->get('sortName','id');
         $sortName           = ($sortName=="")?"id":$sortName;
-        
+
         $sortType           = $request->get('sortType','DESC');
         $sortType           = ($sortType=="")?"DESC":$sortType;
-        
-        
+
+
         $cobroId            = $request->get('id');
         $cobroId            = ($cobroId=="")?0:$cobroId;
         $cobroIdOperator    = $request->get('cobroIdOperator', '>=');
         $cobroIdOperator    = ($cobroIdOperator=="")?'>=':$cobroIdOperator;
         $cobroIdOperator    = ($cobroId==0)?">=":$cobroIdOperator;
-        
+
         $clienteNombre      = $request->get('clienteNombre', '%');
-        
+
         $observacion        = $request->get('observacion', '%');
-        
+
         $pagado             = $request->get('pagado');
         $pagado             =($pagado=="")?0:$pagado;
         $pagadoOperator     = $request->get('pagadoOperator', '>=');
         $pagadoOperator     =($pagadoOperator=="")?'>=':$pagadoOperator;
         $pagadoOperator     =($pagado==0)?">=":$pagadoOperator;
-        
+
         $depositado         = $request->get('depositado');
         $depositado         = ($depositado=="")?0:$depositado;
         $depositadoOperator = $request->get('depositadoOperator', '>=');
         $depositadoOperator = ($depositadoOperator=="")?'>=':$depositadoOperator;
         $depositadoOperator = ($depositado==0)?">=":$depositadoOperator;
-        
+
         $fecha              = $request->get('fecha');
         $fechaOperator      = $request->get('fechaOperator', '>=');
         $fechaOperator      = ($fechaOperator=="")?'>=':$fechaOperator;
-        
+
         if($fecha==""){
             $fecha         ='0000-00-00';
             $fechaOperator ='>=';
@@ -123,7 +123,7 @@ class CobranzaController extends Controller {
 	 */
 	public function store(Request $request)
 	{
-        
+
         $impresion="";
         \DB::transaction(function () use ($request, &$impresion) {
             $cobro=\App\Cobro::create([
@@ -221,12 +221,12 @@ class CobranzaController extends Controller {
         }
 
         foreach($pagos as $p){
-            $cobro->pagos()->create(["tipo"        =>$p["tipo"], 
-                                    "fecha"        =>$p["fecha"], 
+            $cobro->pagos()->create(["tipo"        =>$p["tipo"],
+                                    "fecha"        =>$p["fecha"],
                                     "banco_id"     =>$p["banco_id"],
-                                    "cuenta_id"    =>$p["cuenta_id"], 
-                                    "ncomprobante" =>$p["ncomprobante"], 
-                                    "monto"        =>$p["monto"]+0]);  
+                                    "cuenta_id"    =>$p["cuenta_id"],
+                                    "ncomprobante" =>$p["ncomprobante"],
+                                    "monto"        =>$p["monto"]+0]);
 
 
         }
@@ -239,7 +239,7 @@ class CobranzaController extends Controller {
             $cobro->ajustes()->create([
                                         "monto"         => $cobro->montodepositado-$cobro->montofacturas-$ajuste,
                                         "cliente_id"    => $request->get("cliente_id"),
-                                        "aeropuerto_id" => session('aeropuerto')->id]);      
+                                        "aeropuerto_id" => session('aeropuerto')->id]);
 
         }
         $cobro->observacion=$request->get('observacion');
@@ -302,7 +302,21 @@ return ["success"=>1, "impresion" => $impresion];
      */
     public function update($moduloName, $id, Request $request)
     {
-        dd($request->all());
+        $cobro=\App\Cobro::find($id);
+        $cobroAttrs=$request->only('nRecibo', 'observacion', 'hasrecaudos', 'fecha');
+        $cobro->update($cobroAttrs);
+        foreach($request->get('pagos') as $pago){
+            $pago=$cobro->pagos()->find($pago['id']);
+            $pago->update([
+                "tipo" => $pago['tipo'],
+                "fecha" => $pago['fecha'],
+                "banco_id" => $pago['banco_id'],
+                "cuenta_id" => $pago['cuenta_id'],
+                "ncomprobante" => $pago['ncomprobante'],
+                "monto" => $pago['monto'],
+            ]);
+        }
+        return ["success"=>1];
     }
 
     /**
@@ -355,7 +369,7 @@ return ["success"=>1, "impresion" => $impresion];
             $cobro                    =\App\Cobro::find($id);
             $facturas                 =$cobro->facturas;
             $reciboAnulado=$this->anularRecibo($cobro);
-            
+
             foreach($facturas as $factura){
 
                 $facturaMetadata=$factura->metadata;
@@ -414,7 +428,7 @@ return ["success"=>1, "impresion" => $impresion];
         $cliente =\App\Cliente::where("codigo","=", $codigo)->get()->first();
         if(!$cliente)
             return ["facturas"=>[], "ajuste"=> [], "ajusteCobros"=>[]];
-        
+
         $facturas=\App\Factura::with('metadata')
             ->where('cliente_id', $cliente->id)
             ->where('modulo_id', $idOperator, $id)
@@ -452,10 +466,16 @@ return ["success"=>1, "impresion" => $impresion];
 
         $cobroid =$cobro;
         $cobro   =\App\Cobro::with('pagos', 'cliente')->find($cobroid);
-        foreach ($cobro->pagos as $c){    
+        foreach ($cobro->pagos as $c){
             $pagos[]   =\App\Cobrospago::with('banco', 'cuenta')->find($c->id);
             $cuentas[] =\App\Bancoscuenta::where('id', $c->cuenta_id)->get();
         }
+
+        $ajuste = \App\Ajuste::with('cobro')
+                             ->where('cliente_id', $cobro->cliente_id)
+                             ->where('aeropuerto_id', $cobro->aeropuerto_id)
+                             ->where('cobro_id', '<>', $cobro->id)
+                             ->get();
 
         //dd($cobro);
         //return view('pdf.factura', compact('factura'));
@@ -487,8 +507,8 @@ return ["success"=>1, "impresion" => $impresion];
         // Set some content to print
         //
 
-        $html = view('pdf.reciboCaja', compact('cobro', 'pagos', 'cuentas', 'traductor'))->render();
-        
+        $html = view('pdf.reciboCaja', compact('cobro', 'pagos', 'cuentas', 'ajuste', 'traductor'))->render();
+
         // Print text using writeHTMLCell()
         $pdf->writeHTML($html);
         // ---------------------------------------------------------

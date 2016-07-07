@@ -60,7 +60,7 @@
 		    </div>
 		    <div class="modal-footer">
 			    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-			    <button type="button" class="btn btn-primary" id="accept-deposito-modal-btn">Aceptar</button>
+			    <button type="button" class="btn btn-primary" id="{{isset($edit)?'edit-deposito-modal-btn':'accept-deposito-modal-btn'}}">Aceptar</button>
 		    </div>
 	    </div>
     </div>
