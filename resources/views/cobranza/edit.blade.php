@@ -111,14 +111,14 @@
                                 {{-- <td ><p class="form-control-static"><span class="saldo-pendiente">{{$traductor->format(abs($factura->total-$factura->metadata->total-$factura->pivot->total))}}</span></p></td> --}}
                                 <td>
                                     <div class="input-group">
-                                        <input type="text" class="form-control retencion-pagar"  readonly value="" '+((!isRetencionEditable)?('data-islr-modal="'+metadata.islrpercentage+'" data-iva-modal="'+metadata.ivapercentage+'"'):"")+'>
+                                        <input type="text" class="form-control retencion-pagar" autocomplete="off"  readonly value="{{$traductor->format($factura->pivot->retencion)}}">
                                         {{-- <div class="input-group-btn"> --}}
                                             {{-- <button type="button" class="btn btn-warning retencion-btn"><span class="glyphicon glyphicon-search"></span></button> --}}
                                         {{-- </div> --}}
                                     </div>
                                 </td>
                                 {{-- <td ><p class="form-control-static"><span class="saldo-pagar"></span></p></td> --}}
-                                <td><input readonly class=" text-right form-control saldo-abonado-input"  autocomplete="off" value="{{$traductor->format($factura->pivot->total)}}"></td>
+                                <td><input readonly class=" text-right form-control saldo-abonado-input"  autocomplete="off" value="{{$traductor->format($factura->pivot->total-$factura->pivot->retencion)}}"></td>
                                 {{-- <td><p class="form-control-static saldo-restante"></p></td> --}}
                                 {{-- <td> --}}
                                     {{-- <div class="btn-group" role="group" aria-label="..."> --}}
@@ -169,7 +169,7 @@
 	            <h5>Formas de pago</h5>
 	            <div class="row">
 		            <div class="col-xs-12 text-right">
-			            {{-- <button class="btn btn-primary register-payment-btn"><span class="glyphicon glyphicon-plus"></span> Registrar pago</button> --}}
+			            <button class="btn btn-primary register-payment-btn"><span class="glyphicon glyphicon-plus"></span> Registrar pago</button>
 		            </div>
 	            </div>
 	            <div class="table-responsive" style="margin-top:15px;margin-bottom:15px">
@@ -181,7 +181,7 @@
 				            <th>Forma de pago</th>
 				            <th>#Deposito/#Lote</th>
 				            <th>Monto</th>
-				            <th>Acción</th>
+				            <th style="min-width:150px">Acción</th>
 			            </thead>
 			            <tbody>
                             @foreach($cobro->pagos as $pago)
@@ -192,8 +192,9 @@
                                     <td>{{$pago->tipo}}</td>
                                     <td>{{$pago->ncomprobante}}</td>
                                     <td>{{$traductor->format($pago->monto)}}</td>
-                                    <td>
+                                    <td class="text-center">
                                         <button class='btn btn-warning edit-payment-btn'><span class='glyphicon glyphicon-pencil'></span></button>
+                                        <button class='btn btn-danger remove-payment-btn'><span class='glyphicon glyphicon-minus'></span></button>
                                     </td>
                                 </tr>
 
@@ -280,7 +281,12 @@
         $('body').delegate('.edit-payment-btn', 'click', function(){
             var $tr=$(this).closest('tr');
             var pago=$tr.data('object');
-            $('#forma-modal-input').val(pago.tipo);
+            var tipo={
+                "DEP"  : "D",
+                "NC" : "NC",
+                "TRAN"  : "T"
+            };
+            $('#forma-modal-input').val(tipo[pago.tipo]);
             $('#fecha-modal-input').val(pago.fecha);
             $('#banco-modal-input').val(pago.banco_id);
             $('#banco-modal-input').change();
@@ -292,30 +298,56 @@
         })
 
         $('body').delegate('#edit-deposito-modal-btn', 'click', function(){
-            var $tr=$('#register-payment-modal').data('tr');
-            var pago=$tr.data('object');
-            pago.tipo=$('#forma-modal-input option:selected').val();
-            pago.fecha=$('#fecha-modal-input').val();
-            pago.banco_id=$('#banco-modal-input option:selected').val();
-            pago.cuenta_id=$('#cuenta-modal-input option:selected').val();
-            pago.ncomprobante=$('#deposito-modal-input').val();
-            pago.monto=commaToNum($('#monto-modal-input').val());
-            if(pago.ncomprobante=="" || pago.fecha=="" || pago.monto==""){
-                alertify.error('Debe llenar todos los campos del deposito.')
-                return;
-            }
-            if(isNaN(parseFloat(pago.monto))){
+            var $tr=$('#register-payment-modal').data('tr') || false;
+            var o={
+    			tipo:$('#forma-modal-input option:selected').val(),
+    			fecha:$('#fecha-modal-input').val(),
+    			banco_id:$('#banco-modal-input option:selected').val(),
+    			cuenta_id:$('#cuenta-modal-input option:selected').val(),
+    			ncomprobante:$('#deposito-modal-input').val(),
+    			monto:commaToNum($('#monto-modal-input').val())
+    		};
+    		if(o.ncomprobante=="" || o.fecha=="" || o.monto=="" || o.cuenta_id=="Seleccione"){
+    			alertify.error('Debe llenar todos los campos del deposito.')
+    			return;
+    		}
+            if(isNaN(parseFloat(o.monto))){
                 alertify.error('El monto del deposito debe ser un numéro valido.')
                 return;
             }
-            $tr.data('object', pago);
-            $tr.find('td:eq(0)').text(pago.fecha);
-            $tr.find('td:eq(1)').text($('#banco-modal-input option:selected').text());
-            $tr.find('td:eq(2)').text($('#cuenta-modal-input option:selected').text());
-            $tr.find('td:eq(3)').text($('#forma-modal-input option:selected').text());
-            $tr.find('td:eq(4)').text(pago.ncomprobante);
-            $tr.find('td:eq(5)').text(numToComma(pago.monto));
-            $('#register-payment-modal').data('tr', null);
+            if($tr){
+                var pago=$tr.data('object');
+                pago.tipo=o.tipo;
+                pago.fecha=o.fecha;
+                pago.banco_id=o.banco_id;
+                pago.cuenta_id=o.cuenta_id;
+                pago.ncomprobante=o.ncomprobante;
+                pago.monto=o.monto;
+                $tr.find('td:eq(0)').text(pago.fecha);
+                $tr.find('td:eq(1)').text($('#banco-modal-input option:selected').text());
+                $tr.find('td:eq(2)').text($('#cuenta-modal-input option:selected').text());
+                $tr.find('td:eq(3)').text($('#forma-modal-input option:selected').text());
+                $tr.find('td:eq(4)').text(pago.ncomprobante);
+                $tr.find('td:eq(5)').text(numToComma(pago.monto));
+                $tr.data('object', pago);
+            }else{
+                var tr="<tr>\
+                    		<td>"+o.fecha+"</td>\
+                    		<td>"+$('#banco-modal-input option:selected').text()+"</td>\
+                    		<td>"+$('#cuenta-modal-input option:selected').text()+"</td>\
+                    		<td>"+$('#forma-modal-input option:selected').text()+"</td>\
+                    		<td>"+o.ncomprobante+"</td>\
+                    		<td>"+numToComma(o.monto)+"</td>\
+                    		<td>\
+                                <button class='btn btn-warning edit-payment-btn'><span class='glyphicon glyphicon-pencil'></span></button>\
+                    			<button class='btn btn-danger remove-payment-btn'><span class='glyphicon glyphicon-minus'></span></button>\
+                    		</td>\
+	                   </tr>";
+            	tr=$(tr);
+            	$(tr).data("object",o);
+            	$('#formas-pago-table tbody').append(tr);
+            }
+
             $('#register-payment-modal').modal('hide');
 
             calculateTotalDepositar();
