@@ -14,10 +14,9 @@
 
                     <div class="tab-content">
                         <div role="tabpanel" class="tab-pane active" id="home" style="padding-top:15px">
-            {!! Form::model($rol, ["class" => "form-horizontal"]) !!}
-                @include('roles.partials.form', ["SubmitBtnText"=>"", "disabled" =>"disabled"])
-            {!! Form::close() !!}
-
+                        {!! Form::model($rol, ["class" => "form-horizontal"]) !!}
+                            @include('roles.partials.form', ["SubmitBtnText"=>"", "disabled" =>"disabled"])
+                        {!! Form::close() !!}
                         </div>
                         <div role="tabpanel" class="tab-pane" id="profile" style="padding-top:15px">
                           <h5>Usuarios</h5>

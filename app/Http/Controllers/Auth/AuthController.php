@@ -62,7 +62,9 @@ class AuthController extends Controller {
         $userName   =$request->get('userName');
         $aeropuerto =\App\Aeropuerto::find($request->get('aeropuerto_id'));
         $user       =\App\Usuario::where('userName', $userName)->first();
-
+        if(!$user){
+            return redirect('/');
+        }
         $rol        =$user->roles->first();
         $request->session()->put('user', $user);
         $request->session()->put('rolUsuario', $rol);
@@ -75,7 +77,7 @@ class AuthController extends Controller {
                     $credentials = $request->only('userName', 'password');
 
                     if ($this->auth->attempt($credentials, false))
-                    { 
+                    {
                         session(["aeropuerto"=> $aeropuerto]);
                         $ingreso=1;
                         if ($rol->id == 1 || $rol->id == 2 || $rol->name == 5){
