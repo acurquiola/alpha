@@ -137,7 +137,7 @@
 									@if($recibos->count()>0)
 									@foreach($recibos as $recibo)
 									<tr>
-										<td style="vertical-align: middle; width:40px" align="center">{{$recibo->created_at}}</td>
+										<td style="vertical-align: middle; width:40px" align="center">{{$recibo->fecha}}</td>
 										<td align="center"  style="width:30px">{{$recibo->id}}</td>
 										<td style="vertical-align: middle; width:40px" align="center" >{{($recibo->nRecibo)?$recibo->nRecibo:'N/A'}}</td>
 										<td style="vertical-align: middle; width:40px" align="center" >{{$recibo->cliente->codigo}}</td>

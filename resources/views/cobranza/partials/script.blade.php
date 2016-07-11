@@ -93,6 +93,7 @@ function calculateTotalDepositar(){
 
 	$('#register-payment-modal').on('hidden.bs.modal', function () {
 		$('#register-payment-modal input').val("");
+        $('#register-payment-modal').data('tr', null);
 	})
 
 	$('#accept-deposito-modal-btn').click(function(){
@@ -105,7 +106,7 @@ function calculateTotalDepositar(){
 			ncomprobante:$('#deposito-modal-input').val(),
 			monto:commaToNum($('#monto-modal-input').val())
 		};
-		if(o.ncomprobante=="" || o.fecha=="" || o.monto==""){
+		if(o.ncomprobante=="" || o.fecha=="" || o.monto=="" || o.cuenta_id=="Seleccione"){
 			alertify.error('Debe llenar todos los campos del deposito.')
 			return;
 		}
@@ -416,7 +417,7 @@ $('#cxc-table').delegate('.pay-all-btn', 'click',function(){
 	var items=$('#cxc-table .success');
 	var size=items.size()+1;
 	$('#contador').text(size);
-	
+
 
 	var saldoPendienteText =$(row).find('.saldo-pagar').text();
 	var saldoPendiente     =commaToNum(saldoPendienteText);
@@ -463,6 +464,6 @@ $('#type-rows-cxc-table-wrapper-select').change(function(){
 	    	$(filas).hide();
 	    	$(filas).filter(':not(.info,.warning,.success)').show();
 		break;
-	} 
+	}
 
 });
