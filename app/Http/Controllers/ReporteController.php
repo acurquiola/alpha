@@ -1256,19 +1256,23 @@ class ReporteController extends Controller {
                     $facturas->where('facturas.modulo_id', $modulo);
                 }
             }
+            
             $desde= $request->get('desde');
             if($desde!="")
                 $desdeC        =\Carbon\Carbon::createFromFormat('d/m/Y', $desde);
-            else
+            else{
+
                 $desdeC        =\Carbon\Carbon::minValue();
-            $facturas->where('facturas.fecha', '>=', $desdeC);
+            }
+
+            $facturas->where('facturas.fecha', '>=', $desdeC->toDateString());
 
             $hasta= $request->get('hasta');
             if($desde!="")
                 $hastaC        =\Carbon\Carbon::createFromFormat('d/m/Y', $hasta);
             else
                 $hastaC        =\Carbon\Carbon::maxValue();
-            $facturas->where('facturas.fecha', '<=', $hastaC);
+            $facturas->where('facturas.fecha', '<=', $hastaC->toDateString());
 
             $nFactura     =$request->get('nFactura');
             if($nFactura!="")

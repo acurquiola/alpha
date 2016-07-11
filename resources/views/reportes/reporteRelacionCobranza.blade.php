@@ -75,7 +75,7 @@
 										<th colspan="3" style="vertical-align: middle;" align="center" class="text-center">
 											CLIENTE
 										</th>
-										<th colspan="3" style="vertical-align: middle;" align="center" class="text-center">
+										<th colspan="4" style="vertical-align: middle;" align="center" class="text-center">
 											DEPÓSITO
 										</th>
 										<th colspan="3" style="vertical-align: middle;" align="center" class="text-center">
@@ -98,8 +98,11 @@
 										<th style="vertical-align: middle; width:40px" align="center" class="text-center">
 											Código
 										</th>
-										<th style="vertical-align: middle; width:150px" align="center" class="text-center">
+										<th style="vertical-align: middle; width:120px" align="center" class="text-center">
 											Nombre o Razón Social
+										</th>
+										<th style="vertical-align: middle; width:40px" align="center" class="text-center">
+											Fecha
 										</th>
 										<th style="vertical-align: middle; width:30px" align="center" class="text-center">
 											Tipo
@@ -110,16 +113,16 @@
 										<th style="vertical-align: middle; width:40px"  align="center" class="text-center">
 											Ref
 										</th>
-										<th style="vertical-align: middle; width:40px"  align="center" class="text-center">
+										<th style="vertical-align: middle; width:45px"  align="center" class="text-center">
 											Fecha
 										</th>
-										<th style="vertical-align: middle; width:50px"  align="center" class="text-center">
+										<th style="vertical-align: middle; width:45px"  align="center" class="text-center">
 											Número
 										</th>
-										<th style="vertical-align: middle; width:50px"  align="center" class="text-center">
+										<th style="vertical-align: middle; width:45px"  align="center" class="text-center">
 											IVA
 										</th>
-										<th style="vertical-align: middle; width:50px"  align="center" class="text-center">
+										<th style="vertical-align: middle; width:45px"  align="center" class="text-center">
 											ISLR
 										</th>
 										<th style="vertical-align: middle; width:80px"  align="center" class="text-center">
@@ -141,14 +144,15 @@
 										<td align="center"  style="width:30px">{{$recibo->id}}</td>
 										<td style="vertical-align: middle; width:40px" align="center" >{{($recibo->nRecibo)?$recibo->nRecibo:'N/A'}}</td>
 										<td style="vertical-align: middle; width:40px" align="center" >{{$recibo->cliente->codigo}}</td>
-										<td style="vertical-align: middle; width:150px" align="left" >{{$recibo->cliente->nombre}}</td>
+										<td style="vertical-align: middle; width:120px" align="left" >{{$recibo->cliente->nombre}}</td>
+										<td style="vertical-align: middle; width:40px" align="center">@foreach($recibo->pagos as $pagos) {{$pagos->fecha}} @endforeach</td>
 										<td style="vertical-align: middle; width:30px" align="center">@foreach($recibo->pagos as $pagos) {{$pagos->tipo}} @endforeach</td>
 										<td style="vertical-align: middle; width:40px" align="center">@foreach($recibo->pagos as $pagos) {{substr($pagos->cuenta->descripcion, -6)}} @endforeach</td>
 										<td style="vertical-align: middle; width:40px" align="center">@foreach($recibo->pagos as $pagos) {{$pagos->ncomprobante}} @endforeach</td>
-										<td style="vertical-align: middle; width:40px" align="center">@foreach($recibo->facturas as $comprobante) {{$comprobante->pivot->retencionFecha}} @endforeach</td>
-										<td style="vertical-align: middle; width:50px" align="center">@foreach($recibo->facturas as $comprobante) {{$comprobante->pivot->retencionComprobante}} @endforeach</td>
-										<td style="vertical-align: middle; width:50px" align="center">@foreach($recibo->facturas as $comprobante) {{$traductor->format($comprobante->pivot->iva)}} @endforeach</td>
-										<td style="vertical-align: middle; width:50px" align="center">@foreach($recibo->facturas as $comprobante) {{$traductor->format(($comprobante->pivot->base * $comprobante->pivot->islrpercentage)/100)}} @endforeach</td>
+										<td style="vertical-align: middle; width:45px" align="center">@foreach($recibo->facturas as $comprobante) {{($comprobante->pivot->retencionFecha=='0')?'':$comprobante->pivot->retencionFecha}} @endforeach</td>
+										<td style="vertical-align: middle; width:45px" align="center">@foreach($recibo->facturas as $comprobante) {{($comprobante->pivot->retencionComprobante=='0')?'':$comprobante->pivot->retencionComprobante}} @endforeach</td>
+										<td style="vertical-align: middle; width:45px" align="center">@foreach($recibo->facturas as $comprobante) {{($comprobante->pivot->iva=='0')?'':$traductor->format($comprobante->pivot->iva)}} @endforeach</td>
+										<td style="vertical-align: middle; width:45px" align="center">@foreach($recibo->facturas as $comprobante) {{(($comprobante->pivot->base * $comprobante->pivot->islrpercentage)/100 == '0')?'':$traductor->format(($comprobante->pivot->base * $comprobante->pivot->islrpercentage)/100)}} @endforeach</td>
 										<td style="vertical-align: middle; width:80px" align="right">{{$traductor->format($recibo->montofacturas)}}</td>
 										<td style="vertical-align: middle; width:70px" align="right">{{$traductor->format($recibo->montodepositado)}}</td>
 										<td style="vertical-align: middle; width:70px" align="right">{{$traductor->format(($recibo->montofacturas-$recibo->montodepositado))}}</td>
@@ -157,6 +161,7 @@
 
 									<tr class="bg-gray" align="center">
 										<td>Total</td>
+										<td> - </td>
 										<td> - </td>
 										<td> - </td>
 										<td> - </td>
@@ -237,7 +242,7 @@
 			}).remove();
 			$(table).prepend('<thead>\
 								<tr>\
-									<th colspan="15" style="vertical-align: middle; margin-top:20px" align="center" class="text-center">RELACIÓN DE COBRANZA\
+									<th colspan="16" style="vertical-align: middle; margin-top:20px" align="center" class="text-center">RELACIÓN DE COBRANZA\
 										</br>\
 										MES: {{$mes}} AÑO: {{$anno}} | MÓDULO: {{$moduloNombre}}\
 										</br>\
