@@ -81,7 +81,7 @@ class CobranzaController extends Controller {
         ->where('cobros.id', $cobroIdOperator, $cobroId)
         ->where('montodepositado', $depositadoOperator, $depositado)
         ->where('montofacturas', $pagadoOperator, $pagado)
-        ->where('cobros.created_at', $fechaOperator, $fecha)
+        ->where('cobros.fecha', $fechaOperator, $fecha)
         ->where('observacion', 'like', "%$observacion%")
         ->where('clientes.nombre', 'like', "%$clienteNombre%")
         ->where('cobros.aeropuerto_id','=', session('aeropuerto')->id)
@@ -305,17 +305,26 @@ return ["success"=>1, "impresion" => $impresion];
         $cobro=\App\Cobro::find($id);
         $cobroAttrs=$request->only('nRecibo', 'observacion', 'hasrecaudos', 'fecha');
         $cobro->update($cobroAttrs);
-        foreach($request->get('pagos') as $pago){
-            $pago=$cobro->pagos()->find($pago['id']);
-            $pago->update([
+        $pagos=$request->get('pagos');
+        $cobro->pagos()->whereNotIn('id', array_column($pagos, 'id'))->delete();
+        foreach($pagos as $pago){
+            $pagoAttrs=[
                 "tipo" => $pago['tipo'],
                 "fecha" => $pago['fecha'],
                 "banco_id" => $pago['banco_id'],
                 "cuenta_id" => $pago['cuenta_id'],
                 "ncomprobante" => $pago['ncomprobante'],
-                "monto" => $pago['monto'],
-            ]);
+                "monto" => $pago['monto']+0,
+            ];
+            if(array_key_exists('id', $pago)){
+                $pagoIds[]=$pago['id'];
+                $pago=$cobro->pagos()->find($pago['id']);
+                $pago->update($pagoAttrs);
+            }else{
+                $cobro->pagos()->create($pagoAttrs);
+            }
         }
+
         return ["success"=>1];
     }
 

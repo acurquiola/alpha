@@ -95,7 +95,7 @@
 												<td   style="vertical-align: middle; width: 50px" class="text-center formulario-bs" align="left">{{$factura->cliente->cedRifPrefix}}-{{$factura->cliente->cedRif}}</td>
 												<td   style="vertical-align: middle; width: 160px" class="text-left aterrizaje-bs" align="left">{{$factura->cliente->nombre}}</td>
 												<td   style="vertical-align: middle; width: 50px" class="text-center aterrizaje-bs" align="left">{{($factura->retencionComprobante == 0)?'':$factura->retencionComprobante}}</td>
-												<td   style="vertical-align: middle; width: 40px" class="text-center estacionamiento-bs" align="right">{{$factura->nFactura}}</td>
+												<td   style="vertical-align: middle; width: 40px" class="text-center estacionamiento-bs" align="right">{{$factura->nFacturaPrefix}}-{{$factura->nFactura}}</td>
 												<td   style="vertical-align: middle; width: 40px" class="text-center habilitacion-bs" align="right">{{$factura->nControl}}</td>
 												<td   style="vertical-align: middle; width: 40px" class="text-center jetway-bs" align="right"> </td>
 												<td   style="vertical-align: middle; width: 40px" class="text-center carga-bs" align="right"> </td>

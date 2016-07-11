@@ -49,8 +49,6 @@
 							<td style="text-align: left">{{$factura->descripcion}}</td>
 							<td>{{$factura->fecha}}</td>
 							<td style="text-align: right">{{$traductor->format($factura->total)}}</td>
-
-
 						</tr>
 						@endforeach
 					</tbody>
