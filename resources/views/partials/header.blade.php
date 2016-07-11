@@ -5,6 +5,13 @@
   <title>SAAR | Recaudación</title>
   <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
   <meta name="_token" content="{!! csrf_token() !!}"/>
+  <meta http-equiv="cache-control" content="max-age=0" />
+  <meta http-equiv="cache-control" content="no-cache" />
+  <meta http-equiv="cache-control" content="no-store" />
+  <meta http-equiv="cache-control" content="must-revalidate" />
+  <meta http-equiv="expires" content="0" />
+  <meta http-equiv="expires" content="Tue, 01 Jan 1980 1:00:00 GMT" />
+  <meta http-equiv="pragma" content="no-cache" />
   <!-- Bootstrap 3.3.2 -->  
 
   <link href="{{ asset('/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">

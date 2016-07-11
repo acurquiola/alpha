@@ -187,34 +187,34 @@ class DashboardController extends Controller {
         $diaInicio=\Carbon\Carbon::create($anno, 1,1);
 
         //Cobrado Mes
-        $cobrosPZO=\App\Cobro::where('cobros.created_at','>=' ,$diaMes->startOfMonth()->toDateTimeString())
-        ->where('cobros.created_at','<=' ,$diaMes->endOfMonth()->toDateTimeString())
+        $cobrosPZO=\App\Cobro::where('cobros.fecha','>=' ,$diaMes->startOfMonth()->toDateTimeString())
+        ->where('cobros.fecha','<=' ,$diaMes->endOfMonth()->toDateTimeString())
         ->where('cobros.aeropuerto_id','1')
         ->get();
 
-        $cobrosCBL=\App\Cobro::where('cobros.created_at','>=' ,$diaMes->startOfMonth()->toDateTimeString())
-        ->where('cobros.created_at','<=' ,$diaMes->endOfMonth()->toDateTimeString())
+        $cobrosCBL=\App\Cobro::where('cobros.fecha','>=' ,$diaMes->startOfMonth()->toDateTimeString())
+        ->where('cobros.fecha','<=' ,$diaMes->endOfMonth()->toDateTimeString())
         ->where('cobros.aeropuerto_id','2')
         ->get();
 
-        $cobrosSNV=\App\Cobro::where('cobros.created_at','>=' ,$diaMes->startOfMonth()->toDateTimeString())
-        ->where('cobros.created_at','<=' ,$diaMes->endOfMonth()->toDateTimeString())
+        $cobrosSNV=\App\Cobro::where('cobros.fecha','>=' ,$diaMes->startOfMonth()->toDateTimeString())
+        ->where('cobros.fecha','<=' ,$diaMes->endOfMonth()->toDateTimeString())
         ->where('cobros.aeropuerto_id','3')
         ->get();
 
         //Cobrado Anual
-        $cobrosPZOAnual=\App\Cobro::where('cobros.created_at','>=' ,$diaInicio->startOfMonth()->toDateTimeString())
-        ->where('cobros.created_at','<=' ,$diaMes->endOfMonth()->toDateTimeString())
+        $cobrosPZOAnual=\App\Cobro::where('cobros.fecha','>=' ,$diaInicio->startOfMonth()->toDateTimeString())
+        ->where('cobros.fecha','<=' ,$diaMes->endOfMonth()->toDateTimeString())
         ->where('cobros.aeropuerto_id','1')
         ->get();
 
-        $cobrosCBLAnual=\App\Cobro::where('cobros.created_at','>=' ,$diaInicio->startOfMonth()->toDateTimeString())
-        ->where('cobros.created_at','<=' ,$diaMes->endOfMonth()->toDateTimeString())
+        $cobrosCBLAnual=\App\Cobro::where('cobros.fecha','>=' ,$diaInicio->startOfMonth()->toDateTimeString())
+        ->where('cobros.fecha','<=' ,$diaMes->endOfMonth()->toDateTimeString())
         ->where('cobros.aeropuerto_id','2')
         ->get();
 
-        $cobrosSNVAnual=\App\Cobro::where('cobros.created_at','>=' ,$diaInicio->startOfMonth()->toDateTimeString())
-        ->where('cobros.created_at','<=' ,$diaMes->endOfMonth()->toDateTimeString())
+        $cobrosSNVAnual=\App\Cobro::where('cobros.fecha','>=' ,$diaInicio->startOfMonth()->toDateTimeString())
+        ->where('cobros.fecha','<=' ,$diaMes->endOfMonth()->toDateTimeString())
         ->where('cobros.aeropuerto_id','3')
         ->get();
             

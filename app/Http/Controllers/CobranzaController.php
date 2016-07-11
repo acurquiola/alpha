@@ -81,7 +81,7 @@ class CobranzaController extends Controller {
         ->where('cobros.id', $cobroIdOperator, $cobroId)
         ->where('montodepositado', $depositadoOperator, $depositado)
         ->where('montofacturas', $pagadoOperator, $pagado)
-        ->where('cobros.created_at', $fechaOperator, $fecha)
+        ->where('cobros.fecha', $fechaOperator, $fecha)
         ->where('observacion', 'like', "%$observacion%")
         ->where('clientes.nombre', 'like', "%$clienteNombre%")
         ->where('cobros.aeropuerto_id','=', session('aeropuerto')->id)
