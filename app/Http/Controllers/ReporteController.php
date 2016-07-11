@@ -1112,6 +1112,7 @@ class ReporteController extends Controller {
                                 ->join('cobro_factura', 'facturas.id', '=', 'cobro_factura.factura_id')
                                 ->whereBetween('fecha', array($annoDesde.'-'.$mesDesde.'-'.$diaDesde,  $annoHasta.'-'.$mesHasta.'-'.$diaHasta) )
                                 ->where('aeropuerto_id', session('aeropuerto')->id)
+                                ->orderBy('nFactura')
                                 ->get();        
 
         return view('reportes.reporteLibroDeVentas', compact('diaDesde', 'mesDesde', 'annoDesde', 'diaHasta', 'mesHasta', 'annoHasta', 'aeropuerto', 'facturas'));
