@@ -23,7 +23,7 @@
                                 <div class="form-group" id="dia-div">
                                     <div class="col-xs-8 col-xs-offset-2  text-center">
                                         <div class="input-group">
-                                            <input type="text" id="dia-datepicker" class="form-control" placeholder="Seleccione un dia." autocomplete="off">
+                                            <input type="text" id="dia-datepicker" class="form-control" placeholder="Seleccione un día." autocomplete="off">
                                             <div class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></div>
                                         </div>
                                     </div>
