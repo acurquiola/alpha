@@ -112,17 +112,17 @@
 		@endpermission
 
 		@permission('menu.tasas')
-			<li class="treeview {{ (\Request::is('estacionamiento*'))?"active":""}}">
+			<li class="treeview {{ (\Request::is('estacionamiento*') || \Request::is('tasas*'))?"active":""}}">
 				<a href="#">
 					<i class="fa fa-share"></i> <span>Taquillas</span> <i class="fa fa-angle-left pull-right"></i>
 				</a>
-				<ul class="treeview-menu">
+				<ul class="treeview-menu ">
 					<li><a href="#"><i class="fa fa-plane"></i><span> Tasas</span><i class="fa fa-angle-left pull-right"></i>
 					</a>
 
 					<ul class="treeview-menu">
-						<li><a href="{{ URL::to('tasas/taquilla') }}"><i class="fa fa-users"></i> Operador</a></li>
-						<li><a href="{{ URL::to('tasas/supervisor') }}"><i class="fa fa-user"></i> Supervisor</a></li>
+						<li {{ (\Request::is('tasas/taquilla*'))?"class=active":"" }}><a href="{{ URL::to('tasas/taquilla') }}"><i class="fa fa-users"></i> Operador</a></li>
+						<li {{ (\Request::is('tasas/supervisor*'))?"class=active":"" }}><a href="{{ URL::to('tasas/supervisor') }}"><i class="fa fa-user"></i> Supervisor</a></li>
 					</ul>
 
 
