@@ -42,11 +42,15 @@ class TasaController extends Controller {
         foreach($tasaOps as $tasaOp)
             foreach($tasaOp->detalles as $tasa){
                 if(!array_key_exists($tasa->serie, $serieTasas)){
-                    $serieTasas[$tasa->serie]=0;
+                    $serieTasas[$tasa->serie]['monto']=0;
+                    $serieTasas[$tasa->serie]['taquilla']='';
                 }
-                $serieTasas[$tasa->serie]+=$tasa->total;
+                $serieTasas[$tasa->serie]['monto']+=$tasa->total;
+                $serieTasas[$tasa->serie]['taquilla']=$tasaOp->taquilla;
             }
-        $tasaOpsArray=$tasaOps->sortBy(function($tasaOp, $index){ return ($tasaOp['taquilla'] << 16) + $tasaOp['turno']; })->groupBy('taquilla');
+        $tasaOpsArray=$tasaOps->sortBy(function($tasaOp, $index){ 
+            return ($tasaOp['taquilla'] << 16) + $tasaOp['turno']; 
+        })->groupBy('taquilla');
 
         $tasas=$this->getTasasByAeropuerto($aeropuerto, $taquilla);
 
@@ -91,7 +95,9 @@ class TasaController extends Controller {
                 $serieTasas[$tasa->serie]+=$tasa->total;
             }
         }
-        $tasaOpsArray=$tasaOps->sortBy(function($tasaOp, $index){ return ($tasaOp['taquilla'] << 16) + $tasaOp['turno']; })->groupBy('taquilla');
+        $tasaOpsArray=$tasaOps->sortBy(function($tasaOp, $index){ 
+            return ($tasaOp['taquilla'] << 16) + $tasaOp['turno']; 
+        })->groupBy('taquilla');
 
         $tasas=$this->getTasasByAeropuerto($aeropuerto, $taquilla);
         $tasaCobro->load('detalles');
