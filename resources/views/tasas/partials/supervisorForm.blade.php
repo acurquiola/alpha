@@ -89,26 +89,26 @@
                             </tfoot>
                         </table>
                     </div>
-	            <h5>Formas de Pago</h5>
+                <h5>Formas de Pago</h5>
                 @if(!$tasaCobro)
-	            <div class="row">
-		            <div class="col-xs-12 text-right">
-			            <button type="button" class="btn btn-primary register-payment-btn"><span class="glyphicon glyphicon-plus"></span> Registrar Pago</button>
-		            </div>
-	            </div>
+                <div class="row">
+                    <div class="col-xs-12 text-right">
+                        <button type="button" class="btn btn-primary register-payment-btn"><span class="glyphicon glyphicon-plus"></span> Registrar Pago</button>
+                    </div>
+                </div>
                 @endif
-	            <div class="table-responsive" style="margin-top:15px;margin-bottom:15px">
-		            <table id="formas-pago-table" class="table table-condensed text-center">
-			            <thead class="bg-primary">
-				            <th>Fecha</th>
-				            <th>Banco</th>
-				            <th>Cuenta</th>
-				            <th>Forma de Pago</th>
-				            <th>#Depósito/#Lote</th>
-				            <th>Monto</th>
-				            <th>Acción</th>
-			            </thead>
-			            <tbody>
+                <div class="table-responsive" style="margin-top:15px;margin-bottom:15px">
+                    <table id="formas-pago-table" class="table table-condensed text-center">
+                        <thead class="bg-primary">
+                            <th>Fecha</th>
+                            <th>Banco</th>
+                            <th>Cuenta</th>
+                            <th>Forma de Pago</th>
+                            <th>#DepÃ³sito/#Lote</th>
+                            <th>Monto</th>
+                            <th>AcciÃ³n</th>
+                        </thead>
+                        <tbody>
                             @if($tasaCobro && $tasaCobro->detalles->count()>0)
                                 @foreach($tasaCobro->detalles as $pago)
                                     <tr>
@@ -122,29 +122,29 @@
                                     </tr>
                                 @endforeach
                             @endif
-			            </tbody>
-		            </table>
-	            </div>
-	            <div class="row">
-		            <div class="col-xs-12">
-			            <div class="form-horizontal">
-				            <div class="form-group">
-					            <label for="total-a-pagar-doc-input" class="col-sm-2 control-label">Total a Cobrar</label>
-					            <div class="col-sm-2">
-						            <input autocomplete="off" type="text" class="form-control total-a-pagar-doc-input" readonly value="0,00">
-					            </div>
-					            <label for="total-diferencia-doc-input" class="col-sm-2 control-label">Diferencia</label>
-					            <div class="col-sm-2">
-						            <input autocomplete="off" type="text" class="form-control" id="total-diferencia-doc-input" readonly value="0,00">
-					            </div>
-					            <label for="total-a-depositar-doc-input" class="col-sm-2 control-label">Total Depositado</label>
-					            <div class="col-sm-2">
-						            <input autocomplete="off" type="text" class="form-control" id="total-a-depositar-doc-input" readonly value="0,00">
-					            </div>
-				            </div>
-			            </div>
-		            </div>
-	            </div>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="form-horizontal">
+                            <div class="form-group">
+                                <label for="total-a-pagar-doc-input" class="col-sm-2 control-label">Total a Cobrar</label>
+                                <div class="col-sm-2">
+                                    <input autocomplete="off" type="text" class="form-control total-a-pagar-doc-input" readonly value="0,00">
+                                </div>
+                                <label for="total-diferencia-doc-input" class="col-sm-2 control-label">Diferencia</label>
+                                <div class="col-sm-2">
+                                    <input autocomplete="off" type="text" class="form-control" id="total-diferencia-doc-input" readonly value="0,00">
+                                </div>
+                                <label for="total-a-depositar-doc-input" class="col-sm-2 control-label">Total Depositado</label>
+                                <div class="col-sm-2">
+                                    <input autocomplete="off" type="text" class="form-control" id="total-a-depositar-doc-input" readonly value="0,00">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 @if(!$tasaCobro)
                 <div class="row">
                     <div class="col-md-6 col-md-offset-6 text-right">
