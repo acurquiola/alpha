@@ -663,8 +663,9 @@ class DespegueController extends Controller {
         $ajusteCliente= \DB::table('ajustes')
             ->where('cliente_id', $cliente->id)
             ->sum('monto');
+            
 
-        return ["facturas"=>$facturas];
+        return ["facturas"=>$facturas, "ajuste"=> $ajusteCliente];
     }
 
     /**
