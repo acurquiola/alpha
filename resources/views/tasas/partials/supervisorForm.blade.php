@@ -22,7 +22,7 @@
                             <tbody>
                                 @if(count($tasaOpsArray)==0 || count($serieTasas)==0)
                                     <tr><td colspan="{{ count($serieTasas)*5+2 }}" class="text-center">No se encontraron registros</td></tr>
-                                @else                                    
+                                @else                                 
                                     @foreach($tasaOpsArray as $taquilla => $tasaTaquillaOp)
                                         @foreach($tasaTaquillaOp as $turno)
                                             <tr>
