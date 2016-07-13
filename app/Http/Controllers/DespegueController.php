@@ -640,9 +640,9 @@ class DespegueController extends Controller {
 
 
     public function getDosaClientes($id, Request $request){
-    	$dosa = Despegue::find($id)->factura;
-        $idOperator=">=";
-        $id=0;
+		$dosa       = Despegue::find($id)->factura;
+		$idOperator =">=";
+		$id         =0;
         $modulo=\App\Modulo::where("nombre","like",'DOSAS')
             ->where('aeropuerto_id', session('aeropuerto')->id)
             ->first();
@@ -664,7 +664,7 @@ class DespegueController extends Controller {
             ->where('cliente_id', $cliente->id)
             ->sum('monto');
 
-        return ["facturas"=>$facturas, "ajuste"=> $ajusteCliente];
+        return ["facturas"=>$facturas];
     }
 
     /**
