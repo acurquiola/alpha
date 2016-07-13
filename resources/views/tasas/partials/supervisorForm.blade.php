@@ -41,6 +41,7 @@
                                 @if(count($tasaOpsArray)==0 || count($serieTasas)==0)
                                     <h3 class="text-center">No se encontraron registros</h3>
                                 @else
+                                {{dd($tasaOpsArray, $serieTasas)}}
                                     @foreach($tasaOpsArray as $taquilla => $tasaTaquillaOp)
                                         @foreach($tasaTaquillaOp as $turno)
                                             <tr>
