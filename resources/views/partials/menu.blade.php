@@ -112,17 +112,17 @@
 		@endpermission
 
 		@permission('menu.tasas')
-			<li class="treeview {{ (\Request::is('estacionamiento*'))?"active":""}}">
+			<li class="treeview {{ (\Request::is('estacionamiento*') || \Request::is('tasas*'))?"active":""}}">
 				<a href="#">
 					<i class="fa fa-share"></i> <span>Taquillas</span> <i class="fa fa-angle-left pull-right"></i>
 				</a>
-				<ul class="treeview-menu">
+				<ul class="treeview-menu ">
 					<li><a href="#"><i class="fa fa-plane"></i><span> Tasas</span><i class="fa fa-angle-left pull-right"></i>
 					</a>
 
 					<ul class="treeview-menu">
-						<li><a href="{{ URL::to('tasas/taquilla') }}"><i class="fa fa-users"></i> Operador</a></li>
-						<li><a href="{{ URL::to('tasas/supervisor') }}"><i class="fa fa-user"></i> Supervisor</a></li>
+						<li {{ (\Request::is('tasas/taquilla*'))?"class=active":"" }}><a href="{{ URL::to('tasas/taquilla') }}"><i class="fa fa-users"></i> Operador</a></li>
+						<li {{ (\Request::is('tasas/supervisor*'))?"class=active":"" }}><a href="{{ URL::to('tasas/supervisor') }}"><i class="fa fa-user"></i> Supervisor</a></li>
 					</ul>
 
 
@@ -215,7 +215,11 @@
 						<li {{ (\Request::is('reporte/reporteRelacionEstacionamientoDiario*'))?"class=active":"" }}><a href="{{ URL::to('reporte/reporteRelacionEstacionamientoDiario') }}"><i class="fa fa-file-o"></i> 7-. Relación de Estacionamiento Diario</a></li>        		
 						<li {{ (\Request::is('reporte/reporteRelacionMetaRecaudacionMensual*'))?"class=active":"" }}><a href="{{ URL::to('reporte/reporteRelacionMetaRecaudacionMensual') }}"><i class="fa fa-file-o"></i> 8-. Relación de Meta y Recaudación Mensual</a></li>        		
 						<li {{ (\Request::is('reporte/reporteFormulariosAnulados*'))?"class=active":"" }}><a href="{{ URL::to('reporte/reporteFormulariosAnulados') }}"><i class="fa fa-file-o"></i> 9-. Relación de Formularios Anulados</a></li>        		
-						<li {{ (\Request::is('reporte/reporteListadoClientes*'))?"class=active":"" }}><a href="{{ URL::to('reporte/reporteListadoClientes') }}"><i class="fa fa-file-o"></i> 10-. Relación de Clientes</a></li>        		
+						<li {{ (\Request::is('reporte/getReporteDeMorosidad*'))?"class=active":"" }}><a href="{{ URL::to('reporte/reporteListadoClientes') }}"><i class="fa fa-file-o"></i> 10-. Relación de Clientes</a></li>        		
+					</ul>  
+					<li {{ (\Request::is('reporte/reporteMorosidad*'))?"class=active":"" }}><a href="#"><i class="fa fa-folder-open"></i><span> Cuentas por Cobrar</span><i class="fa fa-angle-left pull-right"></i></a>
+					<ul class="treeview-menu">
+						<li {{ (\Request::is('reporte/reporteMorosidad*'))?"class=active":"" }}><a href="{{ URL::to('reporte/reporteMorosidad') }}"><i class="fa fa-file-o"></i> 1-. Reporte de Morosidad</a></li>        		
 					</ul>  
 					<li {{ (\Request::is('reporte/reporteLibroDeVentas*'))?"class=active":"" }}><a href="#"><i class="fa fa-folder-open"></i><span> Cierre Mensual</span><i class="fa fa-angle-left pull-right"></i></a>
 					<ul class="treeview-menu">

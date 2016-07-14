@@ -88,10 +88,10 @@
                                             <input {{isset($isSupervisor)?"":"disabled"}} type="hidden" name="serie[]" class="serie-val" value="{{$detalle->serie}}">
                                             <p class="form-control-static">Serie {{$detalle->serie}}</p>
                                         </td>
-                                        <td>
+                                        <td style="width: 200px">
                                             <input {{isset($isSupervisor)?"":"disabled"}} name="desde[]" class="form-control text-right desde-input" value="{{$detalle->inicio}}">
                                         </td>
-                                        <td>
+                                        <td style="width: 200px">
                                             <input {{isset($isSupervisor)?"":"disabled"}} name="hasta[]" class="form-control text-right hasta-input" value="{{$detalle->fin}}">
                                         </td>
                                         <td>
