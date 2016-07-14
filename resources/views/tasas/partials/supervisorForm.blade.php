@@ -41,7 +41,6 @@
                                 @if(count($tasaOpsArray)==0 || count($serieTasas)==0)
                                     <h3 class="text-center">No se encontraron registros</h3>
                                 @else
-                                {{dd($tasaOpsArray, $serieTasas)}}
                                     @foreach($tasaOpsArray as $taquilla => $tasaTaquillaOp)
                                         @foreach($tasaTaquillaOp as $turno)
                                             <tr>
@@ -49,23 +48,23 @@
                                                 <td>{{$turno->turno}}</td>
                                                 @foreach($serieTasas as $serie => $serieTotal)
                                                     @foreach($turno->detalles as $detalle)
-                                                        @if($detalle->serie == $serie)
-                                                            <td class="text-right">
-                                                                {{$detalle->inicio}}
-                                                            </td>
-                                                            <td class="text-right">
-                                                                {{$detalle->fin}}
-                                                            </td>
-                                                            <td class="text-right">
-                                                                {{$traductor->format($detalle->costo)}}
-                                                            </td>
-                                                            <td class="text-right">
-                                                                {{$detalle->cantidad}}
-                                                            </td>
-                                                            <td class="text-right">
-                                                                {{$traductor->format($detalle->total)}}
-                                                            </td>
-                                                        @endif
+                                                            @if($detalle->serie == $serie)
+                                                                <td class="text-right">
+                                                                    {{$detalle->inicio}}
+                                                                </td>
+                                                                <td class="text-right">
+                                                                    {{$detalle->fin}}
+                                                                </td>
+                                                                <td class="text-right">
+                                                                    {{$traductor->format($detalle->costo)}}
+                                                                </td>
+                                                                <td class="text-right">
+                                                                    {{$detalle->cantidad}}
+                                                                </td>
+                                                                <td class="text-right">
+                                                                    {{$traductor->format($detalle->total)}}
+                                                                </td>
+                                                            @endif
                                                     @endforeach
                                                 @endforeach
                                             </tr>
