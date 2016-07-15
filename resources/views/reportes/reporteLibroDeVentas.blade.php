@@ -101,12 +101,12 @@
 												<td   style="vertical-align: middle; width: 40px" class="text-center carga-bs" align="right"> </td>
 												<td   style="vertical-align: middle; width: 40px" class="text-center" align="right">01-reg</td>
 												<td   style="vertical-align: middle; width: 40px" class="text-right jetway-bs" align="right"> </td>
-												<td   style="vertical-align: middle; width: 40px" class="text-right montoFacturado-bs" align="right">{{$traductor->format($factura->monto)}}</td>
+												<td   style="vertical-align: middle; width: 40px" class="text-right montoFacturado-bs" align="right">{{$traductor->format($factura->total)}}</td>
 												<td   style="vertical-align: middle; width: 40px" class="text-right montoDepositado-bs" align="right">{{($factura->base == $factura->monto)?$traductor->format($factura->monto):''}}</td>
 												<td   style="vertical-align: middle; width: 40px" class="text-right montoDepositado-bs" align="right">{{($factura->base == $factura->monto)?'':$traductor->format($factura->base)}}</td>
-												<td   style="vertical-align: middle; width: 40px" class="text-right montoDepositado-bs" align="right"> </td>
+												<td   style="vertical-align: middle; width: 40px" class="text-right montoDepositado-bs" align="right">{{($factura->base == $factura->monto)?'':$traductor->format($factura->ivaDes)}} </td>
 												<td   style="vertical-align: middle; width: 40px" class="text-right montoDepositado-bs" align="right">{{($factura->base == $factura->monto)?'':$traductor->format($factura->ivapercentage)}}</td>
-												<td   style="vertical-align: middle; width: 40px" class="text-right montoDepositado-bs" align="right">{{($factura->base == $factura->monto)?'':$traductor->format((($factura->monto-$factura->base)*$factura->ivapercentage)/100)}}</td>
+												<td   style="vertical-align: middle; width: 40px" class="text-right montoDepositado-bs" align="right">{{($factura->base == $factura->monto)?'':$traductor->format((($factura->total-$factura->base)*$factura->ivapercentage)/100)}}</td>
 											</tr>
 										@endforeach
 									@else

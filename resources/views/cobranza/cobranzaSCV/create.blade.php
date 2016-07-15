@@ -663,6 +663,7 @@ if ($('#cliente-select').val() != ""){
 
 				var trs="";
 				if(o.ajuste>0)
+					console.log(o.ajuste)
 					trs+='<tr class="ajuste-row">\
 				<td><p class="form-control-static"><strong>Ajuste</strong></p></td>\
 				<td></td>\
