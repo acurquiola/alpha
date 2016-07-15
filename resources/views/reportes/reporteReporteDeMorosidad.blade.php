@@ -61,46 +61,21 @@
 										</th>
 									</tr>
 									<tr>
-										<th style="vertical-align: middle;" class="text-center" align="left">
-											Enero
-										</th>
-										<th style="vertical-align: middle;" class="text-center" align="left">
-											Febrero
-										</th>
-										<th style="vertical-align: middle;" class="text-center" align="left">
-											Marzo
-										</th>
-										<th style="vertical-align: middle;" class="text-center" align="left">
-											Abril
-										</th>
-										<th style="vertical-align: middle;" class="text-center" align="left">
-											Mayo
-										</th>
-										<th style="vertical-align: middle;" class="text-center" align="left">
-											Junio
-										</th>
-										<th style="vertical-align: middle;" class="text-center" align="left">
-											Julio
-										</th>
-										<th style="vertical-align: middle;" class="text-center" align="left">
-											Septiembre
-										</th>
-										<th style="vertical-align: middle;" class="text-center" align="left">
-											Octubre
-										</th>
-										<th style="vertical-align: middle;" class="text-center" align="left">
-											Noviembre
-										</th>
-										<th style="vertical-align: middle;" class="text-center" align="left">
-											Diciembre
-										</th>
+										@foreach($meses as $index=>$mes)
+											<th style="vertical-align: middle;" class="text-center" align="center">
+												{{ $mes }}
+											</th>
+										@endforeach
 									</tr>
 								</thead>
 								<tbody>
-									
-
-
-
+									@foreach($modulos as $index=>$modulo)
+										<th >
+											<tr>
+												{{ $modulo }}
+											</tr>										
+										</th>
+									@endforeach
 								</tbody>
 							</table>
 						</div>
