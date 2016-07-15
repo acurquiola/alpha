@@ -459,29 +459,8 @@ class ReporteController extends Controller {
             12 =>"DICIEMBRE"
         ];
 
-        for($i=1;$i<=12; $i++){
-            $diaMes=\Carbon\Carbon::create($anno, $i,1);
 
-            foreach ($modulos as $idModulo => $concepto) {
-                foreach ($clientes as $cliente) {
-                    $clientesMeses[$modulo][$meses[$i]]= \App\Factura::where('aeropuerto_id', $aeropuerto)
-                                                            ->where('modulo_id', $idModulo)
-                                                            ->where('condicionPago', 'Crédito')
-                                                            ->where('estado', 'P')
-                                                            ->where('fecha','>=' ,$diaMes->startOfMonth()->toDateTimeString())
-                                                            ->where('fecha','<=' ,$diaMes->endOfMonth()->toDateTimeString())
-                                                            ->where('cliente_id', $cliente->id)
-                                                            ->sum('total');
-                    $clientesMeses[$modulo][$meses[$i]]['cliente
-                    ']= $cliente->nombre;
-
-                }
-            }
-        }
-        dd($clientesMeses);
-
-
-        return view('reportes.reporteReporteDeMorosidad');
+        return view('reportes.reporteReporteDeMorosidad', compact('anno', 'aeropuerto'));
     }
 
     public function getReporteRelacionMensualDeFacturacionCobradosYPorCobrar(Request $request){
@@ -1185,6 +1164,7 @@ class ReporteController extends Controller {
 
         $facturas = \App\Factura::with('cobros', 'detalles')
                                 ->join('cobro_factura', 'facturas.id', '=', 'cobro_factura.factura_id')
+                                ->join('facturadetalles', 'facturadetalles.factura_id', '=', 'facturas.id')
                                 ->whereBetween('fecha', array($annoDesde.'-'.$mesDesde.'-'.$diaDesde,  $annoHasta.'-'.$mesHasta.'-'.$diaHasta) )
                                 ->where('aeropuerto_id', session('aeropuerto')->id)
                                 ->orderBy('nFactura')
