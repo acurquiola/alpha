@@ -138,7 +138,7 @@
 				            <div class="form-group">
 					            <label for="inputEmail3" class="col-sm-2 control-label">Observaciones</label>
 					            <div class="col-sm-9">
-						            <textarea id="observaciones-documento" class="form-control" row="5"></textarea>
+						            <textarea id="observaciones-documento" class="form-control" row="5"> COBRO DE SERVICIOS AERONÁUTICOS </textarea>
 					            </div>
 				            </div>
 			            </div>
@@ -173,7 +173,7 @@
 	                <div class="col-xs-6">
 		                <div class="checkbox">
 			                <label>
-				                <input type="checkbox" checked id="hasrecaudos-check"> Recaudos conciliados
+				                <input type="checkbox" checked id="hasrecaudos-check"> Recaudos Conciliados
 			                </label>
 		                </div>
 	                </div>
@@ -241,7 +241,7 @@
 				    <div class="form-group">
 					    <label for="monto-modal-input" class="col-sm-2 control-label">Monto</label>
 					    <div class="col-md-10">
-						    <input type="text" class="form-control" id="monto-modal-input" autocomplete='off'>
+						    <input type="text" class="form-control" id="monto-modal-input" readonly autocomplete='off'>
 					    </div>
 				    </div>
 			    </div>

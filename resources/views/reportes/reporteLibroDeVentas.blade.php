@@ -31,7 +31,7 @@
                 </div>
                 <label style="margin-left: 20px"><strong>HASTA: </strong></label>
 				<div class="form-group">
-					<input type="text" class="form-control" name="diaHasta" value="{{$diaHasta}}"placeholder="Día">
+					<input type="text" class="form-control" name="diaHasta" value="{{$diaHasta}}" placeholder="Día">
                 </div>
                 <div class="form-group">
                       {!! Form::select('mesHasta', $meses, $mesHasta, ["class"=> "form-control"]) !!}
@@ -40,7 +40,7 @@
                       {!! Form::select('annoHasta', $annos, $annoHasta, ["class"=> "form-control"]) !!}
                 </div>
                 <br>
-                <button type="submit" class="btn btn-default">Buscar</button>
+                <button type="submit" class="btn btn-primary">Buscar</button>
                 <a class="btn btn-default" href="{{action('ReporteController@getReporteLibroDeVentas')}}">Reset</a>
                 {!! Form::close() !!}
             </div>
