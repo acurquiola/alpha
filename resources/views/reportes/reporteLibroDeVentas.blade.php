@@ -138,7 +138,7 @@
 		    }).remove();
 		    $(table).prepend('<thead>\
 		                        <tr>\
-		                            <th colspan="18" style="vertical-align: middle; margin-top:20px" align="center" class="text-center">LIBRP DE VENTAS\
+		                            <th colspan="18" style="vertical-align: middle; margin-top:20px" align="center" class="text-center">LIBRO DE VENTAS\
 		                                </br>\
 										DESDE: {{$diaDesde}}/{{$mesDesde}}/{{$annoDesde}} HASTA: {{$diaHasta}}/{{$mesHasta}}/{{$annoHasta}}\
 		                            </th>\
