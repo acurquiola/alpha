@@ -159,6 +159,8 @@ class ViewComposerServiceProvider extends ServiceProvider {
                             'reportes.reporteFormulariosAnulados',
                             'reportes.reporteListadoClientes',
                             'reportes.reporteLibroDeVentas',
+                            'reportes.reporteControlDeRecaudacionMensual',
+                            'reportes.reporteControlDeRecaudacionDiario',
                             'reportes.reporteModuloMetaMensual'], function($view){
             $gerencia     = "Gerencia de Administración";
             $departamento = "Departamento de Recaudación de Servicios Aeroportuarios";
