@@ -248,8 +248,7 @@ class ReporteController extends Controller {
                                         ->where('puerto_id', ($procedencia==0)?'>=':'=', $procedencia)
                                         ->whereIn('puerto_id', $puertosNac)
                                         ->get();
-            $despeguesNac = \App\Despegue::whereBetween('fecha', array($annoDesde.'-'.$mesDesde.'-'.$diaDesde,  $annoHasta.'-'.$mesHasta.'-'.$diaHasta))
-                                        ->where('cliente_id', $cliente->id)
+            $despeguesNac = \App\Despegue::whereBetween('fecha', array($annoDesde.'-'.$mesDesde.'-'.$diaDesde, $annoHasta.'-'.$mesHasta.'-'.$diaHasta))                                        ->where('cliente_id', $cliente->id)
                                         ->where('aeropuerto_id', session('aeropuerto')->id)
                                         ->where('puerto_id', ($destino==0)?'>=':'=', $destino)
                                         ->whereIn('puerto_id', $puertosNac)
