@@ -665,7 +665,7 @@ class DespegueController extends Controller {
             ->sum('monto');
             
 
-        return ["facturas"=>$facturas, "ajuste"=> $ajusteCliente];
+        return ["facturas"=>$facturas];
     }
 
     /**

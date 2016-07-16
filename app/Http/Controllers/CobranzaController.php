@@ -190,8 +190,7 @@ class CobranzaController extends Controller {
 
             //Ya que tengo la base y el iva abonado puedo calcular la retencion abonada
 
-            $retencion=($base*$f["islrpercentage"]/100)+($iva*$f["ivapercentage"]/100);
-
+            $retencion=round($base*$f["islrpercentage"]/100,3)+round($iva*$f["ivapercentage"]/100, 3);
 
             $facturaMetadata->montopagado+=$f["montoAbonado"];
             $facturaMetadata->basepagado+=$base;
@@ -214,7 +213,8 @@ class CobranzaController extends Controller {
                 'retencionComprobante' => $f["retencionComprobante"],
                 ]]);
 
-            if(($facturaMetadata->montopagado+$retencion)>=($factura->total)){
+            if(round($facturaMetadata->montopagado+$retencion,2)>=($factura->total)){
+
                 $factura->estado="C";
                 $factura->save();
             }
@@ -230,6 +230,7 @@ class CobranzaController extends Controller {
 
 
         }
+
 
         $cobro->montofacturas=$request->get("totalFacturas");
         $cobro->montodepositado=$request->get("totalDepositado");
@@ -377,7 +378,9 @@ return ["success"=>1, "impresion" => $impresion];
         \DB::transaction(function () use ($moduloNombre, $id) {
             $cobro                    =\App\Cobro::find($id);
             $facturas                 =$cobro->facturas;
-            $reciboAnulado=$this->anularRecibo($cobro);
+            $nRecibo=$cobro->nRecibo;
+            if($nRecibo!=NULL)
+                $reciboAnulado=$this->anularRecibo($cobro);
 
             foreach($facturas as $factura){
 
@@ -402,7 +405,11 @@ return ["success"=>1, "impresion" => $impresion];
                     }
                 }
             }
-            if($reciboAnulado){
+            if($nRecibo!=NULL){
+                if($reciboAnulado){
+                    $cobro->delete();
+                }
+            }else{
                 $cobro->delete();
             }
         });

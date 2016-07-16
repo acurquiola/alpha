@@ -209,9 +209,9 @@
 		            <div class="col-xs-12">
 			            <div class="form-horizontal">
 				            <div class="form-group">
-					            <label for="inputEmail3" class="col-sm-3 control-label">Observaciones</label>
+					            <label for="inputEmail3" class="col-sm-2 control-label">Observaciones</label>
 					            <div class="col-sm-9">
-						            <textarea value="{{$cobro->observacion}}" id="observaciones-documento" class="form-control" row="5"></textarea>
+						            <textarea  style="width: 800px" id="observaciones-documento" class="form-control" row="5">{{ $cobro->observacion }}</textarea>
 					            </div>
 				            </div>
 			            </div>

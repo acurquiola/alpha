@@ -98,7 +98,7 @@
 					<div class="form-group">
 					<label style="font-weight: bold;" >Fecha: </label>
 						<div class="input-group">
-							<input type="text" id="fecha-datepicker" name="fecha" class="form-control" placeholder="Fecha" value="{{$today->format('d/m/Y')}}"/>
+							<input type="text" id="fecha-datepicker" data-inputmask="'alias': 'dd/mm/yyyy'" name="fecha" class="form-control" placeholder="Fecha" value="{{$today->format('d/m/Y')}}"/>
 						</div><!-- /.input group -->
 					</div>                          
 		            <div class="form-group pull-right">
@@ -219,6 +219,9 @@
 
         @include('cobranza.partials.script')
 
+        //Datemask dd/mm/yyyy
+        $('#fecha-datepicker').inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/yyyy"});
+/*
 		$('#fecha-datepicker').datepicker({
 			closeText: 'Cerrar',
 			prevText: '&#x3C;Ant',
@@ -236,7 +239,7 @@
 			isRTL: false,
 			showMonthAfterYear: false,
 			yearSuffix: '',
-			dateFormat: 'yy-mm-dd'});
+			dateFormat: 'yy-mm-dd'});*/
 
         $('#save-cobro-btn').click(function(){
 

@@ -248,8 +248,7 @@ class ReporteController extends Controller {
                                         ->where('puerto_id', ($procedencia==0)?'>=':'=', $procedencia)
                                         ->whereIn('puerto_id', $puertosNac)
                                         ->get();
-            $despeguesNac = \App\Despegue::whereBetween('fecha', array($annoDesde.'-'.$mesDesde.'-'.$diaDesde,  $annoHasta.'-'.$mesHasta.'-'.$diaHasta))
-                                        ->where('cliente_id', $cliente->id)
+            $despeguesNac = \App\Despegue::whereBetween('fecha', array($annoDesde.'-'.$mesDesde.'-'.$diaDesde, $annoHasta.'-'.$mesHasta.'-'.$diaHasta))                                        ->where('cliente_id', $cliente->id)
                                         ->where('aeropuerto_id', session('aeropuerto')->id)
                                         ->where('puerto_id', ($destino==0)?'>=':'=', $destino)
                                         ->whereIn('puerto_id', $puertosNac)
@@ -410,18 +409,13 @@ class ReporteController extends Controller {
     }
 
     public function getReporteDeMorosidad(Request $request){
-        $diaDesde   =$request->get('diaDesde', \Carbon\Carbon::now()->day);
-        $mesDesde   =$request->get('mesDesde', \Carbon\Carbon::now()->month);
-        $annoDesde  =$request->get('annoDesde',  \Carbon\Carbon::now()->year);
-        $diaHasta   =$request->get('diaHasta', \Carbon\Carbon::now()->day);
-        $mesHasta   =$request->get('mesHasta', \Carbon\Carbon::now()->month);
-        $annoHasta  =$request->get('annoHasta',  \Carbon\Carbon::now()->year);
-        
-        $aeropuerto =$request->get('aeropuerto', session('aeropuerto')->id);
-        $modulos  = \App\Modulo::where('aeropuerto_id', $aeropuerto)->lists('nombre', 'id');
-        $clientes = \App\Cliente::get();
-        $totales=[];
-        $totalesCliente=[];
+        $anno           =$request->get('annoDesde',  \Carbon\Carbon::now()->year);
+        $aeropuerto     =$request->get('aeropuerto', session('aeropuerto')->id);
+
+        $modulos        = \App\Modulo::where('aeropuerto_id', $aeropuerto)->lists('nombre', 'id');
+        $clientes       = \App\Cliente::get();
+        $totales        =[];
+        $totalesCliente =[];
 
         foreach ($modulos as $idModulo => $modulo) {
             $totales[$modulo] = \App\Factura::where('aeropuerto_id', $aeropuerto)
@@ -442,8 +436,6 @@ class ReporteController extends Controller {
             }
         }
 
-        $anno =\Carbon\Carbon::now()->year;
-
         $meses=[
             1  =>"ENERO",
             2  =>"FEBRERO",
@@ -459,26 +451,27 @@ class ReporteController extends Controller {
             12 =>"DICIEMBRE"
         ];
 
+        $clienteFacturaMes=[];
 
-        foreach ($modulos as $idModulo => $concepto) {
+        foreach ($modulos as $idModulo => $modulo) {
             foreach ($clientes as $cliente) {
                 for($i=1;$i<=12; $i++){
                     $diaMes=\Carbon\Carbon::create($anno, $i,1);
-                    $clientesMeses[$modulo][$meses[$i]]= \App\Factura::where('aeropuerto_id', $aeropuerto)
+                    $clienteFacturaMes[$modulo][$meses[$i]][$cliente->nombre]= \App\Factura::where('aeropuerto_id', $aeropuerto)
                                                             ->where('modulo_id', $idModulo)
                                                             ->where('condicionPago', 'Crédito')
                                                             ->where('estado', 'P')
+                                                            ->where('cliente_id', $cliente->id)
                                                             ->where('fecha','>=' ,$diaMes->startOfMonth()->toDateTimeString())
                                                             ->where('fecha','<=' ,$diaMes->endOfMonth()->toDateTimeString())
-                                                            ->where('cliente_id', $cliente->id)
-                                                            ->get();
+                                                            ->sum('total');
                 }
             }
         }
-        dd($clientesMeses);
 
 
-        return view('reportes.reporteReporteDeMorosidad');
+
+        return view('reportes.reporteReporteDeMorosidad', compact('anno', 'aeropuerto', 'meses', 'modulos', 'totales', 'totalesCliente', 'clienteFacturaMes'));
     }
 
     public function getReporteRelacionMensualDeFacturacionCobradosYPorCobrar(Request $request){
@@ -1182,6 +1175,7 @@ class ReporteController extends Controller {
 
         $facturas = \App\Factura::with('cobros', 'detalles')
                                 ->join('cobro_factura', 'facturas.id', '=', 'cobro_factura.factura_id')
+                                ->join('facturadetalles', 'facturadetalles.factura_id', '=', 'facturas.id')
                                 ->whereBetween('fecha', array($annoDesde.'-'.$mesDesde.'-'.$diaDesde,  $annoHasta.'-'.$mesHasta.'-'.$diaHasta) )
                                 ->where('aeropuerto_id', session('aeropuerto')->id)
                                 ->orderBy('nFactura')

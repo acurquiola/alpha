@@ -138,7 +138,7 @@
 				            <div class="form-group">
 					            <label for="inputEmail3" class="col-sm-2 control-label">Observaciones</label>
 					            <div class="col-sm-9">
-						            <textarea id="observaciones-documento" class="form-control" row="5"></textarea>
+						            <textarea id="observaciones-documento" class="form-control" row="5"> COBRO DE SERVICIOS AERONÁUTICOS </textarea>
 					            </div>
 				            </div>
 			            </div>
@@ -173,7 +173,7 @@
 	                <div class="col-xs-6">
 		                <div class="checkbox">
 			                <label>
-				                <input type="checkbox" checked id="hasrecaudos-check"> Recaudos conciliados
+				                <input type="checkbox" checked id="hasrecaudos-check"> Recaudos Conciliados
 			                </label>
 		                </div>
 	                </div>
@@ -241,7 +241,7 @@
 				    <div class="form-group">
 					    <label for="monto-modal-input" class="col-sm-2 control-label">Monto</label>
 					    <div class="col-md-10">
-						    <input type="text" class="form-control" id="monto-modal-input" autocomplete='off'>
+						    <input type="text" class="form-control" id="monto-modal-input" readonly autocomplete='off'>
 					    </div>
 				    </div>
 			    </div>
@@ -662,33 +662,6 @@ if ($('#cliente-select').val() != ""){
 				var o=JSON.parse(responseObject.responseText);
 
 				var trs="";
-				if(o.ajuste>0)
-					console.log(o.ajuste)
-					trs+='<tr class="ajuste-row">\
-				<td><p class="form-control-static"><strong>Ajuste</strong></p></td>\
-				<td></td>\
-				<td class="monto-documento"><p class="form-control-static">'+o.ajuste+'</p></td>\
-				<td ><p class="form-control-static"><span style="display:none" class="saldo-pendiente">'+o.ajuste+'</span></p></td>\
-				<td></td>\
-				<td></td>\
-				<td ><p class="form-control-static"><span style="display:none" class="saldo-pagar">'+o.ajuste+'</span></p></td>\
-				<td><input id="ajuste-input" class="form-control saldo-abonado-input "  autocomplete="off"></td>\
-				<td></td>\
-				<td>\
-					<div class="btn-group" role="group" aria-label="...">\
-						<div class="btn-group" role="group">\
-							<button type="button" class="btn btn-primary pay-all-btn">Abono total</button>\
-							<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">\
-								<span class="caret"></span>\
-							</button>\
-							<ul class="dropdown-menu" role="menu">\
-								<li><a class="pay-all-btn">Abono total</a></li>\
-							</ul>\
-						</div>\
-						<button type="button" class="btn btn-default reset-btn"><span class="glyphicon glyphicon-repeat"></span></button>\
-					</div>\
-				</td>\
-			</tr>'
 
 
 			$.each(o.facturas, function(index,value){

@@ -3,7 +3,7 @@
 @section('content')
 <ol class="breadcrumb">
 	<li><a href="{{url('principal')}}">Inicio</a></li>
-	<li><a class="active">Control de Recaudación Mensual</a></li>
+	<li><a class="active">Reporte de Morosidad</a></li>
 </ol>
 <div class="row" id="box-wrapper">
 	<div class="col-md-12">
@@ -15,17 +15,17 @@
 				</div><!-- /.box-tools -->
 			</div>
 			<div class="box-body text-right">
-				{!! Form::open(["url" => action('ReporteController@getControlDeRecaudacionMensual'), "method" => "GET", "class"=>"form-inline"]) !!}
+				{!! Form::open(["url" => action('ReporteController@getReporteDeMorosidad'), "method" => "GET", "class"=>"form-inline"]) !!}
+				<div class="form-group" style="margin-left: 20px">
+					<label>Año:</label>
+					{!! Form::select('anno', $annos, $anno, ["class"=> "form-control"]) !!}
+				</div>
 				<div class="form-group">
 					<label>Seleccione un aeropuerto:</label>
 					{!! Form::select('aeropuerto', $aeropuertos, $aeropuerto, ["class"=> "form-control"]) !!}
 				</div>
-				<div class="form-group">
-					<label>Seleccione un año:</label>
-					{!! Form::select('anno', $annos, $anno, ["class"=> "form-control"]) !!}
-				</div>
 				<button type="submit" class="btn btn-default">Buscar</button>
-				<a class="btn btn-default" href="{{action('ReporteController@getControlDeRecaudacionMensual')}}">Reset</a>
+				<a class="btn btn-default" href="{{action('ReporteController@getReporteDeMorosidad')}}">Reset</a>
 				{!! Form::close() !!}
 			</div>
 		</div>
@@ -35,14 +35,8 @@
 			<div class="box-header">
 				{!! Form::open(["url" => action("ReporteController@postExportReport"), "id" =>"export-form", "target"=>"_blank"]) !!}
 				{!! Form::hidden('table') !!}
-                {!! Form::hidden('gerencia', $gerencia) !!}
-                {!! Form::hidden('departamento', $departamento) !!}
 				<h3 class="box-title">Reporte</h3>
-				<span class="pull-right">
-					<button type="button" class="btn btn-primary" id="export-btn">
-						<span class="glyphicon glyphicon-file"></span> Exportar
-					</button>
-				</span>
+				<span class="pull-right"><button type="button" class="btn btn-primary" id="export-btn"><span class="glyphicon glyphicon-file"></span> Exportar</button></span>
 				{!! Form::close() !!}
 			</div>
 			<div class="box-body" >
@@ -53,57 +47,36 @@
 							<table class="table table-hover table-condensed">
 								<thead  class="bg-primary">
 									<tr>
-										<th id="fecha-col" style="vertical-align: middle; width: 20px;" class="text-center" align="left">
-											Mes
+										<th id="codigo-col" rowspan="2" style="vertical-align: middle; width: 30px;" class="text-center" align="left">
+											Código
 										</th>
-										@foreach($modulos as $modulo)
-										<th expandible data-colspan="{{$modulo->conceptos->count()}}" class="text-center" style="vertical-align: middle" >
-											{{$modulo->nombreImprimible}}
+										<th id="modulo-col" rowspan="2" style="vertical-align: middle; " class="text-center" align="left">
+											Módulo
 										</th>
-										@endforeach
+										<th id="cliente-col" rowspan="2" style="vertical-align: middle; " class="text-center" align="left">
+											Clientes
+										</th>
+										<th id="cliente-col" colspan="12" style="vertical-align: middle;" class="text-center" align="left">
+											Meses
+										</th>
 									</tr>
-									<tr >
-										@foreach($modulos as $modulo)
-										@foreach($modulo->conceptos as $concepto)
-										<th details data-parent="{{$modulo->nombre}}" style="display:none;vertical-align: middle"  class="text-left" align="left" style="width: 20px;" >
-											<small>{{$concepto->nombreImprimible}}</small>
-										</th>
-										@endforeach
+									<tr>
+										@foreach($meses as $index=>$mes)
+											<th style="vertical-align: middle;" class="text-center" align="center">
+												{{ $mes }}
+											</th>
 										@endforeach
 									</tr>
 								</thead>
 								<tbody>
-									@foreach($montos as $fecha => $montoModulos)
-									<tr title="{{$fecha}}" >
-										<td align="left" style="width: 20px;">{{substr($fecha, 0, 3)}}</td>
-											@foreach($montoModulos as $moduloNombre => $conceptos)
-												@foreach($conceptos as $concepto => $monto)
-													@if($concepto=="total")
-														<td align="right" style="text-align:right; width: 34px;" main data-parent="{{$moduloNombre}}">{{$traductor->format($monto)}}</td>
-													@else
-														<td details data-parent="{{$moduloNombre}}" style="display:none;text-align:right">{{$traductor->format($monto)}}</td>
-													@endif
-												@endforeach
-										@endforeach
-									</tr>
+									@foreach($modulos as $index=>$modulo)
+										<th >
+											<tr>
+												{{ $modulo }}
+											</tr>										
+										</th>
 									@endforeach
-									<tr class="bg-gray">
-										<td>Totales</td>
-										@foreach($montosTotales as $moduloNombre => $conceptos)
-										@foreach($conceptos as $concepto => $monto)
-										@if($concepto=="total")
-										<td style="text-align:right" main data-parent="{{$moduloNombre}}">{{$traductor->format($monto)}}</td>
-										@else
-										<td  details data-parent="{{$moduloNombre}}" style="display:none;text-align:right">{{$traductor->format($monto)}}</td>
-										@endif
-										@endforeach
-										@endforeach
-									</tr>
-
-
-
 								</tbody>
-
 							</table>
 						</div>
 					</div>

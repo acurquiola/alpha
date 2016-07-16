@@ -31,7 +31,7 @@
                 </div>
                 <label style="margin-left: 20px"><strong>HASTA: </strong></label>
 				<div class="form-group">
-					<input type="text" class="form-control" name="diaHasta" value="{{$diaHasta}}"placeholder="Día">
+					<input type="text" class="form-control" name="diaHasta" value="{{$diaHasta}}" placeholder="Día">
                 </div>
                 <div class="form-group">
                       {!! Form::select('mesHasta', $meses, $mesHasta, ["class"=> "form-control"]) !!}
@@ -40,7 +40,7 @@
                       {!! Form::select('annoHasta', $annos, $annoHasta, ["class"=> "form-control"]) !!}
                 </div>
                 <br>
-                <button type="submit" class="btn btn-default">Buscar</button>
+                <button type="submit" class="btn btn-primary">Buscar</button>
                 <a class="btn btn-default" href="{{action('ReporteController@getReporteLibroDeVentas')}}">Reset</a>
                 {!! Form::close() !!}
             </div>
@@ -101,12 +101,12 @@
 												<td   style="vertical-align: middle; width: 40px" class="text-center carga-bs" align="right"> </td>
 												<td   style="vertical-align: middle; width: 40px" class="text-center" align="right">01-reg</td>
 												<td   style="vertical-align: middle; width: 40px" class="text-right jetway-bs" align="right"> </td>
-												<td   style="vertical-align: middle; width: 40px" class="text-right montoFacturado-bs" align="right">{{$traductor->format($factura->monto)}}</td>
+												<td   style="vertical-align: middle; width: 40px" class="text-right montoFacturado-bs" align="right">{{$traductor->format($factura->total)}}</td>
 												<td   style="vertical-align: middle; width: 40px" class="text-right montoDepositado-bs" align="right">{{($factura->base == $factura->monto)?$traductor->format($factura->monto):''}}</td>
 												<td   style="vertical-align: middle; width: 40px" class="text-right montoDepositado-bs" align="right">{{($factura->base == $factura->monto)?'':$traductor->format($factura->base)}}</td>
-												<td   style="vertical-align: middle; width: 40px" class="text-right montoDepositado-bs" align="right"> </td>
+												<td   style="vertical-align: middle; width: 40px" class="text-right montoDepositado-bs" align="right">{{($factura->base == $factura->monto)?'':$traductor->format($factura->ivaDes)}} </td>
 												<td   style="vertical-align: middle; width: 40px" class="text-right montoDepositado-bs" align="right">{{($factura->base == $factura->monto)?'':$traductor->format($factura->ivapercentage)}}</td>
-												<td   style="vertical-align: middle; width: 40px" class="text-right montoDepositado-bs" align="right">{{($factura->base == $factura->monto)?'':$traductor->format((($factura->monto-$factura->base)*$factura->ivapercentage)/100)}}</td>
+												<td   style="vertical-align: middle; width: 40px" class="text-right montoDepositado-bs" align="right">{{($factura->base == $factura->monto)?'':$traductor->format((($factura->total-$factura->base)*$factura->ivapercentage)/100)}}</td>
 											</tr>
 										@endforeach
 									@else
@@ -138,7 +138,7 @@
 		    }).remove();
 		    $(table).prepend('<thead>\
 		                        <tr>\
-		                            <th colspan="18" style="vertical-align: middle; margin-top:20px" align="center" class="text-center">LIBRP DE VENTAS\
+		                            <th colspan="18" style="vertical-align: middle; margin-top:20px" align="center" class="text-center">LIBRO DE VENTAS\
 		                                </br>\
 										DESDE: {{$diaDesde}}/{{$mesDesde}}/{{$annoDesde}} HASTA: {{$diaHasta}}/{{$mesHasta}}/{{$annoHasta}}\
 		                            </th>\

@@ -103,7 +103,7 @@
 <td colspan="1">
 </td>
 <td  colspan="2">
-<strong><u>PESO: </u></strong> {{$despegue->aterrizaje->aeronave->peso}} Kgs.
+<strong><u>PESO: </u></strong> {{$traductor->format($despegue->aterrizaje->aeronave->peso)}} Kgs.
 </td>
 </tr>
 </table>
@@ -262,7 +262,7 @@
 {{$detalle->concepto->nompre}}
 </td>
 <td colspan="3" style="text-align:right">
-{{number_format($detalle->totalDes,2)}}
+{{$traductor->format($detalle->totalDes)}}
 </td>
 <td colspan="1">
 </td>
@@ -281,7 +281,7 @@
 <strong>TOTAL FACTURADO</strong>
 </td>
 <td colspan="2" style="border-bottom: 1px solid black;border-top: 1px solid black;border-right: 1px solid black;text-align:left" >
-<strong> Bs. </strong> {{number_format($factura->total,2)}}  
+<strong> Bs. </strong> {{$traductor->format($factura->total)}}  
 </td>
 </tr>
 </table>
