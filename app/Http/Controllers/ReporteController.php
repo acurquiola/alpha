@@ -459,11 +459,11 @@ class ReporteController extends Controller {
             12 =>"DICIEMBRE"
         ];
 
-        for($i=1;$i<=12; $i++){
-            $diaMes=\Carbon\Carbon::create($anno, $i,1);
 
-            foreach ($modulos as $idModulo => $concepto) {
-                foreach ($clientes as $cliente) {
+        foreach ($modulos as $idModulo => $concepto) {
+            foreach ($clientes as $cliente) {
+                for($i=1;$i<=12; $i++){
+                    $diaMes=\Carbon\Carbon::create($anno, $i,1);
                     $clientesMeses[$modulo][$meses[$i]]= \App\Factura::where('aeropuerto_id', $aeropuerto)
                                                             ->where('modulo_id', $idModulo)
                                                             ->where('condicionPago', 'Crédito')
@@ -471,10 +471,7 @@ class ReporteController extends Controller {
                                                             ->where('fecha','>=' ,$diaMes->startOfMonth()->toDateTimeString())
                                                             ->where('fecha','<=' ,$diaMes->endOfMonth()->toDateTimeString())
                                                             ->where('cliente_id', $cliente->id)
-                                                            ->sum('total');
-                    $clientesMeses[$modulo][$meses[$i]]['cliente
-                    ']= $cliente->nombre;
-
+                                                            ->get();
                 }
             }
         }
