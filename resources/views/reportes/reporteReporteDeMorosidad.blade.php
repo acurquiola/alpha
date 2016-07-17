@@ -47,9 +47,6 @@
 							<table class="table table-hover table-condensed">
 								<thead  class="bg-primary">
 									<tr>
-										<th id="codigo-col" rowspan="2" style="vertical-align: middle; width: 30px;" class="text-center" align="left">
-											Código
-										</th>
 										<th id="modulo-col" rowspan="2" style="vertical-align: middle; " class="text-center" align="left">
 											Módulo
 										</th>
@@ -70,11 +67,21 @@
 								</thead>
 								<tbody>
 									@foreach($modulos as $index=>$modulo)
-										<th >
-											<tr>
-												{{ $modulo }}
-											</tr>										
-										</th>
+										<tr >
+											<td>
+												{{ $modulo }}									
+											</td>
+										</tr>
+										@foreach($clienteFacturaMes as $mod => $cliente)
+										{{ dd($mod, $cliente) }}
+											@if($mod == $modulo)
+												<tr >
+													<td>
+														{{ $cliente[] }}									
+													</td>
+												</tr>
+											@endif
+										@endforeach
 									@endforeach
 								</tbody>
 							</table>

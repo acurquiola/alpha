@@ -425,7 +425,7 @@ class ReporteController extends Controller {
                                     ->sum('total');
         }
 
-        foreach ($modulos as $idModulo => $modulo) {
+        /*foreach ($modulos as $idModulo => $modulo) {
             foreach ($clientes as $cliente) {
                 $totalesCliente[$modulo][$cliente->nombre]= \App\Factura::where('aeropuerto_id', $aeropuerto)
                                                         ->where('modulo_id', $idModulo)
@@ -434,7 +434,7 @@ class ReporteController extends Controller {
                                                         ->where('cliente_id', $cliente->id)
                                                         ->sum('total');
             }
-        }
+        }*/
 
         $meses=[
             1  =>"ENERO",
