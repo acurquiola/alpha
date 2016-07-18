@@ -48,13 +48,16 @@
 								<thead  class="bg-primary">
 									<tr>
 										<th id="modulo-col" rowspan="2" style="vertical-align: middle; " class="text-center" align="left">
-											Módulo
+											MÓDULO
 										</th>
 										<th id="cliente-col" rowspan="2" style="vertical-align: middle; " class="text-center" align="left">
-											Clientes
+											CLIENTE
 										</th>
 										<th id="cliente-col" colspan="12" style="vertical-align: middle;" class="text-center" align="left">
-											Meses
+											MES
+										</th>
+										<th id="cliente-col" rowspan="2" style="vertical-align: middle; " class="text-center" align="left">
+											TOTAL
 										</th>
 									</tr>
 									<tr>
@@ -66,24 +69,92 @@
 									</tr>
 								</thead>
 								<tbody>
-									@foreach($modulos as $index=>$modulo)
-										<tr >
-											<td>
-												{{ $modulo }}									
-											</td>
-										</tr>
-										@foreach($clienteFacturaMes as $mod => $cliente)
-										{{ dd($mod, $cliente) }}
-											@if($mod == $modulo)
-												<tr >
-													<td>
-														{{ $cliente[] }}									
+									@foreach($clientesMod as $modulo=>$cantCliente)
+										@if(count($cantCliente)>0)
+											<tr>
+												<td style="vertical-align: middle;" class="text-center" rowspan="{{ count($cantCliente)+1 }}">
+													{{ $modulo }}
+												</td>
+											</tr>
+											@foreach($cantCliente as $index => $cliente_id)
+												<tr>
+													<td >
+														{{ $cliente_id }}
+													</td>
+													@foreach($facturasPendientesModulo as $mod => $facturasPendientes)
+														@if($mod == $modulo)
+															@foreach($facturasPendientes as $mes => $clientesPendientes)
+																@foreach($clientesPendientes as $id => $montoMensual)
+																	@if($cliente_id == $id)
+																		<td class="text-right">
+																			{{ $traductor->format($montoMensual) }}
+																		</td>
+																	@endif
+																@endforeach
+															@endforeach
+														@endif
+													@endforeach
+													<td class="text-right">
+														<strong>
+															0,00
+														</strong>
 													</td>
 												</tr>
-											@endif
-										@endforeach
+											@endforeach
+										<tr class="bg-gray">
+											<td>
+												<strong>TOTAL</strong>
+											</td>
+											<td class="text-right" colspan="14">
+												0,00
+											</td>
+										</tr>
+										@endif
 									@endforeach
 								</tbody>
+								<tfoot>
+									<tr >
+										<th colspan="2">
+											TOTALES
+										</th>
+										<th class="text-right">
+											0,00
+										</th>
+										<th class="text-right">
+											0,00
+										</th>
+										<th class="text-right">
+											0,00
+										</th>
+										<th class="text-right">
+											0,00
+										</th>
+										<th class="text-right">
+											0,00
+										</th>
+										<th class="text-right">
+											0,00
+										</th>
+										<th class="text-right">
+											0,00
+										</th>
+										<th class="text-right">
+											0,00
+										</th>
+										<th class="text-right">
+											0,00
+										</th>
+										<th class="text-right">
+											0,00
+										</th>
+										<th class="text-right">
+											0,00
+										</th>
+										<th class="text-right">
+											0,00
+										</th>
+									</tr>
+								</tfoot>
 							</table>
 						</div>
 					</div>
