@@ -1454,9 +1454,6 @@ class ReporteController extends Controller {
         $departamento =$request->get('departamento');
         $gerencia     =$request->get('gerencia');
 
-        ini_set('memory_limit', '-1');
-
-
 
        $pdf = new \TCPDF('L', PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
 
