@@ -153,6 +153,12 @@
 										<th class="text-right">
 											0,00
 										</th>
+										<th class="text-right">
+											0,00
+										</th>
+										<th class="text-right">
+											0,00
+										</th>
 									</tr>
 								</tfoot>
 							</table>
