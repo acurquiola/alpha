@@ -409,7 +409,7 @@ class ReporteController extends Controller {
     }
 
     public function getReporteDeMorosidad(Request $request){
-        $anno           =$request->get('annoDesde',  \Carbon\Carbon::now()->year);
+        $anno           =$request->get('anno',  \Carbon\Carbon::now()->year);
         $aeropuerto     =$request->get('aeropuerto', session('aeropuerto')->id);
 
         $modulos        = \App\Modulo::where('aeropuerto_id', $aeropuerto)->lists('nombre', 'id');
@@ -422,6 +422,7 @@ class ReporteController extends Controller {
                                     ->where('modulo_id', $idModulo)
                                     ->where('estado', 'P')
                                     ->sum('total');
+
             $clientesMod[$modulo] = \App\Factura::join('clientes', 'facturas.cliente_id', '=', 'clientes.id')
                                     ->where('aeropuerto_id', $aeropuerto)
                                     ->where('modulo_id', $idModulo)
@@ -1452,6 +1453,10 @@ class ReporteController extends Controller {
         $tableFirmas  =$request->get('tableFirmas');
         $departamento =$request->get('departamento');
         $gerencia     =$request->get('gerencia');
+
+        ini_set('memory_limit', '-1');
+
+
 
        $pdf = new \TCPDF('L', PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
 

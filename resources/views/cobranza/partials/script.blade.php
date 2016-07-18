@@ -36,7 +36,7 @@ function calculateTotalRetencion(){
 			var input =$(this).find('.retencion-input');
 			value     =commaToNum($(input).val());
 			var monto =commaToNum($($(input).data('target')).val());
-			total     +=monto*value/100
+			total     +=Math.round(monto*value)/100
 			console.log(total);
 		}
 	});
