@@ -73,7 +73,7 @@
 										@if(count($cantCliente)>0)
 											<tr>
 												<td style="vertical-align: middle;" class="text-center" rowspan="{{ count($cantCliente)+1 }}">
-													{{ $modulo }}
+													<strong>{{ $modulo }}</strong>
 												</td>
 											</tr>
 											@foreach($cantCliente as $index => $cliente_id)
@@ -106,7 +106,7 @@
 												<strong>TOTAL</strong>
 											</td>
 											<td class="text-right" colspan="14">
-												0,00
+												<strong>0,00</strong>
 											</td>
 										</tr>
 										@endif
