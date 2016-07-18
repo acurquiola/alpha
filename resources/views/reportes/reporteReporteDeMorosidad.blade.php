@@ -112,13 +112,10 @@
 										@endif
 									@endforeach
 								</tbody>
-								<tfoot>
+								<tfoot class="bg-primary">
 									<tr >
 										<th colspan="2">
 											TOTALES
-										</th>
-										<th class="text-right">
-											0,00
 										</th>
 										<th class="text-right">
 											0,00
