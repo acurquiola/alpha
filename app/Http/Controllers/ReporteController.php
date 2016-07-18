@@ -409,57 +409,66 @@ class ReporteController extends Controller {
     }
 
     public function getReporteDeMorosidad(Request $request){
-        $diaDesde   =$request->get('diaDesde', \Carbon\Carbon::now()->day);
-        $mesDesde   =$request->get('mesDesde', \Carbon\Carbon::now()->month);
-        $annoDesde  =$request->get('annoDesde',  \Carbon\Carbon::now()->year);
-        $diaHasta   =$request->get('diaHasta', \Carbon\Carbon::now()->day);
-        $mesHasta   =$request->get('mesHasta', \Carbon\Carbon::now()->month);
-        $annoHasta  =$request->get('annoHasta',  \Carbon\Carbon::now()->year);
-        
-        $aeropuerto =$request->get('aeropuerto', session('aeropuerto')->id);
-        $modulos  = \App\Modulo::where('aeropuerto_id', $aeropuerto)->lists('nombre', 'id');
-        $clientes = \App\Cliente::get();
-        $totales=[];
-        $totalesCliente=[];
+        $anno           =$request->get('annoDesde',  \Carbon\Carbon::now()->year);
+        $aeropuerto     =$request->get('aeropuerto', session('aeropuerto')->id);
+
+        $modulos        = \App\Modulo::where('aeropuerto_id', $aeropuerto)->lists('nombre', 'id');
+        $clientes       = \App\Cliente::get();
+        $totales        =[];
+        $totalesCliente =[];
 
         foreach ($modulos as $idModulo => $modulo) {
             $totales[$modulo] = \App\Factura::where('aeropuerto_id', $aeropuerto)
                                     ->where('modulo_id', $idModulo)
-                                    ->where('condicionPago', 'Crédito')
                                     ->where('estado', 'P')
                                     ->sum('total');
+            $clientesMod[$modulo] = \App\Factura::join('clientes', 'facturas.cliente_id', '=', 'clientes.id')
+                                    ->where('aeropuerto_id', $aeropuerto)
+                                    ->where('modulo_id', $idModulo)
+                                    ->where('estado', 'P')
+                                    ->groupBy('cliente_id')
+                                    ->lists('clientes.nombre');
+            $meses=[
+                1  =>"ENERO",
+                2  =>"FEBRERO",
+                3  =>"MARZO",
+                4  =>"ABRIL",
+                5  =>"MAYO",
+                6  =>"JUNIO",
+                7  =>"JULIO",
+                8  =>"AGOSTO",
+                9  =>"SEPTIEMBRE",
+                10 =>"OCTUBRE",
+                11 =>"NOVIEMBRE",
+                12 =>"DICIEMBRE"
+            ];
+
+            $clientes   =\App\Factura::join('clientes', 'facturas.cliente_id', '=', 'clientes.id')
+                                ->where('deleted_at', null)
+                                ->where('aeropuerto_id', $aeropuerto)
+                                ->where('estado', 'P')
+                                ->groupBy('cliente_id')
+                                ->lists('cliente_id', 'clientes.nombre');
+
+            for($i=1;$i<=12; $i++){
+                $diaMes=\Carbon\Carbon::create($anno, $i,1);
+                foreach ($clientes as $nombre => $cliente_id) {
+                    $facturasPendientesModulo[$modulo][$diaMes->month][$nombre] = \App\Factura::with('cliente')
+                                                                                        ->where('aeropuerto_id', $aeropuerto)
+                                                                                        ->where('modulo_id', $idModulo)
+                                                                                        ->where('fecha','>=' ,$diaMes->startOfMonth()->toDateTimeString())
+                                                                                        ->where('fecha','<=' ,$diaMes->endOfMonth()->toDateTimeString())
+                                                                                        ->where('estado', 'P')
+                                                                                        ->where('cliente_id', $cliente_id)
+                                                                                        ->sum('total');
+                    
+
+                }
+            }       
         }
+//        dd($facturasPendientesModulo);
 
-        foreach ($modulos as $idModulo => $modulo) {
-            foreach ($clientes as $cliente) {
-                $totalesCliente[$modulo][$cliente->nombre]= \App\Factura::where('aeropuerto_id', $aeropuerto)
-                                                        ->where('modulo_id', $idModulo)
-                                                        ->where('condicionPago', 'Crédito')
-                                                        ->where('estado', 'P')
-                                                        ->where('cliente_id', $cliente->id)
-                                                        ->sum('total');
-            }
-        }
-
-        $anno =\Carbon\Carbon::now()->year;
-
-        $meses=[
-            1  =>"ENERO",
-            2  =>"FEBRERO",
-            3  =>"MARZO",
-            4  =>"ABRIL",
-            5  =>"MAYO",
-            6  =>"JUNIO",
-            7  =>"JULIO",
-            8  =>"AGOSTO",
-            9  =>"SEPTIEMBRE",
-            10 =>"OCTUBRE",
-            11 =>"NOVIEMBRE",
-            12 =>"DICIEMBRE"
-        ];
-
-
-        return view('reportes.reporteReporteDeMorosidad', compact('anno', 'aeropuerto'));
+        return view('reportes.reporteReporteDeMorosidad', compact('anno', 'aeropuerto', 'clientesMod', 'facturasPendientesModulo', 'meses', 'modulos', 'totales', 'totalesCliente', 'clienteFacturaMes'));
     }
 
     public function getReporteRelacionMensualDeFacturacionCobradosYPorCobrar(Request $request){
@@ -1377,17 +1386,6 @@ class ReporteController extends Controller {
         $jetway          =\App\Concepto::where('aeropuerto_id', $aeropuerto)->where('nompre', 'JETWAY (CRÉDITO)')->first();
         $carga           =\App\Concepto::where('aeropuerto_id', $aeropuerto)->where('nompre', 'CARGA (CRÉDITO)')->first();
 
-        $facturas        =\App\Factura::select('facturas.*', 'clientes.nombre')
-                                ->join('clientes', 'facturas.cliente_id', '=', 'clientes.id')
-                                ->whereBetween('fecha', array($annoDesde.'-'.$mesDesde.'-'.$diaDesde,  $annoHasta.'-'.$mesHasta.'-'.$diaHasta))
-                                ->where('deleted_at', null)
-                                ->where('aeropuerto_id', $aeropuerto)
-                                ->where('nroDosa', '<>', 'NULL')
-                                ->where('estado', 'C')
-                                ->where('cliente_id', ($cliente==0)?'>=':'=', $cliente)
-                                ->where('facturas.condicionPago', 'Crédito')
-                                ->orderBy('nombre', 'ASC')
-                                ->get();
 
         $dosaFactura=[];
 

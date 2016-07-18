@@ -47,61 +47,117 @@
 							<table class="table table-hover table-condensed">
 								<thead  class="bg-primary">
 									<tr>
-										<th id="codigo-col" rowspan="2" style="vertical-align: middle; width: 30px;" class="text-center" align="left">
-											Código
-										</th>
 										<th id="modulo-col" rowspan="2" style="vertical-align: middle; " class="text-center" align="left">
-											Módulo
+											MÓDULO
 										</th>
 										<th id="cliente-col" rowspan="2" style="vertical-align: middle; " class="text-center" align="left">
-											Clientes
+											CLIENTE
 										</th>
 										<th id="cliente-col" colspan="12" style="vertical-align: middle;" class="text-center" align="left">
-											Meses
+											MES
+										</th>
+										<th id="cliente-col" rowspan="2" style="vertical-align: middle; " class="text-center" align="left">
+											TOTAL
 										</th>
 									</tr>
 									<tr>
-										<th style="vertical-align: middle;" class="text-center" align="left">
-											Enero
-										</th>
-										<th style="vertical-align: middle;" class="text-center" align="left">
-											Febrero
-										</th>
-										<th style="vertical-align: middle;" class="text-center" align="left">
-											Marzo
-										</th>
-										<th style="vertical-align: middle;" class="text-center" align="left">
-											Abril
-										</th>
-										<th style="vertical-align: middle;" class="text-center" align="left">
-											Mayo
-										</th>
-										<th style="vertical-align: middle;" class="text-center" align="left">
-											Junio
-										</th>
-										<th style="vertical-align: middle;" class="text-center" align="left">
-											Julio
-										</th>
-										<th style="vertical-align: middle;" class="text-center" align="left">
-											Septiembre
-										</th>
-										<th style="vertical-align: middle;" class="text-center" align="left">
-											Octubre
-										</th>
-										<th style="vertical-align: middle;" class="text-center" align="left">
-											Noviembre
-										</th>
-										<th style="vertical-align: middle;" class="text-center" align="left">
-											Diciembre
-										</th>
+										@foreach($meses as $index=>$mes)
+											<th style="vertical-align: middle;" class="text-center" align="center">
+												{{ $mes }}
+											</th>
+										@endforeach
 									</tr>
 								</thead>
 								<tbody>
-									
-
-
-
+									@foreach($clientesMod as $modulo=>$cantCliente)
+										@if(count($cantCliente)>0)
+											<tr>
+												<td style="vertical-align: middle;" class="text-center" rowspan="{{ count($cantCliente)+1 }}">
+													<strong>{{ $modulo }}</strong>
+												</td>
+											</tr>
+											@foreach($cantCliente as $index => $cliente_id)
+												<tr>
+													<td >
+														{{ $cliente_id }}
+													</td>
+													@foreach($facturasPendientesModulo as $mod => $facturasPendientes)
+														@if($mod == $modulo)
+															@foreach($facturasPendientes as $mes => $clientesPendientes)
+																@foreach($clientesPendientes as $id => $montoMensual)
+																	@if($cliente_id == $id)
+																		<td class="text-right">
+																			{{ $traductor->format($montoMensual) }}
+																		</td>
+																	@endif
+																@endforeach
+															@endforeach
+														@endif
+													@endforeach
+													<td class="text-right">
+														<strong>
+															0,00
+														</strong>
+													</td>
+												</tr>
+											@endforeach
+										<tr class="bg-gray">
+											<td>
+												<strong>TOTAL</strong>
+											</td>
+											<td class="text-right" colspan="14">
+												<strong>0,00</strong>
+											</td>
+										</tr>
+										@endif
+									@endforeach
 								</tbody>
+								<tfoot class="bg-primary">
+									<tr >
+										<th colspan="2">
+											TOTALES
+										</th>
+										<th class="text-right">
+											0,00
+										</th>
+										<th class="text-right">
+											0,00
+										</th>
+										<th class="text-right">
+											0,00
+										</th>
+										<th class="text-right">
+											0,00
+										</th>
+										<th class="text-right">
+											0,00
+										</th>
+										<th class="text-right">
+											0,00
+										</th>
+										<th class="text-right">
+											0,00
+										</th>
+										<th class="text-right">
+											0,00
+										</th>
+										<th class="text-right">
+											0,00
+										</th>
+										<th class="text-right">
+											0,00
+										</th>
+										<th class="text-right">
+											0,00
+										</th>
+										<th class="text-right">
+											0,00
+										</th>
+										<th class="text-right">
+											0,00
+										</th>
+									</tr>
+								</tfoot>
 							</table>
 						</div>
 					</div>
