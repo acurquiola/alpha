@@ -862,7 +862,7 @@ $('#save-cobro-btn').click(function(){
 	$('#formas-pago-table tbody tr').each(function(index,value){
 		pagos.push($(value).data('object'));
 	})
-	var id="5";
+	
 
 	addLoadingOverlay('#main-box');
 	$.ajax({

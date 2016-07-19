@@ -616,7 +616,7 @@ class DespegueController extends Controller {
 		$idOperator=">=";
         $id=0;
         $moduloName='DOSAS';
-        $modulo=\App\Modulo::where("nombre","like",$moduloName)->orderBy("nombre")->first();
+        $modulo=\App\Modulo::where("nombre","like",$moduloName)->where('aeropuerto_id', session(aeropuerto)->id)->orderBy("nombre")->first();
         $id=$modulo->id;
         $idOperator="=";
         $today               = \Carbon\Carbon::now();
