@@ -9,7 +9,7 @@
 
 			<!-- Equivalente de la UT-->
 			<div class="form-group">
-				<label>Diurno: </label><br/>
+				<label><strong>Diurno: </strong></label><br/>
 				<div class="input-group"> 
 					<div class="input-group-addon">
 						Equivalente: 
@@ -31,7 +31,7 @@
 			<div class="form-group">
 				<div class="checkbox col-md-6"  style="margin-left: -40px">
 					<label>
-						{!! Form::checkbox('aplicar_minimo_diuInt', true, null) !!} Aplicar	Mínimo
+						{!! Form::checkbox('aplicar_minimo_diuInt', true, null) !!} <strong>Aplicar	Mínimo</strong>
 					</label>
 				</div>
 				<div class="input-group  col-md-6"> 
@@ -45,7 +45,7 @@
 			<!-- Precio Nocturno-->
 			<!-- Equivalente de la UT-->
 			<div class="form-group">
-				<label>Nocturno </label><br/>
+				<label><strong>Nocturno:</strong></label><br/>
 				<div class="input-group"> 
 					<div class="input-group-addon">
 						Equivalente: 
@@ -67,7 +67,7 @@
 			<div class="form-group">
 				<div class="checkbox col-md-6"  style="margin-left: -40px">
 					<label>
-						{!! Form::checkbox('aplicar_minimo_nocInt', true, null) !!} Aplicar	Mínimo
+						{!! Form::checkbox('aplicar_minimo_nocInt', true, null) !!}<strong> Aplicar	Mínimo</strong>
 					</label>
 				</div>
 				<div class="input-group  col-md-6"> 
@@ -91,7 +91,7 @@
 			<!-- Precio Diurno-->
 			<!-- Equivalente de la UT-->
 			<div class="form-group">
-				<label>Diurno: </label><br/>
+				<label><strong>Diurno: </strong></label><br/>
 				<div class="input-group"> 
 					<div class="input-group-addon">
 						Equivalente: 
@@ -112,7 +112,7 @@
 			<div class="form-group">
 				<div class="checkbox col-md-6"  style="margin-left: -40px">
 					<label>
-						{!! Form::checkbox('aplicar_minimo_diuNac', true, null) !!} Aplicar	Mínimo
+						{!! Form::checkbox('aplicar_minimo_diuNac', true, null) !!} <strong>Aplicar	Mínimo</strong>
 					</label>
 				</div>
 				<div class="input-group  col-md-6"> 
@@ -126,7 +126,7 @@
 			<!-- Precio Nocturno-->
 			<!-- Equivalente de la UT-->
 			<div class="form-group">
-				<label>Nocturno: </label><br/>
+				<label><strong>Nocturno: </strong></label><br/>
 				<div class="input-group"> 
 					<div class="input-group-addon">
 						Equivalente: 
@@ -147,7 +147,7 @@
 			<div class="form-group">
 				<div class="checkbox col-md-6"  style="margin-left: -40px">
 					<label>
-						{!! Form::checkbox('aplicar_minimo_nocNac', true, null) !!} Aplicar	Mínimo
+						{!! Form::checkbox('aplicar_minimo_nocNac', true, null) !!} <strong>Aplicar	Mínimo</strong>
 					</label>
 				</div>
 				<div class="input-group  col-md-6"> 

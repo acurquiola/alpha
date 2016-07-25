@@ -9,7 +9,7 @@
 
 			<!-- Equivalente de la UT-->
 			<div class="form-group">
-				<label>Diurno: </label><br/>
+				<label><strong>Diurno: </strong></label><br/>
 				<div class="input-group"> 
 					<div class="input-group-addon">
 						Equivalente: 
@@ -32,7 +32,7 @@
 			<div class="form-group">
 				<div class="checkbox col-md-6"  style="margin-left: -40px">
 					<label>
-						{!! Form::checkbox('aplicar_minimo_diuInt_general_ext', true, null) !!} Aplicar	Mínimo
+						{!! Form::checkbox('aplicar_minimo_diuInt_general_ext', true, null) !!} <strong>Aplicar	Mínimo</strong>
 					</label>
 				</div>
 				<div class="input-group  col-md-6"> 
@@ -46,7 +46,7 @@
 			<!-- Precio Nocturno-->
 			<!-- Equivalente de la UT-->
 			<div class="form-group">
-				<label>Nocturno </label><br/>
+				<label><strong>Nocturno: </strong></label><br/>
 				<div class="input-group"> 
 					<div class="input-group-addon">
 						Equivalente: 
@@ -69,7 +69,7 @@
 			<div class="form-group">
 				<div class="checkbox col-md-6"  style="margin-left: -40px">
 					<label>
-						{!! Form::checkbox('aplicar_minimo_nocInt_general_ext', true, null) !!} Aplicar	Mínimo
+						{!! Form::checkbox('aplicar_minimo_nocInt_general_ext', true, null) !!} <strong>Aplicar	Mínimo</strong>
 					</label>
 				</div>
 				<div class="input-group  col-md-6"> 
@@ -93,7 +93,7 @@
 			<!-- Precio Diurno-->
 			<!-- Equivalente de la UT-->
 			<div class="form-group">
-				<label>Diurno: </label><br/>
+				<label><strong>Diurno: </strong></label><br/>
 				<div class="input-group"> 
 					<div class="input-group-addon">
 						Equivalente: 
@@ -115,7 +115,7 @@
 			<div class="form-group">
 				<div class="checkbox col-md-6"  style="margin-left: -40px">
 					<label>
-						{!! Form::checkbox('aplicar_minimo_diuNac_general_ext', true, null) !!} Aplicar	Mínimo
+						{!! Form::checkbox('aplicar_minimo_diuNac_general_ext', true, null) !!} <strong>Aplicar	Mínimo</strong>
 					</label>
 				</div>
 				<div class="input-group  col-md-6"> 
@@ -129,7 +129,7 @@
 			<!-- Precio Nocturno-->
 			<!-- Equivalente de la UT-->
 			<div class="form-group">
-				<label>Nocturno: </label><br/>
+				<label><strong>Nocturno: </strong></label><br/>
 				<div class="input-group"> 
 					<div class="input-group-addon">
 						Equivalente: 
@@ -151,7 +151,7 @@
 			<div class="form-group">
 				<div class="checkbox col-md-6"  style="margin-left: -40px">
 					<label>
-						{!! Form::checkbox('aplicar_minimo_nocNac_general_ext', true, null) !!} Aplicar	Mínimo
+						{!! Form::checkbox('aplicar_minimo_nocNac_general_ext', true, null) !!} <strong>Aplicar	Mínimo</strong>
 					</label>
 				</div>
 				<div class="input-group  col-md-6"> 
@@ -174,13 +174,13 @@
 			<!-- Precio Diurno-->
 			<!-- Equivalente de la UT-->
 			<div class="form-group" >
-				<label>Concepto Contado: </label><br/>
+				<label><strong>Concepto Contado: </strong></label><br/>
 
 					{!! Form::select('conceptoContado_id',	$conceptos, null, [ 'class'=>"form-control"]) !!}
 			</div>	
 
 			<div class="form-group" >
-				<label>Concepto Crédito: </label><br/>
+				<label><strong>Concepto Crédito: </strong></label><br/>
 
 					{!! Form::select('conceptoCredito_id',	$conceptos, null, [ 'class'=>"form-control"]) !!}
 			</div>		
