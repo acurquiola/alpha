@@ -63,6 +63,8 @@
             {!! Form::text('nroDosa', $factura->getMaxWith('nFacturaPrefix', 'nroDosa', $modulo->nFacturaPrefix), [ 'id' => 'nroDosa', 'class'=>"form-control", "data-empty"=>"false", "data-type"=>"int", "data-name"=>"Número de Dosa", 'style' => 'padding-left:2px']) !!}
 			{!! Form::hidden('fechaVencimiento') !!}
 			{!! Form::hidden('despegue_id', $despegue_id) !!}
+			{!! Form::hidden('aplica_minimo_aterrizaje', $aplica_minimo_aterrizaje) !!}
+			{!! Form::hidden('aplica_minimo_estacionamiento', $aplica_minimo_estacionamiento) !!}
         </div>
     </div>
 	@endif
@@ -201,7 +203,8 @@
 			@elseif(isset($cargosAdicionales))
 			{!! Form::textarea('descripcion', "Facturación por Derechos Aeronáuticos Adicionales", [ 'style'=>'padding-top:4px' ,'class'=>"form-control", $disabled , 'rows'=>"2", 'cols'=>"", "placeholder" => "Descripción de la factura"]) !!}
 			@else
-			{!! Form::textarea('descripcion', (isset($bloqueoDosa))?"Facturación por Derechos Aeronáuticos":null, [ 'style'=>'padding-top:4px' ,'class'=>"form-control", $disabled , 'rows'=>"2", 'cols'=>"", "placeholder" => "Descripción de la factura"]) !!}
+
+			{!! Form::textarea('descripcion', (isset($bloqueoDosa))?'Facturación por Derechos Aeronáuticos: '.$mensajeAterrizaje.', '.$mensajeEstacionamiento:null, [ 'style'=>'padding-top:4px' ,'class'=>"form-control", $disabled , 'rows'=>"2", 'cols'=>"", "placeholder" => "Descripción de la factura"]) !!}
 			@endif
 		</div>
 	</div>

@@ -45,11 +45,11 @@
                     <div class="form-group">
                         <label class="col-md-1 control-label"><strong>Período</strong></label>
                         <div class="col-md-4">
-                            {!! Form::text('desde', isset($desde)?$desde:null, ["class"=> "form-control datepicker", "placeholder" => "Desde", "autocomplete" => "off"]) !!}
+                            {!! Form::text('desde', isset($desde)?$desde:null, ["class"=> "form-control datepicker", "data-inputmask"=>"'alias': 'dd/mm/yyyy'" , "placeholder" => "Desde", "autocomplete" => "off"]) !!}
                         </div>
                         <label class="col-md-1 text-center" style="padding-top:10px"><strong>-</strong></label>
                         <div class="col-md-4">
-                            {!! Form::text('hasta', isset($hasta)?$hasta:null, ["class"=> "form-control datepicker", "placeholder" => "Hasta", "autocomplete" => "off"]) !!}
+                            {!! Form::text('hasta', isset($hasta)?$hasta:null, ["class"=> "form-control datepicker", "data-inputmask"=>"'alias': 'dd/mm/yyyy'" ,"placeholder" => "Hasta", "autocomplete" => "off"]) !!}
                         </div>
                     </div>
                     <div class="form-group">
@@ -201,6 +201,10 @@
 <script>
 $(function(){
 
+
+    //Datemask dd/mm/yyyy
+  $('.datepicker').inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/yyyy"});
+
   $('.datepicker').datepicker({
     closeText: 'Cerrar',
     prevText: '&#x3C;Ant',
@@ -238,6 +242,8 @@ $('#export-btn').click(function(e){
                                 DESDE: {{isset($desde)?$desde:"TODOS"}} HASTA: {{isset($hasta)?$hasta:"TODOS"}} | MÓDULO: {{isset($modulo)?$modulo:"TODOS"}}\
                                 </br>\
                                 CLIENTE: {{isset($cliente_id)?$cliente_id:"TODOS"}} | AEROPUERTO: {{isset($aeropuerto)?$aeropuerto:"TODOS"}}\
+                                </br>\
+                                CONDICIÓN: {{isset($estatusNombre)?$estatusNombre:"TODAS"}}\
                             </th>\
                         </tr>\
                     </thead>')

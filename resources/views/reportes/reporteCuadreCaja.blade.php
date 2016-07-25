@@ -67,14 +67,22 @@
 
 						<div class="table-responsive" style="max-height: 500px">
 							<table  class="table table-condensed">
+								<thead>
+									<tr class="bg-primary" >
+										<th class="text-center" colspan="7" >
+											FACTURAS EMITIDAS
+										</th>
+									</tr>
 									<tr class="bg-primary" >
 										<th class="text-center">Nro. Control</th>
 										<th class="text-center">Nro. Dosa</th>
 										<th class="text-center">Nro. Factura</th>
 										<th class="text-center">Cliente</th>
 										<th class="text-center">Fecha</th>
+										<th class="text-center">Cond. Pago</th>
 										<th class="text-center">Monto</th>
 									</tr>
+								</thead>
 								<tbody>
 									@foreach($facturas as $factura)
 									<tr title="{{$factura->fecha}}" align="center">
@@ -83,12 +91,55 @@
 										<td>{{$factura->nFacturaPrefix}}-{{$factura->nFactura}}</td>
 										<td align="left">{{$factura->cliente->nombre}}</td>
 										<td>{{$factura->fecha}}</td>
+										<td>{{$factura->condicionPago}}</td>
 										<td align="right">{{$traductor->format($factura->total)}}</td>
 									</tr>
 									@endforeach
+									@if($facturasAnuladasTotal>0)
+										<thead>
+										<tr class="bg-primary" >
+											<th class="text-center" colspan="7" >
+												FACTURAS ANULADAS
+											</th>
+										</tr>
+											<tr class="bg-primary" >
+												<th class="text-center">Nro. Control</th>
+												<th class="text-center">Nro. Dosa</th>
+												<th class="text-center">Nro. Factura</th>
+												<th class="text-center">Cliente</th>
+												<th class="text-center">Fecha</th>
+												<th class="text-center">Cond. Pago</th>
+												<th class="text-center">Monto</th>
+											</tr>
+										</thead>
+										<tbody>
+											@foreach($facturasAnuladas as $facturaAnulada)
+											<tr title="{{$facturaAnulada->fecha}}" align="center">
+												<td>{{$facturaAnulada->nControlPrefix}}-{{$facturaAnulada->nControl}}</td>
+												<td>{{$facturaAnulada->nroDosa}}</td>
+												<td>{{$facturaAnulada->nFacturaPrefix}}-{{$facturaAnulada->nFactura}}</td>
+												<td align="left">{{$facturaAnulada->cliente->nombre}}</td>
+												<td>{{$facturaAnulada->fecha}}</td>
+												<td>{{$facturaAnulada->condicionPago}}</td>
+												<td align="right">{{$traductor->format($facturaAnulada->total)}}</td>
+											</tr>
+											@endforeach
+
+					                        <tr class="bg-gray" align="center">
+					                        	<td>Total Anulado</td>
+					                        	<td> - </td>
+					                        	<td> - </td>
+					                        	<td> - </td>
+					                        	<td> - </td>
+					                        	<td> - </td>
+					                        	<td align="right">{{$traductor->format($facturasAnuladasTotal)}}</td>			                        
+					                        </tr>
+										</tbody>
+									@endif
 
 			                        <tr class="bg-gray" align="center">
 			                        	<td>Total Contado</td>
+			                        	<td> - </td>
 			                        	<td> - </td>
 			                        	<td> - </td>
 			                        	<td> - </td>
@@ -101,6 +152,7 @@
 			                        	<td> - </td>
 			                        	<td> - </td>
 			                        	<td> - </td>
+			                        	<td> - </td>
 			                        	<td align="right">{{$traductor->format($facturasCredito)}}</td>			                        
 			                        </tr>
 			                        <tr class="bg-primary" align="center">
@@ -109,9 +161,11 @@
 			                        	<td> - </td>
 			                        	<td> - </td>
 			                        	<td> - </td>
+			                        	<td> - </td>
 			                        	<td align="right">{{$traductor->format($facturasTotal)}}</td>			                        
 			                        </tr>
 								</tbody>
+								
 							</table>
 						</div>
 					</div>
@@ -137,7 +191,7 @@
 			}).remove();
 		    $(table).prepend('<thead>\
 		    					<tr>\
-									<th colspan="6" style="vertical-align: middle; margin-top:20px" align="center" class="text-center">CUADRE DE CAJA\
+									<th colspan="7" style="vertical-align: middle; margin-top:20px" align="center" class="text-center">CUADRE DE CAJA\
 									</br>\
 									DESDE: {{$diaDesde}}/{{$mesDesde}}/{{$annoDesde}} HASTA: {{$diaHasta}}/{{$mesHasta}}/{{$annoHasta}} </th>\
 								</tr>\

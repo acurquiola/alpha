@@ -29,14 +29,8 @@
                         <label class="col-md-1 control-label"><strong>Modulo</strong></label>
                         <div class="col-md-6">
                             <select autocomplete="off" class="form-control" id="modulo-select" name="modulo">
-                            <option value="0">TODOS</option>
                                 @foreach($modulos as $m)
-                                    <option data-aeropuerto="{{$m->aeropuerto->id}}"
-                                    value="{{$m->id}}"
-                                    @if(isset($modulo) && $modulo==$m->id)
-                                        selected
-                                    @endif
-                                    >{{$m->nombre}}</option>
+                                    <option data-aeropuerto="{{$m->aeropuerto->id}}" value="{{$m->id}}" @if(isset($modulo) && $modulo==$m->id) selected="selected" @endif >{{$m->nombre}}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -45,11 +39,11 @@
                     <div class="form-group">
                         <label class="col-md-1 control-label"><strong>Período</strong></label>
                         <div class="col-md-4">
-                            {!! Form::text('desde', isset($desde)?$desde:null, ["class"=> "form-control datepicker", "placeholder" => "Desde", "autocomplete" => "off"]) !!}
+                            {!! Form::text('desde', isset($desde)?$desde:null, ["class"=> "form-control datepicker",  "data-inputmask"=>"'alias': 'dd/mm/yyyy'" ,"placeholder" => "Desde", "autocomplete" => "off"]) !!}
                         </div>
                         <label class="col-md-1 text-center" style="padding-top:10px"><strong>-</strong></label>
                         <div class="col-md-4">
-                            {!! Form::text('hasta', isset($hasta)?$hasta:null, ["class"=> "form-control datepicker", "placeholder" => "Hasta", "autocomplete" => "off"]) !!}
+                            {!! Form::text('hasta', isset($hasta)?$hasta:null, ["class"=> "form-control datepicker",  "data-inputmask"=>"'alias': 'dd/mm/yyyy'" ,"placeholder" => "Hasta", "autocomplete" => "off"]) !!}
                         </div>
                     </div>
                     <div class="form-group">
@@ -126,7 +120,7 @@
                                  <th style="vertical-align: middle; width:35px" align="center" class="text-center">
                                     Código
                                  </th>
-                                 <th style="vertical-align: middle; width:180px" align="center" class="text-center">
+                                 <th style="vertical-align: middle; width:120px" align="center" class="text-center">
                                     Nombre ó Razón Social
                                  </th>
                                  <th style="vertical-align: middle; width:150px" align="center"  class="text-center">
@@ -141,31 +135,36 @@
                                  <th style="vertical-align: middle; width:70px" align="center" class="text-center">
                                     Monto
                                  </th>
+                                 <th style="vertical-align: middle; width:70px" align="center" class="text-center">
+                                    Saldo Deudor
+                                 </th>
                              </tr>
                              </thead>
                             <tbody>
-                            @if(count($facturas)>0)
-                            @foreach($facturas as $index => $factura)
-                                <tr>
-                                    <td style="vertical-align: middle; width:50px" align="center">{{$factura->fecha}}</td>
-                                    <td style="vertical-align: middle; width:60px" align="center" >{{$factura->nFacturaPrefix}}-{{$factura->nFactura}}</td>
-                                    <td style="vertical-align: middle; width:60px" align="center" >{{$factura->nControlPrefix}}-{{$factura->nControl}}</td>
-                                    <td style="vertical-align: middle; width:70px" align="center" >{{$factura->cliente->cedRifPrefix}}-{{$factura->cliente->cedRif}}</td>
-                                    <td style="vertical-align: middle; width:35px" align="center" >{{$factura->cliente->codigo}}</td>
-                                    <td style="vertical-align: middle; width:180px" align="left" >{{$factura->cliente->nombre}}</td>
-                                    <td style="vertical-align: middle; width:150px" align="left">{{$factura->descripcion}}</td>
-                                    <td style="vertical-align: middle; width:70px" align="right">{{$traductor->format($factura->subtotal)}}</td>
-                                    {{--@if(!$factura->metadata)--}}
-                                    <td style="vertical-align: middle; width:60px" align="right">{{$traductor->format($factura->iva)}}</td>
-                                    {{--@else--}}
-                                    {{--<td style="vertical-align: middle; width:60px" align="right">{{$factura->metadata->ivapercentage}}</td>--}}
-                                    {{--<td style="vertical-align: middle; width:60px" align="right">{{$factura->metadata->islrpercentage}}</td>--}}
-                                    {{--@endif--}}
-                                    <td style="vertical-align: middle; width:70px" align="right">{{$traductor->format($factura->total)}}</td>
-                                </tr>
-                            @endforeach
+                                @if(count($facturas)>0)
+                                    @foreach($facturas as $index => $factura)
+                                        <tr>
+                                            <td style="vertical-align: middle; width:50px" align="center">{{$factura->fecha}}</td>
+                                            <td style="vertical-align: middle; width:60px" align="center" >{{$factura->nFacturaPrefix}}-{{$factura->nFactura}}</td>
+                                            <td style="vertical-align: middle; width:60px" align="center" >{{$factura->nControlPrefix}}-{{$factura->nControl}}</td>
+                                            <td style="vertical-align: middle; width:70px" align="center" >{{$factura->cliente->cedRifPrefix}}-{{$factura->cliente->cedRif}}</td>
+                                            <td style="vertical-align: middle; width:35px" align="center" >{{$factura->cliente->codigo}}</td>
+                                            <td style="vertical-align: middle; width:120px" align="left" >{{$factura->cliente->nombre}}</td>
+                                            <td style="vertical-align: middle; width:150px" align="left">{{$factura->descripcion}}</td>
+                                            <td style="vertical-align: middle; width:70px" align="right">{{$traductor->format($factura->subtotal)}}</td>
+                                            {{--@if(!$factura->metadata)--}}
+                                            <td style="vertical-align: middle; width:60px" align="right">{{$traductor->format($factura->iva)}}</td>
+                                            {{--@else--}}
+                                            {{--<td style="vertical-align: middle; width:60px" align="right">{{$factura->metadata->ivapercentage}}</td>--}}
+                                            {{--<td style="vertical-align: middle; width:60px" align="right">{{$factura->metadata->islrpercentage}}</td>--}}
+                                            {{--@endif--}}
+                                            <td style="vertical-align: middle; width:70px" align="right">{{$traductor->format($factura->total)}}</td>
+                                            <td style="vertical-align: middle; width:70px" align="right">{{$traductor->format($factura->total)}}</td>
+                                        </tr>
+                                    @endforeach
                                     <tr class="bg-gray" align="center">
                                         <td colspan="2">Total</td>
+                                        <td> - </td>
                                         <td> - </td>
                                         <td> - </td>
                                         <td> - </td>
@@ -175,11 +174,11 @@
                                         <td style="vertical-align: middle; width:60px" align="right">{{$traductor->format($iva)}}</td>
                                         <td style="vertical-align: middle; width:70px" align="right">{{$traductor->format($total)}}</td>                                   
                                     </tr>     
-                            @else
-                                <tr>
-                                    <td colspan="11" class="text-center">No hay registros para los parámetros seleccionados</td>
-                                </tr>
-                            @endif
+                                @else
+                                    <tr>
+                                        <td colspan="11" class="text-center">No hay registros para los parámetros seleccionados</td>
+                                    </tr>
+                                @endif
 
                             </tbody>
 
@@ -199,6 +198,9 @@
 @section('script')
 <script>
 $(function(){
+
+    //Datemask dd/mm/yyyy
+  $('.datepicker').inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/yyyy"});
 
   $('.datepicker').datepicker({
     closeText: 'Cerrar',
@@ -232,17 +234,19 @@ $('#export-btn').click(function(e){
     }).remove();
     $(table).prepend('<thead>\
                         <tr>\
-                            <th colspan="11" style="vertical-align: middle; margin-top:20px" align="center" class="text-center">LISTADO DE FACTURAS EMITIDAS\
+                            <th colspan="12" style="vertical-align: middle; margin-top:20px" align="center" class="text-center">LISTADO DE FACTURAS EMITIDAS\
                                 </br>\
                                 DESDE: {{isset($desde)?$desde:"N/A"}} HASTA: {{isset($hasta)?$hasta:"N/A"}} | MÓDULO: {{isset($moduloNombre)?$moduloNombre:"TODOS"}}\
                                 </br>\
                                 CLIENTE: {{isset($clienteNombre)?$clienteNombre:"TODOS"}} | AEROPUERTO: {{isset($aeropuertoNombre)?$aeropuertoNombre:"TODOS"}}\
+                                </br>\
+                                CONDICIÓN: {{isset($estatusNombre)?$estatusNombre:"TODAS"}}\
                             </th>\
                         </tr>\
                     </thead>')
     $(table).find('thead, th').css({'border-top':'1px solid black', 'font-weight': 'bold', 'text-align':"center", 'font-size': '7px'})
     $(table).find('th').css({'border-bottom':'1px solid black', 'font-weight': 'bold', 'text-align':"center", 'font-size': '7px'})
-    $(table).find('td').css({'font-size': '6px'})
+    $(table).find('td').css({'font-size': '5px'})
     $(table).find('tr:nth-child(even)').css({'background-color': '#E2E2E2'})
     $(table).find('tr:last td').css({'border-bottom':'1px solid black','border-top':'1px solid black', 'font-weight': 'bold'})
     var tableHtml= $(table)[0].outerHTML;

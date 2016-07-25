@@ -84,11 +84,14 @@ class CobranzaController extends Controller {
         ->where('cobros.fecha', $fechaOperator, $fecha)
         ->where('observacion', 'like', "%$observacion%")
         ->where('clientes.nombre', 'like', "%$clienteNombre%")
-        ->where('cobros.aeropuerto_id','=', session('aeropuerto')->id)
+        ->where('cobros.aeropuerto_id', session('aeropuerto')->id)
         ->with('cliente');
+        
         $cobros=$cobros->orderBy($sortName, $sortType)->paginate(15);
-
         $cobros->setPath('');
+
+
+
 
 
         return view('cobranza.index', compact('cobros','modulo'))->withInput(\Input::all());

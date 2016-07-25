@@ -87,6 +87,8 @@ class ReporteController extends Controller {
         for($i=1;$i<=12; $i++){
                 $diaMes=\Carbon\Carbon::create($anno, $i,1);
                 $estacionamientos = 0;
+                $tasas = 0;
+
                 foreach ($modulos as $modulo) {
                     $montos[$meses[$diaMes->month]][$modulo->nombre]["total"]    =\App\Cobro::where('modulo_id', $modulo->id)
                                                                                     ->where('fecha','>=' ,$diaMes->startOfMonth()->toDateTimeString())
@@ -99,9 +101,20 @@ class ReporteController extends Controller {
                                                                     ->where('estacionamientoops.fecha','<=' ,$diaMes->endOfMonth()->toDateTimeString())
                                                                     ->sum('depositado');
 
+                        $montos[$meses[$diaMes->month]][$modulo->nombre]["total"]    += $estacionamientos;
                     }
 
-                    $montos[$meses[$diaMes->month]][$modulo->nombre]["total"]    += $estacionamientos;
+                    if($modulo->nombre == 'TASAS'){
+                        $tasas = \App\TasaCobroDetalle::join('tasa_cobros', 'tasa_cobros.id', '=', 'tasa_cobro_detalles.tasa_cobro_id')
+                                                ->where('tasa_cobro_detalles.fecha','>=' ,$diaMes->startOfMonth()->toDateTimeString())
+                                                ->where('tasa_cobro_detalles.fecha','<=' ,$diaMes->endOfMonth()->toDateTimeString())
+                                                ->where('tasa_cobros.aeropuerto_id', $aeropuerto)
+                                                ->sum('tasa_cobro_detalles.monto');
+
+                        $montos[$meses[$diaMes->month]][$modulo->nombre]["total"]    += $tasas;
+                    }
+
+
 
                     foreach($modulo->conceptos as $concepto){
                         $montos[$meses[$diaMes->month]][$modulo->nombre][$concepto->nompre]    =\App\Cobro::join('cobro_factura', 'cobro_factura.cobro_id', '=', 'cobros.id')
@@ -129,7 +142,11 @@ class ReporteController extends Controller {
                 }
             }
 
-        return view('reportes.reporteControlDeRecaudacionMensual', compact('modulos', 'montos', 'montosTotales', 'mes', 'anno', 'aeropuerto'));
+        
+        $aeropuertoNombre=\App\Aeropuerto::find($aeropuerto)->nombre;
+
+
+        return view('reportes.reporteControlDeRecaudacionMensual', compact('aeropuertoNombre', 'modulos', 'montos', 'montosTotales', 'mes', 'anno', 'aeropuerto'));
     }
 
     //Control de Recaudacíón Mensual
@@ -144,6 +161,7 @@ class ReporteController extends Controller {
         $ultimoDiaMes  =\Carbon\Carbon::create($anno, $mes,1)->endOfMonth();
         for(;$primerDiaMes<=$ultimoDiaMes; $primerDiaMes->addDay()){
             $estacionamientos = 0;
+            $tasas = 0;
             foreach ($modulos as $modulo) {
                 $montos[$primerDiaMes->format('d/m/Y')][$modulo->nombre]["total"]    =\App\Cobro::where('modulo_id', $modulo->id)
                                                                                 ->where('fecha', 'like', $primerDiaMes->toDateString().'%')
@@ -154,9 +172,19 @@ class ReporteController extends Controller {
                                                                 ->where('estacionamientoops.fecha',$primerDiaMes->toDateString())
                                                                 ->sum('depositado');
 
+                    $montos[$primerDiaMes->format('d/m/Y')][$modulo->nombre]["total"]    += $estacionamientos;
                 }
 
-                $montos[$primerDiaMes->format('d/m/Y')][$modulo->nombre]["total"]    += $estacionamientos;
+                if($modulo->nombre == 'TASAS'){
+                    $tasas = \App\TasaCobroDetalle::join('tasa_cobros', 'tasa_cobros.id', '=', 'tasa_cobro_detalles.tasa_cobro_id')
+                                                             ->where('tasa_cobro_detalles.fecha',$primerDiaMes->toDateString())
+                                                             ->where('tasa_cobros.aeropuerto_id', $aeropuerto)
+                                                             ->sum('tasa_cobro_detalles.monto');
+
+                    $montos[$primerDiaMes->format('d/m/Y')][$modulo->nombre]["total"]    += $tasas;
+                }
+
+
 
                 foreach($modulo->conceptos as $concepto){
                     $montos[$primerDiaMes->format('d/m/Y')][$modulo->nombre][$concepto->nompre]    =\App\Cobro::join('cobro_factura', 'cobro_factura.cobro_id', '=', 'cobros.id')
@@ -182,8 +210,29 @@ class ReporteController extends Controller {
             }
         }
 
+        $mes = (int)$mes;
+        $meses=[
+            01=>"ENERO",
+            02=>"FEBRERO",
+            03=>"MARZO",
+            04=>"ABRIL",
+            05=>"MAYO",
+            06=>"JUNIO",
+            07=>"JULIO",
+            08=>"AGOSTO",
+            09=>"SEPTIEMBRE",
+            10=>"OCTUBRE",
+            11=>"NOVIEMBRE",
+            12=>"DICIEMBRE"];
 
-        return view('reportes.reporteControlDeRecaudacionDiario', compact('modulos', 'montos', 'montosTotales', 'mes', 'anno', 'aeropuerto'));
+        $mesLetras = $meses[$mes];
+        
+        $aeropuertoNombre=\App\Aeropuerto::find($aeropuerto)->nombre;
+
+
+
+
+        return view('reportes.reporteControlDeRecaudacionDiario', compact('mesLetras', 'aeropuertoNombre','modulos', 'montos', 'montosTotales', 'mes', 'anno', 'aeropuerto'));
     }
 
     public function getReporteModuloMetaMensual(Request $request){
@@ -240,31 +289,41 @@ class ReporteController extends Controller {
 
             $puertosNac = \App\Puerto::where('pais_id', '232')->lists('id');
             $puertosInt = \App\Puerto::where('pais_id', '<>', '232')->lists('id');
-
-
-            $aterrizajesNac = \App\Aterrizaje::whereBetween('fecha', array($annoDesde.'-'.$mesDesde.'-'.$diaDesde,  $annoHasta.'-'.$mesHasta.'-'.$diaHasta))
-                                        ->where('cliente_id', $cliente->id)
+            $facturas   = \App\Factura::whereBetween('fecha', array($annoDesde.'-'.$mesDesde.'-'.$diaDesde,  $annoHasta.'-'.$mesHasta.'-'.$diaHasta))
+                                        ->where('nroDosa', '<>', 'NULL')
                                         ->where('aeropuerto_id', session('aeropuerto')->id)
-                                        ->where('puerto_id', ($procedencia==0)?'>=':'=', $procedencia)
-                                        ->whereIn('puerto_id', $puertosNac)
+                                        ->lists('id');
+
+            $aterrizajesNac = \App\Aterrizaje::whereBetween('aterrizajes.fecha', array($annoDesde.'-'.$mesDesde.'-'.$diaDesde,  $annoHasta.'-'.$mesHasta.'-'.$diaHasta))
+                                        ->join('despegues', 'despegues.aterrizaje_id', '=', 'aterrizajes.id')
+                                        ->where('aterrizajes.cliente_id', $cliente->id)
+                                        ->where('aterrizajes.aeropuerto_id', session('aeropuerto')->id)
+                                        ->where('aterrizajes.puerto_id', ($procedencia==0)?'>=':'=', $procedencia)
+                                        ->whereIn('aterrizajes.puerto_id', $puertosNac)
+                                        ->whereIn('despegues.factura_id', $facturas)
                                         ->get();
+
             $despeguesNac = \App\Despegue::whereBetween('fecha', array($annoDesde.'-'.$mesDesde.'-'.$diaDesde, $annoHasta.'-'.$mesHasta.'-'.$diaHasta))                                        ->where('cliente_id', $cliente->id)
                                         ->where('aeropuerto_id', session('aeropuerto')->id)
                                         ->where('puerto_id', ($destino==0)?'>=':'=', $destino)
                                         ->whereIn('puerto_id', $puertosNac)
+                                        ->whereIn('factura_id', $facturas)
                                         ->get();
 
-            $aterrizajesInt = \App\Aterrizaje::whereBetween('fecha', array($annoDesde.'-'.$mesDesde.'-'.$diaDesde,  $annoHasta.'-'.$mesHasta.'-'.$diaHasta))
-                                        ->where('cliente_id', $cliente->id)
-                                        ->where('aeropuerto_id', session('aeropuerto')->id)
-                                        ->where('puerto_id', ($procedencia==0)?'>=':'=', $procedencia)
-                                        ->whereIn('puerto_id', $puertosInt)
+            $aterrizajesInt = \App\Aterrizaje::whereBetween('aterrizajes.fecha', array($annoDesde.'-'.$mesDesde.'-'.$diaDesde,  $annoHasta.'-'.$mesHasta.'-'.$diaHasta))
+                                         ->join('despegues', 'despegues.aterrizaje_id', '=', 'aterrizajes.id')
+                                        ->where('aterrizajes.cliente_id', $cliente->id)
+                                        ->where('aterrizajes.aeropuerto_id', session('aeropuerto')->id)
+                                        ->where('aterrizajes.puerto_id', ($procedencia==0)?'>=':'=', $procedencia)
+                                        ->whereIn('despegues.factura_id', $facturas)
+                                        ->whereIn('aterrizajes.puerto_id', $puertosInt)
                                         ->get();
             $despeguesInt = \App\Despegue::whereBetween('fecha', array($annoDesde.'-'.$mesDesde.'-'.$diaDesde,  $annoHasta.'-'.$mesHasta.'-'.$diaHasta))
                                         ->where('cliente_id', $cliente->id)
                                         ->where('aeropuerto_id', session('aeropuerto')->id)
                                         ->where('puerto_id', ($destino==0)?'>=':'=', $destino)
                                         ->whereIn('puerto_id', $puertosInt)
+                                        ->whereIn('factura_id', $facturas)
                                         ->get();
 
             if ($aterrizajesNac->count() != 0 || $aterrizajesInt->count() != 0 || $despeguesNac->count() != 0 || $despeguesInt->count()!= 0){
@@ -365,6 +424,21 @@ class ReporteController extends Controller {
         ];
         for($i=1;$i<=12; $i++){
                 $diaMes=\Carbon\Carbon::create($anno, $i,1);
+                $tasasPZO = \App\TasaCobroDetalle::join('tasa_cobros', 'tasa_cobros.id', '=', 'tasa_cobro_detalles.tasa_cobro_id')
+                                        ->where('tasa_cobro_detalles.fecha','>=' ,$diaMes->startOfMonth()->toDateTimeString())
+                                        ->where('tasa_cobro_detalles.fecha','<=' ,$diaMes->endOfMonth()->toDateTimeString())
+                                        ->where('tasa_cobros.aeropuerto_id','1')
+                                        ->get();
+                $tasasCBL = \App\TasaCobroDetalle::join('tasa_cobros', 'tasa_cobros.id', '=', 'tasa_cobro_detalles.tasa_cobro_id')
+                                        ->where('tasa_cobro_detalles.fecha','>=' ,$diaMes->startOfMonth()->toDateTimeString())
+                                        ->where('tasa_cobro_detalles.fecha','<=' ,$diaMes->endOfMonth()->toDateTimeString())
+                                        ->where('tasa_cobros.aeropuerto_id','2')
+                                        ->get();
+                $tasasSNV = \App\TasaCobroDetalle::join('tasa_cobros', 'tasa_cobros.id', '=', 'tasa_cobro_detalles.tasa_cobro_id')
+                                        ->where('tasa_cobro_detalles.fecha','>=' ,$diaMes->startOfMonth()->toDateTimeString())
+                                        ->where('tasa_cobro_detalles.fecha','<=' ,$diaMes->endOfMonth()->toDateTimeString())
+                                        ->where('tasa_cobros.aeropuerto_id','3')
+                                        ->get();
                 $cobrosPZO=\App\Cobro::where('cobros.fecha','>=' ,$diaMes->startOfMonth()->toDateTimeString())
                 ->where('cobros.fecha','<=' ,$diaMes->endOfMonth()->toDateTimeString())
                 ->where('cobros.aeropuerto_id','1')
@@ -392,13 +466,26 @@ class ReporteController extends Controller {
                 $montosMeses[$meses[$diaMes->month]]["cobradoPZO"]+=$cobroPZO->montodepositado;
             }
 
+            foreach ($tasasPZO as $tasaPZO) {
+                $montosMeses[$meses[$diaMes->month]]["cobradoPZO"]+=$tasaPZO->monto;
+            }
+
             foreach ($cobrosCBL as $cobroCBL) {
                 $montosMeses[$meses[$diaMes->month]]["cobradoCBL"]+=$cobroCBL->montodepositado;
+            }
+
+            foreach ($tasasCBL as $tasaCBL) {
+                $montosMeses[$meses[$diaMes->month]]["cobradoCBL"]+=$tasaCBL->monto;
             }
 
             foreach ($cobrosSNV as $cobroSNV) {
                 $montosMeses[$meses[$diaMes->month]]["cobradoSNV"]+=$cobroSNV->montodepositado;
             }
+
+            foreach ($tasasSNV as $tasaSNV) {
+                $montosMeses[$meses[$diaMes->month]]["cobradoSNV"]+=$tasaSNV->monto;
+            }
+
 
             $montosMeses[$meses[$diaMes->month]]["cobradoTotal"]+=$montosMeses[$meses[$diaMes->month]]["cobradoPZO"]+$montosMeses[$meses[$diaMes->month]]["cobradoCBL"]+$montosMeses[$meses[$diaMes->month]]["cobradoSNV"];
 
@@ -641,97 +728,36 @@ class ReporteController extends Controller {
         return view('reportes.reporteRelacionEstacionamientoDiario', compact('mes', 'mesNombre', 'anno', 'aeropuerto', 'aeropuertoNombre', 'estacionamientoDiario'));
     }
 
-//Reporte Diario de Ingresos
-    public function getReporteDiarioIngreso(Request $request){
-        $mes        =$request->get('mes', \Carbon\Carbon::now()->month);
-        $anno       =$request->get('anno',  \Carbon\Carbon::now()->year);
-        $aeropuerto =$request->get('aeropuerto', session('aeropuerto')->id)+0;
-        $ingresoDiario=[];
-        $primerDiaMes=\Carbon\Carbon::create($anno, $mes,1)->startOfMonth();
-        $ultimoDiaMes=\Carbon\Carbon::create($anno, $mes,1)->endOfMonth();
-        for(;$primerDiaMes<=$ultimoDiaMes; $primerDiaMes->addDay()){
-
-            $ingresoDiario[$primerDiaMes->format('d/m/Y')]=[
-                "ticketEstacionamiento"      =>0,
-                "baseTicketEstacionamiento"  =>0,
-                "ivaTicketEstacionamiento"   =>0,
-                "totalTicketEstacionamiento" =>0,
-                "ticketPernocta"             =>0,
-                "baseTicketPernocta"         =>0,
-                "ivaTicketPernocta"          =>0,
-                "totalTicketPernocta"        =>0,
-                "ticketExtraviado"           =>0,
-                "baseTicketExtraviado"       =>0,
-                "ivaTicketExtraviado"        =>0,
-                "totalTicketExtraviado"      =>0,
-                "totalTicketExtraviado"      =>0,
-                "totalTicketExtraviado"      =>0,
-                "totalTicketExtraviado"      =>0,
-                "baseTotal"                  =>0,
-                "ivaTotal"                   =>0,
-                "montoTotal"                 =>0,
-                "deposito"                   =>0
-            ];
-
-            $iva=\App\Concepto::where('nompre', 'ESTACIONAMIENTO DE VEHICULOS')->where('aeropuerto_id', $aeropuerto)->first()->iva;
-
-            $estacionamientos=\App\Estacionamientoopticket::join('estacionamientoops', 'estacionamientooptickets.estacionamientoop_id', '=', 'estacionamientoops.id')
-                                                        ->join('estacionamientoopticketsdepositos', 'estacionamientoops.id', '=', 'estacionamientoopticketsdepositos.estacionamientoop_id')
-                                                        ->where('estacionamientoops.fecha' ,$primerDiaMes)
-                                                        ->get();
-
-            foreach ($estacionamientos as $estacionamiento) {
-
-
-                if($estacionamiento->econcepto_id=='8' || $estacionamiento->econcepto_id=='11'|| $estacionamiento->econcepto_id=='13'){
-                    $estacionamientoDiario[$primerDiaMes->format('d/m/Y')]["ticketEstacionamiento"]      +=$estacionamiento->cantidad;
-                    $estacionamientoDiario[$primerDiaMes->format('d/m/Y')]["ivaTicketEstacionamiento"]   +=($estacionamiento->monto)*$iva/100;
-                    $estacionamientoDiario[$primerDiaMes->format('d/m/Y')]["totalTicketEstacionamiento"] +=$estacionamiento->monto;
-                    $estacionamientoDiario[$primerDiaMes->format('d/m/Y')]["baseTicketEstacionamiento"]  =$estacionamientoDiario[$primerDiaMes->format('d/m/Y')]["totalTicketEstacionamiento"]-$estacionamientoDiario[$primerDiaMes->format('d/m/Y')]["ivaTicketEstacionamiento"];
-
-                }
-                if($estacionamiento->econcepto_id=='10'){
-                    $estacionamientoDiario[$primerDiaMes->format('d/m/Y')]["ticketEstacionamiento"]      +=$estacionamiento->cantidad;
-                    $estacionamientoDiario[$primerDiaMes->format('d/m/Y')]["ivaTicketEstacionamiento"]   +=($estacionamiento->monto)*$iva/100;
-                    $estacionamientoDiario[$primerDiaMes->format('d/m/Y')]["totalTicketEstacionamiento"] +=$estacionamiento->monto;
-                    $estacionamientoDiario[$primerDiaMes->format('d/m/Y')]["baseTicketEstacionamiento"]  =$estacionamientoDiario[$primerDiaMes->format('d/m/Y')]["totalTicketEstacionamiento"]-$estacionamientoDiario[$primerDiaMes->format('d/m/Y')]["ivaTicketEstacionamiento"];
-
-                }
-                if($estacionamiento->econcepto_id=='9'){
-                    $estacionamientoDiario[$primerDiaMes->format('d/m/Y')]["ticketEstacionamiento"]      +=$estacionamiento->cantidad;
-                    $estacionamientoDiario[$primerDiaMes->format('d/m/Y')]["ivaTicketEstacionamiento"]   +=($estacionamiento->monto)*$iva/100;
-                    $estacionamientoDiario[$primerDiaMes->format('d/m/Y')]["totalTicketEstacionamiento"] +=$estacionamiento->monto;
-                    $estacionamientoDiario[$primerDiaMes->format('d/m/Y')]["baseTicketEstacionamiento"]  =$estacionamientoDiario[$primerDiaMes->format('d/m/Y')]["totalTicketEstacionamiento"]-$estacionamientoDiario[$primerDiaMes->format('d/m/Y')]["ivaTicketEstacionamiento"];
-
-                }
-
-                $estacionamientoDiario[$primerDiaMes->format('d/m/Y')]["deposito"]   =$estacionamiento->deposito;
-                $estacionamientoDiario[$primerDiaMes->format('d/m/Y')]["montoTotal"] =$estacionamiento->total;
-                $estacionamientoDiario[$primerDiaMes->format('d/m/Y')]["ivaTotal"]   =($estacionamiento->total)*$iva/100;
-                $estacionamientoDiario[$primerDiaMes->format('d/m/Y')]["baseTotal"]  =$estacionamientoDiario[$primerDiaMes->format('d/m/Y')]["montoTotal"]-$estacionamientoDiario[$primerDiaMes->format('d/m/Y')]["ivaTotal"];
-            }
-
-        }
-
-        return view('reportes.reporteRelacionEstacionamientoDiario', compact('mes', 'anno', 'aeropuerto', 'estacionamientoDiario'));
-    }
-
-    //DES 900
+    //DES 900 (Listo, revisado y aprobado)
     public function getReporteDES900(Request $request){
-        $diaDesde   =$request->get('diaDesde', \Carbon\Carbon::now()->day);
-        $mesDesde   =$request->get('mesDesde', \Carbon\Carbon::now()->month);
-        $annoDesde  =$request->get('annoDesde',  \Carbon\Carbon::now()->year);
-        $diaHasta   =$request->get('diaHasta', \Carbon\Carbon::now()->day);
-        $mesHasta   =$request->get('mesHasta', \Carbon\Carbon::now()->month);
-        $annoHasta  =$request->get('annoHasta',  \Carbon\Carbon::now()->year);
-        $aeropuerto =session('aeropuerto');
-        $aterrizajes = \App\Aterrizaje::whereBetween('fecha', array($annoDesde.'-'.$mesDesde.'-'.$diaDesde,  $annoHasta.'-'.$mesHasta.'-'.$diaHasta))->lists('id');
-        $despegues  = \App\Despegue::with("factura", "aterrizaje")
+        $diaDesde    =$request->get('diaDesde', \Carbon\Carbon::now()->day);
+        $mesDesde    =$request->get('mesDesde', \Carbon\Carbon::now()->month);
+        $annoDesde   =$request->get('annoDesde',  \Carbon\Carbon::now()->year);
+        $diaHasta    =$request->get('diaHasta', \Carbon\Carbon::now()->day);
+        $mesHasta    =$request->get('mesHasta', \Carbon\Carbon::now()->month);
+        $annoHasta   =$request->get('annoHasta',  \Carbon\Carbon::now()->year);
+        $aeropuerto  =session('aeropuerto');
+        $facturas   = \App\Factura::whereBetween('fecha', array($annoDesde.'-'.$mesDesde.'-'.$diaDesde,  $annoHasta.'-'.$mesHasta.'-'.$diaHasta))
+                                    ->where('nroDosa', '<>', 'NULL')
+                                    ->where('aeropuerto_id', session('aeropuerto')->id)
+                                    ->lists('id');
+
+
+        $aterrizajes =\App\Aterrizaje::select('aterrizajes.id as aux')
+                                    ->whereBetween('aterrizajes.fecha', array($annoDesde.'-'.$mesDesde.'-'.$diaDesde,  $annoHasta.'-'.$mesHasta.'-'.$diaHasta))
+                                    ->join('despegues', 'despegues.aterrizaje_id', '=', 'aterrizajes.id')
+                                    ->where('aterrizajes.aeropuerto_id', session('aeropuerto')->id)
+                                    ->whereIn('despegues.factura_id', $facturas)
+                                    ->lists('aux');
+
+        $despegues   =\App\Despegue::with("factura", "aterrizaje")
                                 ->where('aeropuerto_id', session('aeropuerto')->id)
                                 ->whereBetween('fecha', array($annoDesde.'-'.$mesDesde.'-'.$diaDesde,  $annoHasta.'-'.$mesHasta.'-'.$diaHasta) )
+                                ->whereIn('factura_id', $facturas)
                                 ->OrwhereIn('aterrizaje_id', $aterrizajes)
                                 ->orderBy('fecha')
                                 ->get();
+
 
         return view('reportes.reporteDES900', compact('diaDesde', 'mesDesde', 'annoDesde', 'diaHasta', 'mesHasta', 'annoHasta', 'aeropuerto', 'despegues'));
     }
@@ -770,10 +796,12 @@ class ReporteController extends Controller {
 
         $mesLetras = $meses[$mes];
 
+        $aeropuertoNombre=\App\Aeropuerto::find($aeropuerto)->nombre;
+
         return view('reportes.reporteFormulariosAnulados', compact('mes', 'mesLetras', 'anno', 'aeropuerto', 'recibosAnulados', 'facturasAnuladas'));
     }
 
-    //Listado de Clientes
+    //Listado de Clientes (Listo)
     public function getListadoClientes(Request $request){
         $tipo = $request->get('tipo');
         if($tipo == 'TODOS'){
@@ -971,15 +999,34 @@ class ReporteController extends Controller {
                 $diaMes=\Carbon\Carbon::create($anno, $i,1);
 
                 //Cobrado
+
+                $tasasPZO = \App\TasaCobroDetalle::join('tasa_cobros', 'tasa_cobros.id', '=', 'tasa_cobro_detalles.tasa_cobro_id')
+                                        ->where('tasa_cobro_detalles.fecha','>=' ,$diaMes->startOfMonth()->toDateTimeString())
+                                        ->where('tasa_cobro_detalles.fecha','<=' ,$diaMes->endOfMonth()->toDateTimeString())
+                                        ->where('tasa_cobros.aeropuerto_id','1')
+                                        ->get();
+
                 $cobrosPZO=\App\Cobro::where('cobros.fecha','>=' ,$diaMes->startOfMonth()->toDateTimeString())
                 ->where('cobros.fecha','<=' ,$diaMes->endOfMonth()->toDateTimeString())
                 ->where('cobros.aeropuerto_id','1')
                 ->get();
 
+                $tasasCBL = \App\TasaCobroDetalle::join('tasa_cobros', 'tasa_cobros.id', '=', 'tasa_cobro_detalles.tasa_cobro_id')
+                                        ->where('tasa_cobro_detalles.fecha','>=' ,$diaMes->startOfMonth()->toDateTimeString())
+                                        ->where('tasa_cobro_detalles.fecha','<=' ,$diaMes->endOfMonth()->toDateTimeString())
+                                        ->where('tasa_cobros.aeropuerto_id','2')
+                                        ->get();
+
                 $cobrosCBL=\App\Cobro::where('cobros.fecha','>=' ,$diaMes->startOfMonth()->toDateTimeString())
                 ->where('cobros.fecha','<=' ,$diaMes->endOfMonth()->toDateTimeString())
                 ->where('cobros.aeropuerto_id','2')
                 ->get();
+
+                $tasasSNV = \App\TasaCobroDetalle::join('tasa_cobros', 'tasa_cobros.id', '=', 'tasa_cobro_detalles.tasa_cobro_id')
+                                        ->where('tasa_cobro_detalles.fecha','>=' ,$diaMes->startOfMonth()->toDateTimeString())
+                                        ->where('tasa_cobro_detalles.fecha','<=' ,$diaMes->endOfMonth()->toDateTimeString())
+                                        ->where('tasa_cobros.aeropuerto_id','3')
+                                        ->get();
 
                 $cobrosSNV=\App\Cobro::where('cobros.fecha','>=' ,$diaMes->startOfMonth()->toDateTimeString())
                 ->where('cobros.fecha','<=' ,$diaMes->endOfMonth()->toDateTimeString())
@@ -1017,6 +1064,18 @@ class ReporteController extends Controller {
                 $montosMeses[$meses[$diaMes->month]]["recaudadoSNV"]+=$cobroSNV->montodepositado;
             }
 
+              foreach ($tasasPZO as $tasaPZO) {
+                $montosMeses[$meses[$diaMes->month]]["recaudadoPZO"]+=$tasaPZO->monto;
+            }
+
+            foreach ($tasasCBL as $tasaCBL) {
+                $montosMeses[$meses[$diaMes->month]]["recaudadoCBL"]+=$tasaCBL->monto;
+            }
+
+            foreach ($tasasSNV as $tasaSNV) {
+                $montosMeses[$meses[$diaMes->month]]["recaudadoSNV"]+=$tasaSNV->monto;
+            }
+
             $montosMeses[$meses[$diaMes->month]]["diferenciaPZO"]   =$montosMeses[$meses[$diaMes->month]]["recaudadoPZO"]-$montosMeses[$meses[$diaMes->month]]["metaPZO"];
             $montosMeses[$meses[$diaMes->month]]["diferenciaCBL"]   =$montosMeses[$meses[$diaMes->month]]["recaudadoCBL"]-$montosMeses[$meses[$diaMes->month]]["metaCBL"];
             $montosMeses[$meses[$diaMes->month]]["diferenciaSNV"]   =$montosMeses[$meses[$diaMes->month]]["recaudadoSNV"]-$montosMeses[$meses[$diaMes->month]]["metaSNV"];
@@ -1048,19 +1107,36 @@ class ReporteController extends Controller {
 
                 //Cobrado
                 $cobrosPZO=\App\Cobro::where('cobros.fecha','>=' ,$diaMes->startOfMonth()->toDateTimeString())
-                ->where('cobros.fecha','<=' ,$diaMes->endOfMonth()->toDateTimeString())
-                ->where('cobros.aeropuerto_id','1')
-                ->get();
+                                            ->where('cobros.fecha','<=' ,$diaMes->endOfMonth()->toDateTimeString())
+                                            ->where('cobros.aeropuerto_id','1')
+                                            ->get();
 
                 $cobrosCBL=\App\Cobro::where('cobros.fecha','>=' ,$diaMes->startOfMonth()->toDateTimeString())
-                ->where('cobros.fecha','<=' ,$diaMes->endOfMonth()->toDateTimeString())
-                ->where('cobros.aeropuerto_id','2')
-                ->get();
+                                            ->where('cobros.fecha','<=' ,$diaMes->endOfMonth()->toDateTimeString())
+                                            ->where('cobros.aeropuerto_id','2')
+                                            ->get();
 
                 $cobrosSNV=\App\Cobro::where('cobros.fecha','>=' ,$diaMes->startOfMonth()->toDateTimeString())
-                ->where('cobros.fecha','<=' ,$diaMes->endOfMonth()->toDateTimeString())
-                ->where('cobros.aeropuerto_id','3')
-                ->get();
+                                            ->where('cobros.fecha','<=' ,$diaMes->endOfMonth()->toDateTimeString())
+                                            ->where('cobros.aeropuerto_id','3')
+                                            ->get();
+
+                $tasasPZO = \App\TasaCobroDetalle::join('tasa_cobros', 'tasa_cobros.id', '=', 'tasa_cobro_detalles.tasa_cobro_id')
+                                            ->where('tasa_cobro_detalles.fecha','>=' ,$diaMes->startOfMonth()->toDateTimeString())
+                                            ->where('tasa_cobro_detalles.fecha','<=' ,$diaMes->endOfMonth()->toDateTimeString())
+                                            ->where('tasa_cobros.aeropuerto_id','1')
+                                            ->get();
+                $tasasCBL = \App\TasaCobroDetalle::join('tasa_cobros', 'tasa_cobros.id', '=', 'tasa_cobro_detalles.tasa_cobro_id')
+                                            ->where('tasa_cobro_detalles.fecha','>=' ,$diaMes->startOfMonth()->toDateTimeString())
+                                            ->where('tasa_cobro_detalles.fecha','<=' ,$diaMes->endOfMonth()->toDateTimeString())
+                                            ->where('tasa_cobros.aeropuerto_id','2')
+                                            ->get();
+                $tasasSNV = \App\TasaCobroDetalle::join('tasa_cobros', 'tasa_cobros.id', '=', 'tasa_cobro_detalles.tasa_cobro_id')
+                                            ->where('tasa_cobro_detalles.fecha','>=' ,$diaMes->startOfMonth()->toDateTimeString())
+                                            ->where('tasa_cobro_detalles.fecha','<=' ,$diaMes->endOfMonth()->toDateTimeString())
+                                            ->where('tasa_cobros.aeropuerto_id','3')
+                                            ->get();
+
 
                 //Facturas por Cobrar
                 $facturasPZO=\App\Factura::where('facturas.fecha','>=' ,$diaMes->startOfMonth()->toDateTimeString())
@@ -1104,6 +1180,19 @@ class ReporteController extends Controller {
             foreach ($cobrosSNV as $cobroSNV) {
                 $montosMeses[$meses[$diaMes->month]]["cobradoSNV"]+=$cobroSNV->montodepositado;
             }
+
+            foreach ($tasasPZO as $tasaPZO) {
+            $montosMeses[$meses[$diaMes->month]]["cobradoPZO"]+=$tasaPZO->monto;
+            }
+
+            foreach ($tasasCBL as $tasaCBL) {
+                $montosMeses[$meses[$diaMes->month]]["cobradoCBL"]+=$tasaCBL->monto;
+            }
+            
+            foreach ($tasasSNV as $tasaSNV) {
+                $montosMeses[$meses[$diaMes->month]]["cobradoSNV"]+=$tasaSNV->monto;
+            }
+
 
             foreach ($facturasPZO as $facturaPZO) {
                 $montosMeses[$meses[$diaMes->month]]["porCobrarPZO"]+=$facturaPZO->total;
@@ -1150,15 +1239,26 @@ class ReporteController extends Controller {
                                 ->orderBy('nroDosa', 'ASC')
                                 ->get();
 
-        $facturasTotal   = $facturas->sum('total');
+        $facturasAnuladas = \App\Factura::onlyTrashed()
+                                ->whereBetween('fecha', array($annoDesde.'-'.$mesDesde.'-'.$diaDesde,  $annoHasta.'-'.$mesHasta.'-'.$diaHasta) )
+                                ->where('aeropuerto_id', session('aeropuerto')->id)
+                                ->where('nroDosa', '<>', 'NULL')
+                                ->orderBy('nControl', 'ASC')
+                                ->orderBy('nFactura', 'ASC')
+                                ->orderBy('nroDosa', 'ASC')
+                                ->get();
 
-        $facturasCredito = $facturas->where('condicionPago', 'Crédito')
-                                    ->sum('total');
+ 
+        $facturasTotal         = $facturas->sum('total');
+        $facturasAnuladasTotal = $facturasAnuladas->sum('total');
+        
+        $facturasCredito       = $facturas->where('condicionPago', 'Crédito')
+                                                ->sum('total');
+        
+        $facturasContado       = $facturas->where('condicionPago', 'Contado')
+                                                ->sum('total');
 
-        $facturasContado = $facturas->where('condicionPago', 'Contado')
-                                    ->sum('total');
-
-        return view('reportes.reporteCuadreCaja', compact('diaDesde', 'mesDesde', 'annoDesde', 'diaHasta', 'mesHasta', 'annoHasta', 'aeropuerto', 'facturas', 'facturasTotal', 'facturasContado', 'facturasCredito'));
+        return view('reportes.reporteCuadreCaja', compact('diaDesde', 'mesDesde', 'annoDesde', 'diaHasta', 'mesHasta', 'annoHasta', 'aeropuerto', 'facturas', 'facturasTotal', 'facturasContado', 'facturasCredito', 'facturasAnuladas', 'facturasAnuladasTotal'));
     }
 
 
@@ -1176,6 +1276,7 @@ class ReporteController extends Controller {
                                 ->join('facturadetalles', 'facturadetalles.factura_id', '=', 'facturas.id')
                                 ->whereBetween('fecha', array($annoDesde.'-'.$mesDesde.'-'.$diaDesde,  $annoHasta.'-'.$mesHasta.'-'.$diaHasta) )
                                 ->where('aeropuerto_id', session('aeropuerto')->id)
+                                ->groupBy('nFactura')
                                 ->orderBy('nFactura')
                                 ->get();        
 
@@ -1277,8 +1378,25 @@ class ReporteController extends Controller {
                 $clienteNombre="TODOS";
             }
 
+            switch ($estatus) {
+                case 'C':
+                    $estatusNombre = "COBRADAS";
+                    break;
+                case 'P':
+                    $estatusNombre = "PENDIENTES";
+                    break;
+                case 'A':
+                    $estatusNombre = "ANULADAS";
+                    break;
+                case 'V':
+                    $estatusNombre = "VENCIDAS";
+                    break;
+                default:
+                    $estatusNombre = "TODAS";
+                    break;
+            }
 
-            $view->with( compact('facturas', 'aeropuerto','cliente', 'cliente_id', 'modulo', 'desde', 'hasta', 'nFactura', 'rif', 'nombre', 'estatus', 'total', 'subtotal', 'islr', 'iva', 'moduloNombre', 'aeropuertoNombre', 'clienteNombre'));
+            $view->with( compact('facturas', 'aeropuerto','cliente', 'cliente_id', 'modulo', 'desde', 'hasta', 'nFactura', 'rif', 'nombre', 'estatus', 'estatusNombre', 'total', 'subtotal', 'islr', 'iva', 'moduloNombre', 'aeropuertoNombre', 'clienteNombre'));
 
 
         }
@@ -1362,7 +1480,25 @@ class ReporteController extends Controller {
             $iva      =$facturas->sum('iva');
             $islr     =$facturas->sum('islr');
 
-            $view->with( compact('facturas', 'numero', 'aeropuerto','cliente', 'cliente_id', 'modulo', 'desde', 'hasta', 'nFactura', 'rif', 'nombre', 'estatus', 'total', 'subtotal', 'islr', 'iva'));
+            switch ($estatus) {
+                case 'C':
+                    $estatusNombre = "Cobradas";
+                    break;
+                case 'P':
+                    $estatusNombre = "Pendientes";
+                    break;
+                case 'A':
+                    $estatusNombre = "Anuladas";
+                    break;
+                case 'V':
+                    $estatusNombre = "Vencidas";
+                    break;
+                default:
+                    $estatusNombre = "Todas";
+                    break;
+            }
+
+            $view->with( compact('facturas', 'numero', 'aeropuerto','cliente', 'cliente_id', 'modulo', 'desde', 'hasta', 'nFactura', 'rif', 'nombre', 'estatus', 'estatusNombre', 'total', 'subtotal', 'islr', 'iva'));
         }
         return $view;
 
@@ -1386,6 +1522,19 @@ class ReporteController extends Controller {
         $habilitacion    =\App\Concepto::where('aeropuerto_id', $aeropuerto)->where('nompre', 'HABILITACION (CRÉDITO)')->first();
         $jetway          =\App\Concepto::where('aeropuerto_id', $aeropuerto)->where('nompre', 'JETWAY (CRÉDITO)')->first();
         $carga           =\App\Concepto::where('aeropuerto_id', $aeropuerto)->where('nompre', 'CARGA (CRÉDITO)')->first();
+
+
+         $facturas        =\App\Factura::select('facturas.*', 'clientes.nombre')
+                                 ->join('clientes', 'facturas.cliente_id', '=', 'clientes.id')
+                                 ->whereBetween('fecha', array($annoDesde.'-'.$mesDesde.'-'.$diaDesde,  $annoHasta.'-'.$mesHasta.'-'.$diaHasta))
+                                 ->where('deleted_at', null)
+                                 ->where('aeropuerto_id', $aeropuerto)
+                                 ->where('nroDosa', '<>', 'NULL')
+                                 ->where('estado', 'C')
+                                 ->where('cliente_id', ($cliente==0)?'>=':'=', $cliente)
+                                 ->where('facturas.condicionPago', 'Crédito')
+                                 ->orderBy('nombre', 'ASC')
+                                 ->get();
 
 
         $dosaFactura=[];

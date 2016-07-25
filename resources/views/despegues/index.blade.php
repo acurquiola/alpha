@@ -30,7 +30,7 @@
 									<div class="input-group-addon">
 										<i class="fa fa-calendar"></i>
 									</div>
-									<input id="fecha-datepicker-filter" type="text" name="fecha" class="form-control" data-inputmask="'alias': 'yyyy-mm-dd'" data-mask  placeholder="Fecha Despegue" />
+									<input id="fecha-datepicker-filter" data-inputmask="'alias': 'dd/mm/yyyy'" type="text" name="fecha" class="form-control" data-mask  placeholder="Fecha Despegue" />
 								</div><!-- /.input group -->
 							</div>
 							<div class="form-group">
@@ -347,6 +347,9 @@ function getTable(url){
 	    /*
 			Datepicker
 			*/
+
+	        //Datemask dd/mm/yyyy
+	        $('#fecha-datepicker-filter').inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/yyyy"});
 
 			$('#fecha-datepicker-filter').datepicker({
 				closeText: 'Cerrar',

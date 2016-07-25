@@ -47,16 +47,13 @@
 							<table class="table table-hover table-condensed">
 								<thead  class="bg-primary">
 									<tr>
-										<th id="modulo-col" rowspan="2" style="vertical-align: middle; " class="text-center" align="left">
-											MÓDULO
-										</th>
-										<th id="cliente-col" rowspan="2" style="vertical-align: middle; " class="text-center" align="left">
+										<th id="cliente-col" rowspan="2" style="vertical-align: middle; " class="text-center" align="center">
 											CLIENTE
 										</th>
-										<th id="cliente-col" colspan="12" style="vertical-align: middle;" class="text-center" align="left">
+										<th id="cliente-col" colspan="12" style="vertical-align: middle;" class="text-center" align="center">
 											MES
 										</th>
-										<th id="cliente-col" rowspan="2" style="vertical-align: middle; " class="text-center" align="left">
+										<th id="cliente-col" rowspan="2" style="vertical-align: middle; " class="text-center" align="center">
 											TOTAL
 										</th>
 									</tr>
@@ -71,8 +68,8 @@
 								<tbody>
 									@foreach($clientesMod as $modulo=>$cantCliente)
 										@if(count($cantCliente)>0)
-											<tr>
-												<td style="vertical-align: middle;" class="text-center" rowspan="{{ count($cantCliente)+1 }}">
+											<tr id="NombreModulo">
+												<td  colspan="14" style="vertical-align: middle;" class="text-center" align="center" >
 													<strong>{{ $modulo }}</strong>
 												</td>
 											</tr>
@@ -86,7 +83,7 @@
 															@foreach($facturasPendientes as $mes => $clientesPendientes)
 																@foreach($clientesPendientes as $id => $montoMensual)
 																	@if($cliente_id == $id)
-																		<td class="text-right">
+																		<td class="text-right" align="right">
 																			{{ $traductor->format($montoMensual) }}
 																		</td>
 																	@endif
@@ -94,7 +91,7 @@
 															@endforeach
 														@endif
 													@endforeach
-													<td class="text-right">
+													<td class="text-right" align="right">
 														<strong>
 															0,00
 														</strong>
@@ -105,7 +102,7 @@
 											<td>
 												<strong>TOTAL</strong>
 											</td>
-											<td class="text-right" colspan="14">
+											<td class="text-right" align="right" colspan="13">
 												<strong>0,00</strong>
 											</td>
 										</tr>
@@ -114,46 +111,43 @@
 								</tbody>
 								<tfoot class="bg-primary">
 									<tr >
-										<th colspan="2">
+										<th colspan="2" align="left" class="text-left">
 											TOTALES
 										</th>
-										<th class="text-right">
+										<th class="text-right" align="right">
 											0,00
 										</th>
-										<th class="text-right">
+										<th class="text-right" align="right">
 											0,00
 										</th>
-										<th class="text-right">
+										<th class="text-right" align="right">
 											0,00
 										</th>
-										<th class="text-right">
+										<th class="text-right" align="right">
 											0,00
 										</th>
-										<th class="text-right">
+										<th class="text-right" align="right">
 											0,00
 										</th>
-										<th class="text-right">
+										<th class="text-right" align="right">
 											0,00
 										</th>
-										<th class="text-right">
+										<th class="text-right" align="right">
 											0,00
 										</th>
-										<th class="text-right">
+										<th class="text-right" align="right">
 											0,00
 										</th>
-										<th class="text-right">
+										<th class="text-right" align="right">
 											0,00
 										</th>
-										<th class="text-right">
+										<th class="text-right" align="right">
 											0,00
 										</th>
-										<th class="text-right">
+										<th class="text-right" align="right">
 											0,00
 										</th>
-										<th class="text-right">
-											0,00
-										</th>
-										<th class="text-right">
+										<th class="text-right" align="right">
 											0,00
 										</th>
 									</tr>
@@ -216,34 +210,17 @@
 			}).remove();
 			$(table).prepend('<thead>\
 				<tr>\
-					<th colspan="24" style="vertical-align: middle; margin-top:20px" align="center" class="text-center">CONTROL DE RECAUDACIÓN \
+					<th colspan="14" style="vertical-align: middle; margin-top:20px" align="center" class="text-center">REPORTE DE MOROSIDAD\
 					</br>\
 				</th>\
 			</tr>\
 		</thead>')
-			$(table).find('thead, th').css({'border-top':'1px solid black', 'font-weight': 'bold', 'text-align':"center", 'font-size': '6px'})
+			$(table).find('thead, th').css({'border-top':'1px solid black', 'font-weight': 'bold', 'text-align':"center", 'font-size': '7px'})
 			$(table).find('th').css({'border-bottom':'1px solid black', 'font-weight': 'bold', 'text-align':"center", 'font-size': '7px'})
-			$(table).find('td').css({'font-size': '4.5px'})
+			$(table).find('td').css({'font-size': '6px'})
+			$(table).find('#NombreModulo').css({'font-size': '100px'})
 			$(table).find('tr:nth-child(even)').css({'background-color': '#E2E2E2'})
 			$(table).find('tr:last td').css({'border-bottom':'1px solid black','border-top':'1px solid black', 'font-weight': 'bold'})
-			$(table).append('<tr>\
-						<td colspan="24"><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br></td>\
-							</tr><tr>\
-							<td colspan="12" align="center" style="font-weight: bold; border-top: 1px solid black;border-right: 1px solid black;border-left: 1px solid black;border-bottom: 1px solid black; font-size: 7px">REVISADO</td>\
-							<td colspan="12" align="center" style="font-weight: bold; border-top: 1px solid black;border-right: 1px solid black;border-left: 1px solid black;border-bottom: 1px solid black; font-size: 7px">CONFORMADO</td>\
-						</tr><tr>\
-							<td colspan="4" align="center" style="font-weight: bold; border-top: 1px solid black;border-right: 1px solid black;border-left: 1px solid black;border-bottom: 1px solid black;"><br><br><br><br><br><br> </td>\
-							<td colspan="4" align="center" style="font-weight: bold; border-top: 1px solid black;border-right: 1px solid black;border-left: 1px solid black;border-bottom: 1px solid black;"> </td>\
-							<td colspan="4" align="center" style="font-weight: bold; border-top: 1px solid black;border-right: 1px solid black;border-left: 1px solid black;border-bottom: 1px solid black;"> </td>\
-							<td colspan="6" align="center" style="font-weight: bold; border-top: 1px solid black;border-right: 1px solid black;border-left: 1px solid black;border-bottom: 1px solid black;"> </td>\
-							<td colspan="6" align="center" style="font-weight: bold; border-top: 1px solid black;border-right: 1px solid black;border-left: 1px solid black;border-bottom: 1px solid black;"> </td>\
-						</tr><tr>\
-							<td colspan="4" align="center" style="font-weight: bold; border-top: 1px solid black;border-right: 1px solid black;border-left: 1px solid black;border-bottom: 1px solid black; font-size: 6px">JEFE DEPARTAMENTO RECAUDACIÓN</td>\
-							<td colspan="4" align="center" style="font-weight: bold; border-top: 1px solid black;border-right: 1px solid black;border-left: 1px solid black;border-bottom: 1px solid black; font-size: 6px">CONTADOR</td>\
-							<td colspan="4" align="center" style="font-weight: bold; border-top: 1px solid black;border-right: 1px solid black;border-left: 1px solid black;border-bottom: 1px solid black; font-size: 6px">GERENTE ADMINISTRACIÓN</td>\
-							<td colspan="6" align="center" style="font-weight: bold; border-top: 1px solid black;border-right: 1px solid black;border-left: 1px solid black;border-bottom: 1px solid black; font-size: 6px">SUB-DIRECTOR</td>\
-							<td colspan="6" align="center" style="font-weight: bold; border-top: 1px solid black;border-right: 1px solid black;border-left: 1px solid black;border-bottom: 1px solid black; font-size: 6px">DIRECTOR</td>\
-						</tr>')
 			var tableHtml= $(table)[0].outerHTML;
 			$('[name=table]').val(tableHtml);
 			$('#export-form').submit();

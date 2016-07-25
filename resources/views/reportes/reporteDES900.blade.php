@@ -21,7 +21,7 @@
                 {!! Form::open(["url" => action('ReporteController@getReporteDES900'), "method" => "GET", "class"=>"form-inline"]) !!}
                  <label><strong>DESDE: </strong></label>
 				<div class="form-group">
-					<input type="text" class="form-control" name="diaDesde" placeholder="Día">
+					<input type="text" class="form-control" name="diaDesde" value="{{$diaDesde}}" placeholder="Día">
                 </div>
                 <div class="form-group">
                       {!! Form::select('mesDesde', $meses, $mesDesde, ["class"=> "form-control"]) !!}
@@ -31,7 +31,7 @@
                 </div>
                 <label style="margin-left: 20px"><strong>HASTA: </strong></label>
 				<div class="form-group">
-					<input type="text" class="form-control" name="diaHasta" placeholder="Día">
+					<input type="text" class="form-control" name="diaHasta" value="{{$diaHasta}}" placeholder="Día">
                 </div>
                 <div class="form-group">
                       {!! Form::select('mesHasta', $meses, $mesHasta, ["class"=> "form-control"]) !!}
@@ -69,7 +69,7 @@
 							<table class="table table-condensed">
 								<thead  class="bg-primary">
 									<tr>
-										<th colspan="4" rowspan="2" style="vertical-align: middle" class="text-center">GENERAL</th>
+										<th colspan="5" rowspan="2" style="vertical-align: middle" class="text-center">GENERAL</th>
 										<th colspan="9" style="vertical-align: middle" class="text-center">ATERRIZAJE</th>
 										<th colspan="7" style="vertical-align: middle" class="text-center">DESPEGUE</th>
 									</tr>
@@ -81,57 +81,67 @@
 										<th colspan="2" class="text-center">Embarque</th>
 									</tr>
 									<tr align="center">
-										<th >Día</th>
-										<th >N° Dosa</th>
-										<th >Modelo</th>
-										<th >Matrícula</th>
+										<th class="text-center" align="center">Nro.</th>
+										<th class="text-center" align="center">Día</th>
+										<th class="text-center" align="center">N° Dosa</th>
+										<th class="text-center" align="center">Modelo</th>
+										<th class="text-center" align="center">Matrícula</th>
 
-										<th >Piloto</th>
-										<th >N°Vuelo</th>
-										<th >Fecha</th>
-										<th >Hora</th>
-										<th >Procedencia</th>
-										<th >Pass</th>
-										<th >Carga</th>
-										<th >Pass</th>
-										<th >Carga</th>
+										<th class="text-center" align="center">Piloto</th>
+										<th class="text-center" align="center">N°Vuelo</th>
+										<th class="text-center" align="center">Fecha</th>
+										<th class="text-center" align="center">Hora</th>
+										<th class="text-center" align="center">Procedencia</th>
+										<th class="text-center" align="center">Pass</th>
+										<th class="text-center" align="center">Carga</th>
+										<th class="text-center" align="center">Pass</th>
+										<th class="text-center" align="center">Carga</th>
 
-										<th >Piloto</th>
-										<th >N°Vuelo</th>
-										<th >Fecha</th>
-										<th >Hora</th>
-										<th >Destino</th>
-										<th >Pass</th>
-										<th >Carga</th>
+										<th class="text-center" align="center">Piloto</th>
+										<th class="text-center" align="center">N°Vuelo</th>
+										<th class="text-center" align="center">Fecha</th>
+										<th class="text-center" align="center">Hora</th>
+										<th class="text-center" align="center">Destino</th>
+										<th class="text-center" align="center">Pass</th>
+										<th class="text-center" align="center">Carga</th>
 									</tr>
 								</thead>
 								<tbody>
-									@foreach($despegues as $despegue)
-									<tr title="{{$despegue->fecha}}" align="center">
-										<td>{{$despegue->fecha}}</td>
-										<td>{{($despegue->factura)?$despegue->factura->nroDosa:"N/A"}}</td>
-										<td>{{$despegue->aterrizaje->aeronave->modelo->modelo}}</td>
-										<td>{{$despegue->aterrizaje->aeronave->matricula}}</td>
+								@if($despegues->count()>0)
+									@foreach($despegues as $index=>$despegue)
+										<tr title="{{$despegue->fecha}}" align="center">
+											<td>{{$index+1}}</td>
+											<td>{{$despegue->fecha}}</td>
+											<td>{{($despegue->factura)?$despegue->factura->nroDosa:"N/A"}}</td>
+											<td>{{$despegue->aterrizaje->aeronave->modelo->modelo}}</td>
+											<td>{{$despegue->aterrizaje->aeronave->matricula}}</td>
 
-										<td>{{($despegue->aterrizaje->piloto)?$despegue->aterrizaje->piloto->nombre:"N/A"}}</td>
-										<td>{{($despegue->aterrizaje->num_vuelo)?$despegue->aterrizaje->num_vuelo:"N/A"}}</td>
-										<td>{{$despegue->aterrizaje->fecha}}</td>
-										<td>{{$despegue->aterrizaje->hora}}</td>
-										<td>{{($despegue->aterrizaje->puerto)?$despegue->aterrizaje->puerto->nombre:"N/A"}}</td>
-										<td>{{$despegue->aterrizaje->desembarqueAdultos+$despegue->aterrizaje->desembarqueInfante+$despegue->aterrizaje->desembarqueTercera}}</td>
-										<td>{{$despegue->peso_desembarcado}}</td>
-										<td>{{$despegue->aterrizaje->desembarqueTransito}}</td>
-										<td>{{$despegue->peso_embarcado}}</td>
+											<td>{{($despegue->aterrizaje->piloto)?$despegue->aterrizaje->piloto->nombre:"N/A"}}</td>
+											<td>{{($despegue->aterrizaje->num_vuelo)?$despegue->aterrizaje->num_vuelo:"N/A"}}</td>
+											<td>{{$despegue->aterrizaje->fecha}}</td>
+											<td>{{$despegue->aterrizaje->hora}}</td>
+											<td>{{($despegue->aterrizaje->puerto)?$despegue->aterrizaje->puerto->nombre:"N/A"}}</td>
+											<td>{{$despegue->aterrizaje->desembarqueAdultos+$despegue->aterrizaje->desembarqueInfante+$despegue->aterrizaje->desembarqueTercera}}</td>
+											<td>{{$despegue->peso_desembarcado}}</td>
+											<td>{{$despegue->aterrizaje->desembarqueTransito}}</td>
+											<td>{{$despegue->peso_embarcado}}</td>
 
-										<td>{{($despegue->piloto)?$despegue->piloto->nombre:"N/A"}}</td>
-										<td>{{($despegue->num_vuelo)?$despegue->num_vuelo:"N/A"}}</td>
-										<td>{{$despegue->fecha}}</td>
-										<td>{{$despegue->hora}}</td>
-										<td>{{($despegue->puerto)?$despegue->puerto->nombre:"N/A"}}</td>
-										<td>{{$despegue->embarqueAdultos+$despegue->embarqueInfante+$despegue->embarqueTercera}}</td>
-										<td>{{$despegue->peso_embarcado}}</td>
-									</tr>
+											<td>{{($despegue->piloto)?$despegue->piloto->nombre:"N/A"}}</td>
+											<td>{{($despegue->num_vuelo)?$despegue->num_vuelo:"N/A"}}</td>
+											<td>{{$despegue->fecha}}</td>
+											<td>{{$despegue->hora}}</td>
+											<td>{{($despegue->puerto)?$despegue->puerto->nombre:"N/A"}}</td>
+											<td>{{$despegue->embarqueAdultos+$despegue->embarqueInfante+$despegue->embarqueTercera}}</td>
+											<td>{{$despegue->peso_embarcado}}</td>
+										</tr>
 									@endforeach
+								@else
+									<tr>
+										<td colspan="21" class="text-center">
+											No hay registros disponibles.
+										</td>
+									</tr>
+								@endif
 								</tbody>
 							</table>
 						</div>
@@ -156,7 +166,7 @@
 			}).remove();
 		    $(table).prepend('<thead>\
 		    					<tr>\
-									<th colspan="20" style="vertical-align: middle; margin-top:20px" align="center" class="text-center">DES 900\
+									<th colspan="21" style="vertical-align: middle; margin-top:20px" align="center" class="text-center">DES 900\
 									</br>\
 									DESDE: {{$diaDesde}}/{{$mesDesde}}/{{$annoDesde}} HASTA: {{$diaHasta}}/{{$mesHasta}}/{{$annoHasta}} </th>\
 								</tr>\

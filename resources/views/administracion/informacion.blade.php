@@ -171,7 +171,14 @@
                                     <div class="form-group">
                                         <table class="table" id="serie-table">
                                             <thead>
-                                                <tr><th>Serie</th><th>Monto</th><th>Inicio</th><th>Actual</th><th>Acción</th></tr>
+                                                <tr>
+                                                    <th class="text-center" >Serie</th>
+                                                    <th class="text-center" >Monto</th>
+                                                    <th class="text-center" >Inicio</th>
+                                                    <th class="text-center" >Actual</th>
+                                                    <th class="text-center" ></th>
+                                                    <th class="text-center" >Opciones</th>
+                                                </tr>
                                             </thead>
                                             <tbody>
                                                 @if($tasas->count()>0)
@@ -186,6 +193,14 @@
                                                                 <label>
                                                                   <input type="hidden" value='0' name="tasas[{{$tasa->id}}][cv]" >
                                                                   <input value='1' {{($tasa->cv)?"checked":""}} name="tasas[{{$tasa->id}}][cv]" type="checkbox"> CV
+                                                                </label>
+                                                              </div>
+                                                            </td>
+                                                            <td>
+                                                              <div class="checkbox">
+                                                                <label>
+                                                                  <input type="hidden" value='0' name="tasas[{{$tasa->id}}][internacional]" >
+                                                                  <input value='1' {{($tasa->internacional)?"checked":""}} name="tasas[{{$tasa->id}}][internacional]" type="checkbox"> Internacional
                                                                 </label>
                                                               </div>
                                                             </td>

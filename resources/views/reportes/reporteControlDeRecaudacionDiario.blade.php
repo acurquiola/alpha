@@ -35,6 +35,7 @@
 		</div>
 	</div>
 	<div class="col-md-12">
+		<div class="box box-primary">
 			<div class="box-header">
 				{!! Form::open(["url" => action("ReporteController@postExportReport"), "id" =>"export-form", "target"=>"_blank"]) !!}
 				{!! Form::hidden('table') !!}
@@ -56,11 +57,11 @@
 							<table class="table table-hover table-condensed">
 								<thead  class="bg-primary">
 									<tr>
-										<th id="fecha-col" style="vertical-align: middle; width: 30px;" class="text-center" align="left">
+										<th id="fecha-col" style="vertical-align: middle;" class="text-center" align="left">
 											Fecha
 										</th>
 										@foreach($modulos as $modulo)
-										<th expandible data-colspan="{{$modulo->conceptos->count()}}" class="text-center" style="vertical-align: middle" >
+										<th expandible data-colspan="{{$modulo->conceptos->count()}}" class="text-center" align="center" style="vertical-align: middle" >
 											{{$modulo->nombreImprimible}}
 										</th>
 										@endforeach
@@ -68,7 +69,7 @@
 									<tr >
 										@foreach($modulos as $modulo)
 										@foreach($modulo->conceptos as $concepto)
-										<th details data-parent="{{$modulo->nombre}}" style="display:none;vertical-align: middle"  class="text-left" align="left" style="width: 20px;" >
+										<th details data-parent="{{$modulo->nombre}}" style="display:none;vertical-align: middle"  class="text-center" align="center" style="width: 20px;" >
 											<small>{{$concepto->nombreImprimible}}</small>
 										</th>
 										@endforeach
@@ -78,15 +79,15 @@
 								<tbody>
 									@foreach($montos as $fecha => $montoModulos)
 									<tr title="{{$fecha}}" >
-										<td align="left" style="width: 30px;">{{$fecha}}</td>
-											@foreach($montoModulos as $moduloNombre => $conceptos)
-												@foreach($conceptos as $concepto => $monto)
-													@if($concepto=="total")
-														<td align="right" style="text-align:right; width: 34px;" main data-parent="{{$moduloNombre}}">{{$traductor->format($monto)}}</td>
-													@else
-														<td details data-parent="{{$moduloNombre}}" style="display:none;text-align:right">{{$traductor->format($monto)}}</td>
-													@endif
-												@endforeach
+										<td align="left">{{$fecha}}</td>
+										@foreach($montoModulos as $moduloNombre => $conceptos)
+										@foreach($conceptos as $concepto => $monto)
+										@if($concepto=="total")
+										<td align="right" style="text-align:right; ;" main data-parent="{{$moduloNombre}}">{{$traductor->format($monto)}}</td>
+										@else
+										<td details data-parent="{{$moduloNombre}}" style="display:none;text-align:right">{{$traductor->format($monto)}}</td>
+										@endif
+										@endforeach
 										@endforeach
 									</tr>
 									@endforeach
@@ -102,11 +103,7 @@
 										@endforeach
 										@endforeach
 									</tr>
-
-
-
 								</tbody>
-
 							</table>
 						</div>
 					</div>
@@ -137,7 +134,7 @@
 					$('td[main][data-parent="'+moduloNombre+'"]').hide();
 					$('td[details][data-parent="'+moduloNombre+'"]').show();
 					$('th[details][data-parent="'+moduloNombre+'"]').show();
-					$('th[expandible]:not(".activo")').attr('rowspan',2)
+					$('th[expandible]:not(".activo")').attr('rowspan',2);
 
 				}else{
 					$(this).removeClass('activo');
@@ -154,7 +151,6 @@
 		})
 
 
-
 		$('#export-btn').click(function(e){
 			var table=$('table').clone();
 			$(table).find('td, th').filter(function() {
@@ -164,35 +160,37 @@
 				return $(this).find('td,th').length == 0;
 			}).remove();
 			$(table).prepend('<thead>\
-				<tr>\
-					<th colspan="24" style="vertical-align: middle; margin-top:20px" align="center" class="text-center">CONTROL DE RECAUDACIÓN \
-					</br>\
-				</th>\
-			</tr>\
-		</thead>')
-			$(table).find('thead, th').css({'border-top':'1px solid black', 'font-weight': 'bold', 'text-align':"center", 'font-size': '6px'})
+								<tr>\
+									<th colspan="19" style="vertical-align: middle; margin-top:20px" align="center" class="text-center">CONTROL DE RECAUDACIÓN DIARIO\
+									</br>\
+									AEROPUERTO: {{$aeropuertoNombre}}\
+									</br>\
+									MES: {{$mesLetras}} AÑO: {{$anno}} </th>\
+								</tr>\
+							</thead>')
+			$(table).find('thead, th').css({'border-top':'1px solid black', 'font-weight': 'bold', 'text-align':"center", 'font-size': '7px'})
 			$(table).find('th').css({'border-bottom':'1px solid black', 'font-weight': 'bold', 'text-align':"center", 'font-size': '7px'})
-			$(table).find('td').css({'font-size': '4.5px'})
+			$(table).find('td').css({'font-size': '5px'})
 			$(table).find('tr:nth-child(even)').css({'background-color': '#E2E2E2'})
 			$(table).find('tr:last td').css({'border-bottom':'1px solid black','border-top':'1px solid black', 'font-weight': 'bold'})
 			$(table).append('<tr>\
-						<td colspan="24"><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br></td>\
-							</tr><tr>\
-							<td colspan="12" align="center" style="font-weight: bold; border-top: 1px solid black;border-right: 1px solid black;border-left: 1px solid black;border-bottom: 1px solid black; font-size: 7px">REVISADO</td>\
-							<td colspan="12" align="center" style="font-weight: bold; border-top: 1px solid black;border-right: 1px solid black;border-left: 1px solid black;border-bottom: 1px solid black; font-size: 7px">CONFORMADO</td>\
-						</tr><tr>\
-							<td colspan="4" align="center" style="font-weight: bold; border-top: 1px solid black;border-right: 1px solid black;border-left: 1px solid black;border-bottom: 1px solid black;"><br><br><br><br><br><br> </td>\
-							<td colspan="4" align="center" style="font-weight: bold; border-top: 1px solid black;border-right: 1px solid black;border-left: 1px solid black;border-bottom: 1px solid black;"> </td>\
-							<td colspan="4" align="center" style="font-weight: bold; border-top: 1px solid black;border-right: 1px solid black;border-left: 1px solid black;border-bottom: 1px solid black;"> </td>\
-							<td colspan="6" align="center" style="font-weight: bold; border-top: 1px solid black;border-right: 1px solid black;border-left: 1px solid black;border-bottom: 1px solid black;"> </td>\
-							<td colspan="6" align="center" style="font-weight: bold; border-top: 1px solid black;border-right: 1px solid black;border-left: 1px solid black;border-bottom: 1px solid black;"> </td>\
-						</tr><tr>\
-							<td colspan="4" align="center" style="font-weight: bold; border-top: 1px solid black;border-right: 1px solid black;border-left: 1px solid black;border-bottom: 1px solid black; font-size: 6px">JEFE DEPARTAMENTO RECAUDACIÓN</td>\
-							<td colspan="4" align="center" style="font-weight: bold; border-top: 1px solid black;border-right: 1px solid black;border-left: 1px solid black;border-bottom: 1px solid black; font-size: 6px">CONTADOR</td>\
-							<td colspan="4" align="center" style="font-weight: bold; border-top: 1px solid black;border-right: 1px solid black;border-left: 1px solid black;border-bottom: 1px solid black; font-size: 6px">GERENTE ADMINISTRACIÓN</td>\
-							<td colspan="6" align="center" style="font-weight: bold; border-top: 1px solid black;border-right: 1px solid black;border-left: 1px solid black;border-bottom: 1px solid black; font-size: 6px">SUB-DIRECTOR</td>\
-							<td colspan="6" align="center" style="font-weight: bold; border-top: 1px solid black;border-right: 1px solid black;border-left: 1px solid black;border-bottom: 1px solid black; font-size: 6px">DIRECTOR</td>\
-						</tr>')
+								<td colspan="19"><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br></td>\
+								</tr><tr>\
+								<td colspan="10" align="center" style="font-weight: bold; border-top: 1px solid black;border-right: 1px solid black;border-left: 1px solid black;border-bottom: 1px solid black; font-size: 7px">REVISADO</td>\
+								<td colspan="9" align="center" style="font-weight: bold; border-top: 1px solid black;border-right: 1px solid black;border-left: 1px solid black;border-bottom: 1px solid black; font-size: 7px">CONFORMADO</td>\
+								</tr><tr>\
+								<td colspan="3" align="center" style="font-weight: bold; border-top: 1px solid black;border-right: 1px solid black;border-left: 1px solid black;border-bottom: 1px solid black;"><br><br><br><br> </td>\
+								<td colspan="3" align="center" style="font-weight: bold; border-top: 1px solid black;border-right: 1px solid black;border-left: 1px solid black;border-bottom: 1px solid black;"> </td>\
+								<td colspan="4" align="center" style="font-weight: bold; border-top: 1px solid black;border-right: 1px solid black;border-left: 1px solid black;border-bottom: 1px solid black;"> </td>\
+								<td colspan="5" align="center" style="font-weight: bold; border-top: 1px solid black;border-right: 1px solid black;border-left: 1px solid black;border-bottom: 1px solid black;"> </td>\
+								<td colspan="4" align="center" style="font-weight: bold; border-top: 1px solid black;border-right: 1px solid black;border-left: 1px solid black;border-bottom: 1px solid black;"> </td>\
+								</tr><tr>\
+								<td colspan="3" align="center" style="font-weight: bold; border-top: 1px solid black;border-right: 1px solid black;border-left: 1px solid black;border-bottom: 1px solid black; font-size: 6px">JEFE DEPARTAMENTO RECAUDACIÓN</td>\
+								<td colspan="3" align="center" style="font-weight: bold; border-top: 1px solid black;border-right: 1px solid black;border-left: 1px solid black;border-bottom: 1px solid black; font-size: 6px">CONTADOR</td>\
+								<td colspan="4" align="center" style="font-weight: bold; border-top: 1px solid black;border-right: 1px solid black;border-left: 1px solid black;border-bottom: 1px solid black; font-size: 6px">GERENTE ADMINISTRACIÓN</td>\
+								<td colspan="5" align="center" style="font-weight: bold; border-top: 1px solid black;border-right: 1px solid black;border-left: 1px solid black;border-bottom: 1px solid black; font-size: 6px">SUB-DIRECTOR</td>\
+								<td colspan="4" align="center" style="font-weight: bold; border-top: 1px solid black;border-right: 1px solid black;border-left: 1px solid black;border-bottom: 1px solid black; font-size: 6px">DIRECTOR</td>\
+							</tr>')
 			var tableHtml= $(table)[0].outerHTML;
 			$('[name=table]').val(tableHtml);
 			$('#export-form').submit();

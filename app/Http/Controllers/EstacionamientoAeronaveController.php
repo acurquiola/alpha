@@ -70,10 +70,27 @@ class EstacionamientoAeronaveController extends Controller {
 	 */
 	public function update($id, Request $request)
 	{		
+
 		$estacionamientoAeronave                    = EstacionamientoAeronave::find($id);
-		$estacionamientoAeronave->update($request->all());
+		$estacionamientoAeronave->update($request->except('aplicar_minimo_int',
+														  'aplicar_minimo_nac',
+														  'aplicar_minimo_int_general',
+														  'aplicar_minimo_nac_general',
+														  'aplicar_minimo_int_ext',
+														  'aplicar_minimo_nac_ext',
+														  'aplicar_minimo_int_general_ext',
+														  'aplicar_minimo_nac_general_ext'));
 		
-		if($estacionamientoAeronave)
+		$estacionamientoAeronave->aplicar_minimo_int =($request->input('aplicar_minimo_int'))?1:0;
+		$estacionamientoAeronave->aplicar_minimo_nac =($request->input('aplicar_minimo_nac'))?1:0;
+		$estacionamientoAeronave->aplicar_minimo_int_general =($request->input('aplicar_minimo_int_general'))?1:0;
+		$estacionamientoAeronave->aplicar_minimo_nac_general =($request->input('aplicar_minimo_nac_general'))?1:0;
+		$estacionamientoAeronave->aplicar_minimo_int_ext =($request->input('aplicar_minimo_int_ext'))?1:0;
+		$estacionamientoAeronave->aplicar_minimo_nac_ext =($request->input('aplicar_minimo_nac_ext'))?1:0;
+		$estacionamientoAeronave->aplicar_minimo_int_general_ext =($request->input('aplicar_minimo_int_general_ext'))?1:0;
+		$estacionamientoAeronave->aplicar_minimo_nac_general_ext =($request->input('aplicar_minimo_nac_general_ext'))?1:0;
+		
+		if($estacionamientoAeronave->save())
 		{			
 			return response()->json(array("text"=>'Información Modificada exitósamente',
 										  "estacionamientoAeronave"=>$estacionamientoAeronave,
