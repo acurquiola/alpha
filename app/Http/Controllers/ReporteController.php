@@ -725,7 +725,7 @@ class ReporteController extends Controller {
         $mesHasta   =$request->get('mesHasta', \Carbon\Carbon::now()->month);
         $annoHasta  =$request->get('annoHasta',  \Carbon\Carbon::now()->year);
         $aeropuerto =session('aeropuerto');
-        $aterrizajes = \App\Aterrizaje::whereBetween('fecha', array($annoDesde.'-'.$mesDesde.'-'.$diaDesde,  $annoHasta.'-'.$mesHasta.'-'.$diaHasta))->lists('id');
+        $aterrizajes = \App\Aterrizaje::whereBetween('fecha', array($annoDesde.'-'.$mesDesde.'-'.$diaDesde,  $annoHasta.'-'.$mesHasta.'-'.$diaHasta))->where('aeropuerto_id', session('aeropuerto')->id)->lists('id');
         $despegues  = \App\Despegue::with("factura", "aterrizaje")
                                 ->where('aeropuerto_id', session('aeropuerto')->id)
                                 ->whereBetween('fecha', array($annoDesde.'-'.$mesDesde.'-'.$diaDesde,  $annoHasta.'-'.$mesHasta.'-'.$diaHasta) )
@@ -1176,6 +1176,7 @@ class ReporteController extends Controller {
                                 ->join('facturadetalles', 'facturadetalles.factura_id', '=', 'facturas.id')
                                 ->whereBetween('fecha', array($annoDesde.'-'.$mesDesde.'-'.$diaDesde,  $annoHasta.'-'.$mesHasta.'-'.$diaHasta) )
                                 ->where('aeropuerto_id', session('aeropuerto')->id)
+				->groupBy('nFactura')
                                 ->orderBy('nFactura')
                                 ->get();        
 
