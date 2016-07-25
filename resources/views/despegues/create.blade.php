@@ -32,13 +32,14 @@
 						<input type="hidden" name="aterrizaje_id" class="form-control" value="{{$aterrizaje->id}}" />
 
 						<div class="form-inline" style="margin-top: 20px">
-							<div class="form-group">
-								<div class="input-group">
-									<div class="input-group-addon">
-										<i class="fa fa-calendar"></i>
-									</div>
-									<input id="fecha-datepicker" type="text" name="fecha" class="form-control no-vacio" value="{{$today->format('d/m/Y')}}" placeholder="Fecha" />
-									<input type="hidden" name="aeropuerto_id" value="{{session('aeropuerto')->id}}"></input>									</div><!-- /.input group -->
+								<div class="form-group">
+									<div class="input-group">
+										<div class="input-group-addon">
+											<i class="fa fa-calendar"></i>
+										</div>
+										<input id="fecha-datepicker" data-inputmask="'alias': 'dd/mm/yyyy'"   type="text" name="fecha" class="form-control no-vacio" value="{{$today->format('d/m/Y')}}" placeholder="Fecha" />
+										<input type="hidden" name="aeropuerto_id" value="{{session('aeropuerto')->id}}"></input>									
+									</div><!-- /.input group -->
 								</div>
 								<div class="form-group">
 									<div class="input-group">
@@ -520,6 +521,10 @@ $(document).ready(function(){
 /*
 	Datepicker
 	*/
+
+
+    //Datemask dd/mm/yyyy
+    $('#fecha-datepicker').inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/yyyy"});
 
 	$('#fecha-datepicker').datepicker({
 		closeText: 'Cerrar',

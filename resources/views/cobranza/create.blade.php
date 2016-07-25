@@ -221,7 +221,7 @@
 
         //Datemask dd/mm/yyyy
         $('#fecha-datepicker').inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/yyyy"});
-/*
+
 		$('#fecha-datepicker').datepicker({
 			closeText: 'Cerrar',
 			prevText: '&#x3C;Ant',
@@ -239,7 +239,7 @@
 			isRTL: false,
 			showMonthAfterYear: false,
 			yearSuffix: '',
-			dateFormat: 'yy-mm-dd'});*/
+			dateFormat: 'yy-mm-dd'});
 
         $('#save-cobro-btn').click(function(){
 

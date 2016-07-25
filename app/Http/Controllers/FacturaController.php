@@ -339,7 +339,6 @@ class FacturaController extends Controller {
 	public function store($moduloNombre, FacturaRequest $request)
 	{
         $mensaje="";
-
         $facturas=\App\Factura::all();
              foreach ($facturas as $factura) {
                 $nFacturaPrefix    =$factura->nFacturaPrefix;
@@ -361,7 +360,6 @@ class FacturaController extends Controller {
         if($mensaje==""){
             $impresion="";
             \DB::transaction(function () use ($moduloNombre, $request, &$impresion,&$mensaje) {
-
                     $facturaData = $this->getFacturaDataFromRequest($request);
                     $facturaDetallesData = $this->getFacturaDetallesDataFromRequest($request);
                     $facturaData['estado'] = 'P';
@@ -496,6 +494,8 @@ class FacturaController extends Controller {
                                 'recargoTotal',
                                 'total',
                                 'descripcion',
+                                'aplica_minimo_aterrizaje',
+                                'aplica_minimo_estacionamiento',
                                 'comentario');
 
 

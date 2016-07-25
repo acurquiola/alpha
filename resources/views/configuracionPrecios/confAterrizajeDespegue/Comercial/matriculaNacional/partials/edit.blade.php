@@ -2,7 +2,7 @@
 <div class="row invoice-info">	
 @foreach ($precioAterrizajeDespegue as $precioAterrizajeDespegue) 
     {!! Form::model($precioAterrizajeDespegue, ['url' =>action('PreciosAterrizajesDespegueController@update', [$precioAterrizajeDespegue->id]), "method" => "PUT", "class"=>"form-horizontal"]) !!}
-	    @include('configuracionPrecios.confAterrizajeDespegue.partials.form')
+	    @include('configuracionPrecios.confAterrizajeDespegue.Comercial.MatriculaNacional.partials.form')
 	{!! Form::close() !!}
 @endforeach
 </div>
@@ -10,7 +10,7 @@
 <hr/>
 <div class="row no-print">
 	<div class="col-xs-12">
-		<button class="btn btn-primary pull-right precioAterrizajeDespegue-save-btn" id="precioAterrizajeDespegue-save-btn" ><i class="fa fa-save"></i> Guardar Cambios</button>
+		<button class="btn btn-primary pull-right precioAterrizajeDespegue-save-btn" id="precioAterrizajeDespegueComercial-save-btn" ><i class="fa fa-save"></i> Guardar Cambios</button>
 	</div>
 </div>
 

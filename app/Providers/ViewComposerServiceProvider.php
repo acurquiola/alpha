@@ -90,7 +90,15 @@ class ViewComposerServiceProvider extends ServiceProvider {
             $view->with(compact('clientes'));
         });
 
-        view()->composer(['index','cliente.partials.form','factura.partials.form', 'usuarios.index', 'usuarios.partials.form', 'reportes.reporteControlDeRecaudacionMensual', 'reportes.reporteControlDeRecaudacionDiario', 'reportes.reporteFormulariosAnulados', 'reportes.reporteReporteDeMorosidad'], function($view){
+        view()->composer(['index',
+                          'cliente.partials.form',
+                          'factura.partials.form', 
+                          'usuarios.index', 
+                          'usuarios.partials.form', 
+                          'reportes.reporteControlDeRecaudacionMensual', 
+                          'reportes.reporteControlDeRecaudacionDiario', 
+                          'reportes.reporteFormulariosAnulados', 
+                          'reportes.reporteReporteDeMorosidad'], function($view){
             $aeropuertos = \App\Aeropuerto::lists('nombre', 'id');
             $view->with(compact('aeropuertos'));
         });
@@ -100,45 +108,101 @@ class ViewComposerServiceProvider extends ServiceProvider {
             $view->with(compact('paises'));
         });
 
-        view()->composer(['usuarios.index', 'usuarios.partials.show', 'usuarios.partials.edit','usuarios.partials.form'], function($view){
+        view()->composer(['usuarios.index', 
+                          'usuarios.partials.show', 
+                          'usuarios.partials.edit',
+                          'usuarios.partials.form'], function($view){
             $departamentos = \App\Departamento::lists('nombre','id');
             $view->with(compact('departamentos'));
         });
 
-        view()->composer(['usuarios.index', 'usuarios.partials.show', 'usuarios.partials.edit','usuarios.partials.form'], function($view){
+        view()->composer(['usuarios.index', 
+                          'usuarios.partials.show', 
+                          'usuarios.partials.edit',
+                          'usuarios.partials.form'], function($view){
             $cargos = \App\Cargo::lists('nombre','id');
             $view->with(compact('cargos'));
         });
 
-        view()->composer(['configuracionPrecios.confGeneral.index', 'configuracionPrecios.confGeneral.partials.edit', 'configuracionPrecios.confGeneral.partials.form', 'configuracionPrecios.confGeneral.partials.show', 'configuracionPrecios.confAterrizajeDespegue.index', 'configuracionPrecios.confAterrizajeDespegue.partials.edit', 'configuracionPrecios.confAterrizajeDespegue.partials.form', 'configuracionPrecios.confAterrizajeDespegue.partials.show', 'configuracionPrecios.confEstacionamientoAeronave.index', 'configuracionPrecios.confEstacionamientoAeronave.partials.edit', 'configuracionPrecios.confEstacionamientoAeronave.partials.form', 'configuracionPrecios.confEstacionamientoAeronave.partials.show', 'configuracionPrecios.confCargosVarios.index', 'configuracionPrecios.confCargosVarios.partials.edit', 'configuracionPrecios.confCargosVarios.partials.form', 'configuracionPrecios.confCargosVarios.partials.show', 'configuracionPrecios.confCarga.index', 'configuracionPrecios.confCarga.partials.edit', 'configuracionPrecios.confCarga.partials.form', 'configuracionPrecios.confCarga.partials.show'], function($view){
+        view()->composer(['configuracionPrecios.confGeneral.index', 
+                          'configuracionPrecios.confGeneral.partials.edit',
+                          'configuracionPrecios.confGeneral.partials.form', 
+                          'configuracionPrecios.confGeneral.partials.show', 
+                          'configuracionPrecios.confAterrizajeDespegue.Comercial.matriculaNacional.partials.edit', 
+                          'configuracionPrecios.confAterrizajeDespegue.Comercial.matriculaNacional.partials.form', 
+                          'configuracionPrecios.confEstacionamientoAeronave.Comercial.matriculaNacional.partials.edit', 
+                          'configuracionPrecios.confEstacionamientoAeronave.Comercial.matriculaNacional.partials.form', 
+                          'configuracionPrecios.confAterrizajeDespegue.Comercial.matriculaExtranjera.partials.edit', 
+                          'configuracionPrecios.confAterrizajeDespegue.Comercial.matriculaExtranjera.partials.form', 
+                          'configuracionPrecios.confEstacionamientoAeronave.Comercial.matriculaExtranjera.partials.edit', 
+                          'configuracionPrecios.confEstacionamientoAeronave.Comercial.matriculaExtranjera.partials.form', 
+                          'configuracionPrecios.confAterrizajeDespegue.General.matriculaNacional.partials.edit', 
+                          'configuracionPrecios.confAterrizajeDespegue.General.matriculaNacional.partials.form', 
+                          'configuracionPrecios.confEstacionamientoAeronave.General.matriculaNacional.partials.edit', 
+                          'configuracionPrecios.confEstacionamientoAeronave.General.matriculaNacional.partials.form', 
+                          'configuracionPrecios.confAterrizajeDespegue.General.matriculaExtranjera.partials.edit', 
+                          'configuracionPrecios.confAterrizajeDespegue.General.matriculaExtranjera.partials.form', 
+                          'configuracionPrecios.confEstacionamientoAeronave.General.matriculaExtranjera.partials.edit', 
+                          'configuracionPrecios.confEstacionamientoAeronave.General.matriculaExtranjera.partials.form', 
+                          'configuracionPrecios.confCargosVarios.index', 
+                          'configuracionPrecios.confCargosVarios.partials.edit', 
+                          'configuracionPrecios.confCargosVarios.partials.form', 
+                          'configuracionPrecios.confCargosVarios.partials.show', 
+                          'configuracionPrecios.confCarga.index', 
+                          'configuracionPrecios.confCarga.partials.edit', 
+                          'configuracionPrecios.confCarga.partials.form', 
+                          'configuracionPrecios.confCarga.partials.show'], function($view){
             $confGeneral = \App\MontosFijo::where("aeropuerto_id", session('aeropuerto')->id)->get();
             $view->with(compact('confGeneral'));
         });
 
-        view()->composer(['configuracionPrecios.confAterrizajeDespegue.index', 'configuracionPrecios.confAterrizajeDespegue.partials.edit', 'configuracionPrecios.confAterrizajeDespegue.partials.form', 'configuracionPrecios.confAterrizajeDespegue.partials.show'], function($view){
+        view()->composer(['configuracionPrecios.confAterrizajeDespegue.Comercial.matriculaNacional.partials.edit', 
+                          'configuracionPrecios.confAterrizajeDespegue.Comercial.matriculaNacional.partials.form', 
+                          'configuracionPrecios.confAterrizajeDespegue.Comercial.matriculaExtranjera.partials.edit', 
+                          'configuracionPrecios.confAterrizajeDespegue.Comercial.matriculaExtranjera.partials.form', 
+                          'configuracionPrecios.confAterrizajeDespegue.General.matriculaNacional.partials.edit', 
+                          'configuracionPrecios.confAterrizajeDespegue.General.matriculaNacional.partials.form', 
+                          'configuracionPrecios.confAterrizajeDespegue.General.matriculaExtranjera.partials.edit', 
+                          'configuracionPrecios.confAterrizajeDespegue.General.matriculaExtranjera.partials.form'], function($view){
             $precioAterrizajeDespegue = \App\PreciosAterrizajesDespegue::where("aeropuerto_id", session('aeropuerto')->id)->get();
             $view->with(compact('precioAterrizajeDespegue'));
         });
 
 
-        view()->composer(['configuracionPrecios.confEstacionamientoAeronave.index', 'configuracionPrecios.confEstacionamientoAeronave.partials.edit', 'configuracionPrecios.confEstacionamientoAeronave.partials.form', 'configuracionPrecios.confEstacionamientoAeronave.partials.show'], function($view){
+        view()->composer(['configuracionPrecios.confEstacionamientoAeronave.Comercial.matriculaNacional.partials.edit', 
+                          'configuracionPrecios.confEstacionamientoAeronave.Comercial.matriculaNacional.partials.form', 
+                          'configuracionPrecios.confEstacionamientoAeronave.Comercial.matriculaExtranjera.partials.edit', 
+                          'configuracionPrecios.confEstacionamientoAeronave.Comercial.matriculaExtranjera.partials.form', 
+                          'configuracionPrecios.confEstacionamientoAeronave.General.matriculaNacional.partials.edit', 
+                          'configuracionPrecios.confEstacionamientoAeronave.General.matriculaNacional.partials.form', 
+                          'configuracionPrecios.confEstacionamientoAeronave.General.matriculaExtranjera.partials.edit', 
+                          'configuracionPrecios.confEstacionamientoAeronave.General.matriculaExtranjera.partials.form'], function($view){
             $estacionamientoAeronave = \App\EstacionamientoAeronave::where("aeropuerto_id", session('aeropuerto')->id)->get();
             $view->with(compact('estacionamientoAeronave'));
         });
 
 
-        view()->composer(['configuracionPrecios.confHorarioAeronautico.index', 'configuracionPrecios.confHorarioAeronautico.partials.edit', 'configuracionPrecios.confHorarioAeronautico.partials.form', 'configuracionPrecios.confHorarioAeronautico.partials.show'], function($view){
+        view()->composer(['configuracionPrecios.confHorarioAeronautico.index', 
+                          'configuracionPrecios.confHorarioAeronautico.partials.edit', 
+                          'configuracionPrecios.confHorarioAeronautico.partials.form', 
+                          'configuracionPrecios.confHorarioAeronautico.partials.show'], function($view){
             $horarioAeronautico  = \App\HorariosAeronautico::where("aeropuerto_id", session('aeropuerto')->id)->get();
             $view->with(compact('horarioAeronautico'));
         });
 
-        view()->composer(['configuracionPrecios.confCargosVarios.index', 'configuracionPrecios.confCargosVarios.partials.edit', 'configuracionPrecios.confCargosVarios.partials.form', 'configuracionPrecios.confCargosVarios.partials.show'], function($view){
+        view()->composer(['configuracionPrecios.confCargosVarios.index', 
+                          'configuracionPrecios.confCargosVarios.partials.edit', 
+                          'configuracionPrecios.confCargosVarios.partials.form', 
+                          'configuracionPrecios.confCargosVarios.partials.show'], function($view){
             $cargosVarios  = \App\CargosVario::where("aeropuerto_id", session('aeropuerto')->id)->get();
             $view->with(compact('cargosVarios'));
         });
 
 
-        view()->composer(['configuracionPrecios.confCarga.index', 'configuracionPrecios.confCarga.partials.edit', 'configuracionPrecios.confCarga.partials.form', 'configuracionPrecios.confCarga.partials.show'], function($view){
+        view()->composer(['configuracionPrecios.confCarga.index', 
+                          'configuracionPrecios.confCarga.partials.edit', 
+                          'configuracionPrecios.confCarga.partials.form', 
+                          'configuracionPrecios.confCarga.partials.show'], function($view){
             $precioCargas = \App\PreciosCarga::where("aeropuerto_id", session('aeropuerto')->id)->get();
             $view->with(compact('precioCargas'));
         });
@@ -180,7 +244,31 @@ class ViewComposerServiceProvider extends ServiceProvider {
             $view->with(compact('clientes'));
         });
 
-        view()->composer(['administracion.informacion', 'administracion.meta', 'contrato.partials.form', 'configuracionPrecios.confAterrizajeDespegue.partials.edit', 'configuracionPrecios.confAterrizajeDespegue.partials.form', 'configuracionPrecios.confEstacionamientoAeronave.partials.edit', 'configuracionPrecios.confEstacionamientoAeronave.partials.form', 'configuracionPrecios.confCargosVarios.partials.edit', 'configuracionPrecios.confCargosVarios.partials.form', 'configuracionPrecios.confCarga.partials.edit', 'configuracionPrecios.confCarga.partials.form', 'configuracionPrecios.confOtrosCargos.index', 'configuracionPrecios.confOtrosCargos.partials.table'], function($view){
+        view()->composer(['administracion.informacion', 
+                          'administracion.meta', 
+                          'contrato.partials.form', 
+                          'configuracionPrecios.confAterrizajeDespegue.Comercial.matriculaNacional.partials.edit', 
+                          'configuracionPrecios.confAterrizajeDespegue.Comercial.matriculaNacional.partials.form', 
+                          'configuracionPrecios.confEstacionamientoAeronave.Comercial.matriculaNacional.partials.edit', 
+                          'configuracionPrecios.confEstacionamientoAeronave.Comercial.matriculaNacional.partials.form', 
+                          'configuracionPrecios.confAterrizajeDespegue.Comercial.matriculaExtranjera.partials.edit', 
+                          'configuracionPrecios.confAterrizajeDespegue.Comercial.matriculaExtranjera.partials.form', 
+                          'configuracionPrecios.confEstacionamientoAeronave.Comercial.matriculaExtranjera.partials.edit', 
+                          'configuracionPrecios.confEstacionamientoAeronave.Comercial.matriculaExtranjera.partials.form', 
+                          'configuracionPrecios.confAterrizajeDespegue.General.matriculaNacional.partials.edit', 
+                          'configuracionPrecios.confAterrizajeDespegue.General.matriculaNacional.partials.form', 
+                          'configuracionPrecios.confEstacionamientoAeronave.General.matriculaNacional.partials.edit', 
+                          'configuracionPrecios.confEstacionamientoAeronave.General.matriculaNacional.partials.form', 
+                          'configuracionPrecios.confAterrizajeDespegue.General.matriculaExtranjera.partials.edit', 
+                          'configuracionPrecios.confAterrizajeDespegue.General.matriculaExtranjera.partials.form', 
+                          'configuracionPrecios.confEstacionamientoAeronave.General.matriculaExtranjera.partials.edit', 
+                          'configuracionPrecios.confEstacionamientoAeronave.General.matriculaExtranjera.partials.form',  
+                          'configuracionPrecios.confCargosVarios.partials.edit', 
+                          'configuracionPrecios.confCargosVarios.partials.form', 
+                          'configuracionPrecios.confCarga.partials.edit', 
+                          'configuracionPrecios.confCarga.partials.form', 
+                          'configuracionPrecios.confOtrosCargos.index',
+                          'configuracionPrecios.confOtrosCargos.partials.table'], function($view){
             $conceptos =[""=>"-- Seleccione un concepto --"]+session('aeropuerto')->conceptos()->orderBy('nompre', 'ASC')->lists('nompre', 'id');
             $view->with(compact('conceptos'));
         });

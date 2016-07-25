@@ -17,54 +17,147 @@
 		<div class="nav-tabs-custom">
 			<ul class="nav nav-tabs">
 				<li class="active">
-					<a href="#tab_0" data-toggle="tab">General</a>
+					<a href="#General-tab" data-toggle="tab">General</a>
+				</li>
+                <li class="dropdown">
+                    <a href="#" data-toggle="dropdown">Aviación Comercial <span class="caret"></span></a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a href="#aviacionComercialNacional-tab" data-toggle="tab">Matricula Nacional</a></li>
+                        <li><a href="#aviacionComercialExtranjera-tab" data-toggle="tab">Matrícula Extranjera</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="#" data-toggle="dropdown">Aviación General <span class="caret"></span></a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a href="#aviacionGeneralNacional-tab" data-toggle="tab">Matricula Nacional</a></li>
+                        <li><a href="#aviacionGeneralExtranjera-tab" data-toggle="tab">Matrícula Extranjera</a></li>
+                    </ul>
+                </li>
+				<li>
+					<a href="#Carga-tab" data-toggle="tab">Carga</a>
 				</li>
 				<li>
-					<a href="#tab_1" data-toggle="tab">Aterrizaje y Despegue</a>
+					<a href="#Horarios-tab" data-toggle="tab">Horarios</a>
 				</li>
 				<li>
-					<a href="#tab_2" data-toggle="tab">Estacionamiento</a>
-				</li>
-				<li>
-					<a href="#tab_6" data-toggle="tab">Carga</a>
-				</li>
-				<li>
-					<a href="#tab_3" data-toggle="tab">Horarios</a>
-				</li>
-				<li>
-					<a href="#tab_4" data-toggle="tab">Otros Cargos</a>
+					<a href="#otrosCargos-tab" data-toggle="tab">Otros Cargos</a>
 				</li>
  				<li>
-					<a href="#tab_5" data-toggle="tab">Cargos Varios</a>
+					<a href="#cargosVarios-tab" data-toggle="tab">Cargos Varios</a>
 				</li>
 			</ul>
 			<div class="tab-content">
 
 				<!-- Configuración General del Sistema -->
-				<div class="tab-pane active" id="tab_0">
+				<div class="tab-pane active" id="General-tab">
 					
 					@include('configuracionPrecios.confGeneral.partials.edit')
 
 				</div><!-- /.tab-pane -->
 
-				<!-- Configuración de Ateriizaje y Despegues -->
-				<div class="tab-pane" id="tab_1">
+				<!-- Configuración de Aviación Comercial -->
+				<div class="tab-pane" id="aviacionComercialNacional-tab">
+					<h4 class="text-center">Aviación Comercial - Matrícula Nacional</h4>
+					<div class="nav-tabs-custom">
+						<ul class="nav nav-tabs">
+							<li class="active">
+								<a href="#estacionamientoComercialNacional-tab" data-toggle="tab">Estacionamiento</a>
+							</li>
+							<li>
+								<a href="#aterrizajeComercialNacional-tab" data-toggle="tab">Aterrizaje y Despegue</a>
+							</li>
+						</ul>
+						<div class="tab-content">
+							<div class="tab-pane active estacionamientoAeronave-tab" id="estacionamientoComercialNacional-tab">
+								@include('configuracionPrecios.confEstacionamientoAeronave.Comercial.matriculaNacional.partials.edit')
+							</div>
+							<div class="tab-pane precioAterrizajeDespegue-tab" id="aterrizajeComercialNacional-tab">
+								@include('configuracionPrecios.confAterrizajeDespegue.Comercial.matriculaNacional.partials.edit')
+							</div>
+						</div>
+					</div><!-- /.nav-tabs-custom -->
+				</div><!-- /.tab-pane -->
 
-					@include('configuracionPrecios.confAterrizajeDespegue.partials.edit')
 
+				<!-- Configuración de Aviación Comercial -->
+				<div class="tab-pane" id="aviacionComercialExtranjera-tab">
+					<h4 class="text-center">Aviación Comercial - Matrícula Extranjera</h4>
+					<div class="nav-tabs-custom">
+						<ul class="nav nav-tabs">
+							<li class="active">
+								<a href="#estacionamientoComercialExtranjera-tab" data-toggle="tab">Estacionamiento</a>
+							</li>
+							<li>
+								<a href="#aterrizajeComercialExtranjera-tab" data-toggle="tab">Aterrizaje y Despegue</a>
+							</li>
+						</ul>
+						<div class="tab-content">
+							<div class="tab-pane active estacionamientoAeronave-tab" id="estacionamientoComercialExtranjera-tab">
+								@include('configuracionPrecios.confEstacionamientoAeronave.Comercial.matriculaExtranjera.partials.edit')
+							</div>
+							<div class="tab-pane precioAterrizajeDespegue-tab" id="aterrizajeComercialExtranjera-tab">
+								@include('configuracionPrecios.confAterrizajeDespegue.Comercial.matriculaExtranjera.partials.edit')
+							</div>
+						</div>
+					</div><!-- /.nav-tabs-custom -->
+				</div><!-- /.tab-pane -->
 
+				<!-- Configuración de Aviación General -->
+				<div class="tab-pane" id="aviacionGeneralNacional-tab">
+					<h4 class="text-center">Aviación General - Matrícula Nacional</h4>
+					<div class="nav-tabs-custom">
+						<ul class="nav nav-tabs">
+							<li class="active">
+								<a href="#estacionamientoGeneralNacional-tab" data-toggle="tab">Estacionamiento</a>
+							</li>
+							<li>
+								<a href="#aterrizajeGeneralNacional-tab" data-toggle="tab">Aterrizaje y Despegue</a>
+							</li>
+						</ul>
+						<div class="tab-content">
+							<div class="tab-pane active estacionamientoAeronave-tab" id="estacionamientoGeneralNacional-tab">
+								@include('configuracionPrecios.confEstacionamientoAeronave.General.matriculaNacional.partials.edit')
+							</div>
+							<div class="tab-pane precioAterrizajeDespegue-tab" id="aterrizajeGeneralNacional-tab">
+								@include('configuracionPrecios.confAterrizajeDespegue.General.matriculaNacional.partials.edit')
+							</div>
+						</div>
+					</div><!-- /.nav-tabs-custom -->
+				</div><!-- /.tab-pane -->
+
+				<!-- Configuración de Aviación General -->
+				<div class="tab-pane" id="aviacionGeneralExtranjera-tab">
+					<h4 class="text-center">Aviación General - Matrícula Extranjera</h4>
+					<div class="nav-tabs-custom">
+						<ul class="nav nav-tabs">
+							<li class="active">
+								<a href="#estacionamientoGeneralExtranjera-tab" data-toggle="tab">Estacionamiento</a>
+							</li>
+							<li>
+								<a href="#aterrizajeGeneralExtranjera-tab" data-toggle="tab">Aterrizaje y Despegue</a>
+							</li>
+						</ul>
+						<div class="tab-content">
+							<div class="tab-pane active estacionamientoAeronave-tab" id="estacionamientoGeneralExtranjera-tab">
+								@include('configuracionPrecios.confEstacionamientoAeronave.General.matriculaExtranjera.partials.edit')
+							</div>
+							<div class="tab-pane precioAterrizajeDespegue-tab" id="aterrizajeGeneralExtranjera-tab">
+								@include('configuracionPrecios.confAterrizajeDespegue.General.matriculaExtranjera.partials.edit')
+							</div>
+						</div>
+					</div><!-- /.nav-tabs-custom -->
 				</div><!-- /.tab-pane -->
 
 				<!-- Configuración de Estacionamiento -->
-				<div class="tab-pane" id="tab_2">
+				{{-- <div class="tab-pane" id="aviacionGeneralNacional-tab">
 
 					@include('configuracionPrecios.confEstacionamientoAeronave.partials.edit')
 
 
-				</div><!-- /.tab-pane -->
+				</div> --}}<!-- /.tab-pane -->
 
 				<!-- Otros Cargos-->
-				<div class="tab-pane" id="tab_3">
+				<div class="tab-pane" id="Horarios-tab">
 
 					@include('configuracionPrecios.confHorarioAeronautico.partials.edit')
 
@@ -72,7 +165,7 @@
 				</div><!-- /.tab-pane -->
 
 				<!-- Otros Cargos -->
-				<div class="tab-pane" id="tab_4">
+				<div class="tab-pane" id="otrosCargos-tab">
 
 	 				@include('configuracionPrecios.confOtrosCargos.index') 
 
@@ -81,14 +174,14 @@
 
 
 				<!-- Otras Configuraciones -->
-				<div class="tab-pane" id="tab_5">
+				<div class="tab-pane" id="cargosVarios-tab">
 
 	 				@include('configuracionPrecios.confCargosVarios.partials.edit') 
 
 				</div><!-- /.tab-pane -->
 
 				<!-- Otras Configuraciones -->
-				<div class="tab-pane" id="tab_6">
+				<div class="tab-pane" id="Carga-tab">
 
 					@include('configuracionPrecios.confCarga.partials.edit')
 
@@ -108,116 +201,284 @@
 
 $(document).ready(function(){
 
-
+	//Cálculos para Matrículas Nacionales
 	$('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {			
-		var ut    =$('body #tab_0 .unidad_tributaria').val();
-		var eq_dN =$('body #tab_1 .eq_diurnoNac').val();
-		var eq_dI =$('body #tab_1 .eq_diurnoInt').val();
-		var eq_nN =$('body #tab_1 .eq_nocturNac').val();
-		var eq_nI =$('body #tab_1 .eq_nocturInt').val();
+		var ut    =$('body #General-tab .unidad_tributaria').val();
+		var eq_dN =$('body #aterrizajeGeneralNacional-tab .eq_diurnoNac').val();
+		var eq_dI =$('body #aterrizajeGeneralNacional-tab .eq_diurnoInt').val();
+		var eq_nN =$('body #aterrizajeGeneralNacional-tab .eq_nocturNac').val();
+		var eq_nI =$('body #aterrizajeGeneralNacional-tab .eq_nocturInt').val();
 
 		var val_dN= eq_dN*ut;
-		$('body #tab_1 #precio_diurnoNac-input').val(val_dN);
+		$('body #aterrizajeGeneralNacional-tab #precio_diurnoNac').val(val_dN.toFixed(2));
 		var val_dI= eq_dI*ut;
-		$('body #tab_1 #precio_diurnoInt-input').val(val_dI);
+		$('body #aterrizajeGeneralNacional-tab #precio_diurnoInt').val(val_dI.toFixed(2));
 		var val_nN= eq_nN*ut;
-		$('body #tab_1 #precio_nocturNac-input').val(val_nN);
+		$('body #aterrizajeGeneralNacional-tab #precio_nocturNac').val(val_nN.toFixed(2));
 		var val_nI= eq_nI*ut;
-		$('body #tab_1 #precio_nocturInt-input').val(val_nI);
-
+		$('body #aterrizajeGeneralNacional-tab #precio_nocturInt').val(val_nI.toFixed(2));
 	});
 
-	$( "body #tab_1 input" ).keyup(function( event ) {
-		var ut    =$('body #tab_0 .unidad_tributaria').val();
-		var eq_dN =$('body #tab_1 .eq_diurnoNac').val();
-		var eq_dI =$('body #tab_1 .eq_diurnoInt').val();
-		var eq_nN =$('body #tab_1 .eq_nocturNac').val();
-		var eq_nI =$('body #tab_1 .eq_nocturInt').val();
+	$( "body #aterrizajeGeneralNacional-tab input" ).keyup(function( event ) {	
+		var ut    =$('body #General-tab .unidad_tributaria').val();
+		var eq_dN =$('body #aterrizajeGeneralNacional-tab .eq_diurnoNac').val();
+		var eq_dI =$('body #aterrizajeGeneralNacional-tab .eq_diurnoInt').val();
+		var eq_nN =$('body #aterrizajeGeneralNacional-tab .eq_nocturNac').val();
+		var eq_nI =$('body #aterrizajeGeneralNacional-tab .eq_nocturInt').val();
 
 		var val_dN= eq_dN*ut;
-		$('body #tab_1 #eq_diurnoNac-input').val(val_dN);
+		$('body #aterrizajeGeneralNacional-tab .precio_diurnoNac').val(val_dN.toFixed(2));
 		var val_dI= eq_dI*ut;
-		$('body #tab_1 #eq_diurnoInt-input').val(val_dI);
+		$('body #aterrizajeGeneralNacional-tab .precio_diurnoInt').val(val_dI.toFixed(2));
 		var val_nN= eq_nN*ut;
-		$('body #tab_1 #eq_nocturNac-input').val(val_nN);
+		$('body #aterrizajeGeneralNacional-tab .precio_nocturNac').val(val_nN.toFixed(2));
 		var val_nI= eq_nI*ut;
-		$('body #tab_1 #eq_nocturInt-input').val(val_nI);
+		$('body #aterrizajeGeneralNacional-tab .precio_nocturInt').val(val_nI.toFixed(2));
 	});
 
 	$('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {			
-		var ut    =$('body #tab_0 .unidad_tributaria').val();
-		var eq_bI =$('body #tab_2 .eq_bloqueInt').val();
-		var eq_bN =$('body #tab_2 .eq_bloqueNac').val();
+		var ut    =$('body #General-tab .unidad_tributaria').val();
+		var eq_bI =$('body #estacionamientoGeneralNacional-tab .eq_bloqueInt').val();
+		var eq_bN =$('body #estacionamientoGeneralNacional-tab .eq_bloqueNac').val();
 
 		var val_precioInt= eq_bI*ut;
-		$('body #tab_2 #precio_estInt-input').val(val_precioInt.toFixed(2));
+		$('body #estacionamientoGeneralNacional-tab .precio_estInt').val(val_precioInt.toFixed(2));
 		var val_precioNac= eq_bN*ut;
-		$('body #tab_2 #precio_estNac-input').val(val_precioNac.toFixed(2));
+		$('body #estacionamientoGeneralNacional-tab .precio_estNac').val(val_precioNac.toFixed(2));
 	});
 
-	$( "body #tab_2 input" ).keyup(function( event ) {	
-		var ut    =$('body #tab_0 .unidad_tributaria').val();
-		var eq_bI =$('body #tab_2 .eq_bloqueInt').val();
-		var eq_bN =$('body #tab_2 .eq_bloqueNac').val();
+	$( "body #estacionamientoGeneralNacional-tab input" ).keyup(function( event ) {	
+		var ut    =$('body #General-tab .unidad_tributaria').val();
+		var eq_bI =$('body #estacionamientoGeneralNacional-tab .eq_bloqueInt').val();
+		var eq_bN =$('body #estacionamientoGeneralNacional-tab .eq_bloqueNac').val();
 
 		var val_precioInt= eq_bI*ut;
-		$('body #tab_2 #precio_estInt-input').val(val_precioInt.toFixed(2));
+		$('body #estacionamientoGeneralNacional-tab .precio_estInt').val(val_precioInt.toFixed(2));
 		var val_precioNac= eq_bN*ut;
-		$('body #tab_2 #precio_estNac-input').val(val_precioNac.toFixed(2));
+		$('body #estacionamientoGeneralNacional-tab .precio_estNac').val(val_precioNac.toFixed(2));
+	});
+	
+	$('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {			
+		var ut    =$('body #General-tab .unidad_tributaria').val();
+		var eq_dN =$('body #aterrizajeComercialNacional-tab .eq_diurnoNac').val();
+		var eq_dI =$('body #aterrizajeComercialNacional-tab .eq_diurnoInt').val();
+		var eq_nN =$('body #aterrizajeComercialNacional-tab .eq_nocturNac').val();
+		var eq_nI =$('body #aterrizajeComercialNacional-tab .eq_nocturInt').val();
+
+		var val_dN= eq_dN*ut;
+		$('body #aterrizajeComercialNacional-tab #precio_diurnoNac').val(val_dN.toFixed(2));
+		var val_dI= eq_dI*ut;
+		$('body #aterrizajeComercialNacional-tab #precio_diurnoInt').val(val_dI.toFixed(2));
+		var val_nN= eq_nN*ut;
+		$('body #aterrizajeComercialNacional-tab #precio_nocturNac').val(val_nN.toFixed(2));
+		var val_nI= eq_nI*ut;
+		$('body #aterrizajeComercialNacional-tab #precio_nocturInt').val(val_nI.toFixed(2));
+	});
+
+	$( "body #aterrizajeComercialNacional-tab input" ).keyup(function( event ) {	
+		var ut    =$('body #General-tab .unidad_tributaria').val();
+		var eq_dN =$('body #aterrizajeComercialNacional-tab .eq_diurnoNac').val();
+		var eq_dI =$('body #aterrizajeComercialNacional-tab .eq_diurnoInt').val();
+		var eq_nN =$('body #aterrizajeComercialNacional-tab .eq_nocturNac').val();
+		var eq_nI =$('body #aterrizajeComercialNacional-tab .eq_nocturInt').val();
+
+		var val_dN= eq_dN*ut;
+		$('body #aterrizajeComercialNacional-tab .precio_diurnoNac').val(val_dN.toFixed(2));
+		var val_dI= eq_dI*ut;
+		$('body #aterrizajeComercialNacional-tab .precio_diurnoInt').val(val_dI.toFixed(2));
+		var val_nN= eq_nN*ut;
+		$('body #aterrizajeComercialNacional-tab .precio_nocturNac').val(val_nN.toFixed(2));
+		var val_nI= eq_nI*ut;
+		$('body #aterrizajeComercialNacional-tab .precio_nocturInt').val(val_nI.toFixed(2));
+	});
+
+	$('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {			
+		var ut    =$('body #General-tab .unidad_tributaria').val();
+		var eq_bI =$('body #estacionamientoComercialNacional-tab .eq_bloqueInt').val();
+		var eq_bN =$('body #estacionamientoComercialNacional-tab .eq_bloqueNac').val();
+
+		var val_precioInt= eq_bI*ut;
+		$('body #estacionamientoComercialNacional-tab .precio_estInt').val(val_precioInt.toFixed(2));
+		var val_precioNac= eq_bN*ut;
+		$('body #estacionamientoComercialNacional-tab .precio_estNac').val(val_precioNac.toFixed(2));
+	});
+
+	$( "body #estacionamientoComercialNacional-tab input" ).keyup(function( event ) {	
+		var ut    =$('body #General-tab .unidad_tributaria').val();
+		var eq_bI =$('body #estacionamientoComercialNacional-tab .eq_bloqueInt').val();
+		var eq_bN =$('body #estacionamientoComercialNacional-tab .eq_bloqueNac').val();
+
+		var val_precioInt= eq_bI*ut;
+		$('body #estacionamientoComercialNacional-tab .precio_estInt').val(val_precioInt.toFixed(2));
+		var val_precioNac= eq_bN*ut;
+		$('body #estacionamientoComercialNacional-tab .precio_estNac').val(val_precioNac.toFixed(2));
+	});
+
+	
+	//Cálculos para matrículas extrajeras
+	$('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {			
+		var ut    =$('body #General-tab .dolar_oficial').val();
+		var eq_dN =$('body #aterrizajeGeneralExtranjera-tab .eq_diurnoNac').val();
+		var eq_dI =$('body #aterrizajeGeneralExtranjera-tab .eq_diurnoInt').val();
+		var eq_nN =$('body #aterrizajeGeneralExtranjera-tab .eq_nocturNac').val();
+		var eq_nI =$('body #aterrizajeGeneralExtranjera-tab .eq_nocturInt').val();
+
+		var val_dN= eq_dN*ut;
+		$('body #aterrizajeGeneralExtranjera-tab #precio_diurnoNac').val(val_dN.toFixed(2));
+		var val_dI= eq_dI*ut;
+		$('body #aterrizajeGeneralExtranjera-tab #precio_diurnoInt').val(val_dI.toFixed(2));
+		var val_nN= eq_nN*ut;
+		$('body #aterrizajeGeneralExtranjera-tab #precio_nocturNac').val(val_nN.toFixed(2));
+		var val_nI= eq_nI*ut;
+		$('body #aterrizajeGeneralExtranjera-tab #precio_nocturInt').val(val_nI.toFixed(2));
+	});
+
+	$( "body #aterrizajeGeneralExtranjera-tab input" ).keyup(function( event ) {	
+		var ut    =$('body #General-tab .dolar_oficial').val();
+		var eq_dN =$('body #aterrizajeGeneralExtranjera-tab .eq_diurnoNac').val();
+		var eq_dI =$('body #aterrizajeGeneralExtranjera-tab .eq_diurnoInt').val();
+		var eq_nN =$('body #aterrizajeGeneralExtranjera-tab .eq_nocturNac').val();
+		var eq_nI =$('body #aterrizajeGeneralExtranjera-tab .eq_nocturInt').val();
+
+		var val_dN= eq_dN*ut;
+		$('body #aterrizajeGeneralExtranjera-tab .precio_diurnoNac').val(val_dN.toFixed(2));
+		var val_dI= eq_dI*ut;
+		$('body #aterrizajeGeneralExtranjera-tab .precio_diurnoInt').val(val_dI.toFixed(2));
+		var val_nN= eq_nN*ut;
+		$('body #aterrizajeGeneralExtranjera-tab .precio_nocturNac').val(val_nN.toFixed(2));
+		var val_nI= eq_nI*ut;
+		$('body #aterrizajeGeneralExtranjera-tab .precio_nocturInt').val(val_nI.toFixed(2));
+	});
+
+	$('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {			
+		var ut    =$('body #General-tab .dolar_oficial').val();
+		var eq_bI =$('body #estacionamientoGeneralExtranjera-tab .eq_bloqueInt').val();
+		var eq_bN =$('body #estacionamientoGeneralExtranjera-tab .eq_bloqueNac').val();
+
+		var val_precioInt= eq_bI*ut;
+		$('body #estacionamientoGeneralExtranjera-tab .precio_estInt').val(val_precioInt.toFixed(2));
+		var val_precioNac= eq_bN*ut;
+		$('body #estacionamientoGeneralExtranjera-tab .precio_estNac').val(val_precioNac.toFixed(2));
+	});
+
+	$( "body #estacionamientoGeneralExtranjera-tab input" ).keyup(function( event ) {	
+		var ut    =$('body #General-tab .dolar_oficial').val();
+		var eq_bI =$('body #estacionamientoGeneralExtranjera-tab .eq_bloqueInt').val();
+		var eq_bN =$('body #estacionamientoGeneralExtranjera-tab .eq_bloqueNac').val();
+
+		var val_precioInt= eq_bI*ut;
+		$('body #estacionamientoGeneralExtranjera-tab .precio_estInt').val(val_precioInt.toFixed(2));
+		var val_precioNac= eq_bN*ut;
+		$('body #estacionamientoGeneralExtranjera-tab .precio_estNac').val(val_precioNac.toFixed(2));
+	});
+
+	$('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {			
+		var ut    =$('body #General-tab .dolar_oficial').val();
+		var eq_dN =$('body #aterrizajeComercialExtranjera-tab .eq_diurnoNac').val();
+		var eq_dI =$('body #aterrizajeComercialExtranjera-tab .eq_diurnoInt').val();
+		var eq_nN =$('body #aterrizajeComercialExtranjera-tab .eq_nocturNac').val();
+		var eq_nI =$('body #aterrizajeComercialExtranjera-tab .eq_nocturInt').val();
+
+		var val_dN= eq_dN*ut;
+		$('body #aterrizajeComercialExtranjera-tab #precio_diurnoNac').val(val_dN.toFixed(2));
+		var val_dI= eq_dI*ut;
+		$('body #aterrizajeComercialExtranjera-tab #precio_diurnoInt').val(val_dI.toFixed(2));
+		var val_nN= eq_nN*ut;
+		$('body #aterrizajeComercialExtranjera-tab #precio_nocturNac').val(val_nN.toFixed(2));
+		var val_nI= eq_nI*ut;
+		$('body #aterrizajeComercialExtranjera-tab #precio_nocturInt').val(val_nI.toFixed(2));
+	});
+
+	$( "body #aterrizajeComercialExtranjera-tab input" ).keyup(function( event ) {	
+		var ut    =$('body #General-tab .dolar_oficial').val();
+		var eq_dN =$('body #aterrizajeComercialExtranjera-tab .eq_diurnoNac').val();
+		var eq_dI =$('body #aterrizajeComercialExtranjera-tab .eq_diurnoInt').val();
+		var eq_nN =$('body #aterrizajeComercialExtranjera-tab .eq_nocturNac').val();
+		var eq_nI =$('body #aterrizajeComercialExtranjera-tab .eq_nocturInt').val();
+
+		var val_dN= eq_dN*ut;
+		$('body #aterrizajeComercialExtranjera-tab .precio_diurnoNac').val(val_dN.toFixed(2));
+		var val_dI= eq_dI*ut;
+		$('body #aterrizajeComercialExtranjera-tab .precio_diurnoInt').val(val_dI.toFixed(2));
+		var val_nN= eq_nN*ut;
+		$('body #aterrizajeComercialExtranjera-tab .precio_nocturNac').val(val_nN.toFixed(2));
+		var val_nI= eq_nI*ut;
+		$('body #aterrizajeComercialExtranjera-tab .precio_nocturInt').val(val_nI.toFixed(2));
+	});
+
+	$('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {			
+		var ut    =$('body #General-tab .dolar_oficial').val();
+		var eq_bI =$('body #estacionamientoComercialExtranjera-tab .eq_bloqueInt').val();
+		var eq_bN =$('body #estacionamientoComercialExtranjera-tab .eq_bloqueNac').val();
+
+		var val_precioInt= eq_bI*ut;
+		$('body #estacionamientoComercialExtranjera-tab .precio_estInt').val(val_precioInt.toFixed(2));
+		var val_precioNac= eq_bN*ut;
+		$('body #estacionamientoComercialExtranjera-tab .precio_estNac').val(val_precioNac.toFixed(2));
+	});
+
+	$( "body #estacionamientoComercialExtranjera-tab input" ).keyup(function( event ) {	
+		var ut    =$('body #General-tab .dolar_oficial').val();
+		var eq_bI =$('body #estacionamientoComercialExtranjera-tab .eq_bloqueInt').val();
+		var eq_bN =$('body #estacionamientoComercialExtranjera-tab .eq_bloqueNac').val();
+
+		var val_precioInt= eq_bI*ut;
+		$('body #estacionamientoComercialExtranjera-tab .precio_estInt').val(val_precioInt.toFixed(2));
+		var val_precioNac= eq_bN*ut;
+		$('body #estacionamientoComercialExtranjera-tab .precio_estNac').val(val_precioNac.toFixed(2));
 	});
 
 
 	$('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {			
-		var ut        =$('body #tab_0 .unidad_tributaria').val();
-		var eq_form   =$('body #tab_5 .eq_formulario').val();
-		var eq_DerHab =$('body #tab_5 .eq_derechoHabilitacion').val();
-		var eq_AborSH =$('body #tab_5 .eq_usoAbordajeSinHab').val();
-		var eq_AborCH =$('body #tab_5 .eq_usoAbordajeConHab').val();
+		var ut        =$('body #General-tab .unidad_tributaria').val();
+		var eq_form   =$('body #cargosVarios-tab .eq_formulario').val();
+		var eq_DerHab =$('body #cargosVarios-tab .eq_derechoHabilitacion').val();
+		var eq_AborSH =$('body #cargosVarios-tab .eq_usoAbordajeSinHab').val();
+		var eq_AborCH =$('body #cargosVarios-tab .eq_usoAbordajeConHab').val();
 
 		var val_form= Math.ceil(eq_form*ut);
-		$('body #tab_5 #precio_formulario-input').val(val_form.toFixed(2));
+		$('body #cargosVarios-tab #precio_formulario-input').val(val_form.toFixed(2));
 		var val_DerHab= eq_DerHab*ut;
-		$('body #tab_5 #precio_derechoHabilitacion-input').val(val_DerHab)
+		$('body #cargosVarios-tab #precio_derechoHabilitacion-input').val(val_DerHab)
 		var val_AborSH= eq_AborSH*ut;
-		$('body #tab_5 #precio_usoAbordajeSinHab-input').val(val_AborSH);
+		$('body #cargosVarios-tab #precio_usoAbordajeSinHab-input').val(val_AborSH);
 		var val_AborCH= eq_AborCH*ut;
-		$('body #tab_5 #precio_usoAbordajeConHab-input').val(val_AborCH);
+		$('body #cargosVarios-tab #precio_usoAbordajeConHab-input').val(val_AborCH);
 	});
 
-	$( "body #tab_5 input" ).keyup(function( event ) {	
+	$( "body #cargosVarios-tab input" ).keyup(function( event ) {	
 
-		var ut        =$('body #tab_0 .unidad_tributaria').val();
-		var eq_form   =$('body #tab_5 .eq_formulario').val();
-		var eq_DerHab =$('body #tab_5 .eq_derechoHabilitacion').val();
-		var eq_AborSH =$('body #tab_5 .eq_usoAbordajeSinHab').val();
-		var eq_AborCH =$('body #tab_5 .eq_usoAbordajeConHab').val();
+		var ut        =$('body #General-tab .unidad_tributaria').val();
+		var eq_form   =$('body #cargosVarios-tab .eq_formulario').val();
+		var eq_DerHab =$('body #cargosVarios-tab .eq_derechoHabilitacion').val();
+		var eq_AborSH =$('body #cargosVarios-tab .eq_usoAbordajeSinHab').val();
+		var eq_AborCH =$('body #cargosVarios-tab .eq_usoAbordajeConHab').val();
 
 		var val_form= eq_form*ut;
-		$('body #tab_5 #precio_usoAbordajeConHab-input').val(val_form.toFixed(2));
+		$('body #cargosVarios-tab #precio_usoAbordajeConHab-input').val(val_form.toFixed(2));
 		var val_DerHab= eq_DerHab*ut;
-		$('body #tab_5 #precio_usoAbordajeConHab-input').val(val_DerHab);
+		$('body #cargosVarios-tab #precio_usoAbordajeConHab-input').val(val_DerHab);
 		var val_AborSH= eq_AborSH*ut;
-		$('body #tab_5 #precio_usoAbordajeConHab-input').val(val_AborSH);
+		$('body #cargosVarios-tab #precio_usoAbordajeConHab-input').val(val_AborSH);
 		var val_AborCH= eq_AborCH*ut;
-		$('body #tab_5 #precio_usoAbordajeConHab-input').val(val_AborCH);
+		$('body #cargosVarios-tab #precio_usoAbordajeConHab-input').val(val_AborCH);
 	});
-
 
 
 	$('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {			
-		var ut        =$('body #tab_0 .unidad_tributaria').val();
-		var eq_UT     =$('body #tab_6 .equivalenteUT').val();
+		var ut        =$('body #General-tab .unidad_tributaria').val();
+		var eq_UT     =$('body #Carga-tab .equivalenteUT').val();
 		
 		var val_carga = eq_UT*ut;
-		$('body #tab_6 #precio_carga-input').val(val_carga.toFixed(2));
+		$('body #Carga-tab #precio_carga-input').val(val_carga.toFixed(2));
 	});
 
-	$( "body #tab_6 input" ).keyup(function( event ) {	
-		var ut        =$('body #tab_0 .unidad_tributaria').val();
-		var eq_UT     =$('body #tab_6 .equivalenteUT').val();
+	$( "body #Carga-tab input" ).keyup(function( event ) {	
+		var ut        =$('body #General-tab .unidad_tributaria').val();
+		var eq_UT     =$('body #Carga-tab .equivalenteUT').val();
 		
 		var val_carga = eq_UT*ut;
-		$('body #tab_6 #precio_carga-input').val(val_carga.toFixed(2));
+		$('body #Carga-tab #precio_carga-input').val(val_carga.toFixed(2));
 	});
 
 
@@ -227,9 +488,9 @@ $(document).ready(function(){
 		*/
 		$('#confGeneral-save-btn').click(function(){
 			var data               ={};
-			data.unidad_tributaria =$('#tab_0 form .unidad_tributaria').val()
-			data.dolar_oficial     =$('#tab_0 form .dolar_oficial').val()
-			var url                =$('#tab_0 form').attr('action')
+			data.unidad_tributaria =$('#General-tab form .unidad_tributaria').val()
+			data.dolar_oficial     =$('#General-tab form .dolar_oficial').val()
+			var url                =$('#General-tab form').attr('action')
 
 			var overlay=    "<div class='overlay'>\
 	            <i class='fa fa-refresh fa-spin'></i>\
@@ -265,12 +526,12 @@ $(document).ready(function(){
 
 	/*
 	
-		Modificar Montos Fijos
+		Modificar Montos de Aterrizaje y despegue
 		*/
-		$('#precioAterrizajeDespegue-save-btn').click(function(){
+		$('.precioAterrizajeDespegue-save-btn').click(function(){
 
-			var data =$('#tab_1 form').serializeArray()
-			var url  =$('#tab_1 form').attr('action')
+			var data =$('.precioAterrizajeDespegue-tab form').serializeArray()
+			var url  =$('.precioAterrizajeDespegue-tab form').attr('action')
 
 			var overlay=    "<div class='overlay'>\
 	            <i class='fa fa-refresh fa-spin'></i>\
@@ -305,10 +566,10 @@ $(document).ready(function(){
 	
 		Modificar Montos de Estacionamiento
 		*/
-		$('#estacionamientoAeronave-save-btn').click(function(){
+		$('.estacionamientoAeronave-save-btn').click(function(){
 
-			var data =$('#tab_2 form').serializeArray()
-			var url  =$('#tab_2 form').attr('action')
+			var data =$('.estacionamientoAeronave-tab form').serializeArray()
+			var url  =$('.estacionamientoAeronave-tab form').attr('action')
 
 			var overlay=    "<div class='overlay'>\
 	            <i class='fa fa-refresh fa-spin'></i>\
@@ -340,14 +601,16 @@ $(document).ready(function(){
 			})
 		})
 
+			/*
+	
 	/*
 	
 		Modificar Horarios
 		*/
 		$('#horarioAeronautico-save-btn').click(function(){
 
-			var data =$('#tab_3 form').serializeArray()
-			var url  =$('#tab_3 form').attr('action')
+			var data =$('#Horarios-tab form').serializeArray()
+			var url  =$('#Horarios-tab form').attr('action')
 
 			var overlay=    "<div class='overlay'>\
 	            <i class='fa fa-refresh fa-spin'></i>\
@@ -384,8 +647,8 @@ $(document).ready(function(){
 		*/
 		$('#cargosVarios-save-btn').click(function(){
 			
-			var data =$('#tab_5 form').serializeArray()
-			var url  =$('#tab_5 form').attr('action')
+			var data =$('#cargosVarios-tab form').serializeArray()
+			var url  =$('#cargosVarios-tab form').attr('action')
 
 			var overlay=    "<div class='overlay'>\
 	            <i class='fa fa-refresh fa-spin'></i>\
@@ -422,8 +685,8 @@ $(document).ready(function(){
 		*/
 		$('#precioCarga-save-btn').click(function(){
 			
-			var data =$('#tab_6 form').serializeArray()
-			var url  =$('#tab_6 form').attr('action')
+			var data =$('#Carga-tab form').serializeArray()
+			var url  =$('#Carga-tab form').attr('action')
 
 			var overlay=    "<div class='overlay'>\
 	            <i class='fa fa-refresh fa-spin'></i>\

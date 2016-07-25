@@ -14,8 +14,6 @@
 				<h3 class="box-title">Cobranza</h3>
 			</div><!-- /.box-header -->
 			<!-- form start -->
-
-
 			<div class="box-body"  id="container">
 				<div class="form-horizontal">
 					<div class="form-group">
@@ -862,7 +860,6 @@ $('#save-cobro-btn').click(function(){
 	$('#formas-pago-table tbody tr').each(function(index,value){
 		pagos.push($(value).data('object'));
 	})
-	
 
 	addLoadingOverlay('#main-box');
 	$.ajax({
