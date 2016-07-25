@@ -2,7 +2,7 @@
 <div class="row invoice-info">	
 @foreach ($precioAterrizajeDespegue as $precioAterrizajeDespegue) 
     {!! Form::model($precioAterrizajeDespegue, ['url' =>action('PreciosAterrizajesDespegueController@update', [$precioAterrizajeDespegue->id]), "method" => "PUT", "class"=>"form-horizontal"]) !!}
-	    @include('configuracionPrecios.confAterrizajeDespegue.Comercial.MatriculaNacional.partials.form')
+	    @include('configuracionPrecios.confAterrizajeDespegue.Comercial.matriculaNacional.partials.form')
 	{!! Form::close() !!}
 @endforeach
 </div>
