@@ -26,7 +26,7 @@
                 <div class="form-group">
                       {!! Form::select('annoDesde', $annos, $annoDesde, ["class"=> "form-control"]) !!}
                 </div>
-                <label style="margin-left: 20px"><strong>HASTA: </strong></label>
+                <label style="margin-left: 30px"><strong>HASTA: </strong></label>
 				<div class="form-group">
 					<input type="text" class="form-control" name="diaHasta" value="{{$diaHasta}}" placeholder="Día">
                 </div>
@@ -37,7 +37,7 @@
                       {!! Form::select('annoHasta', $annos, $annoHasta, ["class"=> "form-control"]) !!}
                 </div>
 				<div class="form-group">
-					<label style="width:80px; margin-left: 20px">Aeropuerto:</label>
+					<label style="margin-left: 30px"><strong>AEROPUERTO: </strong></label>
 					{!! Form::select('aeropuerto', $aeropuertos, $aeropuerto, ["class"=> "form-control"]) !!}
 				</div>
 				<a class="btn btn-default  pull-right" href="{{action('ReporteController@getReporteRelacionIngresosAeronauticosContado')}}">Reset</a>
@@ -256,7 +256,7 @@
 								<tr>\
 									<th colspan="15" style="vertical-align: middle; margin-top:20px" align="center" class="text-center">RELACIÓN DE INGRESOS AERONÁUTICOS CONTADO\
 										</br>\
-		                    			MES: {{$mesLetras}} | AÑO: {{$anno}}\
+										DESDE: {{$diaDesde}}/{{$mesDesde}}/{{$annoDesde}} HASTA: {{$diaHasta}}/{{$mesHasta}}/{{$annoHasta}} </th>\
 		                    			</br>\
 		                    			AEROPUERTO: {{$aeropuertoNombre}}\
 									</th>\

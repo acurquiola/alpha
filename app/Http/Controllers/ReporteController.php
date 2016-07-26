@@ -820,8 +820,8 @@ class ReporteController extends Controller {
         $diaHasta     =$request->get('diaHasta', \Carbon\Carbon::now()->day);
         $mesHasta     =$request->get('mesHasta', \Carbon\Carbon::now()->month);
         $annoHasta    =$request->get('annoHasta',  \Carbon\Carbon::now()->year);
-        $modulos      =\App\Modulo::where('nombre', 'DOSAS')->where('aeropuerto_id', $aeropuerto)->lists('nombre','id');
         $aeropuerto   =session('aeropuerto')->id;
+        $modulos      =\App\Modulo::where('nombre', 'DOSAS')->where('aeropuerto_id', $aeropuerto)->lists('nombre','id');
 
 
 
@@ -909,26 +909,11 @@ class ReporteController extends Controller {
             }*/
         }
 
-        $meses=[
-            01=>"ENERO",
-            02=>"FEBRERO",
-            03=>"MARZO",
-            04=>"ABRIL",
-            05=>"MAYO",
-            06=>"JUNIO",
-            07=>"JULIO",
-            08=>"AGOSTO",
-            09=>"SEPTIEMBRE",
-            10=>"OCTUBRE",
-            11=>"NOVIEMBRE",
-            12=>"DICIEMBRE"];
-
-        $mesLetras = $meses[(int)$mes];
         $aeropuertoNombre = \App\Aeropuerto::where('id', $aeropuerto)->first()->nombre;
 
         
         
-        return view('reportes.reporteRelacionIngresosAeronauticosContado', compact('dosaFactura', 'aeropuertoNombre', 'mes', 'mesLetras', 'anno', 'aeropuerto'));
+        return view('reportes.reporteRelacionIngresosAeronauticosContado', compact('dosaFactura', 'aeropuertoNombre', 'diaDesde', 'mesDesde', 'annoDesde', 'diaHasta', 'mesHasta', 'annoHasta', 'aeropuerto'));
 
     }
 
