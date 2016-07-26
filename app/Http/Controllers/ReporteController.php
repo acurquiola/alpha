@@ -820,7 +820,7 @@ class ReporteController extends Controller {
         $diaHasta     =$request->get('diaHasta', \Carbon\Carbon::now()->day);
         $mesHasta     =$request->get('mesHasta', \Carbon\Carbon::now()->month);
         $annoHasta    =$request->get('annoHasta',  \Carbon\Carbon::now()->year);
-        $modulos      =\App\Modulo::where('nombre', 'DOSAS')->where('aeropuerto_id', $aeropuerto)->lists('nombre','id');
+        $modulos      =\App\Modulo::where('nombre', 'DOSAS')->('aeropuerto_id', $aeropuerto)->lists('nombre','id');
         $aeropuerto   =session('aeropuerto')->id;
 
 
@@ -1531,16 +1531,14 @@ class ReporteController extends Controller {
 
          $facturas        =\App\Factura::select('facturas.*', 'clientes.nombre')
                                  ->join('clientes', 'facturas.cliente_id', '=', 'clientes.id')
-                                 ->join('cobro_factura', 'cobro_factura.factura_id', '=', 'facturas.id')
-                                 ->join('cobros', 'cobros.id', '=', 'cobro_factura.cobro_id')
-                                 ->whereBetween('cobros.fecha', array($annoDesde.'-'.$mesDesde.'-'.$diaDesde,  $annoHasta.'-'.$mesHasta.'-'.$diaHasta))
-                                 ->where('facturas.deleted_at', null)
-                                 ->where('facturas.aeropuerto_id', $aeropuerto)
-                                 ->where('facturas.nroDosa', '<>', 'NULL')
-                                 ->where('facturas.estado', 'C')
-                                 ->where('facturas.cliente_id', ($cliente==0)?'>=':'=', $cliente)
+                                 ->whereBetween('fecha', array($annoDesde.'-'.$mesDesde.'-'.$diaDesde,  $annoHasta.'-'.$mesHasta.'-'.$diaHasta))
+                                 ->where('deleted_at', null)
+                                 ->where('aeropuerto_id', $aeropuerto)
+                                 ->where('nroDosa', '<>', 'NULL')
+                                 ->where('estado', 'C')
+                                 ->where('cliente_id', ($cliente==0)?'>=':'=', $cliente)
                                  ->where('facturas.condicionPago', 'Crédito')
-                                 ->orderBy('clientes.nombre', 'ASC')
+                                 ->orderBy('nombre', 'ASC')
                                  ->get();
 
 
