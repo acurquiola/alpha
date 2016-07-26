@@ -820,7 +820,7 @@ class ReporteController extends Controller {
         $diaHasta     =$request->get('diaHasta', \Carbon\Carbon::now()->day);
         $mesHasta     =$request->get('mesHasta', \Carbon\Carbon::now()->month);
         $annoHasta    =$request->get('annoHasta',  \Carbon\Carbon::now()->year);
-        $modulos      =\App\Modulo::where('nombre', 'DOSAS')->('aeropuerto_id', $aeropuerto)->lists('nombre','id');
+        $modulos      =\App\Modulo::where('nombre', 'DOSAS')->where('aeropuerto_id', $aeropuerto)->lists('nombre','id');
         $aeropuerto   =session('aeropuerto')->id;
 
 
