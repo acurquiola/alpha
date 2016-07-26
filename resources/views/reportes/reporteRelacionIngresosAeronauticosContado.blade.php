@@ -56,54 +56,66 @@
 							<table class="table table-hover table-condensed">
 								<thead  class="bg-primary">
 									<tr>
-										<th   style="vertical-align: middle" class="text-center" align="center">
-											Fecha
+										<th   style="vertical-align: middle; width: 40px" class="text-center" align="center">
+											FECHA
 										</th>
 										<th   style="vertical-align: middle" class="text-center" align="center">
-											Nro. Dosa
+											Nro. FACTURA
 										</th>
 										<th   style="vertical-align: middle" class="text-center" align="center">
-											Formulario
+											Nro. CONTROL
 										</th>
 										<th   style="vertical-align: middle" class="text-center" align="center">
-											Aterrizaje
+											Nro. DOSA
 										</th>
 										<th   style="vertical-align: middle" class="text-center" align="center">
-											Estacionamiento
+											FORMULARIO
+										</th>
+										<th   style="vertical-align: middle; width: 70px" class="text-center" align="center">
+											ATERRIZAJE
+										</th>
+										<th   style="vertical-align: middle; width: 80px" class="text-center" align="center">
+											ESTACIONAMIENTO
+										</th>
+										<th   style="vertical-align: middle; width: 70px; " class="text-center" align="center">
+											HABILITACIÓN
 										</th>
 										<th   style="vertical-align: middle" class="text-center" align="center">
-											Habilitación
+											JETWAY
 										</th>
 										<th   style="vertical-align: middle" class="text-center" align="center">
-											Jetway
+											CARGA
 										</th>
 										<th   style="vertical-align: middle" class="text-center" align="center">
-											Carga
+											Nro. COBRO
 										</th>
 										<th   style="vertical-align: middle" class="text-center" align="center">
-											Nro. Cobro
+											FACTURADO
 										</th>
 										<th   style="vertical-align: middle" class="text-center" align="center">
-											Facturado Bs.
+											DEPOSITADO
 										</th>
 										<th   style="vertical-align: middle" class="text-center" align="center">
-											Depositado Bs.
-										</th>
-										<th   style="vertical-align: middle" class="text-center" align="center">
-											Diferencia Bs.
+											DIFERENCIA
 										</th>
 									</tr>
 								</thead>
 								<tbody>
 								@if($dosaFactura == [])
 									<tr>
-										<td colspan="12" class="text-center">No hay registros para los datos suministrados.</td>
+										<td colspan="15" class="text-center">No hay registros para los datos suministrados.</td>
 									</tr>
 								@else
 									@foreach($dosaFactura as $nroDosa => $dosaFactura)
 										<tr>
-											<td   style="vertical-align: middle" class="text-center" align="center">
+											<td   style="vertical-align: middle; width:40px" class="text-center" align="center">
 												{{$dosaFactura['fecha']}}
+											</td>
+											<td   style="vertical-align: middle" class="text-center" align="center">
+												{{$dosaFactura['nFactura']}}
+											</td>
+											<td   style="vertical-align: middle" class="text-center" align="center">
+												{{$dosaFactura['nControl']}}
 											</td>
 											<td   style="vertical-align: middle" class="text-center" align="center">
 												{{$nroDosa}}
@@ -111,13 +123,13 @@
 											<td   style="vertical-align: middle" class="text-right formulario-bs" align="right">
 												{{$traductor->format($dosaFactura['formulario'])}}
 											</td>
-											<td   style="vertical-align: middle" class="text-right aterrizaje-bs" align="right">
+											<td   style="vertical-align: middle; width: 70px; " class="text-right aterrizaje-bs" align="right">
 												{{$traductor->format($dosaFactura['aterrizaje'])}}
 											</td>
-											<td   style="vertical-align: middle" class="text-right estacionamiento-bs" align="right">
+											<td   style="vertical-align: middle; width: 80px; " class="text-right estacionamiento-bs" align="right">
 												{{$traductor->format($dosaFactura['estacionamiento'])}}
 											</td>
-											<td   style="vertical-align: middle" class="text-right habilitacion-bs" align="right">
+											<td   style="vertical-align: middle; width: 70px; " class="text-right habilitacion-bs" align="right">
 												{{$traductor->format($dosaFactura['habilitacion'])}}
 											</td>
 											<td   style="vertical-align: middle" class="text-right jetway-bs" align="right">
@@ -142,6 +154,8 @@
 									@endforeach
 										<tr class="bg-gray">
 											<td align="center" class="text-center" style="font-weight: bold;">TOTALES</td>
+											<td align="center" class="text-center">-</td>
+											<td align="center" class="text-center">-</td>
 											<td align="center" class="text-center">-</td>
 											<td align="right" class="text-right" id="formularioTotal" style="font-weight: bold;" align="right">0</td>
 											<td align="right" class="text-right" id="aterrizajeTotal" style="font-weight: bold;" align="right">0</td>
@@ -228,7 +242,7 @@
 			}).remove();
 			$(table).prepend('<thead>\
 								<tr>\
-									<th colspan="12" style="vertical-align: middle; margin-top:20px" align="center" class="text-center">RELACIÓN DE INGRESOS AERONÁUTICOS CONTADO\
+									<th colspan="15" style="vertical-align: middle; margin-top:20px" align="center" class="text-center">RELACIÓN DE INGRESOS AERONÁUTICOS CONTADO\
 										</br>\
 		                    			MES: {{$mesLetras}} | AÑO: {{$anno}}\
 		                    			</br>\

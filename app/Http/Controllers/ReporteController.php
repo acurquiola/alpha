@@ -858,6 +858,8 @@ class ReporteController extends Controller {
 
 
             $dosaFactura[$factura->nroDosa]=[
+                "nFactura"          =>'',
+                "nControl"          =>'',
                 "fecha"             =>0,
                 "formulario"        =>0,
                 "aterrizaje"        =>0,
@@ -875,6 +877,8 @@ class ReporteController extends Controller {
 
             $dosaFactura[$factura->nroDosa]["nroCobro"]        =$cobros->id;
             $dosaFactura[$factura->nroDosa]["fecha"]           =$factura->fecha;
+            $dosaFactura[$factura->nroDosa]["nFactura"]        =$factura->nFacturaPrefix.'-'.$factura->nFactura;
+            $dosaFactura[$factura->nroDosa]["nControl"]        =$factura->nControlPrefix.'-'.$factura->nControl;
             $dosaFactura[$factura->nroDosa]["montoFacturado"]  =$cobros->montofacturas;
             $dosaFactura[$factura->nroDosa]["montoDepositado"] =$cobros->montodepositado;
 
