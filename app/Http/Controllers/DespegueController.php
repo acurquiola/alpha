@@ -308,14 +308,16 @@ class DespegueController extends Controller {
 	public function getCrearFactura($id)
 	{
 		//Información general de la factura a crear.
-		$despegue      = Despegue::find($id);
-		$factura       = new Factura();
-		$modulo        = \App\Modulo::find(5)->nombre;
-		$ut            = MontosFijo::where('aeropuerto_id', session('aeropuerto')->id)->first()->unidad_tributaria;
-		$dolar         = MontosFijo::where('aeropuerto_id', session('aeropuerto')->id)->first()->dolar_oficial;
-		$condicionPago = $despegue->condicionPago;
-		$peso          = ($despegue->aterrizaje->aeronave->peso)/1000;
-		$peso_aeronave = ceil($peso);
+		$despegue               = Despegue::find($id);
+		$factura                = new Factura();
+		$modulo                 = \App\Modulo::find(5)->nombre;
+		$ut                     = MontosFijo::where('aeropuerto_id', session('aeropuerto')->id)->first()->unidad_tributaria;
+		$dolar                  = MontosFijo::where('aeropuerto_id', session('aeropuerto')->id)->first()->dolar_oficial;
+		$condicionPago          = $despegue->condicionPago;
+		$peso                   = ($despegue->aterrizaje->aeronave->peso)/1000;
+		$peso_aeronave          = ceil($peso);
+		$mensajeEstacionamiento = ' ';
+		$mensajeAterrizaje      = ' ';
 
 		$aplica_minimo_estacionamiento = false;
 		$aplica_minimo_aterrizaje      = false;

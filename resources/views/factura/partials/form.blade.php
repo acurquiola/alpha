@@ -9,13 +9,17 @@
 	<label for="condicionPago" class="col-xs-1 control-label"><strong>Cond. de pago<span class="text-danger">*</span></strong> </label>
 	<div class="col-xs-3">
 		@if(!isset($bloqueoDosa))
-			@if($modulo_id="9" || $modulo_id="4")
+			{!! Form::hidden('aplica_minimo_aterrizaje', 0) !!}
+			{!! Form::hidden('aplica_minimo_estacionamiento', 0) !!}
+			@if($modulo_id=="9" || $modulo_id=="4")
 				{!! Form::select('condicionPago', ["Contado"=>"Contado","Crédito" => "Crédito"], null, [ 'id' =>'condicionPago', 'class'=>"form-control", $disabled, (!$factura->isImpresa)?"":"readonly"]) !!}
 			@else
 				{!! Form::select('condicionPago', ["Crédito" => "Crédito", "Contado"=>"Contado"], null, [ 'id' =>'condicionPago', 'class'=>"form-control", $disabled, (!$factura->isImpresa)?"":"readonly"]) !!}
 			@endif
 		@else		
 		{!! Form::text('condicionPago', $condicionPago, [ 'id' =>'condicionPago', 'class'=>"form-control", $disabled] ) !!}
+			{!! Form::hidden('aplica_minimo_aterrizaje', $aplica_minimo_aterrizaje) !!}
+			{!! Form::hidden('aplica_minimo_estacionamiento', $aplica_minimo_estacionamiento) !!}
 		@endif
 	</div>
 	<label for="nControl" class="col-xs-1 control-label"><strong>N° Control</strong> </label>
@@ -63,15 +67,12 @@
             {!! Form::text('nroDosa', $factura->getMaxWith('nFacturaPrefix', 'nroDosa', $modulo->nFacturaPrefix), [ 'id' => 'nroDosa', 'class'=>"form-control", "data-empty"=>"false", "data-type"=>"int", "data-name"=>"Número de Dosa", 'style' => 'padding-left:2px']) !!}
 			{!! Form::hidden('fechaVencimiento') !!}
 			{!! Form::hidden('despegue_id', $despegue_id) !!}
-			{!! Form::hidden('aplica_minimo_aterrizaje', $aplica_minimo_aterrizaje) !!}
-			{!! Form::hidden('aplica_minimo_estacionamiento', $aplica_minimo_estacionamiento) !!}
         </div>
     </div>
 	@endif
 	@if(isset($cargosAdicionales))		
 		{!! Form::hidden('aterrizaje_id', $aterrizaje_id) !!}
-	@endif
-
+	@endif		
 </div>
 <div class="form-group">
 	<label for="cliente-select" class="control-label col-xs-1"><strong>Cliente<span class="text-danger">*</span></strong></label>
@@ -204,7 +205,7 @@
 			{!! Form::textarea('descripcion', "Facturación por Derechos Aeronáuticos Adicionales", [ 'style'=>'padding-top:4px' ,'class'=>"form-control", $disabled , 'rows'=>"2", 'cols'=>"", "placeholder" => "Descripción de la factura"]) !!}
 			@else
 
-			{!! Form::textarea('descripcion', (isset($bloqueoDosa))?'Facturación por Derechos Aeronáuticos: '.$mensajeAterrizaje.', '.$mensajeEstacionamiento:null, [ 'style'=>'padding-top:4px' ,'class'=>"form-control", $disabled , 'rows'=>"2", 'cols'=>"", "placeholder" => "Descripción de la factura"]) !!}
+			{!! Form::textarea('descripcion', (isset($bloqueoDosa))?'Facturación por Derechos Aeronáuticos: '.$mensajeAterrizaje.'. '.$mensajeEstacionamiento:null, [ 'style'=>'padding-top:4px' ,'class'=>"form-control", $disabled , 'rows'=>"2", 'cols'=>"", "placeholder" => "Descripción de la factura"]) !!}
 			@endif
 		</div>
 	</div>
