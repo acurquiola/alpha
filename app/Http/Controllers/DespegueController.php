@@ -931,29 +931,18 @@ class DespegueController extends Controller {
 
 	public function getGenerarCobranza($id){
 
-        $despegue = Despegue::find($id);
-        $factura = $despegue->factura;
-        $cliente = $factura->cliente;
-		$idOperator=">=";
-        $id=0;
-        $moduloName='DOSAS';
-        $modulo=\App\Modulo::where("nombre","like",$moduloName)->where('aeropuerto_id', session('aeropuerto')->id)->orderBy("nombre")->first();
-        $id=$modulo->id;
-        $idOperator="=";
-        $today               = \Carbon\Carbon::now();
-        $today->timezone     = 'America/New_York';
+		$despegue        = Despegue::find($id);
+		$factura         = $despegue->factura;
+		$cliente         = $factura->cliente;
+		$idOperator      = ">=";
+		$id              = 0;
+		$moduloName      = 'DOSAS';
+		$modulo          = \App\Modulo::where("nombre","like",$moduloName)->where('aeropuerto_id', session('aeropuerto')->id)->orderBy("nombre")->first();
+		$id              = $modulo->id;
+		$idOperator      = "=";
+		$today           = \Carbon\Carbon::now();
+		$today->timezone = 'America/New_York';
 
-/*
-        $clientes=\App\Cliente::join('facturas','facturas.cliente_id' , '=', 'clientes.id')
-            ->join('facturadetalles','facturas.nFactura' , '=', 'facturadetalles.factura_id')
-        ->join('conceptos','conceptos.id' , '=', 'facturadetalles.concepto_id')
-        ->where('facturas.nFactura','=',$despegue->factura_id)
-        ->where('facturas.aeropuerto_id','=', session('aeropuerto')->id)
-        ->where('conceptos.modulo_id', $idOperator, $id)
-        ->where('facturas.estado','=','P')
-        ->where('facturas.cliente_id','=',$cliente->id)
-        ->orderBy('clientes.nombre')
-        ->groupBy("clientes.id")->get();*/
         $bancos=\App\Banco::with('cuentas')->get();
         return view('cobranza.cobranzaSCV.create',compact('factura', 'cliente','moduloName', 'bancos','id', 'despegue', 'today'));
 	}

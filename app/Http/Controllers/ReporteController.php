@@ -814,12 +814,14 @@ class ReporteController extends Controller {
 
     //Relacion de Ingresos Aeronáuticos de Contado
     public function getReporteRelacionIngresosAeronauticosContado(Request $request){
-        $modulos          =\App\Modulo::where('nombre', 'DOSAS')->lists('nombre','id');
-        $mes              =$request->get('mes', \Carbon\Carbon::now()->month);
-        $anno             =$request->get('anno',  \Carbon\Carbon::now()->year);
-        $aeropuerto       =session('aeropuerto')->id;
-        $primerDiaMes     =\Carbon\Carbon::create($anno, $mes,1)->startOfMonth();
-        $ultimoDiaMes     =\Carbon\Carbon::create($anno, $mes,1)->endOfMonth();
+        $diaDesde     =$request->get('diaDesde', \Carbon\Carbon::now()->day);
+        $mesDesde     =$request->get('mesDesde', \Carbon\Carbon::now()->month);
+        $annoDesde    =$request->get('annoDesde',  \Carbon\Carbon::now()->year);
+        $diaHasta     =$request->get('diaHasta', \Carbon\Carbon::now()->day);
+        $mesHasta     =$request->get('mesHasta', \Carbon\Carbon::now()->month);
+        $annoHasta    =$request->get('annoHasta',  \Carbon\Carbon::now()->year);
+        $modulos      =\App\Modulo::where('nombre', 'DOSAS')->where('aeropuerto_id', $aeropuerto)->lists('nombre','id');
+        $aeropuerto   =session('aeropuerto')->id;
 
 
 
@@ -831,13 +833,12 @@ class ReporteController extends Controller {
         $carga           =\App\Concepto::where('aeropuerto_id', $aeropuerto)->where('nompre', 'CARGA')->first();
 
         $facturas = \App\Factura::with('detalles')
+                             ->whereBetween('fecha', array($annoDesde.'-'.$mesDesde.'-'.$diaDesde,  $annoHasta.'-'.$mesHasta.'-'.$diaHasta))
                              ->where('facturas.nroDosa', '<>', 'NULL')
                              ->where('facturas.aeropuerto_id', $aeropuerto)
-                             ->where('facturas.fecha','>=' ,$primerDiaMes)
-                             ->where('facturas.fecha','<=' ,$ultimoDiaMes)
                              ->where('facturas.condicionPago', 'Contado')
                              ->where('facturas.estado', 'C')
-                            ->get();
+                             ->get();
         /*$tasas = \App\Tasaopdetalle::join('tasaops', 'tasaopdetalles.tasaop_id', '=', 'tasaops.id')
                                 ->where('tasaops.fecha','>=' ,$primerDiaMes)
                                 ->where('tasaops.fecha','<=' ,$ultimoDiaMes)
@@ -1530,14 +1531,16 @@ class ReporteController extends Controller {
 
          $facturas        =\App\Factura::select('facturas.*', 'clientes.nombre')
                                  ->join('clientes', 'facturas.cliente_id', '=', 'clientes.id')
-                                 ->whereBetween('fecha', array($annoDesde.'-'.$mesDesde.'-'.$diaDesde,  $annoHasta.'-'.$mesHasta.'-'.$diaHasta))
-                                 ->where('deleted_at', null)
-                                 ->where('aeropuerto_id', $aeropuerto)
-                                 ->where('nroDosa', '<>', 'NULL')
-                                 ->where('estado', 'C')
-                                 ->where('cliente_id', ($cliente==0)?'>=':'=', $cliente)
+                                 ->join('cobro_factura', 'cobro_factura.factura_id', '=', 'facturas.id')
+                                 ->join('cobros', 'cobros.id', '=', 'cobro_factura.cobro_id')
+                                 ->whereBetween('cobros.fecha', array($annoDesde.'-'.$mesDesde.'-'.$diaDesde,  $annoHasta.'-'.$mesHasta.'-'.$diaHasta))
+                                 ->where('facturas.deleted_at', null)
+                                 ->where('facturas.aeropuerto_id', $aeropuerto)
+                                 ->where('facturas.nroDosa', '<>', 'NULL')
+                                 ->where('facturas.estado', 'C')
+                                 ->where('facturas.cliente_id', ($cliente==0)?'>=':'=', $cliente)
                                  ->where('facturas.condicionPago', 'Crédito')
-                                 ->orderBy('nombre', 'ASC')
+                                 ->orderBy('clientes.nombre', 'ASC')
                                  ->get();
 
 

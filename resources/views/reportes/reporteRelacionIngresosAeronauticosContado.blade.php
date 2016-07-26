@@ -16,14 +16,26 @@
 			</div>
 			<div class="box-body">
 				{!! Form::open(["url" => action('ReporteController@getReporteRelacionIngresosAeronauticosContado'), "method" => "GET", "class"=>"form-inline"]) !!}
-				<div class="form-group" style="margin-left: 20px">
-					<label>Mes:</label>
-					{!! Form::select('mes', $meses, $mes, ["class"=> "form-control"]) !!}
-				</div>
-				<div class="form-group" style="margin-left: 20px">
-					<label>Año:</label>
-					{!! Form::select('anno', $annos, $anno, ["class"=> "form-control"]) !!}
-				</div>
+				<label><strong>DESDE: </strong></label>
+				<div class="form-group">
+					<input type="text" class="form-control" name="diaDesde" value="{{$diaDesde}}" placeholder="Día">
+                </div>
+                <div class="form-group">
+                      {!! Form::select('mesDesde', $meses, $mesDesde, ["class"=> "form-control"]) !!}
+                </div>
+                <div class="form-group">
+                      {!! Form::select('annoDesde', $annos, $annoDesde, ["class"=> "form-control"]) !!}
+                </div>
+                <label style="margin-left: 20px"><strong>HASTA: </strong></label>
+				<div class="form-group">
+					<input type="text" class="form-control" name="diaHasta" value="{{$diaHasta}}" placeholder="Día">
+                </div>
+                <div class="form-group">
+                      {!! Form::select('mesHasta', $meses, $mesHasta, ["class"=> "form-control"]) !!}
+                </div>
+                <div class="form-group">
+                      {!! Form::select('annoHasta', $annos, $annoHasta, ["class"=> "form-control"]) !!}
+                </div>
 				<div class="form-group">
 					<label style="width:80px; margin-left: 20px">Aeropuerto:</label>
 					{!! Form::select('aeropuerto', $aeropuertos, $aeropuerto, ["class"=> "form-control"]) !!}

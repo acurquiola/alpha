@@ -8,7 +8,7 @@
 				<!-- Espacio de Tiempo Libre-->
 				<div class="bootstrap-timepicker">
 					<div class="form-group">
-						<label><strong>Concepto Crédito: </strong></label>
+						<label><strong>Minutos Libres: </strong></label>
 						<div class="input-group">
 							{!! Form::text('tiempoLibreInt_general', null, [ 'class'=>"form-control tiempoLibreInt","placeholder"=>"Minutos libres de cargo"]) !!}
 								<input type="hidden" name="aeropuerto_id" value="{{session('aeropuerto')->id}}"></input>
