@@ -289,10 +289,7 @@ class ReporteController extends Controller {
 
             $puertosNac = \App\Puerto::where('pais_id', '232')->lists('id');
             $puertosInt = \App\Puerto::where('pais_id', '<>', '232')->lists('id');
-            $facturas   = \App\Factura::whereBetween('fecha', array($annoDesde.'-'.$mesDesde.'-'.$diaDesde,  $annoHasta.'-'.$mesHasta.'-'.$diaHasta))
-                                        ->where('nroDosa', '<>', 'NULL')
-                                        ->where('aeropuerto_id', session('aeropuerto')->id)
-                                        ->lists('id');
+
 
             $aterrizajesNac = \App\Aterrizaje::whereBetween('aterrizajes.fecha', array($annoDesde.'-'.$mesDesde.'-'.$diaDesde,  $annoHasta.'-'.$mesHasta.'-'.$diaHasta))
                                         ->join('despegues', 'despegues.aterrizaje_id', '=', 'aterrizajes.id')
@@ -300,14 +297,13 @@ class ReporteController extends Controller {
                                         ->where('aterrizajes.aeropuerto_id', session('aeropuerto')->id)
                                         ->where('aterrizajes.puerto_id', ($procedencia==0)?'>=':'=', $procedencia)
                                         ->whereIn('aterrizajes.puerto_id', $puertosNac)
-                                        ->whereIn('despegues.factura_id', $facturas)
                                         ->get();
+
 
             $despeguesNac = \App\Despegue::whereBetween('fecha', array($annoDesde.'-'.$mesDesde.'-'.$diaDesde, $annoHasta.'-'.$mesHasta.'-'.$diaHasta))                                        ->where('cliente_id', $cliente->id)
                                         ->where('aeropuerto_id', session('aeropuerto')->id)
                                         ->where('puerto_id', ($destino==0)?'>=':'=', $destino)
                                         ->whereIn('puerto_id', $puertosNac)
-                                        ->whereIn('factura_id', $facturas)
                                         ->get();
 
             $aterrizajesInt = \App\Aterrizaje::whereBetween('aterrizajes.fecha', array($annoDesde.'-'.$mesDesde.'-'.$diaDesde,  $annoHasta.'-'.$mesHasta.'-'.$diaHasta))
@@ -315,7 +311,6 @@ class ReporteController extends Controller {
                                         ->where('aterrizajes.cliente_id', $cliente->id)
                                         ->where('aterrizajes.aeropuerto_id', session('aeropuerto')->id)
                                         ->where('aterrizajes.puerto_id', ($procedencia==0)?'>=':'=', $procedencia)
-                                        ->whereIn('despegues.factura_id', $facturas)
                                         ->whereIn('aterrizajes.puerto_id', $puertosInt)
                                         ->get();
             $despeguesInt = \App\Despegue::whereBetween('fecha', array($annoDesde.'-'.$mesDesde.'-'.$diaDesde,  $annoHasta.'-'.$mesHasta.'-'.$diaHasta))
@@ -323,7 +318,6 @@ class ReporteController extends Controller {
                                         ->where('aeropuerto_id', session('aeropuerto')->id)
                                         ->where('puerto_id', ($destino==0)?'>=':'=', $destino)
                                         ->whereIn('puerto_id', $puertosInt)
-                                        ->whereIn('factura_id', $facturas)
                                         ->get();
 
             if ($aterrizajesNac->count() != 0 || $aterrizajesInt->count() != 0 || $despeguesNac->count() != 0 || $despeguesInt->count()!= 0){
@@ -737,23 +731,16 @@ class ReporteController extends Controller {
         $mesHasta    =$request->get('mesHasta', \Carbon\Carbon::now()->month);
         $annoHasta   =$request->get('annoHasta',  \Carbon\Carbon::now()->year);
         $aeropuerto  =session('aeropuerto');
-        $facturas   = \App\Factura::whereBetween('fecha', array($annoDesde.'-'.$mesDesde.'-'.$diaDesde,  $annoHasta.'-'.$mesHasta.'-'.$diaHasta))
-                                    ->where('nroDosa', '<>', 'NULL')
-                                    ->where('aeropuerto_id', session('aeropuerto')->id)
-                                    ->lists('id');
-
 
         $aterrizajes =\App\Aterrizaje::select('aterrizajes.id as aux')
                                     ->whereBetween('aterrizajes.fecha', array($annoDesde.'-'.$mesDesde.'-'.$diaDesde,  $annoHasta.'-'.$mesHasta.'-'.$diaHasta))
                                     ->join('despegues', 'despegues.aterrizaje_id', '=', 'aterrizajes.id')
                                     ->where('aterrizajes.aeropuerto_id', session('aeropuerto')->id)
-                                    ->whereIn('despegues.factura_id', $facturas)
                                     ->lists('aux');
 
         $despegues   =\App\Despegue::with("factura", "aterrizaje")
                                 ->where('aeropuerto_id', session('aeropuerto')->id)
                                 ->whereBetween('fecha', array($annoDesde.'-'.$mesDesde.'-'.$diaDesde,  $annoHasta.'-'.$mesHasta.'-'.$diaHasta) )
-                                ->whereIn('factura_id', $facturas)
                                 ->OrwhereIn('aterrizaje_id', $aterrizajes)
                                 ->orderBy('fecha')
                                 ->get();

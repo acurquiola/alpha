@@ -464,8 +464,28 @@ class FacturaController extends Controller {
 	 */
 	public function destroy($id,Factura $factura)
 	{
+
+
         if($factura->cobros()->count()>0){
             return ["success"=>0, "text"=>"No se pudo anular la factura ya que posee cobros asociados"];
+        }
+
+
+        $despegue = \App\Despegue::where('factura_id', $factura->id)->first();
+        if($despegue != ''){
+            $aterrizaje = $despegue->aterrizaje_id;
+            if(\App\Despegue::destroy($despegue->id)){
+                if(\App\Aterrizaje::destroy($aterrizaje)){
+                    if($factura->delete())
+                        return ["success"=>1, "text"=>"La factura se ha anulado con éxito."];
+                    else
+                        return ["success"=>0, "text"=>"No se pudo anular la factura."];
+                }else{
+                    return ["success"=>0, "text"=>"No se pudo anular la factura."];
+                }
+            }else{
+                return ["success"=>0, "text"=>"No se pudo anular la factura."];
+            }
         }
 
         if($factura->delete())
