@@ -161,7 +161,7 @@ class ReporteController extends Controller {
         $ultimoDiaMes  =\Carbon\Carbon::create($anno, $mes,1)->endOfMonth();
         for(;$primerDiaMes<=$ultimoDiaMes; $primerDiaMes->addDay()){
             $estacionamientos = 0;
-            $tasas = 0;
+            $tasas            = 0;
             foreach ($modulos as $modulo) {
                 $montos[$primerDiaMes->format('d/m/Y')][$modulo->nombre]["total"]    =\App\Cobro::where('modulo_id', $modulo->id)
                                                                                 ->where('fecha', 'like', $primerDiaMes->toDateString().'%')
