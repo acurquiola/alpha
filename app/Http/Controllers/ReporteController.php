@@ -105,14 +105,76 @@ class ReporteController extends Controller {
                     }
 
                     if($modulo->nombre == 'TASAS'){
-                        $tasas = \App\TasaCobroDetalle::join('tasa_cobros', 'tasa_cobros.id', '=', 'tasa_cobro_detalles.tasa_cobro_id')
-                                                ->where('tasa_cobro_detalles.fecha','>=' ,$diaMes->startOfMonth()->toDateTimeString())
-                                                ->where('tasa_cobro_detalles.fecha','<=' ,$diaMes->endOfMonth()->toDateTimeString())
-                                                ->where('tasa_cobros.aeropuerto_id', $aeropuerto)
-                                                ->sum('tasa_cobro_detalles.monto');
 
+                        $tasas = \App\TasaCobroDetalle::join('tasa_cobros', 'tasa_cobros.id', '=', 'tasa_cobro_detalles.tasa_cobro_id')
+                                                                ->where('tasa_cobro_detalles.fecha','>=' ,$diaMes->startOfMonth()->toDateTimeString())
+                                                                ->where('tasa_cobro_detalles.fecha','<=' ,$diaMes->endOfMonth()->toDateTimeString())
+                                                                 ->where('tasa_cobros.aeropuerto_id', $aeropuerto)
+                                                                 ->sum('tasa_cobro_detalles.monto');
                         $montos[$meses[$diaMes->month]][$modulo->nombre]["total"]    += $tasas;
-                    }
+
+                        foreach($modulo->conceptos as $concepto){
+
+
+                            $tasasInternacionales = \App\Tasa::select('tasaops.tasa_cobro_id as tasacobro')
+                                                            ->join('tasaopdetalles', 'tasaopdetalles.serie', '=', 'tasas.nombre')
+                                                            ->join('tasaops', 'tasaops.id', '=', 'tasaopdetalles.tasaop_id')
+                                                            ->where('Tasas.internacional', 1)
+                                                            ->lists('tasacobro');
+
+                            $tasasNacionales = \App\Tasa::select('tasaops.tasa_cobro_id as tasacobro')
+                                                            ->join('tasaopdetalles', 'tasaopdetalles.serie', '=', 'tasas.nombre')
+                                                            ->join('tasaops', 'tasaops.id', '=', 'tasaopdetalles.tasaop_id')
+                                                            ->where('Tasas.internacional', 0)
+                                                            ->lists('tasacobro');
+
+                            if($concepto->nompre == 'TASAS INTERNACIONALES MODULO'){   
+                                $montos[$meses[$diaMes->month]][$modulo->nombre][$concepto->nompre] = \App\TasaCobroDetalle::join('tasa_cobros', 'tasa_cobros.id', '=', 'tasa_cobro_detalles.tasa_cobro_id')
+                                                                                                                            ->where('tasa_cobro_detalles.fecha','>=' ,$diaMes->startOfMonth()->toDateTimeString())
+                                                                                                                            ->where('tasa_cobro_detalles.fecha','<=' ,$diaMes->endOfMonth()->toDateTimeString())
+                                                                                                                            ->where('tasa_cobros.aeropuerto_id', $aeropuerto)
+                                                                                                                            ->whereIn('tasa_cobros.id', $tasasInternacionales)
+                                                                                                                            ->where('tasa_cobros.cv', 0)
+                                                                                                                            ->sum('tasa_cobro_detalles.monto');
+
+                            }elseif($concepto->nompre == 'TASAS NACIONALES MODULO'){
+                                $montos[$meses[$diaMes->month]][$modulo->nombre][$concepto->nompre] = \App\TasaCobroDetalle::join('tasa_cobros', 'tasa_cobros.id', '=', 'tasa_cobro_detalles.tasa_cobro_id')
+                                                                                                                            ->where('tasa_cobro_detalles.fecha','>=' ,$diaMes->startOfMonth()->toDateTimeString())
+                                                                                                                            ->where('tasa_cobro_detalles.fecha','<=' ,$diaMes->endOfMonth()->toDateTimeString())
+                                                                                                                            ->where('tasa_cobros.aeropuerto_id', $aeropuerto)
+                                                                                                                            ->whereIn('tasa_cobros.id', $tasasNacionales)
+                                                                                                                            ->where('tasa_cobros.cv', 0)
+                                                                                                                            ->sum('tasa_cobro_detalles.monto');
+
+                            }elseif($concepto->nompre == 'TASAS INTERNACIONALES SCV'){
+                                $montos[$meses[$diaMes->month]][$modulo->nombre][$concepto->nompre] = \App\TasaCobroDetalle::join('tasa_cobros', 'tasa_cobros.id', '=', 'tasa_cobro_detalles.tasa_cobro_id')
+                                                                                                                            ->where('tasa_cobro_detalles.fecha','>=' ,$diaMes->startOfMonth()->toDateTimeString())
+                                                                                                                            ->where('tasa_cobro_detalles.fecha','<=' ,$diaMes->endOfMonth()->toDateTimeString())
+                                                                                                                            ->where('tasa_cobros.aeropuerto_id', $aeropuerto)
+                                                                                                                            ->whereIn('tasa_cobros.id', $tasasInternacionales)
+                                                                                                                            ->where('tasa_cobros.cv', 1)
+                                                                                                                            ->sum('tasa_cobro_detalles.monto');
+
+                            }elseif($concepto->nompre == 'TASAS NACIONALES SCV'){
+                                $montos[$meses[$diaMes->month]][$modulo->nombre][$concepto->nompre] = \App\TasaCobroDetalle::join('tasa_cobros', 'tasa_cobros.id', '=', 'tasa_cobro_detalles.tasa_cobro_id')
+                                                                                                                            ->where('tasa_cobro_detalles.fecha','>=' ,$diaMes->startOfMonth()->toDateTimeString())
+                                                                                                                            ->where('tasa_cobro_detalles.fecha','<=' ,$diaMes->endOfMonth()->toDateTimeString())
+                                                                                                                            ->where('tasa_cobros.aeropuerto_id', $aeropuerto)
+                                                                                                                            ->whereIn('tasa_cobros.id', $tasasNacionales)
+                                                                                                                            ->where('tasa_cobros.cv', 1)
+                                                                                                                            ->sum('tasa_cobro_detalles.monto');
+
+                            }
+                        }
+
+                        
+
+                        $montos[$meses[$diaMes->month]][$modulo->nombre]["total"] = \App\TasaCobroDetalle::join('tasa_cobros', 'tasa_cobros.id', '=', 'tasa_cobro_detalles.tasa_cobro_id')
+                                                                                                                        ->where('tasa_cobro_detalles.fecha','>=' ,$diaMes->startOfMonth()->toDateTimeString())
+                                                                                                                        ->where('tasa_cobro_detalles.fecha','<=' ,$diaMes->endOfMonth()->toDateTimeString())
+                                                                                                                        ->where('tasa_cobros.aeropuerto_id', $aeropuerto)
+                                                                                                                        ->sum('tasa_cobro_detalles.monto');
+                        }
 
 
 
@@ -164,8 +226,8 @@ class ReporteController extends Controller {
             $tasas            = 0;
             foreach ($modulos as $modulo) {
                 $montos[$primerDiaMes->format('d/m/Y')][$modulo->nombre]["total"]    =\App\Cobro::where('modulo_id', $modulo->id)
-                                                                                ->where('fecha', 'like', $primerDiaMes->toDateString().'%')
-                                                                                ->sum('montodepositado');
+                                                                                                        ->where('fecha', 'like', $primerDiaMes->toDateString().'%')
+                                                                                                        ->sum('montodepositado');
                 if($modulo->nombre == 'ESTACIONAMIENTO'){
                     $estacionamientos = \App\Estacionamiento::join('estacionamientoops', 'estacionamientoops.estacionamiento_id', '=', 'estacionamientos.id')
                                                                 ->where('estacionamientos.aeropuerto_id', $aeropuerto)
@@ -176,12 +238,63 @@ class ReporteController extends Controller {
                 }
 
                 if($modulo->nombre == 'TASAS'){
+
                     $tasas = \App\TasaCobroDetalle::join('tasa_cobros', 'tasa_cobros.id', '=', 'tasa_cobro_detalles.tasa_cobro_id')
                                                              ->where('tasa_cobro_detalles.fecha',$primerDiaMes->toDateString())
                                                              ->where('tasa_cobros.aeropuerto_id', $aeropuerto)
                                                              ->sum('tasa_cobro_detalles.monto');
-
                     $montos[$primerDiaMes->format('d/m/Y')][$modulo->nombre]["total"]    += $tasas;
+
+                    foreach($modulo->conceptos as $concepto){
+
+                        $tasasInternacionales = \App\Tasa::select('tasaops.tasa_cobro_id as tasacobro')
+                                                        ->join('tasaopdetalles', 'tasaopdetalles.serie', '=', 'tasas.nombre')
+                                                        ->join('tasaops', 'tasaops.id', '=', 'tasaopdetalles.tasaop_id')
+                                                        ->where('Tasas.internacional', 1)
+                                                        ->lists('tasacobro');
+
+                        $tasasNacionales = \App\Tasa::select('tasaops.tasa_cobro_id as tasacobro')
+                                                        ->join('tasaopdetalles', 'tasaopdetalles.serie', '=', 'tasas.nombre')
+                                                        ->join('tasaops', 'tasaops.id', '=', 'tasaopdetalles.tasaop_id')
+                                                        ->where('Tasas.internacional', 0)
+                                                        ->lists('tasacobro');
+
+                        if($concepto->nompre == 'TASAS INTERNACIONALES MODULO'){   
+                            $montos[$primerDiaMes->format('d/m/Y')][$modulo->nombre][$concepto->nompre] = \App\TasaCobroDetalle::join('tasa_cobros', 'tasa_cobros.id', '=', 'tasa_cobro_detalles.tasa_cobro_id')
+                                                                                                                        ->where('tasa_cobro_detalles.fecha',$primerDiaMes->toDateString())
+                                                                                                                        ->where('tasa_cobros.aeropuerto_id', $aeropuerto)
+                                                                                                                        ->whereIn('tasa_cobros.id', $tasasInternacionales)
+                                                                                                                        ->where('tasa_cobros.cv', 0)
+                                                                                                                        ->sum('tasa_cobro_detalles.monto');
+
+                        }elseif($concepto->nompre == 'TASAS NACIONALES MODULO'){
+                            $montos[$primerDiaMes->format('d/m/Y')][$modulo->nombre][$concepto->nompre] = \App\TasaCobroDetalle::join('tasa_cobros', 'tasa_cobros.id', '=', 'tasa_cobro_detalles.tasa_cobro_id')
+                                                                                                                        ->where('tasa_cobro_detalles.fecha',$primerDiaMes->toDateString())
+                                                                                                                        ->where('tasa_cobros.aeropuerto_id', $aeropuerto)
+                                                                                                                        ->whereIn('tasa_cobros.id', $tasasNacionales)
+                                                                                                                        ->where('tasa_cobros.cv', 0)
+                                                                                                                        ->sum('tasa_cobro_detalles.monto');
+
+                        }elseif($concepto->nompre == 'TASAS INTERNACIONALES SCV'){
+                            $montos[$primerDiaMes->format('d/m/Y')][$modulo->nombre][$concepto->nompre] = \App\TasaCobroDetalle::join('tasa_cobros', 'tasa_cobros.id', '=', 'tasa_cobro_detalles.tasa_cobro_id')
+                                                                                                                        ->where('tasa_cobro_detalles.fecha',$primerDiaMes->toDateString())
+                                                                                                                        ->where('tasa_cobros.aeropuerto_id', $aeropuerto)
+                                                                                                                        ->whereIn('tasa_cobros.id', $tasasInternacionales)
+                                                                                                                        ->where('tasa_cobros.cv', 1)
+                                                                                                                        ->sum('tasa_cobro_detalles.monto');
+
+                        }elseif($concepto->nompre == 'TASAS NACIONALES SCV'){
+                            $montos[$primerDiaMes->format('d/m/Y')][$modulo->nombre][$concepto->nompre] = \App\TasaCobroDetalle::join('tasa_cobros', 'tasa_cobros.id', '=', 'tasa_cobro_detalles.tasa_cobro_id')
+                                                                                                                        ->where('tasa_cobro_detalles.fecha',$primerDiaMes->toDateString())
+                                                                                                                        ->where('tasa_cobros.aeropuerto_id', $aeropuerto)
+                                                                                                                        ->whereIn('tasa_cobros.id', $tasasNacionales)
+                                                                                                                        ->where('tasa_cobros.cv', 1)
+                                                                                                                        ->sum('tasa_cobro_detalles.monto');
+
+                        }
+                      
+                    }
+
                 }
 
 
@@ -496,20 +609,25 @@ class ReporteController extends Controller {
         $modulos        = \App\Modulo::where('aeropuerto_id', $aeropuerto)->lists('nombre', 'id');
         $clientes       = \App\Cliente::get();
         $totales        =[];
-        $totalesCliente =[];
+        $totalClientes =[];
+        $totalMes =[];
 
         foreach ($modulos as $idModulo => $modulo) {
-            $totales[$modulo] = \App\Factura::where('aeropuerto_id', $aeropuerto)
-                                    ->where('modulo_id', $idModulo)
-                                    ->where('estado', 'P')
-                                    ->sum('total');
 
             $clientesMod[$modulo] = \App\Factura::join('clientes', 'facturas.cliente_id', '=', 'clientes.id')
+                                    ->where('facturas.deleted_at', null)
                                     ->where('aeropuerto_id', $aeropuerto)
                                     ->where('modulo_id', $idModulo)
                                     ->where('estado', 'P')
                                     ->groupBy('cliente_id')
                                     ->lists('clientes.nombre');
+
+            $ModTotales[$modulo] = \App\Factura::join('clientes', 'facturas.cliente_id', '=', 'clientes.id')
+                                    ->where('facturas.deleted_at', null)
+                                    ->where('aeropuerto_id', $aeropuerto)
+                                    ->where('modulo_id', $idModulo)
+                                    ->where('estado', 'P')
+                                    ->sum('total');
             $meses=[
                 1  =>"ENERO",
                 2  =>"FEBRERO",
@@ -543,14 +661,27 @@ class ReporteController extends Controller {
                                                                                         ->where('estado', 'P')
                                                                                         ->where('cliente_id', $cliente_id)
                                                                                         ->sum('total');
-                    
 
+                    $totalClientes[$modulo][$nombre] = \App\Factura::with('cliente')
+                                                                        ->where('aeropuerto_id', $aeropuerto)
+                                                                        ->where('modulo_id', $idModulo)
+                                                                        ->where('estado', 'P')
+                                                                        ->where('cliente_id', $cliente_id)
+                                                                        ->sum('total');
                 }
+
+
+                $totalMes[$diaMes->month] =  \App\Factura::with('cliente')
+                                                            ->where('aeropuerto_id', $aeropuerto)
+                                                            ->where('fecha','>=' ,$diaMes->startOfMonth()->toDateTimeString())
+                                                            ->where('fecha','<=' ,$diaMes->endOfMonth()->toDateTimeString())
+                                                            ->where('estado', 'P')
+                                                            ->sum('total');
             }       
         }
-//        dd($facturasPendientesModulo);
 
-        return view('reportes.reporteReporteDeMorosidad', compact('anno', 'aeropuerto', 'clientesMod', 'facturasPendientesModulo', 'meses', 'modulos', 'totales', 'totalesCliente', 'clienteFacturaMes'));
+
+        return view('reportes.reporteReporteDeMorosidad', compact('anno', 'aeropuerto', 'clientesMod','totalClientes','ModTotales','totalMes', 'facturasPendientesModulo', 'meses', 'modulos', 'totales', 'totalesCliente', 'clienteFacturaMes'));
     }
 
     public function getReporteRelacionMensualDeFacturacionCobradosYPorCobrar(Request $request){
@@ -924,8 +1055,13 @@ class ReporteController extends Controller {
             $moduloNombre     =($modulo==0)?'TODOS':\App\Modulo::where('id', $modulo)->first()->nombre;
 
         }
+
         $clienteNombre    =($cliente==0)?'TODOS':(\App\Cliente::where('id', $cliente)->first()->nombre);
-        $aeropuertoNombre =($aeropuerto==0)?'TODOS':(\App\Aeropuerto::where('id', $aeropuerto)->first()->nombre);
+        $aeropuertoNombre =($aeropuerto==0)?'TODOS':(\App\Aeropuerto::where('id', $aeropuerto)->first()->nombre); 
+        if($mes == 0){
+            $primerDiaMes     =\Carbon\Carbon::create($anno, 1,1)->startOfMonth();
+            $ultimoDiaMes     =\Carbon\Carbon::create($anno, 12,31)->endOfMonth(); 
+        }
         $primerDiaMes     =\Carbon\Carbon::create($anno, $mes,1)->startOfMonth();
         $ultimoDiaMes     =\Carbon\Carbon::create($anno, $mes,1)->endOfMonth();
         $recibos=\App\Cobro::with('pagos','facturas')

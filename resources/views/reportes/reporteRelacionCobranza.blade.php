@@ -10,41 +10,65 @@
 	<div class="col-md-12">
 		<div class="box box-primary">
 			<div class="box-header">
-				<h3 class="box-title">Filtros</h3>
+				<h3 class="box-title">FILTROS</h3>
 				<div class="box-tools pull-right">
 					<button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
 				</div><!-- /.box-tools -->
 			</div>
-			<div class="box-body">
-				{!! Form::open(["url" => action('ReporteController@getReporteRelacionCobranza'), "method" => "GET", "class"=>"form-inline"]) !!}
-				<div class="form-group">
-					<label style="width:80px">Modulo:</label>
-					{!! Form::select('modulo', $modulos, $modulo, ["class"=> "form-control"]) !!}
+			{!! Form::open(["url" => action('ReporteController@getReporteRelacionCobranza'), "method" => "GET", "class"=>"form-inline"]) !!}
+				<div class="box-body">
+					<div class="form-inline">
+						<div class="form-group col-sm-5" >
+							<label><strong>AEROPUERTO: </strong></label>
+						{!! Form::select('aeropuerto', $aeropuertos, $aeropuerto, ["class"=> "form-control"]) !!}
+						</div>
+						<div class="form-group col-sm-3" >
+						<label><strong>MÓDULO:</strong></label>
+							<select name="modulo" id="modulo" class="form-control" >
+								<option value="0">--Seleccione un módulo--</option>
+								@foreach ($modulos as $index=>$modulo)
+									<option value="{{$index}}">{{$modulo}}</option>
+								@endforeach
+							</select>
+				              {{--  <label><strong>Nro. FACTURA: </strong></label>
+							<div class="form-group">
+								<input type="text" class="form-control" name="nFactura"  placeholder="Nro. Factura">
+			                </div> --}}
+						</div>
+						<div class="form-group col-sm-2" >
+							<label><strong>MES: </strong></label>
+							<select name="mes" id="mes" class="form-control" >
+								<option value="0">--Seleccione un mes--</option>
+								@foreach ($meses as $index=>$mes)
+									<option value="{{$index}}">{{$mes}}</option>
+								@endforeach
+							</select>
+						</div>
+						<div class="form-group col-sm-2" >
+							<label><strong>AÑO: </strong></label>
+							{!! Form::select('anno', $annos, $anno, ["class"=> "form-control"]) !!}
+						</div>
+					</div>
+					<div class="form-inline">
+						<div class="form-group" style="margin-left: 15px; margin-top: 15px" >
+							<label ><strong>CLIENTE: </strong></label>
+							<select name="cliente" id="cliente" class="form-control" >
+								<option value="0">--Seleccione un cliente--</option>
+								@foreach ($clientes as $cliente)
+									<option value="{{$cliente->id}}">{{$cliente->codigo}} | {{$cliente->nombre}}</option>
+								@endforeach
+							</select>
+						</div>
+					</div>
 				</div>
-				<div class="form-group" >
-					<select name="cliente" id="cliente" class="form-control cliente" >
-						<option value="">--Seleccione Cliente--</option>
-						@foreach ($clientes as $cliente)
-						<option value="{{$cliente->id}}">{{$cliente->codigo}} | {{$cliente->nombre}}</option>
-						@endforeach
-					</select>
+				<div class="box-footer">
+					<div class="form-inline pull-right">
+						<button type="submit" class="btn btn-primary">BUSCAR</button>
+						<a class="btn btn-default" href="{{action('ReporteController@getReporteRelacionCobranza')}}">RESET</a>
+					</div>
+					<div class="clearfix"></div>
 				</div>
-				<div class="form-group" style="margin-left: 20px">
-					<label>Mes:</label>
-					{!! Form::select('mes', $meses, $mes, ["class"=> "form-control"]) !!}
-				</div>
-				<div class="form-group" style="margin-left: 20px">
-					<label>Año:</label>
-					{!! Form::select('anno', $annos, $anno, ["class"=> "form-control"]) !!}
-				</div>
-				<div class="form-group">
-					<label style="width:80px">Aeropuerto:</label>
-					{!! Form::select('aeropuerto', $aeropuertos, $aeropuerto, ["class"=> "form-control"]) !!}
-				</div>
-				<a class="btn btn-default  pull-right" href="{{action('ReporteController@getReporteRelacionCobranza')}}">Reset</a>
-				<button type="submit" class="btn btn-primary pull-right">Buscar</button>
-				{!! Form::close() !!}
-			</div>
+			{!! Form::close() !!}
 		</div>
 	</div>
 	<div class="col-md-12">
@@ -210,7 +234,7 @@
 	$(function(){
 
 
-		$('#cliente').chosen({width:'400px'});
+		$('#cliente').chosen({width:'355px'});
 
 		var metaTotal=0;
 		$('.meta').each(function(index,value){

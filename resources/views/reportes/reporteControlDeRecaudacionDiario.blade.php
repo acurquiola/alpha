@@ -61,19 +61,19 @@
 											Fecha
 										</th>
 										@foreach($modulos as $modulo)
-										<th expandible data-colspan="{{$modulo->conceptos->count()}}" class="text-center" align="center" style="vertical-align: middle" >
-											{{$modulo->nombreImprimible}}
-										</th>
+											<th expandible data-colspan="{{$modulo->conceptos->count()}}" class="text-center" align="center" style="vertical-align: middle" >
+												{{$modulo->nombreImprimible}}
+											</th>
 										@endforeach
 										<th rowspan="2" class="text-center" align="center" style="vertical-align: middle" >TOTAL</th>
 									</tr>
 									<tr >
 										@foreach($modulos as $modulo)
-										@foreach($modulo->conceptos as $concepto)
-										<th details data-parent="{{$modulo->nombre}}" style="display:none;vertical-align: middle"  class="text-center" align="center" style="width: 20px;" >
-											<small>{{$concepto->nombreImprimible}}</small>
-										</th>
-										@endforeach
+											@foreach($modulo->conceptos as $concepto)
+												<th details data-parent="{{$modulo->nombre}}" style="display:none;vertical-align: middle"  class="text-center" align="center" style="width: 20px;" >
+													<small>{{$concepto->nombreImprimible}}</small>
+												</th>
+											@endforeach
 										@endforeach
 									</tr>
 								</thead>
@@ -81,29 +81,29 @@
 									@foreach($montos as $fecha => $montoModulos)
 									<tr title="{{$fecha}}" >
 										<td align="left">{{$fecha}}</td>
-										@foreach($montoModulos as $moduloNombre => $conceptos)
-										@foreach($conceptos as $concepto => $monto)
-										@if($concepto=="total")
-										<td align="right" style="text-align:right; ;" main data-parent="{{$moduloNombre}}">{{$traductor->format($monto)}}</td>
-										@else
-										<td details data-parent="{{$moduloNombre}}" style="display:none;text-align:right">{{$traductor->format($monto)}}</td>
-										@endif
-										@endforeach
-										@endforeach
+											@foreach($montoModulos as $moduloNombre => $conceptos)
+												@foreach($conceptos as $concepto => $monto)
+													@if($concepto=="total")
+														<td align="right" style="text-align:right; ;" main data-parent="{{$moduloNombre}}">{{$traductor->format($monto)}}</td>
+													@else
+														<td details data-parent="{{$moduloNombre}}" style="display:none;text-align:right">{{$traductor->format($monto)}}</td>
+													@endif
+												@endforeach
+											@endforeach
 										<td align="right" class="text-right">0,00</td>
 									</tr>
 									@endforeach
 									<tr class="bg-gray">
 										<td>Totales</td>
-										@foreach($montosTotales as $moduloNombre => $conceptos)
-										@foreach($conceptos as $concepto => $monto)
-										@if($concepto=="total")
-										<td style="text-align:right" main data-parent="{{$moduloNombre}}">{{$traductor->format($monto)}}</td>
-										@else
-										<td  details data-parent="{{$moduloNombre}}" style="display:none;text-align:right">{{$traductor->format($monto)}}</td>
-										@endif
-										@endforeach
-										@endforeach
+											@foreach($montosTotales as $moduloNombre => $conceptos)
+												@foreach($conceptos as $concepto => $monto)
+													@if($concepto=="total")
+														<td style="text-align:right" main data-parent="{{$moduloNombre}}">{{$traductor->format($monto)}}</td>
+													@else
+														<td  details data-parent="{{$moduloNombre}}" style="display:none;text-align:right">{{$traductor->format($monto)}}</td>
+													@endif
+												@endforeach
+											@endforeach
 										<td align="right" class="text-right">0,00</td>
 									</tr>
 								</tbody>

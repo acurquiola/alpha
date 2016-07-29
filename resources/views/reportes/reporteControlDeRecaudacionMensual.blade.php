@@ -123,7 +123,7 @@
 
 
 		$.each($('th[expandible]'), function(index,value){
-			if(($(this).text().trim())=='DOSAS'){
+			if(($(this).text().trim())=='DOSAS' || ($(this).text().trim())=='TASAS'){
 				var moduloNombre=$(this).text().trim();
 				var thfecha=$('#fecha-col');
 				if(!$(this).hasClass('activo')){

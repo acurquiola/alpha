@@ -122,7 +122,7 @@
             var table=$('table').clone();
             $(table).prepend('<thead>\
                                 <tr>\
-                                    <th align="left" colspan="15" style="width: 780px">\
+                                    <th align="left" colspan="15" >\
                                     Nro. Cobro: {{$cobro->id}}\
                                     </br>\
                                     Cliente: {{$cobro->cliente->codigo}} | {{$cobro->cliente->nombre}} \

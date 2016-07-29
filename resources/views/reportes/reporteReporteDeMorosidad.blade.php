@@ -102,52 +102,28 @@
 											<td>
 												<strong>TOTAL</strong>
 											</td>
-											<td class="text-right" align="right" colspan="13">
-												<strong>0,00</strong>
-											</td>
+											@foreach($ModTotales as $mod=>$monto)
+												@if($mod == $modulo)
+													<td class="text-right  totalModulos" align="right" colspan="13">
+														<strong>{{ $traductor->format($monto) }}</strong>
+													</td>
+												@endif
+											@endforeach
 										</tr>
 										@endif
 									@endforeach
 								</tbody>
 								<tfoot class="bg-primary">
 									<tr >
-										<th colspan="2" align="left" class="text-left">
+										<th  align="left" class="text-left">
 											TOTALES
 										</th>
-										<th class="text-right" align="right">
-											0,00
-										</th>
-										<th class="text-right" align="right">
-											0,00
-										</th>
-										<th class="text-right" align="right">
-											0,00
-										</th>
-										<th class="text-right" align="right">
-											0,00
-										</th>
-										<th class="text-right" align="right">
-											0,00
-										</th>
-										<th class="text-right" align="right">
-											0,00
-										</th>
-										<th class="text-right" align="right">
-											0,00
-										</th>
-										<th class="text-right" align="right">
-											0,00
-										</th>
-										<th class="text-right" align="right">
-											0,00
-										</th>
-										<th class="text-right" align="right">
-											0,00
-										</th>
-										<th class="text-right" align="right">
-											0,00
-										</th>
-										<th class="text-right" align="right">
+										@foreach($totalMes as $mes => $monto)
+											<td class="text-right" align="right">
+												<strong>{{ $traductor->format($monto) }}</strong>
+											</td>
+										@endforeach
+										<th class="text-right totalTotal" align="right">
 											0,00
 										</th>
 									</tr>
@@ -169,6 +145,14 @@
 
 	$(document).ready(function(){
 
+
+		var totalTotal=0;
+		$('.totalModulos').each(function(index,value){
+			totalTotal+=commaToNum($(value).text().trim());
+		});
+
+
+		$('.totalTotal').text(numToComma(totalTotal));
 
 		$.each($('th[expandible]'), function(index,value){
 			if(($(this).text().trim())=='DOSAS'){

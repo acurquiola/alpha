@@ -27,21 +27,7 @@
 				</div><!-- /.input group -->
 			</div><!-- /.form group -->	
 
-			<!-- Equivalente de la UT por mínimo-->
-			<div class="form-group">
-				<div class="checkbox col-md-6"  style="margin-left: -40px">
-					<label>
-						{!! Form::checkbox('aplicar_minimo_diuInt', true, null) !!} <strong>Aplicar	Mínimo</strong>
-					</label>
-				</div>
-				<div class="input-group  col-md-6"> 
-					<div class="input-group-addon">
-						Equivalente
-					</div>
-					{!! Form::text('eq_bloqueMinimoDiuInt', null, [ 'class'=>"form-control eq_bloqueMinimoDiuInt","placeholder"=>"Equivalente de la UT por bloque"]) !!}
-				</div><!-- /.input group -->
-			</div><!-- /.form group -->			
-
+			
 			<!-- Precio Nocturno-->
 			<!-- Equivalente de la UT-->
 			<div class="form-group">
@@ -64,19 +50,7 @@
 				</div><!-- /.input group -->
 			</div><!-- /.form group -->		
 			<!-- Equivalente de la UT por mínimo-->
-			<div class="form-group">
-				<div class="checkbox col-md-6"  style="margin-left: -40px">
-					<label>
-						{!! Form::checkbox('aplicar_minimo_nocInt', true, null) !!}<strong> Aplicar	Mínimo</strong>
-					</label>
-				</div>
-				<div class="input-group  col-md-6"> 
-					<div class="input-group-addon">
-						Equivalente
-					</div>
-					{!! Form::text('eq_bloqueMinimoNocInt', null, [ 'class'=>"form-control eq_bloqueMinimoNocInt","placeholder"=>"Equivalente de la UT por bloque"]) !!}
-				</div><!-- /.input group -->
-			</div><!-- /.form group -->						
+							
 		</div><!-- /.box-body -->
 	</div><!-- /.box -->
 </div> <!-- /.col -->
@@ -108,20 +82,7 @@
 					{!! Form::text('precio_diurnoNac', null, ["id"=>"precio_diurnoNac-input", 'class'=>"form-control precio_diurnoNac","placeholder"=>"Precio Establecido", "readonly"=>"readonly"]) !!}
 				</div><!-- /.input group -->
 			</div><!-- /.form group -->	
-			<!-- Equivalente de la UT por mínimo-->
-			<div class="form-group">
-				<div class="checkbox col-md-6"  style="margin-left: -40px">
-					<label>
-						{!! Form::checkbox('aplicar_minimo_diuNac', true, null) !!} <strong>Aplicar	Mínimo</strong>
-					</label>
-				</div>
-				<div class="input-group  col-md-6"> 
-					<div class="input-group-addon">
-						Equivalente
-					</div>
-					{!! Form::text('eq_bloqueMinimoDiuNac', null, [ 'class'=>"form-control eq_bloqueMinimoDiuNac","placeholder"=>"Equivalente de la UT por bloque"]) !!}
-				</div><!-- /.input group -->
-			</div><!-- /.form group -->		
+			
 
 			<!-- Precio Nocturno-->
 			<!-- Equivalente de la UT-->
@@ -143,20 +104,7 @@
 					{!! Form::text('precio_nocturNac', null, ["id"=>"precio_nocturNac-input", 'class'=>"form-control precio_nocturNac","placeholder"=>"Precio Establecido", "readonly"=>"readonly"]) !!}
 				</div><!-- /.input group -->
 			</div><!-- /.form group -->			
-			<!-- Equivalente de la UT por mínimo-->
-			<div class="form-group">
-				<div class="checkbox col-md-6"  style="margin-left: -40px">
-					<label>
-						{!! Form::checkbox('aplicar_minimo_nocNac', true, null) !!} <strong>Aplicar	Mínimo</strong>
-					</label>
-				</div>
-				<div class="input-group  col-md-6"> 
-					<div class="input-group-addon">
-						Equivalente
-					</div>
-					{!! Form::text('eq_bloqueMinimoNocNac', null, [ 'class'=>"form-control eq_bloqueMinimoNocNac","placeholder"=>"Equivalente de la UT por bloque"]) !!}
-				</div><!-- /.input group -->
-			</div><!-- /.form group -->						
+					
 		</div><!-- /.box-body -->
 	</div><!-- /.box -->
 </div> <!-- /.col -->
@@ -170,13 +118,13 @@
 			<!-- Precio Diurno-->
 			<!-- Equivalente de la UT-->
 			<div class="form-group" >
-				<label>Concepto Contado: </label><br/>
+				<label><strong>Concepto Contado: </strong></label><br/>
 
 					{!! Form::select('conceptoContado_id',	$conceptos, null, [ 'class'=>"form-control"]) !!}
 			</div>	
 
 			<div class="form-group" >
-				<label>Concepto Crédito: </label><br/>
+				<label><strong>Concepto Crédito: </strong></label><br/>
 
 					{!! Form::select('conceptoCredito_id',	$conceptos, null, [ 'class'=>"form-control"]) !!}
 			</div>		
