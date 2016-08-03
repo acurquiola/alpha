@@ -4,8 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "539f10b231817d21618be1dba7b7d165",
-    "content-hash": "20db47503f054ce5b3766a5c016a5b57",
+    "hash": "6e429feae407d9b4dc443106ff36071c",
     "packages": [
         {
             "name": "bican/roles",
@@ -356,7 +355,6 @@
                     "email": "taylorotwell@gmail.com"
                 }
             ],
-            "abandoned": "laravelcollective/html",
             "time": "2015-01-01 16:31:18"
         },
         {

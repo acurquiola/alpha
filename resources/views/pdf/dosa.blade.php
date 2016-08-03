@@ -1,4 +1,7 @@
-<table style="width:100%; border-collapse: collapse; padding:2px">
+<table style="width:90%; border-collapse: collapse">
+<br>
+<br>
+<br>
 <tr>
 <td  colspan="7">
 </td>
@@ -17,7 +20,7 @@
 <td  colspan="7">
 </td>
 <td  colspan="3">
-<strong>CONDICIÓN DE PAGO:</strong> {{$factura->condicionPago}}
+<strong>COND. DE PAGO:</strong> {{$factura->condicionPago}}
 </td>
 </tr>
 <tr>
@@ -36,7 +39,7 @@
 <td colspan="3">		
 </td>
 <td colspan="5" >	
-<strong>FACTURACIÓN DE CONCEPTOS AERONÁUTICOS</strong> 	
+<strong>FACTURACIÓN POR DERECHOS AERONÁUTICOS</strong> 	
 </td>
 <td colspan="2">		
 </td>
@@ -45,7 +48,7 @@
 <br>
 <br>
 
-<table>
+<table style="width:90%; border-collapse: collapse; padding: 2px">
 <tr>
 <td colspan="4" style="border-bottom: 1px solid black; ">		
 </td>
@@ -58,7 +61,7 @@
 </table>
 <br>
 
-<table style="width:100%; border-collapse: collapse; padding:2px">
+<table style="width:90%; border-collapse: collapse;">
 <tr>
 <td  colspan="7">
 <strong>CLIENTE:</strong> {{$factura->cliente->nombre}}
@@ -68,13 +71,17 @@
 </td>
 </tr>
 <tr>
+<td colspan="10">
+</td>
+</tr>
+<tr>
 <td  colspan="10">
 <strong>DIRECCIÓN FISCAL:</strong> {{$factura->cliente->direccion}}
 </td>
 </tr>
 </table>
 
-<table>
+<table style="width: 90%" >
 <tr>
 <td colspan="4" style="border-bottom: 1px solid black;">		
 </td>
@@ -88,30 +95,33 @@
 <br>
 <br>
 
-<table style="width:100%;">
-<tr>
-<td colspan="1">
-</td>
-<td  colspan="2">
-<strong><u>MATRÍCULA: </u></strong> {{($despegue->aterrizaje->aeronave)?$despegue->aterrizaje->aeronave->matricula:"N/A"}}
-</td>
-<td colspan="1">
-</td>
-<td  colspan="2">
-<strong><u>MODELO: </u></strong> {{$despegue->aterrizaje->aeronave->modelo->modelo}}
-</td>
-<td colspan="1">
-</td>
-<td  colspan="2">
-<strong><u>PESO: </u></strong> {{$traductor->format($despegue->aterrizaje->aeronave->peso)}} Kgs.
-</td>
-</tr>
+<table style="width:90%;"> 
+<tr> 
+<td colspan="1"> 
+</td> 
+<td colspan="2"> 
+<strong><u>MATRÍCULA: </u></strong> 
+{{($despegue->aterrizaje->aeronave)?$despegue->aterrizaje->aeronave->matricula:"N/A"}} 
+</td> 
+<td colspan="1"> 
+</td> 
+<td colspan="2"> 
+<strong><u>MODELO: </u></strong> 
+{{$despegue->aterrizaje->aeronave->modelo->modelo}} 
+</td> 
+<td colspan="1"> 
+</td> 
+<td colspan="2"> 
+<strong><u>PESO: </u></strong> 
+{{$traductor->format($despegue->aterrizaje->aeronave->peso)}} Kgs. 
+</td> 
+</tr> 
 </table>
 
 <br>
 <br>
 
-<table>
+<table style="width:90%">
 <tr>
 <td colspan="4" style="border-bottom: 1px solid black;">    
 </td>
@@ -124,7 +134,7 @@
 </table>
 <br>
 
-<table style="width:100%; border-collapse: collapse; padding:2px">
+<table style="width:90%; border-collapse: collapse; padding: 2px;">
 <tr>
 <td  colspan="4">
 </td>
@@ -230,18 +240,18 @@
 <strong><u>FECHA y HORA</u></strong>
 </td>
 <td  colspan="2">
-{{$despegue->aterrizaje->fecha}} {{$despegue->aterrizaje->hora}}
+{{$despegue->aterrizaje->fecha}} -  {{$despegue->aterrizaje->hora}}
 </td>
 <td colspan="1">
 </td>
 <td  colspan="3">
-{{$despegue->fecha}} {{$despegue->hora}}
+{{$despegue->fecha}} - {{$despegue->hora}}
 </td>
 </tr>
 </table>
 <br>
-
-<table style="width:100%; border-collapse: collapse; padding:2px">
+<br>
+<table style="width:90%; border-collapse: collapse; padding: 2px">
 <tr>
 <td style="border-top: 1px solid black;border-bottom: 1px solid black;" colspan="1">
 <strong>Nro.</strong>
@@ -269,7 +279,7 @@
 </tr>
 @endforeach
 <tr> <td colspan="10">
-@for($i=0; $i<7-$factura->detalles->count();$i++)
+@for($i=0; $i<10-$factura->detalles->count();$i++)
 <br>
 @endfor
 </td></tr>
@@ -292,8 +302,7 @@
 <br>
 <br>
 <br>
-<br>
-<table style="width:100%; border-collapse: collapse; padding:2px">
+<table style="width:90%; border-collapse: collapse; padding: 2px">
 <tr>
 <td colspan="2">
 <strong>DESCRIPCIÓN: </strong> 
@@ -315,7 +324,7 @@
 <br>
 <br>
 <br>
-<table style="width:100%; border-collapse: collapse; padding:2px">
+<table style="width:90%; border-collapse: collapse; padding: 2px">
 <tr>
 <td  colspan="5">
 <strong></strong>
@@ -325,7 +334,7 @@
 </tr>
 <tr>
 <td  colspan="5"  style="border-top: 1px solid black;">
-<strong>Firma/Sello Autorizado Sección de Operaciones y Control de Vuelos</strong> 
+<strong>Firma/Sello Autorizado Sección de Control de Vuelos</strong> 
 </td>
 <td colspan="1"></td>
 <td  colspan="4" style="border-top: 1px solid black;">
