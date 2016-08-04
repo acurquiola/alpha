@@ -19,9 +19,20 @@
 				<li class="active">
 					<a href="#General-tab" data-toggle="tab">General</a>
 				</li>
-				<li>
-					<a href="#aviacionComercialNacional-tab" data-toggle="tab">Aterrizaje y Estacionamiento</a>
-				</li>
+                <li class="dropdown">
+                    <a href="#" data-toggle="dropdown">Aviación Comercial <span class="caret"></span></a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a href="#aviacionComercialNacional-tab" data-toggle="tab">Matricula Nacional</a></li>
+                        <li><a href="#aviacionComercialExtranjera-tab" data-toggle="tab">Matrícula Extranjera</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="#" data-toggle="dropdown">Aviación General <span class="caret"></span></a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a href="#aviacionGeneralNacional-tab" data-toggle="tab">Matricula Nacional</a></li>
+                        <li><a href="#aviacionGeneralExtranjera-tab" data-toggle="tab">Matrícula Extranjera</a></li>
+                    </ul>
+                </li>
 				<li>
 					<a href="#Carga-tab" data-toggle="tab">Carga</a>
 				</li>
@@ -44,7 +55,9 @@
 
 				</div><!-- /.tab-pane -->
 
+				<!-- Configuración de Aviación Comercial -->
 				<div class="tab-pane" id="aviacionComercialNacional-tab">
+					<h4 class="text-center">Aviación Comercial - Matrícula Nacional</h4>
 					<div class="nav-tabs-custom">
 						<ul class="nav nav-tabs">
 							<li class="active">
@@ -62,8 +75,86 @@
 								@include('configuracionPrecios.confAterrizajeDespegue.Comercial.matriculaNacional.partials.edit')
 							</div>
 						</div>
-					</div>
-				</div>
+					</div><!-- /.nav-tabs-custom -->
+				</div><!-- /.tab-pane -->
+
+
+				<!-- Configuración de Aviación Comercial -->
+				<div class="tab-pane" id="aviacionComercialExtranjera-tab">
+					<h4 class="text-center">Aviación Comercial - Matrícula Extranjera</h4>
+					<div class="nav-tabs-custom">
+						<ul class="nav nav-tabs">
+							<li class="active">
+								<a href="#estacionamientoComercialExtranjera-tab" data-toggle="tab">Estacionamiento</a>
+							</li>
+							<li>
+								<a href="#aterrizajeComercialExtranjera-tab" data-toggle="tab">Aterrizaje y Despegue</a>
+							</li>
+						</ul>
+						<div class="tab-content">
+							<div class="tab-pane active estacionamientoAeronave-tab" id="estacionamientoComercialExtranjera-tab">
+								@include('configuracionPrecios.confEstacionamientoAeronave.Comercial.matriculaExtranjera.partials.edit')
+							</div>
+							<div class="tab-pane precioAterrizajeDespegue-tab" id="aterrizajeComercialExtranjera-tab">
+								@include('configuracionPrecios.confAterrizajeDespegue.Comercial.matriculaExtranjera.partials.edit')
+							</div>
+						</div>
+					</div><!-- /.nav-tabs-custom -->
+				</div><!-- /.tab-pane -->
+
+				<!-- Configuración de Aviación General -->
+				<div class="tab-pane" id="aviacionGeneralNacional-tab">
+					<h4 class="text-center">Aviación General - Matrícula Nacional</h4>
+					<div class="nav-tabs-custom">
+						<ul class="nav nav-tabs">
+							<li class="active">
+								<a href="#estacionamientoGeneralNacional-tab" data-toggle="tab">Estacionamiento</a>
+							</li>
+							<li>
+								<a href="#aterrizajeGeneralNacional-tab" data-toggle="tab">Aterrizaje y Despegue</a>
+							</li>
+						</ul>
+						<div class="tab-content">
+							<div class="tab-pane active estacionamientoAeronave-tab" id="estacionamientoGeneralNacional-tab">
+								@include('configuracionPrecios.confEstacionamientoAeronave.General.matriculaNacional.partials.edit')
+							</div>
+							<div class="tab-pane precioAterrizajeDespegue-tab" id="aterrizajeGeneralNacional-tab">
+								@include('configuracionPrecios.confAterrizajeDespegue.General.matriculaNacional.partials.edit')
+							</div>
+						</div>
+					</div><!-- /.nav-tabs-custom -->
+				</div><!-- /.tab-pane -->
+
+				<!-- Configuración de Aviación General -->
+				<div class="tab-pane" id="aviacionGeneralExtranjera-tab">
+					<h4 class="text-center">Aviación General - Matrícula Extranjera</h4>
+					<div class="nav-tabs-custom">
+						<ul class="nav nav-tabs">
+							<li class="active">
+								<a href="#estacionamientoGeneralExtranjera-tab" data-toggle="tab">Estacionamiento</a>
+							</li>
+							<li>
+								<a href="#aterrizajeGeneralExtranjera-tab" data-toggle="tab">Aterrizaje y Despegue</a>
+							</li>
+						</ul>
+						<div class="tab-content">
+							<div class="tab-pane active estacionamientoAeronave-tab" id="estacionamientoGeneralExtranjera-tab">
+								@include('configuracionPrecios.confEstacionamientoAeronave.General.matriculaExtranjera.partials.edit')
+							</div>
+							<div class="tab-pane precioAterrizajeDespegue-tab" id="aterrizajeGeneralExtranjera-tab">
+								@include('configuracionPrecios.confAterrizajeDespegue.General.matriculaExtranjera.partials.edit')
+							</div>
+						</div>
+					</div><!-- /.nav-tabs-custom -->
+				</div><!-- /.tab-pane -->
+
+				<!-- Configuración de Estacionamiento -->
+				{{-- <div class="tab-pane" id="aviacionGeneralNacional-tab">
+
+					@include('configuracionPrecios.confEstacionamientoAeronave.partials.edit')
+
+
+				</div> --}}<!-- /.tab-pane -->
 
 				<!-- Otros Cargos-->
 				<div class="tab-pane" id="Horarios-tab">
@@ -355,7 +446,7 @@ $(document).ready(function(){
 		$('body #cargosVarios-tab #precio_usoAbordajeConHab-input').val(val_AborCH);
 	});
 
-	$( "body #cargosVarios-tab input" ).keyup(function( event ) {	
+	$("body #cargosVarios-tab input" ).keyup(function( event ) {	
 
 		var ut        =$('body #General-tab .unidad_tributaria').val();
 		var eq_form   =$('body #cargosVarios-tab .eq_formulario').val();
@@ -364,9 +455,9 @@ $(document).ready(function(){
 		var eq_AborCH =$('body #cargosVarios-tab .eq_usoAbordajeConHab').val();
 
 		var val_form= eq_form*ut;
-		$('body #cargosVarios-tab #precio_usoAbordajeConHab-input').val(val_form.toFixed(2));
+		$('body #cargosVarios-tab #precio_formulario-input').val(val_form.toFixed(2));
 		var val_DerHab= eq_DerHab*ut;
-		$('body #cargosVarios-tab #precio_usoAbordajeConHab-input').val(val_DerHab);
+		$('body #cargosVarios-tab #precio_derechoHabilitacion-input').val(val_DerHab);
 		var val_AborSH= eq_AborSH*ut;
 		$('body #cargosVarios-tab #precio_usoAbordajeConHab-input').val(val_AborSH);
 		var val_AborCH= eq_AborCH*ut;
