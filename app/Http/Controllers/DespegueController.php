@@ -411,7 +411,7 @@ class DespegueController extends Controller {
 						$precio_estacionamiento = EstacionamientoAeronave::where('aeropuerto_id', session('aeropuerto')->id)->first()->precio_estNac_general;
 						$minutosBloque          = EstacionamientoAeronave::where('aeropuerto_id', session('aeropuerto')->id)->first()->minBloqueNac_general;
 						$aplicaMinimo           = EstacionamientoAeronave::where('aeropuerto_id', session('aeropuerto')->id)->first()->aplicar_minimo_nac_general;
-						$minimo=($aplicaMinimo==1)?EstacionamientoAeronave::where('aeropuerto_id', session('aeropuerto')->id)->first()->eq_bloqueMinimoNac:0;
+						$minimo=($aplicaMinimo==1)?EstacionamientoAeronave::where('aeropuerto_id', session('aeropuerto')->id)->first()->eq_bloqueMinimoNac_general:0;
 						$tipoEstacionamiento  = 'Nacional';
 						break;
 						case 2:
@@ -420,7 +420,7 @@ class DespegueController extends Controller {
 						$precio_estacionamiento = EstacionamientoAeronave::where('aeropuerto_id', session('aeropuerto')->id)->first()->precio_estInt_general;
 						$minutosBloque          = EstacionamientoAeronave::where('aeropuerto_id', session('aeropuerto')->id)->first()->minBloqueInt_general;
 						$aplicaMinimo           = EstacionamientoAeronave::where('aeropuerto_id', session('aeropuerto')->id)->first()->aplicar_minimo_int_general;
-						$minimo=($aplicaMinimo==1)?EstacionamientoAeronave::where('aeropuerto_id', session('aeropuerto')->id)->first()->eq_bloqueMinimoInt:0;
+						$minimo=($aplicaMinimo==1)?EstacionamientoAeronave::where('aeropuerto_id', session('aeropuerto')->id)->first()->eq_bloqueMinimoInt_general:0;
 						$tipoEstacionamiento  = 'Internacional';
 						break;
 					}
@@ -450,7 +450,6 @@ class DespegueController extends Controller {
 						break;
 					}
 				}else{
-
 					switch ($nacionalidad) {
 						case 1:
 						$minutosLibre           = EstacionamientoAeronave::where('aeropuerto_id', session('aeropuerto')->id)->first()->tiempoLibreNac_general_ext;
@@ -458,7 +457,7 @@ class DespegueController extends Controller {
 						$precio_estacionamiento = EstacionamientoAeronave::where('aeropuerto_id', session('aeropuerto')->id)->first()->precio_estNac_general_ext;
 						$minutosBloque          = EstacionamientoAeronave::where('aeropuerto_id', session('aeropuerto')->id)->first()->minBloqueNac_general_ext;
 						$aplicaMinimo           = EstacionamientoAeronave::where('aeropuerto_id', session('aeropuerto')->id)->first()->aplicar_minimo_nac_general_ext;
-						$minimo=($aplicaMinimo==1)?EstacionamientoAeronave::where('aeropuerto_id', session('aeropuerto')->id)->first()->eq_bloqueMinimoNac_ext:0;
+						$minimo=($aplicaMinimo==1)?EstacionamientoAeronave::where('aeropuerto_id', session('aeropuerto')->id)->first()->eq_bloqueMinimoNac_general_ext:0;
 						$tipoEstacionamiento  = 'Nacional';
 						break;
 						case 2:
@@ -467,7 +466,7 @@ class DespegueController extends Controller {
 						$precio_estacionamiento = EstacionamientoAeronave::where('aeropuerto_id', session('aeropuerto')->id)->first()->precio_estInt_general_ext;
 						$minutosBloque          = EstacionamientoAeronave::where('aeropuerto_id', session('aeropuerto')->id)->first()->minBloqueInt_general_ext;
 						$aplicaMinimo           = EstacionamientoAeronave::where('aeropuerto_id', session('aeropuerto')->id)->first()->aplicar_minimo_int_general_ext;
-						$minimo=($aplicaMinimo==1)?EstacionamientoAeronave::where('aeropuerto_id', session('aeropuerto')->id)->first()->eq_bloqueMinimoInt_ext:0;
+						$minimo=($aplicaMinimo==1)?EstacionamientoAeronave::where('aeropuerto_id', session('aeropuerto')->id)->first()->eq_bloqueMinimoInt_general_ext:0;
 						$tipoEstacionamiento  = 'Internacional';
 						break;
 					}
@@ -515,6 +514,8 @@ class DespegueController extends Controller {
 					$montoIvaEstandar    = ($iva * $montoDesEstandar)/100 ;
 					$totalDesEstandar    = $montoDesEstandar + $montoIvaEstandar;
 
+
+
 					//Cálculo con mínimo
 					$montoDesMinimo    = $minimo * $ut;
 
@@ -532,7 +533,6 @@ class DespegueController extends Controller {
 						$mensajeEstacionamiento        = $mensajeEstacionamiento.' (Aplica Cobro Mínimo)';
 						$aplica_minimo_estacionamiento = true;
 					}
-
 
 				}
 
@@ -564,8 +564,6 @@ class DespegueController extends Controller {
 
 
 			if($despegue->aterrizaje->aeronave->nacionalidad->nombre == "Venezuela"){
-
-
 				if($tipoVuelo == 2 || $tipoVuelo == 3){
 
 					if ($hora > $salidaSol && $hora < $puestaSol){
@@ -612,14 +610,14 @@ class DespegueController extends Controller {
 							$precio_AterDesp = PreciosAterrizajesDespegue::where('aeropuerto_id', session('aeropuerto')->id)->first()->precio_diurnoNac_general;
 							$tipoAterrizaje  = 'Diurno Nacional';
 							$aplicaMinimo    = PreciosAterrizajesDespegue::where('aeropuerto_id', session('aeropuerto')->id)->first()->aplicar_minimo_diuNac_general;
-							$minimo          = ($aplicaMinimo==1)?PreciosAterrizajesDespegue::where('aeropuerto_id', session('aeropuerto')->id)->first()->eq_bloqueMinimoDiuNac:0;
+							$minimo          = ($aplicaMinimo==1)?PreciosAterrizajesDespegue::where('aeropuerto_id', session('aeropuerto')->id)->first()->eq_bloqueMinimoDiuNac_general:0;
 							break;
 							case 2:
 							$eq_aterDesp     = PreciosAterrizajesDespegue::where('aeropuerto_id', session('aeropuerto')->id)->first()->eq_diurnoInt_general;
 							$precio_AterDesp = PreciosAterrizajesDespegue::where('aeropuerto_id', session('aeropuerto')->id)->first()->precio_diurnoInt_general;
 							$tipoAterrizaje  = 'Diurno Internacional';
 							$aplicaMinimo    = PreciosAterrizajesDespegue::where('aeropuerto_id', session('aeropuerto')->id)->first()->aplicar_minimo_diuInt_general;
-							$minimo          = ($aplicaMinimo==1)?PreciosAterrizajesDespegue::where('aeropuerto_id', session('aeropuerto')->id)->first()->eq_bloqueMinimoDiuInt:0;
+							$minimo          = ($aplicaMinimo==1)?PreciosAterrizajesDespegue::where('aeropuerto_id', session('aeropuerto')->id)->first()->eq_bloqueMinimoDiuInt_general:0;
 							break;
 						}
 					}else{
@@ -629,22 +627,20 @@ class DespegueController extends Controller {
 							$precio_AterDesp = PreciosAterrizajesDespegue::where('aeropuerto_id', session('aeropuerto')->id)->first()->precio_nocturNac_general;
 							$tipoAterrizaje  = 'Nocturno Nacional';
 							$aplicaMinimo    = PreciosAterrizajesDespegue::where('aeropuerto_id', session('aeropuerto')->id)->first()->aplicar_minimo_nocNac_general;
-							$minimo          = ($aplicaMinimo==1)?PreciosAterrizajesDespegue::where('aeropuerto_id', session('aeropuerto')->id)->first()->eq_bloqueMinimoNocNac:0;
+							$minimo          = ($aplicaMinimo==1)?PreciosAterrizajesDespegue::where('aeropuerto_id', session('aeropuerto')->id)->first()->eq_bloqueMinimoNocNac_general:0;
 							break;
 							case 2:
 							$eq_aterDesp     = PreciosAterrizajesDespegue::where('aeropuerto_id', session('aeropuerto')->id)->first()->eq_nocturInt_general;
 							$precio_AterDesp = PreciosAterrizajesDespegue::where('aeropuerto_id', session('aeropuerto')->id)->first()->precio_nocturInt_general;
 							$tipoAterrizaje  = 'Nocturno Internacional';
 							$aplicaMinimo    = PreciosAterrizajesDespegue::where('aeropuerto_id', session('aeropuerto')->id)->first()->aplicar_minimo_nocInt_general;
-							$minimo          = ($aplicaMinimo==1)?PreciosAterrizajesDespegue::where('aeropuerto_id', session('aeropuerto')->id)->first()->eq_bloqueMinimoNocInt:0;
+							$minimo          = ($aplicaMinimo==1)?PreciosAterrizajesDespegue::where('aeropuerto_id', session('aeropuerto')->id)->first()->eq_bloqueMinimoNocInt_general:0;
 							break;
 						}
 
 					}
 				}
 			}else{
-
-
 				if($tipoVuelo == 2 || $tipoVuelo == 3){
 
 					if ($hora > $salidaSol && $hora < $puestaSol){
@@ -691,14 +687,14 @@ class DespegueController extends Controller {
 							$precio_AterDesp = PreciosAterrizajesDespegue::where('aeropuerto_id', session('aeropuerto')->id)->first()->precio_diurnoNac_general_ext;
 							$tipoAterrizaje  = 'Diurno Nacional';
 							$aplicaMinimo    = PreciosAterrizajesDespegue::where('aeropuerto_id', session('aeropuerto')->id)->first()->aplicar_minimo_diuNac_general_ext;
-							$minimo          = ($aplicaMinimo==1)?PreciosAterrizajesDespegue::where('aeropuerto_id', session('aeropuerto')->id)->first()->eq_bloqueMinimoDiuNac_ext:0;
+							$minimo          = ($aplicaMinimo==1)?PreciosAterrizajesDespegue::where('aeropuerto_id', session('aeropuerto')->id)->first()->eq_bloqueMinimoDiuNac_ext_general:0;
 							break;
 							case 2:
 							$eq_aterDesp     = PreciosAterrizajesDespegue::where('aeropuerto_id', session('aeropuerto')->id)->first()->eq_diurnoInt_general_ext;
 							$precio_AterDesp = PreciosAterrizajesDespegue::where('aeropuerto_id', session('aeropuerto')->id)->first()->precio_diurnoInt_general_ext;
 							$tipoAterrizaje  = 'Diurno Internacional';
 							$aplicaMinimo    = PreciosAterrizajesDespegue::where('aeropuerto_id', session('aeropuerto')->id)->first()->aplicar_minimo_diuInt_general_ext;
-							$minimo          = ($aplicaMinimo==1)?PreciosAterrizajesDespegue::where('aeropuerto_id', session('aeropuerto')->id)->first()->eq_bloqueMinimoDiuInt_ext:0;
+							$minimo          = ($aplicaMinimo==1)?PreciosAterrizajesDespegue::where('aeropuerto_id', session('aeropuerto')->id)->first()->eq_bloqueMinimoDiuInt_general_ext:0;
 							break;
 						}
 					}else{
@@ -708,14 +704,14 @@ class DespegueController extends Controller {
 							$precio_AterDesp = PreciosAterrizajesDespegue::where('aeropuerto_id', session('aeropuerto')->id)->first()->precio_nocturNac_general_ext;
 							$tipoAterrizaje  = 'Nocturno Nacional';
 							$aplicaMinimo    = PreciosAterrizajesDespegue::where('aeropuerto_id', session('aeropuerto')->id)->first()->aplicar_minimo_nocNac_general_ext;
-							$minimo          = ($aplicaMinimo==1)?PreciosAterrizajesDespegue::where('aeropuerto_id', session('aeropuerto')->id)->first()->eq_bloqueMinimoNocNac_ext:0;
+							$minimo          = ($aplicaMinimo==1)?PreciosAterrizajesDespegue::where('aeropuerto_id', session('aeropuerto')->id)->first()->eq_bloqueMinimoNocNac_general_ext:0;
 							break;
 							case 2:
 							$eq_aterDesp     = PreciosAterrizajesDespegue::where('aeropuerto_id', session('aeropuerto')->id)->first()->eq_nocturInt_general_ext;
 							$precio_AterDesp = PreciosAterrizajesDespegue::where('aeropuerto_id', session('aeropuerto')->id)->first()->precio_nocturInt_general_ext;
 							$tipoAterrizaje  = 'Nocturno Internacional';
 							$aplicaMinimo    = PreciosAterrizajesDespegue::where('aeropuerto_id', session('aeropuerto')->id)->first()->aplicar_minimo_nocInt_general_ext;
-							$minimo          = ($aplicaMinimo==1)?PreciosAterrizajesDespegue::where('aeropuerto_id', session('aeropuerto')->id)->first()->eq_bloqueMinimoNocInt_ext:0;
+							$minimo          = ($aplicaMinimo==1)?PreciosAterrizajesDespegue::where('aeropuerto_id', session('aeropuerto')->id)->first()->eq_bloqueMinimoNocInt_general_ext:0;
 							break;
 						}
 
@@ -760,6 +756,7 @@ class DespegueController extends Controller {
 				$montoDesMinimo   = $minimo * $ut;
 
 
+
 				if($despegue->aterrizaje->aeronave->nacionalidad->nombre != "Venezuela")
 					$montoDesMinimo = $minimo*$dolar;
 
@@ -768,6 +765,7 @@ class DespegueController extends Controller {
 
 				$montoDes = max($montoDesEstandar, $montoDesMinimo);
 				$totalDes = max($totalDesEstandar, $totalDesMinimo);
+
 				if($totalDesMinimo>$totalDesEstandar){
 					$mensajeAterrizaje = 'Aterrizaje '.$tipoAterrizaje.'.  (Aplica Cobro Mínimo)';
 					$aplica_minimo_aterrizaje = true;
@@ -797,14 +795,17 @@ class DespegueController extends Controller {
 				break;
 			}
 
-			if ($hora > $inicioOperaciones && $hora < $finOperaciones){
+
+			switch ($nacionalidad) {
+				case 1:
 				$eq_puenteAbordaje     = CargosVario::where('aeropuerto_id', session('aeropuerto')->id)->first()->eq_usoAbordajeSinHab;
 				$precio_puenteAbordaje = CargosVario::where('aeropuerto_id', session('aeropuerto')->id)->first()->precio_usoAbordajeSinHab;
-			}else{
+				break;
+				case 2:
 				$eq_puenteAbordaje     = CargosVario::where('aeropuerto_id', session('aeropuerto')->id)->first()->eq_usoAbordajeConHab;
 				$precio_puenteAbordaje = CargosVario::where('aeropuerto_id', session('aeropuerto')->id)->first()->precio_usoAbordajeConHab;
+				break;
 			}
-
 
 			$tiempoUsoPuenteAbordaje = $despegue->tiempo_puenteAbord;
 			$equivalente             = $precio_puenteAbordaje+0;

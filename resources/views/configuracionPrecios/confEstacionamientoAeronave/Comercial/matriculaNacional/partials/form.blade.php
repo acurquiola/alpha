@@ -22,7 +22,7 @@
 
 				<!-- Equivalente de la UT-->
 				<div class="form-group">
-					<label><strong>Equivalente</strong>: </label>
+					<label><strong>Minutos Libres</strong>: </label>
 					<div class="input-group"> 
 						<div class="input-group-addon">
 							Equivalente: 
@@ -39,7 +39,20 @@
 							{!! Form::text('precio_estInt', null, ["id"=>"precio_estInt-input", 'class'=>"form-control precio_estInt","placeholder"=>"Precio Establecido", "readonly"=>"readonly"]) !!}
 					</div><!-- /.input group -->
 				</div><!-- /.form group -->
-
+				<!-- Equivalente de la UT por mínimo-->
+				<div class="form-group">
+					<div class="checkbox col-md-6"  style="margin-left: -40px">
+						<label>
+							{!! Form::checkbox('aplicar_minimo_int', true, null) !!} <strong>Aplicar Mínimo</strong>
+						</label>
+					</div>
+					<div class="input-group  col-md-6"> 
+						<div class="input-group-addon">
+							Equivalente
+						</div>
+						{!! Form::text('eq_bloqueMinimoInt', null, [ 'class'=>"form-control eq_bloqueMinimoInt","placeholder"=>"Equivalente de la UT por bloque"]) !!}
+					</div><!-- /.input group -->
+				</div><!-- /.form group -->	
 				<!-- Definición de Bloque -->
 				<div class="bootstrap-timepicker">
 					<div class="form-group">
@@ -79,7 +92,7 @@
 
 				<!-- Equivalente de la UT-->
 				<div class="form-group">
-					<label><strong>Equivalente</strong>: </label>
+					<label><strong>Minutos Libres</strong>: </label>
 					<div class="input-group"> 
 						<div class="input-group-addon">
 							Equivalente: 
@@ -96,7 +109,20 @@
 							{!! Form::text('precio_estNac', null, ["id"=>"precio_estNac-input", 'class'=>"form-control precio_estNac","placeholder"=>"Precio Establecido", "readonly"=>"readonly"]) !!}
 					</div><!-- /.input group -->
 				</div><!-- /.form group -->
-
+				<!-- Equivalente de la UT por mínimo-->
+				<div class="form-group">
+					<div class="checkbox col-md-6"  style="margin-left: -40px">
+						<label>
+							{!! Form::checkbox('aplicar_minimo_nac', true, null) !!} <strong>Aplicar Mínimo</strong>
+						</label>
+					</div>
+					<div class="input-group  col-md-6"> 
+						<div class="input-group-addon">
+							Equivalente
+						</div>
+						{!! Form::text('eq_bloqueMinimoNac', null, [ 'class'=>"form-control eq_bloqueMinimoNac","placeholder"=>"Equivalente de la UT por bloque"]) !!}
+					</div><!-- /.input group -->
+				</div><!-- /.form group -->	
 				<!-- Definición de Bloque -->
 				<div class="bootstrap-timepicker">
 					<div class="form-group">
