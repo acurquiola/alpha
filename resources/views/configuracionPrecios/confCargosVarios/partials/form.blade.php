@@ -89,13 +89,13 @@
 <div class="col-sm-4 invoice-col">
 	<div class="box box-success cargosVariosBox">
 		<div class="box-header">
-			<h5>Derecho de Uso de Abordaje <small></br>Con/Sin Habilitación</small></h5>
+			<h5>Derecho de Uso de Abordaje <small></br>Nacional e Internacional</small></h5>
 		</div>
 		<div class="box-body">
 
 			<!-- Equivalente de la UT-->
 			<div class="form-group">
-				<label>Precio por bloque <b>SIN</b> habilitación: </label>
+				<label>Precio por bloque <b>NACIONAL</b></label>
 				<div class="input-group"> 
 					<div class="input-group-addon">
 						Establecido: 
@@ -116,7 +116,7 @@
 
 			<!-- Equivalente de la UT-->
 			<div class="form-group">
-				<label>Precio por bloque <b>CON</b> habilitación: </label>
+				<label>Precio por bloque <b>INTERNACIONAL</b></label>
 				<div class="input-group"> 
 					<div class="input-group-addon">
 						Establecido: 
