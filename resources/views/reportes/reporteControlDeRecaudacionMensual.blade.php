@@ -17,11 +17,11 @@
 			<div class="box-body text-right">
 				{!! Form::open(["url" => action('ReporteController@getControlDeRecaudacionMensual'), "method" => "GET", "class"=>"form-inline"]) !!}
 				<div class="form-group">
-					<label>Seleccione un aeropuerto:</label>
+					<label><strong>AEROPUERTO:</strong></label>
 					{!! Form::select('aeropuerto', $aeropuertos, $aeropuerto, ["class"=> "form-control"]) !!}
 				</div>
 				<div class="form-group">
-					<label>Seleccione un año:</label>
+					<label><strong>AÑO:</strong></label>
 					{!! Form::select('anno', $annos, $anno, ["class"=> "form-control"]) !!}
 				</div>
 				<button type="submit" class="btn btn-default">Buscar</button>
@@ -88,7 +88,7 @@
 									</tr>
 									@endforeach
 									<tr class="bg-gray">
-										<td>Totales</td>
+										<td>TOTAL</td>
 										@foreach($montosTotales as $moduloNombre => $conceptos)
 										@foreach($conceptos as $concepto => $monto)
 										@if($concepto=="total")
@@ -162,7 +162,7 @@
 			}).remove();
 			$(table).prepend('<thead>\
 								<tr>\
-									<th colspan="19" style="vertical-align: middle; margin-top:20px" align="center" class="text-center">CONTROL DE RECAUDACIÓN MENSUAL\
+									<th colspan="22" style="vertical-align: middle; margin-top:20px" align="center" class="text-center">CONTROL DE RECAUDACIÓN MENSUAL\
 									</br>\
 									AEROPUERTO: {{$aeropuertoNombre}}\
 									</br>\
