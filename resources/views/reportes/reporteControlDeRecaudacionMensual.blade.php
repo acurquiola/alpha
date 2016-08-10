@@ -49,12 +49,12 @@
 				<div class="row">
 					<div class="col-xs-12">
 
-						<div class="table-responsive" style="max-height: 500px">
+						<div class="table-responsive" style="max-height: 600px">
 							<table class="table table-hover table-condensed">
 								<thead  class="bg-primary">
 									<tr>
-										<th id="fecha-col" style="vertical-align: middle;" class="text-center" align="left">
-											Mes
+										<th id="fecha-col" style="vertical-align: middle; width: 20px" class="text-center" align="left">
+											MES
 										</th>
 										@foreach($modulos as $modulo)
 										<th expandible data-colspan="{{$modulo->conceptos->count()}}" class="text-center" style="vertical-align: middle" >
@@ -75,7 +75,7 @@
 								<tbody>
 									@foreach($montos as $fecha => $montoModulos)
 									<tr title="{{$fecha}}" >
-										<td align="left">{{substr($fecha, 0, 3)}}</td>
+										<td align="left" class="text-left" style="width: 30px">{{substr($fecha, 0, 3)}}</td>
 											@foreach($montoModulos as $moduloNombre => $conceptos)
 												@foreach($conceptos as $concepto => $monto)
 													@if($concepto=="total")
@@ -88,20 +88,17 @@
 									</tr>
 									@endforeach
 									<tr class="bg-gray">
-										<td>TOTAL</td>
+										<th align="left" class="text-left" style="width: 30px">TOTAL</th>
 										@foreach($montosTotales as $moduloNombre => $conceptos)
 										@foreach($conceptos as $concepto => $monto)
 										@if($concepto=="total")
-										<td style="text-align:right" main data-parent="{{$moduloNombre}}">{{$traductor->format($monto)}}</td>
+										<th style="text-align:right" main data-parent="{{$moduloNombre}}">{{$traductor->format($monto)}}</th>
 										@else
-										<td  details data-parent="{{$moduloNombre}}" style="display:none;text-align:right">{{$traductor->format($monto)}}</td>
+										<th  details data-parent="{{$moduloNombre}}" style="display:none;text-align:right">{{$traductor->format($monto)}}</th>
 										@endif
 										@endforeach
 										@endforeach
 									</tr>
-
-
-
 								</tbody>
 
 							</table>
@@ -170,7 +167,7 @@
 								</tr>\
 							</thead>')
 			$(table).find('thead, th').css({'border-top':'1px solid black', 'font-weight': 'bold', 'text-align':"center", 'font-size': '7px'})
-			$(table).find('th').css({'border-bottom':'1px solid black', 'font-weight': 'bold', 'text-align':"center", 'font-size': '7px'})
+			$(table).find('th').css({'border-bottom':'1px solid black', 'font-weight': 'bold', 'text-align':"center", 'font-size': '6px'})
 			$(table).find('td').css({'font-size': '5px'})
 			$(table).find('tr:nth-child(even)').css({'background-color': '#E2E2E2'})
 			$(table).find('tr:last td').css({'border-bottom':'1px solid black','border-top':'1px solid black', 'font-weight': 'bold'})
