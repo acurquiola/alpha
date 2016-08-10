@@ -119,13 +119,13 @@ class ReporteController extends Controller {
                             $tasasInternacionales = \App\Tasa::select('tasaops.tasa_cobro_id as tasacobro')
                                                             ->join('tasaopdetalles', 'tasaopdetalles.serie', '=', 'tasas.nombre')
                                                             ->join('tasaops', 'tasaops.id', '=', 'tasaopdetalles.tasaop_id')
-                                                            ->where('Tasas.internacional', 1)
+                                                            ->where('tasas.internacional', 1)
                                                             ->lists('tasacobro');
 
                             $tasasNacionales = \App\Tasa::select('tasaops.tasa_cobro_id as tasacobro')
                                                             ->join('tasaopdetalles', 'tasaopdetalles.serie', '=', 'tasas.nombre')
                                                             ->join('tasaops', 'tasaops.id', '=', 'tasaopdetalles.tasaop_id')
-                                                            ->where('Tasas.internacional', 0)
+                                                            ->where('tasas.internacional', 0)
                                                             ->lists('tasacobro');
 
                             if($concepto->nompre == 'TASAS INTERNACIONALES MODULO'){   
