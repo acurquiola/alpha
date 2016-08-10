@@ -318,6 +318,7 @@ class DespegueController extends Controller {
 		$peso_aeronave          = ceil($peso);
 		$mensajeEstacionamiento = ' ';
 		$mensajeAterrizaje      = ' ';
+		$nacionalidad = $despegue->aterrizaje->nacionalidadVuelo_id;
 
 		$aplica_minimo_estacionamiento = false;
 		$aplica_minimo_aterrizaje      = false;
@@ -366,7 +367,7 @@ class DespegueController extends Controller {
 
 		if($despegue->cobrar_estacionamiento == '1'){
 			$estacionamiento = new Facturadetalle();
-			$nacionalidad    = $despegue->aterrizaje->nacionalidadVuelo_id;
+			$nacionalidad    = $despegue->aterrizaje->nacionalidadVuelo_id;			
 			$tipoVuelo       = $despegue->aterrizaje->tipoMatricula_id;
 
 
@@ -382,7 +383,6 @@ class DespegueController extends Controller {
 			if($despegue->aterrizaje->aeronave->nacionalidad->nombre == "Venezuela"){
 
 				if($tipoVuelo == 2 || $tipoVuelo == 3){
-					
 					switch ($nacionalidad) {
 						case 1:
 						$minutosLibre           = EstacionamientoAeronave::where('aeropuerto_id', session('aeropuerto')->id)->first()->tiempoLibreNac;
