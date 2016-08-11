@@ -26,7 +26,7 @@
                                     @foreach($tasaOpsArray as $taquilla => $tasaTaquillaOp)
                                         @foreach($tasaTaquillaOp as $turno)
                                             <tr>
-                                                <th colspan="{{ count($serieTasas)*5 }}" style="min-width:100px;" class="text-center  bg-primary">TAQUILLA {{$turno->taquilla}}</th>
+                                                <th colspan="{{ count($serieTasas)*5+2 }}" style="min-width:100px;" class="text-center  bg-primary">TAQUILLA {{$turno->taquilla}}</th>
                                             </tr>
                                             <tr>
                                                 <th class="text-center  bg-primary"  rowspan="2" style="min-width:100px; vertical-align: middle">TURNO</th>

@@ -17,15 +17,15 @@
 			<div class="box-body text-right">
 				{!! Form::open(["url" => action('ReporteController@getControlDeRecaudacionDiario'), "method" => "GET", "class"=>"form-inline"]) !!}
 				<div class="form-group" style="margin-left: 20px">
-					<label>Mes:</label>
+					<label><strong>MES: </strong></label>
 					{!! Form::select('mes', $meses, $mes, ["class"=> "form-control"]) !!}
 				</div>
 				<div class="form-group" style="margin-left: 20px">
-					<label>Año:</label>
+					<label><strong>AÑO: </strong></label>
 					{!! Form::select('anno', $annos, $anno, ["class"=> "form-control"]) !!}
 				</div>
 				<div class="form-group">
-					<label>Seleccione un aeropuerto:</label>
+					<label><strong>AEROPUERTO: </strong></label>
 					{!! Form::select('aeropuerto', $aeropuertos, $aeropuerto, ["class"=> "form-control"]) !!}
 				</div>
 				<button type="submit" class="btn btn-default">Buscar</button>
@@ -171,9 +171,11 @@
 									MES: {{$mesLetras}} AÑO: {{$anno}} </th>\
 								</tr>\
 							</thead>')
-			$(table).find('thead, th').css({'border-top':'1px solid black', 'font-weight': 'bold', 'text-align':"center", 'font-size': '7px'})
-			$(table).find('th').css({'border-bottom':'1px solid black', 'font-weight': 'bold', 'text-align':"center", 'font-size': '7px'})
-			$(table).find('td').css({'font-size': '5px'})
+			$(table).find('thead, th').css({'border-top':'1px solid black', 'font-weight': 'bold', 'text-align':"center", 'font-size': '6px'})
+			$(table).find('th').css({'border-bottom':'1px solid black', 'font-weight': 'bold', 'text-align':"center", 'font-size': '6px'})
+			$(table).find('td').css({'font-size': '4.8px'})
+			$(table).find('td:nth-child(even)').css({'background-color': '#F7F7F7'})
+			$(table).find('th:nth-child(even)').css({'border-left':'1px solid black','border-right':'1px solid black',})
 			$(table).find('tr:nth-child(even)').css({'background-color': '#E2E2E2'})
 			$(table).find('tr:last td').css({'border-bottom':'1px solid black','border-top':'1px solid black', 'font-weight': 'bold'})
 			$(table).append('<tr>\
