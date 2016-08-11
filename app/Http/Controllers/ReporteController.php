@@ -1739,7 +1739,7 @@ class ReporteController extends Controller {
 
        // set margins
 
-       $pdf->SetMargins('5', '18', '5');
+       $pdf->SetMargins('0.5', '18', '0.5');
 
        $pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
 

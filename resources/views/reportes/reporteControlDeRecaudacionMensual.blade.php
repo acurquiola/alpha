@@ -53,7 +53,7 @@
 							<table class="table table-hover table-condensed">
 								<thead  class="bg-primary">
 									<tr>
-										<th id="fecha-col" style="vertical-align: middle; width: 20px" class="text-center" align="left">
+										<th id="fecha-col" style="vertical-align: middle" class="text-center" align="left">
 											MES
 										</th>
 										@foreach($modulos as $modulo)
@@ -75,7 +75,7 @@
 								<tbody>
 									@foreach($montos as $fecha => $montoModulos)
 									<tr title="{{$fecha}}" >
-										<td align="left" class="text-left" style="width: 30px">{{substr($fecha, 0, 3)}}</td>
+										<td align="left" class="text-left">{{substr($fecha, 0, 3)}}</td>
 											@foreach($montoModulos as $moduloNombre => $conceptos)
 												@foreach($conceptos as $concepto => $monto)
 													@if($concepto=="total")
@@ -88,13 +88,13 @@
 									</tr>
 									@endforeach
 									<tr class="bg-gray">
-										<th align="left" class="text-left" style="width: 30px">TOTAL</th>
+										<td  align="left" class="text-left"><strong>TOTAL</strong></td>
 										@foreach($montosTotales as $moduloNombre => $conceptos)
 										@foreach($conceptos as $concepto => $monto)
 										@if($concepto=="total")
-										<th style="text-align:right" main data-parent="{{$moduloNombre}}">{{$traductor->format($monto)}}</th>
+										<td style="text-align:right" main data-parent="{{$moduloNombre}}"><strong>{{$traductor->format($monto)}}</strong></td>
 										@else
-										<th  details data-parent="{{$moduloNombre}}" style="display:none;text-align:right">{{$traductor->format($monto)}}</th>
+										<td  details data-parent="{{$moduloNombre}}" style="display:none;text-align:right"><strong>{{$traductor->format($monto)}}</strong></td>
 										@endif
 										@endforeach
 										@endforeach
@@ -168,9 +168,11 @@
 							</thead>')
 			$(table).find('thead, th').css({'border-top':'1px solid black', 'font-weight': 'bold', 'text-align':"center", 'font-size': '7px'})
 			$(table).find('th').css({'border-bottom':'1px solid black', 'font-weight': 'bold', 'text-align':"center", 'font-size': '6px'})
-			$(table).find('td').css({'font-size': '5px'})
+			$(table).find('td').css({'font-size': '4.8px'})
+			$(table).find('td:nth-child(even)').css({'background-color': '#F7F7F7'})
+			$(table).find('th:nth-child(even)').css({'border-left':'1px solid black','border-right':'1px solid black',})
 			$(table).find('tr:nth-child(even)').css({'background-color': '#E2E2E2'})
-			$(table).find('tr:last td').css({'border-bottom':'1px solid black','border-top':'1px solid black', 'font-weight': 'bold'})
+			$(table).find('tr:last td').css({'border-bottom':'1px solid black','border-top':'1px solid black','font-size': '4.8px'})
 			$(table).append('<tr>\
 								<td colspan="19"><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br></td>\
 								</tr><tr>\
