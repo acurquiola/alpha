@@ -569,7 +569,8 @@ class ReporteController extends Controller {
                 $cobrosPZO=\App\Cobro::where('cobros.fecha','>=' ,$diaMes->startOfMonth()->toDateTimeString())
                 ->where('cobros.fecha','<=' ,$diaMes->endOfMonth()->toDateTimeString())
                 ->where('cobros.aeropuerto_id','1')
-                ->get();
+                ->where('cobros.id', '43')
+                ->get(); 
 
                 $cobrosCBL=\App\Cobro::where('cobros.fecha','>=' ,$diaMes->startOfMonth()->toDateTimeString())
                 ->where('cobros.fecha','<=' ,$diaMes->endOfMonth()->toDateTimeString())
@@ -746,13 +747,16 @@ class ReporteController extends Controller {
             ->where('facturas.deleted_at', null)
             ->get();
 
-            $cobrosAnteriores=\App\Cobro::join('cobro_factura', 'cobros.id', '=', 'cobro_factura.factura_id')
-            ->join('facturas', 'cobro_factura.factura_id', '=', 'facturas.id')
+
+
+            $cobrosAnteriores=\App\Factura::join('cobro_factura', 'cobro_factura.factura_id', '=', 'facturas.id')
+            ->join('cobros', 'cobro_factura.cobro_id', '=', 'cobros.id')
             ->where('facturas.fecha', '<',$diaMes->startOfMonth()->toDateTimeString())
             ->where('cobros.fecha','>=' ,$diaMes->startOfMonth()->toDateTimeString())
             ->where('cobros.fecha','<=' ,$diaMes->endOfMonth()->toDateTimeString())
-            ->where('cobros.aeropuerto_id', $aeropuerto)
-            ->get();
+            ->where('facturas.aeropuerto_id', $aeropuerto)
+            ->first();
+            dd($cobrosAnteriores);
 
             $montosMeses[$meses[$diaMes->month]]=[
                     "facturado"     =>0,
