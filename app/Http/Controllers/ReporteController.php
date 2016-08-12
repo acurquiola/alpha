@@ -157,6 +157,7 @@ class ReporteController extends Controller {
                                                             ->where('tasa_cobro_detalles.fecha','>=' ,$diaMes->startOfMonth()->toDateTimeString())
                                                             ->where('tasa_cobro_detalles.fecha','<=' ,$diaMes->endOfMonth()->toDateTimeString())
                                                             ->whereIn('tasaopdetalles.serie', $tasasInternacionales)
+                                                            ->where('tasaops.consolidado', 1)
                                                             ->where('tasa_cobros.cv', 0)
                                                             ->sum('tasaopdetalles.total');
 
@@ -169,6 +170,7 @@ class ReporteController extends Controller {
                                                             ->where('tasa_cobro_detalles.fecha','>=' ,$diaMes->startOfMonth()->toDateTimeString())
                                                             ->where('tasa_cobro_detalles.fecha','<=' ,$diaMes->endOfMonth()->toDateTimeString())
                                                             ->whereIn('tasaopdetalles.serie', $tasasNacionales)
+                                                            ->where('tasaops.consolidado', 1)
                                                             ->where('tasa_cobros.cv', 0)
                                                             ->sum('tasaopdetalles.total');
 
@@ -180,6 +182,7 @@ class ReporteController extends Controller {
                                                             ->where('tasa_cobro_detalles.fecha','>=' ,$diaMes->startOfMonth()->toDateTimeString())
                                                             ->where('tasa_cobro_detalles.fecha','<=' ,$diaMes->endOfMonth()->toDateTimeString())
                                                             ->whereIn('tasaopdetalles.serie', $tasasInternacionales)
+                                                            ->where('tasaops.consolidado', 1)
                                                             ->where('tasa_cobros.cv', 1)
                                                             ->sum('tasaopdetalles.total');
 
@@ -190,6 +193,7 @@ class ReporteController extends Controller {
                                                             ->where('tasa_cobro_detalles.fecha','>=' ,$diaMes->startOfMonth()->toDateTimeString())
                                                             ->where('tasa_cobro_detalles.fecha','<=' ,$diaMes->endOfMonth()->toDateTimeString())
                                                             ->whereIn('tasaopdetalles.serie', $tasasNacionales)
+                                                            ->where('tasaops.consolidado', 1)
                                                             ->where('tasa_cobros.cv', 1)
                                                             ->sum('tasaopdetalles.total');
 
