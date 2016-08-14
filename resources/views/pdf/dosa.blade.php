@@ -97,23 +97,21 @@
 
 <table style="width:90%;"> 
 <tr> 
-<td colspan="1"> 
-</td> 
 <td colspan="2"> 
-<strong><u>MATRÍCULA: </u></strong> 
+<strong>MATRÍCULA: </strong> 
 {{($despegue->aterrizaje->aeronave)?$despegue->aterrizaje->aeronave->matricula:"N/A"}} 
 </td> 
-<td colspan="1"> 
-</td> 
 <td colspan="2"> 
-<strong><u>MODELO: </u></strong> 
+<strong>MODELO: </strong> 
 {{$despegue->aterrizaje->aeronave->modelo->modelo}} 
 </td> 
-<td colspan="1"> 
-</td> 
 <td colspan="2"> 
-<strong><u>PESO: </u></strong> 
+<strong>PESO: </strong> 
 {{$traductor->format($despegue->aterrizaje->aeronave->peso)}} Kgs. 
+</td> 
+<td colspan="3"> 
+<strong>TIPO DE VUELO: </strong> 
+{{ $despegue->aterrizaje->tipo->nombre}}  
 </td> 
 </tr> 
 </table>
@@ -149,7 +147,7 @@
 </tr>
 <tr>
 <td  colspan="4">
-<strong><u>PROCEDENCIA/DESTINO</u></strong>
+<strong>PROCEDENCIA/DESTINO</strong>
 </td>
 <td  colspan="2">
 {{$despegue->aterrizaje->puerto->nombre}}
@@ -162,7 +160,7 @@
 </tr>
 <tr>
 <td colspan="10">
-<strong><u>PILOTO</u></strong>
+<strong>PILOTO</strong>
 </td>
 </tr>
 <tr>
@@ -193,7 +191,7 @@
 </tr>
 <tr>
 <td  colspan="4">
-<strong><u>NRO. VUELO</u></strong>
+<strong>NRO. VUELO</strong>
 </td>
 <td  colspan="2">
 {{($despegue->aterrizaje->num_vuelo)?$despegue->aterrizaje->num_vuelo:"N/A"}}
@@ -206,7 +204,7 @@
 </tr>
 <tr>
 <td colspan="10">
-<strong><u>PASAJEROS</u></strong>
+<strong>PASAJEROS</strong>
 </td>
 </tr>
 <tr>
@@ -237,7 +235,7 @@
 </tr>
 <tr>
 <td  colspan="4">
-<strong><u>FECHA y HORA</u></strong>
+<strong>FECHA y HORA</strong>
 </td>
 <td  colspan="2">
 {{$despegue->aterrizaje->fecha}} -  {{$despegue->aterrizaje->hora}}
@@ -317,8 +315,7 @@
 </table>
 
 
-<br>
-<br>
+
 <br>
 <br>
 <br>

@@ -726,11 +726,7 @@ class ReporteController extends Controller {
         for($i=1;$i<=12; $i++){
             $diaMes=\Carbon\Carbon::create($anno, $i,1);
 
-            //Cobrado
-            $cobros=\App\Cobro::where('cobros.fecha','>=' ,$diaMes->startOfMonth()->toDateTimeString())
-            ->where('cobros.fecha','<=' ,$diaMes->endOfMonth()->toDateTimeString())
-            ->where('cobros.aeropuerto_id',$aeropuerto)
-            ->get();
+            
 
             //Facturas por Cobrar
             $facturasPorCobrar=\App\Factura::where('facturas.fecha','>=' ,$diaMes->startOfMonth()->toDateTimeString())
@@ -747,22 +743,37 @@ class ReporteController extends Controller {
             ->where('facturas.deleted_at', null)
             ->get();
 
+            //Facturas de otros meses
+            $facturasAnteriores=\App\Factura::where('fecha', '<',$diaMes->startOfMonth()->toDateTimeString())
+            ->where('estado', 'C')
+            ->where('aeropuerto_id', $aeropuerto)
+            ->lists('id', 'fecha');
 
 
-            $cobrosAnteriores=\App\Factura::join('cobro_factura', 'cobro_factura.factura_id', '=', 'facturas.id')
-            ->join('cobros', 'cobro_factura.cobro_id', '=', 'cobros.id')
-            ->where('facturas.fecha', '<',$diaMes->startOfMonth()->toDateTimeString())
-            ->where('cobros.fecha','>=' ,$diaMes->startOfMonth()->toDateTimeString())
+            $cobrosFacturasAnteriores = \App\Factura::join('cobro_factura', 'cobro_factura.factura_id', '=', 'facturas.id')
+                                                    ->whereIn('facturas.id', $facturasAnteriores)
+                                                    ->lists('cobro_factura.cobro_id');
+
+            $cobrosAnteriores = \App\Cobro::where('cobros.fecha','>=' ,$diaMes->startOfMonth()->toDateTimeString())
             ->where('cobros.fecha','<=' ,$diaMes->endOfMonth()->toDateTimeString())
-            ->where('facturas.aeropuerto_id', $aeropuerto)
-            ->first();
-            dd($cobrosAnteriores);
+            ->whereIn('cobros.id', $cobrosFacturasAnteriores)
+            ->get();
+
+            $cobrosAnt = $cobrosAnteriores->lists('id');
+
+            //Cobrado
+            $cobros=\App\Cobro::where('cobros.fecha','>=' ,$diaMes->startOfMonth()->toDateTimeString())
+            ->where('cobros.fecha','<=' ,$diaMes->endOfMonth()->toDateTimeString())
+            ->where('cobros.aeropuerto_id',$aeropuerto)
+            ->whereNotIn('id', $cobrosAnt)
+            ->get();
 
             $montosMeses[$meses[$diaMes->month]]=[
-                    "facturado"     =>0,
-                    "cobrado"       =>0,
-                    "porCobrar"     =>0,
-                    "cobroAnterior" =>0
+                    "facturado"       =>0,
+                    "cobrado"         =>0,
+                    "porCobrar"       =>0,
+                    "cobroAnterior"   =>0,
+                    "totalCobradoMes" =>0
                 ];
 
             foreach ($facturas as $factura) {
@@ -777,8 +788,10 @@ class ReporteController extends Controller {
             }
 
             foreach ($cobrosAnteriores as $cobroAnterior) {
-                $montosMeses[$meses[$diaMes->month]]["cobroAnterior"]+=$cobro->montodepositado;
+                $montosMeses[$meses[$diaMes->month]]["cobroAnterior"]+=$cobroAnterior->montodepositado;
             }
+
+            $montosMeses[$meses[$diaMes->month]]["totalCobradoMes"]=$montosMeses[$meses[$diaMes->month]]["cobrado"]+$montosMeses[$meses[$diaMes->month]]["cobroAnterior"];
         }
 
         $aeropuertoNombre=\App\Aeropuerto::find($aeropuerto)->nombre;
@@ -956,16 +969,16 @@ class ReporteController extends Controller {
 
     //Relacion de Ingresos Aeronáuticos de Contado
     public function getReporteRelacionIngresosAeronauticosContado(Request $request){
-        $diaDesde     =$request->get('diaDesde', \Carbon\Carbon::now()->day);
-        $mesDesde     =$request->get('mesDesde', \Carbon\Carbon::now()->month);
-        $annoDesde    =$request->get('annoDesde',  \Carbon\Carbon::now()->year);
-        $diaHasta     =$request->get('diaHasta', \Carbon\Carbon::now()->day);
-        $mesHasta     =$request->get('mesHasta', \Carbon\Carbon::now()->month);
-        $annoHasta    =$request->get('annoHasta',  \Carbon\Carbon::now()->year);
-        $aeropuerto   =session('aeropuerto')->id;
-        $modulos      =\App\Modulo::where('nombre', 'DOSAS')->where('aeropuerto_id', $aeropuerto)->lists('nombre','id');
-
-
+        $diaDesde   =$request->get('diaDesde', \Carbon\Carbon::now()->day);
+        $mesDesde   =$request->get('mesDesde', \Carbon\Carbon::now()->month);
+        $annoDesde  =$request->get('annoDesde',  \Carbon\Carbon::now()->year);
+        $diaHasta   =$request->get('diaHasta', \Carbon\Carbon::now()->day);
+        $mesHasta   =$request->get('mesHasta', \Carbon\Carbon::now()->month);
+        $annoHasta  =$request->get('annoHasta',  \Carbon\Carbon::now()->year);
+        $aeropuerto =session('aeropuerto')->id;
+        $modulo_id  =\App\Modulo::where('nombre', 'DOSAS')
+                                    ->where('aeropuerto_id', $aeropuerto)
+                                    ->lists('id');
 
         $formulario      =\App\Concepto::where('aeropuerto_id', $aeropuerto)->where('nompre', 'FORMULARIO DOSA')->first();
         $aterrizaje      =\App\Concepto::where('aeropuerto_id', $aeropuerto)->where('nompre', 'ATERRIZAJE Y DESPEGUE DE AERONAVES')->first();
@@ -976,20 +989,26 @@ class ReporteController extends Controller {
 
         $facturas = \App\Factura::with('detalles')
                              ->whereBetween('fecha', array($annoDesde.'-'.$mesDesde.'-'.$diaDesde,  $annoHasta.'-'.$mesHasta.'-'.$diaHasta))
-                             ->where('facturas.nroDosa', '<>', 'NULL')
-                             ->where('facturas.aeropuerto_id', $aeropuerto)
-                             ->where('facturas.condicionPago', 'Contado')
-                             ->where('facturas.estado', 'C')
+                             ->where('modulo_id',$modulo_id)
+                             ->where('aeropuerto_id', $aeropuerto)
+                             ->where('condicionPago', 'Contado')
+                             ->where('estado', 'C')
+                             ->where('deleted_at', null)
+                             ->orderBy('fecha', 'ASC')
+                             ->orderBy('nFactura', 'ASC')
                              ->get();
-        /*$tasas = \App\Tasaopdetalle::join('tasaops', 'tasaopdetalles.tasaop_id', '=', 'tasaops.id')
-                                ->where('tasaops.fecha','>=' ,$primerDiaMes)
-                                ->where('tasaops.fecha','<=' ,$ultimoDiaMes)
-                                ->where('tasaops.aeropuerto_id', $aeropuerto)
-                                ->get();
 
 
-        $tasasNac = $tasas->where('serie', 'C1');
-        $tasasInt = $tasas->where('serie', 'C2');*/
+
+        $tasasVendidas = \App\Tasaop::join('tasa_cobros', 'tasa_cobros.id', '=', 'tasaops.tasa_cobro_id')
+                                    ->join('tasa_cobro_detalles', 'tasa_cobro_detalles.tasa_cobro_id', '=', 'tasa_cobros.id')
+                                    ->join('tasaopdetalles', 'tasaopdetalles.tasaop_id', '=', 'tasaops.id')
+                                    ->whereBetween('tasa_cobro_detalles.fecha', array($annoDesde.'-'.$mesDesde.'-'.$diaDesde,  $annoHasta.'-'.$mesHasta.'-'.$diaHasta) )
+                                    ->where('tasa_cobros.cv', 1)
+                                    ->where('tasaops.consolidado', 1)
+                                    ->get();
+ 
+        $totalTasas            = $tasasVendidas->sum('total');
 
         $dosaFactura = [];
 
@@ -1042,20 +1061,14 @@ class ReporteController extends Controller {
                     $dosaFactura[$factura->nroDosa]["otros"]=$detalle->totalDes;
                 }
             }
-       /*     foreach ($tasasNac as $tNac) {
-                $dosaFactura[$factura->nroDosa]["tasaNacional"]+=$tNac->total;
-            }
 
-            foreach ($tasasInt as $tInt) {
-                $dosaFactura[$factura->nroDosa]["tasaInternacional"]+=$tInt->total;
-            }*/
         }
 
         $aeropuertoNombre = \App\Aeropuerto::where('id', $aeropuerto)->first()->nombre;
 
         
         
-        return view('reportes.reporteRelacionIngresosAeronauticosContado', compact('dosaFactura', 'aeropuertoNombre', 'diaDesde', 'mesDesde', 'annoDesde', 'diaHasta', 'mesHasta', 'annoHasta', 'aeropuerto'));
+        return view('reportes.reporteRelacionIngresosAeronauticosContado', compact('dosaFactura', 'aeropuertoNombre', 'diaDesde', 'mesDesde', 'annoDesde', 'diaHasta', 'mesHasta', 'annoHasta', 'aeropuerto', 'tasasVendidas', 'totalTasas'));
 
     }
 
@@ -1365,12 +1378,13 @@ class ReporteController extends Controller {
         $diaHasta   =$request->get('diaHasta', \Carbon\Carbon::now()->day);
         $mesHasta   =$request->get('mesHasta', \Carbon\Carbon::now()->month);
         $annoHasta  =$request->get('annoHasta',  \Carbon\Carbon::now()->year);
-        $aeropuerto =session('aeropuerto');
+        $aeropuerto =session('aeropuerto')->id;
 
         $facturas = \App\Factura::whereBetween('fecha', array($annoDesde.'-'.$mesDesde.'-'.$diaDesde,  $annoHasta.'-'.$mesHasta.'-'.$diaHasta) )
                                 ->where('facturas.deleted_at', null)
                                 ->where('aeropuerto_id', session('aeropuerto')->id)
                                 ->where('nroDosa', '<>', 'NULL')
+                                ->orderBy('fecha', 'ASC')
                                 ->orderBy('nControl', 'ASC')
                                 ->orderBy('nFactura', 'ASC')
                                 ->orderBy('nroDosa', 'ASC')
@@ -1380,12 +1394,23 @@ class ReporteController extends Controller {
                                 ->whereBetween('fecha', array($annoDesde.'-'.$mesDesde.'-'.$diaDesde,  $annoHasta.'-'.$mesHasta.'-'.$diaHasta) )
                                 ->where('aeropuerto_id', session('aeropuerto')->id)
                                 ->where('nroDosa', '<>', 'NULL')
+                                ->orderBy('fecha', 'ASC')
                                 ->orderBy('nControl', 'ASC')
                                 ->orderBy('nFactura', 'ASC')
                                 ->orderBy('nroDosa', 'ASC')
                                 ->get();
 
+
+
+        $tasasVendidas = \App\Tasaop::join('tasa_cobros', 'tasa_cobros.id', '=', 'tasaops.tasa_cobro_id')
+                                    ->join('tasa_cobro_detalles', 'tasa_cobro_detalles.tasa_cobro_id', '=', 'tasa_cobros.id')
+                                    ->join('tasaopdetalles', 'tasaopdetalles.tasaop_id', '=', 'tasaops.id')
+                                    ->whereBetween('tasa_cobro_detalles.fecha', array($annoDesde.'-'.$mesDesde.'-'.$diaDesde,  $annoHasta.'-'.$mesHasta.'-'.$diaHasta) )
+                                    ->where('tasa_cobros.cv', 1)
+                                    ->where('tasaops.consolidado', 1)
+                                    ->get();
  
+        $totalTasas            = $tasasVendidas->sum('total');
         $facturasTotal         = $facturas->sum('total');
         $facturasAnuladasTotal = $facturasAnuladas->sum('total');
         
@@ -1395,7 +1420,7 @@ class ReporteController extends Controller {
         $facturasContado       = $facturas->where('condicionPago', 'Contado')
                                                 ->sum('total');
 
-        return view('reportes.reporteCuadreCaja', compact('diaDesde', 'mesDesde', 'annoDesde', 'diaHasta', 'mesHasta', 'annoHasta', 'aeropuerto', 'facturas', 'facturasTotal', 'facturasContado', 'facturasCredito', 'facturasAnuladas', 'facturasAnuladasTotal'));
+        return view('reportes.reporteCuadreCaja', compact('diaDesde', 'mesDesde', 'annoDesde', 'diaHasta', 'mesHasta', 'annoHasta', 'aeropuerto', 'facturas', 'facturasTotal', 'facturasContado', 'facturasCredito', 'facturasAnuladas', 'facturasAnuladasTotal', 'tasasVendidas', 'totalTasas'));
     }
 
 
@@ -1661,8 +1686,10 @@ class ReporteController extends Controller {
         $carga           =\App\Concepto::where('aeropuerto_id', $aeropuerto)->where('nompre', 'CARGA (CRÉDITO)')->first();
 
 
-         $facturas        =\App\Factura::select('facturas.*', 'clientes.nombre')
+         $facturas        =\App\Factura::with('detalles')
+                                 ->select('facturas.*', 'clientes.nombre')
                                  ->join('clientes', 'facturas.cliente_id', '=', 'clientes.id')
+                                 ->join('facturadetalles', 'facturas.id', '=', 'facturadetalles.factura_id')
                                  ->whereBetween('fecha', array($annoDesde.'-'.$mesDesde.'-'.$diaDesde,  $annoHasta.'-'.$mesHasta.'-'.$diaHasta))
                                  ->where('deleted_at', null)
                                  ->where('aeropuerto_id', $aeropuerto)
@@ -1671,10 +1698,13 @@ class ReporteController extends Controller {
                                  ->where('cliente_id', ($cliente==0)?'>=':'=', $cliente)
                                  ->where('facturas.condicionPago', 'Crédito')
                                  ->orderBy('nombre', 'ASC')
+                                 ->orderBy('fecha', 'ASC')
+                                 ->orderBy('nFactura', 'ASC')
                                  ->get();
 
 
         $dosaFactura=[];
+        $recibo=[];
 
         foreach ($facturas as $factura) {
             $dosaFactura[$factura->nroDosa] =[
@@ -1713,6 +1743,7 @@ class ReporteController extends Controller {
                     $dosaFactura[$factura->nroDosa]["otrosCargosBs"]=$detalle->totalDes;
                 }
             }
+
             foreach ($factura->cobros as $recibo){
                     $dosaFactura[$factura->nroDosa]["reciboCaja"]=$recibo->nRecibo;
                     $dosaFactura[$factura->nroDosa]["nCobro"]=$recibo->id;
@@ -1722,9 +1753,9 @@ class ReporteController extends Controller {
                         $dosaFactura[$factura->nroDosa]["totalDepositado"] +=$pago->monto;
                 }
             }
+
+
         }
-
-
 
         return view('reportes.reporteRelacionFacturasAeronauticasCredito', compact('aeropuertoNombre', 'diaDesde', 'mesDesde', 'annoDesde', 'diaHasta', 'mesHasta', 'annoHasta', 'aeropuerto', 'cliente', 'facturas', 'dosaFactura', 'clientes'));
 
