@@ -17,15 +17,15 @@
 			<div class="box-body text-right">
 				{!! Form::open(["url" => action('ReporteController@getReporteDeMorosidad'), "method" => "GET", "class"=>"form-inline"]) !!}
 				<div class="form-group" style="margin-left: 20px">
-					<label>Año:</label>
+					<label><strong>AÑO:</strong></label>
 					{!! Form::select('anno', $annos, $anno, ["class"=> "form-control"]) !!}
 				</div>
 				<div class="form-group">
-					<label>Seleccione un aeropuerto:</label>
+					<label><strong>AEROPUERTO: </strong></label>
 					{!! Form::select('aeropuerto', $aeropuertos, $aeropuerto, ["class"=> "form-control"]) !!}
 				</div>
-				<button type="submit" class="btn btn-default">Buscar</button>
-				<a class="btn btn-default" href="{{action('ReporteController@getReporteDeMorosidad')}}">Reset</a>
+				<button type="submit" class="btn btn-primary">Buscar</button>
+				<a class="btn btn-default" href="{{action('ReporteController@getReporteDeMorosidad')}}">RESET</a>
 				{!! Form::close() !!}
 			</div>
 		</div>
@@ -91,11 +91,17 @@
 															@endforeach
 														@endif
 													@endforeach
-													<td class="text-right" align="right">
-														<strong>
-															0,00
-														</strong>
-													</td>
+													@foreach($totalClientes as $m => $c)
+														@if($m == $modulo)
+															@foreach($c as $nombre => $monto)
+																@if($nombre == $cliente_id)
+																	<td class="text-right" align="right">
+																		{{ $traductor->format($monto["total"]) }}
+																	</td>
+																@endif
+															@endforeach
+														@endif
+													@endforeach
 												</tr>
 											@endforeach
 										<tr class="bg-gray">
@@ -154,34 +160,6 @@
 
 		$('.totalTotal').text(numToComma(totalTotal));
 
-		$.each($('th[expandible]'), function(index,value){
-			if(($(this).text().trim())=='DOSAS'){
-				var moduloNombre=$(this).text().trim();
-				var thfecha=$('#fecha-col');
-				if(!$(this).hasClass('activo')){
-					$(this).attr('rowspan',1);
-					$(this).addClass('activo');
-					col=$(this).attr('colspan', $(this).data('colspan'));
-					$(thfecha).attr('rowspan', 2);
-					$('td[main][data-parent="'+moduloNombre+'"]').hide();
-					$('td[details][data-parent="'+moduloNombre+'"]').show();
-					$('th[details][data-parent="'+moduloNombre+'"]').show();
-					$('th[expandible]:not(".activo")').attr('rowspan',2)
-
-				}else{
-					$(this).removeClass('activo');
-					$(this).attr('colspan', 1);
-					$('td[details][data-parent="'+moduloNombre+'"]').hide();
-					$('th[details][data-parent="'+moduloNombre+'"]').hide();
-					$('td[main][data-parent="'+moduloNombre+'"]').show();
-					if($('th[expandible].activo').length==0){
-						$(thfecha).attr('rowspan', 1);
-						$('th[expandible]').attr('rowspan',1)
-					}
-				}
-			}
-		})
-
 
 
 		$('#export-btn').click(function(e){
@@ -193,12 +171,12 @@
 				return $(this).find('td,th').length == 0;
 			}).remove();
 			$(table).prepend('<thead>\
-				<tr>\
-					<th colspan="14" style="vertical-align: middle; margin-top:20px" align="center" class="text-center">REPORTE DE MOROSIDAD\
-					</br>\
-				</th>\
-			</tr>\
-		</thead>')
+									<tr>\
+										<th colspan="14" style="vertical-align: middle; margin-top:20px" align="center" class="text-center">REPORTE DE MOROSIDAD\
+										</br>\
+									</th>\
+								</tr>\
+							</thead>')
 			$(table).find('thead, th').css({'border-top':'1px solid black', 'font-weight': 'bold', 'text-align':"center", 'font-size': '7px'})
 			$(table).find('th').css({'border-bottom':'1px solid black', 'font-weight': 'bold', 'text-align':"center", 'font-size': '7px'})
 			$(table).find('td').css({'font-size': '6px'})

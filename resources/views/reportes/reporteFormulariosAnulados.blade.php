@@ -158,7 +158,7 @@
 								<tr>\
 									<th colspan="2" style="vertical-align: middle; margin-top:20px" align="center" class="text-center">RELACIÓN DE FORMULARIOS ANULADOS\
 										</br>\
-										MES: {{$mesLetras}} AÑO: {{$anno}}\
+										MES: {{$mes}} AÑO: {{$anno}}\
 									</th>\
 								</tr>\
 							</thead>')

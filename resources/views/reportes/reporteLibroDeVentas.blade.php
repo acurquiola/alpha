@@ -101,12 +101,21 @@
 												<td   style="vertical-align: middle; width: 40px" class="text-center carga-bs" align="right"> </td>
 												<td   style="vertical-align: middle; width: 40px" class="text-center" align="right">01-reg</td>
 												<td   style="vertical-align: middle; width: 40px" class="text-right jetway-bs" align="right"> </td>
-												<td   style="vertical-align: middle; width: 40px" class="text-right montoFacturado-bs" align="right">{{$traductor->format($factura->total)}}</td>
-												<td   style="vertical-align: middle; width: 40px" class="text-right montoDepositado-bs" align="right">{{($factura->base == $factura->monto)?$traductor->format($factura->monto):''}}</td>
-												<td   style="vertical-align: middle; width: 40px" class="text-right montoDepositado-bs" align="right">{{($factura->base == $factura->monto)?'':$traductor->format($factura->base)}}</td>
-												<td   style="vertical-align: middle; width: 40px" class="text-right montoDepositado-bs" align="right">{{($factura->base == $factura->monto)?'':$traductor->format($factura->ivaDes)}} </td>
-												<td   style="vertical-align: middle; width: 40px" class="text-right montoDepositado-bs" align="right">{{($factura->base == $factura->monto)?'':$traductor->format($factura->ivapercentage)}}</td>
-												<td   style="vertical-align: middle; width: 40px" class="text-right montoDepositado-bs" align="right">{{($factura->base == $factura->monto)?'':$traductor->format((($factura->total-$factura->base)*$factura->ivapercentage)/100)}}</td>
+												@if($factura->deleted_at == null)
+													<td   style="vertical-align: middle; width: 40px" class="text-right montoFacturado-bs" align="right">{{$traductor->format($factura->total)}}</td>
+													<td   style="vertical-align: middle; width: 40px" class="text-right montoDepositado-bs" align="right">{{($factura->base == $factura->monto)?$traductor->format($factura->monto):''}}</td>
+													<td   style="vertical-align: middle; width: 40px" class="text-right montoDepositado-bs" align="right">{{($factura->base == $factura->monto)?'':$traductor->format($factura->base)}}</td>
+													<td   style="vertical-align: middle; width: 40px" class="text-right montoDepositado-bs" align="right">{{($factura->base == $factura->monto)?'':$traductor->format($factura->ivaDes)}} </td>
+													<td   style="vertical-align: middle; width: 40px" class="text-right montoDepositado-bs" align="right">{{($factura->base == $factura->monto)?'':$traductor->format($factura->ivapercentage)}}</td>
+													<td   style="vertical-align: middle; width: 40px" class="text-right montoDepositado-bs" align="right">{{($factura->base == $factura->monto)?'':$traductor->format((($factura->total-$factura->base)*$factura->ivapercentage)/100)}}</td>
+												@else
+													<td   style="vertical-align: middle; width: 40px" class="text-right montoFacturado-bs" align="right">0,00</td>
+													<td   style="vertical-align: middle; width: 40px" class="text-right montoDepositado-bs" align="right">{{($factura->base == $factura->monto)?'0,00':''}}</td>
+													<td   style="vertical-align: middle; width: 40px" class="text-right montoDepositado-bs" align="right">{{($factura->base == $factura->monto)?'':'0,00'}}</td>
+													<td   style="vertical-align: middle; width: 40px" class="text-right montoDepositado-bs" align="right">{{($factura->base == $factura->monto)?'':'0,00'}}</td>
+													<td   style="vertical-align: middle; width: 40px" class="text-right montoDepositado-bs" align="right">{{($factura->base == $factura->monto)?'':'0,00'}}</td>
+													<td   style="vertical-align: middle; width: 40px" class="text-right montoDepositado-bs" align="right">{{($factura->base == $factura->monto)?'':'0,00'}}</td>
+												@endif
 											</tr>
 										@endforeach
 									@else
