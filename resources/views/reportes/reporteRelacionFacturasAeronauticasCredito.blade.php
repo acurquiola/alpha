@@ -106,27 +106,27 @@
                                     </tr>
                                 <tbody>
                                     @foreach($dosaFactura as $index => $df)
-                                    <tr align="center">
-                                        <td class="text-left" align="left" colspan="2">{{$df['cliente']}}</td> 
+                                        <tr align="center">
+                                            <td class="text-left" align="left" colspan="2">{{$df['cliente']}}</td> 
 
-                                        <td class="text-center" align="center">{{$df['nCobro']}}</td>                         
-                                        <td class="text-center" align="center">{{$df['reciboCaja']}}</td>                         
-                                        <td class="text-center" align="center">{{$df['fecha']}}</td>  
+                                            <td class="text-center" align="center">{{$df['nCobro']}}</td>                         
+                                            <td class="text-center" align="center">{{$df['reciboCaja']}}</td>                         
+                                            <td class="text-center" align="center">{{$df['fecha']}}</td>  
 
-                                        <td class="text-center" align="center">{{$index}}</td>                               
-                                        <td class="text-right formularioBs" align="right">{{$traductor->format($df['formularioBs'])}}</td>                               
-                                        <td class="text-right aterrizajeBs" align="right">{{$traductor->format($df['aterrizajeBs'])}}</td>                               
-                                        <td class="text-right estacionamientoBs" align="right">{{$traductor->format($df['estacionamientoBs'])}}</td>                               
-                                        <td class="text-right habilitacionBs" align="right">{{$traductor->format($df['habilitacionBs'])}}</td>                               
-                                        <td class="text-right jetwayBs" align="right">{{$traductor->format($df['jetwayBs'])}}</td>                               
-                                        <td class="text-right cargaBs" align="right">{{$traductor->format($df['cargaBs'])}}</td>                               
-                                        <td class="text-right otrosCargosBs" align="right">{{$traductor->format($df['otrosCargosBs'])}}</td>                               
-                                        <td class="text-right totalDosa" align="right">{{$traductor->format($df['totalDosa'])}}</td> 
+                                            <td class="text-center" align="center">{{$index}}</td>                               
+                                            <td class="text-right formularioBs" align="right">{{$traductor->format($df['formularioBs'])}}</td>                               
+                                            <td class="text-right aterrizajeBs" align="right">{{$traductor->format($df['aterrizajeBs'])}}</td>                               
+                                            <td class="text-right estacionamientoBs" align="right">{{$traductor->format($df['estacionamientoBs'])}}</td>                               
+                                            <td class="text-right habilitacionBs" align="right">{{$traductor->format($df['habilitacionBs'])}}</td>                               
+                                            <td class="text-right jetwayBs" align="right">{{$traductor->format($df['jetwayBs'])}}</td>                               
+                                            <td class="text-right cargaBs" align="right">{{$traductor->format($df['cargaBs'])}}</td>                               
+                                            <td class="text-right otrosCargosBs" align="right">{{$traductor->format($df['otrosCargosBs'])}}</td>                               
+                                            <td class="text-right totalDosa" align="right">{{$traductor->format($df['totalDosa'])}}</td> 
 
-                                        <td>{{$df['refBancaria']}}</td>   
-                                        <td>{{$df['fechaDeposito']}}</td>                               
-                                        <td class="text-right totalDepositado" align="right">{{$traductor->format($df['totalDepositado'])}}</td>                               
-                                    </tr>                                    
+                                            <td>{{$df['refBancaria']}}</td>   
+                                            <td>{{$df['fechaDeposito']}}</td>                               
+                                            <td class="text-right totalDepositado" align="right">{{$traductor->format($df['totalDepositado'])}}</td>                               
+                                        </tr>                                    
                                     @endforeach
                                     <tr class="bg-gray" align="center">
                                         <td colspan="2">Total</td>

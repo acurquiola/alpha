@@ -180,7 +180,40 @@
 											<td align="right" class="text-right" id="montoDepositadoTotal" style="font-weight: bold;" align="right">0</td>
 											<td align="right" class="text-right" id="montoDiferenciaTotal" style="font-weight: bold;" align="right">0</td>
 										</tr>
-								@endif
+									@endif
+									@if($tasasVendidas->count()>0)
+										<tr class="bg-primary" >
+											<th class="text-center" colspan="14" >
+												TASAS VENDIDAS
+											</th>
+										</tr>
+											<tr class="bg-primary" >
+												<th colspan="2" class="text-center">Fecha</th>
+												<th colspan="2" class="text-center">Serie</th>
+												<th colspan="2" class="text-center">Inicio</th>
+												<th colspan="2" class="text-center">Fin</th>
+												<th colspan="2" class="text-center">Cantidad</th>
+												<th colspan="2" class="text-center">Monto</th>
+												<th colspan="2" class="text-center">Total</th>
+											</tr>
+										<tbody>
+											@foreach($tasasVendidas as $tasas)
+											<tr title="{{$tasas->fecha}}" align="center">
+												<td colspan="2" class="text-center" align="center">{{$tasas->fecha}}</td>
+												<td colspan="2" class="text-center" align="center">{{($tasas->serie)?$tasas->serie:'-'}}</td>
+												<td colspan="2" class="text-center" align="center">{{($tasas->inicio)?$tasas->inicio:'-'}}</td>
+												<td colspan="2" class="text-center" align="center">{{($tasas->fin)?$tasas->fin:'-'}}</td>
+												<td colspan="2" class="text-center" align="center">{{ ($tasas->cantidad)?$tasas->cantidad:'0' }}</td>
+												<td colspan="2" class="text-right" align="right">{{($tasas->costo)?$traductor->format($tasas->costo):'0'}}</td>
+												<td colspan="2" class="text-right" align="right" >{{($tasas->total)?$traductor->format($tasas->total):'0'}}</td>
+											</tr>
+											@endforeach
+					                        <tr class="bg-gray" align="center">
+					                        	<td colspan="13" align="right" class="text-right"><strong>TOTAL TASAS</strong></td>
+					                        	<td align="right"><strong>{{$traductor->format($totalTasas)}}</strong></td>			                        
+					                        </tr>
+										</tbody>
+									@endif
 								</tbody>
 							</table>
 						</div>
