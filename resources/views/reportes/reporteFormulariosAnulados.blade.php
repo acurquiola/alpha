@@ -18,15 +18,15 @@
 			<div class="box-body">
 				{!! Form::open(["url" => action('ReporteController@getFormulariosAnulados'), "method" => "GET", "class"=>"form-inline"]) !!}
 				<div class="form-group" style="margin-left: 20px">
-					<label>Mes:</label>
+					<label><strong>MES: </strong></label>
 					{!! Form::select('mes', $meses, $mes, ["class"=> "form-control"]) !!}
 				</div>
 				<div class="form-group" style="margin-left: 20px">
-					<label>Año:</label>
+					<label><strong>AÑO: </strong></label>
 					{!! Form::select('anno', $annos, $anno, ["class"=> "form-control"]) !!}
 				</div>
 				<div class="form-group">
-					<label style="width:80px">Aeropuerto:</label>
+					<label style="width:80px"><strong>AEROPUERTO: </strong></label>
 					{!! Form::select('aeropuerto', $aeropuertos, $aeropuerto, ["class"=> "form-control"]) !!}
 				</div>
 				<a class="btn btn-default  pull-right" href="{{action('ReporteController@getFormulariosAnulados')}}">Reset</a>
@@ -56,48 +56,72 @@
 						<div class="table-responsive" style="max-height: 500px">
 							<table class="table table-condensed">
 								<tr  class="bg-primary" >
-									<td style="vertical-align: middle;"  colspan="2" align="center" class="text-center">
+									<td style="vertical-align: middle;"  colspan="5" align="center" class="text-center">
 										<strong>FACTURAS ANULADAS</strong>
 									</td>
 								</tr>
 								<tr class="bg-primary">
 									<td style="vertical-align: middle; " align="center" class="text-center">
-										Fecha
+										<strong>NRO.</strong>
 									</td>
 									<td style="vertical-align: middle; " align="center" class="text-center">
-										Nro de Factura
+										<strong>FECHA DE ANULACIÓN</strong>
+									</td>
+									<td style="vertical-align: middle; " align="center" class="text-center">
+										<strong>FECHA DE FACTURACIÓN</strong>
+									</td>
+									<td style="vertical-align: middle; " align="center" class="text-center">
+										<strong>NRO DE FACTURA</strong>
+									</td>
+									<td style="vertical-align: middle; " align="center" class="text-center">
+										<strong>NRO DE CONTROL</strong>
 									</td>
 								</tr>
 								@if($facturasAnuladas->count()>0)
-									@foreach($facturasAnuladas as $factura)
+									@foreach($facturasAnuladas as $index => $factura)
 										<tr >
-											<td style="vertical-align: middle;" align="center">{{$factura->created_at}}</td>
+											<td style="vertical-align: middle;" align="center">{{$index+1}}</td>
+											<td style="vertical-align: middle;" align="center">{{$factura->deleted_at}}</td>
+											<td style="vertical-align: middle;" align="center">{{$factura->fecha}}</td>
 											<td align="center" ">{{$factura->nFactura}}</td>
+											<td align="center" ">{{$factura->nControl}}</td>
 										</tr>
 									@endforeach 
 								@else
 									<tr>
-										<td colspan="2" class="text-center" align="center">No hay registros para las fechas seleccionadas</td>
+										<td colspan="4" class="text-center" align="center">No hay registros para las fechas seleccionadas</td>
 									</tr>
 								@endif
 								<tr  class="bg-primary" >
-									<td style="vertical-align: middle;" colspan="2" align="center" class="text-center">
-										<strong>FORMULARIOS ANULADOS</strong>
+									<td style="vertical-align: middle;" colspan="5" align="center" class="text-center">
+										<strong>RECIBOS ANULADOS</strong>
 									</td>
 								</tr>
 								<tr class="bg-primary">
-									<td style="vertical-align: middle; " align="center" class="text-center">
-										Fecha
+									<td style="vertical-align: middle;"  align="center" class="text-center">
+										<strong>NRO.</strong>
+									</td>
+									<td style="vertical-align: middle;"  align="center" class="text-center">
+										<strong>FECHA DE ANULACIÓN</strong>
+									</td>
+									<td style="vertical-align: middle;"  align="center" class="text-center">
+										<strong>FECHA DE COBRO</strong>
 									</td>
 									<td style="vertical-align: middle; " align="center" class="text-center">
-										Nro de Recibo
+										<strong>NRO DE RECIBO</strong>
+									</td>
+									<td style="vertical-align: middle; " align="center" class="text-center">
+										<strong>NRO COBRO</strong>
 									</td>
 								</tr>
 								@if($recibosAnulados->count()>0)
-									@foreach($recibosAnulados as $recibo)
+									@foreach($recibosAnulados as $index => $recibo)
 									<tr>
-										<td style="vertical-align: middle; " align="center">{{$recibo->created_at}}</td>
-										<td align="center" ">{{$recibo->nroRecibo}}</td>
+										<td style="vertical-align: middle;" align="center">{{$index+1}}</td>
+										<td style="vertical-align: middle; " align="center">{{$recibo->fecha}}</td>
+										<td style="vertical-align: middle; " align="center">{{$recibo->cobro->fecha}}</td>
+										<td align="center" >{{$recibo->nroRecibo}}</td>
+										<td align="center" >{{$recibo->cobro_id}}</td>
 									</tr>
 									@endforeach 
 								@else
@@ -156,7 +180,7 @@
 			}).remove();
 			$(table).prepend('<thead>\
 								<tr>\
-									<th colspan="2" style="vertical-align: middle; margin-top:20px" align="center" class="text-center">RELACIÓN DE FORMULARIOS ANULADOS\
+									<th colspan="5" style="vertical-align: middle; margin-top:20px" align="center" class="text-center">RELACIÓN DE FORMULARIOS ANULADOS\
 										</br>\
 										MES: {{$mes}} AÑO: {{$anno}}\
 									</th>\
