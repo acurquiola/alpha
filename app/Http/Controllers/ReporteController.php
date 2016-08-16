@@ -943,15 +943,16 @@ class ReporteController extends Controller {
         $primerDiaMes =\Carbon\Carbon::create($anno, $mes,1)->startOfMonth();
         $ultimoDiaMes =\Carbon\Carbon::create($anno, $mes,1)->endOfMonth();
         $aeropuerto   =$request->get('aeropuerto', session('aeropuerto')->id);
-        $recibosAnulados = \App\RecibosAnulado::where('fecha', '<=', $primerDiaMes)
-                                                ->where('fecha', '=>', $ultimoDiaMes)
+        $recibosAnulados = \App\RecibosAnulado::where('fecha', '>=', $primerDiaMes)
+                                                ->where('fecha', '<=', $ultimoDiaMes)
                                                 ->where('aeropuerto_id', $aeropuerto)
                                                 ->get();
         $facturasAnuladas = \App\Factura::onlyTrashed()
-                                        ->where('fecha', '<=', $primerDiaMes)
-                                        ->where('fecha', '=>', $ultimoDiaMes)
+                                        ->where('fecha', '>=', $primerDiaMes)
+                                        ->where('fecha', '<=', $ultimoDiaMes)
                                         ->where('aeropuerto_id', $aeropuerto)
                                         ->get();
+
 
 
 

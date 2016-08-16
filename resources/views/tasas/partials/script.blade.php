@@ -36,12 +36,30 @@ function calcularTableOperadorTotal($table){
 
 $(function(){
 
-    $('#dia-datepicker').datepicker();
+    $('#dia-datepicker').datepicker({
+        closeText: 'Cerrar',
+        prevText: '&#x3C;Ant',
+        nextText: 'Sig&#x3E;',
+        currentText: 'Hoy',
+        monthNames: ['Enero','Febrero','Marzo','Abril','Mayo','Junio',
+        'Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'],
+        monthNamesShort: ['Ene','Feb','Mar','Abr','May','Jun',
+        'Jul','Ago','Sep','Oct','Nov','Dic'],
+        dayNames: ['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'],
+        dayNamesShort: ['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'],
+        dayNamesMin: ['D','L','M','M','J','V','S'],
+        weekHeader: 'Sm',
+        firstDay: 1,
+        isRTL: false,
+        showMonthAfterYear: false,
+        yearSuffix: '',
+        dateFormat: 'yy-mm-dd'});
 
     $('#date-select-panel-btn').click(function(e){
         e.preventDefault();
         var $wrapper=$('#consultas_wrapper');
         var dia=$('#dia-datepicker').val();
+        console.log(dia);
         var taquilla=$('#taquilla-input').val();
         var turno=$('#turno-input').val();
         var $btn= $(this);

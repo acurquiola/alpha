@@ -34,13 +34,14 @@
                                 <div class="col-xs-8  text-center">
                                     <div class="input-group">
                                     <span class="pull-left"><strong>FECHA:</strong></span>
-                                        <input type="text" id="dia-datepicker" value="{{$today}}"" class="form-control" placeholder="Seleccione un día." autocomplete="off">
+                                        <input type="text" id="dia-datepicker" class="form-control" placeholder="Seleccione un día." autocomplete="off">
                                         <div class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+
                     <div class="col-md-2">
                         <button class="btn btn-primary pull-right" id="date-select-panel-btn" data-url="{{action('TasaController@getOperacion')}}"><span class="hidden-sm">Aceptar</span> <span class="glyphicon glyphicon-share-alt"></span></button>
                     </div>

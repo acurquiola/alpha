@@ -13,7 +13,7 @@ class Factura extends Model {
 
     protected $guarded = array();
 
-    protected $dates = ['fecha', 'fechaVencimiento'];
+    protected $dates = ['fecha', 'fechaVencimiento', 'deleted_at'];
 
     public static function getMaxWith($prefixColumn, $column, $searchPrefix){
         $aeropuertoSigla=session('aeropuerto')->siglas;

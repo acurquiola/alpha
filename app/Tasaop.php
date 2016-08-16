@@ -3,6 +3,7 @@
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\DateConverterTrait;
 
+
 class Tasaop extends Model {
 
     use DateConverterTrait;
@@ -18,11 +19,7 @@ class Tasaop extends Model {
     {
         return $this->belongsTo('App\TasaCobro', 'tasa_cobro_id');
     }
-
-    public function setFechaAttribute($fecha)
-    {
-        $this->setFecha($fecha,'fecha');
-    }
+    
     public function getFechaAttribute($fecha)
     {
         return $this->getFecha($fecha);
