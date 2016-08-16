@@ -590,7 +590,6 @@ class ReporteController extends Controller {
                 $cobrosPZO=\App\Cobro::where('cobros.fecha','>=' ,$diaMes->startOfMonth()->toDateTimeString())
                 ->where('cobros.fecha','<=' ,$diaMes->endOfMonth()->toDateTimeString())
                 ->where('cobros.aeropuerto_id','1')
-                ->where('cobros.id', '43')
                 ->get(); 
 
                 $cobrosCBL=\App\Cobro::where('cobros.fecha','>=' ,$diaMes->startOfMonth()->toDateTimeString())
