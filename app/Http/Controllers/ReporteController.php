@@ -721,6 +721,7 @@ class ReporteController extends Controller {
             }       
         }
 
+
         return view('reportes.reporteReporteDeMorosidad', compact('anno', 'aeropuerto', 'clientesMod','totalClientes','ModTotales','totalMes', 'facturasPendientesModulo', 'meses', 'modulos', 'totales', 'totalesCliente', 'clienteFacturaMes'));
     }
 

@@ -13,10 +13,6 @@ class RecibosAnulado extends Model {
         return $this->belongsTo('App\Cobro');
     }
 
-    public function setFechaAttribute($fecha)
-    {
-        $this->setFecha($fecha,'fecha');
-    }
     public function getFechaAttribute($fecha)
     {
         return $this->getFecha($fecha);

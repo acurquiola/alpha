@@ -17,15 +17,15 @@
 			<div class="box-body text-right">
 				{!! Form::open(["url" => action('ReporteController@getReporteMensual'), "method" => "GET", "class"=>"form-inline"]) !!}
 				<div class="form-group">
-					<label>Seleccione un aeropuerto:</label>
+					<label><strong>AEROPUERTO: </strong></label>
 					{!! Form::select('aeropuerto', $aeropuertos, $aeropuerto, ["class"=> "form-control"]) !!}
 				</div>
 				<div class="form-group">
-					<label>Seleccione un mes:</label>
+					<label><strong>MES: </strong></label>
 					{!! Form::select('mes', $meses, $mes, ["class"=> "form-control"]) !!}
 				</div>
 				<div class="form-group">
-					<label>Seleccione un año:</label>
+					<label><strong>AÑO: </strong></label>
 					{!! Form::select('anno', $annos, $anno, ["class"=> "form-control"]) !!}
 				</div>
 				<button type="submit" class="btn btn-default">Buscar</button>

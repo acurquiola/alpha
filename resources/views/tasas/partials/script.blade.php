@@ -11,7 +11,7 @@ function calcularMonto(e,increment){
     cantidad=(isNaN(cantidad)?0:cantidad);
     cantidad+=increment;
     if(cantidad<0) cantidad=0;
-    $(montoInput).text(numToComma(parseFloat($(bsInput).text())*cantidad));
+    $(montoInput).text(numToComma(commaToNum($(bsInput).text())*cantidad));
     $(cantidadInput).val(cantidad);
     $(hastaInput).val(parseInt($(desdeInput).val())+cantidad-1);
 
@@ -59,7 +59,6 @@ $(function(){
         e.preventDefault();
         var $wrapper=$('#consultas_wrapper');
         var dia=$('#dia-datepicker').val();
-        console.log(dia);
         var taquilla=$('#taquilla-input').val();
         var turno=$('#turno-input').val();
         var $btn= $(this);

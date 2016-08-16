@@ -18,11 +18,11 @@
 			<div class="box-body text-right">
 				{!! Form::open(["url" => action('ReporteController@getListadoClientes'), "method" => "GET", "class"=>"form-inline"]) !!}
 				<div class="form-group">
-					<label>Tipo de Cliente: </label>
+					<label><strong>TIPO DE CLIENTE:</strong> </label>
                     {!! Form::select('tipo',["TODOS"=>"TODOS", "Aeronáutico"=>"Aeronáutico","No Aeronáutico"=>"No Aeronáutico","Mixto"=>"Mixto"], $tipo, [ 'class'=>"form-control"]) !!}
 				</div>
-				<button type="submit" class="btn btn-default">Buscar</button>
-				<a class="btn btn-default" href="{{action('ReporteController@getListadoClientes')}}">Reset</a>
+				<button type="submit" class="btn btn-primary">BUSCAR</button>
+				<a class="btn btn-default" href="{{action('ReporteController@getListadoClientes')}}">RESET</a>
 				{!! Form::close() !!}
 			</div>
 		</div>

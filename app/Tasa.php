@@ -9,12 +9,5 @@ class Tasa extends Model {
 
     protected $guarded = [];
 
-    public function setFechaAttribute($fecha)
-    {
-        $this->setFecha($fecha,'fecha');
-    }
-    public function getFechaAttribute($fecha)
-    {
-        return $this->getFecha($fecha);
-    }
+
 }

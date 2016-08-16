@@ -20,8 +20,8 @@ class Tasaop extends Model {
         return $this->belongsTo('App\TasaCobro', 'tasa_cobro_id');
     }
     
-    public function getFechaAttribute($fecha)
+  /*  public function getFechaAttribute($fecha)
     {
         return $this->getFecha($fecha);
-    }
+    }*/
 }

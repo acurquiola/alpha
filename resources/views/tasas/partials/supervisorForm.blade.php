@@ -160,12 +160,12 @@
     @if(!$tasaCobro)
         @foreach ($tasaOps as $tasa)
             @include('tasas.partials.taquillaForm', [
-                'tasaOp' => $tasa,
-                'fecha' => \Carbon\Carbon::createFromFormat('Y-m-d', $tasa->fecha)->format('d/m/Y'),
-                'taquilla' => $tasa->taquilla,
-                'turno' => $tasa->turno,
-                'tasas' => $tasas,
-                'aeropuerto' => $aeropuerto,
+                'tasaOp'       => $tasa,
+                'fecha'        => \Carbon\Carbon::createFromFormat('Y-m-d', $tasa->fecha)->format('d/m/Y'),
+                'taquilla'     => $tasa->taquilla,
+                'turno'        => $tasa->turno,
+                'tasas'        => $tasas,
+                'aeropuerto'   => $aeropuerto,
                 'isSupervisor' => true
             ])
         @endforeach
