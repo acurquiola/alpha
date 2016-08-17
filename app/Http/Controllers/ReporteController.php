@@ -1595,7 +1595,13 @@ class ReporteController extends Controller {
                     break;
             }
 
-            $view->with( compact('facturas', 'aeropuerto','cliente', 'cliente_id', 'modulo', 'desde', 'hasta', 'nFactura', 'rif', 'nombre', 'estatus', 'estatusNombre', 'total', 'subtotal', 'islr', 'iva', 'moduloNombre', 'aeropuertoNombre', 'clienteNombre'));
+            if($modulo!=0){
+                $listadoModulo = \App\Modulo::find($modulo);
+            }else{
+                $listadoModulo = \App\Modulo::where('aeropuerto_id', $aeropuerto)->get();
+            }
+
+            $view->with( compact('facturas', 'aeropuerto','cliente', 'cliente_id', 'modulo', 'desde', 'hasta', 'nFactura', 'rif', 'nombre', 'estatus', 'estatusNombre', 'total', 'subtotal', 'islr', 'iva', 'moduloNombre', 'aeropuertoNombre', 'clienteNombre', 'listadoModulo'));
 
 
         }
