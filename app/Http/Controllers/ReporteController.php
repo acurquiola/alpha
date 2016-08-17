@@ -1452,16 +1452,34 @@ class ReporteController extends Controller {
         $aeropuerto =session('aeropuerto')->id;
 
         $facturas = \App\Factura::withTrashed()
-        						->with('cobros', 'detalles')
+                                ->with('cobros', 'detalles')
                                 ->whereBetween('fecha', array($annoDesde.'-'.$mesDesde.'-'.$diaDesde,  $annoHasta.'-'.$mesHasta.'-'.$diaHasta) )
                                 ->where('aeropuerto_id', $aeropuerto)
                                 ->groupBy('nFactura')
-                                ->orderBy('nFactura')
+                                ->orderBy('fecha')
+                                ->get();
+
+        $facturasAnteriores = \App\Factura::where('fecha', '<',  $annoDesde.'-'.$mesDesde.'-'.$diaDesde)
+                                            ->where('estado', 'C')
+                                            ->where('aeropuerto_id', $aeropuerto)
+                                            ->orderBy('facturas.fecha')
+                                            ->lists('facturas.id');
+
+        $cobrosFacturasAnteriores = \App\Cobro::select('cobros.id as cobroID')
+                                                ->join('cobro_factura', 'cobros.id', '=', 'cobro_factura.cobro_id')
+                                                ->whereBetween('cobros.fecha', array($annoDesde.'-'.$mesDesde.'-'.$diaDesde,  $annoHasta.'-'.$mesHasta.'-'.$diaHasta) )
+                                                ->whereIn('cobro_factura.factura_id', $facturasAnteriores)
+                                                ->lists('cobroID');
+
+        $facturasCobradas = \App\Factura::join('cobro_factura', 'facturas.id', '=', 'cobro_factura.factura_id')
+                                ->whereIn('cobro_factura.cobro_id', $cobrosFacturasAnteriores)
+                                ->groupBy('facturas.nFactura')
+                                ->orderBy('facturas.fecha', 'ASC')
                                 ->get();
 
 
 
-        return view('reportes.reporteLibroDeVentas', compact('diaDesde', 'mesDesde', 'annoDesde', 'diaHasta', 'mesHasta', 'annoHasta', 'aeropuerto', 'facturas'));
+        return view('reportes.reporteLibroDeVentas', compact('diaDesde', 'mesDesde', 'annoDesde', 'diaHasta', 'mesHasta', 'annoHasta', 'aeropuerto', 'facturas', 'facturasCobradas'));
     }
 
 

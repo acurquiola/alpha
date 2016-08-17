@@ -87,10 +87,31 @@
 										<th class="text-center" style="width: 40px">IVA Retenido por Comprador</th>
 									</tr>
 								<tbody>
-									@if($facturas->count()>0)
-										@foreach($facturas as $index => $factura)
+									@if($facturas->count()>0 || $facturasCobradas->count()>0)
+										@foreach($facturasCobradas as $index => $facturaCobrada)
 											<tr>
 												<td   style="vertical-align: middle; width: 20px" class="text-center" align="center">{{$index+1}}</td>
+												<td   style="vertical-align: middle; width: 50px" class="text-center" align="center">{{$facturaCobrada->fecha}}</td>
+												<td   style="vertical-align: middle; width: 50px" class="text-center formulario-bs" align="left">{{$facturaCobrada->cliente->cedRifPrefix}}-{{$facturaCobrada->cliente->cedRif}}</td>
+												<td   style="vertical-align: middle; width: 160px" class="text-left aterrizaje-bs" align="left">{{$facturaCobrada->cliente->nombre}}</td>
+												<td   style="vertical-align: middle; width: 50px" class="text-center aterrizaje-bs" align="left">{{($facturaCobrada->retencionComprobante == 0)?'':$facturaCobrada->retencionComprobante}}</td>
+												<td   style="vertical-align: middle; width: 40px" class="text-center estacionamiento-bs" align="right">{{$facturaCobrada->nFacturaPrefix}}-{{$facturaCobrada->nFactura}}</td>
+												<td   style="vertical-align: middle; width: 40px" class="text-center habilitacion-bs" align="right">{{$facturaCobrada->nControl}}</td>
+												<td   style="vertical-align: middle; width: 40px" class="text-center jetway-bs" align="right"> </td>
+												<td   style="vertical-align: middle; width: 40px" class="text-center carga-bs" align="right"> </td>
+												<td   style="vertical-align: middle; width: 40px" class="text-center" align="right">{{ ($facturaCobrada->deleted_at == null)?'01-reg':'03-anu' }}</td>
+												<td   style="vertical-align: middle; width: 40px" class="text-right jetway-bs" align="right"> </td>
+												<td   style="vertical-align: middle; width: 40px" class="text-right montoFacturado-bs" align="right">{{$traductor->format($facturaCobrada->total)}}</td>
+												<td   style="vertical-align: middle; width: 40px" class="text-right montoDepositado-bs" align="right">{{($facturaCobrada->base == $facturaCobrada->monto)?$traductor->format($facturaCobrada->monto):''}}</td>
+												<td   style="vertical-align: middle; width: 40px" class="text-right montoDepositado-bs" align="right">{{($facturaCobrada->base == $facturaCobrada->monto)?'':$traductor->format($facturaCobrada->base)}}</td>
+												<td   style="vertical-align: middle; width: 40px" class="text-right montoDepositado-bs" align="right">{{($facturaCobrada->base == $facturaCobrada->monto)?'':$traductor->format($facturaCobrada->ivaDes)}} </td>
+												<td   style="vertical-align: middle; width: 40px" class="text-right montoDepositado-bs" align="right">{{($facturaCobrada->base == $facturaCobrada->monto)?'':$traductor->format($facturaCobrada->ivapercentage)}}</td>
+												<td   style="vertical-align: middle; width: 40px" class="text-right montoDepositado-bs" align="right">{{($facturaCobrada->base == $facturaCobrada->monto)?'':$traductor->format((($facturaCobrada->total-$facturaCobrada->base)*$facturaCobrada->ivapercentage)/100)}}</td>
+											</tr>
+										@endforeach
+										@foreach($facturas as $index => $factura)
+											<tr>
+												<td   style="vertical-align: middle; width: 20px" class="text-center" align="center">{{$index+$facturasCobradas->count()}}</td>
 												<td   style="vertical-align: middle; width: 50px" class="text-center" align="center">{{$factura->fecha}}</td>
 												<td   style="vertical-align: middle; width: 50px" class="text-center formulario-bs" align="left">{{$factura->cliente->cedRifPrefix}}-{{$factura->cliente->cedRif}}</td>
 												<td   style="vertical-align: middle; width: 160px" class="text-left aterrizaje-bs" align="left">{{$factura->cliente->nombre}}</td>
@@ -99,7 +120,7 @@
 												<td   style="vertical-align: middle; width: 40px" class="text-center habilitacion-bs" align="right">{{$factura->nControl}}</td>
 												<td   style="vertical-align: middle; width: 40px" class="text-center jetway-bs" align="right"> </td>
 												<td   style="vertical-align: middle; width: 40px" class="text-center carga-bs" align="right"> </td>
-												<td   style="vertical-align: middle; width: 40px" class="text-center" align="right">01-reg</td>
+												<td   style="vertical-align: middle; width: 40px" class="text-center" align="right">{{ ($factura->deleted_at == null)?'01-reg':'03-anu' }}</td>
 												<td   style="vertical-align: middle; width: 40px" class="text-right jetway-bs" align="right"> </td>
 												@if($factura->deleted_at == null)
 													<td   style="vertical-align: middle; width: 40px" class="text-right montoFacturado-bs" align="right">{{$traductor->format($factura->total)}}</td>
