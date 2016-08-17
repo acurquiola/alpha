@@ -86,7 +86,7 @@
 													@if($concepto=="total")
 														<td align="right" style="text-align:right; ;" main data-parent="{{$moduloNombre}}">{{$traductor->format($monto)}}</td>
 													@else
-														<td details data-parent="{{$moduloNombre}}" style="display:none;text-align:right">{{$traductor->format($monto)}}</td>
+														<td class="{{ $concepto }}" details data-parent="{{$moduloNombre}}" style="display:none;text-align:right">{{$traductor->format($monto)}}</td>
 													@endif
 												@endforeach
 											@endforeach
@@ -94,13 +94,13 @@
 									</tr>
 									@endforeach
 									<tr class="bg-gray">
-										<td>Totales</td>
+										<td><strong>TOTALES</strong></td>
 											@foreach($montosTotales as $moduloNombre => $conceptos)
 												@foreach($conceptos as $concepto => $monto)
 													@if($concepto=="total")
-														<td style="text-align:right" main data-parent="{{$moduloNombre}}">{{$traductor->format($monto)}}</td>
+														<td style="text-align:right" main data-parent="{{$moduloNombre}}"><strong>{{$traductor->format($monto)}}</strong></td>
 													@else
-														<td  details data-parent="{{$moduloNombre}}" style="display:none;text-align:right">{{$traductor->format($monto)}}</td>
+														<td id="{{ $concepto }}" details data-parent="{{$moduloNombre}}" style="display:none;text-align:right"><strong>{{$traductor->format($monto)}}</strong></td>
 													@endif
 												@endforeach
 											@endforeach
@@ -123,6 +123,31 @@
 <script>
 
 	$(document).ready(function(){
+
+		var tasasNacMod=0;
+		$('.TASAS NACIONALES MODULO').each(function(index,value){
+			tasasNacMod+=commaToNum($(value).text().trim());
+		});
+
+		var tasasIntMod=0;
+		$('.TASAS INTERNACIONALES MODULO').each(function(index,value){
+			tasasIntMod+=commaToNum($(value).text().trim());
+		});
+		var tasasNacSCV=0;
+		$('.TASAS NACIONALES SCV').each(function(index,value){
+			tasasNacSCV+=commaToNum($(value).text().trim());
+		});
+
+		var tasasIntSCV=0;
+		$('.TASAS INTERNACIONALES SCV').each(function(index,value){
+			tasasIntSCV+=commaToNum($(value).text().trim());
+		});
+
+
+		$('#TASAS NACIONALES MODULO').text(numToComma(tasasNacMod));
+		$('#TASAS INTERNACIONALES MODULO').text(numToComma(tasasIntMod));
+		$('#TASAS NACIONALES SCV').text(numToComma(tasasNacSCV));
+		$('#TASAS INTERNACIONALES SCV').text(numToComma(tasasIntSCV));
 
 
 		$.each($('th[expandible]'), function(index,value){
@@ -179,7 +204,7 @@
 			$(table).find('tr:nth-child(even)').css({'background-color': '#E2E2E2'})
 			$(table).find('tr:last td').css({'border-bottom':'1px solid black','border-top':'1px solid black', 'font-weight': 'bold'})
 			$(table).append('<tr>\
-								<td colspan="23"><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br></td>\
+								<td colspan="23"><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br></td>\
 								</tr><tr>\
 								<td colspan="12" align="center" style="font-weight: bold; border-top: 1px solid black;border-right: 1px solid black;border-left: 1px solid black;border-bottom: 1px solid black; font-size: 7px">REVISADO</td>\
 								<td colspan="11" align="center" style="font-weight: bold; border-top: 1px solid black;border-right: 1px solid black;border-left: 1px solid black;border-bottom: 1px solid black; font-size: 7px">CONFORMADO</td>\
