@@ -169,20 +169,32 @@
                                                     </tr>
                                                 @endif
                                             @endforeach
-                                            <tr class="bg-gray" align="center">
-                                                <td colspan="2">Total {{ $nombreModulo->nombre }}</td>
+                                            <tr class="bg-gray">
+                                                <td colspan="2" align="left" class="text-left"><strong>TOTAL {{ $nombreModulo->nombre }}</strong></td>
                                                 <td> - </td>
                                                 <td> -  </td>
                                                 <td> - </td>
                                                 <td> - </td>
                                                 <td> - </td>
-                                                <td style="vertical-align: middle; width:70px" align="right" id="{{ $nombreModulo->nombre }}-subtotalTotal">{{$traductor->format($subtotal)}}</td>
-                                                <td style="vertical-align: middle; width:70px" align="right" id="{{ $nombreModulo->nombre }}-ivaTotal">{{$traductor->format($subtotal)}}</td>
-                                                <td style="vertical-align: middle; width:60px" align="right" id="{{ $nombreModulo->nombre }}-totalTotal">{{$traductor->format($iva)}}</td>
-                                                <td style="vertical-align: middle; width:70px" align="right" id="{{ $nombreModulo->nombre }}-totalDeudorTotal">{{$traductor->format($total)}}</td>                                   
+                                                <td style="vertical-align: middle; width:70px; font-weight: bold" class="text-right" align="right" id="{{ $nombreModulo->nombre }}-subtotalTotal">0,00</td>
+                                                <td style="vertical-align: middle; width:60px; font-weight: bold" class="text-right" align="right" id="{{ $nombreModulo->nombre }}-ivaTotal">0,00</td>
+                                                <td style="vertical-align: middle; width:70px; font-weight: bold" class="text-right" align="right" id="{{ $nombreModulo->nombre }}-totalTotal">0,00</td>
+                                                <td style="vertical-align: middle; width:70px; font-weight: bold" class="text-right" align="right" id="{{ $nombreModulo->nombre }}-totalDeudorTotal">0,00</td>                                   
                                             </tr>
                                         @endif
-                                    @endforeach     
+                                    @endforeach    
+                                <tr class="bg-gray">
+                                    <td colspan="2" align="left" class="text-left"><strong>TOTAL {{ $nombreModulo->nombre }}</strong></td>
+                                    <td> - </td>
+                                    <td> -  </td>
+                                    <td> - </td>
+                                    <td> - </td>
+                                    <td> - </td>
+                                    <td style="vertical-align: middle; width:70px; font-weight: bold" class="text-right" align="right" id="{{ $nombreModulo->nombre_imprimible }}-subtotalTotal">{{$traductor->format($subtotal)}}</td>
+                                    <td style="vertical-align: middle; width:60px; font-weight: bold" class="text-right" align="right" id="{{ $nombreModulo->nombre }}-totalTotal">{{$traductor->format($iva)}}</td>
+                                    <td style="vertical-align: middle; width:70px; font-weight: bold" class="text-right" align="right" id="{{ $nombreModulo->nombre }}-ivaTotal">{{$traductor->format($total)}}</td>
+                                    <td style="vertical-align: middle; width:70px; font-weight: bold" class="text-right" align="right" id="{{ $nombreModulo->nombre }}-totalDeudorTotal">{{$traductor->format($total)}}</td>                                   
+                                </tr> 
                                 @else
                                     <tr>
                                         <td colspan="11" class="text-center">No hay registros para los parámetros seleccionados</td>
@@ -342,6 +354,33 @@ $(function(){
     $('#PUBLICIDAD-ivaTotal').text(numToComma(publicidadIva));
     $('#PUBLICIDAD-totalTotal').text(numToComma(publicidadTotal));
     $('#PUBLICIDAD-totalDeudorTotal').text(numToComma(publicidadTotalDeudor));
+
+    //PUBLICIDAD
+    var tarjIdent=0;
+    $('.TARJETAS DE IDENTIFICACION-subtotal').each(function(index,value){
+        tarjIdentSubtotal+=commaToNum($(value).text().trim());
+    });
+
+    var tarjIdentIva=0;
+    $('.TARJETAS DE IDENTIFICACION-iva').each(function(index,value){
+        tarjIdentIva+=commaToNum($(value).text().trim());
+    });
+
+    var tarjIdentTotal=0;
+    $('.TARJETAS DE IDENTIFICACION-total').each(function(index,value){
+        tarjIdentTotal+=commaToNum($(value).text().trim());
+    });
+
+    var tarjIdentTotalDeudor=0;
+    $('.TARJETAS DE IDENTIFICACION-totalDeudor').each(function(index,value){
+        tarjIdentTotalDeudor+=commaToNum($(value).text().trim());
+    });
+
+
+    $('#TARJETAS DE IDENTIFICACION-subtotalTotal').text(numToComma(tarjIdentSubtotal));
+    $('#TARJETAS DE IDENTIFICACION-ivaTotal').text(numToComma(tarjIdentIva));
+    $('#TARJETAS DE IDENTIFICACION-totalTotal').text(numToComma(tarjIdentTotal));
+    $('#TARJETAS DE IDENTIFICACION-totalDeudorTotal').text(numToComma(tarjIdentTotalDeudor));
 
     //OTROS INGRESOS AERONÁUTICOS
     var otrosIngAeroSubtotal=0;

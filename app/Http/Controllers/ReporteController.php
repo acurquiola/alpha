@@ -1129,6 +1129,7 @@ class ReporteController extends Controller {
 
         $totalFacturas   =$recibos->sum('montofacturas');
         $totalDepositado =$recibos->sum('montodepositado');
+
         return view('reportes.reporteRelacionCobranza', compact('mes', 'anno', 'aeropuerto', 'modulo', 'recibos', 'modulos', 'clientes', 'cliente', 'totalFacturas', 'totalDepositado', 'moduloNombre', 'clienteNombre', 'aeropuertoNombre'));
 
     }
@@ -1427,7 +1428,7 @@ class ReporteController extends Controller {
                                     ->where('tasa_cobros.cv', 1)
                                     ->where('tasaops.consolidado', 1)
                                     ->get();
- 
+
         $totalTasas            = $tasasVendidas->sum('total');
         $facturasTotal         = $facturas->sum('total');
         $facturasAnuladasTotal = $facturasAnuladas->sum('total');

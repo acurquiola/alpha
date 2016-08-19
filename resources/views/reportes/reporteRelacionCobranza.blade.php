@@ -39,12 +39,12 @@
 							<label><strong>MES: </strong></label>
 							<select name="mes" id="mes" class="form-control" >
 								<option value="0">--Seleccione un mes--</option>
-								@foreach ($meses as $index=>$mes)
-									<option value="{{$index}}">{{$mes}}</option>
+								@foreach ($meses as $index=>$m)
+									<option value="{{$index}}">{{$m}}</option>
 								@endforeach
 							</select>
 						</div>
-						<div class="form-group col-sm-2" >
+						<div class="form-group col-sm-1" >
 							<label><strong>AÑO: </strong></label>
 							{!! Form::select('anno', $annos, $anno, ["class"=> "form-control"]) !!}
 						</div>
