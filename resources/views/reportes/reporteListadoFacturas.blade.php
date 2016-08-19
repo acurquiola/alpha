@@ -184,16 +184,16 @@
                                         @endif
                                     @endforeach    
                                 <tr class="bg-gray">
-                                    <td colspan="2" align="left" class="text-left"><strong>TOTAL {{ $nombreModulo->nombre }}</strong></td>
+                                    <td colspan="2" align="left" class="text-left"><strong>TOTAL</strong></td>
                                     <td> - </td>
                                     <td> -  </td>
                                     <td> - </td>
                                     <td> - </td>
                                     <td> - </td>
-                                    <td style="vertical-align: middle; width:70px; font-weight: bold" class="text-right" align="right" id="{{ $nombreModulo->nombre_imprimible }}-subtotalTotal">{{$traductor->format($subtotal)}}</td>
-                                    <td style="vertical-align: middle; width:60px; font-weight: bold" class="text-right" align="right" id="{{ $nombreModulo->nombre }}-totalTotal">{{$traductor->format($iva)}}</td>
-                                    <td style="vertical-align: middle; width:70px; font-weight: bold" class="text-right" align="right" id="{{ $nombreModulo->nombre }}-ivaTotal">{{$traductor->format($total)}}</td>
-                                    <td style="vertical-align: middle; width:70px; font-weight: bold" class="text-right" align="right" id="{{ $nombreModulo->nombre }}-totalDeudorTotal">{{$traductor->format($total)}}</td>                                   
+                                    <td style="vertical-align: middle; width:70px; font-weight: bold" class="text-right" align="right">{{$traductor->format($subtotal)}}</td>
+                                    <td style="vertical-align: middle; width:60px; font-weight: bold" class="text-right" align="right">{{$traductor->format($iva)}}</td>
+                                    <td style="vertical-align: middle; width:70px; font-weight: bold" class="text-right" align="right">{{$traductor->format($total)}}</td>
+                                    <td style="vertical-align: middle; width:70px; font-weight: bold" class="text-right" align="right">{{$traductor->format($total)}}</td>                                   
                                 </tr> 
                                 @else
                                     <tr>
