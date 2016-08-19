@@ -1,4 +1,4 @@
-<table style="width:100%; border-collapse: collapse; padding:2px">
+<table  style="width:100%; border-collapse: collapse; padding:2px; font-size: 8px">
 <tr>
 <td  colspan="7">
 </td>
@@ -9,7 +9,7 @@
 <td  colspan="8">
 </td>
 <td  colspan="2">
-{{$cobro->fecha}}
+<strong>FECHA: </strong> {{$cobro->fecha}}
 </td>
 </tr>
 <tr>
@@ -33,6 +33,9 @@
 <tr>
 <td  colspan="7">
 <strong>NRO. COBRO:</strong> {{$cobro->id}}
+</td>
+<td  colspan="3" class="pull-right">
+<strong>MONTO:</strong> {{$traductor->format($cobro->montodepositado)}}
 </td>
 </tr>
 <tr>

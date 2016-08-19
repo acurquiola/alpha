@@ -1016,12 +1016,11 @@ class ReporteController extends Controller {
                              ->orderBy('nFactura', 'ASC')
                              ->get();
 
-
-
         $tasasVendidas = \App\Tasaop::join('tasa_cobros', 'tasa_cobros.id', '=', 'tasaops.tasa_cobro_id')
                                     ->join('tasa_cobro_detalles', 'tasa_cobro_detalles.tasa_cobro_id', '=', 'tasa_cobros.id')
                                     ->join('tasaopdetalles', 'tasaopdetalles.tasaop_id', '=', 'tasaops.id')
-                                    ->whereBetween('tasaops.fecha', array($annoDesde.'-'.$mesDesde.'-'.$diaDesde,  $annoHasta.'-'.$mesHasta.'-'.$diaHasta) )
+                                    ->join('tasas', 'tasas.nombre', '=', 'tasaopdetalles.serie')
+                                    ->whereBetween('tasa_cobro_detalles.fecha', array($annoDesde.'-'.$mesDesde.'-'.$diaDesde,  $annoHasta.'-'.$mesHasta.'-'.$diaHasta) )
                                     ->where('tasa_cobros.cv', 1)
                                     ->where('tasaops.consolidado', 1)
                                     ->get();
@@ -1423,6 +1422,7 @@ class ReporteController extends Controller {
         $tasasVendidas = \App\Tasaop::join('tasa_cobros', 'tasa_cobros.id', '=', 'tasaops.tasa_cobro_id')
                                     ->join('tasa_cobro_detalles', 'tasa_cobro_detalles.tasa_cobro_id', '=', 'tasa_cobros.id')
                                     ->join('tasaopdetalles', 'tasaopdetalles.tasaop_id', '=', 'tasaops.id')
+                                    ->join('tasas', 'tasas.nombre', '=', 'tasaopdetalles.serie')
                                     ->whereBetween('tasa_cobro_detalles.fecha', array($annoDesde.'-'.$mesDesde.'-'.$diaDesde,  $annoHasta.'-'.$mesHasta.'-'.$diaHasta) )
                                     ->where('tasa_cobros.cv', 1)
                                     ->where('tasaops.consolidado', 1)
@@ -1438,7 +1438,7 @@ class ReporteController extends Controller {
         $facturasContado       = $facturas->where('condicionPago', 'Contado')
                                                 ->sum('total');
 
-        return view('reportes.reporteCuadreCaja', compact('diaDesde', 'mesDesde', 'annoDesde', 'diaHasta', 'mesHasta', 'annoHasta', 'aeropuerto', 'facturas', 'facturasTotal', 'facturasContado', 'facturasCredito', 'facturasAnuladas', 'facturasAnuladasTotal', 'tasasVendidas', 'totalTasas'));
+        return view('reportes.reporteCuadreCaja', compact('diaDesde', 'mesDesde', 'annoDesde', 'diaHasta', 'mesHasta', 'annoHasta', 'aeropuerto', 'facturas', 'facturasTotal', 'facturasContado', 'facturasCredito', 'facturasAnuladas', 'facturasAnuladasTotal', 'tasasVendidas', 'totalTasas', 'tipoTasas'));
     }
 
 

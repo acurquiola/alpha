@@ -149,22 +149,24 @@
 											<tr class="bg-primary" >
 												<th class="text-center">Fecha</th>
 												<th class="text-center">Serie</th>
+												<th class="text-center">Tipo</th>
 												<th class="text-center">Inicio</th>
 												<th class="text-center">Fin</th>
 												<th class="text-center">Cantidad</th>
 												<th class="text-center">Monto</th>
-												<th class="text-center" colspan="2">Total</th>
+												<th class="text-center">Total</th>
 											</tr>
 										<tbody>
 											@foreach($tasasVendidas as $tasas)
 											<tr title="{{$tasas->fecha}}" align="center">
 												<td class="text-center" align="center">{{$tasas->fecha}}</td>
 												<td class="text-center" align="center">{{($tasas->serie)?$tasas->serie:'-'}}</td>
+												<td class="text-center" align="center">{{($tasas->internacional==1)?'Internacional':'Nacional'}}</td>
 												<td class="text-center" align="center">{{($tasas->inicio)?$tasas->inicio:'-'}}</td>
 												<td class="text-center" align="center">{{($tasas->fin)?$tasas->fin:'-'}}</td>
 												<td class="text-center" align="center">{{ ($tasas->cantidad)?$tasas->cantidad:'0' }}</td>
 												<td class="text-right" align="right">{{($tasas->costo)?$traductor->format($tasas->costo):'0'}}</td>
-												<td class="text-right" colspan="2"align="right" >{{($tasas->total)?$traductor->format($tasas->total):'0'}}</td>
+												<td class="text-right" align="right" >{{($tasas->total)?$traductor->format($tasas->total):'0'}}</td>
 											</tr>
 											@endforeach
 					                        <tr class="bg-gray" align="center">

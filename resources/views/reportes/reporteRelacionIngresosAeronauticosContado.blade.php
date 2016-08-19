@@ -189,7 +189,8 @@
 										</tr>
 											<tr class="bg-primary" >
 												<th colspan="2" class="text-center">Fecha</th>
-												<th colspan="2" class="text-center">Serie</th>
+												<th class="text-center">Serie</th>
+												<th class="text-center">Tipo</th>
 												<th colspan="2" class="text-center">Inicio</th>
 												<th colspan="2" class="text-center">Fin</th>
 												<th colspan="2" class="text-center">Cantidad</th>
@@ -200,7 +201,8 @@
 											@foreach($tasasVendidas as $tasas)
 											<tr title="{{$tasas->fecha}}" align="center">
 												<td colspan="2" class="text-center" align="center">{{$tasas->fecha}}</td>
-												<td colspan="2" class="text-center" align="center">{{($tasas->serie)?$tasas->serie:'-'}}</td>
+												<td class="text-center" align="center">{{($tasas->serie)?$tasas->serie:'-'}}</td>
+												<td class="text-center" align="center">{{($tasas->internacional=='1')?'Internacional':'Nacional'}}</td>
 												<td colspan="2" class="text-center" align="center">{{($tasas->inicio)?$tasas->inicio:'-'}}</td>
 												<td colspan="2" class="text-center" align="center">{{($tasas->fin)?$tasas->fin:'-'}}</td>
 												<td colspan="2" class="text-center" align="center">{{ ($tasas->cantidad)?$tasas->cantidad:'0' }}</td>

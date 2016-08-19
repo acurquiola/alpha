@@ -147,41 +147,41 @@
                                             <tr>
                                                  <td colspan="11" class="text-center bg-gray" align="center"><strong>{{ $nombreModulo->nombre }}</strong></td>   
                                             </tr>
+                                            @foreach($facturas as $index => $factura)
+                                                @if($factura->modulo_id == $nombreModulo->id )
+                                                    <tr>
+                                                        <td style="vertical-align: middle; width:50px" align="center">{{$factura->fecha}}</td>
+                                                        <td style="vertical-align: middle; width:60px" align="center" >{{$factura->nFacturaPrefix}}-{{$factura->nFactura}}</td>
+                                                        <td style="vertical-align: middle; width:60px" align="center" >{{$factura->nControlPrefix}}-{{$factura->nControl}}</td>
+                                                        <td style="vertical-align: middle; width:70px" align="center" >{{$factura->cliente->cedRifPrefix}}-{{$factura->cliente->cedRif}}</td>
+                                                        <td style="vertical-align: middle; width:35px" align="center" >{{$factura->cliente->codigo}}</td>
+                                                        <td style="vertical-align: middle; width:120px" align="left" >{{$factura->cliente->nombre}}</td>
+                                                        <td style="vertical-align: middle; width:150px" align="left">{{$factura->descripcion}}</td>
+                                                        <td style="vertical-align: middle; width:70px" align="right" class="{{ $nombreModulo->nombre }}-subtotal">{{$traductor->format($factura->subtotal)}}</td>
+                                                        {{--@if(!$factura->metadata)--}}
+                                                        <td style="vertical-align: middle; width:60px" align="right" class="{{ $nombreModulo->nombre }}-iva">{{$traductor->format($factura->iva)}}</td>
+                                                        {{--@els        e--}}
+                                                        {{--<td style="vertical-align: middle; width:60px" align="right">{{$factura->metadata->ivapercentage}}</td>--}}
+                                                        {{--<td style="vertical-align: middle; width:60px" align="right">{{$factura->metadata->islrpercentage}}</td>--}}
+                                                        {{--@endif--}}
+                                                        <td style="vertical-align: middle; width:70px" align="right" class="{{ $nombreModulo->nombre }}-total">{{$traductor->format($factura->total)}}</td>
+                                                        <td style="vertical-align: middle; width:70px" align="right" class="{{ $nombreModulo->nombre }}-totalDeudor">{{$traductor->format($factura->total)}}</td>
+                                                    </tr>
+                                                @endif
+                                            @endforeach
+                                            <tr class="bg-gray" align="center">
+                                                <td colspan="2">Total {{ $nombreModulo->nombre }}</td>
+                                                <td> - </td>
+                                                <td> -  </td>
+                                                <td> - </td>
+                                                <td> - </td>
+                                                <td> - </td>
+                                                <td style="vertical-align: middle; width:70px" align="right" id="{{ $nombreModulo->nombre }}-subtotalTotal">{{$traductor->format($subtotal)}}</td>
+                                                <td style="vertical-align: middle; width:70px" align="right" id="{{ $nombreModulo->nombre }}-ivaTotal">{{$traductor->format($subtotal)}}</td>
+                                                <td style="vertical-align: middle; width:60px" align="right" id="{{ $nombreModulo->nombre }}-totalTotal">{{$traductor->format($iva)}}</td>
+                                                <td style="vertical-align: middle; width:70px" align="right" id="{{ $nombreModulo->nombre }}-totalDeudorTotal">{{$traductor->format($total)}}</td>                                   
+                                            </tr>
                                         @endif
-                                        @foreach($facturas as $index => $factura)
-                                            @if($factura->modulo_id == $nombreModulo->id )
-                                                <tr>
-                                                    <td style="vertical-align: middle; width:50px" align="center">{{$factura->fecha}}</td>
-                                                    <td style="vertical-align: middle; width:60px" align="center" >{{$factura->nFacturaPrefix}}-{{$factura->nFactura}}</td>
-                                                    <td style="vertical-align: middle; width:60px" align="center" >{{$factura->nControlPrefix}}-{{$factura->nControl}}</td>
-                                                    <td style="vertical-align: middle; width:70px" align="center" >{{$factura->cliente->cedRifPrefix}}-{{$factura->cliente->cedRif}}</td>
-                                                    <td style="vertical-align: middle; width:35px" align="center" >{{$factura->cliente->codigo}}</td>
-                                                    <td style="vertical-align: middle; width:120px" align="left" >{{$factura->cliente->nombre}}</td>
-                                                    <td style="vertical-align: middle; width:150px" align="left">{{$factura->descripcion}}</td>
-                                                    <td style="vertical-align: middle; width:70px" align="right" class="{{ $nombreModulo->nombre }}-subtotal">{{$traductor->format($factura->subtotal)}}</td>
-                                                    {{--@if(!$factura->metadata)--}}
-                                                    <td style="vertical-align: middle; width:60px" align="right" class="{{ $nombreModulo->nombre }}-iva">{{$traductor->format($factura->iva)}}</td>
-                                                    {{--@els        e--}}
-                                                    {{--<td style="vertical-align: middle; width:60px" align="right">{{$factura->metadata->ivapercentage}}</td>--}}
-                                                    {{--<td style="vertical-align: middle; width:60px" align="right">{{$factura->metadata->islrpercentage}}</td>--}}
-                                                    {{--@endif--}}
-                                                    <td style="vertical-align: middle; width:70px" align="right" class="{{ $nombreModulo->nombre }}-total">{{$traductor->format($factura->total)}}</td>
-                                                    <td style="vertical-align: middle; width:70px" align="right" class="{{ $nombreModulo->nombre }}-totalDeudor">{{$traductor->format($factura->total)}}</td>
-                                                </tr>
-                                            @endif
-                                        @endforeach
-                                        <tr class="bg-gray" align="center">
-                                            <td colspan="2">Total {{ $nombreModulo->nombre }}</td>
-                                            <td> - </td>
-                                            <td> -      </td>
-                                            <td> - </td>
-                                            <td> - </td>
-                                            <td> - </td>
-                                            <td style="vertical-align: middle; width:70px" align="right" id="{{ $nombreModulo->nombre }}-subtotalTotal">{{$traductor->format($subtotal)}}</td>
-                                            <td style="vertical-align: middle; width:70px" align="right" id="{{ $nombreModulo->nombre }}-ivaTotal">{{$traductor->format($subtotal)}}</td>
-                                            <td style="vertical-align: middle; width:60px" align="right" id="{{ $nombreModulo->nombre }}-totalTotal">{{$traductor->format($iva)}}</td>
-                                            <td style="vertical-align: middle; width:70px" align="right" id="{{ $nombreModulo->nombre }}-totalDeudorTotal">{{$traductor->format($total)}}</td>                                   
-                                        </tr>
                                     @endforeach     
                                 @else
                                     <tr>
