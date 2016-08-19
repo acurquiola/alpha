@@ -165,7 +165,7 @@
                                                         {{--<td style="vertical-align: middle; width:60px" align="right">{{$factura->metadata->islrpercentage}}</td>--}}
                                                         {{--@endif--}}
                                                         <td style="vertical-align: middle; width:70px" align="right" class="{{ $nombreModulo->nombre }}-total">{{$traductor->format($factura->total)}}</td>
-                                                        <td style="vertical-align: middle; width:70px" align="right" class="{{ $nombreModulo->nombre }}-totalDeudor">{{$traductor->format($factura->total)}}</td>
+                                                        <td style="vertical-align: middle; width:70px" align="right" class="{{ $nombreModulo->nombre }}-totalDeudor">{{($factura->estado=='P')?$traductor->format($factura->total):'0,00'}}</td>
                                                     </tr>
                                                 @endif
                                             @endforeach
@@ -356,7 +356,7 @@ $(function(){
     $('#PUBLICIDAD-totalDeudorTotal').text(numToComma(publicidadTotalDeudor));
 
     //PUBLICIDAD
-    var tarjIdent=0;
+    var tarjIdentSubtotal=0;
     $('.TARJETAS DE IDENTIFICACION-subtotal').each(function(index,value){
         tarjIdentSubtotal+=commaToNum($(value).text().trim());
     });

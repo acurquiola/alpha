@@ -11,13 +11,13 @@
 		@if(!isset($bloqueoDosa))
 			{!! Form::hidden('aplica_minimo_aterrizaje', 0) !!}
 			{!! Form::hidden('aplica_minimo_estacionamiento', 0) !!}
-			@if($modulo_id=="9" || $modulo_id=="4")
+			@if($modulo_id=="9" || $modulo_id=="4" || $modulo_id == "2")
 				{!! Form::select('condicionPago', ["Contado"=>"Contado","Crédito" => "Crédito"], null, [ 'id' =>'condicionPago', 'class'=>"form-control", $disabled, (!$factura->isImpresa)?"":"readonly"]) !!}
 			@else
 				{!! Form::select('condicionPago', ["Crédito" => "Crédito", "Contado"=>"Contado"], null, [ 'id' =>'condicionPago', 'class'=>"form-control", $disabled, (!$factura->isImpresa)?"":"readonly"]) !!}
 			@endif
 		@else		
-		{!! Form::text('condicionPago', $condicionPago, [ 'id' =>'condicionPago', 'class'=>"form-control", $disabled] ) !!}
+		{!! Form::text('condicionPago', $condicionPago, [ 'id' =>'condicionPago', 'class'=>"form-control", $disabled, 'readonly']) !!}
 			{!! Form::hidden('aplica_minimo_aterrizaje', $aplica_minimo_aterrizaje) !!}
 			{!! Form::hidden('aplica_minimo_estacionamiento', $aplica_minimo_estacionamiento) !!}
 		@endif
@@ -64,7 +64,7 @@
 	<label for="inputEmail3" class="col-xs-1  control-label"><strong>Nro. Dosa<span class="text-danger">*</span> </strong></label>
     <div class="col-xs-3">
         <div class="input-group">
-            {!! Form::text('nroDosa', $factura->getMaxWith('nFacturaPrefix', 'nroDosa', $modulo->nFacturaPrefix), [ 'id' => 'nroDosa', 'class'=>"form-control", "data-empty"=>"false", "data-type"=>"int", "data-name"=>"Número de Dosa", 'style' => 'padding-left:2px']) !!}
+            {!! Form::text('nroDosa', $factura->getMaxWith('nFacturaPrefix', 'nroDosa', $modulo->nFacturaPrefix), [ 'id' => 'nroDosa', 'class'=>"form-control", "data-empty"=>"false", "data-type"=>"int", "data-name"=>"Número de Dosa", 'readonly']) !!}
 			{!! Form::hidden('fechaVencimiento') !!}
 			{!! Form::hidden('despegue_id', $despegue_id) !!}
         </div>

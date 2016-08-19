@@ -9,10 +9,6 @@ class Tasa extends Model {
 
     protected $guarded = [];
 
-    public function detalle()
-    {
-        return $this->belongsTo('App\Tasaopdetalle');
-    }
 
 
 }

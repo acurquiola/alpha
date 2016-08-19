@@ -9,9 +9,5 @@ class Tasaopdetalle extends Model {
 
     protected $guarded = array();
 
-    public function tasa()
-    {
-        return $this->hasMany('App\Tasa');
-    }
 
 }

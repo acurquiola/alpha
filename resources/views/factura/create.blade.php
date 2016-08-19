@@ -54,7 +54,18 @@
 
 $(document).ready(function(){
 
+	fecha = $('#fecha').val();
+    condicionPago = $('#condicionPago').val();
+    if(condicionPago == 'Contado'){
+      $('#fechaVencimiento').val(moment(fecha.date).format("DD/MM/YYYY"))
+    }else{
+      days = 15;
+      $('#fechaVencimiento').val(moment(fecha.date).add(days, 'd').format("DD/MM/YYYY"));
+    }
+
 	@include('factura.partials.script')
+
+	
 
 	if($('#concepto-select option:not(.inactive)').length==1){
 		$('#concepto-select').val($('#concepto-select option:last').val()).trigger('chosen:updated');

@@ -712,8 +712,8 @@ class ReporteController extends Controller {
                     $facturasPendientesModulo[$modulo][$diaMes->month][$nombre] = \App\Factura::with('cliente')
                                                                                         ->where('aeropuerto_id', $aeropuerto)
                                                                                         ->where('modulo_id', $idModulo)
-                                                                                        ->where('fecha','>=' ,$diaMes->startOfMonth()->toDateTimeString())
-                                                                                        ->where('fecha','<=' ,$diaMes->endOfMonth()->toDateTimeString())
+                                                                                        ->where('fechaVencimiento','>=' ,$diaMes->startOfMonth()->toDateTimeString())
+                                                                                        ->where('fechaVencimiento','<=' ,$diaMes->endOfMonth()->toDateTimeString())
                                                                                         ->where('estado', 'P')
                                                                                         ->where('cliente_id', $cliente_id)
                                                                                         ->sum('total');
@@ -723,11 +723,10 @@ class ReporteController extends Controller {
 	    		$totalClientes[$modulo][$nombre]["total"] += ($facturasPendientesModulo[$modulo][$diaMes->month][$nombre]);
                 }
 
-
                 $totalMes[$diaMes->month] =  \App\Factura::with('cliente')
                                                             ->where('aeropuerto_id', $aeropuerto)
-                                                            ->where('fecha','>=' ,$diaMes->startOfMonth()->toDateTimeString())
-                                                            ->where('fecha','<=' ,$diaMes->endOfMonth()->toDateTimeString())
+                                                            ->where('fechaVencimiento','>=' ,$diaMes->startOfMonth()->toDateTimeString())
+                                                            ->where('fechaVencimiento','<=' ,$diaMes->endOfMonth()->toDateTimeString())
                                                             ->where('estado', 'P')
                                                             ->sum('total');
             }       
