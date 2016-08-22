@@ -70,7 +70,7 @@
 									<tr >
 										@foreach($modulos as $modulo)
 											@foreach($modulo->conceptos as $concepto)
-												<th details data-parent="{{$modulo->nombre}}" style="display:none;vertical-align: middle"  class="text-center" align="center" style="width: 20px;" >
+												<th details data-parent="{{$modulo->nombre}}" style="display:none;vertical-align: middle"  class="text-center" align="center" >
 													<small>{{$concepto->nombreImprimible}}</small>
 												</th>
 											@endforeach
@@ -196,15 +196,15 @@
 									MES: {{$mesLetras}} AÑO: {{$anno}} </th>\
 								</tr>\
 							</thead>')
-			$(table).find('thead, th').css({'border-top':'1px solid black', 'font-weight': 'bold', 'text-align':"center", 'font-size': '6px'})
-			$(table).find('th').css({'border-bottom':'1px solid black', 'font-weight': 'bold', 'text-align':"center", 'font-size': '6px'})
-			$(table).find('td').css({'font-size': '4.8px'})
+			$(table).find('thead, th').css({'border-top':'1px solid black', 'font-weight': 'bold', 'text-align':"center", 'font-size': '10px'})
+			$(table).find('th').css({'border-bottom':'1px solid black', 'font-weight': 'bold', 'text-align':"center", 'font-size': '10px'})
+			$(table).find('td').css({'font-size': '8px'})
 			$(table).find('td:nth-child(even)').css({'background-color': '#F7F7F7'})
 			$(table).find('th:nth-child(even)').css({'border-left':'1px solid black','border-right':'1px solid black',})
 			$(table).find('tr:nth-child(even)').css({'background-color': '#E2E2E2'})
 			$(table).find('tr:last td').css({'border-bottom':'1px solid black','border-top':'1px solid black', 'font-weight': 'bold'})
 			$(table).append('<tr>\
-								<td colspan="23"><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br></td>\
+								<td colspan="23"><br></td>\
 								</tr><tr>\
 								<td colspan="12" align="center" style="font-weight: bold; border-top: 1px solid black;border-right: 1px solid black;border-left: 1px solid black;border-bottom: 1px solid black; font-size: 7px">REVISADO</td>\
 								<td colspan="11" align="center" style="font-weight: bold; border-top: 1px solid black;border-right: 1px solid black;border-left: 1px solid black;border-bottom: 1px solid black; font-size: 7px">CONFORMADO</td>\

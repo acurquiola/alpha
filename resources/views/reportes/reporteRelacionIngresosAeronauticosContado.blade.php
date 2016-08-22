@@ -68,7 +68,7 @@
 							<table class="table table-hover table-condensed">
 								<thead  class="bg-primary">
 									<tr>
-										<th   style="vertical-align: middle; width: 40px" class="text-center" align="center">
+										<th   style="vertical-align: middle;" class="text-center" align="center">
 											FECHA
 										</th>
 										<th   style="vertical-align: middle" class="text-center" align="center">
@@ -83,13 +83,13 @@
 										<th   style="vertical-align: middle" class="text-center" align="center">
 											FORMULARIO
 										</th>
-										<th   style="vertical-align: middle; width: 70px" class="text-center" align="center">
+										<th   style="vertical-align: middle;" class="text-center" align="center">
 											ATERRIZAJE
 										</th>
-										<th   style="vertical-align: middle; width: 80px" class="text-center" align="center">
+										<th   style="vertical-align: middle;" class="text-center" align="center">
 											ESTACIONAMIENTO
 										</th>
-										<th   style="vertical-align: middle; width: 70px; " class="text-center" align="center">
+										<th   style="vertical-align: middle;; " class="text-center" align="center">
 											HABILITACIÓN
 										</th>
 										<th   style="vertical-align: middle" class="text-center" align="center">
@@ -120,7 +120,7 @@
 								@else
 									@foreach($dosaFactura as $nroDosa => $dosaFactura)
 										<tr>
-											<td   style="vertical-align: middle; width:40px" class="text-center" align="center">
+											<td   style="vertical-align: middle;" class="text-center" align="center">
 												{{$dosaFactura['fecha']}}
 											</td>
 											<td   style="vertical-align: middle" class="text-center" align="center">
@@ -135,13 +135,13 @@
 											<td   style="vertical-align: middle" class="text-right formulario-bs" align="right">
 												{{$traductor->format($dosaFactura['formulario'])}}
 											</td>
-											<td   style="vertical-align: middle; width: 70px; " class="text-right aterrizaje-bs" align="right">
+											<td   style="vertical-align: middle; " class="text-right aterrizaje-bs" align="right">
 												{{$traductor->format($dosaFactura['aterrizaje'])}}
 											</td>
-											<td   style="vertical-align: middle; width: 80px; " class="text-right estacionamiento-bs" align="right">
+											<td   style="vertical-align: middle; " class="text-right estacionamiento-bs" align="right">
 												{{$traductor->format($dosaFactura['estacionamiento'])}}
 											</td>
-											<td   style="vertical-align: middle; width: 70px; " class="text-right habilitacion-bs" align="right">
+											<td   style="vertical-align: middle; " class="text-right habilitacion-bs" align="right">
 												{{$traductor->format($dosaFactura['habilitacion'])}}
 											</td>
 											<td   style="vertical-align: middle" class="text-right jetway-bs" align="right">
@@ -297,9 +297,9 @@
 									</th>\
 								</tr>\
 							</thead>')
-			$(table).find('thead, th').css({'border-top':'1px solid black', 'font-weight': 'bold', 'text-align':"center", 'font-size': '7px'})
-			$(table).find('th').css({'border-bottom':'1px solid black', 'font-weight': 'bold', 'text-align':"center", 'font-size': '7px'})
-			$(table).find('td').css({'font-size': '6px'})
+			$(table).find('thead, th').css({'border-top':'1px solid black', 'font-weight': 'bold', 'text-align':"center", 'font-size': '10px'})
+			$(table).find('th').css({'border-bottom':'1px solid black', 'font-weight': 'bold', 'text-align':"center", 'font-size': '10px'})
+			$(table).find('td').css({'font-size': '9px'})
 			$(table).find('tr:nth-child(even)').css({'background-color': '#E2E2E2'})
 			$(table).find('tr:last td').css({'border-bottom':'1px solid black','border-top':'1px solid black', 'font-weight': 'bold'})
 			var tableHtml= $(table)[0].outerHTML;

@@ -53,8 +53,8 @@
                 	{!! Form::select('cliente_id', $clientes, $cliente, ["class"=> "form-control select-flt"]) !!}
                 </div>
                 <div class="pull-right">
-	                <button type="submit" class="btn btn-default">Buscar</button>
-	                <a class="btn btn-default" href="{{action('ReporteController@getReporteTraficoAereo')}}">Reset</a>
+	                <button type="submit" class="btn btn-primary">BUSCAR</button>
+	                <a class="btn btn-default" href="{{action('ReporteController@getReporteTraficoAereo')}}">RESET</a>
                 </div>
                 {!! Form::close() !!}
             </div>
@@ -67,7 +67,6 @@
                 {!! Form::hidden('table') !!}
                 {!! Form::hidden('departamento', $departamento) !!}
                 {!! Form::hidden('gerencia', $gerencia) !!}
-                    <h3 class="box-title">Reporte</h3>
                     <span class="pull-right">
                         <button type="button" class="btn btn-primary" id="export-btn">
                             <span class="glyphicon glyphicon-file"></span> Exportar
@@ -79,137 +78,137 @@
 				<div class="row">
 					<div class="col-xs-12">
 
-						<div class="table-responsive" style="max-height: 500px">
+						<div class="table-responsive">
 							<table class="table table-condensed">
 								<thead  class="bg-primary">
 									<tr>
-										<th colspan="3" rowspan="4" style="vertical-align: middle" class="text-center"> CLIENTE </th>
-										<th colspan="13" style="vertical-align: middle" class="text-center">NACIONALES</th>
-										<th colspan="13" style="vertical-align: middle" class="text-center">INTERNACIONALES</th>
+										<th colspan="3" rowspan="4" style="vertical-align: middle; width: 250px" class="text-center" align="center"> CLIENTE </th>
+										<th colspan="13" style="vertical-align: middle" class="text-center" align="center">NACIONALES</th>
+										<th colspan="13" style="vertical-align: middle" class="text-center" align="center">INTERNACIONALES</th>
 									</tr>
 									<tr>
-										<th colspan="9" class="text-center">PASAJEROS</th>
-										<th colspan="2" class="text-center">CARGA</th>
-										<th colspan="2" class="text-center">AERONAVES</th>
-										<th colspan="9" class="text-center">PASAJEROS</th>
-										<th colspan="2" class="text-center">CARGA</th>
-										<th colspan="2" class="text-center">AERONÁVES</th>
+										<th colspan="9" class="text-center" align="center" >PASAJEROS</th>
+										<th colspan="2" class="text-center" align="center">CARGA</th>
+										<th colspan="2" class="text-center" align="center" style="width: 65px">AERONAVES</th>
+										<th colspan="9" class="text-center" align="center">PASAJEROS</th>
+										<th colspan="2" class="text-center" align="center">CARGA</th>
+										<th colspan="2" class="text-center" align="center" style="width: 65px">AERONÁVES</th>
 									</tr>
 									<tr>
-										<th colspan="3" class="text-center">Desemb</th>
-										<th colspan="3" class="text-center">Emb</th>
-										<th colspan="3" class="text-center">Trans</th>
+										<th colspan="3" class="text-center" align="center">Desemb</th>
+										<th colspan="3" class="text-center" align="center">Emb</th>
+										<th colspan="3" class="text-center" align="center">Trans</th>
 
-										<th colspan="1" class="text-center">Desemb</th>
-										<th colspan="1" class="text-center">Emb</th>
+										<th colspan="1" class="text-center" align="center" >Desemb</th>
+										<th colspan="1" class="text-center" align="center" >Emb</th>
 
-										<th colspan="1" class="text-center">Arri</th>
-										<th colspan="1" class="text-center">Desp</th>
+										<th colspan="1" class="text-center" align="center" >Arri</th>
+										<th colspan="1" class="text-center" align="center" >Desp</th>
 
-										<th colspan="3" class="text-center">Desemb</th>
-										<th colspan="3" class="text-center">Emb</th>
-										<th colspan="3" class="text-center">Trans</th>
+										<th colspan="3" class="text-center" align="center">Desemb</th>
+										<th colspan="3" class="text-center" align="center">Emb</th>
+										<th colspan="3" class="text-center" align="center">Trans</th>
 
-										<th colspan="1" class="text-center">Desemb</th>
-										<th colspan="1" class="text-center">Emb</th>
+										<th colspan="1" class="text-center" align="center" >Desemb</th>
+										<th colspan="1" class="text-center" align="center" >Emb</th>
 
-										<th colspan="1" class="text-center">Arri</th>
-										<th colspan="1" class="text-center">Desp</th>
+										<th colspan="1" class="text-center" align="center" >Arri</th>
+										<th colspan="1" class="text-center" align="center" >Desp</th>
 									</tr>
 									<tr align="center">
-										<th >ADUL</th>
-										<th >INF</th>
-										<th >3ra EDAD</th>
-										<th >ADUL</th>
-										<th >INF</th>
-										<th >3ra EDAD</th>
-										<th >ADUL</th>
-										<th >INF</th>
-										<th >3ra EDAD</th>
+										<th class="text-center" align="center" style="width: 30px">ADUL</th>
+										<th class="text-center" align="center" style="width: 30px">INF</th>
+										<th class="text-center" align="center" style="width: 30px">3ra EDAD</th>
+										<th class="text-center" align="center" style="width: 30px">ADUL</th>
+										<th class="text-center" align="center" style="width: 30px">INF</th>
+										<th class="text-center" align="center" style="width: 30px">3ra EDAD</th>
+										<th class="text-center" align="center" style="width: 30px">ADUL</th>
+										<th class="text-center" align="center" style="width: 30px">INF</th>
+										<th class="text-center" align="center" style="width: 30px" >3ra EDAD</th>
 
-										<th >TON</th>
-										<th >TON</th>
+										<th class="text-center" align="center" style="width: 30px">TON</th>
+										<th class="text-center" align="center" style="width: 30px">TON</th>
 
-										<th >CANT</th>
-										<th >CANT</th>
+										<th class="text-center" align="center" style="width: 30px">CANT</th>
+										<th class="text-center" align="center" style="width: 30px">CANT</th>
 
-										<th >ADUL</th>
-										<th >INF</th>
-										<th >3ra EDAD</th>
-										<th >ADUL</th>
-										<th >INF</th>
-										<th >3ra EDAD</th>
-										<th >ADUL</th>
-										<th >INF</th>
-										<th >3ra EDAD</th>
+										<th class="text-center" align="center" style="width: 30px">ADUL</th>
+										<th class="text-center" align="center" style="width: 30px">INF</th>
+										<th class="text-center" align="center" style="width: 30px">3ra EDAD</th>
+										<th class="text-center" align="center" style="width: 30px">ADUL</th>
+										<th class="text-center" align="center" style="width: 30px">INF</th>
+										<th class="text-center" align="center" style="width: 30px">3ra EDAD</th>
+										<th class="text-center" align="center" style="width: 30px">ADUL</th>
+										<th class="text-center" align="center" style="width: 30px">INF</th>
+										<th class="text-center" align="center" style="width: 30px">3ra EDAD</th>
 
-										<th >TON</th>
-										<th >TON</th>
+										<th class="text-center" align="center" style="width: 30px">TON</th>
+										<th class="text-center" align="center" style="width: 30px">TON</th>
 
-										<th >CANT</th>
-										<th >CANT</th>
+										<th class="text-center" align="center" style="width: 30px">CANT</th>
+										<th class="text-center" align="center" style="width: 30px">CANT</th>
 									</tr>
 								</thead>
 								<tbody>
 									@foreach($datosCliente as $index => $cliente)
 									<tr>
-										<td colspan="3" align="left">{{$index}}</td>
-										<td class="text-center desAdulNac" align="center">{{$cliente['desAdulNac']}}</td>
-										<td class="text-center desInfNac" align="center">{{$cliente['desInfNac']}}</td>
-										<td class="text-center desTercNac" align="center">{{$cliente['desTercNac']}}</td>
-										<td class="text-center EmbAdulNac" align="center">{{$cliente['EmbAdulNac']}}</td>
-										<td class="text-center EmbInfNac" align="center">{{$cliente['EmbInfNac']}}</td>
-										<td class="text-center EmbTercNac" align="center">{{$cliente['EmbTercNac']}}</td>
-										<td class="text-center TranAdulNac" align="center">{{$cliente['TranAdulNac']}}</td>
-										<td class="text-center TranInfNac" align="center">{{$cliente['TranInfNac']}}</td>
-										<td class="text-center TranTercNac" align="center">{{$cliente['TranTercNac']}}</td>
-										<td class="text-center cargaEmbNac" align="center">{{$cliente['cargaEmbNac']}}</td>
-										<td class="text-center cargaDesNac" align="center">{{$cliente['cargaDesNac']}}</td>
-										<td class="text-center aeroAterrizaNac" align="center">{{$cliente['aeroAterrizaNac']}}</td>
-										<td class="text-center aeroDespegueNac" align="center">{{$cliente['aeroDespegueNac']}}</td>
-										<td class="text-center desAdulInt" align="center">{{$cliente['desAdulInt']}}</td>
-										<td class="text-center desInfInt" align="center">{{$cliente['desInfInt']}}</td>
-										<td class="text-center desTercInt" align="center">{{$cliente['desTercInt']}}</td>
-										<td class="text-center EmbAdulInt" align="center">{{$cliente['EmbAdulInt']}}</td>
-										<td class="text-center EmbInfInt" align="center">{{$cliente['EmbInfInt']}}</td>
-										<td class="text-center EmbTercInt" align="center">{{$cliente['EmbTercInt']}}</td>
-										<td class="text-center TranAdulInt" align="center">{{$cliente['TranAdulInt']}}</td>
-										<td class="text-center TranInfInt" align="center">{{$cliente['TranInfInt']}}</td>
-										<td class="text-center TranTercInt" align="center">{{$cliente['TranTercInt']}}</td>
-										<td class="text-center cargaEmbInt" align="center">{{$cliente['cargaEmbInt']}}</td>
-										<td class="text-center cargaDesInt" align="center">{{$cliente['cargaDesInt']}}</td>
-										<td class="text-center aeroAterrizaInt" align="center">{{$cliente['aeroAterrizaInt']}}</td>
-										<td class="text-center aeroDespegueInt" align="center">{{$cliente['aeroDespegueInt']}}</td>
+										<td colspan="3" align="left" style="width: 250px" >{{$index}}</td>
+										<td class="text-center desAdulNac" align="center" style="width: 30px" >{{$cliente['desAdulNac']}}</td>
+										<td class="text-center desInfNac" align="center" style="width: 30px" >{{$cliente['desInfNac']}}</td>
+										<td class="text-center desTercNac" align="center" style="width: 30px" >{{$cliente['desTercNac']}}</td>
+										<td class="text-center EmbAdulNac" align="center" style="width: 30px" >{{$cliente['EmbAdulNac']}}</td>
+										<td class="text-center EmbInfNac" align="center" style="width: 30px" >{{$cliente['EmbInfNac']}}</td>
+										<td class="text-center EmbTercNac" align="center" style="width: 30px" >{{$cliente['EmbTercNac']}}</td>
+										<td class="text-center TranAdulNac" align="center" style="width: 30px" >{{$cliente['TranAdulNac']}}</td>
+										<td class="text-center TranInfNac" align="center" style="width: 30px" >{{$cliente['TranInfNac']}}</td>
+										<td class="text-center TranTercNac" align="center" style="width: 30px" >{{$cliente['TranTercNac']}}</td>
+										<td class="text-center cargaEmbNac" align="center" style="width: 30px" >{{$cliente['cargaEmbNac']}}</td>
+										<td class="text-center cargaDesNac" align="center" style="width: 30px" >{{$cliente['cargaDesNac']}}</td>
+										<td class="text-center aeroAterrizaNac" align="center" style="width: 30px" >{{$cliente['aeroAterrizaNac']}}</td>
+										<td class="text-center aeroDespegueNac" align="center" style="width: 30px" >{{$cliente['aeroDespegueNac']}}</td>
+										<td class="text-center desAdulInt" align="center" style="width: 30px" >{{$cliente['desAdulInt']}}</td>
+										<td class="text-center desInfInt" align="center" style="width: 30px" >{{$cliente['desInfInt']}}</td>
+										<td class="text-center desTercInt" align="center" style="width: 30px" >{{$cliente['desTercInt']}}</td>
+										<td class="text-center EmbAdulInt" align="center" style="width: 30px" >{{$cliente['EmbAdulInt']}}</td>
+										<td class="text-center EmbInfInt" align="center" style="width: 30px" >{{$cliente['EmbInfInt']}}</td>
+										<td class="text-center EmbTercInt" align="center" style="width: 30px" >{{$cliente['EmbTercInt']}}</td>
+										<td class="text-center TranAdulInt" align="center" style="width: 30px" >{{$cliente['TranAdulInt']}}</td>
+										<td class="text-center TranInfInt" align="center" style="width: 30px" >{{$cliente['TranInfInt']}}</td>
+										<td class="text-center TranTercInt" align="center" style="width: 30px" >{{$cliente['TranTercInt']}}</td>
+										<td class="text-center cargaEmbInt" align="center" style="width: 30px" >{{$cliente['cargaEmbInt']}}</td>
+										<td class="text-center cargaDesInt" align="center" style="width: 30px" >{{$cliente['cargaDesInt']}}</td>
+										<td class="text-center aeroAterrizaInt" align="center" style="width: 30px" >{{$cliente['aeroAterrizaInt']}}</td>
+										<td class="text-center aeroDespegueInt" align="center" style="width: 30px" >{{$cliente['aeroDespegueInt']}}</td>
 									</tr>
 									@endforeach
 									<tr class="bg-gray" style="font-weight: bold">
 										<td colspan="3" align="left">TOTAL</td>
-										<td class="text-center" id="desAdulNac" align="center">0</td>
-										<td class="text-center" id="desInfNac" align="center">0</td>
-										<td class="text-center" id="desTercNac" align="center">0</td>
-										<td class="text-center" id="EmbAdulNac" align="center">0</td>
-										<td class="text-center" id="EmbInfNac" align="center">0</td>
-										<td class="text-center" id="EmbTercNac" align="center">0</td>
-										<td class="text-center" id="TranAdulNac" align="center">0</td>
-										<td class="text-center" id="TranInfNac" align="center">0</td>
-										<td class="text-center" id="TranTercNac" align="center">0</td>
-										<td class="text-center" id="cargaEmbNac" align="center">0</td>
-										<td class="text-center" id="cargaDesNac" align="center">0</td>
-										<td class="text-center" id="aeroAterrizaNac" align="center">0</td>
-										<td class="text-center" id="aeroDespegueNac" align="center">0</td>
-										<td class="text-center" id="desAdulInt" align="center">0</td>
-										<td class="text-center" id="desInfInt" align="center">0</td>
-										<td class="text-center" id="desTercInt" align="center">0</td>
-										<td class="text-center" id="EmbAdulInt" align="center">0</td>
-										<td class="text-center" id="EmbInfInt" align="center">0</td>
-										<td class="text-center" id="EmbTercInt" align="center">0</td>
-										<td class="text-center" id="TranAdulInt" align="center">0</td>
-										<td class="text-center" id="TranInfInt" align="center">0</td>
-										<td class="text-center" id="TranTercInt" align="center">0</td>
-										<td class="text-center" id="cargaEmbInt" align="center">0</td>
-										<td class="text-center" id="cargaDesInt" align="center">0</td>
-										<td class="text-center" id="aeroAterrizaInt" align="center">0</td>
-										<td class="text-center" id="aeroDespegueInt" align="center">0</td>
+										<td class="text-center" align="center" style="width: 30px" id="desAdulNac">0</td>
+										<td class="text-center" align="center" style="width: 30px" id="desInfNac">0</td>
+										<td class="text-center" align="center" style="width: 30px" id="desTercNac">0</td>
+										<td class="text-center" align="center" style="width: 30px" id="EmbAdulNac">0</td>
+										<td class="text-center" align="center" style="width: 30px" id="EmbInfNac">0</td>
+										<td class="text-center" align="center" style="width: 30px" id="EmbTercNac">0</td>
+										<td class="text-center" align="center" style="width: 30px" id="TranAdulNac">0</td>
+										<td class="text-center" align="center" style="width: 30px" id="TranInfNac">0</td>
+										<td class="text-center" align="center" style="width: 30px" id="TranTercNac">0</td>
+										<td class="text-center" align="center" style="width: 30px" id="cargaEmbNac">0</td>
+										<td class="text-center" align="center" style="width: 30px" id="cargaDesNac">0</td>
+										<td class="text-center" align="center" style="width: 30px" id="aeroAterrizaNac">0</td>
+										<td class="text-center" align="center" style="width: 30px" id="aeroDespegueNac">0</td>
+										<td class="text-center" align="center" style="width: 30px" id="desAdulInt">0</td>
+										<td class="text-center" align="center" style="width: 30px" id="desInfInt">0</td>
+										<td class="text-center" align="center" style="width: 30px" id="desTercInt">0</td>
+										<td class="text-center" align="center" style="width: 30px" id="EmbAdulInt">0</td>
+										<td class="text-center" align="center" style="width: 30px" id="EmbInfInt">0</td>
+										<td class="text-center" align="center" style="width: 30px" id="EmbTercInt">0</td>
+										<td class="text-center" align="center" style="width: 30px" id="TranAdulInt">0</td>
+										<td class="text-center" align="center" style="width: 30px" id="TranInfInt">0</td>
+										<td class="text-center" align="center" style="width: 30px" id="TranTercInt">0</td>
+										<td class="text-center" align="center" style="width: 30px" id="cargaEmbInt">0</td>
+										<td class="text-center" align="center" style="width: 30px" id="cargaDesInt">0</td>
+										<td class="text-center" align="center" style="width: 30px" id="aeroAterrizaInt">0</td>
+										<td class="text-center" align="center" style="width: 30px" id="aeroDespegueInt">0</td>
 									</tr>
 								</tbody>
 							</table>
@@ -406,9 +405,9 @@
 									</th>\
 								</tr>\
 							</thead>')
-			$(table).find('thead, th').css({'border-top':'1px solid black', 'font-weight': 'bold', 'text-align':"center", 'font-size': '7px'})
-			$(table).find('th').css({'border-bottom':'1px solid black', 'font-weight': 'bold', 'text-align':"center", 'font-size': '7px'})
-			$(table).find('td').css({'font-size': '6px'})
+			$(table).find('thead, th').css({'border-top':'1px solid black', 'font-weight': 'bold', 'text-align':"center", 'font-size': '1px'})
+			$(table).find('th').css({'border-bottom':'1px solid black', 'font-weight': 'bold', 'text-align':"center", 'font-size': '10px'})
+			$(table).find('td').css({'font-size': '9px'})
 			$(table).find('tr:nth-child(even)').css({'background-color': '#E2E2E2'})
 			$(table).find('tr:last td').css({'border-bottom':'1px solid black','border-top':'1px solid black', 'font-weight': 'bold'})
 			var tableHtml= $(table)[0].outerHTML;

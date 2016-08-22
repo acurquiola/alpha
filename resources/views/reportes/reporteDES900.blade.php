@@ -40,7 +40,7 @@
                       {!! Form::select('annoHasta', $annos, $annoHasta, ["class"=> "form-control"]) !!}
                 </div>
                 <br>
-                <button type="submit" class="btn btn-default">Buscar</button>
+                <button type="submit" class="btn btn-primary">Buscar</button>
                 <a class="btn btn-default" href="{{action('ReporteController@getReporteDES900')}}">Reset</a>
                 {!! Form::close() !!}
             </div>
@@ -53,7 +53,6 @@
                 {!! Form::hidden('table') !!}
                 {!! Form::hidden('departamento', $departamento) !!}
                 {!! Form::hidden('gerencia', $gerencia) !!}
-                    <h3 class="box-title">Reporte</h3>
                     <span class="pull-right">
                         <button type="button" class="btn btn-primary" id="export-btn">
                             <span class="glyphicon glyphicon-file"></span> Exportar
@@ -65,79 +64,79 @@
 				<div class="row">
 					<div class="col-xs-12">
 
-						<div class="table-responsive" style="max-height: 500px">
+						<div class="table-responsive">
 							<table class="table table-condensed">
 								<thead  class="bg-primary">
 									<tr>
-										<th colspan="5" rowspan="2" style="vertical-align: middle" class="text-center">GENERAL</th>
-										<th colspan="9" style="vertical-align: middle" class="text-center">ATERRIZAJE</th>
-										<th colspan="7" style="vertical-align: middle" class="text-center">DESPEGUE</th>
+										<th colspan="5" rowspan="2" style="vertical-align: middle; width: 220px; " class="text-center">GENERAL</th>
+										<th colspan="9" style="vertical-align: middle; width: 450px; " class="text-center">ATERRIZAJE</th>
+										<th colspan="7" style="vertical-align: middle; width: 350px; " class="text-center">DESPEGUE</th>
 									</tr>
 									<tr>
 										<th colspan="5"></th>
-										<th colspan="2" class="text-center">Desembarque</th>
-										<th colspan="2" class="text-center">Tránsito</th>
+										<th colspan="2" class="text-center" style="width: 100px">Desembarque</th>
+										<th colspan="2" class="text-center" style="width: 100px">Tránsito</th>
 										<th colspan="5"></th>
-										<th colspan="2" class="text-center">Embarque</th>
+										<th colspan="2" class="text-center" style="width: 100px">Embarque</th>
 									</tr>
 									<tr align="center">
-										<th class="text-center" align="center">Nro.</th>
-										<th class="text-center" align="center">Día</th>
-										<th class="text-center" align="center">N° Dosa</th>
-										<th class="text-center" align="center">Modelo</th>
-										<th class="text-center" align="center">Matrícula</th>
+										<th class="text-center" align="center" style="width: 20px">Nro.</th>
+										<th class="text-center" align="center" style="width: 50px">Día</th>
+										<th class="text-center" align="center" style="width: 50px">N°Dosa</th>
+										<th class="text-center" align="center" style="width: 50px">Modelo</th>
+										<th class="text-center" align="center" style="width: 50px">Matrícula</th>
 
-										<th class="text-center" align="center">Piloto</th>
-										<th class="text-center" align="center">N°Vuelo</th>
-										<th class="text-center" align="center">Fecha</th>
-										<th class="text-center" align="center">Hora</th>
-										<th class="text-center" align="center">Procedencia</th>
-										<th class="text-center" align="center">Pass</th>
-										<th class="text-center" align="center">Carga</th>
-										<th class="text-center" align="center">Pass</th>
-										<th class="text-center" align="center">Carga</th>
+										<th class="text-center" align="center" style="width: 50px">Piloto</th>
+										<th class="text-center" align="center" style="width: 50px">N°Vuelo</th>
+										<th class="text-center" align="center" style="width: 50px">Fecha</th>
+										<th class="text-center" align="center" style="width: 50px">Hora</th>
+										<th class="text-center" align="center" style="width: 50px">Procedencia</th>
+										<th class="text-center" align="center" style="width: 50px">Pass</th>
+										<th class="text-center" align="center" style="width: 50px">Carga</th>
+										<th class="text-center" align="center" style="width: 50px">Pass</th>
+										<th class="text-center" align="center" style="width: 50px">Carga</th>
 
-										<th class="text-center" align="center">Piloto</th>
-										<th class="text-center" align="center">N°Vuelo</th>
-										<th class="text-center" align="center">Fecha</th>
-										<th class="text-center" align="center">Hora</th>
-										<th class="text-center" align="center">Destino</th>
-										<th class="text-center" align="center">Pass</th>
-										<th class="text-center" align="center">Carga</th>
+										<th class="text-center" align="center" style="width: 50px">Piloto</th>
+										<th class="text-center" align="center" style="width: 50px">N°Vuelo</th>
+										<th class="text-center" align="center" style="width: 50px">Fecha</th>
+										<th class="text-center" align="center" style="width: 50px">Hora</th>
+										<th class="text-center" align="center" style="width: 50px">Destino</th>
+										<th class="text-center" align="center" style="width: 50px">Pass</th>
+										<th class="text-center" align="center" style="width: 50px">Carga</th>
 									</tr>
 								</thead>
 								<tbody>
 								@if($despegues->count()>0)
 									@foreach($despegues as $index=>$despegue)
-										<tr title="{{$despegue->fecha}}" align="center">
-											<td>{{$index+1}}</td>
-											<td>{{$despegue->fecha}}</td>
-											<td>{{($despegue->factura)?$despegue->factura->nroDosa:"N/A"}}</td>
-											<td>{{$despegue->aterrizaje->aeronave->modelo->modelo}}</td>
-											<td>{{$despegue->aterrizaje->aeronave->matricula}}</td>
+										<tr title="{{$despegue->fecha}}">
+											<td  class="text-center" align="center" style="width: 20px">{{$index+1}}</td>
+											<td  class="text-center" align="center" style="width: 50px">{{$despegue->fecha}}</td>
+											<td  class="text-center" align="center" style="width: 50px">{{($despegue->factura)?$despegue->factura->nroDosa:"N/A"}}</td>
+											<td  class="text-center" align="center" style="width: 50px">{{$despegue->aterrizaje->aeronave->modelo->modelo}}</td>
+											<td  class="text-center" align="center" style="width: 50px">{{$despegue->aterrizaje->aeronave->matricula}}</td>
 
-											<td>{{($despegue->aterrizaje->piloto)?$despegue->aterrizaje->piloto->nombre:"N/A"}}</td>
-											<td>{{($despegue->aterrizaje->num_vuelo)?$despegue->aterrizaje->num_vuelo:"N/A"}}</td>
-											<td>{{$despegue->aterrizaje->fecha}}</td>
-											<td>{{$despegue->aterrizaje->hora}}</td>
-											<td>{{($despegue->aterrizaje->puerto)?$despegue->aterrizaje->puerto->nombre:"N/A"}}</td>
-											<td>{{$despegue->aterrizaje->desembarqueAdultos+$despegue->aterrizaje->desembarqueInfante+$despegue->aterrizaje->desembarqueTercera}}</td>
-											<td>{{$despegue->peso_desembarcado}}</td>
-											<td>{{$despegue->aterrizaje->desembarqueTransito}}</td>
-											<td>{{$despegue->peso_embarcado}}</td>
+											<td  class="text-center" align="center" style="width: 50px">{{($despegue->aterrizaje->piloto)?$despegue->aterrizaje->piloto->nombre:"N/A"}}</td>
+											<td  class="text-center" align="center" style="width: 50px">{{($despegue->aterrizaje->num_vuelo)?$despegue->aterrizaje->num_vuelo:"N/A"}}</td>
+											<td  class="text-center" align="center" style="width: 50px">{{$despegue->aterrizaje->fecha}}</td>
+											<td  class="text-center" align="center" style="width: 50px">{{$despegue->aterrizaje->hora}}</td>
+											<td  class="text-center" align="center" style="width: 50px">{{($despegue->aterrizaje->puerto)?$despegue->aterrizaje->puerto->nombre:"N/A"}}</td>
+											<td  class="text-center" align="center" style="width: 50px">{{$despegue->aterrizaje->desembarqueAdultos+$despegue->aterrizaje->desembarqueInfante+$despegue->aterrizaje->desembarqueTercera}}</td>
+											<td  class="text-center" align="center" style="width: 50px">{{$despegue->peso_desembarcado}}</td>
+											<td  class="text-center" align="center" style="width: 50px">{{$despegue->aterrizaje->desembarqueTransito}}</td>
+											<td  class="text-center" align="center" style="width: 50px">{{$despegue->peso_embarcado}}</td>
 
-											<td>{{($despegue->piloto)?$despegue->piloto->nombre:"N/A"}}</td>
-											<td>{{($despegue->num_vuelo)?$despegue->num_vuelo:"N/A"}}</td>
-											<td>{{$despegue->fecha}}</td>
-											<td>{{$despegue->hora}}</td>
-											<td>{{($despegue->puerto)?$despegue->puerto->nombre:"N/A"}}</td>
-											<td>{{$despegue->embarqueAdultos+$despegue->embarqueInfante+$despegue->embarqueTercera}}</td>
-											<td>{{$despegue->peso_embarcado}}</td>
+											<td  class="text-center" align="center" style="width: 50px">{{($despegue->piloto)?$despegue->piloto->nombre:"N/A"}}</td>
+											<td  class="text-center" align="center" style="width: 50px">{{($despegue->num_vuelo)?$despegue->num_vuelo:"N/A"}}</td>
+											<td  class="text-center" align="center" style="width: 50px">{{$despegue->fecha}}</td>
+											<td  class="text-center" align="center" style="width: 50px">{{$despegue->hora}}</td>
+											<td  class="text-center" align="center" style="width: 50px">{{($despegue->puerto)?$despegue->puerto->nombre:"N/A"}}</td>
+											<td  class="text-center" align="center" style="width: 50px">{{$despegue->embarqueAdultos+$despegue->embarqueInfante+$despegue->embarqueTercera}}</td>
+											<td  class="text-center" align="center" style="width: 50px">{{$despegue->peso_embarcado}}</td>
 										</tr>
 									@endforeach
 								@else
 									<tr>
-										<td colspan="21" class="text-center">
+										<td colspan="21" class="text-center" align="center">
 											No hay registros disponibles.
 										</td>
 									</tr>
@@ -171,9 +170,9 @@
 									DESDE: {{$diaDesde}}/{{$mesDesde}}/{{$annoDesde}} HASTA: {{$diaHasta}}/{{$mesHasta}}/{{$annoHasta}} </th>\
 								</tr>\
 							</thead>')
-			$(table).find('thead, th').css({'border-top':'1px solid black', 'font-weight': 'bold', 'text-align':"center", 'font-size': '7px'})
-			$(table).find('th').css({'border-bottom':'1px solid black', 'font-weight': 'bold', 'text-align':"center", 'font-size': '7px'})
-			$(table).find('td').css({'font-size': '6px'})
+			$(table).find('thead, th').css({'border-top':'1px solid black', 'font-weight': 'bold', 'text-align':"center", 'font-size': '12px'})
+			$(table).find('th').css({'border-bottom':'1px solid black', 'font-weight': 'bold', 'text-align':"center", 'font-size': '12px'})
+			$(table).find('td').css({'font-size': '10px'})
 			$(table).find('tr:nth-child(even)').css({'background-color': '#E2E2E2'})
 			$(table).find('tr:last td').css({'border-bottom':'1px solid black'})
 			var tableHtml= $(table)[0].outerHTML;

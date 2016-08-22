@@ -53,7 +53,6 @@
                 {!! Form::hidden('table') !!}
                 {!! Form::hidden('departamento', $departamento) !!}
                 {!! Form::hidden('gerencia', $gerencia) !!}
-                    <h3 class="box-title">Reporte</h3>
                     <span class="pull-right">
                         <button type="button" class="btn btn-primary" id="export-btn">
                             <span class="glyphicon glyphicon-file"></span> Exportar
@@ -65,7 +64,7 @@
 				<div class="row">
 					<div class="col-xs-12">
 
-						<div class="table-responsive" style="max-height: 500px">
+						<div class="table-responsive">
 							<table  class="table table-condensed">
 								<thead>
 									<tr class="bg-primary" >
@@ -74,27 +73,27 @@
 										</th>
 									</tr>
 									<tr class="bg-primary" >
-										<th class="text-center" align="center" style="width: 60px">Fecha</th>
-										<th class="text-center" align="center" style="width: 60px">Nro. Control</th>
-										<th class="text-center" align="center" style="width: 60px">Nro. Dosa</th>
-										<th class="text-center" align="center" style="width: 60px">Nro. Factura</th>
-										<th class="text-center" align="center" style="width: 280px">Cliente</th>
-										<th class="text-center">Cond. Pago</th>
-										<th class="text-center">Nro. Cobro</th>
-										<th class="text-center">Monto</th>
+										<th class="text-center" align="center" style="width: 100px">FECHA</th>
+										<th class="text-center" align="center" style="width: 100px">Nro. CONTROL</th>
+										<th class="text-center" align="center" style="width: 100px">Nro. DOSA</th>
+										<th class="text-center" align="center" style="width: 100px">Nro. FACTURA</th>
+										<th class="text-center" align="center" style="width: 400px">CLIENTE</th>
+										<th class="text-center" align="center" style="width: 100px">COND. PAGO</th>
+										<th class="text-center" align="center" style="width: 100px">Nro. COBRO</th>
+										<th class="text-center" align="center" style="width: 150px">MONTO</th>
 									</tr>
 								</thead>
 								<tbody>
 									@foreach($facturas as $factura)
 									<tr title="{{$factura->fecha}}" align="center">
-										<td class="text-center" align="center" style="width: 60px">{{$factura->fecha}}</td>
-										<td class="text-center" align="center" style="width: 60px">{{$factura->nControlPrefix}}-{{$factura->nControl}}</td>
-										<td class="text-center" align="center" style="width: 60px">{{$factura->nroDosa}}</td>
-										<td class="text-center" align="center" style="width: 60px">{{$factura->nFacturaPrefix}}-{{$factura->nFactura}}</td>
-										<td class="text-left" align="left" style="width: 280px">{{$factura->cliente->nombre}}</td>
-										<td class="text-center" align="center" >{{$factura->condicionPago}}</td>
-										<td class="text-center" align="center" >@foreach($factura->cobros as $cobro) {{($cobro->id)?$cobro->id:''}} @endforeach</td>
-										<td class="text-right" align="right">{{$traductor->format($factura->total)}}</td>
+										<td class="text-center" align="center" style="width: 100px">{{$factura->fecha}}</td>
+										<td class="text-center" align="center" style="width: 100px">{{$factura->nControlPrefix}}-{{$factura->nControl}}</td>
+										<td class="text-center" align="center" style="width: 100px">{{$factura->nroDosa}}</td>
+										<td class="text-center" align="center" style="width: 100px">{{$factura->nFacturaPrefix}}-{{$factura->nFactura}}</td>
+										<td class="text-left" align="left" style="width: 400px">{{$factura->cliente->nombre}}</td>
+										<td class="text-center" align="center"   style="width: 100px">{{$factura->condicionPago}}</td>
+										<td class="text-center" align="center"   style="width: 100px">@foreach($factura->cobros as $cobro) {{($cobro->id)?$cobro->id:''}} @endforeach</td>
+										<td class="text-right" align="right"  style="width: 150px">{{$traductor->format($factura->total)}}</td>
 									</tr>
 									@endforeach
 									@if($facturasAnuladasTotal>0)
@@ -104,26 +103,26 @@
 											</th>
 										</tr>
 										<tr class="bg-primary" >
-											<th class="text-center" align="center" style="width: 60px">Fecha</th>
-											<th class="text-center" align="center" style="width: 60px">Nro. Control</th>
-											<th class="text-center" align="center" style="width: 60px">Nro. Dosa</th>
-											<th class="text-center" align="center" style="width: 280px">Nro. Factura</th>
-											<th class="text-center" align="center">Cliente</th>
-											<th class="text-center" align="center" >Cond. Pago</th>
-											<th class="text-center" align="center" >Nro. Cobro</th>
-											<th class="text-center" align="center" >Monto</th>
+											<th class="text-center" align="center" style="width: 100px">FECHA</th>
+											<th class="text-center" align="center" style="width: 100px">Nro. CONTROL</th>
+											<th class="text-center" align="center" style="width: 100px">Nro. DOSA</th>
+											<th class="text-center" align="center" style="width: 100px">Nro. FACTURA</th>
+											<th class="text-center" align="center" style="width: 400px">CLIENTE</th>
+											<th class="text-center" align="center" style="width: 100px">COND. PAGO</th>
+											<th class="text-center" align="center" style="width: 100px">Nro. COBRO</th>
+											<th class="text-center" align="center" style="width: 150px">MONTO</th>
 										</tr>
 										<tbody>
 											@foreach($facturasAnuladas as $facturaAnulada)
 											<tr title="{{$facturaAnulada->fecha}}" align="center">
-												<td class="text-center" align="center" style="width: 60px">{{$facturaAnulada->fecha}}</td>
-												<td class="text-center" align="center" style="width: 60px">{{$facturaAnulada->nControlPrefix}}-{{$facturaAnulada->nControl}}</td>
-												<td class="text-center" align="center" style="width: 60px">{{$facturaAnulada->nroDosa}}</td>
-												<td class="text-center" align="center" style="width: 280px">{{$facturaAnulada->nFacturaPrefix}}-{{$facturaAnulada->nFactura}}</td>
-												<td align="left" class="text-left">{{$facturaAnulada->cliente->nombre}}</td>
-												<td class="text-center" align="center">{{$facturaAnulada->condicionPago}}</td>
-												<td class="text-center" align="center">@foreach($factura->cobros as $cobro) {{($cobro->id)?$cobro->id:''}} @endforeach</td>
-												<td class="text-right" align="right">{{$traductor->format($facturaAnulada->total)}}</td>
+										<td class="text-center" align="center" style="width: 100px">{{$facturaAnulada->fecha}}</td>
+										<td class="text-center" align="center" style="width: 100px">{{$facturaAnulada->nControlPrefix}}-{{$facturaAnulada->nControl}}</td>
+										<td class="text-center" align="center" style="width: 100px">{{$facturaAnulada->nroDosa}}</td>
+										<td class="text-center" align="center" style="width: 100px">{{$facturaAnulada->nFacturaPrefix}}-{{$facturaAnulada->nFactura}}</td>
+										<td class="text-left" align="left" style="width: 400px">{{$facturaAnulada->cliente->nombre}}</td>
+										<td class="text-center" align="center"   style="width: 100px">{{$facturaAnulada->condicionPago}}</td>
+										<td class="text-center" align="center"   style="width: 100px">@foreach($facturaAnulada->cobros as $cobro) {{($cobro->id)?$cobro->id:''}} @endforeach</td>
+										<td class="text-right" align="right"  style="width: 150px">{{$traductor->format($facturaAnulada->total)}}</td>
 											</tr>
 											@endforeach
 					                        <tr class="bg-gray" align="center">
@@ -213,9 +212,9 @@
 									DESDE: {{$diaDesde}}/{{$mesDesde}}/{{$annoDesde}} HASTA: {{$diaHasta}}/{{$mesHasta}}/{{$annoHasta}} </th>\
 								</tr>\
 							</thead>')
-			$(table).find('thead, th').css({'border-top':'1px solid black', 'font-weight': 'bold', 'text-align':"center", 'font-size': '8px'})
-			$(table).find('th').css({'border-bottom':'1px solid black', 'font-weight': 'bold', 'text-align':"center", 'font-size': '8px'})
-			$(table).find('td').css({'font-size': '7px'})
+			$(table).find('thead, th').css({'border-top':'1px solid black', 'font-weight': 'bold', 'text-align':"center", 'font-size': '12px'})
+			$(table).find('th').css({'border-bottom':'1px solid black', 'font-weight': 'bold', 'text-align':"center", 'font-size': '12px'})
+			$(table).find('td').css({'font-size': '10px'})
 			$(table).find('tr:nth-child(even)').css({'border-bottom':'1px solid black'})
 			$(table).find('tr:last td').css({'border-bottom':'1px solid black','border-top':'1px solid black', 'font-weight': 'bold'})
 			var tableHtml= $(table)[0].outerHTML;

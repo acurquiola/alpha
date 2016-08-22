@@ -56,35 +56,35 @@
 						<div class="table-responsive" style="max-height: 500px">
 							<table class="table table-condensed">
 								<tr  class="bg-primary" >
-									<td style="vertical-align: middle;"  colspan="5" align="center" class="text-center">
+									<td style="vertical-align: middle; width: 1250px; "  colspan="5" align="center" class="text-center">
 										<strong>FACTURAS ANULADAS</strong>
 									</td>
 								</tr>
 								<tr class="bg-primary">
-									<td style="vertical-align: middle; " align="center" class="text-center">
+									<td style="vertical-align: middle; width: 250px; " align="center" class="text-center">
 										<strong>NRO.</strong>
 									</td>
-									<td style="vertical-align: middle; " align="center" class="text-center">
+									<td style="vertical-align: middle; width: 250px; " align="center" class="text-center">
 										<strong>FECHA DE ANULACIÓN</strong>
 									</td>
-									<td style="vertical-align: middle; " align="center" class="text-center">
+									<td style="vertical-align: middle; width: 250px; " align="center" class="text-center">
 										<strong>FECHA DE FACTURACIÓN</strong>
 									</td>
-									<td style="vertical-align: middle; " align="center" class="text-center">
+									<td style="vertical-align: middle; width: 250px; " align="center" class="text-center">
 										<strong>NRO DE FACTURA</strong>
 									</td>
-									<td style="vertical-align: middle; " align="center" class="text-center">
+									<td style="vertical-align: middle; width: 250px; " align="center" class="text-center">
 										<strong>NRO DE CONTROL</strong>
 									</td>
 								</tr>
 								@if($facturasAnuladas->count()>0)
 									@foreach($facturasAnuladas as $index => $factura)
 										<tr >
-											<td style="vertical-align: middle;" align="center">{{$index+1}}</td>
-											<td style="vertical-align: middle;" align="center">{{$factura->deleted_at}}</td>
-											<td style="vertical-align: middle;" align="center">{{$factura->fecha}}</td>
-											<td align="center" ">{{$factura->nFactura}}</td>
-											<td align="center" ">{{$factura->nControl}}</td>
+											<td style="vertical-align: middle; width: 250px; " align="center">{{$index+1}}</td>
+											<td style="vertical-align: middle; width: 250px; " align="center">{{$factura->deleted_at}}</td>
+											<td style="vertical-align: middle; width: 250px; " align="center">{{$factura->fecha}}</td>
+											<td style="vertical-align: middle; width: 250px; " align="center" ">{{$factura->nFactura}}</td>
+											<td style="vertical-align: middle; width: 250px; " align="center" ">{{$factura->nControl}}</td>
 										</tr>
 									@endforeach 
 								@else
@@ -93,35 +93,35 @@
 									</tr>
 								@endif
 								<tr  class="bg-primary" >
-									<td style="vertical-align: middle;" colspan="5" align="center" class="text-center">
+									<td style="vertical-align: middle; width: 1250px; " colspan="5" align="center" class="text-center">
 										<strong>RECIBOS ANULADOS</strong>
 									</td>
 								</tr>
 								<tr class="bg-primary">
-									<td style="vertical-align: middle;"  align="center" class="text-center">
+									<td style="vertical-align: middle; width: 250px; "  align="center" class="text-center">
 										<strong>NRO.</strong>
 									</td>
-									<td style="vertical-align: middle;"  align="center" class="text-center">
+									<td style="vertical-align: middle; width: 250px; "  align="center" class="text-center">
 										<strong>FECHA DE ANULACIÓN</strong>
 									</td>
-									<td style="vertical-align: middle;"  align="center" class="text-center">
+									<td style="vertical-align: middle; width: 250px; "  align="center" class="text-center">
 										<strong>FECHA DE COBRO</strong>
 									</td>
-									<td style="vertical-align: middle; " align="center" class="text-center">
+									<td style="vertical-align: middle; width: 250px;  " align="center" class="text-center">
 										<strong>NRO DE RECIBO</strong>
 									</td>
-									<td style="vertical-align: middle; " align="center" class="text-center">
+									<td style="vertical-align: middle; width: 250px;  " align="center" class="text-center">
 										<strong>NRO COBRO</strong>
 									</td>
 								</tr>
 								@if($recibosAnulados->count()>0)
 									@foreach($recibosAnulados as $index => $recibo)
 									<tr>
-										<td style="vertical-align: middle;" align="center">{{$index+1}}</td>
-										<td style="vertical-align: middle; " align="center">{{$recibo->fecha}}</td>
-										<td style="vertical-align: middle; " align="center">{{$recibo->cobro->fecha}}</td>
-										<td align="center" >{{$recibo->nroRecibo}}</td>
-										<td align="center" >{{$recibo->cobro_id}}</td>
+										<td style="vertical-align: middle; width: 250px; " align="center">{{$index+1}}</td>
+										<td style="vertical-align: middle; width: 250px; " align="center">{{$recibo->fecha}}</td>
+										<td style="vertical-align: middle; width: 250px; " align="center">{{$recibo->cobro->fecha}}</td>
+										<td style="vertical-align: middle; width: 250px; " align="center" >{{$recibo->nroRecibo}}</td>
+										<td style="vertical-align: middle; width: 250px; " align="center" >{{$recibo->cobro_id}}</td>
 									</tr>
 									@endforeach 
 								@else
@@ -186,9 +186,9 @@
 									</th>\
 								</tr>\
 							</thead>')
-			$(table).find('thead, th').css({'border-top':'1px solid black', 'font-weight': 'bold', 'text-align':"center", 'font-size': '8px'})
-			$(table).find('th').css({'border-bottom':'1px solid black', 'font-weight': 'bold', 'text-align':"center", 'font-size': '8px'})
-			$(table).find('td').css({'font-size': '7px'})
+			$(table).find('thead, th').css({'border-top':'1px solid black', 'font-weight': 'bold', 'text-align':"center", 'font-size': '12px'})
+			$(table).find('th').css({'border-bottom':'1px solid black', 'font-weight': 'bold', 'text-align':"center", 'font-size': '12px'})
+			$(table).find('td').css({'font-size': '10px'})
 			$(table).find('tr:nth-child(even)').css({'background-color': '#E2E2E2'})
 		    $(table).find('tr:last td').css({'border-bottom':'1px solid black'})
 			var tableHtml= $(table)[0].outerHTML;

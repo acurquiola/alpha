@@ -17,19 +17,19 @@
 			<div class="box-body">
 				{!! Form::open(["url" => action('ReporteController@getReporteRelacionEstacionamientoDiario'), "method" => "GET", "class"=>"form-inline"]) !!}
 				<div class="form-group" style="margin-left: 20px">
-					<label>Mes:</label>
+					<label><strong>MES: </strong></label>
 					{!! Form::select('mes', $meses, $mes, ["class"=> "form-control"]) !!}
 				</div>
 				<div class="form-group" style="margin-left: 20px">
-					<label>Año:</label>
+					<label><strong>AÑO:</strong></label>
 					{!! Form::select('anno', $annos, $anno, ["class"=> "form-control"]) !!}
 				</div>
 				<div class="form-group">
-					<label style="width:80px; margin-left: 20px">Aeropuerto:</label>
+					<label style="width:80px; margin-left: 20px"><strong>AEROPUERTO:</strong></label>
 					{!! Form::select('aeropuerto', $aeropuertos, $aeropuerto, ["class"=> "form-control"]) !!}
 				</div>
-				<a class="btn btn-default  pull-right" href="{{action('ReporteController@getReporteRelacionEstacionamientoDiario')}}">Reset</a>
 				<button type="submit" class="btn btn-primary pull-right">Buscar</button>
+				<a class="btn btn-default  pull-right" href="{{action('ReporteController@getReporteRelacionEstacionamientoDiario')}}">Reset</a>
 				{!! Form::close() !!}
 			</div>
 		</div>
@@ -71,58 +71,58 @@
 										<th   style="vertical-align: middle" class="text-center" align="center">
 											Cant
 										</th>
-										<th   style="vertical-align: middle" class="text-center" align="center">
+										<th   style="vertical-align: middle; width: 60px; " class="text-center" align="center">
 											Base
 										</th>
-										<th   style="vertical-align: middle" class="text-center" align="center">
+										<th   style="vertical-align: middle; width: 60px; " class="text-center" align="center">
 											IVA
 										</th>
-										<th   style="vertical-align: middle" class="text-center" align="center">
+										<th   style="vertical-align: middle; width: 60px; " class="text-center" align="center">
 											Total
 										</th>
 										<th   style="vertical-align: middle" class="text-center" align="center">
 											Cant
 										</th>
-										<th   style="vertical-align: middle" class="text-center" align="center">
+										<th   style="vertical-align: middle; width: 60px; " class="text-center" align="center">
 											Base
 										</th>
-										<th   style="vertical-align: middle" class="text-center" align="center">
+										<th   style="vertical-align: middle; width: 60px; " class="text-center" align="center">
 											IVA
 										</th>
-										<th   style="vertical-align: middle" class="text-center" align="center">
+										<th   style="vertical-align: middle; width: 60px; " class="text-center" align="center">
 											Total
 										</th>
 										<th   style="vertical-align: middle" class="text-center" align="center">
 											Cant
 										</th>
-										<th   style="vertical-align: middle" class="text-center" align="center">
+										<th   style="vertical-align: middle; width: 60px; " class="text-center" align="center">
 											Base
 										</th>
-										<th   style="vertical-align: middle" class="text-center" align="center">
+										<th   style="vertical-align: middle; width: 60px;" class="text-center" align="center">
 											IVA
 										</th>
-										<th   style="vertical-align: middle" class="text-center" align="center">
+										<th   style="vertical-align: middle; width: 60px; " class="text-center" align="center">
 											Total
 										</th>
-										<th   style="vertical-align: middle" class="text-center" align="center">
+										<th   style="vertical-align: middle; width: 60px; " class="text-center" align="center">
 											Base
 										</th>
-										<th   style="vertical-align: middle" class="text-center" align="center">
+										<th   style="vertical-align: middle; width: 60px; " class="text-center" align="center">
 											IVA
 										</th>
-										<th   style="vertical-align: middle" class="text-center" align="center">
+										<th   style="vertical-align: middle; width: 60px; " class="text-center" align="center">
 											Total
 										</th>
-										<th   style="vertical-align: middle" class="text-center" align="center">
+										<th   style="vertical-align: middle; width: 60px; " class="text-center" align="center">
 											Base
 										</th>
-										<th   style="vertical-align: middle" class="text-center" align="center">
+										<th   style="vertical-align: middle; width: 60px; " class="text-center" align="center">
 											IVA
 										</th>
-										<th   style="vertical-align: middle" class="text-center" align="center">
+										<th   style="vertical-align: middle; width: 60px; " class="text-center" align="center">
 											Total
 										</th>
-										<th   style="vertical-align: middle" class="text-center" align="center" align="center">
+										<th   style="vertical-align: middle; width: 60px; " class="text-center" align="center" align="center">
 											Ref
 										</th>
 									</tr>
@@ -131,48 +131,48 @@
 								@foreach($estacionamientoDiario as $dia => $estacionamiento)
 									<tr>
 										<td class="text-center dia" align="center">{{$dia}}</td>
-										<td class="text-center ticketEstacionamiento" align="center" style="width: 30px">{{$estacionamiento["ticketEstacionamiento"]}}</td>
-										<td class="text-right baseTicketEstacionamiento" align="right">{{$traductor->format($estacionamiento["baseTicketEstacionamiento"])}}</td>
-										<td class="text-right ivaTicketEstacionamiento" align="right">{{$traductor->format($estacionamiento["ivaTicketEstacionamiento"])}}</td>
-										<td class="text-right totalTicketEstacionamiento" align="right">{{$traductor->format($estacionamiento["totalTicketEstacionamiento"])}}</td>
+										<td class="text-center ticketEstacionamiento" align="center">{{$estacionamiento["ticketEstacionamiento"]}}</td>
+										<td class="text-right baseTicketEstacionamiento" align="right" style="width: 60px; ">{{$traductor->format($estacionamiento["baseTicketEstacionamiento"])}}</td>
+										<td class="text-right ivaTicketEstacionamiento" align="right" style="width: 60px; ">{{$traductor->format($estacionamiento["ivaTicketEstacionamiento"])}}</td>
+										<td class="text-right totalTicketEstacionamiento" align="right" style="width: 60px; ">{{$traductor->format($estacionamiento["totalTicketEstacionamiento"])}}</td>
 										<td class="text-center ticketPernocta" align="center">{{$estacionamiento["ticketPernocta"]}}</td>
-										<td class="text-right baseTicketPernocta" align="right">{{$traductor->format($estacionamiento["baseTicketPernocta"])}}</td>
-										<td class="text-right ivaTicketPernocta" align="right">{{$traductor->format($estacionamiento["ivaTicketPernocta"])}}</td>
-										<td class="text-right totalTicketPernocta" align="right">{{$traductor->format($estacionamiento["totalTicketPernocta"])}}</td>
+										<td class="text-right baseTicketPernocta" align="right" style="width: 60px; ">{{$traductor->format($estacionamiento["baseTicketPernocta"])}}</td>
+										<td class="text-right ivaTicketPernocta" align="right" style="width: 60px; ">{{$traductor->format($estacionamiento["ivaTicketPernocta"])}}</td>
+										<td class="text-right totalTicketPernocta" align="right" style="width: 60px; ">{{$traductor->format($estacionamiento["totalTicketPernocta"])}}</td>
 										<td class="text-center ticketExtraviado"  align="center">{{$estacionamiento["ticketExtraviado"]}}</td>
-										<td class="text-right baseTicketExtraviado" align="right">{{$traductor->format($estacionamiento["baseTicketExtraviado"])}}</td>
-										<td class="text-right ivaTicketExtraviado" align="right">{{$traductor->format($estacionamiento["ivaTicketExtraviado"])}}</td>
-										<td class="text-right totalTicketExtraviado" align="right">{{$traductor->format($estacionamiento["totalTicketExtraviado"])}}</td>
-										<td class="text-right baseTarjetas" align="right">{{$traductor->format($estacionamiento["baseTarjetas"])}}</td>
-										<td class="text-right ivaTarjetas" align="right">{{$traductor->format($estacionamiento["ivaTarjetas"])}}</td>
-										<td class="text-right totalTarjetas" align="right">{{$traductor->format($estacionamiento["totalTarjetas"])}}</td>
-										<td class="text-right baseTotal" align="right">{{$traductor->format($estacionamiento["baseTotal"])}}</td>
-										<td class="text-right ivaTotal" align="right">{{$traductor->format($estacionamiento["ivaTotal"])}}</td>
-										<td class="text-right montoTotal" align="right">{{$traductor->format($estacionamiento["montoTotal"])}}</td>
-										<td class="text-center deposito" align="center">{{$estacionamiento["deposito"]}}</td>
+										<td class="text-right baseTicketExtraviado" align="right" style="width: 60px; ">{{$traductor->format($estacionamiento["baseTicketExtraviado"])}}</td>
+										<td class="text-right ivaTicketExtraviado" align="right" style="width: 60px; ">{{$traductor->format($estacionamiento["ivaTicketExtraviado"])}}</td>
+										<td class="text-right totalTicketExtraviado" align="right" style="width: 60px; ">{{$traductor->format($estacionamiento["totalTicketExtraviado"])}}</td>
+										<td class="text-right baseTarjetas" align="right" style="width: 60px; ">{{$traductor->format($estacionamiento["baseTarjetas"])}}</td>
+										<td class="text-right ivaTarjetas" align="right" style="width: 60px; ">{{$traductor->format($estacionamiento["ivaTarjetas"])}}</td>
+										<td class="text-right totalTarjetas" align="right" style="width: 60px; ">{{$traductor->format($estacionamiento["totalTarjetas"])}}</td>
+										<td class="text-right baseTotal" align="right" style="width: 60px; ">{{$traductor->format($estacionamiento["baseTotal"])}}</td>
+										<td class="text-right ivaTotal" align="right" style="width: 60px; ">{{$traductor->format($estacionamiento["ivaTotal"])}}</td>
+										<td class="text-right montoTotal" align="right" style="width: 60px; ">{{$traductor->format($estacionamiento["montoTotal"])}}</td>
+										<td class="text-center deposito" align="center" style="width: 60px; ">{{$estacionamiento["deposito"]}}</td>
 									</tr>
 									@endforeach
 									<tr>
 										<td style="font-weight: bold">TOTALES</td>
 										<td class="text-right" style="font-weight: bold" align="center" id="ticketEstacionamiento">0</td>
-										<td class="text-right" style="font-weight: bold" align="right" id="baseTicketEstacionamiento">0</td>
-										<td class="text-right" style="font-weight: bold" align="right" id="ivaTicketEstacionamiento">0</td>
-										<td class="text-right" style="font-weight: bold" align="right" id="totalTicketEstacionamiento">0</td>
+										<td class="text-right" style="font-weight: bold; width: 60px; " align="right" id="baseTicketEstacionamiento">0</td>
+										<td class="text-right" style="font-weight: bold; width: 60px; " align="right" id="ivaTicketEstacionamiento">0</td>
+										<td class="text-right" style="font-weight: bold; width: 60px; " align="right" id="totalTicketEstacionamiento">0</td>
 										<td class="text-right" style="font-weight: bold" align="center" id="ticketPernocta">0</td>
-										<td class="text-right" style="font-weight: bold" align="right" id="baseTicketPernocta">0</td>
-										<td class="text-right" style="font-weight: bold" align="right" id="ivaTicketPernocta">0</td>
-										<td class="text-right" style="font-weight: bold" align="right" id="totalTicketPernocta">0</td>
-										<td class="text-right" style="font-weight: bold" align="center" id="ticketExtraviado">0</td>
-										<td class="text-right" style="font-weight: bold" align="right" id="baseTicketExtraviado">0</td>
-										<td class="text-right" style="font-weight: bold" align="right" id="ivaTicketExtraviado">0</td>
-										<td class="text-right" style="font-weight: bold" align="right" id="totalTicketExtraviado">0</td>
-										<td class="text-right" style="font-weight: bold" align="right" id="baseTarjetas">0</td>
-										<td class="text-right" style="font-weight: bold" align="right" id="ivaTarjetas">0</td>
-										<td class="text-right" style="font-weight: bold" align="right" id="totalTarjetas">0</td>
-										<td class="text-right" style="font-weight: bold" align="right" id="baseTotal">0</td>
-										<td class="text-right" style="font-weight: bold" align="right" id="ivaTotal">0</td>
-										<td class="text-right" style="font-weight: bold" align="right" id="montoTotal">0</td>
-										<td class="text-right" style="font-weight: bold" align="center" id="deposito"></td>
+										<td class="text-right" style="font-weight: bold; width: 60px; " align="right" id="baseTicketPernocta">0</td>
+										<td class="text-right" style="font-weight: bold; width: 60px; " align="right" id="ivaTicketPernocta">0</td>
+										<td class="text-right" style="font-weight: bold; width: 60px; " align="right" id="totalTicketPernocta">0</td>
+										<td class="text-right" style="font-weight: bold;" align="center" id="ticketExtraviado">0</td>
+										<td class="text-right" style="font-weight: bold; width: 60px; " align="right" id="baseTicketExtraviado">0</td>
+										<td class="text-right" style="font-weight: bold; width: 60px; " align="right" id="ivaTicketExtraviado">0</td>
+										<td class="text-right" style="font-weight: bold; width: 60px; " align="right" id="totalTicketExtraviado">0</td>
+										<td class="text-right" style="font-weight: bold; width: 60px; " align="right" id="baseTarjetas">0</td>
+										<td class="text-right" style="font-weight: bold; width: 60px; " align="right" id="ivaTarjetas">0</td>
+										<td class="text-right" style="font-weight: bold; width: 60px; " align="right" id="totalTarjetas">0</td>
+										<td class="text-right" style="font-weight: bold; width: 60px; " align="right" id="baseTotal">0</td>
+										<td class="text-right" style="font-weight: bold; width: 60px; " align="right" id="ivaTotal">0</td>
+										<td class="text-right" style="font-weight: bold; width: 60px; " align="right" id="montoTotal">0</td>
+										<td class="text-right" style="font-weight: bold; width: 60px; " align="center" id="deposito"></td>
 									</tr>
 								</tbody>
 							</table>
@@ -317,9 +317,9 @@
 									</th>\
 								</tr>\
 							</thead>')
-			$(table).find('thead, th').css({'border-top':'1px solid black', 'font-weight': 'bold', 'text-align':"center", 'font-size': '7px'})
-			$(table).find('th').css({'border-bottom':'1px solid black', 'font-weight': 'bold', 'text-align':"center", 'font-size': '7px'})
-			$(table).find('td').css({'font-size': '6px'})
+			$(table).find('thead, th').css({'border-top':'1px solid black', 'font-weight': 'bold', 'text-align':"center", 'font-size': '12px'})
+			$(table).find('th').css({'border-bottom':'1px solid black', 'font-weight': 'bold', 'text-align':"center", 'font-size': '12px'})
+			$(table).find('td').css({'font-size': '11px'})
 			$(table).find('tr:nth-child(even)').css({'background-color': '#E2E2E2'})
 			$(table).find('tr:last td').css({'border-bottom':'1px solid black','border-top':'1px solid black', 'font-weight': 'bold'})
 			var tableHtml= $(table)[0].outerHTML;
