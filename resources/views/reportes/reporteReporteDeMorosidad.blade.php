@@ -69,13 +69,13 @@
 									@foreach($clientesMod as $modulo=>$cantCliente)
 										@if(count($cantCliente)>0)
 											<tr id="NombreModulo">
-												<td  colspan="14" style="vertical-align: middle;" class="text-center" align="center" >
+												<td  colspan="14" style="vertical-align: middle;" class="text-center bg-gray" align="center" >
 													<strong>{{ $modulo }}</strong>
 												</td>
 											</tr>
 											@foreach($cantCliente as $index => $cliente_id)
 												<tr>
-													<td >
+													<td  class="text-left" align="left" style="width: 200px">
 														{{ $cliente_id }}
 													</td>
 													@foreach($facturasPendientesModulo as $mod => $facturasPendientes)
@@ -83,7 +83,7 @@
 															@foreach($facturasPendientes as $mes => $clientesPendientes)
 																@foreach($clientesPendientes as $id => $montoMensual)
 																	@if($cliente_id == $id)
-																		<td class="text-right" align="right">
+																		<td class="text-right" align="right" style="width: 80px">
 																			{{ $traductor->format($montoMensual) }}
 																		</td>
 																	@endif
@@ -95,7 +95,7 @@
 														@if($m == $modulo)
 															@foreach($c as $nombre => $monto)
 																@if($nombre == $cliente_id)
-																	<td class="text-right" align="right">
+																	<td  class="text-right" align="right" style="width: 80px">
 																		{{ $traductor->format($monto["total"]) }}
 																	</td>
 																@endif
@@ -125,7 +125,7 @@
 											TOTALES
 										</th>
 										@foreach($totalMes as $mes => $monto)
-											<td class="text-right" align="right">
+											<td  class="text-right" align="right" style="width: 80px">
 												<strong>{{ $traductor->format($monto) }}</strong>
 											</td>
 										@endforeach
@@ -174,13 +174,14 @@
 									<tr>\
 										<th colspan="14" style="vertical-align: middle; margin-top:20px" align="center" class="text-center">REPORTE DE MOROSIDAD\
 										</br>\
+										AÑO: {{ $anno }} | AEROPUERTO: {{ $aeropuerto }}\
 									</th>\
 								</tr>\
 							</thead>')
-			$(table).find('thead, th').css({'border-top':'1px solid black', 'font-weight': 'bold', 'text-align':"center", 'font-size': '7px'})
-			$(table).find('th').css({'border-bottom':'1px solid black', 'font-weight': 'bold', 'text-align':"center", 'font-size': '7px'})
-			$(table).find('td').css({'font-size': '6px'})
-			$(table).find('#NombreModulo').css({'font-size': '100px'})
+			$(table).find('thead, th').css({'border-top':'1px solid black', 'font-weight': 'bold', 'text-align':"center", 'font-size': '12px'})
+			$(table).find('th').css({'border-bottom':'1px solid black', 'font-weight': 'bold', 'text-align':"center", 'font-size': '12px'})
+			$(table).find('td').css({'font-size': '10px'})
+			$(table).find('#NombreModulo').css({'font-size': '80px'})
 			$(table).find('tr:nth-child(even)').css({'background-color': '#E2E2E2'})
 			$(table).find('tr:last td').css({'border-bottom':'1px solid black','border-top':'1px solid black', 'font-weight': 'bold'})
 			var tableHtml= $(table)[0].outerHTML;
