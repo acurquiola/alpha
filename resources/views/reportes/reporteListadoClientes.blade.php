@@ -49,23 +49,23 @@
 							<table class="table table-condensed">
 								<thead  class="bg-primary">
 									<tr align="center">
-										<th align="center" style="width: 50px" >Código</th>
-										<th align="center" style="width: 400px">Nombre o Razón Social</th>
-										<th align="center" style="width: 70px" >RIF</th>
-										<th align="center" style="width: 100px">NIT</th>
-										<th align="center" style="width: 100px">Teléfono</th>
-										<th align="center" style="width: 100px">Fax</th>
+										<th align="center" style="width: 80px" >CÓDIGO</th>
+										<th align="center" style="width: 420px">NOMBRE O RAZÓN SOCIAL</th>
+										<th align="center" style="width: 100px">RIF</th>
+										<th align="center" style="width: 180px">NIT</th>
+										<th align="center" style="width: 180px">TELÉFONO</th>
+										<th align="center" style="width: 180px">FAX</th>
 									</tr>
 								</thead>
 								<tbody>
 									@foreach($clientes as $cliente)
 									<tr align="left">
-										<td align="center" style="width: 50px" >{{$cliente->codigo}}</td>
-										<td align="left"   style="width: 400px">{{$cliente->nombre}}</td>
-										<td align="left"   style="width: 70px" >{{$cliente->cedRifPrefix}} - {{$cliente->cedRif}}</td>
-										<td align="center" style="width: 100px">{{$cliente->nit}}</td>
-										<td align="center" style="width: 100px">{{$cliente->telefonos}}</td>
-										<td align="center" style="width: 100px">{{$cliente->fax}}</td>
+										<td align="center" style="width: 80px" >{{$cliente->codigo}}</td>
+										<td align="left"   style="width: 420px">{{$cliente->nombre}}</td>
+										<td align="center"   style="width: 100px" >{{$cliente->cedRifPrefix}} - {{$cliente->cedRif}}</td>
+										<td align="center" style="width: 180px">{{$cliente->nit}}</td>
+										<td align="center" style="width: 180px">{{$cliente->telefonos}}</td>
+										<td align="center" style="width: 180px">{{$cliente->fax}}</td>
 									</tr>
 									@endforeach
 								</tbody>
@@ -98,9 +98,9 @@
 									</th>\
 								</tr>\
 							</thead>')
-			$(table).find('thead, th').css({'border-top':'1px solid black', 'font-weight': 'bold', 'text-align':"center", 'font-size': '8px'})
-			$(table).find('th').css({'border-bottom':'1px solid black', 'font-weight': 'bold', 'text-align':"center", 'font-size': '8px'})
-			$(table).find('td').css({'font-size': '7px'})
+			$(table).find('thead, th').css({'border-top':'1px solid black', 'font-weight': 'bold', 'text-align':"center", 'font-size': '12px'})
+			$(table).find('th').css({'border-bottom':'1px solid black', 'font-weight': 'bold', 'text-align':"center", 'font-size': '12px'})
+			$(table).find('td').css({'font-size': '10px'})
 			$(table).find('tr:nth-child(even)').css({'background-color': '#E2E2E2'})
 		    $(table).find('tr:last td').css({'border-bottom':'1px solid black'})
 			var tableHtml= $(table)[0].outerHTML;

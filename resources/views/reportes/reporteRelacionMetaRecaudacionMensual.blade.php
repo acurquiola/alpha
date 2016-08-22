@@ -3,7 +3,7 @@
 @section('content')
 <ol class="breadcrumb">
 	<li><a href="{{url('principal')}}">Inicio</a></li>
-	<li><a class="active">Relación de Meta y REcaudación Mensual</a></li>
+	<li><a class="active">Relación de Meta y Recaudación Mensual</a></li>
 </ol>
 <div class="row" id="box-wrapper">
 	<div class="col-md-12">
@@ -17,10 +17,10 @@
 			<div class="box-body text-right">
 				{!! Form::open(["url" => action('ReporteController@getReporteRelacionMetaRecaudacionMensual'), "method" => "GET", "class"=>"form-inline"]) !!}
 				<div class="form-group">
-					<label>Seleccione un año:</label>
+					<label><strong>AÑO: </strong></label>
 					{!! Form::select('anno', $annos, $anno, ["class"=> "form-control"]) !!}
 				</div>
-				<button type="submit" class="btn btn-default">Buscar</button>
+				<button type="submit" class="btn btn-primary">Buscar</button>
 				<a class="btn btn-default" href="{{action('ReporteController@getReporteRelacionMetaRecaudacionMensual')}}">Reset</a>
 				{!! Form::close() !!}
 			</div>
@@ -52,57 +52,57 @@
 								<thead  class="bg-primary">
 									<tr>
 
-										<th rowspan="2" style="vertical-align: middle" class="text-center">
+										<th rowspan="2" style="vertical-align: middle; width: 120px; " class="text-center">
 											Mes
 										</th>
-										<th colspan="3" style="vertical-align: middle" class="text-center">
+										<th colspan="3" style="vertical-align: middle; width: 360px " class="text-center">
 											MANUEL CARLOS PIAR
 										</th>
-										<th colspan="3" style="vertical-align: middle" class="text-center">
+										<th colspan="3" style="vertical-align: middle; width: 360px " class="text-center">
 											GRAL. TOMÁS DE HERES
 										</th>
-										<th colspan="3" style="vertical-align: middle" class="text-center">
+										<th colspan="3" style="vertical-align: middle; width: 360px " class="text-center">
 											SANTA ELENA DE UAIRÉN
 										</th>
-										<th colspan="3" style="font-weight: bold; vertical-align: middle" class="text-center">
+										<th colspan="3" style="font-weight: bold; vertical-align: middle; width: 120px; " class="text-center">
 											TOTAL
 										</th>
 									</tr>
 									<tr>
-										<th style="vertical-align: middle" class="text-center">
+										<th style="vertical-align: middle; width: 120px" class="text-center">
 											Meta
 										</th>
-										<th style="vertical-align: middle" class="text-center">
+										<th style="vertical-align: middle; width: 120px" class="text-center">
 											Recaudado
 										</th>
-										<th style="vertical-align: middle" class="text-center">
+										<th style="vertical-align: middle; width: 120px" class="text-center">
 											Diferencia
 										</th>
-										<th style="vertical-align: middle" class="text-center">
+										<th style="vertical-align: middle; width: 120px" class="text-center">
 											Meta
 										</th>
-										<th style="vertical-align: middle" class="text-center">
+										<th style="vertical-align: middle; width: 120px" class="text-center">
 											Recaudado
 										</th>
-										<th style="vertical-align: middle" class="text-center">
+										<th style="vertical-align: middle; width: 120px" class="text-center">
 											Diferencia
 										</th>
-										<th style="vertical-align: middle" class="text-center">
+										<th style="vertical-align: middle; width: 120px" class="text-center">
 											Meta
 										</th>
-										<th style="vertical-align: middle" class="text-center">
+										<th style="vertical-align: middle; width: 120px" class="text-center">
 											Recaudado
 										</th>
-										<th style="vertical-align: middle" class="text-center">
+										<th style="vertical-align: middle; width: 120px" class="text-center">
 											Diferencia
 										</th>
-										<th style="vertical-align: middle" class="text-center">
+										<th style="vertical-align: middle; width: 120px" class="text-center">
 											Meta
 										</th>
-										<th style="vertical-align: middle" class="text-center">
+										<th style="vertical-align: middle; width: 120px" class="text-center">
 											Recaudado
 										</th>
-										<th style="vertical-align: middle" class="text-center">
+										<th style="vertical-align: middle; width: 120px" class="text-center">
 											Diferencia
 										</th>
 									</tr>
@@ -111,34 +111,34 @@
 									@foreach($montosMeses as $mes => $montos)
 										<tr>
 											<td>{{$mes}}</td>
-											<td class="text-right metaPZO" align="right">{{$traductor->format($montos["metaPZO"])}}</td>
-											<td class="text-right recaudadoPZO" align="right">{{$traductor->format($montos["recaudadoPZO"])}}</td>
-											<td class="text-right diferenciaPZO" align="right">{{$traductor->format($montos["diferenciaPZO"])}}</td>
-											<td class="text-right metaCBL" align="right">{{$traductor->format($montos["metaCBL"])}}</td>
-											<td class="text-right recaudadoCBL" align="right">{{$traductor->format($montos["recaudadoCBL"])}}</td>
-											<td class="text-right diferenciaCBL" align="right">{{$traductor->format($montos["diferenciaCBL"])}}</td>
-											<td class="text-right metaSNV" align="right">{{$traductor->format($montos["metaSNV"])}}</td>
-											<td class="text-right recaudadoSNV" align="right">{{$traductor->format($montos["recaudadoSNV"])}}</td>
-											<td class="text-right diferenciaSNV" align="right">{{$traductor->format($montos["diferenciaSNV"])}}</td>
-											<td class="text-right metaTotal" style="font-weight: bold;" align="right">{{$traductor->format($montos["metaTotal"])}}</td>
-											<td class="text-right recaudadoTotal" style="font-weight: bold;" align="right">{{$traductor->format($montos["recaudadoTotal"])}}</td>
-											<td class="text-right diferenciaTotal" style="font-weight: bold;" align="right">{{$traductor->format($montos["diferenciaTotal"])}}</td>
+											<td class="text-right metaPZO" style="width: 120px" align="right">{{$traductor->format($montos["metaPZO"])}}</td>
+											<td class="text-right recaudadoPZO" style="width: 120px" align="right">{{$traductor->format($montos["recaudadoPZO"])}}</td>
+											<td class="text-right diferenciaPZO" style="width: 120px" align="right">{{$traductor->format($montos["diferenciaPZO"])}}</td>
+											<td class="text-right metaCBL style="width: 120px"" align="right">{{$traductor->format($montos["metaCBL"])}}</td>
+											<td class="text-right recaudadoCBL" style="width: 120px" align="right">{{$traductor->format($montos["recaudadoCBL"])}}</td>
+											<td class="text-right diferenciaCBL" style="width: 120px" align="right">{{$traductor->format($montos["diferenciaCBL"])}}</td>
+											<td class="text-right metaSNV" style="width: 120px" align="right">{{$traductor->format($montos["metaSNV"])}}</td>
+											<td class="text-right recaudadoSNV" style="width: 120px" align="right">{{$traductor->format($montos["recaudadoSNV"])}}</td>
+											<td class="text-right diferenciaSNV" style="width: 120px" align="right">{{$traductor->format($montos["diferenciaSNV"])}}</td>
+											<td class="text-right metaTotal" style="font-weight: bold; width: 120px" align="right">{{$traductor->format($montos["metaTotal"])}}</td>
+											<td class="text-right recaudadoTotal" style="font-weight: bold; width: 120px" align="right">{{$traductor->format($montos["recaudadoTotal"])}}</td>
+											<td class="text-right diferenciaTotal" style="font-weight: bold; width: 120px" align="right">{{$traductor->format($montos["diferenciaTotal"])}}</td>
 										</tr>
 									@endforeach
 										<tr class="bg-gray">
 											<td style="font-weight: bold;">TOTALES</td>
-											<td class="text-right" id="metaPZO" style="font-weight: bold;" align="right">{{$traductor->format($metaSaarPZO)}}</td>
-											<td class="text-right" id="recaudadoPZO" style="font-weight: bold;" align="right">0</td>
-											<td class="text-right" id="diferenciaPZO" style="font-weight: bold;" align="right">0</td>
-											<td class="text-right" id="metaCBL" style="font-weight: bold;" align="right">{{$traductor->format($metaSaarCBL)}}</td>
-											<td class="text-right" id="recaudadoCBL" style="font-weight: bold;" align="right">0</td>
-											<td class="text-right" id="diferenciaCBL" style="font-weight: bold;" align="right">0</td>
-											<td class="text-right" id="metaSNV" style="font-weight: bold;" align="right">{{$traductor->format($metaSaarSNV)}}</td>
-											<td class="text-right" id="recaudadoSNV" style="font-weight: bold;" align="right">0</td>
-											<td class="text-right" id="diferenciaSNV" style="font-weight: bold;" align="right">0</td>
-											<td class="text-right" id="metaTotal" style="font-weight: bold;" align="right">0</td>
-											<td class="text-right" id="recaudadoTotal" style="font-weight: bold;" align="right">0</td>
-											<td class="text-right" id="diferenciaTotal" style="font-weight: bold;" align="right">0</td>
+											<td class="text-right" id="metaPZO" style="font-weight: bold; width: 120px" align="right">{{$traductor->format($metaSaarPZO)}}</td>
+											<td class="text-right" id="recaudadoPZO" style="font-weight: bold; width: 120px" align="right">0</td>
+											<td class="text-right" id="diferenciaPZO" style="font-weight: bold; width: 120px" align="right">0</td>
+											<td class="text-right" id="metaCBL" style="font-weight: bold; width: 120px" align="right">{{$traductor->format($metaSaarCBL)}}</td>
+											<td class="text-right" id="recaudadoCBL" style="font-weight: bold; width: 120px" align="right">0</td>
+											<td class="text-right" id="diferenciaCBL" style="font-weight: bold; width: 120px" align="right">0</td>
+											<td class="text-right" id="metaSNV" style="font-weight: bold; width: 120px" align="right">{{$traductor->format($metaSaarSNV)}}</td>
+											<td class="text-right" id="recaudadoSNV" style="font-weight: bold; width: 120px" align="right">0</td>
+											<td class="text-right" id="diferenciaSNV" style="font-weight: bold; width: 120px" align="right">0</td>
+											<td class="text-right" id="metaTotal" style="font-weight: bold; width: 120px" align="right">0</td>
+											<td class="text-right" id="recaudadoTotal" style="font-weight: bold; width: 120px" align="right">0</td>
+											<td class="text-right" id="diferenciaTotal" style="font-weight: bold; width: 120px" align="right">0</td>
 										</tr>
 								</tbody>
 							</table>
@@ -246,28 +246,28 @@
 		                  </th>\
 		                </tr>\
 		              </thead>')
-		        $(table).find('thead, th').css({'border-top':'1px solid black', 'font-weight': 'bold', 'text-align':"center", 'font-size': '8px'})
-		        $(table).find('th').css({'border-bottom':'1px solid black', 'font-weight': 'bold', 'text-align':"center", 'font-size': '8px'})
-		        $(table).find('td').css({'font-size': '7px'})
+		        $(table).find('thead, th').css({'border-top':'1px solid black', 'font-weight': 'bold', 'text-align':"center", 'font-size': '15px'})
+		        $(table).find('th').css({'border-bottom':'1px solid black', 'font-weight': 'bold', 'text-align':"center", 'font-size': '15px'})
+		        $(table).find('td').css({'font-size': '13px'})
 		        $(table).find('tr:nth-child(even)').css({'background-color': '#E2E2E2'})
 		        $(table).find('tr:last td').css({'border-bottom':'1px solid black','border-top':'1px solid black', 'font-weight': 'bold'})
 		        $(table).append('<tr>\
-          						<td colspan="13"><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br></td>\
+          						<td colspan="13"><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br></td>\
                			  </tr><tr>\
-          						<td colspan="7" align="center" style="font-weight: bold; border-top: 1px solid black;border-right: 1px solid black;border-left: 1px solid black;border-bottom: 1px solid black;">REVISADO</td>\
-          						<td colspan="6" align="center" style="font-weight: bold; border-top: 1px solid black;border-right: 1px solid black;border-left: 1px solid black;border-bottom: 1px solid black;">CONFORMADO</td>\
+          						<td colspan="7" align="center" style="font-weight: bold; border-top: 1px solid black;border-right: 1px solid black;border-left: 1px solid black;border-bottom: 1px solid black; font-size: 12px">REVISADO</td>\
+          						<td colspan="6" align="center" style="font-weight: bold; border-top: 1px solid black;border-right: 1px solid black;border-left: 1px solid black;border-bottom: 1px solid black; font-size: 12px;">CONFORMADO</td>\
                			  </tr><tr>\
-          						<td colspan="2" align="center" style="font-weight: bold; border-top: 1px solid black;border-right: 1px solid black;border-left: 1px solid black;border-bottom: 1px solid black;"><br><br><br><br><br><br> </td>\
+          						<td colspan="2" align="center" style="font-weight: bold; border-top: 1px solid black;border-right: 1px solid black;border-left: 1px solid black;border-bottom: 1px solid black;"><br><br><br><br><br> </td>\
           						<td colspan="2" align="center" style="font-weight: bold; border-top: 1px solid black;border-right: 1px solid black;border-left: 1px solid black;border-bottom: 1px solid black;"> </td>\
           						<td colspan="3" align="center" style="font-weight: bold; border-top: 1px solid black;border-right: 1px solid black;border-left: 1px solid black;border-bottom: 1px solid black;"> </td>\
           						<td colspan="3" align="center" style="font-weight: bold; border-top: 1px solid black;border-right: 1px solid black;border-left: 1px solid black;border-bottom: 1px solid black;"> </td>\
           						<td colspan="3" align="center" style="font-weight: bold; border-top: 1px solid black;border-right: 1px solid black;border-left: 1px solid black;border-bottom: 1px solid black;"> </td>\
                			  </tr><tr>\
-          						<td colspan="2" align="center" style="font-weight: bold; border-top: 1px solid black;border-right: 1px solid black;border-left: 1px solid black;border-bottom: 1px solid black;">JEFE DEPARTAMENTO RECAUDACIÓN</td>\
-          						<td colspan="2" align="center" style="font-weight: bold; border-top: 1px solid black;border-right: 1px solid black;border-left: 1px solid black;border-bottom: 1px solid black;">CONTADOR</td>\
-          						<td colspan="3" align="center" style="font-weight: bold; border-top: 1px solid black;border-right: 1px solid black;border-left: 1px solid black;border-bottom: 1px solid black;">GERENTE ADMINISTRACIÓN</td>\
-          						<td colspan="3" align="center" style="font-weight: bold; border-top: 1px solid black;border-right: 1px solid black;border-left: 1px solid black;border-bottom: 1px solid black;">SUB-DIRECTOR</td>\
-          						<td colspan="3" align="center" style="font-weight: bold; border-top: 1px solid black;border-right: 1px solid black;border-left: 1px solid black;border-bottom: 1px solid black;">DIRECTOR</td>\
+          						<td colspan="2" align="center" style="font-weight: bold; border-top: 1px solid black;border-right: 1px solid black;border-left: 1px solid black;border-bottom: 1px solid black; font-size: 12px">JEFE DEPARTAMENTO RECAUDACIÓN</td>\
+          						<td colspan="2" align="center" style="font-weight: bold; border-top: 1px solid black;border-right: 1px solid black;border-left: 1px solid black;border-bottom: 1px solid black; font-size: 12px">CONTADOR</td>\
+          						<td colspan="3" align="center" style="font-weight: bold; border-top: 1px solid black;border-right: 1px solid black;border-left: 1px solid black;border-bottom: 1px solid black; font-size: 12px">GERENTE ADMINISTRACIÓN</td>\
+          						<td colspan="3" align="center" style="font-weight: bold; border-top: 1px solid black;border-right: 1px solid black;border-left: 1px solid black;border-bottom: 1px solid black; font-size: 12px">SUB-DIRECTOR</td>\
+          						<td colspan="3" align="center" style="font-weight: bold; border-top: 1px solid black;border-right: 1px solid black;border-left: 1px solid black;border-bottom: 1px solid black; font-size: 12px">DIRECTOR</td>\
                			  </tr>')
 		        var tableHtml= $(table)[0].outerHTML;
 		        $('[name=table]').val(tableHtml);

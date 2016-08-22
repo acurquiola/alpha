@@ -25,81 +25,81 @@
         </div>
         <!-- form start -->
         <div class="box-body">
-            <h6 style="font-weight: bold;">Cobro: <label>{{$cobro->id}}</label> </h6> 
-            <h6 style="font-weight: bold;">Cliente: <label>{{$cobro->cliente->codigo}} | {{$cobro->cliente->nombre}}</label> </h6> 
-            <h6 style="font-weight: bold;">Nro. Recibo de Caja: <label>{{($cobro->nRecibo)?$cobro->nRecibo:"No Dispone"}}</label> </h6> 
-            <h6 style="font-weight: bold;">Fecha de Cobro: <label>{{($cobro->fecha=='30/11/-0001')?$cobro->created_at:$cobro->fecha}}</label> </h6> 
-                <h6 style="font-weight: bold;">Observaciones:  <label>{{($cobro->observacion)?$cobro->observacion:"No Dispone"}}</label> </h6> 
-                <h6 style="font-weight: bold;">Recaudos Consignados:  <label> {{($cobro->hasrecaudos)?"Si":"No"}}</label> </h6> 
+            <h6 style="font-weight: bold;">NRO. COBRO: <label>{{$cobro->id}}</label> </h6> 
+            <h6 style="font-weight: bold;">CLIENTE: <label>{{$cobro->cliente->codigo}} | {{$cobro->cliente->nombre}}</label> </h6> 
+            <h6 style="font-weight: bold;">NRO. RECIBO DE CAJA: <label>{{($cobro->nRecibo)?$cobro->nRecibo:"No Dispone"}}</label> </h6> 
+            <h6 style="font-weight: bold;">FECHA DE COBRO: <label>{{($cobro->fecha=='30/11/-0001')?$cobro->created_at:$cobro->fecha}}</label> </h6> 
+                <h6 style="font-weight: bold;">OBSERVACIONES:  <label>{{($cobro->observacion)?$cobro->observacion:"No Dispone"}}</label> </h6> 
+                <h6 style="font-weight: bold;">RECAUDOS CONSIGNADOS:  <label> {{($cobro->hasrecaudos)?"Si":"No"}}</label> </h6> 
 
                 <div class="table-responsive">
                     <table class="table table-condensed" >
                         <thead  class="bg-primary">
                             <tr>
-                                <th align="center" class="text-center" colspan="3" style="width: 170px; vertical-align: middle">Factura</th>
-                                <th align="center" class="text-center" colspan="2" style="width: 100px; vertical-align: middle">Comprobante</th>
-                                <th align="center" class="text-center" colspan="3" style="width: 160px; vertical-align: middle">Factura (Bs.)</th>
-                                <th align="center" class="text-center" colspan="5" style="width: 230px; vertical-align: middle">Retención</th>
-                                <th align="center" class="text-center" colspan="2" style="width: 120px; vertical-align: middle">Cobro (Bs.)</th>
+                                <th align="center" class="text-center" colspan="3" style="width: 230px; vertical-align: middle">FACTURA</th>
+                                <th align="center" class="text-center" colspan="2" style="width: 140px; vertical-align: middle">COMPROBANTE DE RETENCIÓN</th>
+                                <th align="center" class="text-center" colspan="3" style="width: 220px; vertical-align: middle">FACTURA (Bs.)</th>
+                                <th align="center" class="text-center" colspan="5" style="width: 330px; vertical-align: middle">RETENCIÓN (Bs.)</th>
+                                <th align="center" class="text-center" colspan="2" style="width: 160px; vertical-align: middle">COBRO (Bs.)</th>
                             </tr>
                             <tr>
-                                <th align="center" class="text-center" style="width: 50px">Fecha</th>
-                                <th align="center" class="text-center" style="width: 60px">Nro. Factura</th>
-                                <th align="center" class="text-center" style="width: 60px">Nro. Control</th>
+                                <th align="center" class="text-center" style="width: 70px">Fecha</th>
+                                <th align="center" class="text-center" style="width: 80px">Nro. Factura</th>
+                                <th align="center" class="text-center" style="width: 80px">Nro. Control</th>
 
-                                <th align="center" class="text-center" style="width: 50px">Fecha</th>
-                                <th align="center" class="text-center" style="width: 50px">Número</th>
+                                <th align="center" class="text-center" style="width: 70px">Fecha</th>
+                                <th align="center" class="text-center" style="width: 70px">Número</th>
 
-                                <th align="center" class="text-center" style="width: 60px">Base</th>
-                                <th align="center" class="text-center" style="width: 40px">IVA</th>
-                                <th align="center" class="text-center" style="width: 60px">Total</th>
+                                <th align="center" class="text-center" style="width: 80px">Base</th>
+                                <th align="center" class="text-center" style="width: 60px">IVA</th>
+                                <th align="center" class="text-center" style="width: 80px">Total</th>
 
-                                <th align="center" class="text-center" style="width: 40px">% IVA</th>
-                                <th align="center" class="text-center" style="width: 50px">IVA (Bs.)</th>
-                                <th align="center" class="text-center" style="width: 40px">% ISLR</th>
-                                <th align="center" class="text-center" style="width: 40px">ISLR (Bs.)</th>
-                                <th align="center" class="text-center" style="width: 60px">Total (Bs.)</th>
+                                <th align="center" class="text-center" style="width: 60px">% IVA</th>
+                                <th align="center" class="text-center" style="width: 70px">IVA (Bs.)</th>
+                                <th align="center" class="text-center" style="width: 60px">% ISLR</th>
+                                <th align="center" class="text-center" style="width: 60px">ISLR (Bs.)</th>
+                                <th align="center" class="text-center" style="width: 80px">Total (Bs.)</th>
 
-                                <th align="center" class="text-center" style="width: 60px">Por Cobrar</th>
-                                <th align="center" class="text-center" style="width: 60px">Cobrado</th>
+                                <th align="center" class="text-center" style="width: 80px">Por Cobrar</th>
+                                <th align="center" class="text-center" style="width: 80px">Cobrado</th>
                             </tr>
                         </thead>
                         <tbody>
 
                             @foreach($cobro->facturas as $factura)
                             <tr>
-                                <td align="center" style="width: 50px">{{$factura->fecha}}</td>
-                                <td align="center" style="width: 60px">{{$factura->nFacturaPrefix}}-{{$factura->nFactura}}</td>
-                                <td align="center" style="width: 60px">{{$factura->nControlPrefix}}-{{$factura->nControl}}</td>
-                                <td align="center" style="width: 50px">{{$factura->pivot->retencionFecha}}</td>
-                                <td align="center" style="width: 50px">{{$factura->pivot->retencionComprobante}}</td>                                
-                                <td align="right" style="width: 60px">{{$traductor->format($factura->pivot->base)}}</td>
-                                <td align="right" style="width: 40px">{{$traductor->format($factura->iva)}}</td>
-                                <td align="right" style="width: 60px">{{$traductor->format($factura->pivot->total)}}</td>
+                                <td align="center" style="width: 70px">{{$factura->fecha}}</td>
+                                <td align="center" style="width: 80px">{{$factura->nFacturaPrefix}}-{{$factura->nFactura}}</td>
+                                <td align="center" style="width: 80px">{{$factura->nControlPrefix}}-{{$factura->nControl}}</td>
+                                <td align="center" style="width: 70px">{{$factura->pivot->retencionFecha}}</td>
+                                <td align="center" style="width: 70px">{{$factura->pivot->retencionComprobante}}</td>                                
+                                <td align="right" style="width: 80px">{{$traductor->format($factura->pivot->base)}}</td>
+                                <td align="right" style="width: 60px">{{$traductor->format($factura->iva)}}</td>
+                                <td align="right" style="width: 80px">{{$traductor->format($factura->pivot->total)}}</td>
 
-                                <td align="right" style="width: 40px">{{$traductor->format($factura->pivot->ivapercentage)}}</td>
-                                <td align="right" style="width: 50px">{{$traductor->format((($factura->pivot->ivapercentage)/100)*$factura->pivot->iva)}}</td>
-                                <td align="right" style="width: 40px">{{$traductor->format($factura->pivot->islrpercentage)}}</td>
-                                <td align="right" style="width: 40px">{{$traductor->format((($factura->pivot->islrpercentage)/100)*($factura->pivot->base))}}</td>
-                                <td align="right" style="width: 60px">{{$traductor->format($factura->pivot->retencion)}}</td>
-                                <td align="right" style="width: 60px">{{$traductor->format(($factura->pivot->total)-($factura->pivot->retencion))}}</td>
-                                <td align="right" style="width: 60px">{{$traductor->format($factura->pivot->monto)}}</td>
+                                <td align="right" style="width: 60px">{{$traductor->format($factura->pivot->ivapercentage)}}</td>
+                                <td align="right" style="width: 70px">{{$traductor->format((($factura->pivot->ivapercentage)/100)*$factura->pivot->iva)}}</td>
+                                <td align="right" style="width: 60px">{{$traductor->format($factura->pivot->islrpercentage)}}</td>
+                                <td align="right" style="width: 60px">{{$traductor->format((($factura->pivot->islrpercentage)/100)*($factura->pivot->base))}}</td>
+                                <td align="right" style="width: 80px">{{$traductor->format($factura->pivot->retencion)}}</td>
+                                <td align="right" style="width: 80px">{{$traductor->format(($factura->pivot->total)-($factura->pivot->retencion))}}</td>
+                                <td align="right" style="width: 80px">{{$traductor->format($factura->pivot->monto)}}</td>
                             </tr>
                             @endforeach
                             <tr><td colspan="15"> </td></tr>
                             <tr class="footer-table" id="inicio-footer">
                                 <td colspan="10"> </td>
-                                <td align="left" colspan="4">Monto total facturas:</td>
+                                <td align="left" colspan="4"><strong>TOTAL FACTURAS</strong></td>
                                 <td align="right">{{$traductor->format($cobro->montofacturas)}}</td>                                   
                             </tr>
                             <tr class="footer-table">
                                 <td colspan="10"> </td>
-                                <td align="left" colspan="4">Monto total depositado:</td>
+                                <td align="left" colspan="4"><strong>TOTAL DEPOSITADO</strong></td>
                                 <td align="right">{{$traductor->format($cobro->montodepositado)}}</td>                                   
                             </tr>
                             <tr class="footer-table">
                                 <td colspan="10"> </td>
-                                <td align="left" colspan="4">Diferencia</td>
+                                <td align="left" colspan="4"><strong>DIFERENCIA</strong></td>
                                 <td align="right">{{$traductor->format($cobro->montodepositado-$cobro->montofacturas)}}</td>                                 
                             </tr>
 
@@ -123,22 +123,19 @@
             $(table).prepend('<thead>\
                                 <tr>\
                                     <th align="left" colspan="15" >\
-                                    Nro. Cobro: {{$cobro->id}}\
-                                    </br>\
-                                    Cliente: {{$cobro->cliente->codigo}} | {{$cobro->cliente->nombre}} \
-                                    </br>\
-                                    Nro. Recibo de Caja: {{($cobro->nRecibo)?$cobro->nRecibo:"No Dispone"}} \
-                                    </br>\
-                                    Fecha de Cobro: {{($cobro->fecha=='30/11/-0001')?$cobro->created_at:$cobro->fecha}} \
-                                    </br>\
-                                    Observaciones: {{($cobro->observacion)?$cobro->observacion:"No Dispone"}} \
-                                    </br>\
-                                    Recaudos Consolidados: {{($cobro->hasrecaudos)?"Si":"No"}} \
-                                    </br>\
+                                    <div style="font-weight: normal"><strong>NRO. COBRO: </strong> {{$cobro->id}} </div>\
+                                    <div style="font-weight: normal"><strong>CLIENTE: </strong>{{$cobro->cliente->codigo}} | {{$cobro->cliente->nombre}}</div> \
+                                    <div style="font-weight: normal"><strong>NRO. RECIBO DE CAJA: </strong> {{($cobro->nRecibo)?$cobro->nRecibo:"No Dispone"}} </div>\
+                                    <div style="font-weight: normal"><strong>FECHA DE COBRO: </strong> {{($cobro->fecha=='30/11/-0001')?$cobro->created_at:$cobro->fecha}} </div>\
+                                    <div style="font-weight: normal"><strong>OBSERVACIONES: </strong> {{($cobro->observacion)?$cobro->observacion:"No Dispone"}} </div>\
+                                    <div style="font-weight: normal"><strong>RECAUDOS CONSILIADOS: </strong> {{($cobro->hasrecaudos)?"Si":"No"}} </div>\
+                                    </br> \
                                     </th>\
                                 </tr>\
                             </thead>')
-            $(table).find('th').css({'border-bottom':'1px solid black', 'font-weight': 'bold', 'text-align':"center"})
+            $(table).find('thead, th').css({'border-top':'1px solid black', 'font-weight': 'bold', 'text-align':"center", 'font-size': '12px'})
+            $(table).find('th').css({'border-bottom':'1px solid black', 'font-weight': 'bold', 'text-align':"center",  'font-size': '12px'})
+            $(table).find('td').css({'font-size': '10px'})
             $(table).find('tr:nth-child(even)').css({'background-color': '#E2E2E2'})
             $(table).find('tr:last td').css({'border-bottom':'1px solid black','border-top':'1px solid black', 'font-weight': 'bold'})
             var tableHtml= $(table)[0].outerHTML;

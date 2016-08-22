@@ -6,6 +6,9 @@ use Illuminate\Database\Eloquent\Collection;
 
 use Illuminate\Http\Request;
 
+
+use Carbon\Carbon;
+
 class ReporteController extends Controller {
 
     public function __construct()
@@ -15,14 +18,15 @@ class ReporteController extends Controller {
 
     //No sé si es el nombre
     public function getReporteMensual(Request $request){
-        $mes=$request->get('mes', \Carbon\Carbon::now()->month);
-        $anno=$request->get('anno',  \Carbon\Carbon::now()->year);
-        $aeropuerto=$request->get('aeropuerto',  0);
-        $modulos=\App\Modulo::where('aeropuerto_id', session('aeropuerto')->id )->get();
-        $montos=[];
-        $montosTotales=[];
-        $primerDiaMes=\Carbon\Carbon::create($anno, $mes,1)->startOfMonth();
-        $ultimoDiaMes=\Carbon\Carbon::create($anno, $mes,1)->endOfMonth();
+        $mes           =$request->get('mes', \Carbon\Carbon::now()->month);
+        $anno          =$request->get('anno',  \Carbon\Carbon::now()->year);
+        $aeropuerto    =$request->get('aeropuerto',  0);
+        $modulos       =\App\Modulo::where('aeropuerto_id', session('aeropuerto')->id )->get();
+        $montos        =[];
+        $montosTotales =[];
+        $primerDiaMes  =\Carbon\Carbon::create($anno, $mes,1)->startOfMonth();
+        $ultimoDiaMes  =\Carbon\Carbon::create($anno, $mes,1)->endOfMonth();
+
         for(;$primerDiaMes<=$ultimoDiaMes; $primerDiaMes->addDay()){
             $montos[$primerDiaMes->format('d/m/Y')]=[];
             foreach($modulos as $modulo){
@@ -272,7 +276,6 @@ class ReporteController extends Controller {
                                                                     ->where('cobros.fecha' , 'like', $primerDiaMes->toDateString().'%')
                                                                     ->where('facturadetalles.concepto_id', $concepto->id)
                                                                     ->sum('facturadetalles.montoDes');
-
                 }
 
                 if($modulo->nombre == 'TASAS'){
@@ -665,6 +668,7 @@ class ReporteController extends Controller {
 		$totales       =[];
 		$totalClientes =[];
 		$totalMes      =[];
+        $today               = Carbon::now()->toDateString();
 
         foreach ($modulos as $idModulo => $modulo) {
 
@@ -698,9 +702,9 @@ class ReporteController extends Controller {
             ];
 
             $clientes   =\App\Factura::join('clientes', 'facturas.cliente_id', '=', 'clientes.id')
-                                ->where('deleted_at', null)
                                 ->where('aeropuerto_id', $aeropuerto)
                                 ->where('estado', 'P')
+                                ->where('modulo_id', $idModulo)
                                 ->groupBy('cliente_id')
                                 ->lists('cliente_id', 'clientes.nombre');
 
@@ -710,10 +714,9 @@ class ReporteController extends Controller {
 
 
                     $facturasPendientesModulo[$modulo][$diaMes->month][$nombre] = \App\Factura::with('cliente')
-                                                                                        ->where('aeropuerto_id', $aeropuerto)
-                                                                                        ->where('modulo_id', $idModulo)
-                                                                                        ->where('fechaVencimiento','>=' ,$diaMes->startOfMonth()->toDateTimeString())
-                                                                                        ->where('fechaVencimiento','<=' ,$diaMes->endOfMonth()->toDateTimeString())
+                                                                                        ->where('fecha','>=' ,$diaMes->startOfMonth()->toDateTimeString())
+                                                                                        ->where('fecha','<=' ,$diaMes->endOfMonth()->toDateTimeString())
+                                                                                        ->where('fechaVencimiento', '<=', $today)
                                                                                         ->where('estado', 'P')
                                                                                         ->where('cliente_id', $cliente_id)
                                                                                         ->sum('total');
@@ -725,8 +728,9 @@ class ReporteController extends Controller {
 
                 $totalMes[$diaMes->month] =  \App\Factura::with('cliente')
                                                             ->where('aeropuerto_id', $aeropuerto)
-                                                            ->where('fechaVencimiento','>=' ,$diaMes->startOfMonth()->toDateTimeString())
-                                                            ->where('fechaVencimiento','<=' ,$diaMes->endOfMonth()->toDateTimeString())
+                                                            ->where('fecha','>=' ,$diaMes->startOfMonth()->toDateTimeString())
+                                                            ->where('fecha','<=' ,$diaMes->endOfMonth()->toDateTimeString())
+                                                            ->where('fechaVencimiento', '<=', $today)
                                                             ->where('estado', 'P')
                                                             ->sum('total');
             }       
@@ -1015,11 +1019,14 @@ class ReporteController extends Controller {
                              ->orderBy('nFactura', 'ASC')
                              ->get();
 
-        $tasasVendidas = \App\Tasaop::join('tasa_cobros', 'tasa_cobros.id', '=', 'tasaops.tasa_cobro_id')
-                                    ->join('tasa_cobro_detalles', 'tasa_cobro_detalles.tasa_cobro_id', '=', 'tasa_cobros.id')
+        $tasasVendidas = \App\Tasaop::select('tasaops.fecha', 'tasaopdetalles.inicio', 'tasaopdetalles.fin', 'tasaopdetalles.costo', 'tasaopdetalles.cantidad', 'tasaopdetalles.total', 'tasaopdetalles.serie', 'tasas.internacional')
+                                    ->join('tasa_cobro_detalles', 'tasa_cobro_detalles.tasa_cobro_id', '=', 'tasaops.tasa_cobro_id')
+                                    ->join('tasa_cobros', 'tasa_cobros.id', '=', 'tasaops.tasa_cobro_id')
                                     ->join('tasaopdetalles', 'tasaopdetalles.tasaop_id', '=', 'tasaops.id')
                                     ->join('tasas', 'tasas.nombre', '=', 'tasaopdetalles.serie')
+                                    ->whereBetween('tasaops.fecha', array($annoDesde.'-'.$mesDesde.'-'.$diaDesde,  $annoHasta.'-'.$mesHasta.'-'.$diaHasta) )
                                     ->whereBetween('tasa_cobro_detalles.fecha', array($annoDesde.'-'.$mesDesde.'-'.$diaDesde,  $annoHasta.'-'.$mesHasta.'-'.$diaHasta) )
+                                    ->where('tasaops.aeropuerto_id', $aeropuerto)
                                     ->where('tasa_cobros.cv', 1)
                                     ->where('tasaops.consolidado', 1)
                                     ->get();
@@ -1419,14 +1426,18 @@ class ReporteController extends Controller {
                                 ->get();
 
 
-        $tasasVendidas = \App\Tasaop::join('tasa_cobros', 'tasa_cobros.id', '=', 'tasaops.tasa_cobro_id')
-                                    ->join('tasa_cobro_detalles', 'tasa_cobro_detalles.tasa_cobro_id', '=', 'tasa_cobros.id')
+        $tasasVendidas = \App\Tasaop::select('tasaops.fecha', 'tasaopdetalles.inicio', 'tasaopdetalles.fin', 'tasaopdetalles.costo', 'tasaopdetalles.cantidad', 'tasaopdetalles.total', 'tasaopdetalles.serie', 'tasas.internacional')
+                                    ->join('tasa_cobro_detalles', 'tasa_cobro_detalles.tasa_cobro_id', '=', 'tasaops.tasa_cobro_id')
+                                    ->join('tasa_cobros', 'tasa_cobros.id', '=', 'tasaops.tasa_cobro_id')
                                     ->join('tasaopdetalles', 'tasaopdetalles.tasaop_id', '=', 'tasaops.id')
                                     ->join('tasas', 'tasas.nombre', '=', 'tasaopdetalles.serie')
+                                    ->whereBetween('tasaops.fecha', array($annoDesde.'-'.$mesDesde.'-'.$diaDesde,  $annoHasta.'-'.$mesHasta.'-'.$diaHasta) )
                                     ->whereBetween('tasa_cobro_detalles.fecha', array($annoDesde.'-'.$mesDesde.'-'.$diaDesde,  $annoHasta.'-'.$mesHasta.'-'.$diaHasta) )
+                                    ->where('tasaops.aeropuerto_id', $aeropuerto)
                                     ->where('tasa_cobros.cv', 1)
                                     ->where('tasaops.consolidado', 1)
                                     ->get();
+
 
         $totalTasas            = $tasasVendidas->sum('total');
         $facturasTotal         = $facturas->sum('total');
@@ -1809,86 +1820,37 @@ class ReporteController extends Controller {
     //Función para exportar los reportes
     public function postExportReport(Request $request){
 
+
+        require_once('../vendor/autoload.php');
         $table        =$request->get('table');
         $tableFirmas  =$request->get('tableFirmas');
         $departamento =$request->get('departamento');
         $gerencia     =$request->get('gerencia');
 
+        $mpdf =  new \mPDF('','', 0, '', 15, 15, 16, 16, 9, 9, 'L', 'dejavusans');
+        //$mpdf->SetHTMLHeader(asset('<img src="imgs/gobernacion.png"/>', '33', "SERVICIO AUTÓNOMO DE AEROPUERTOS REGIONALES DEL EDO. BOLÍVAR","SAAR BOLÍVAR\n".$gerencia."\n".$departamento);
+         $mpdf->SetHTMLHeader('<img style="width: 140px" src="imgs/gobernacion.png"/>');
+        // $mpdf->WriteHTML("SERVICIO AUTÓNOMO DE AEROPUERTOS REGIONALES DEL EDO. BOLÍVAR","SAAR BOLÍVAR");
+        // $mpdf->WriteHTML($gerencia);
+        // $mpdf->WriteHTML($departamento);
+         $mpdf->defaultheaderfontsize=10;
+        
 
-       $pdf = new \TCPDF('L', PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
+        $mpdf->SetHTMLFooter('<table width="100%" style="vertical-align: bottom; border-top: 1px black solid; font-family: serif; font-size: 7pt; color: #000000; font-style: italic;">
+                                <tr>
+                                    <td>
+                                        <span style="font-style: italic;">{DATE j/m/Y}</span>
+                                    </td>
+                                    <td align="center" style="font-style: italic;">
+                                        {PAGENO}/{nbpg}
+                                    </td>
+                                </tr>
+                            </table>');
 
-        // set default header data
-
-        $pdf->SetHeaderData(asset('imgs/gobernacion.png'), '33', "SERVICIO AUTÓNOMO DE AEROPUERTOS REGIONALES DEL EDO. BOLÍVAR","SAAR BOLÍVAR\n".$gerencia."\n".$departamento);
-
-
-        $pdf->setHeaderFont(Array(PDF_FONT_NAME_DATA, '', '8'));
-        $pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
-
-
-       // set default monospaced font
-
-       $pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
-
-       // set margins
-
-       $pdf->SetMargins('0.5', '18', '0.5');
-
-       $pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
-
-
-       // set some language-dependent strings (optional)
-
-       if (@file_exists(dirname(__FILE__).'/lang/eng.php')) {
-
-           require_once(dirname(__FILE__).'/lang/eng.php');
-
-           $pdf->setLanguageArray($l);
-
-       }
-
-       // --------------------------------------------------------       // set default font subsetting mode
-
-       $pdf->setFontSubsetting(true);
-
-       // Set font
-
-       // dejavusans is a UTF-8 Unicode font, if you only need to
-
-       // print standard ASCII chars, you can use core fonts like
-
-       // helvetica or times to reduce file size.
-
-       $pdf->SetFont('dejavusans', '', 8, '', true);
-
-
-       // Start First Page Group
-       $pdf->startPageGroup();
-
-       // Add a page
-
-       // This method has several options, check the source code documentation for more information.
-
-       $pdf->AddPage();
-
-       // set text shadow effect
-
-       // Set some content to print
-
-       //
-
-       $html = view('pdf.generic', compact('table', 'tableFirmas'))->render();
-
-       // Print text using writeHTMLCell()
-
-       $pdf->writeHTML($html);
-
-       // --------------------------------------------------------       // Close and output PDF document
-
-       // This method has several options, check the source code documentation for more information.
-
-       $pdf->Output("reporte.pdf", 'I');
-
+        $html = view('pdf.generic', compact('table', 'tableFirmas'))->render(); 
+        $mpdf->AddPage('L','', '', '', '','5', '5', '25', '15', '3', '3'); // margin footer
+        $mpdf->WriteHTML($html);
+        $mpdf->Output();
    }
 
 }

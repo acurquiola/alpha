@@ -17,11 +17,11 @@
 			<div class="box-body text-right">
 				{!! Form::open(["url" => action('ReporteController@getReporteRelacionIngresoMensual'), "method" => "GET", "class"=>"form-inline"]) !!}
 				<div class="form-group">
-					<label>Seleccione un año:</label>
+					<label><strong>AÑO: </strong></label>
 					{!! Form::select('anno', $annos, $anno, ["class"=> "form-control"]) !!}
 				</div>
-				<button type="submit" class="btn btn-default">Buscar</button>
-				<a class="btn btn-default" href="{{action('ReporteController@getReporteRelacionIngresoMensual')}}">Reset</a>
+				<button type="submit" class="btn btn-primary">BUSCAR</button>
+				<a class="btn btn-default" href="{{action('ReporteController@getReporteRelacionIngresoMensual')}}">RESET</a>
 				{!! Form::close() !!}
 			</div>
 		</div>
@@ -49,24 +49,24 @@
 							<table class="table table-hover table-condensed">
 								<thead  class="bg-primary">
 									<tr>
-										<th rowspan="2" style="vertical-align: middle" class="text-center">
+										<th class="text-center" style="vertical-align: middle; width:200px; font-weight: bold;" rowspan="2"  >
 											MES
 										</th>
-										<th style="vertical-align: middle" class="text-center" colspan="3">
+										<th style="vertical-align: middle; font-weight: bold; width:750px; " class="text-center" colspan="3">
 											AEROPUERTOS
 										</th>
-										<th rowspan="2" style="vertical-align: middle; font-weight: bold;" class="text-center">
+										<th rowspan="2" style="vertical-align: middle; font-weight: bold; width:200px; " class="text-center">
 											TOTAL
 										</th>
 
 									<tr>
-										<th style="vertical-align: middle" class="text-center">
+										<th style="vertical-align: middle; font-weight: bold; width:250px; " class="text-center">
 											MANUEL CARLOS PIAR
 										</th>
-										<th style="vertical-align: middle" class="text-center">
+										<th style="vertical-align: middle; font-weight: bold; width:250px; " class="text-center">
 											GRAL TOMÁS DE HERES
 										</th>
-										<th style="vertical-align: middle" class="text-center">
+										<th style="vertical-align: middle; font-weight: bold; width:250px; " class="text-center">
 											SANTA ELENA DE UAIRÉN
 										</th>
 									</tr>
@@ -74,12 +74,11 @@
 								<tbody>
 									@foreach($montosMeses as $mes => $montos)
 										<tr>
-											<td class="text-center" style="width: 80
-											px">{{$mes}}</td>
-											<td class="text-right cobradoPZO" align="right">{{$traductor->format($montos["cobradoPZO"])}}</td>
-											<td class="text-right cobradoCBL" align="right">{{$traductor->format($montos["cobradoCBL"])}}</td>
-											<td class="text-right cobradoSNV" align="right">{{$traductor->format($montos["cobradoSNV"])}}</td>
-											<td class="text-right cobradoTotal" align="right" style="font-weight: bold;">{{$traductor->format($montos["cobradoTotal"])}}</td>
+											<td class="text-center" style="vertical-align: middle; width:200px; ">{{$mes}}</td>
+											<td class="text-right cobradoPZO" align="right" style="width: 250px">{{$traductor->format($montos["cobradoPZO"])}}</td>
+											<td class="text-right cobradoCBL" align="right" style="width: 250px">{{$traductor->format($montos["cobradoCBL"])}}</td>
+											<td class="text-right cobradoSNV" align="right" style="width: 250px">{{$traductor->format($montos["cobradoSNV"])}}</td>
+											<td class="text-right cobradoTotal" align="right" style="font-weight: bold; width:200px; ">{{$traductor->format($montos["cobradoTotal"])}}</td>
 										</tr>
 									@endforeach
 										<tr class="bg-gray" id="totales">
@@ -98,7 +97,7 @@
 										</tr>
 										<tr class="bg-gray">
 											<td colspan="3"></td>
-											<td colspan="2" style="font-weight: bold;" align="center">RESUMEN</td>
+											<td colspan="2" style="font-weight: bold;" class="text-center" align="center">RESUMEN</td>
 										</tr>
 										<tr class="bg-gray"></tr>
 										<tr>
@@ -186,9 +185,9 @@
 		                  </th>\
 		                </tr>\
 		              </thead>')
-		        $(table).find('thead, th').css({'border-top':'1px solid black', 'font-weight': 'bold', 'text-align':"center", 'font-size': '8px'})
-		        $(table).find('th').css({'border-bottom':'1px solid black', 'font-weight': 'bold', 'text-align':"center", 'font-size': '8px'})
-		        $(table).find('td').css({'font-size': '7px'})
+		        $(table).find('thead, th').css({'border-top':'1px solid black', 'font-weight': 'bold', 'text-align':"center", 'font-size': '12px'})
+		        $(table).find('th').css({'border-bottom':'1px solid black', 'font-weight': 'bold', 'text-align':"center", 'font-size': '12px'})
+		        $(table).find('td').css({'font-size': '11px'})
 		        $(table).find('tr:nth-child(even)').css({'background-color': '#E2E2E2'})
 		        $(table).find('tr:last td').css({'border-bottom':'1px solid black','border-top':'1px solid black', 'font-weight': 'bold'})
 		        var tableHtml= $(table)[0].outerHTML;

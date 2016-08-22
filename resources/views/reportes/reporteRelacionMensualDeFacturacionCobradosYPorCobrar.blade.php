@@ -24,8 +24,8 @@
 					<label><strong>AÑO: </strong></label>
 					{!! Form::select('anno', $annos, $anno, ["class"=> "form-control"]) !!}
 				</div>
-				<button type="submit" class="btn btn-default">Buscar</button>
-				<a class="btn btn-primary" href="{{action('ReporteController@getReporteRelacionMensualDeFacturacionCobradosYPorCobrar')}}">Reset</a>
+				<button type="submit" class="btn btn-primary">Buscar</button>
+				<a class="btn btn-default" href="{{action('ReporteController@getReporteRelacionMensualDeFacturacionCobradosYPorCobrar')}}">Reset</a>
 				{!! Form::close() !!}
 			</div>
 		</div>
@@ -53,27 +53,27 @@
 							<table class="table table-hover table-condensed">
 								<thead  class="bg-primary">
 									<tr>
-										<th rowspan="2" style="vertical-align: middle" class="text-center">
+										<th rowspan="2" style="vertical-align: middle; width: 200px; " class="text-center">
 											MES
 										</th>
-										<th  colspan="4" style="vertical-align: middle" class="text-center">
+										<th  colspan="4" style="vertical-align: middle; width: 800px; " class="text-center">
 											AL MES ACTUAL
 										</th>
-										<th rowspan="2" style="vertical-align: middle" class="text-center">
+										<th rowspan="2" style="vertical-align: middle; width: 200px; " class="text-center">
 											TOTAL COBRADO
 										</th>
 									</tr>
 									<tr>
-										<th style="vertical-align: middle" class="text-center">
+										<th style="vertical-align: middle; width: 200px " class="text-center">
 											FACTURADO
 										</th>
-										<th style="vertical-align: middle" class="text-center">
+										<th style="vertical-align: middle; width: 200px " class="text-center">
 											COBRADO
 										</th>
-										<th style="vertical-align: middle" class="text-center">
+										<th style="vertical-align: middle; width: 200px " class="text-center">
 											POR COBRAR
 										</th>
-										<th style="vertical-align: middle" class="text-center">
+										<th style="vertical-align: middle; width: 200px " class="text-center">
 											COBRO DE MESES ANTERIORES
 										</th>
 									</tr>
@@ -82,20 +82,20 @@
 									@foreach($montosMeses as $mes => $montos)
 									<tr>
 										<td>{{$mes}}</td>
-										<td class="text-right facturado" align="right">{{$traductor->format($montos["facturado"])}}</td>
-										<td class="text-right cobrado"  align="right">{{$traductor->format($montos["cobrado"])}}</td>
-										<td class="text-right porCobrar"   align="right">{{$traductor->format($montos["porCobrar"])}}</td>
-										<td class="text-right cobroAnterior"  align="right">{{$traductor->format($montos["cobroAnterior"])}}</td>
-										<td class="text-right totalCobradoMes"  align="right">{{$traductor->format($montos["totalCobradoMes"])}}</td>
+										<td class="text-right facturado" style="width: 200px" align="right">{{$traductor->format($montos["facturado"])}}</td>
+										<td class="text-right cobrado" style="width: 200px"  align="right">{{$traductor->format($montos["cobrado"])}}</td>
+										<td class="text-right porCobrar" style="width: 200px"   align="right">{{$traductor->format($montos["porCobrar"])}}</td>
+										<td class="text-right cobroAnterior" style="width: 200px"  align="right">{{$traductor->format($montos["cobroAnterior"])}}</td>
+										<td class="text-right totalCobradoMes" style="width: 200px"  align="right">{{$traductor->format($montos["totalCobradoMes"])}}</td>
 									</tr>
 									@endforeach
 									<tr class="bg-gray">
-										<td  style="font-weight: bold" >TOTALES</td>
-										<td  align="right" class="text-right" style="font-weight: bold" id="facturadoTotal">0</td>
-										<td  align="right" class="text-right" style="font-weight: bold" id="cobradoTotal">0</td>
-										<td  align="right" class="text-right" style="font-weight: bold" id="porCobrarTotal">0</td>
-										<td  align="right" class="text-right" style="font-weight: bold" id="cobroAnteriorTotal">0</td>
-										<td  align="right" class="text-right" style="font-weight: bold" id="totalRecaudado">0</td>
+										<td  style="font-weight: bold; width: 200px; " >TOTALES</td>
+										<td  align="right" class="text-right" style="font-weight: bold; width: 200px; " id="facturadoTotal">0</td>
+										<td  align="right" class="text-right" style="font-weight: bold; width: 200px; " id="cobradoTotal">0</td>
+										<td  align="right" class="text-right" style="font-weight: bold; width: 200px; " id="porCobrarTotal">0</td>
+										<td  align="right" class="text-right" style="font-weight: bold; width: 200px; " id="cobroAnteriorTotal">0</td>
+										<td  align="right" class="text-right" style="font-weight: bold; width: 200px; " id="totalRecaudado">0</td>
 									</tr>
 								</tbody>
 							</table>
@@ -163,37 +163,37 @@
 				</th>\
 			</tr>\
 		</thead>')
-			$(table).find('thead, th').css({'border-top':'1px solid black', 'font-weight': 'bold', 'text-align':"center", 'font-size': '7px'})
-			$(table).find('th').css({'border-bottom':'1px solid black', 'font-weight': 'bold', 'text-align':"center", 'font-size': '7px'})
-			$(table).find('td').css({'font-size': '6px'})
+			$(table).find('thead, th').css({'border-top':'1px solid black', 'font-weight': 'bold', 'text-align':"center", 'font-size': '12px'})
+			$(table).find('th').css({'border-bottom':'1px solid black', 'font-weight': 'bold', 'text-align':"center", 'font-size': '12px'})
+			$(table).find('td').css({'font-size': '	11px'})
 			$(table).find('tr:nth-child(even)').css({'background-color': '#E2E2E2'})
 			$(table).find('tr:last td').css({'border-bottom':'1px solid black','border-top':'1px solid black', 'font-weight': 'bold'})
 			$(table).append('<tr>\
-					<td colspan="6"><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br></td>\
+					<td colspan="6"><br><br><br><br><br><br><br><br><br><br></td>\
 					</tr><tr>\
-					<td colspan="3" align="center" style="font-weight: bold; border-top: 1px solid black;border-right: 1px solid black;border-left: 1px solid black;border-bottom: 1px solid black;">REVISADO</td>\
-					<td colspan="3" align="center" style="font-weight: bold; border-top: 1px solid black;border-right: 1px solid black;border-left: 1px solid black;border-bottom: 1px solid black;">CONFORMADO</td>\
+					<td colspan="3" align="center" style="font-weight: bold; border-top: 1px solid black;border-right: 1px solid black;border-left: 1px solid black;border-bottom: 1px solid black;; font-size:12px">REVISADO</td>\
+					<td colspan="3" align="center" style="font-weight: bold; border-top: 1px solid black;border-right: 1px solid black;border-left: 1px solid black;border-bottom: 1px solid black;; font-size:12px">CONFORMADO</td>\
 					</tr><tr>\
-					<td style="border-right: 1px solid black;border-left: 1px solid black;"><br><br><br><br><br><br><br><br></td>\
+					<td style="border-right: 1px solid black;border-left: 1px solid black;"><br><br><br><br><br></td>\
 					<td style="border-right: 1px solid black;border-left: 1px solid black;"></td>\
 					<td style="border-right: 1px solid black;border-left: 1px solid black;"></td>\
 					<td style="border-right: 1px solid black;border-left: 1px solid black;"></td>\
 					<td style="border-right: 1px solid black;border-left: 1px solid black;"></td>\
 					<td style="border-right: 1px solid black;border-left: 1px solid black;"></td>\
 					</tr><tr>\
-					<td align="center" style="border-top: 1px solid black;border-right: 1px solid black;border-left: 1px solid black;border-bottom: 1px solid black;">FIRMA</td>\
-					<td align="center" style="border-top: 1px solid black;border-right: 1px solid black;border-left: 1px solid black;border-bottom: 1px solid black;">FIRMA</td>\
-					<td align="center" style="border-top: 1px solid black;border-right: 1px solid black;border-left: 1px solid black;border-bottom: 1px solid black;">FIRMA</td>\
-					<td align="center" style="border-top: 1px solid black;border-right: 1px solid black;border-left: 1px solid black;border-bottom: 1px solid black;">FIRMA</td>\
-					<td align="center" style="border-top: 1px solid black;border-right: 1px solid black;border-left: 1px solid black;border-bottom: 1px solid black;">FIRMA</td>\
-					<td align="center" style="border-top: 1px solid black;border-right: 1px solid black;border-left: 1px solid black;border-bottom: 1px solid black;">FIRMA</td>\
+					<td align="center" style="border-top: 1px solid black;border-right: 1px solid black;border-left: 1px solid black;border-bottom: 1px solid black; font-size:11px">FIRMA</td>\
+					<td align="center" style="border-top: 1px solid black;border-right: 1px solid black;border-left: 1px solid black;border-bottom: 1px solid black; font-size:11px">FIRMA</td>\
+					<td align="center" style="border-top: 1px solid black;border-right: 1px solid black;border-left: 1px solid black;border-bottom: 1px solid black; font-size:11px">FIRMA</td>\
+					<td align="center" style="border-top: 1px solid black;border-right: 1px solid black;border-left: 1px solid black;border-bottom: 1px solid black; font-size:11px">FIRMA</td>\
+					<td align="center" style="border-top: 1px solid black;border-right: 1px solid black;border-left: 1px solid black;border-bottom: 1px solid black; font-size:11px">FIRMA</td>\
+					<td align="center" style="border-top: 1px solid black;border-right: 1px solid black;border-left: 1px solid black;border-bottom: 1px solid black font-size:11px;">FIRMA</td>\
 					</tr><tr>\
-					<td align="center" style="font-weight: bold; border-top: 1px solid black;border-right: 1px solid black;border-left: 1px solid black;border-bottom: 1px solid black;">JEFE DEPARTAMENTO RECAUDACIÓN</td>\
-					<td align="center" style="font-weight: bold; border-top: 1px solid black;border-right: 1px solid black;border-left: 1px solid black;border-bottom: 1px solid black;">CONTADOR</td>\
-					<td align="center" style="font-weight: bold; border-top: 1px solid black;border-right: 1px solid black;border-left: 1px solid black;border-bottom: 1px solid black;">GERENTE ADMINISTRACIÓN</td>\
-					<td align="center" style="font-weight: bold; border-top: 1px solid black;border-right: 1px solid black;border-left: 1px solid black;border-bottom: 1px solid black;">SUB-DIRECTOR</td>\
-					<td align="center" style="font-weight: bold; border-top: 1px solid black;border-right: 1px solid black;border-left: 1px solid black;border-bottom: 1px solid black;">DIRECTOR</td>\
-					<td align="center" style="font-weight: bold; border-top: 1px solid black;border-right: 1px solid black;border-left: 1px solid black;border-bottom: 1px solid black;">DIRECTOR</td>\
+					<td align="center" style="font-weight: bold; border-top: 1px solid black;border-right: 1px solid black;border-left: 1px solid black;border-bottom: 1px solid black; font-size:11px">JEFE DEPARTAMENTO RECAUDACIÓN</td>\
+					<td align="center" style="font-weight: bold; border-top: 1px solid black;border-right: 1px solid black;border-left: 1px solid black;border-bottom: 1px solid black; font-size:11px">CONTADOR</td>\
+					<td align="center" style="font-weight: bold; border-top: 1px solid black;border-right: 1px solid black;border-left: 1px solid black;border-bottom: 1px solid black; font-size:11px">GERENTE ADMINISTRACIÓN</td>\
+					<td align="center" style="font-weight: bold; border-top: 1px solid black;border-right: 1px solid black;border-left: 1px solid black;border-bottom: 1px solid black; font-size:11px">SUB-DIRECTOR</td>\
+					<td align="center" style="font-weight: bold; border-top: 1px solid black;border-right: 1px solid black;border-left: 1px solid black;border-bottom: 1px solid black; font-size:11px">DIRECTOR</td>\
+					<td align="center" style="font-weight: bold; border-top: 1px solid black;border-right: 1px solid black;border-left: 1px solid black;border-bottom: 1px solid black; font-size:11px">DIRECTOR</td>\
 					</tr>')
 			var tableHtml= $(table)[0].outerHTML;
 			$('[name=table]').val(tableHtml);

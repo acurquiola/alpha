@@ -81,24 +81,24 @@
                             <table  class="table table-condensed">
                                     <tr class="bg-primary" >
                                         <th rowspan="2" colspan="2" class="text-center">CLIENTE</th>
-                                        <th colspan="3"class="text-center" style="width: 80px;">COBRO</th>
+                                        <th colspan="3"class="text-center" >COBRO</th>
                                         <th colspan="9" class="text-center">DOSA</th>
                                         <th colspan="3"class="text-center">DEPÓSITO</th>
                                     </tr>
                                     <tr class="bg-primary" >
-                                        <th class="text-center" style="width: 30px;">Nro.</th>
-                                        <th class="text-center" style="width: 30px;">Rec. Caja</th>
+                                        <th class="text-center" >Nro.</th>
+                                        <th class="text-center" >Rec. Caja</th>
                                        
-                                        <th class="text-center" style="width: 40px;">Fecha</th>
-                                        <th class="text-center" style="width: 40px;">Nro.</th>
-                                        <th class="text-center" style="width: 45px;">Formulario(Bs.)</th>
-                                        <th class="text-center" style="width: 45px;">Aterrizaje (Bs.)</th>
-                                        <th class="text-center" style="width: 67px;">Estacionamiento (Bs.)</th>
-                                        <th class="text-center" style="width: 60px;">Habilitación (Bs.)</th>
-                                        <th class="text-center" style="width: 50px;">Jetway (Bs.)</th>
-                                        <th class="text-center" style="width: 50px;">Carga (Bs.)</th>
-                                        <th class="text-center" style="width: 50px;">Otros(Bs.)</th>
-                                        <th class="text-center" style="width: 70px;">Total (Bs.)</th>
+                                        <th class="text-center" >Fecha</th>
+                                        <th class="text-center" >Nro.</th>
+                                        <th class="text-center" >Formulario(Bs.)</th>
+                                        <th class="text-center" >Aterrizaje (Bs.)</th>
+                                        <th class="text-center" >Estacionamiento (Bs.)</th>
+                                        <th class="text-center" >Habilitación (Bs.)</th>
+                                        <th class="text-center" >Jetway (Bs.)</th>
+                                        <th class="text-center" >Carga (Bs.)</th>
+                                        <th class="text-center" >Otros(Bs.)</th>
+                                        <th class="text-center" >Total (Bs.)</th>
 
                                         <th class="text-center">Ref.</th>
                                         <th class="text-center">Fecha</th>

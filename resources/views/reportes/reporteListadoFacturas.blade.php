@@ -5,17 +5,17 @@
   <li><a href="{{url('principal')}}">Inicio</a></li>
   <li><a class="active">Reporte Listado Facturas Emitidas</a></li>
 </ol>
-    <div class="row" id="box-wrapper">
-        <div class="col-md-12">
-            <div class="box box-primary">
-                <div class="box-header">
-                    <h3 class="box-title">Filtros</h3>
-                        <div class="box-tools pull-right">
-                            <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
-                        </div><!-- /.box-tools -->
-                </div>
-                <div class="box-body">
-                    {!! Form::open([
+<div class="row" id="box-wrapper">
+    <div class="col-md-12">
+        <div class="box box-primary">
+            <div class="box-header">
+                <h3 class="box-title">Filtros</h3>
+                <div class="box-tools pull-right">
+                    <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                </div><!-- /.box-tools -->
+            </div>
+            <div class="box-body">
+                {!! Form::open([
                     "url" => action('ReporteController@getReporteListadoFacturas'),
                     "method" => "POST",
                     "class" => "form-horizontal"]) !!}
@@ -30,7 +30,7 @@
                         <div class="col-md-6">
                             <select autocomplete="off" class="form-control" id="modulo-select" name="modulo">
                                 @foreach($modulos as $m)
-                                    <option data-aeropuerto="{{$m->aeropuerto->id}}" value="{{$m->id}}" @if(isset($modulo) && $modulo==$m->id) selected="selected" @endif >{{$m->nombre}}</option>
+                                <option data-aeropuerto="{{$m->aeropuerto->id}}" value="{{$m->id}}" @if(isset($modulo) && $modulo==$m->id) selected="selected" @endif >{{$m->nombre}}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -58,17 +58,17 @@
                             <select class="form-control" id="cliente-select" name="cliente_id" autocomplete="off">                                <option value="">--Seleccione una opcion--</option>
                                 @foreach($clientes as $cliente)
                                 <option
-                                    value="{{$cliente->id}}">
-                                    {{$cliente->codigo}} | {{$cliente->nombre}}
-                                </option>
-                                @endforeach    
-                            </select>                   
-                        </div>
+                                value="{{$cliente->id}}">
+                                {{$cliente->codigo}} | {{$cliente->nombre}}
+                            </option>
+                            @endforeach    
+                        </select>                   
                     </div>
-                    <div class="form-group">
-                        <label class="col-md-1 control-label"><strong>Estatus</strong></label>
-                        <div class="col-md-6">
-                            {!! Form::select('estatus', [
+                </div>
+                <div class="form-group">
+                    <label class="col-md-1 control-label"><strong>Estatus</strong></label>
+                    <div class="col-md-6">
+                        {!! Form::select('estatus', [
                             "%" => "Todas",
                             "C" => "Cobradas",
                             "P" => "Por Cobrar",
@@ -78,174 +78,173 @@
                         </div>
                     </div>
                     <div class="form-group" style="margin-right: 20px">
-                    <a class="btn btn-default pull-right" href="{{action('ReporteController@getReporteListadoFacturas')}}">Reset</a>
-                    <button type="submit" class="btn btn-primary pull-right">Buscar</button>
+                        <a class="btn btn-default pull-right" href="{{action('ReporteController@getReporteListadoFacturas')}}">Reset</a>
+                        <button type="submit" class="btn btn-primary pull-right">Buscar</button>
                     </div>
                     {!! Form::close() !!}
                 </div>
             </div>
         </div>
         @if(isset($facturas))
-            <div class="col-md-12">
-                <div class="box box-primary">
-                    <div class="box-header">
-                        {!! Form::open(["url" => action("ReporteController@postExportReport"), "id" =>"export-form", "target"=>"_blank"]) !!}
-                        {!! Form::hidden('table') !!}
-                        {!! Form::hidden('gerencia', $gerencia) !!}
-                        {!! Form::hidden('departamento', $departamento) !!}
-                            <h3 class="box-title">Reporte</h3>
-                            <span class="pull-right"><button class="btn btn-primary" id="export-btn"><span class="glyphicon glyphicon-file"></span> Exportar</button></span>
-                        {!! Form::close() !!}
-                    </div>
-                    <div class="box-body" >
-                        <div class="row">
-                            <div class="col-xs-12">
+        <div class="col-md-12">
+            <div class="box box-primary">
+                <div class="box-header">
+                    {!! Form::open(["url" => action("ReporteController@postExportReport"), "id" =>"export-form", "target"=>"_blank"]) !!}
+                    {!! Form::hidden('table') !!}
+                    {!! Form::hidden('gerencia', $gerencia) !!}
+                    {!! Form::hidden('departamento', $departamento) !!}
+                    <span class="pull-right"><button class="btn btn-primary" id="export-btn"><span class="glyphicon glyphicon-file"></span> Exportar</button></span>
+                    {!! Form::close() !!}
+                </div>
+                <div class="box-body" >
+                    <div class="row">
+                        <div class="col-xs-12">
 
                             <div class="table-responsive" style="max-height: 500px">
-                             <table class="table table-hover table-condensed">
-                             <thead  class="bg-primary">
-                             <tr>
-                                 <th style="vertical-align: middle; width:50px" align="center" class="text-center">
-                                    Fecha
-                                 </th>
-                                 <th style="vertical-align: middle; width:60px" align="center" class="text-center">
-                                    Nro. Factura
-                                 </th>
-                                 <th style="vertical-align: middle; width:60px" align="center" class="text-center">
-                                    Nro. Control
-                                 </th>
-                                 <th style="vertical-align: middle; width:70px" align="center" class="text-center">
-                                    RIF
-                                 </th>
-                                 <th style="vertical-align: middle; width:35px" align="center" class="text-center">
-                                    Código
-                                 </th>
-                                 <th style="vertical-align: middle; width:120px" align="center" class="text-center">
-                                    Nombre ó Razón Social
-                                 </th>
-                                 <th style="vertical-align: middle; width:150px" align="center"  class="text-center">
-                                    Descripción
-                                 </th>
-                                 <th style="vertical-align: middle; width:70px" align="center" class="text-center">
-                                    Sub-Total
-                                 </th>
-                                 <th style="vertical-align: middle; width:60px" align="center" class="text-center">
-                                    IVA
-                                 </th>
-                                 <th style="vertical-align: middle; width:70px" align="center" class="text-center">
-                                    Monto
-                                 </th>
-                                 <th style="vertical-align: middle; width:70px" align="center" class="text-center">
-                                    Saldo Deudor
-                                 </th>
-                             </tr>
-                             </thead>
-                            <tbody>
-                                @if(count($facturas)>0)
-                                    @foreach($listadoModulo as $nombreModulo)
-                                        @if($nombreModulo->nombre  != 'TASAS')
-                                            <tr>
-                                                 <td colspan="11" class="text-center bg-gray" align="center"><strong>{{ $nombreModulo->nombre }}</strong></td>   
-                                            </tr>
-                                            @foreach($facturas as $index => $factura)
-                                                @if($factura->modulo_id == $nombreModulo->id )
-                                                    <tr>
-                                                        <td style="vertical-align: middle; width:50px" align="center">{{$factura->fecha}}</td>
-                                                        <td style="vertical-align: middle; width:60px" align="center" >{{$factura->nFacturaPrefix}}-{{$factura->nFactura}}</td>
-                                                        <td style="vertical-align: middle; width:60px" align="center" >{{$factura->nControlPrefix}}-{{$factura->nControl}}</td>
-                                                        <td style="vertical-align: middle; width:70px" align="center" >{{$factura->cliente->cedRifPrefix}}-{{$factura->cliente->cedRif}}</td>
-                                                        <td style="vertical-align: middle; width:35px" align="center" >{{$factura->cliente->codigo}}</td>
-                                                        <td style="vertical-align: middle; width:120px" align="left" >{{$factura->cliente->nombre}}</td>
-                                                        <td style="vertical-align: middle; width:150px" align="left">{{$factura->descripcion}}</td>
-                                                        <td style="vertical-align: middle; width:70px" align="right" class="{{ $nombreModulo->nombre }}-subtotal">{{$traductor->format($factura->subtotal)}}</td>
-                                                        {{--@if(!$factura->metadata)--}}
-                                                        <td style="vertical-align: middle; width:60px" align="right" class="{{ $nombreModulo->nombre }}-iva">{{$traductor->format($factura->iva)}}</td>
-                                                        {{--@els        e--}}
-                                                        {{--<td style="vertical-align: middle; width:60px" align="right">{{$factura->metadata->ivapercentage}}</td>--}}
-                                                        {{--<td style="vertical-align: middle; width:60px" align="right">{{$factura->metadata->islrpercentage}}</td>--}}
-                                                        {{--@endif--}}
-                                                        <td style="vertical-align: middle; width:70px" align="right" class="{{ $nombreModulo->nombre }}-total">{{$traductor->format($factura->total)}}</td>
-                                                        <td style="vertical-align: middle; width:70px" align="right" class="{{ $nombreModulo->nombre }}-totalDeudor">{{($factura->estado=='P')?$traductor->format($factura->total):'0,00'}}</td>
-                                                    </tr>
-                                                @endif
-                                            @endforeach
-                                            <tr class="bg-gray">
-                                                <td colspan="2" align="left" class="text-left"><strong>TOTAL {{ $nombreModulo->nombre }}</strong></td>
-                                                <td> - </td>
-                                                <td> -  </td>
-                                                <td> - </td>
-                                                <td> - </td>
-                                                <td> - </td>
-                                                <td style="vertical-align: middle; width:70px; font-weight: bold" class="text-right" align="right" id="{{ $nombreModulo->nombre }}-subtotalTotal">0,00</td>
-                                                <td style="vertical-align: middle; width:60px; font-weight: bold" class="text-right" align="right" id="{{ $nombreModulo->nombre }}-ivaTotal">0,00</td>
-                                                <td style="vertical-align: middle; width:70px; font-weight: bold" class="text-right" align="right" id="{{ $nombreModulo->nombre }}-totalTotal">0,00</td>
-                                                <td style="vertical-align: middle; width:70px; font-weight: bold" class="text-right" align="right" id="{{ $nombreModulo->nombre }}-totalDeudorTotal">0,00</td>                                   
-                                            </tr>
-                                        @endif
-                                    @endforeach    
-                                <tr class="bg-gray">
-                                    <td colspan="2" align="left" class="text-left"><strong>TOTAL {{ $nombreModulo->nombre }}</strong></td>
-                                    <td> - </td>
-                                    <td> -  </td>
-                                    <td> - </td>
-                                    <td> - </td>
-                                    <td> - </td>
-                                    <td style="vertical-align: middle; width:70px; font-weight: bold" class="text-right" align="right" id="{{ $nombreModulo->nombre_imprimible }}-subtotalTotal">{{$traductor->format($subtotal)}}</td>
-                                    <td style="vertical-align: middle; width:60px; font-weight: bold" class="text-right" align="right" id="{{ $nombreModulo->nombre }}-totalTotal">{{$traductor->format($iva)}}</td>
-                                    <td style="vertical-align: middle; width:70px; font-weight: bold" class="text-right" align="right" id="{{ $nombreModulo->nombre }}-ivaTotal">{{$traductor->format($total)}}</td>
-                                    <td style="vertical-align: middle; width:70px; font-weight: bold" class="text-right" align="right" id="{{ $nombreModulo->nombre }}-totalDeudorTotal">{{$traductor->format($total)}}</td>                                   
-                                </tr> 
-                                @else
-                                    <tr>
-                                        <td colspan="11" class="text-center">No hay registros para los parámetros seleccionados</td>
+                               <table class="table table-hover table-condensed">
+                                   <thead  class="bg-primary">
+                                       <tr>
+                                           <th style="vertical-align: middle; width:100px" align="center" class="text-center">
+                                            Fecha
+                                        </th>
+                                        <th style="vertical-align: middle; width:100px" align="center" class="text-center">
+                                            Nro. Factura
+                                        </th>
+                                        <th style="vertical-align: middle; width:100px" align="center" class="text-center">
+                                            Nro. Control
+                                        </th>
+                                        <th style="vertical-align: middle; width:120px" align="center" class="text-center">
+                                            RIF
+                                        </th>
+                                        <th style="vertical-align: middle; width:50px" align="center" class="text-center">
+                                            Código
+                                        </th>
+                                        <th style="vertical-align: middle; width:200px" align="center" class="text-center">
+                                            Nombre ó Razón Social
+                                        </th>
+                                        <th style="vertical-align: middle; width:150px" align="center"  class="text-center">
+                                            Descripción
+                                        </th>
+                                        <th style="vertical-align: middle; width:120px" align="center" class="text-center">
+                                            Sub-Total
+                                        </th>
+                                        <th style="vertical-align: middle; width:120px" align="center" class="text-center">
+                                            IVA
+                                        </th>
+                                        <th style="vertical-align: middle; width:120px" align="center" class="text-center">
+                                            Monto
+                                        </th>
+                                        <th style="vertical-align: middle; width:120px" align="center" class="text-center">
+                                            Saldo Deudor
+                                        </th>
                                     </tr>
-                                @endif
+                                </thead>
+                                <tbody>
+                                    @if(count($facturas)>0)
+                                    @foreach($listadoModulo as $nombreModulo)
+                                    @if($nombreModulo->nombre  != 'TASAS')
+                                    <tr>
+                                       <td colspan="11" class="text-center bg-gray" align="center"><strong>{{ $nombreModulo->nombre }}</strong></td>   
+                                   </tr>
+                                   @foreach($facturas as $index => $factura)
+                                   @if($factura->modulo_id == $nombreModulo->id )
+                                   <tr>
+                                    <td style="vertical-align: middle; width:100px" align="center">{{$factura->fecha}}</td>
+                                    <td style="vertical-align: middle; width:100px" align="center" >{{$factura->nFacturaPrefix}}-{{$factura->nFactura}}</td>
+                                    <td style="vertical-align: middle; width:100px" align="center" >{{$factura->nControlPrefix}}-{{$factura->nControl}}</td>
+                                    <td style="vertical-align: middle; width:120px" align="center" >{{$factura->cliente->cedRifPrefix}}-{{$factura->cliente->cedRif}}</td>
+                                    <td style="vertical-align: middle; width:50px" align="center" >{{$factura->cliente->codigo}}</td>
+                                    <td style="vertical-align: middle; width:200px" align="left" >{{$factura->cliente->nombre}}</td>
+                                    <td style="vertical-align: middle; width:150px" align="left">{{$factura->descripcion}}</td>
+                                    <td style="vertical-align: middle; width:120px" align="right" class="{{ $nombreModulo->nombre }}-subtotal">{{$traductor->format($factura->subtotal)}}</td>
+                                    {{--@if(!$factura->metadata)--}}
+                                    <td style="vertical-align: middle; width:120px" align="right" class="{{ $nombreModulo->nombre }}-iva">{{$traductor->format($factura->iva)}}</td>
+                                    {{--@els        e--}}
+                                    {{--<td style="vertical-align: middle; width:60px" align="right">{{$factura->metadata->ivapercentage}}</td>--}}
+                                    {{--<td style="vertical-align: middle; width:60px" align="right">{{$factura->metadata->islrpercentage}}</td>--}}
+                                    {{--@endif--}}
+                                    <td style="vertical-align: middle; width:120px" align="right" class="{{ $nombreModulo->nombre }}-total">{{$traductor->format($factura->total)}}</td>
+                                    <td style="vertical-align: middle; width:120px" align="right" class="{{ $nombreModulo->nombre }}-totalDeudor">{{($factura->estado=='P')?$traductor->format($factura->total):'0,00'}}</td>
+                                </tr>
+                                    @endif
+                                    @endforeach
+                                    <tr class="bg-gray">
+                                        <td colspan="2" align="left" class="text-left"><strong>TOTAL {{ $nombreModulo->nombre }}</strong></td>
+                                        <td> - </td>
+                                        <td> -  </td>
+                                        <td> - </td>
+                                        <td> - </td>
+                                        <td> - </td>
+                                        <td style="vertical-align: middle; width:120px; font-weight: bold" class="text-right" align="right" id="{{ $nombreModulo->nombre }}-subtotalTotal">0,00</td>
+                                        <td style="vertical-align: middle; width:120px; font-weight: bold" class="text-right" align="right" id="{{ $nombreModulo->nombre }}-ivaTotal">0,00</td>
+                                        <td style="vertical-align: middle; width:120px; font-weight: bold" class="text-right" align="right" id="{{ $nombreModulo->nombre }}-totalTotal">0,00</td>
+                                        <td style="vertical-align: middle; width:120px; font-weight: bold" class="text-right" align="right" id="{{ $nombreModulo->nombre }}-totalDeudorTotal">0,00</td>                                   
+                                    </tr>
+                                    @endif
+                                    @endforeach    
+                                    <tr class="bg-gray">
+                                        <td colspan="2" align="left" class="text-left"><strong>TOTAL</strong></td>
+                                        <td> - </td>
+                                        <td> -  </td>
+                                        <td> - </td>
+                                        <td> - </td>
+                                        <td> - </td>
+                                        <td style="vertical-align: middle; width:120px; font-weight: bold" class="text-right" align="right">{{$traductor->format($subtotal)}}</td>
+                                        <td style="vertical-align: middle; width:120px; font-weight: bold" class="text-right" align="right">{{$traductor->format($iva)}}</td>
+                                        <td style="vertical-align: middle; width:120px; font-weight: bold" class="text-right" align="right">{{$traductor->format($total)}}</td>
+                                        <td style="vertical-align: middle; width:120px; font-weight: bold" class="text-right" align="right">{{$traductor->format($total)}}</td>                                   
+                                    </tr> 
+                                    @else
+                                    <tr>
+                                        <td colspan="11" class="text-center" align="center">No hay registros para los parámetros seleccionados</td>
+                                    </tr>
+                                    @endif
 
-                            </tbody>
+                                </tbody>
 
-                             </table>
-                            </div>
-                            </div>
+                            </table>
                         </div>
                     </div>
                 </div>
             </div>
-        @endif
+        </div>
     </div>
+    @endif
+</div>
 
 
 @endsection
 
 @section('script')
 <script>
-$(function(){
+    $(function(){
 
 
-    var canonSubtotal=0;
-    $('.CANON-subtotal').each(function(index,value){
-        canonSubtotal+=commaToNum($(value).text().trim());
-    });
+        var canonSubtotal=0;
+        $('.CANON-subtotal').each(function(index,value){
+            canonSubtotal+=commaToNum($(value).text().trim());
+        });
 
-    var canonIva=0;
-    $('.CANON-iva').each(function(index,value){
-        canonIva+=commaToNum($(value).text().trim());
-    });
+        var canonIva=0;
+        $('.CANON-iva').each(function(index,value){
+            canonIva+=commaToNum($(value).text().trim());
+        });
 
-    var canonTotal=0;
-    $('.CANON-total').each(function(index,value){
-        canonTotal+=commaToNum($(value).text().trim());
-    });
+        var canonTotal=0;
+        $('.CANON-total').each(function(index,value){
+            canonTotal+=commaToNum($(value).text().trim());
+        });
 
-    var canonTotalDeudor=0;
-    $('.CANON-totalDeudor').each(function(index,value){
-        canonTotalDeudor+=commaToNum($(value).text().trim());
-    });
+        var canonTotalDeudor=0;
+        $('.CANON-totalDeudor').each(function(index,value){
+            canonTotalDeudor+=commaToNum($(value).text().trim());
+        });
 
 
-    $('#CANON-subtotalTotal').text(numToComma(canonSubtotal));
-    $('#CANON-ivaTotal').text(numToComma(canonIva));
-    $('#CANON-totalTotal').text(numToComma(canonTotal));
-    $('#CANON-totalDeudorTotal').text(numToComma(canonTotalDeudor));
+        $('#CANON-subtotalTotal').text(numToComma(canonSubtotal));
+        $('#CANON-ivaTotal').text(numToComma(canonIva));
+        $('#CANON-totalTotal').text(numToComma(canonTotal));
+        $('#CANON-totalDeudorTotal').text(numToComma(canonTotalDeudor));
 
     //DOSAS
     var dosasSubtotal=0;
@@ -437,26 +436,26 @@ $(function(){
     $('#OTROS INGRESOS NO AERONÁUTICOS-totalDeudorTotal').text(numToComma(otrosIngNoAeroTotalDeudor));
 
     //Datemask dd/mm/yyyy
-  $('.datepicker').inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/yyyy"});
+    $('.datepicker').inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/yyyy"});
 
-  $('.datepicker').datepicker({
-    closeText: 'Cerrar',
-    prevText: '&#x3C;Ant',
-    nextText: 'Sig&#x3E;',
-    currentText: 'Hoy',
-    monthNames: ['Enero','Febrero','Marzo','Abril','Mayo','Junio',
-    'Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'],
-    monthNamesShort: ['Ene','Feb','Mar','Abr','May','Jun',
-    'Jul','Ago','Sep','Oct','Nov','Dic'],
-    dayNames: ['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'],
-    dayNamesShort: ['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'],
-    dayNamesMin: ['D','L','M','M','J','V','S'],
-    weekHeader: 'Sm',
-    firstDay: 1,
-    isRTL: false,
-    showMonthAfterYear: false,
-    yearSuffix: '',
-    dateFormat: "dd/mm/yy"});
+    $('.datepicker').datepicker({
+        closeText: 'Cerrar',
+        prevText: '&#x3C;Ant',
+        nextText: 'Sig&#x3E;',
+        currentText: 'Hoy',
+        monthNames: ['Enero','Febrero','Marzo','Abril','Mayo','Junio',
+        'Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'],
+        monthNamesShort: ['Ene','Feb','Mar','Abr','May','Jun',
+        'Jul','Ago','Sep','Oct','Nov','Dic'],
+        dayNames: ['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'],
+        dayNamesShort: ['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'],
+        dayNamesMin: ['D','L','M','M','J','V','S'],
+        weekHeader: 'Sm',
+        firstDay: 1,
+        isRTL: false,
+        showMonthAfterYear: false,
+        yearSuffix: '',
+        dateFormat: "dd/mm/yy"});
 
 })
 $('#cliente-select').chosen({width: "100%"})
@@ -470,20 +469,20 @@ $('#export-btn').click(function(e){
         return $(this).find('td,th').length == 0;
     }).remove();
     $(table).prepend('<thead>\
-                        <tr>\
-                            <th colspan="12" style="vertical-align: middle; margin-top:20px" align="center" class="text-center">LISTADO DE FACTURAS EMITIDAS\
-                                </br>\
-                                DESDE: {{isset($desde)?$desde:"N/A"}} HASTA: {{isset($hasta)?$hasta:"N/A"}} | MÓDULO: {{isset($moduloNombre)?$moduloNombre:"TODOS"}}\
-                                </br>\
-                                CLIENTE: {{isset($clienteNombre)?$clienteNombre:"TODOS"}} | AEROPUERTO: {{isset($aeropuertoNombre)?$aeropuertoNombre:"TODOS"}}\
-                                </br>\
-                                CONDICIÓN: {{isset($estatusNombre)?$estatusNombre:"TODAS"}}\
-                            </th>\
-                        </tr>\
-                    </thead>')
-    $(table).find('thead, th').css({'border-top':'1px solid black', 'font-weight': 'bold', 'text-align':"center", 'font-size': '7px'})
-    $(table).find('th').css({'border-bottom':'1px solid black', 'font-weight': 'bold', 'text-align':"center", 'font-size': '7px'})
-    $(table).find('td').css({'font-size': '5px'})
+        <tr>\
+            <th colspan="12" style="vertical-align: middle; margin-top:20px" align="center" class="text-center">LISTADO DE FACTURAS EMITIDAS\
+            </br>\
+            DESDE: {{isset($desde)?$desde:"N/A"}} HASTA: {{isset($hasta)?$hasta:"N/A"}} | MÓDULO: {{isset($moduloNombre)?$moduloNombre:"TODOS"}}\
+        </br>\
+        CLIENTE: {{isset($clienteNombre)?$clienteNombre:"TODOS"}} | AEROPUERTO: {{isset($aeropuertoNombre)?$aeropuertoNombre:"TODOS"}}\
+    </br>\
+    CONDICIÓN: {{isset($estatusNombre)?$estatusNombre:"TODAS"}}\
+</th>\
+</tr>\
+</thead>')
+    $(table).find('thead, th').css({'border-top':'1px solid black', 'font-weight': 'bold', 'text-align':"center", 'font-size': '11px'})
+    $(table).find('th').css({'border-bottom':'1px solid black', 'font-weight': 'bold', 'text-align':"center", 'font-size': '11px'})
+    $(table).find('td').css({'font-size': '9px'})
     $(table).find('tr:nth-child(even)').css({'background-color': '#E2E2E2'})
     $(table).find('tr:last td').css({'border-bottom':'1px solid black','border-top':'1px solid black', 'font-weight': 'bold'})
     var tableHtml= $(table)[0].outerHTML;
@@ -493,7 +492,7 @@ $('#export-btn').click(function(e){
 
 $('[name=aeropuerto]').change(function(e){
     var value=$(this).val();
-        $('[name=modulo] option').show();
+    $('[name=modulo] option').show();
     if(value!=0)
         $('[name=modulo] option[data-aeropuerto!='+value+']').hide();
     var $options=$('[name=modulo] option:visible');
