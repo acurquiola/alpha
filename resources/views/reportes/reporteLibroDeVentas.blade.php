@@ -125,12 +125,12 @@
 												<td   style="vertical-align: middle; width: 70px" class="text-center" align="center" align="right">{{ ($factura->deleted_at == null)?'01-reg':'03-anu' }}</td>
 												<td   style="vertical-align: middle; width: 70px" class="text-right jetway-bs" align="right"> </td>
 												@if($factura->deleted_at == null)
-												<td   style="vertical-align: middle; width: 100px" class="text-right totalVentasConIva" align="right">{{$traductor->format($factura->total)}}</td>
-												<td   style="vertical-align: middle; width: 100px" class="text-right ventasNoGravadas" align="right">{{($factura->base == $factura->monto)?$traductor->format($factura->monto):''}}</td>
-												<td   style="vertical-align: middle; width: 100px" class="text-right baseImponible" align="right">{{($factura->base == $factura->monto)?'':$traductor->format($factura->base)}}</td>
-												<td   style="vertical-align: middle; width: 100px" class="text-right porcAlicuota" align="right">{{($factura->base == $factura->monto)?'':$traductor->format($factura->ivaDes)}} </td>
-												<td   style="vertical-align: middle; width: 100px" class="text-right impuestoIva" align="right">{{($factura->base == $factura->monto)?'':$traductor->format($factura->ivapercentage)}}</td>
-												<td   style="vertical-align: middle; width: 100px" class="text-right ivaRetenido" align="right">{{($factura->base == $factura->monto)?'':$traductor->format((($factura->total-$factura->base)*$factura->ivapercentage)/100)}}</td>
+													<td   style="vertical-align: middle; width: 100px" class="text-right totalVentasConIva" align="right">{{$traductor->format($factura->total)}}</td>
+													<td   style="vertical-align: middle; width: 100px" class="text-right ventasNoGravadas" align="right">{{($factura->iva == 0.0)?$traductor->format($factura->total):''}}</td>
+													<td   style="vertical-align: middle; width: 100px" class="text-right baseImponible" align="right">{{($factura->iva == 0.00)?'':$traductor->format($factura->subtotal)}}</td>
+													<td   style="vertical-align: middle; width: 100px" class="text-right porcAlicuota" align="right">{{($factura->iva == 0.00)?'':$traductor->format($factura->iva)}} </td>
+													<td   style="vertical-align: middle; width: 100px" class="text-right impuestoIva" align="right">{{($factura->iva == 0.00)?'':$traductor->format($factura->iva)}}</td>
+													<td   style="vertical-align: middle; width: 100px" class="text-right ivaRetenido" align="right">0</td>
 												@else
 													<td   style="vertical-align: middle; width: 100px" class="text-right totalVentasConIva" align="right">0,00</td>
 													<td   style="vertical-align: middle; width: 100px" class="text-right ventasNoGravadas" align="right">{{($factura->ivapercentage == '0.0')?'0,00':''}}</td>
