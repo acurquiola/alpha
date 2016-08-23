@@ -1098,13 +1098,13 @@ class ReporteController extends Controller {
 
     //Relación de Cobranza.
     public function getReporteRelacionCobranza(Request $request){
-        $modulos          =\App\Modulo::where('aeropuerto_id', session('aeropuerto')->id )->lists('nombre','id');
-        $clientes         =\App\Cliente::all();
-        $mes              =$request->get('mes', \Carbon\Carbon::now()->month);
-        $anno             =$request->get('anno',  \Carbon\Carbon::now()->year);
-        $aeropuerto       =$request->get('aeropuerto')+0;
-        $cliente          =$request->get('cliente')+0;
-        $modulo           =$request->get('modulo')+0;
+        $modulos    =\App\Modulo::where('aeropuerto_id', session('aeropuerto')->id )->lists('nombre','id');
+        $mes        =$request->get('mes', \Carbon\Carbon::now()->month);
+        $anno       =$request->get('anno',  \Carbon\Carbon::now()->year);
+        $aeropuerto =$request->get('aeropuerto', session('aeropuerto')->id);
+        $cliente    =$request->get('cliente_id', 0);
+        $modulo     =$request->get('modulo', 0);
+        //$nFactura   =$request->get('nFactura', 0);
         if($aeropuerto!=0){
             $moduloNombre =($modulo==0)?'TODOS':\App\Modulo::where('id', $modulo)->first()->nombre;
             if($moduloNombre!='TODOS'){
@@ -1122,21 +1122,51 @@ class ReporteController extends Controller {
             $primerDiaMes     =\Carbon\Carbon::create($anno, 1,1)->startOfMonth();
             $ultimoDiaMes     =\Carbon\Carbon::create($anno, 12,31)->endOfMonth(); 
         }
-        $primerDiaMes     =\Carbon\Carbon::create($anno, $mes,1)->startOfMonth();
-        $ultimoDiaMes     =\Carbon\Carbon::create($anno, $mes,1)->endOfMonth();
-        $recibos=\App\Cobro::with('pagos','facturas')
-                              ->where('fecha','>=' ,$primerDiaMes)
-                              ->where('fecha','<=' ,$ultimoDiaMes)
-                              ->where('aeropuerto_id',($aeropuerto==0)?">":"=", $aeropuerto)
-                              ->where('cobros.modulo_id',($modulo==0)?">":"=", $modulo)
-                              ->where('cobros.cliente_id',($cliente==0)?">":"=", $cliente)
-                              ->orderBy('fecha', 'ASC', 'facturas.nFactura', 'ASC')
-                              ->get();
+
+       /* $factura_id = 0;
+
+        if($nFactura != 0){
+
+            $factura_id = \App\Factura::where('nFactura', $nFactura)
+                                      ->where('aeropuerto_id', $aeropuerto)
+                                      ->first()->id;
+
+            $recibos=\App\Cobro::select()
+                                  ->with('pagos','facturas')
+                                  ->join('cobro_factura', 'cobro_factura.cobro_id', '=', 'cobros.id')
+                                  ->where('cobro_factura.factura_id', $factura_id)
+                                  ->orderBy('cobro_factura.factura_id', 'ASC')
+                                  ->get();
+        }else{
+
+            $primerDiaMes     =\Carbon\Carbon::create($anno, $mes,1)->startOfMonth();
+            $ultimoDiaMes     =\Carbon\Carbon::create($anno, $mes,1)->endOfMonth();
+            $recibos=\App\Cobro::with('pagos','facturas')
+                                  ->where('fecha','>=' ,$primerDiaMes)
+                                  ->where('fecha','<=' ,$ultimoDiaMes)
+                                  ->where('aeropuerto_id',($aeropuerto==0)?">":"=", $aeropuerto)
+                                  ->where('cobros.modulo_id',($modulo==0)?">":"=", $modulo)
+                                  ->where('cobros.cliente_id',($cliente==0)?">":"=", $cliente)
+                                  ->orderBy('fecha', 'ASC', 'facturas.nFactura', 'ASC')
+                                  ->get();
+            
+        }*/
+
+            $primerDiaMes     =\Carbon\Carbon::create($anno, $mes,1)->startOfMonth();
+            $ultimoDiaMes     =\Carbon\Carbon::create($anno, $mes,1)->endOfMonth();
+            $recibos=\App\Cobro::with('pagos','facturas')
+                                  ->where('fecha','>=' ,$primerDiaMes)
+                                  ->where('fecha','<=' ,$ultimoDiaMes)
+                                  ->where('aeropuerto_id',($aeropuerto==0)?">":"=", $aeropuerto)
+                                  ->where('cobros.modulo_id',($modulo==0)?">":"=", $modulo)
+                                  ->where('cobros.cliente_id',($cliente==0)?">":"=", $cliente)
+                                  ->orderBy('fecha', 'ASC', 'facturas.nFactura', 'ASC')
+                                  ->get();
 
         $totalFacturas   =$recibos->sum('montofacturas');
         $totalDepositado =$recibos->sum('montodepositado');
 
-        return view('reportes.reporteRelacionCobranza', compact('mes', 'anno', 'aeropuerto', 'modulo', 'recibos', 'modulos', 'clientes', 'cliente', 'totalFacturas', 'totalDepositado', 'moduloNombre', 'clienteNombre', 'aeropuertoNombre'));
+        return view('reportes.reporteRelacionCobranza', compact('mes','nFactura', 'anno', 'aeropuerto', 'modulo', 'recibos', 'modulos', 'clientes', 'cliente', 'totalFacturas', 'totalDepositado', 'moduloNombre', 'clienteNombre', 'aeropuertoNombre'));
 
     }
 

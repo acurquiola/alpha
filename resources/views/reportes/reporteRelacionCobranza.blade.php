@@ -18,32 +18,18 @@
 			{!! Form::open(["url" => action('ReporteController@getReporteRelacionCobranza'), "method" => "GET", "class"=>"form-inline"]) !!}
 				<div class="box-body">
 					<div class="form-inline">
-						<div class="form-group col-sm-5" >
+						<div class="form-group col-sm-4" >
 							<label><strong>AEROPUERTO: </strong></label>
 						{!! Form::select('aeropuerto', $aeropuertos, $aeropuerto, ["class"=> "form-control"]) !!}
 						</div>
 						<div class="form-group col-sm-3" >
-						<label><strong>MÓDULO:</strong></label>
-							<select name="modulo" id="modulo" class="form-control" >
-								<option value="0">--Seleccione un módulo--</option>
-								@foreach ($modulos as $index=>$modulo)
-									<option value="{{$index}}">{{$modulo}}</option>
-								@endforeach
-							</select>
-				              {{--  <label><strong>Nro. FACTURA: </strong></label>
-							<div class="form-group">
-								<input type="text" class="form-control" name="nFactura"  placeholder="Nro. Factura">
-			                </div> --}}
+							<label><strong>MÓDULO:</strong></label>
+							{!! Form::select('modulo', $modulos, $modulo, ["class"=> "form-control"]) !!}
 						</div>
-						<div class="form-group col-sm-2" >
+						<div class="form-group col-sm-1" >
 							<label><strong>MES: </strong></label>
-							<select name="mes" id="mes" class="form-control" >
-								<option value="0">--Seleccione un mes--</option>
-								@foreach ($meses as $index=>$m)
-									<option value="{{$index}}">{{$m}}</option>
-								@endforeach
-							</select>
-						</div>
+		                      {!! Form::select('mes', $meses, $mes, ["class"=> "form-control"]) !!}
+		                </div>
 						<div class="form-group col-sm-1" >
 							<label><strong>AÑO: </strong></label>
 							{!! Form::select('anno', $annos, $anno, ["class"=> "form-control"]) !!}
@@ -52,13 +38,12 @@
 					<div class="form-inline">
 						<div class="form-group" style="margin-left: 15px; margin-top: 15px" >
 							<label ><strong>CLIENTE: </strong></label>
-							<select name="cliente" id="cliente" class="form-control" >
-								<option value="0">--Seleccione un cliente--</option>
-								@foreach ($clientes as $cliente)
-									<option value="{{$cliente->id}}">{{$cliente->codigo}} | {{$cliente->nombre}}</option>
-								@endforeach
-							</select>
+                     		 {!! Form::select('cliente_id', $clientes, $cliente, ["class"=> "form-control select-flt"]) !!}
 						</div>
+			            {{-- <label><strong>Nro. FACTURA: </strong></label>
+						<div class="form-group">
+							<input type="text" name="nFactura" class="form-control" value="{{ ($nFactura)?$nFactura:'' }}"placeholder="Número de Factura" />
+		                </div> --}} 
 					</div>
 				</div>
 				<div class="box-footer">
@@ -78,7 +63,6 @@
 				{!! Form::hidden('table') !!}
                 {!! Form::hidden('gerencia', $gerencia) !!}
                 {!! Form::hidden('departamento', $departamento) !!}
-				<h3 class="box-title">Reporte</h3>
 				<span class="pull-right">
 					<button type="button" class="btn btn-primary" id="export-btn">
 						<span class="glyphicon glyphicon-file"></span> Exportar
