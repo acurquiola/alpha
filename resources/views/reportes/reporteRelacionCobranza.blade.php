@@ -40,10 +40,10 @@
 							<label ><strong>CLIENTE: </strong></label>
                      		 {!! Form::select('cliente_id', $clientes, $cliente, ["class"=> "form-control select-flt"]) !!}
 						</div>
-			            {{-- <label><strong>Nro. FACTURA: </strong></label>
+			            <label><strong>Nro. FACTURA: </strong></label>
 						<div class="form-group">
 							<input type="text" name="nFactura" class="form-control" value="{{ ($nFactura)?$nFactura:'' }}"placeholder="Número de Factura" />
-		                </div> --}} 
+		                </div> 
 					</div>
 				</div>
 				<div class="box-footer">
@@ -94,52 +94,52 @@
 										</th>
 									</tr>
 									<tr>
-										<th style="vertical-align: middle; width:40px" align="center" class="text-center">
+										<th style="vertical-align: middle; width:80px" align="center" class="text-center">
 											Fecha
 										</th>
-										<th style="vertical-align: middle; width:30px" align="center" class="text-center">
+										<th style="vertical-align: middle; width:50px" align="center" class="text-center">
 											Nro.
 										</th>
-										<th  style="vertical-align: middle; width:40px" align="center" class="text-center">
+										<th  style="vertical-align: middle; width:80px" align="center" class="text-center">
 											Rec. Caja
 										</th>
-										<th style="vertical-align: middle; width:40px" align="center" class="text-center">
+										<th style="vertical-align: middle; width:80px" align="center" class="text-center">
 											Código
 										</th>
-										<th style="vertical-align: middle; width:120px" align="center" class="text-center">
+										<th style="vertical-align: middle; width:300px" align="center" class="text-center">
 											Nombre o Razón Social
 										</th>
-										<th style="vertical-align: middle; width:40px" align="center" class="text-center">
+										<th style="vertical-align: middle; width:80px" align="center" class="text-center">
 											Fecha
 										</th>
-										<th style="vertical-align: middle; width:30px" align="center" class="text-center">
+										<th style="vertical-align: middle; width:50px" align="center" class="text-center">
 											Tipo
 										</th>
-										<th style="vertical-align: middle; width:40px"  align="center" class="text-center">
+										<th style="vertical-align: middle; width:80px"  align="center" class="text-center">
 											Cuenta
 										</th>
-										<th style="vertical-align: middle; width:40px"  align="center" class="text-center">
+										<th style="vertical-align: middle; width:80px"  align="center" class="text-center">
 											Ref
 										</th>
-										<th style="vertical-align: middle; width:45px"  align="center" class="text-center">
+										<th style="vertical-align: middle; width:90px"  align="center" class="text-center">
 											Fecha
 										</th>
-										<th style="vertical-align: middle; width:45px"  align="center" class="text-center">
+										<th style="vertical-align: middle; width:90px"  align="center" class="text-center">
 											Número
 										</th>
-										<th style="vertical-align: middle; width:45px"  align="center" class="text-center">
+										<th style="vertical-align: middle; width:90px"  align="center" class="text-center">
 											IVA
 										</th>
-										<th style="vertical-align: middle; width:45px"  align="center" class="text-center">
+										<th style="vertical-align: middle; width:90px"  align="center" class="text-center">
 											ISLR
 										</th>
-										<th style="vertical-align: middle; width:80px"  align="center" class="text-center">
+										<th style="vertical-align: middle; width:120px"  align="center" class="text-center">
 											Cobrado
 										</th>
-										<th style="vertical-align: middle; width:70px" align="center" class="text-center">
+										<th style="vertical-align: middle; width:120px" align="center" class="text-center">
 											Depositado
 										</th>
-										<th style="vertical-align: middle; width:70px" align="center" class="text-center">
+										<th style="vertical-align: middle; width:120px" align="center" class="text-center">
 											Diferencia
 										</th>
 									</tr>
@@ -148,22 +148,22 @@
 									@if($recibos->count()>0)
 									@foreach($recibos as $recibo)
 									<tr>
-										<td style="vertical-align: middle; width:40px" align="center">{{$recibo->fecha}}</td>
-										<td align="center"  style="width:30px">{{$recibo->id}}</td>
-										<td style="vertical-align: middle; width:40px" align="center" >{{($recibo->nRecibo)?$recibo->nRecibo:'N/A'}}</td>
-										<td style="vertical-align: middle; width:40px" align="center" >{{$recibo->cliente->codigo}}</td>
-										<td style="vertical-align: middle; width:120px" align="left" >{{$recibo->cliente->nombre}}</td>
-										<td style="vertical-align: middle; width:40px" align="center">@foreach($recibo->pagos as $pagos) {{$pagos->fecha}} @endforeach</td>
-										<td style="vertical-align: middle; width:30px" align="center">@foreach($recibo->pagos as $pagos) {{$pagos->tipo}} @endforeach</td>
-										<td style="vertical-align: middle; width:40px" align="center">@foreach($recibo->pagos as $pagos) {{substr($pagos->cuenta->descripcion, -6)}} @endforeach</td>
-										<td style="vertical-align: middle; width:40px" align="center">@foreach($recibo->pagos as $pagos) {{$pagos->ncomprobante}} @endforeach</td>
-										<td style="vertical-align: middle; width:45px" align="center">@foreach($recibo->facturas as $comprobante) {{($comprobante->pivot->retencionFecha=='0')?'':$comprobante->pivot->retencionFecha}} @endforeach</td>
-										<td style="vertical-align: middle; width:45px" align="center">@foreach($recibo->facturas as $comprobante) {{($comprobante->pivot->retencionComprobante=='0')?'':$comprobante->pivot->retencionComprobante}} @endforeach</td>
-										<td style="vertical-align: middle; width:45px" align="center">@foreach($recibo->facturas as $comprobante) {{($comprobante->pivot->iva=='0')?'':$traductor->format($comprobante->pivot->iva)}} @endforeach</td>
-										<td style="vertical-align: middle; width:45px" align="center">@foreach($recibo->facturas as $comprobante) {{(($comprobante->pivot->base * $comprobante->pivot->islrpercentage)/100 == '0')?'':$traductor->format(($comprobante->pivot->base * $comprobante->pivot->islrpercentage)/100)}} @endforeach</td>
-										<td style="vertical-align: middle; width:80px" align="right">{{$traductor->format($recibo->montofacturas)}}</td>
-										<td style="vertical-align: middle; width:70px" align="right">{{$traductor->format($recibo->montodepositado)}}</td>
-										<td style="vertical-align: middle; width:70px" align="right">{{$traductor->format(($recibo->montofacturas-$recibo->montodepositado))}}</td>
+										<td style="vertical-align: middle; width:80px" align="center">{{$recibo->fecha}}</td>
+										<td align="center"  style="width:50px">{{$recibo->id}}</td>
+										<td style="vertical-align: middle; width:80px" align="center" >{{($recibo->nRecibo)?$recibo->nRecibo:'N/A'}}</td>
+										<td style="vertical-align: middle; width:80px" align="center" >{{$recibo->cliente->codigo}}</td>
+										<td style="vertical-align: middle; width:300px" align="left" >{{$recibo->cliente->nombre}}</td>
+										<td style="vertical-align: middle; width:80px" align="center">@foreach($recibo->pagos as $pagos) {{$pagos->fecha}} @endforeach</td>
+										<td style="vertical-align: middle; width:50px" align="center">@foreach($recibo->pagos as $pagos) {{$pagos->tipo}} @endforeach</td>
+										<td style="vertical-align: middle; width:80px" align="center">@foreach($recibo->pagos as $pagos) {{substr($pagos->cuenta->descripcion, -6)}} @endforeach</td>
+										<td style="vertical-align: middle; width:80px" align="center">@foreach($recibo->pagos as $pagos) {{$pagos->ncomprobante}} @endforeach</td>
+										<td style="vertical-align: middle; width:90px" align="center">@foreach($recibo->facturas as $comprobante) {{($comprobante->pivot->retencionFecha=='0')?'':$comprobante->pivot->retencionFecha}} @endforeach</td>
+										<td style="vertical-align: middle; width:90px" align="center">@foreach($recibo->facturas as $comprobante) {{($comprobante->pivot->retencionComprobante=='0')?'':$comprobante->pivot->retencionComprobante}} @endforeach</td>
+										<td style="vertical-align: middle; width:90px" align="center">@foreach($recibo->facturas as $comprobante) {{($comprobante->pivot->iva=='0')?'':$traductor->format($comprobante->pivot->iva)}} @endforeach</td>
+										<td style="vertical-align: middle; width:90px" align="center">@foreach($recibo->facturas as $comprobante) {{(($comprobante->pivot->base * $comprobante->pivot->islrpercentage)/100 == '0')?'':$traductor->format(($comprobante->pivot->base * $comprobante->pivot->islrpercentage)/100)}} @endforeach</td>
+										<td style="vertical-align: middle; width:120px" align="right">{{$traductor->format($recibo->montofacturas)}}</td>
+										<td style="vertical-align: middle; width:120px" align="right">{{$traductor->format($recibo->montodepositado)}}</td>
+										<td style="vertical-align: middle; width:120px" align="right">{{$traductor->format(($recibo->montofacturas-$recibo->montodepositado))}}</td>
 									</tr>
 									@endforeach
 
@@ -181,9 +181,9 @@
 										<td> - </td>
 										<td> - </td>
 										<td> - </td>
-										<td style="vertical-align: middle; width:80px" align="right">{{$traductor->format($totalFacturas)}}</td>
-										<td style="vertical-align: middle; width:70px" align="right">{{$traductor->format($totalDepositado)}}</td>
-										<td style="vertical-align: middle; width:70px" align="right">-</td>                                   
+										<td style="vertical-align: middle; width:120px" align="right">{{$traductor->format($totalFacturas)}}</td>
+										<td style="vertical-align: middle; width:120px" align="right">{{$traductor->format($totalDepositado)}}</td>
+										<td style="vertical-align: middle; width:120px" align="right">-</td>                                   
 									</tr>   
 									@else
 									<tr>
@@ -258,9 +258,9 @@
 									</th>\
 								</tr>\
 							</thead>')
-			$(table).find('thead, th').css({'border-top':'1px solid black', 'font-weight': 'bold', 'text-align':"center", 'font-size': '7px'})
-			$(table).find('th').css({'border-bottom':'1px solid black', 'font-weight': 'bold', 'text-align':"center", 'font-size': '7px'})
-			$(table).find('td').css({'font-size': '6px'})
+			$(table).find('thead, th').css({'border-top':'1px solid black', 'font-weight': 'bold', 'text-align':"center", 'font-size': '12px'})
+			$(table).find('th').css({'border-bottom':'1px solid black', 'font-weight': 'bold', 'text-align':"center", 'font-size': '12px'})
+			$(table).find('td').css({'font-size': '10px'})
 			$(table).find('tr:nth-child(even)').css({'background-color': '#E2E2E2'})
 			$(table).find('tr:last td').css({'border-bottom':'1px solid black','border-top':'1px solid black', 'font-weight': 'bold'})
 			var tableHtml= $(table)[0].outerHTML;

@@ -1,15 +1,23 @@
-<table style="width:100%; border-collapse: collapse; padding:2px">
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<table style="width:100%; border-collapse: collapse; padding:2px; font-weight: 15px">
 <tr>
-<td  colspan="8">
+<td  colspan="7">
 </td>
-<td  colspan="2">
+<td  colspan="3">
 <strong>FACTURA:</strong> {{$factura->nFacturaPrefix}}-{{$factura->nFactura}}
 </td>
 </tr>
 <tr>
-<td  colspan="8">
+<td  colspan="7">
 </td>
-<td  colspan="2">
+<td  colspan="3">
 <strong>FECHA:</strong> {{$factura->fecha}}
 </td>
 </tr>
@@ -21,12 +29,12 @@
 
 <table style="width:100%; border-collapse: collapse; padding:2px">
 <tr>
-<td  colspan="8">
+<td  colspan="10">
 <strong>CLIENTE:</strong> {{$factura->cliente->nombre}}
 </td>
 </tr>
 <tr>
-<td  colspan="4">
+<td  colspan="6">
 <strong>DIRECCIÓN FISCAL:</strong> {{$factura->cliente->direccion}}
 </td>
 <td  colspan="2">
@@ -37,10 +45,10 @@
 </td>
 </tr>
 <tr>
-<td  colspan="4">
+<td  colspan="5">
 <strong>TELÉFONO:</strong> {{$factura->cliente->telefonos}}
 </td>
-<td  colspan="4">
+<td  colspan="5">
 <strong>CONDICIÓN DE PAGO:</strong> {{$factura->condicionPago}}
 </td>
 </tr>
@@ -53,13 +61,13 @@
 <table style="width:100%; border-collapse: collapse; padding:2px">
 <tr>
 <td style="border-top: 1px solid black;border-bottom: 1px solid black;" colspan="2">
-<strong>Nro.</strong>
+<strong>NRO.</strong>
 </td>
 <td style="border-top: 1px solid black;border-bottom: 1px solid black;" colspan="6">
-<strong>Concepto</strong>
+<strong>CONCEPTO</strong>
 </td>
 <td style="border-top: 1px solid black;border-bottom: 1px solid black;" colspan="2">
-<strong>Monto (Bs.)</strong>
+<strong>MONTO (Bs.)</strong>
 </td>
 </tr>
 @foreach($factura->detalles as $index => $detalle)
@@ -77,11 +85,15 @@
 @endforeach
 
 <tr> <td colspan="10">
-@for($i=0; $i<33-$factura->detalles->count();$i++)
+@for($i=0; $i<22-$factura->detalles->count();$i++)
 <br>
 @endfor
 </td></tr>
-<tr><td colspan="10">{{$factura->descripcion}}</td></tr>
+<tr><td colspan="10"><strong>DESCRIPCIÓN:</strong> {{$factura->descripcion}}</td></tr>
+<br>
+<br>
+<br>
+<br>
 <tr><td colspan="10" style="border-bottom: 1px solid black;"></td></tr>
 <tr>
 <td colspan="8" >
@@ -112,14 +124,14 @@ Bs. {{$traductor->format($factura->iva)}}
 </tr>
 <tr>
 <td colspan="6" >
-MONTO EN LETRAS:
+<strong>MONTO EN LETRAS</strong>
 </td>
 <td colspan="4">
 </td>
 </tr>
 <tr>
 <td colspan="6" >
-SON: {{$traductor->numtoletras($factura->total)}}
+<strong>SON: </strong> {{$traductor->numtoletras($factura->total)}}
 </td>
 <td colspan="4">
 </td>

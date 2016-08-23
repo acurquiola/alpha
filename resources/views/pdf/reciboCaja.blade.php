@@ -1,4 +1,8 @@
-<table  style="width:100%; border-collapse: collapse; padding:2px; font-size: 8px">
+
+<br>
+<br>
+<br>
+<table  style="width:100%; border-collapse: collapse; padding:2px;">
 <tr>
 <td  colspan="7">
 </td>
@@ -25,31 +29,31 @@
 </td>
 </tr>
 </table>
-<br>
-<br>
 
-
-<table style="width:100%; border-collapse: collapse; padding:2px; font-size: 8px">
+<table style="width:100%; border-collapse: collapse; padding:2px;">
 <tr>
-<td  colspan="7">
-<strong>NRO. COBRO:</strong> {{$cobro->id}}
-</td>
-<td  colspan="3" class="pull-right">
+<td colspan="7"></td>
+<td  colspan="3">
 <strong>MONTO:</strong> {{$traductor->format($cobro->montodepositado)}}
 </td>
 </tr>
 <tr>
-<td  colspan="7">
+<td  colspan="10">
+<strong>NRO. COBRO:</strong> {{$cobro->id}}
+</td>
+</tr>
+<tr>
+<td  colspan="10">
 <strong>HEMOS RECIDO DE:</strong> {{$cobro->cliente->nombre}}
 </td>
 </tr>
 <tr>
-<td  colspan="7">
+<td  colspan="10">
 <strong>LA CANTIDAD DE:</strong> {{$traductor->numtoletras($cobro->montodepositado)}}
 </td>
 </tr>
 <tr>
-<td  colspan="7">
+<td  colspan="10">
 <strong>POR CONCEPTO DE:</strong> {{$cobro->observacion}}
 </td>
 </tr>
@@ -95,22 +99,22 @@
 </tr>
 @foreach($cobro->pagos as $index => $pago)
 <tr>
-<td colspan="2" style=" text-align:center; font-size: 7px" >
+<td colspan="2" style=" text-align:center;" >
 {{$pago->tipo}}
 </td>
-<td colspan="2" style="text-align:right; font-size: 7px" >
+<td colspan="2" style="text-align:right;" >
 {{$traductor->format($pago->monto)}}
 </td>
-<td colspan="2"  style="text-align:center; font-size: 7px">
+<td colspan="2"  style="text-align:center;">
 {{$pago->ncomprobante}}
 </td>
-<td colspan="5" style="text-align:center; font-size: 7px">
+<td colspan="5" style="text-align:center;">
 {{$pago->banco->nombre}}
 </td>
-<td colspan="4" style="text-align:center; font-size: 7px">
+<td colspan="4" style="text-align:center;">
 {{$pago->cuenta->descripcion}}
 </td>
-<td colspan="2" style="text-align:center; font-size: 7px">
+<td colspan="2" style="text-align:center;">
 {{$pago->fecha}}
 </td>
 </tr>
