@@ -153,7 +153,7 @@ class FacturaController extends Controller {
         // dejavusans is a UTF-8 Unicode font, if you only need to
         // print standard ASCII chars, you can use core fonts like
         // helvetica or times to reduce file size.
-        $pdf->SetFont('helvetica', '', 10, '', true);
+       // $pdf->SetFont('helvetica', '', 10, '', true);
         // Add a page
         // This method has several options, check the source code documentation for more information.
         $pdf->AddPage();
@@ -161,8 +161,10 @@ class FacturaController extends Controller {
         // Set some content to print
         //
         if($despegue){
+            $pdf->SetFont('helvetica', '', 8.5, '', true);
             $html = view('pdf.dosa', compact('factura', 'despegue', 'traductor'))->render();
         }else{
+            $pdf->SetFont('helvetica', '', 10, '', true);
             $html = view('pdf.factura', compact('factura', 'traductor'))->render();
         }
         // Print text using writeHTMLCell()
