@@ -112,34 +112,34 @@
                              <table class="table table-hover table-condensed">
                              <thead  class="bg-primary">
                              <tr>
-                                 <th style="vertical-align: middle; width:180px" align="center" class="text-center">
+                                 <th style="vertical-align: middle; width:300px" align="center" class="text-center">
                                     Nombre ó Razón Social
                                  </th>
-                                 <th style="vertical-align: middle; width:35px" align="center" class="text-center">
+                                 <th style="vertical-align: middle; width:50px" align="center" class="text-center">
                                     Código
                                  </th>
-                                 <th style="vertical-align: middle; width:70px" align="center" class="text-center">
+                                 <th style="vertical-align: middle; width:80px" align="center" class="text-center">
                                     RIF
                                  </th>
-                                 <th style="vertical-align: middle; width:50px" align="center" class="text-center">
+                                 <th style="vertical-align: middle; width:80px" align="center" class="text-center">
                                     Fecha
                                  </th>
-                                 <th style="vertical-align: middle; width:60px" align="center" class="text-center">
+                                 <th style="vertical-align: middle; width:80px" align="center" class="text-center">
                                     Nro. Factura
                                  </th>
-                                 <th style="vertical-align: middle; width:60px" align="center" class="text-center">
+                                 <th style="vertical-align: middle; width:80px" align="center" class="text-center">
                                     Nro. Control
                                  </th>
-                                 <th style="vertical-align: middle; width:150px" align="center"  class="text-center">
+                                 <th style="vertical-align: middle; width:300px" align="center"  class="text-center">
                                     Descripción
                                  </th>
-                                 <th style="vertical-align: middle; width:70px" align="center" class="text-center">
+                                 <th style="vertical-align: middle; width:120px" align="center" class="text-center">
                                     Sub-Total
                                  </th>
-                                 <th style="vertical-align: middle; width:60px" align="center" class="text-center">
+                                 <th style="vertical-align: middle; width:120px" align="center" class="text-center">
                                     IVA
                                  </th>
-                                 <th style="vertical-align: middle; width:70px" align="center" class="text-center">
+                                 <th style="vertical-align: middle; width:120px" align="center" class="text-center">
                                     Monto
                                  </th>
                              </tr>
@@ -148,21 +148,21 @@
                             @if(count($facturas)>0)
                             @foreach($facturas as $index => $factura)
                                 <tr>
-                                    <td style="vertical-align: middle; width:180px" align="left" >{{$factura->cliente->nombre}}</td>
-                                    <td style="vertical-align: middle; width:35px" align="center" >{{$factura->cliente->codigo}}</td>
-                                    <td style="vertical-align: middle; width:70px" align="center" >{{$factura->cliente->cedRifPrefix}}-{{$factura->cliente->cedRif}}</td>
-                                    <td style="vertical-align: middle; width:50px" align="center">{{$factura->fecha}}</td>
-                                    <td style="vertical-align: middle; width:60px" align="center" >{{$factura->nFacturaPrefix}}-{{$factura->nFactura}}</td>
-                                    <td style="vertical-align: middle; width:60px" align="center" >{{$factura->nControlPrefix}}-{{$factura->nControl}}</td>
-                                    <td style="vertical-align: middle; width:150px" align="left">{{$factura->descripcion}}</td>
-                                    <td style="vertical-align: middle; width:70px" align="right">{{$traductor->format($factura->subtotal)}}</td>
+                                    <td style="vertical-align: middle; width:300px" align="left" >{{$factura->cliente->nombre}}</td>
+                                    <td style="vertical-align: middle; width:50px" align="center" >{{$factura->cliente->codigo}}</td>
+                                    <td style="vertical-align: middle; width:80px" align="center" >{{$factura->cliente->cedRifPrefix}}-{{$factura->cliente->cedRif}}</td>
+                                    <td style="vertical-align: middle; width:80px" align="center">{{$factura->fecha}}</td>
+                                    <td style="vertical-align: middle; width:80px" align="center" >{{$factura->nFacturaPrefix}}-{{$factura->nFactura}}</td>
+                                    <td style="vertical-align: middle; width:80px" align="center" >{{$factura->nControlPrefix}}-{{$factura->nControl}}</td>
+                                    <td style="vertical-align: middle; width:300px" align="left">{{$factura->descripcion}}</td>
+                                    <td style="vertical-align: middle; width:120px" align="right">{{$traductor->format($factura->subtotal)}}</td>
                                     {{--@if(!$factura->metadata)--}}
-                                    <td style="vertical-align: middle; width:60px" align="right">{{$traductor->format($factura->iva)}}</td>
+                                    <td style="vertical-align: middle; width:120px" align="right">{{$traductor->format($factura->iva)}}</td>
                                     {{--@else--}}
                                     {{--<td style="vertical-align: middle; width:60px" align="right">{{$factura->metadata->ivapercentage}}</td>--}}
                                     {{--<td style="vertical-align: middle; width:60px" align="right">{{$factura->metadata->islrpercentage}}</td>--}}
                                     {{--@endif--}}
-                                    <td style="vertical-align: middle; width:70px" align="right">{{$traductor->format($factura->total)}}</td>
+                                    <td style="vertical-align: middle; width:120px" align="right">{{$traductor->format($factura->total)}}</td>
                                 </tr>
                             @endforeach
                                     <tr class="bg-gray" align="center">
@@ -172,13 +172,13 @@
                                         <td> - </td>
                                         <td> - </td>
                                         <td> - </td>
-                                        <td style="vertical-align: middle; width:70px" align="right">{{$traductor->format($subtotal)}}</td>
-                                        <td style="vertical-align: middle; width:60px" align="right">{{$traductor->format($iva)}}</td>
-                                        <td style="vertical-align: middle; width:70px" align="right">{{$traductor->format($total)}}</td>                                   
+                                        <td style="vertical-align: middle; width:120px" align="right">{{$traductor->format($subtotal)}}</td>
+                                        <td style="vertical-align: middle; width:120px" align="right">{{$traductor->format($iva)}}</td>
+                                        <td style="vertical-align: middle; width:120px" align="right">{{$traductor->format($total)}}</td>                                   
                                     </tr>     
                             @else
                                 <tr>
-                                    <td colspan="11" class="text-center">No hay registros para los parámetros seleccionados</td>
+                                    <td colspan="11" class="text-center" align="center">No hay registros para los parámetros seleccionados</td>
                                 </tr>
                             @endif
 
@@ -247,9 +247,9 @@ $('#export-btn').click(function(e){
                             </th>\
                         </tr>\
                     </thead>')
-    $(table).find('thead, th').css({'border-top':'1px solid black', 'font-weight': 'bold', 'text-align':"center", 'font-size': '7px'})
-    $(table).find('th').css({'border-bottom':'1px solid black', 'font-weight': 'bold', 'text-align':"center", 'font-size': '7px'})
-    $(table).find('td').css({'font-size': '7px'})
+    $(table).find('thead, th').css({'border-top':'1px solid black', 'font-weight': 'bold', 'text-align':"center", 'font-size': '12px'})
+    $(table).find('th').css({'border-bottom':'1px solid black', 'font-weight': 'bold', 'text-align':"center", 'font-size': '12px'})
+    $(table).find('td').css({'font-size': '11px'})
     $(table).find('tr:nth-child(even)').css({'background-color': '#E2E2E2'})
     $(table).find('tr:last td').css({'border-bottom':'1px solid black','border-top':'1px solid black', 'font-weight': 'bold'})
     var tableHtml= $(table)[0].outerHTML;

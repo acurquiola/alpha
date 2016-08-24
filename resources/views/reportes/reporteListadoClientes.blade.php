@@ -45,7 +45,7 @@
 			<div class="box-body" >
 				<div class="row">
 					<div class="col-xs-12">
-						<div class="table-responsive" style="max-height: 500px">
+						<div class="table-responsive">
 							<table class="table table-condensed">
 								<thead  class="bg-primary">
 									<tr align="center">
