@@ -104,25 +104,25 @@
                                <table class="table table-hover table-condensed">
                                    <thead  class="bg-primary">
                                        <tr>
-                                           <th style="vertical-align: middle; width:100px" align="center" class="text-center">
+                                           <th style="vertical-align: middle; width:80px" align="center" class="text-center">
                                             Fecha
                                         </th>
-                                        <th style="vertical-align: middle; width:100px" align="center" class="text-center">
+                                        <th style="vertical-align: middle; width:80px" align="center" class="text-center">
                                             Nro. Factura
                                         </th>
-                                        <th style="vertical-align: middle; width:100px" align="center" class="text-center">
+                                        <th style="vertical-align: middle; width:80px" align="center" class="text-center">
                                             Nro. Control
                                         </th>
-                                        <th style="vertical-align: middle; width:120px" align="center" class="text-center">
+                                        <th style="vertical-align: middle; width:60px" align="center" class="text-center">
                                             RIF
                                         </th>
                                         <th style="vertical-align: middle; width:50px" align="center" class="text-center">
                                             Código
                                         </th>
-                                        <th style="vertical-align: middle; width:200px" align="center" class="text-center">
+                                        <th style="vertical-align: middle; width:250px" align="center" class="text-center">
                                             Nombre ó Razón Social
                                         </th>
-                                        <th style="vertical-align: middle; width:150px" align="center"  class="text-center">
+                                        <th style="vertical-align: middle; width:250px" align="center"  class="text-center">
                                             Descripción
                                         </th>
                                         <th style="vertical-align: middle; width:120px" align="center" class="text-center">
@@ -149,13 +149,13 @@
                                    @foreach($facturas as $index => $factura)
                                    @if($factura->modulo_id == $nombreModulo->id )
                                    <tr>
-                                    <td style="vertical-align: middle; width:100px" align="center">{{$factura->fecha}}</td>
-                                    <td style="vertical-align: middle; width:100px" align="center" >{{$factura->nFacturaPrefix}}-{{$factura->nFactura}}</td>
-                                    <td style="vertical-align: middle; width:100px" align="center" >{{$factura->nControlPrefix}}-{{$factura->nControl}}</td>
-                                    <td style="vertical-align: middle; width:120px" align="center" >{{$factura->cliente->cedRifPrefix}}-{{$factura->cliente->cedRif}}</td>
+                                    <td style="vertical-align: middle; width:80px" align="center">{{$factura->fecha}}</td>
+                                    <td style="vertical-align: middle; width:80px" align="center" >{{$factura->nFacturaPrefix}}-{{$factura->nFactura}}</td>
+                                    <td style="vertical-align: middle; width:80px" align="center" >{{$factura->nControlPrefix}}-{{$factura->nControl}}</td>
+                                    <td style="vertical-align: middle; width:60px" align="center" >{{$factura->cliente->cedRifPrefix}}-{{$factura->cliente->cedRif}}</td>
                                     <td style="vertical-align: middle; width:50px" align="center" >{{$factura->cliente->codigo}}</td>
-                                    <td style="vertical-align: middle; width:200px" align="left" >{{$factura->cliente->nombre}}</td>
-                                    <td style="vertical-align: middle; width:150px" align="left">{{$factura->descripcion}}</td>
+                                    <td style="vertical-align: middle; width:250px" align="left" >{{$factura->cliente->nombre}}</td>
+                                    <td style="vertical-align: middle; width:250px" align="left">{{$factura->descripcion}}</td>
                                     <td style="vertical-align: middle; width:120px" align="right" class="{{ $nombreModulo->nombre }}-subtotal">{{$traductor->format($factura->subtotal)}}</td>
                                     {{--@if(!$factura->metadata)--}}
                                     <td style="vertical-align: middle; width:120px" align="right" class="{{ $nombreModulo->nombre }}-iva">{{$traductor->format($factura->iva)}}</td>
@@ -178,7 +178,7 @@
                                         <td style="vertical-align: middle; width:120px; font-weight: bold" class="text-right" align="right" id="{{ $nombreModulo->nombre }}-subtotalTotal">0,00</td>
                                         <td style="vertical-align: middle; width:120px; font-weight: bold" class="text-right" align="right" id="{{ $nombreModulo->nombre }}-ivaTotal">0,00</td>
                                         <td style="vertical-align: middle; width:120px; font-weight: bold" class="text-right" align="right" id="{{ $nombreModulo->nombre }}-totalTotal">0,00</td>
-                                        <td style="vertical-align: middle; width:120px; font-weight: bold" class="text-right" align="right" id="{{ $nombreModulo->nombre }}-totalDeudorTotal">0,00</td>                                   
+                                        <td style="vertical-align: middle; width:120px; font-weight: bold" class="text-right totalDeudor" align="right" id="{{ $nombreModulo->nombre }}-totalDeudorTotal">0,00</td>                                   
                                     </tr>
                                     @endif
                                     @endforeach    
@@ -192,7 +192,7 @@
                                         <td style="vertical-align: middle; width:120px; font-weight: bold" class="text-right" align="right">{{$traductor->format($subtotal)}}</td>
                                         <td style="vertical-align: middle; width:120px; font-weight: bold" class="text-right" align="right">{{$traductor->format($iva)}}</td>
                                         <td style="vertical-align: middle; width:120px; font-weight: bold" class="text-right" align="right">{{$traductor->format($total)}}</td>
-                                        <td style="vertical-align: middle; width:120px; font-weight: bold" class="text-right" align="right">{{$traductor->format($total)}}</td>                                   
+                                        <td style="vertical-align: middle; width:120px; font-weight: bold" class="text-right" align="right" id="totalDeudor">0,00</td>                                   
                                     </tr> 
                                     @else
                                     <tr>
@@ -434,6 +434,16 @@
     $('#OTROS INGRESOS NO AERONÁUTICOS-ivaTotal').text(numToComma(otrosIngNoAeroIva));
     $('#OTROS INGRESOS NO AERONÁUTICOS-totalTotal').text(numToComma(otrosIngNoAeroTotal));
     $('#OTROS INGRESOS NO AERONÁUTICOS-totalDeudorTotal').text(numToComma(otrosIngNoAeroTotalDeudor));
+
+
+
+    var totalDeudor=0;
+    $('.totalDeudor').each(function(index,value){
+        totalDeudor+=commaToNum($(value).text().trim());
+    });
+
+
+    $('#totalDeudor').text(numToComma(totalDeudor));
 
     //Datemask dd/mm/yyyy
     $('.datepicker').inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/yyyy"});

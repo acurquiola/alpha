@@ -1631,7 +1631,7 @@ class ReporteController extends Controller {
             }
 
             if($modulo!=0){
-                $listadoModulo = \App\Modulo::find($modulo);
+                $listadoModulo = \App\Modulo::where('id', $modulo)->get();
             }else{
                 $listadoModulo = \App\Modulo::where('aeropuerto_id', $aeropuerto)->get();
             }
