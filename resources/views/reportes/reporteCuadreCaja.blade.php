@@ -96,6 +96,14 @@
 										<td class="text-right" align="right"  style="width: 150px">{{$traductor->format($factura->total)}}</td>
 									</tr>
 									@endforeach
+			                        <tr class="bg-gray" align="center">
+			                        	<td colspan="7" align="right" class="text-right"><strong>TOTAL CONTADO</strong></td>
+			                        	<td align="right"><strong>{{$traductor->format($facturasContado)}}</strong></td>			                        
+			                        </tr>
+			                        <tr class="bg-gray" align="center">
+			                        	<td colspan="7" align="right" class="text-right"><strong>TOTAL CRÉDITO</strong></td>
+			                        	<td align="right"><strong>{{$traductor->format($facturasCredito)}}</strong></td>			                        
+			                        </tr>
 									@if($facturasAnuladasTotal>0)
 										<tr class="bg-primary" >
 											<th class="text-center" colspan="8" >
@@ -131,14 +139,6 @@
 					                        </tr>
 										</tbody>
 									@endif
-			                        <tr class="bg-gray" align="center">
-			                        	<td colspan="7" align="right" class="text-right"><strong>TOTAL CONTADO</strong></td>
-			                        	<td align="right"><strong>{{$traductor->format($facturasContado)}}</strong></td>			                        
-			                        </tr>
-			                        <tr class="bg-gray" align="center">
-			                        	<td colspan="7" align="right" class="text-right"><strong>TOTAL CRÉDITO</strong></td>
-			                        	<td align="right"><strong>{{$traductor->format($facturasCredito)}}</strong></td>			                        
-			                        </tr>
 									@if($tasasVendidas->count()>0)
 										<tr class="bg-primary" >
 											<th class="text-center" colspan="8" >

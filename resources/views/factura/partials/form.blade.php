@@ -57,7 +57,9 @@
 	<div class="col-xs-3">
 		{!! Form::text('fechaVencimiento', null, [ 'class'=>"form-control", $disabled, "id" =>"fechaVencimiento", "autocomplete"=>"off"]) !!}
 		@if(isset($facturaCarga))
-		{!! Form::hidden('carga_id', $carga_id) !!}
+			{!! Form::hidden('aplica_minimo_aterrizaje', $aplica_minimo_aterrizaje) !!}
+			{!! Form::hidden('aplica_minimo_estacionamiento', $aplica_minimo_estacionamiento) !!}
+			{!! Form::hidden('carga_id', $carga_id) !!}
 		@endif
 	</div>
 	@else

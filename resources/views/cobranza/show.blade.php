@@ -128,7 +128,7 @@
                                     <div style="font-weight: normal"><strong>NRO. RECIBO DE CAJA: </strong> {{($cobro->nRecibo)?$cobro->nRecibo:"No Dispone"}} </div>\
                                     <div style="font-weight: normal"><strong>FECHA DE COBRO: </strong> {{($cobro->fecha=='30/11/-0001')?$cobro->created_at:$cobro->fecha}} </div>\
                                     <div style="font-weight: normal"><strong>OBSERVACIONES: </strong> {{($cobro->observacion)?$cobro->observacion:"No Dispone"}} </div>\
-                                    <div style="font-weight: normal"><strong>RECAUDOS CONSILIADOS: </strong> {{($cobro->hasrecaudos)?"Si":"No"}} </div>\
+                                    <div style="font-weight: normal"><strong>RECAUDOS CONSIGNADOS: </strong> {{($cobro->hasrecaudos)?"Si":"No"}} </div>\
                                     </br> \
                                     </th>\
                                 </tr>\

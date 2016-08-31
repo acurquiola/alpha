@@ -157,6 +157,9 @@ class CargaController extends Controller {
 		$ut            = MontosFijo::first()->unidad_tributaria;
 		$condicionPago = $carga->condicionPago;
 
+		$aplica_minimo_estacionamiento = false;
+		$aplica_minimo_aterrizaje      = false;
+
 		$factura->fill(['aeropuerto_id' => $carga->aeropuerto_id,
 			               'cliente_id'   => $carga->cliente_id]);
 		
@@ -186,7 +189,7 @@ class CargaController extends Controller {
             return response("No se consiguio el modulo 'CARGA' en el aeropuerto de sesion", 500);
         }
         $modulo_id=$modulo->id;
-		return view('factura.facturaCarga.create', compact('factura', 'condicionPago', 'modulo_id', 'modulo'))->with(['carga_id'=>$carga->id]);
+		return view('factura.facturaCarga.create', compact('factura', 'condicionPago', 'modulo_id', 'modulo', 'aplica_minimo_estacionamiento', 'aplica_minimo_aterrizaje'))->with(['carga_id'=>$carga->id]);
 
 	}
 

@@ -296,6 +296,7 @@ class DespegueController extends Controller {
 	{
 		$despegue   = Despegue::find($id);
 		$aterrizaje = Aterrizaje::find($aterrizaje);
+		$despegue->otros_cargos()->detach();
         if(\App\Despegue::destroy($id)){
         	$aterrizaje->update(['despego'=>'0']);
             return ["success"=>1, "text" => "Despegue eliminado con éxito."];

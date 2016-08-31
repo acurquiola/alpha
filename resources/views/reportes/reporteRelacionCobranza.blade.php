@@ -140,7 +140,7 @@
 											Depositado
 										</th>
 										<th style="vertical-align: middle; width:120px" align="center" class="text-center">
-											Diferencia
+											Saldo a Favor
 										</th>
 									</tr>
 								</thead>
@@ -163,7 +163,7 @@
 										<td style="vertical-align: middle; width:90px" align="center">@foreach($recibo->facturas as $comprobante) {{(($comprobante->pivot->base * $comprobante->pivot->islrpercentage)/100 == '0')?'':$traductor->format(($comprobante->pivot->base * $comprobante->pivot->islrpercentage)/100)}} @endforeach</td>
 										<td style="vertical-align: middle; width:120px" align="right">{{$traductor->format($recibo->montofacturas)}}</td>
 										<td style="vertical-align: middle; width:120px" align="right">{{$traductor->format($recibo->montodepositado)}}</td>
-										<td style="vertical-align: middle; width:120px" align="right">{{$traductor->format(($recibo->montofacturas-$recibo->montodepositado))}}</td>
+										<td style="vertical-align: middle; width:120px" align="right">{{$traductor->format(($recibo->montodepositado-$recibo->montofacturas))}}</td>
 									</tr>
 									@endforeach
 
