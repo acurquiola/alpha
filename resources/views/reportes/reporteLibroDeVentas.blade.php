@@ -103,11 +103,11 @@
 												<td   style="vertical-align: middle; width: 70px" class="text-center" align="center" > </td>
 												<td   style="vertical-align: middle; width: 70px" class="text-center" align="center" >{{ ($facturaCobrada->deleted_at == null)?'01-reg':'03-anu' }}</td>
 												<td   style="vertical-align: middle; width: 70px" class="text-right" align="right"   > </td>
-												<td   style="vertical-align: middle; width: 100px" class="text-right totalVentasConIva" align="right">{{$traductor->format($facturaCobrada->total)}}</td>
-												<td   style="vertical-align: middle; width: 100px" class="text-right ventasNoGravadas" align="right">{{($facturaCobrada->base == $facturaCobrada->monto)?$traductor->format($facturaCobrada->monto):''}}</td>
-												<td   style="vertical-align: middle; width: 100px" class="text-right baseImponible" align="right">{{($facturaCobrada->base == $facturaCobrada->monto)?'':$traductor->format($facturaCobrada->base)}}</td>
-												<td   style="vertical-align: middle; width: 100px" class="text-right porcAlicuota" align="right">{{($facturaCobrada->base == $facturaCobrada->monto)?'':$traductor->format($facturaCobrada->ivaDes)}} </td>
-												<td   style="vertical-align: middle; width: 100px" class="text-right impuestoIva" align="right">{{($facturaCobrada->base == $facturaCobrada->monto)?'':$traductor->format($facturaCobrada->ivapercentage)}}</td>
+												<td   style="vertical-align: middle; width: 100px" class="text-right totalVentasConIva" align="right"></td>
+												<td   style="vertical-align: middle; width: 100px" class="text-right ventasNoGravadas" align="right"></td>
+												<td   style="vertical-align: middle; width: 100px" class="text-right baseImponible" align="right"></td>
+												<td   style="vertical-align: middle; width: 100px" class="text-right porcAlicuota" align="right">{{($facturaCobrada->base == $facturaCobrada->monto)?'':$traductor->format((($facturaCobrada->iva)*100)/$facturaCobrada->base)}} </td>
+												<td   style="vertical-align: middle; width: 100px" class="text-right impuestoIva" align="right">0,00</td>
 												<td   style="vertical-align: middle; width: 100px" class="text-right ivaRetenido" align="right">{{($facturaCobrada->base == $facturaCobrada->monto)?'':$traductor->format((($facturaCobrada->total-$facturaCobrada->base)*$facturaCobrada->ivapercentage)/100)}}</td>
 											</tr>
 										@endforeach
@@ -117,7 +117,7 @@
 												<td   style="vertical-align: middle; width: 70px" class="text-center" align="center" align="center">{{$factura->fecha}}</td>
 												<td   style="vertical-align: middle; width: 70px" class="text-center formulario-bs" align="left">{{$factura->cliente->cedRifPrefix}}-{{$factura->cliente->cedRif}}</td>
 												<td   style="vertical-align: middle; width: 300px" class="text-left aterrizaje-bs" align="left">{{$factura->cliente->nombre}}</td>
-												<td   style="vertical-align: middle; width: 70px" class="text-center aterrizaje-bs" align="left">{{($factura->retencionComprobante == 0)?'':$factura->retencionComprobante}}</td>
+												<td   style="vertical-align: middle; width: 70px" class="text-center" align="center" >@foreach($factura->cobros as $pagos){{($pagos->pivot->retencionComprobante == 0)?'':$pagos->pivot->retencionComprobante}} @endforeach</td>
 												<td   style="vertical-align: middle; width: 70px" class="text-center estacionamiento-bs" align="right">{{$factura->nFacturaPrefix}}-{{$factura->nFactura}}</td>
 												<td   style="vertical-align: middle; width: 70px" class="text-center habilitacion-bs" align="right">{{$factura->nControl}}</td>
 												<td   style="vertical-align: middle; width: 70px" class="text-center jetway-bs" align="right"> </td>
@@ -128,9 +128,9 @@
 													<td   style="vertical-align: middle; width: 100px" class="text-right totalVentasConIva" align="right">{{$traductor->format($factura->total)}}</td>
 													<td   style="vertical-align: middle; width: 100px" class="text-right ventasNoGravadas" align="right">{{($factura->iva == 0.0)?$traductor->format($factura->total):''}}</td>
 													<td   style="vertical-align: middle; width: 100px" class="text-right baseImponible" align="right">{{($factura->iva == 0.00)?'':$traductor->format($factura->subtotal)}}</td>
-													<td   style="vertical-align: middle; width: 100px" class="text-right porcAlicuota" align="right">{{($factura->iva == 0.00)?'':$traductor->format($factura->iva)}} </td>
+													<td   style="vertical-align: middle; width: 100px" class="text-right porcAlicuota" align="right">{{($factura->iva == 0)?'':$traductor->format((($factura->iva)*100)/$factura->subtotal)}}</td>
 													<td   style="vertical-align: middle; width: 100px" class="text-right impuestoIva" align="right">{{($factura->iva == 0.00)?'':$traductor->format($factura->iva)}}</td>
-													<td   style="vertical-align: middle; width: 100px" class="text-right ivaRetenido" align="right">0</td>
+													<td   style="vertical-align: middle; width: 100px" class="text-right ivaRetenido" align="right">@foreach($factura->cobros as $pagos){{($pagos->pivot->retencionComprobante == 0)?'':$traductor->format((($pagos->pivot->total-$pagos->pivot->base)*$pagos->pivot->ivapercentage)/100)}} @endforeach</td>
 												@else
 													<td   style="vertical-align: middle; width: 100px" class="text-right totalVentasConIva" align="right">0,00</td>
 													<td   style="vertical-align: middle; width: 100px" class="text-right ventasNoGravadas" align="right">{{($factura->ivapercentage == '0.0')?'0,00':''}}</td>
@@ -145,8 +145,8 @@
 											<td   style="vertical-align: middle; width: 100px" align="left" class="text-left" colspan="11">TOTAL</td>
 											<td   style="vertical-align: middle; width: 100px" align="right" class="text-right" id="totalVentasConIvaTotal" align="right">0,00</td>
 											<td   style="vertical-align: middle; width: 100px" align="right" class="text-right" id="ventasNoGravadasTotal" align="right">0,00</td>											
-											<td   style="vertical-align: middle; width: 100px" align="right" class="text-right" id="baseImponibleTotal" align="right">0,00</tdtd												
-											<td   style="vertical-align: middle; width: 100px" align="right" class="text-right" id="porcAlicuotaTotal" align="right">0,00</td>
+											<td   style="vertical-align: middle; width: 100px" align="right" class="text-right" id="baseImponibleTotal" align="right">0,00</td>
+											<td   style="vertical-align: middle; width: 100px" align="right" class="text-right"  align="right"></td>
 											<td   style="vertical-align: middle; width: 100px" align="right" class="text-right" id="impuestoIvaTotal" align="right">0,00</td>
 											<td   style="vertical-align: middle; width: 100px" align="right" class="text-right" id="ivaRetenidoTotal" align="right">0,00</td>
 										</tr>
@@ -287,6 +287,12 @@
       						<td colspan="2" align="right" style="font-weight: bold; border-top: 1px solid black;border-right: 1px solid black;border-left: 1px solid black;border-bottom: 1px solid black; font-size: 12px;">0,00</td>\
       						<td colspan="2" align="right" style="font-weight: bold; border-top: 1px solid black;border-right: 1px solid black;border-left: 1px solid black;border-bottom: 1px solid black; font-size: 12px;">0,00</td>\
       						<td colspan="3" align="right" style="font-weight: bold; border-top: 1px solid black;border-right: 1px solid black;border-left: 1px solid black;border-bottom: 1px solid black; font-size: 12px;">0,00</td>\
+           			  </tr><tr>\
+      						<td colspan="6" align="center"></td>\
+      						<td colspan="5" align="left" style="font-weight: bold; border-top: 1px solid black;border-right: 1px solid black;border-left: 1px solid black;border-bottom: 1px solid black; font-size: 12px;">TOTALES</td>\
+      						<td colspan="2" align="right" style="font-weight: bold; border-top: 1px solid black;border-right: 1px solid black;border-left: 1px solid black;border-bottom: 1px solid black; font-size: 12px;">'+numToComma(ventasNoGravadas+baseImponible)+'</td>\
+      						<td colspan="2" align="right" style="font-weight: bold; border-top: 1px solid black;border-right: 1px solid black;border-left: 1px solid black;border-bottom: 1px solid black; font-size: 12px;">'+numToComma(impuestoIva)+'</td>\
+      						<td colspan="3" align="right" style="font-weight: bold; border-top: 1px solid black;border-right: 1px solid black;border-left: 1px solid black;border-bottom: 1px solid black; font-size: 12px;">'+numToComma(ivaRetenido)+'</td>\
            			  </tr>')
 		    var tableHtml= $(table)[0].outerHTML;
 		    $('[name=table]').val(tableHtml);

@@ -1491,28 +1491,33 @@ class ReporteController extends Controller {
                                 ->whereBetween('fecha', array($annoDesde.'-'.$mesDesde.'-'.$diaDesde,  $annoHasta.'-'.$mesHasta.'-'.$diaHasta) )
                                 ->where('aeropuerto_id', $aeropuerto)
                                 ->groupBy('nFactura')
-                                ->orderBy('fecha')
+                                ->orderBy('fecha', 'ASC')
+                                ->orderBy('nFacturaPrefix', 'ASC')
+                                ->orderBy('nFactura', 'ASC')
                                 ->get();
 
-        $facturasAnteriores = \App\Factura::where('fecha', '<',  $annoDesde.'-'.$mesDesde.'-'.$diaDesde)
+        $facturasAnteriores  =  \App\Factura::where('fecha', '<',  $annoDesde.'-'.$mesDesde.'-'.$diaDesde)
                                             ->where('estado', 'C')
                                             ->where('aeropuerto_id', $aeropuerto)
-                                            ->orderBy('facturas.fecha')
+                                            ->orderBy('facturas.nFactura')
                                             ->lists('facturas.id');
 
-        $cobrosFacturasAnteriores = \App\Cobro::select('cobros.id as cobroID')
+        $cobrosFacturasAnteriores  =  \App\Cobro::select('cobros.id as cobroID')
                                                 ->join('cobro_factura', 'cobros.id', '=', 'cobro_factura.cobro_id')
                                                 ->whereBetween('cobros.fecha', array($annoDesde.'-'.$mesDesde.'-'.$diaDesde,  $annoHasta.'-'.$mesHasta.'-'.$diaHasta) )
                                                 ->whereIn('cobro_factura.factura_id', $facturasAnteriores)
+                                                ->where('retencionComprobante', '<>', 0)
                                                 ->lists('cobroID');
 
-        $facturasCobradas = \App\Factura::join('cobro_factura', 'facturas.id', '=', 'cobro_factura.factura_id')
+        $facturasCobradas = \App\Factura::with('cobros', 'detalles')
+                                ->join('cobro_factura', 'facturas.id', '=', 'cobro_factura.factura_id')
                                 ->whereIn('cobro_factura.cobro_id', $cobrosFacturasAnteriores)
+                                ->whereIn('facturas.id', $facturasAnteriores)
                                 ->groupBy('facturas.nFactura')
                                 ->orderBy('facturas.fecha', 'ASC')
+                                ->orderBy('facturas.nFacturaPrefix', 'ASC')
+                                ->orderBy('facturas.nFactura', 'ASC')
                                 ->get();
-
-
 
         return view('reportes.reporteLibroDeVentas', compact('diaDesde', 'mesDesde', 'annoDesde', 'diaHasta', 'mesHasta', 'annoHasta', 'aeropuerto', 'facturas', 'facturasCobradas'));
     }
