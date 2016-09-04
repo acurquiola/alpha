@@ -490,6 +490,8 @@ return ["success"=>1, "impresion" => $impresion];
             $cuentas[] =\App\Bancoscuenta::where('id', $c->cuenta_id)->get();
         }
 
+        $fechaDesglose = explode('/', $cobro->fecha);
+
         $ajuste = \App\Ajuste::with('cobro')
                              ->where('cliente_id', $cobro->cliente_id)
                              ->where('aeropuerto_id', $cobro->aeropuerto_id)
@@ -526,7 +528,7 @@ return ["success"=>1, "impresion" => $impresion];
         // Set some content to print
         //
 
-        $html = view('pdf.reciboCaja', compact('cobro', 'pagos', 'cuentas', 'ajuste', 'traductor'))->render();
+        $html = view('pdf.reciboCaja', compact('cobro', 'pagos', 'cuentas', 'ajuste', 'traductor', 'fechaDesglose'))->render();
 
         // Print text using writeHTMLCell()
         $pdf->writeHTML($html);

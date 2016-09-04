@@ -117,7 +117,7 @@
 												<td   style="vertical-align: middle; width: 70px" class="text-center" align="center" align="center">{{$factura->fecha}}</td>
 												<td   style="vertical-align: middle; width: 70px" class="text-center formulario-bs" align="left">{{$factura->cliente->cedRifPrefix}}-{{$factura->cliente->cedRif}}</td>
 												<td   style="vertical-align: middle; width: 300px" class="text-left aterrizaje-bs" align="left">{{$factura->cliente->nombre}}</td>
-												<td   style="vertical-align: middle; width: 70px" class="text-center" align="center" >@foreach($factura->cobros as $pagos){{($pagos->pivot->retencionComprobante == 0)?'':$pagos->pivot->retencionComprobante}} @endforeach</td>
+												<td   style="vertical-align: middle; width: 70px" class="text-center" align="center" >@foreach($factura->cobros as $pagos){{ ( fechaEsMayor($pagos->fecha, $fecha) == false && $pagos->pivot->retencionComprobante <> 0)?$pagos->pivot->retencionComprobante:''}} @endforeach</td>
 												<td   style="vertical-align: middle; width: 70px" class="text-center estacionamiento-bs" align="right">{{$factura->nFacturaPrefix}}-{{$factura->nFactura}}</td>
 												<td   style="vertical-align: middle; width: 70px" class="text-center habilitacion-bs" align="right">{{$factura->nControl}}</td>
 												<td   style="vertical-align: middle; width: 70px" class="text-center jetway-bs" align="right"> </td>
@@ -130,7 +130,7 @@
 													<td   style="vertical-align: middle; width: 100px" class="text-right baseImponible" align="right">{{($factura->iva == 0.00)?'':$traductor->format($factura->subtotal)}}</td>
 													<td   style="vertical-align: middle; width: 100px" class="text-right porcAlicuota" align="right">{{($factura->iva == 0)?'':$traductor->format((($factura->iva)*100)/$factura->subtotal)}}</td>
 													<td   style="vertical-align: middle; width: 100px" class="text-right impuestoIva" align="right">{{($factura->iva == 0.00)?'':$traductor->format($factura->iva)}}</td>
-													<td   style="vertical-align: middle; width: 100px" class="text-right ivaRetenido" align="right">@foreach($factura->cobros as $pagos){{($pagos->pivot->retencionComprobante == 0)?'':$traductor->format((($pagos->pivot->total-$pagos->pivot->base)*$pagos->pivot->ivapercentage)/100)}} @endforeach</td>
+													<td   style="vertical-align: middle; width: 100px" class="text-right ivaRetenido" align="right">@foreach($factura->cobros as $pagos) {{ ( fechaEsMayor($pagos->fecha, $fecha) == false && $pagos->pivot->retencionComprobante <> 0)?$traductor->format((($pagos->pivot->total-$pagos->pivot->base)*$pagos->pivot->ivapercentage)/100):''}} @endforeach</td>
 												@else
 													<td   style="vertical-align: middle; width: 100px" class="text-right totalVentasConIva" align="right">0,00</td>
 													<td   style="vertical-align: middle; width: 100px" class="text-right ventasNoGravadas" align="right">{{($factura->ivapercentage == '0.0')?'0,00':''}}</td>

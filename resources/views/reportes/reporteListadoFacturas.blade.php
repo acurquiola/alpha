@@ -104,7 +104,10 @@
                                <table class="table table-hover table-condensed">
                                    <thead  class="bg-primary">
                                        <tr>
-                                           <th style="vertical-align: middle; width:80px" align="center" class="text-center">
+                                        <th style="vertical-align: middle; width:40px" align="center" class="text-center">
+                                            Nro.
+                                        </th>
+                                        <th style="vertical-align: middle; width:80px" align="center" class="text-center">
                                             Fecha
                                         </th>
                                         <th style="vertical-align: middle; width:80px" align="center" class="text-center">
@@ -144,11 +147,12 @@
                                     @foreach($listadoModulo as $nombreModulo)
                                     @if($nombreModulo->nombre  != 'TASAS')
                                     <tr>
-                                       <td colspan="11" class="text-center bg-gray" align="center"><strong>{{ $nombreModulo->nombre }}</strong></td>   
+                                       <td colspan="12" class="text-center bg-gray" align="center"><strong>{{ $nombreModulo->nombre }}</strong></td>   
                                    </tr>
                                    @foreach($facturas as $index => $factura)
                                    @if($factura->modulo_id == $nombreModulo->id )
                                    <tr>
+                                    <td style="vertical-align: middle; width:40px" align="center">{{$index+1}}</td>
                                     <td style="vertical-align: middle; width:80px" align="center">{{$factura->fecha}}</td>
                                     <td style="vertical-align: middle; width:80px" align="center" >{{$factura->nFacturaPrefix}}-{{$factura->nFactura}}</td>
                                     <td style="vertical-align: middle; width:80px" align="center" >{{$factura->nControlPrefix}}-{{$factura->nControl}}</td>
@@ -169,7 +173,7 @@
                                     @endif
                                     @endforeach
                                     <tr class="bg-gray">
-                                        <td colspan="2" align="left" class="text-left"><strong>TOTAL {{ $nombreModulo->nombre }}</strong></td>
+                                        <td colspan="3" align="left" class="text-left"><strong>TOTAL {{ $nombreModulo->nombre }}</strong></td>
                                         <td> - </td>
                                         <td> -  </td>
                                         <td> - </td>
@@ -183,7 +187,7 @@
                                     @endif
                                     @endforeach    
                                     <tr class="bg-gray">
-                                        <td colspan="2" align="left" class="text-left"><strong>TOTAL</strong></td>
+                                        <td colspan="3" align="left" class="text-left"><strong>TOTAL</strong></td>
                                         <td> - </td>
                                         <td> -  </td>
                                         <td> - </td>
@@ -196,7 +200,7 @@
                                     </tr> 
                                     @else
                                     <tr>
-                                        <td colspan="11" class="text-center" align="center">No hay registros para los parámetros seleccionados</td>
+                                        <td colspan="12" class="text-center" align="center">No hay registros para los parámetros seleccionados</td>
                                     </tr>
                                     @endif
 
@@ -480,7 +484,7 @@ $('#export-btn').click(function(e){
     }).remove();
     $(table).prepend('<thead>\
         <tr>\
-            <th colspan="12" style="vertical-align: middle; margin-top:20px" align="center" class="text-center">LISTADO DE FACTURAS EMITIDAS\
+            <th colspan="13" style="vertical-align: middle; margin-top:20px" align="center" class="text-center">LISTADO DE FACTURAS EMITIDAS\
             </br>\
             DESDE: {{isset($desde)?$desde:"N/A"}} HASTA: {{isset($hasta)?$hasta:"N/A"}} | MÓDULO: {{isset($moduloNombre)?$moduloNombre:"TODOS"}}\
         </br>\

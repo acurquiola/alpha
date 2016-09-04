@@ -1,7 +1,5 @@
 
 <br>
-<br>
-<br>
 <table  style="width:100%; border-collapse: collapse; padding:2px;">
 <tr>
 <td  colspan="7">
@@ -12,8 +10,8 @@
 <tr>
 <td  colspan="8">
 </td>
-<td  colspan="2">
-<strong>FECHA: </strong> {{$cobro->fecha}}
+<td  colspan="2" style="letter-spacing: 3px">
+{{$fechaDesglose[0]}} {{$fechaDesglose[1]}} {{$fechaDesglose[2]}} 
 </td>
 </tr>
 <tr>
@@ -59,7 +57,6 @@
 </tr>
 </table>
 
-<br>
 <br>
 <br>
 <table>
@@ -120,9 +117,6 @@
 </tr>
 @endforeach
 </table>
-<br>
-<br>
-<br>
 <br>
 <br>
 <br>

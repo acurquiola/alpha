@@ -1478,18 +1478,20 @@ class ReporteController extends Controller {
 
 
     public function getReporteLibroDeVentas(Request $request){
-        $diaDesde   =$request->get('diaDesde', \Carbon\Carbon::now()->day);
-        $mesDesde   =$request->get('mesDesde', \Carbon\Carbon::now()->month);
-        $annoDesde  =$request->get('annoDesde',  \Carbon\Carbon::now()->year);
-        $diaHasta   =$request->get('diaHasta', \Carbon\Carbon::now()->day);
-        $mesHasta   =$request->get('mesHasta', \Carbon\Carbon::now()->month);
-        $annoHasta  =$request->get('annoHasta',  \Carbon\Carbon::now()->year);
-        $aeropuerto =session('aeropuerto')->id;
+        $diaDesde   = $request->get('diaDesde', \Carbon\Carbon::now()->day);
+        $mesDesde   = $request->get('mesDesde', \Carbon\Carbon::now()->month);
+        $annoDesde  = $request->get('annoDesde',  \Carbon\Carbon::now()->year);
+        $diaHasta   = $request->get('diaHasta', \Carbon\Carbon::now()->day);
+        $mesHasta   = $request->get('mesHasta', \Carbon\Carbon::now()->month);
+        $annoHasta  = $request->get('annoHasta',  \Carbon\Carbon::now()->year);
+        $aeropuerto = session('aeropuerto')->id;
+        $fecha      = $diaHasta.'/'.$mesHasta.'/'.$annoHasta;
 
         $facturas = \App\Factura::withTrashed()
                                 ->with('cobros', 'detalles')
                                 ->whereBetween('fecha', array($annoDesde.'-'.$mesDesde.'-'.$diaDesde,  $annoHasta.'-'.$mesHasta.'-'.$diaHasta) )
                                 ->where('aeropuerto_id', $aeropuerto)
+                                ->where('nFactura', '8883')
                                 ->groupBy('nFactura')
                                 ->orderBy('fecha', 'ASC')
                                 ->orderBy('nFacturaPrefix', 'ASC')
@@ -1507,6 +1509,7 @@ class ReporteController extends Controller {
                                                 ->whereBetween('cobros.fecha', array($annoDesde.'-'.$mesDesde.'-'.$diaDesde,  $annoHasta.'-'.$mesHasta.'-'.$diaHasta) )
                                                 ->whereIn('cobro_factura.factura_id', $facturasAnteriores)
                                                 ->where('retencionComprobante', '<>', 0)
+                                                ->where('ivapercentage', '>', 0)
                                                 ->lists('cobroID');
 
         $facturasCobradas = \App\Factura::with('cobros', 'detalles')
@@ -1519,7 +1522,7 @@ class ReporteController extends Controller {
                                 ->orderBy('facturas.nFactura', 'ASC')
                                 ->get();
 
-        return view('reportes.reporteLibroDeVentas', compact('diaDesde', 'mesDesde', 'annoDesde', 'diaHasta', 'mesHasta', 'annoHasta', 'aeropuerto', 'facturas', 'facturasCobradas'));
+        return view('reportes.reporteLibroDeVentas', compact('diaDesde', 'mesDesde', 'annoDesde', 'diaHasta', 'mesHasta', 'annoHasta', 'aeropuerto', 'facturas', 'facturasCobradas', 'fecha'));
     }
 
 

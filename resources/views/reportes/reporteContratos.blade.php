@@ -13,7 +13,6 @@
 				{!! Form::open(["url" => action("ReporteController@postExportReport"), "id" =>"export-form", "target"=>"_blank"]) !!}
 				{!! Form::hidden('table') !!}
                 {!! Form::hidden('departamento', 'Oficina de Asuntos Legales') !!}
-					<h3 class="box-title">Reporte</h3>
 					<span class="pull-right">
 						<button type="button" class="btn btn-primary" id="export-btn">
 							<span class="glyphicon glyphicon-file"></span> Exportar
@@ -29,21 +28,23 @@
 							<table class="table table-condensed">
 								<thead  class="bg-primary">
 									<tr align="center">
-										<th >Código Contrato</th>
-										<th >Código Cliente</th>
-										<th >Cliente</th>
-										<th >Tipo</th>
-										<th >Monto</th>
+										<th  class="text-center" align="center" style="width: 50px; vertical-align: middle;">Nro.</th>
+										<th  class="text-center" align="center" style="width: 100px; vertical-align: middle;">COD. CONTRATO</th>
+										<th  class="text-center" align="center" style="width: 100px; vertical-align: middle;">COD. CLIENTE</th>
+										<th  class="text-center" align="center" style="width: 550px; vertical-align: middle;">CLIENTE</th>
+										<th  class="text-center" align="center" style="width: 150px; vertical-align: middle;">TIPO </th>
+										<th  class="text-center" align="center" style="width: 150px; vertical-align: middle;">MONTO (Bs.)</th>
 									</tr>
 								</thead>
 								<tbody>
-									@foreach($contratos as $contrato)
+									@foreach($contratos as $index => $contrato)
 									<tr align="left">
-										<td>{{$contrato->nContrato}}</td>
-										<td>{{$contrato->cliente->codigo}}</td>
-										<td>{{$contrato->cliente->nombre}}</td>
-										<td>{{$contrato->montoTipo}}</td>
-										<td>{{$contrato->monto}}</td>
+										<td class="text-center" align="center" style="width: 50px">{{$index+1}}</td>
+										<td class="text-center" align="center" style="width: 100px">{{$contrato->nContrato}}</td>
+										<td class="text-center" align="center" style="width: 100px">{{$contrato->cliente->codigo}}</td>
+										<td class="text-left" align="left" style="width: 550px">{{$contrato->cliente->nombre}}</td>
+										<td class="text-center" align="center" style="width: 150px">{{$contrato->montoTipo}}</td>
+										<td class="text-right" align="right" style="width: 150px">{{$traductor->format($contrato->monto)}}</td>
 									</tr>
 									@endforeach
 								</tbody>
@@ -70,13 +71,13 @@
 			}).remove();
 			$(table).prepend('<thead>\
 								<tr>\
-									<th colspan="5" style="vertical-align: middle; margin-top:20px" align="center" class="text-center">RELACIÓN DE CONTRATOS\
+									<th colspan="6" style="vertical-align: middle; margin-top:20px" align="center" class="text-center">RELACIÓN DE CONTRATOS\
 									</th>\
 								</tr>\
 							</thead>')
-			$(table).find('thead, th').css({'border-top':'1px solid black', 'font-weight': 'bold', 'text-align':"center", 'font-size': '8px'})
-			$(table).find('th').css({'border-bottom':'1px solid black', 'font-weight': 'bold', 'text-align':"center", 'font-size': '8px'})
-			$(table).find('td').css({'font-size': '7px'})
+			$(table).find('thead, th').css({'border-top':'1px solid black', 'font-weight': 'bold', 'text-align':"center", 'font-size': '12px'})
+			$(table).find('th').css({'border-bottom':'1px solid black', 'font-weight': 'bold', 'text-align':"center", 'font-size': '12px'})
+			$(table).find('td').css({'font-size': '10px'})
 			$(table).find('tr:nth-child(even)').css({'background-color': '#E2E2E2'})
 		    $(table).find('tr:last td').css({'border-bottom':'1px solid black'})
 			var tableHtml= $(table)[0].outerHTML;

@@ -112,6 +112,9 @@
                              <table class="table table-hover table-condensed">
                              <thead  class="bg-primary">
                              <tr>
+                                 <th style="vertical-align: middle; width:40px" align="center" class="text-center">
+                                    Nro.
+                                 </th>
                                  <th style="vertical-align: middle; width:300px" align="center" class="text-center">
                                     Nombre ó Razón Social
                                  </th>
@@ -148,6 +151,7 @@
                             @if(count($facturas)>0)
                             @foreach($facturas as $index => $factura)
                                 <tr>
+                                    <td style="vertical-align: middle; width:40px" align="center">{{$index+1}}</td>
                                     <td style="vertical-align: middle; width:300px" align="left" >{{$factura->cliente->nombre}}</td>
                                     <td style="vertical-align: middle; width:50px" align="center" >{{$factura->cliente->codigo}}</td>
                                     <td style="vertical-align: middle; width:80px" align="center" >{{$factura->cliente->cedRifPrefix}}-{{$factura->cliente->cedRif}}</td>
@@ -166,7 +170,7 @@
                                 </tr>
                             @endforeach
                                     <tr class="bg-gray" align="center">
-                                        <td colspan="2">Total</td>
+                                        <td colspan="3">Total</td>
                                         <td> - </td>
                                         <td> - </td>
                                         <td> - </td>
@@ -237,7 +241,7 @@ $('#export-btn').click(function(e){
     }).remove();
     $(table).prepend('<thead>\
                         <tr>\
-                            <th colspan="10" style="vertical-align: middle; margin-top:20px" align="center" class="text-center">LISTADO DE FACTURAS EMITIDAS\
+                            <th colspan="11" style="vertical-align: middle; margin-top:20px" align="center" class="text-center">LISTADO DE FACTURAS EMITIDAS\
                                 </br>\
                                 DESDE: {{isset($desde)?$desde:"TODOS"}} HASTA: {{isset($hasta)?$hasta:"TODOS"}} | MÓDULO: {{isset($modulo)?$modulo:"TODOS"}}\
                                 </br>\

@@ -26,7 +26,7 @@
                 <div class="form-group">
                       {!! Form::select('annoDesde', $annos, $annoDesde, ["class"=> "form-control"]) !!}
                 </div>
-                <label style="margin-left: 30px"><strong>HASTA: </strong></label>
+                <label style="width: 80px; margin-left: 30px"><strong>HASTA: </strong></label>
 				<div class="form-group">
 					<input type="text" class="form-control" name="diaHasta" value="{{$diaHasta}}" placeholder="Día">
                 </div>
@@ -37,7 +37,7 @@
                       {!! Form::select('annoHasta', $annos, $annoHasta, ["class"=> "form-control"]) !!}
                 </div>
 				<div class="form-group">
-					<label style="margin-left: 30px"><strong>AEROPUERTO: </strong></label>
+					<label style="width: 80px; margin-left: 30px"><strong>AEROPUERTO: </strong></label>
 					{!! Form::select('aeropuerto', $aeropuertos, $aeropuerto, ["class"=> "form-control"]) !!}
 				</div>
 				<a class="btn btn-default  pull-right" href="{{action('ReporteController@getReporteRelacionIngresosAeronauticosContado')}}">Reset</a>
@@ -68,46 +68,46 @@
 							<table class="table table-hover table-condensed">
 								<thead  class="bg-primary">
 									<tr>
-										<th   style="vertical-align: middle;" class="text-center" align="center">
+										<th   style="width: 80px; vertical-align: middle;" class="text-center" align="center">
 											FECHA
 										</th>
-										<th   style="vertical-align: middle" class="text-center" align="center">
+										<th   style="width: 80px; vertical-align: middle" class="text-center" align="center">
 											Nro. FACTURA
 										</th>
-										<th   style="vertical-align: middle" class="text-center" align="center">
+										<th   style="width: 80px; vertical-align: middle" class="text-center" align="center">
 											Nro. CONTROL
 										</th>
-										<th   style="vertical-align: middle" class="text-center" align="center">
+										<th   style="width: 80px; vertical-align: middle" class="text-center" align="center">
 											Nro. DOSA
 										</th>
-										<th   style="vertical-align: middle" class="text-center" align="center">
+										<th   style="width: 80px; vertical-align: middle" class="text-center" align="center">
 											FORMULARIO
 										</th>
-										<th   style="vertical-align: middle;" class="text-center" align="center">
+										<th   style="width: 80px; vertical-align: middle;" class="text-center" align="center">
 											ATERRIZAJE
 										</th>
-										<th   style="vertical-align: middle;" class="text-center" align="center">
+										<th   style="width: 80px; vertical-align: middle;" class="text-center" align="center">
 											ESTACIONAMIENTO
 										</th>
-										<th   style="vertical-align: middle;; " class="text-center" align="center">
+										<th   style="width: 80px; vertical-align: middle;; " class="text-center" align="center">
 											HABILITACIÓN
 										</th>
-										<th   style="vertical-align: middle" class="text-center" align="center">
+										<th   style="width: 80px; vertical-align: middle" class="text-center" align="center">
 											JETWAY
 										</th>
-										<th   style="vertical-align: middle" class="text-center" align="center">
+										<th   style="width: 80px; vertical-align: middle" class="text-center" align="center">
 											CARGA
 										</th>
-										<th   style="vertical-align: middle" class="text-center" align="center">
+										<th   style="width: 80px; vertical-align: middle" class="text-center" align="center">
 											Nro. COBRO
 										</th>
-										<th   style="vertical-align: middle" class="text-center" align="center">
+										<th   style="width: 80px; vertical-align: middle" class="text-center" align="center">
 											FACTURADO
 										</th>
-										<th   style="vertical-align: middle" class="text-center" align="center">
+										<th   style="width: 80px; vertical-align: middle" class="text-center" align="center">
 											DEPOSITADO
 										</th>
-										<th   style="vertical-align: middle" class="text-center" align="center">
+										<th   style="width: 80px; vertical-align: middle" class="text-center" align="center">
 											DIFERENCIA
 										</th>
 									</tr>
@@ -115,71 +115,75 @@
 								<tbody>
 								@if($dosaFactura == [])
 									<tr>
-										<td colspan="15" class="text-center">No hay registros para los datos suministrados.</td>
+										<td colspan="15" class="text-center" align="center">No hay registros para los datos suministrados.</td>
 									</tr>
 								@else
-									@foreach($dosaFactura as $nroDosa => $dosaFactura)
+									@foreach($dosaFactura as $nroDosa => $df)
 										<tr>
-											<td   style="vertical-align: middle;" class="text-center" align="center">
-												{{$dosaFactura['fecha']}}
+											<td   style="width: 80px; vertical-align: middle;" class="text-center" align="center">
+												{{$df['fecha']}}
 											</td>
-											<td   style="vertical-align: middle" class="text-center" align="center">
-												{{$dosaFactura['nFactura']}}
+											<td   style="width: 80px; vertical-align: middle" class="text-center" align="center">
+												{{$df['nFactura']}}
 											</td>
-											<td   style="vertical-align: middle" class="text-center" align="center">
-												{{$dosaFactura['nControl']}}
+											<td   style="width: 80px; vertical-align: middle" class="text-center" align="center">
+												{{$df['nControl']}}
 											</td>
-											<td   style="vertical-align: middle" class="text-center" align="center">
+											<td   style="width: 80px; vertical-align: middle" class="text-center" align="center">
 												{{$nroDosa}}
 											</td>
-											<td   style="vertical-align: middle" class="text-right formulario-bs" align="right">
-												{{$traductor->format($dosaFactura['formulario'])}}
+											<td   style="width: 80px; vertical-align: middle" class="text-right formulario-bs" align="right">
+												{{$traductor->format($df['formulario'])}}
 											</td>
-											<td   style="vertical-align: middle; " class="text-right aterrizaje-bs" align="right">
-												{{$traductor->format($dosaFactura['aterrizaje'])}}
+											<td   style="width: 80px; vertical-align: middle; " class="text-right aterrizaje-bs" align="right">
+												{{$traductor->format($df['aterrizaje'])}}
 											</td>
-											<td   style="vertical-align: middle; " class="text-right estacionamiento-bs" align="right">
-												{{$traductor->format($dosaFactura['estacionamiento'])}}
+											<td   style="width: 80px; vertical-align: middle; " class="text-right estacionamiento-bs" align="right">
+												{{$traductor->format($df['estacionamiento'])}}
 											</td>
-											<td   style="vertical-align: middle; " class="text-right habilitacion-bs" align="right">
-												{{$traductor->format($dosaFactura['habilitacion'])}}
+											<td   style="width: 80px; vertical-align: middle; " class="text-right habilitacion-bs" align="right">
+												{{$traductor->format($df['habilitacion'])}}
 											</td>
-											<td   style="vertical-align: middle" class="text-right jetway-bs" align="right">
-												{{$traductor->format($dosaFactura['jetway'])}}
+											<td   style="width: 80px; vertical-align: middle" class="text-right jetway-bs" align="right">
+												{{$traductor->format($df['jetway'])}}
 											</td>
-											<td   style="vertical-align: middle" class="text-right carga-bs" align="right">
-												{{$traductor->format($dosaFactura['carga'])}}
+											<td   style="width: 80px; vertical-align: middle" class="text-right carga-bs" align="right">
+												{{$traductor->format($df['carga'])}}
 											</td>
-											<td   style="vertical-align: middle" class="text-right" align="right">
-												{{$dosaFactura['nroCobro']}}
+											<td   style="width: 80px; vertical-align: middle" class="text-right" align="right">
+												{{$df['nroCobro']}}
 											</td>
-											<td   style="vertical-align: middle" class="text-right montoFacturado-bs" align="right">
-												{{$traductor->format($dosaFactura['montoFacturado'])}}
+											<td   style="width: 80px; vertical-align: middle" class="text-right montoFacturado-bs" align="right">
+												{{$traductor->format($df['montoFacturado'])}}
 											</td>
-											<td   style="vertical-align: middle" class="text-right montoDepositado-bs" align="right">
-												{{$traductor->format($dosaFactura['montoDepositado'])}}
+											<td   style="width: 80px; vertical-align: middle" class="text-right montoDepositado-bs" align="right">
+												{{$traductor->format($df['montoDepositado'])}}
 											</td>
-											<td   style="vertical-align: middle" class="text-right diferencia-bs" align="right">
-												{{$traductor->format($dosaFactura['montoFacturado']-$dosaFactura['montoDepositado'])}}
+											<td   style="width: 80px; vertical-align: middle" class="text-right diferencia-bs" align="right">
+												{{$traductor->format($df['montoFacturado']-$df['montoDepositado'])}}
 											</td>
 										</tr>
 									@endforeach
 										<tr class="bg-gray">
-											<td align="center" class="text-center" style="font-weight: bold;">TOTALES</td>
-											<td align="center" class="text-center">-</td>
-											<td align="center" class="text-center">-</td>
-											<td align="center" class="text-center">-</td>
-											<td align="right" class="text-right" id="formularioTotal" style="font-weight: bold;" align="right">0</td>
-											<td align="right" class="text-right" id="aterrizajeTotal" style="font-weight: bold;" align="right">0</td>
-											<td align="right" class="text-right" id="estacionamientoTotal" style="font-weight: bold;" align="right">0</td>
-											<td align="right" class="text-right" id="habilitacionTotal" style="font-weight: bold;" align="right">0</td>
-											<td align="right" class="text-right" id="jetwayTotal" style="font-weight: bold;" align="right">0</td>
-											<td align="right" class="text-right" id="cargaTotal" style="font-weight: bold;" align="right">0</td>
-											<td align="center" class="text-center">-</td>
-											<td align="right" class="text-right" id="montoFacturadoTotal" style="font-weight: bold;" align="right">0</td>
-											<td align="right" class="text-right" id="montoDepositadoTotal" style="font-weight: bold;" align="right">0</td>
-											<td align="right" class="text-right" id="montoDiferenciaTotal" style="font-weight: bold;" align="right">0</td>
+											<td align="center" class="text-center" style="width: 80px; font-weight: bold;">TOTALES</td>
+											<td align="center" class="text-center" style="width: 80px;">-</td>
+											<td align="center" class="text-center" style="width: 80px;">-</td>
+											<td align="center" class="text-center" style="width: 80px;">-</td>
+											<td align="right" class="text-right" id="formularioTotal" style="width: 80px; font-weight: bold;" align="right">0</td>
+											<td align="right" class="text-right" id="aterrizajeTotal" style="width: 80px; font-weight: bold;" align="right">0</td>
+											<td align="right" class="text-right" id="estacionamientoTotal" style="width: 80px; font-weight: bold;" align="right">0</td>
+											<td align="right" class="text-right" id="habilitacionTotal" style="width: 80px; font-weight: bold;" align="right">0</td>
+											<td align="right" class="text-right" id="jetwayTotal" style="width: 80px; font-weight: bold;" align="right">0</td>
+											<td align="right" class="text-right" id="cargaTotal" style="width: 80px; font-weight: bold;" align="right">0</td>
+											<td align="center" class="text-center" style="width: 80px;">-</td>
+											<td align="right" class="text-right" id="montoFacturadoTotal" style="width: 80px; font-weight: bold;" align="right">0</td>
+											<td align="right" class="text-right" id="montoDepositadoTotal" style="width: 80px; font-weight: bold;" align="right">0</td>
+											<td align="right" class="text-right" id="montoDiferenciaTotal" style="width: 80px; font-weight: bold;" align="right">0</td>
 										</tr>
+	                                    <tr>
+	                                        <td colspan="13" class="text-right" align="right">CANTIDAD DE FACTURAS</td>
+	                                        <td class="text-right" align="right" style="width: 80px">{{ count($dosaFactura) }}</td>
+	                                    </tr>
 									@endif
 									@if($tasasVendidas->count()>0)
 										<tr class="bg-primary" >
@@ -297,9 +301,9 @@
 									</th>\
 								</tr>\
 							</thead>')
-			$(table).find('thead, th').css({'border-top':'1px solid black', 'font-weight': 'bold', 'text-align':"center", 'font-size': '10px'})
-			$(table).find('th').css({'border-bottom':'1px solid black', 'font-weight': 'bold', 'text-align':"center", 'font-size': '10px'})
-			$(table).find('td').css({'font-size': '9px'})
+			$(table).find('thead, th').css({'border-top':'1px solid black', 'font-weight': 'bold', 'text-align':"center", 'font-size': '11px'})
+			$(table).find('th').css({'border-bottom':'1px solid black', 'font-weight': 'bold', 'text-align':"center", 'font-size': '11px'})
+			$(table).find('td').css({'font-size': '10px'})
 			$(table).find('tr:nth-child(even)').css({'background-color': '#E2E2E2'})
 			$(table).find('tr:last td').css({'border-bottom':'1px solid black','border-top':'1px solid black', 'font-weight': 'bold'})
 			var tableHtml= $(table)[0].outerHTML;

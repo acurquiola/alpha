@@ -80,29 +80,29 @@
                         <div class="table-responsive" style="max-height: 500px">
                             <table  class="table table-condensed">
                                     <tr class="bg-primary" >
-                                        <th rowspan="2" colspan="2" class="text-center">CLIENTE</th>
-                                        <th colspan="3"class="text-center" >COBRO</th>
-                                        <th colspan="9" class="text-center">DOSA</th>
-                                        <th colspan="3"class="text-center">DEPÓSITO</th>
+                                        <th  style="vertical-align: middle" rowspan="2" colspan="2" class="text-center">CLIENTE</th>
+                                        <th  style="vertical-align: middle" colspan="3" class="text-center" >COBRO</th>
+                                        <th  style="vertical-align: middle" colspan="9" class="text-center">DOSA</th>
+                                        <th  style="vertical-align: middle" colspan="3" class="text-center">DEPÓSITO</th>
                                     </tr>
                                     <tr class="bg-primary" >
-                                        <th class="text-center" >Nro.</th>
-                                        <th class="text-center" >Rec. Caja</th>
+                                        <th  style="vertical-align: middle" class="text-center" >Nro.</th>
+                                        <th  style="vertical-align: middle" class="text-center" >Rec. Caja</th>
                                        
-                                        <th class="text-center" >Fecha</th>
-                                        <th class="text-center" >Nro.</th>
-                                        <th class="text-center" >Formulario(Bs.)</th>
-                                        <th class="text-center" >Aterrizaje (Bs.)</th>
-                                        <th class="text-center" >Estacionamiento (Bs.)</th>
-                                        <th class="text-center" >Habilitación (Bs.)</th>
-                                        <th class="text-center" >Jetway (Bs.)</th>
-                                        <th class="text-center" >Carga (Bs.)</th>
-                                        <th class="text-center" >Otros(Bs.)</th>
-                                        <th class="text-center" >Total (Bs.)</th>
+                                        <th style="vertical-align: middle" class="text-center" >Fecha</th>
+                                        <th style="vertical-align: middle" class="text-center" >Nro.</th>
+                                        <th style="vertical-align: middle" class="text-center" >Formulario(Bs.)</th>
+                                        <th style="vertical-align: middle" class="text-center" >Aterrizaje (Bs.)</th>
+                                        <th style="vertical-align: middle" class="text-center" >Estacionamiento (Bs.)</th>
+                                        <th style="vertical-align: middle" class="text-center" >Habilitación (Bs.)</th>
+                                        <th style="vertical-align: middle" class="text-center" >Jetway (Bs.)</th>
+                                        <th style="vertical-align: middle" class="text-center" >Carga (Bs.)</th>
+                                        <th style="vertical-align: middle" class="text-center" >Otros(Bs.)</th>
+                                        <th style="vertical-align: middle" class="text-center" >Total (Bs.)</th>
 
-                                        <th class="text-center">Ref.</th>
-                                        <th class="text-center">Fecha</th>
-                                        <th class="text-center">Monto (Bs.)</th>
+                                        <th style="vertical-align: middle" class="text-center">Ref.</th>
+                                        <th style="vertical-align: middle" class="text-center">Fecha</th>
+                                        <th style="vertical-align: middle" class="text-center">Monto (Bs.)</th>
                                     </tr>
                                 <tbody>
                                     @foreach($dosaFactura as $index => $df)
@@ -145,6 +145,10 @@
                                         <td> - </td>                                 
                                         <td> - </td>                                 
                                         <td align="right" id="totalTotal">0,00</td>                           
+                                    </tr>
+                                    <tr>
+                                        <td colspan="16" class="text-right" align="right">CANTIDAD DE FACTURAS:</td>
+                                        <td class="text-right" align="right">{{ count($dosaFactura) }}</td>
                                     </tr>
                                 </tbody>
                             </table>

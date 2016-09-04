@@ -34,7 +34,6 @@
 				{!! Form::hidden('table') !!}
                 {!! Form::hidden('departamento', $departamento) !!}
                 {!! Form::hidden('gerencia', $gerencia) !!}
-				<h3 class="box-title">Reporte</h3>
 				<span class="pull-right">
 					<button type="button" class="btn btn-primary" id="export-btn">
 						<span class="glyphicon glyphicon-file"></span> Exportar
@@ -49,20 +48,22 @@
 							<table class="table table-condensed">
 								<thead  class="bg-primary">
 									<tr align="center">
-										<th align="center" style="width: 80px" >CÓDIGO</th>
-										<th align="center" style="width: 420px">NOMBRE O RAZÓN SOCIAL</th>
-										<th align="center" style="width: 100px">RIF</th>
-										<th align="center" style="width: 180px">NIT</th>
-										<th align="center" style="width: 180px">TELÉFONO</th>
-										<th align="center" style="width: 180px">FAX</th>
+										<th align="center" style="width: 80px; vertical-align: middle" >NRO.</th>
+										<th align="center" style="width: 80px; vertical-align: middle" >CÓDIGO</th>
+										<th align="center" style="width: 420px; vertical-align: middle">NOMBRE O RAZÓN SOCIAL</th>
+										<th align="center" style="width: 100px; vertical-align: middle">RIF</th>
+										<th align="center" style="width: 180px; vertical-align: middle">NIT</th>
+										<th align="center" style="width: 180px; vertical-align: middle">TELÉFONO</th>
+										<th align="center" style="width: 180px; vertical-align: middle">FAX</th>
 									</tr>
 								</thead>
 								<tbody>
-									@foreach($clientes as $cliente)
+									@foreach($clientes as $index => $cliente)
 									<tr align="left">
+										<td align="center" style="width: 80px" >{{$index+1}}</td>
 										<td align="center" style="width: 80px" >{{$cliente->codigo}}</td>
 										<td align="left"   style="width: 420px">{{$cliente->nombre}}</td>
-										<td align="center"   style="width: 100px" >{{$cliente->cedRifPrefix}} - {{$cliente->cedRif}}</td>
+										<td align="center"  style="width: 100px" >{{$cliente->cedRifPrefix}} - {{$cliente->cedRif}}</td>
 										<td align="center" style="width: 180px">{{$cliente->nit}}</td>
 										<td align="center" style="width: 180px">{{$cliente->telefonos}}</td>
 										<td align="center" style="width: 180px">{{$cliente->fax}}</td>
@@ -92,7 +93,7 @@
 			}).remove();
 			$(table).prepend('<thead>\
 								<tr>\
-									<th colspan="6" style="vertical-align: middle; margin-top:20px" align="center" class="text-center">LISTADO DE CLIENTES\
+									<th colspan="7" style="vertical-align: middle; margin-top:20px" align="center" class="text-center">LISTADO DE CLIENTES\
 										</br>\
 										Tipo de Clientes: {{$tipo}}\
 									</th>\

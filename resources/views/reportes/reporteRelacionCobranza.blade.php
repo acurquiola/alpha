@@ -77,6 +77,9 @@
 							<table class="table table-hover table-condensed">
 								<thead  class="bg-primary">
 									<tr>
+										<th  rowspan="2" style="vertical-align: middle;" align="center" class="text-center">
+											Nro.
+										</th>
 										<th colspan="2" style="vertical-align: middle;" align="center" class="text-center">
 											COBRO
 										</th>
@@ -146,8 +149,9 @@
 								</thead>
 								<tbody>
 									@if($recibos->count()>0)
-									@foreach($recibos as $recibo)
+									@foreach($recibos as $index => $recibo)
 									<tr>
+										<td style="vertical-align: middle; width:30px" align="center">{{$index+1}}</td>
 										<td style="vertical-align: middle; width:80px" align="center">{{$recibo->fecha}}</td>
 										<td align="center"  style="width:50px">{{$recibo->id}}</td>
 										<td style="vertical-align: middle; width:80px" align="center" >{{($recibo->nRecibo)?$recibo->nRecibo:'N/A'}}</td>
@@ -181,13 +185,14 @@
 										<td> - </td>
 										<td> - </td>
 										<td> - </td>
+										<td> - </td>
 										<td style="vertical-align: middle; width:120px" align="right">{{$traductor->format($totalFacturas)}}</td>
 										<td style="vertical-align: middle; width:120px" align="right">{{$traductor->format($totalDepositado)}}</td>
 										<td style="vertical-align: middle; width:120px" align="right">-</td>                                   
 									</tr>   
 									@else
 									<tr>
-										<td colspan="15" class="text-center">No hay registros para las fechas seleccionadas</td>
+										<td colspan="17" class="text-center">No hay registros para las fechas seleccionadas</td>
 									</tr>
 									@endif
 <!--                         <tr class="bg-gray">
@@ -250,7 +255,7 @@
 			}).remove();
 			$(table).prepend('<thead>\
 								<tr>\
-									<th colspan="16" style="vertical-align: middle; margin-top:20px" align="center" class="text-center">RELACIÓN DE COBRANZA\
+									<th colspan="17" style="vertical-align: middle; margin-top:20px" align="center" class="text-center">RELACIÓN DE COBRANZA\
 										</br>\
 										MES: {{$mes}} AÑO: {{$anno}} | MÓDULO: {{$moduloNombre}}\
 										</br>\

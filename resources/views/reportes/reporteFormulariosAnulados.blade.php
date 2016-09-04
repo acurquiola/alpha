@@ -89,7 +89,7 @@
 									@endforeach 
 								@else
 									<tr>
-										<td colspan="4" class="text-center" align="center">No hay registros para las fechas seleccionadas</td>
+										<td colspan="5" class="text-center" align="center">No hay registros para las fechas seleccionadas</td>
 									</tr>
 								@endif
 								<tr  class="bg-primary" >
@@ -126,7 +126,7 @@
 									@endforeach 
 								@else
 									<tr>
-										<td colspan="2" class="text-center" align="center">No hay registros para las fechas seleccionadas</td>
+										<td colspan="5" class="text-center" align="center">No hay registros para las fechas seleccionadas</td>
 									</tr>
 								@endif
 			                    </tbody>
