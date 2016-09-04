@@ -1491,7 +1491,6 @@ class ReporteController extends Controller {
                                 ->with('cobros', 'detalles')
                                 ->whereBetween('fecha', array($annoDesde.'-'.$mesDesde.'-'.$diaDesde,  $annoHasta.'-'.$mesHasta.'-'.$diaHasta) )
                                 ->where('aeropuerto_id', $aeropuerto)
-                                ->where('nFactura', '8883')
                                 ->groupBy('nFactura')
                                 ->orderBy('fecha', 'ASC')
                                 ->orderBy('nFacturaPrefix', 'ASC')
