@@ -6,7 +6,7 @@
 <br>
 <br>
 <br>
-<table style="width:100%; border-collapse: collapse; padding:2px; font-weight: 15px">
+<table style="width:90%; border-collapse: collapse; padding:2px; font-weight: 15px">
 <tr>
 <td  colspan="7">
 </td>
@@ -27,7 +27,7 @@
 <br>
 <br>
 
-<table style="width:100%; border-collapse: collapse; padding:2px">
+<table style="width:90%; border-collapse: collapse; padding:2px">
 <tr>
 <td  colspan="10">
 <strong>CLIENTE:</strong> {{$factura->cliente->nombre}}
@@ -58,7 +58,7 @@
 <br>
 <br>
 
-<table style="width:100%; border-collapse: collapse; padding:2px">
+<table style="width:90%; border-collapse: collapse; padding:2px">
 <tr>
 <td style="border-top: 1px solid black;border-bottom: 1px solid black;" colspan="2">
 <strong>NRO.</strong>
@@ -85,14 +85,11 @@
 @endforeach
 
 <tr> <td colspan="10">
-@for($i=0; $i<22-$factura->detalles->count();$i++)
+@for($i=0; $i<20-$factura->detalles->count();$i++)
 <br>
 @endfor
 </td></tr>
 <tr><td colspan="10"><strong>DESCRIPCIÓN:</strong> {{$factura->descripcion}}</td></tr>
-<br>
-<br>
-<br>
 <br>
 <tr><td colspan="10" style="border-bottom: 1px solid black;"></td></tr>
 <tr>

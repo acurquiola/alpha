@@ -72,7 +72,7 @@ $(document).ready(function(){
 							function()
 							{
 							    window.open(object.impresion, '_blank');
-								location.replace("{{action('DespegueController@index')}}");
+								location.replace("{{action('CargaController@index')}}");
 							}, 2000);
 						});
 					}else{

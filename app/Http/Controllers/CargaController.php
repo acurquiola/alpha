@@ -127,9 +127,27 @@ class CargaController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function update($id)
+	public function update($id, $request)
 	{
-		//
+
+			$carga    = Carga::find($id);
+
+
+			$pesoEmb      = $despegue->peso_embarcado;
+			$pesoDesemb   = $despegue->peso_desembarcado;
+			$pesoBloque   = PreciosCarga::where('aeropuerto_id', session('aeropuerto')->id)->first()->toneladaPorBloque;
+			$pesoCargado  = ($pesoDesemb + $pesoEmb / $pesoBloque);
+			$eq_Carga     = PreciosCarga::where('aeropuerto_id', session('aeropuerto')->id)->first()->equivalenteUT;
+			$precio_carga = PreciosCarga::where('aeropuerto_id', session('aeropuerto')->id)->first()->precio_carga;
+			$equivalente  = $precio_carga+0;
+			
+			$montoDes     = $equivalente * $pesoCargado;
+			$cantidadDes  = '1';
+			$iva          = Concepto::find($concepto_id)->iva;
+			$montoIva     = ($iva * $montoDes)/100 ;
+			$totalDes     = $montoDes + $montoIva;
+			$carga->fill(compact('concepto_id', 'montoDes', 'cantidadDes', 'iva', 'totalDes'));
+			$factura->detalles->push($carga);
 	}
 
 	/**
@@ -150,7 +168,6 @@ class CargaController extends Controller {
     public function getCrearFactura($id)
 	{
 		//Información general de la factura a crear.
-
 		$carga         = Carga::find($id);
 		$factura       = new Factura();
 		$modulo        = \App\Modulo::find(6)->nombre;

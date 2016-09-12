@@ -6,6 +6,7 @@ use Illuminate\Contracts\Auth\Registrar;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
 use Illuminate\Http\Request;
 
+
 class AuthController extends Controller {
 
 	/*
@@ -92,10 +93,10 @@ class AuthController extends Controller {
                     }
 
                     return redirect($this->loginPath())
-                    ->withInput($request->only('userName', 'remember'))
-                    ->withErrors([
-                        'userName' => $this->getFailedLoginMessage(),
-                    ]);
+                                        ->withInput($request->only('userName', 'remember'))
+                                        ->withErrors([
+                                            'userName' => $this->getFailedLoginMessage(),
+                                    ]);
 
                 }
             }
@@ -108,12 +109,12 @@ class AuthController extends Controller {
             }
         }else{
             return redirect($this->loginPath())
-                ->withInput($request->only('userName', 'remember'))
-                ->withErrors([
-                    'AccesoDenegado' => 'Acceso Denegado: Usuario Inhabilitado',
-                ]);
-            }
+                                ->withInput($request->only('userName', 'remember'))
+                                ->withErrors([
+                                    'AccesoDenegado' => 'Acceso Denegado: Usuario Inhabilitado',
+                                ]);
         }
+    }
 
     public function getLogout(Guard $auth)
     {
