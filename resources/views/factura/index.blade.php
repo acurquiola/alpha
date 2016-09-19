@@ -165,8 +165,8 @@
 													<a class='btn btn-warning' href='{{url('facturacion/'.$modulo->nombre.'/factura/'.$factura->id.'/edit')}}'><span class='glyphicon glyphicon-pencil' ></span></a>
 													<button class='btn btn-danger eliminar-factura-btn' data-id="{{$factura->id}}"><span class='glyphicon glyphicon-remove'></span></button>
 													<a target="_blank" class='btn btn-default' href='{{action('FacturaController@getPrint', [$modulo->nombre, $factura->id])}}'><span class='glyphicon glyphicon-print' ></span></a>
-													@if($factura->deleted_at !=  null) <a class='btn btn-info resturar-factura-btn'  href='{{action('FacturaController@restore', [$modulo->nombre, $factura->id])}}'><span class='glyphicon glyphicon-refresh'></span></a> @endif
 
+													{{-- @if($factura->deleted_at !=  null) <a class='btn btn-info resturar-factura-btn'  href='{{action('FacturaController@restore', [$modulo->nombre, $factura->id])}}'><span class='glyphicon glyphicon-refresh'></span></a> @endif --}}
 												</div>
 											</td>
 										</tr>

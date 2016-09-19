@@ -188,7 +188,6 @@ class FacturaController extends Controller {
 
 
     public function getPrint($modulo, Factura $factura){
-        dd($factura);
       return $this->crearFactura($factura);
     }
 
