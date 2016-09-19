@@ -154,6 +154,7 @@ Route::group(['prefix' => 'facturacion/{modulo}/'], function () {
     Route::get('automatica/resultados','FacturaController@getContratosAutomaticaResult');
     Route::post('contratosStoreAutomatica', 'FacturaController@postContratosStoreAutomatica');
     Route::get('automatica', 'FacturaController@automatica');
+    Route::get('resutaurar', 'FacturaController@restore');
     Route::resource('factura', 'FacturaController');
 });
 

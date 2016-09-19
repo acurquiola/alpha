@@ -1520,8 +1520,9 @@ class ReporteController extends Controller {
                                 ->orderBy('facturas.nFacturaPrefix', 'ASC')
                                 ->orderBy('facturas.nFactura', 'ASC')
                                 ->get();
+        $aeropuertoNombre = session('aeropuerto')->nombre;
 
-        return view('reportes.reporteLibroDeVentas', compact('diaDesde', 'mesDesde', 'annoDesde', 'diaHasta', 'mesHasta', 'annoHasta', 'aeropuerto', 'facturas', 'facturasCobradas', 'fecha'));
+        return view('reportes.reporteLibroDeVentas', compact('diaDesde', 'mesDesde', 'annoDesde', 'diaHasta', 'mesHasta', 'annoHasta', 'aeropuerto', 'facturas', 'facturasCobradas', 'fecha', 'aeropuertoNombre'));
     }
 
 

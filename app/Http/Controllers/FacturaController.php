@@ -113,7 +113,7 @@ class FacturaController extends Controller {
 
             $year      =$request->get('year');
             $month     =$request->get('month');
-            $modulo    = \App\Modulo::where("nombre","like",$moduloNombre)->where('aeropuerto_id', session('aeropuerto')->id)->first();
+            $modulo    =\App\Modulo::where("nombre","like",$moduloNombre)->where('aeropuerto_id', session('aeropuerto')->id)->first();
             $fecha     =\Carbon\Carbon::create($year, $month, 1)->lastOfMonth();
             $contratos =$modulo->contratos()->where('fechaInicio', '<=' ,$fecha)->where('fechaVencimiento', '>=', $fecha)->with('cliente')->get();
 
@@ -129,7 +129,10 @@ class FacturaController extends Controller {
      * @return pdf
      */
     protected function crearFactura($factura, $output= 'I', $dir='facturas/'){
-        $despegue = \App\Despegue::with('aterrizaje')->where('factura_id', $factura->id)->first();
+        $despegue = \App\Despegue::with('aterrizaje')
+                                    ->where('factura_id', $factura->id)
+                                    ->first();
+
         $factura->load('detalles');
         //return view('pdf.factura', compact('factura'));
         // create new PDF document
@@ -185,6 +188,7 @@ class FacturaController extends Controller {
 
 
     public function getPrint($modulo, Factura $factura){
+        dd($factura);
       return $this->crearFactura($factura);
     }
 
@@ -455,6 +459,12 @@ class FacturaController extends Controller {
         });
         return ["success" => 1, "impresion" => action('FacturaController@getPrint', [$moduloNombre, $factura->id])];
 
+    }
+
+    public function restore($modulo, Factura $factura){
+        if($factura->restore())
+
+            return view('factura.index', compact('modulo'))->withInput(\Input::all());
     }
 
 	/**

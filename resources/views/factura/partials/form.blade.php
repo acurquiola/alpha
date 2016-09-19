@@ -42,7 +42,7 @@
             <div class="input-group-btn">
                 <button style="max-height:37px" type="button" class="btn btn-default"><span class="nFacturaPrefix-text">{{$modulo->nFacturaPrefix}}</span></button>
             </div>
-            {!! Form::text('nFactura', ($factura->nFactura)?$factura->nFactura:$factura->getMaxWith('nFacturaPrefix', 'nFactura', $modulo->nFacturaPrefix), [ 'id' => 'nFactura', 'class'=>"form-control", "data-empty"=>"false", "data-type"=>"int", "data-name"=>"Número de factura", 'style' => 'padding-left:2px']) !!}
+            {!! Form::text('nFactura', ($factura->nFactura)?$factura->nFactura:$factura->getMaxWith('nFacturaPrefix', 'nFactura', $modulo->nFacturaPrefix), [ 'id' => 'nFactura', 'class'=>"form-control", "data-empty"=>"false", "data-type"=>"int", "data-name"=>"Número de factura", 'style' => 'padding-left:2px', "readonly"=>"true"]) !!}
         </div>
     </div>
 
@@ -55,7 +55,7 @@
 	@if(!isset($bloqueoDosa) || isset($facturaCarga))
 	<label for="inputEmail3" class="col-xs-1  control-label"><strong>Fecha Venc.<span class="text-danger">*</span> </strong></label>
 	<div class="col-xs-3">
-		{!! Form::text('fechaVencimiento', null, [ 'class'=>"form-control", $disabled, "id" =>"fechaVencimiento", "autocomplete"=>"off"]) !!}
+		{!! Form::text('fechaVencimiento', null, [ 'class'=>"form-control", $disabled, "id" =>"fechaVencimiento", "autocomplete"=>"off", "readonly"=>"true"]) !!}
 		@if(isset($facturaCarga))
 			{!! Form::hidden('aplica_minimo_aterrizaje', $aplica_minimo_aterrizaje) !!}
 			{!! Form::hidden('aplica_minimo_estacionamiento', $aplica_minimo_estacionamiento) !!}

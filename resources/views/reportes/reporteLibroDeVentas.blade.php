@@ -223,6 +223,7 @@
 		                            <th colspan="18" style="vertical-align: middle; margin-top:70px" align="center" class="text-center" align="center">LIBRO DE VENTAS\
 		                                </br>\
 										DESDE: {{$diaDesde}}/{{$mesDesde}}/{{$annoDesde}} HASTA: {{$diaHasta}}/{{$mesHasta}}/{{$annoHasta}}\
+										</br> AEROPUERTO: {{$aeropuertoNombre}}\
 		                            </th>\
 		                        </tr>\
 		                    </thead>')
