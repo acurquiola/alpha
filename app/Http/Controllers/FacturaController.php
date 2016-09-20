@@ -329,7 +329,9 @@ class FacturaController extends Controller {
             return response("No se consiguió el modulo '$modulo' en el aeropuerto de sesion", 500);
         }
         $modulo_id=$modulo->id;
-		return view('factura.create', compact('factura', 'modulo', 'modulo_id'));
+
+        $diasVencimientoCred = \App\OtrasConfiguraciones::where('aeropuerto_id', session('aeropuerto')->id)->first()->diasVencimientoCred;
+		return view('factura.create', compact('factura', 'modulo', 'modulo_id', 'diasVencimientoCred'));
 	}
 
 

@@ -1,5 +1,3 @@
-
-
     $('#condicionPago').change(function(){
         var value=$(this).val();
         $('#concepto-select').val('');
@@ -231,7 +229,7 @@ $('#advance-search-modal .modal-body').delegate('.operator-list li', 'click', fu
     if(condicionPago == 'Contado'){
       $('#fechaVencimiento').val(moment(e.date).format("DD/MM/YYYY"))
     }else{
-      days = 7;
+      days = {{ $diasVencimientoCred }};
       $('#fechaVencimiento').val(moment(e.date).add(days, 'd').format("DD/MM/YYYY"));
     }
   });
@@ -242,7 +240,7 @@ $('#advance-search-modal .modal-body').delegate('.operator-list li', 'click', fu
     if(condicionPago == 'Contado'){
       $('#fechaVencimiento').val(moment(e.date).format("DD/MM/YYYY"))
     }else{
-      days = 7;
+      days = {{ $diasVencimientoCred }};
       $('#fechaVencimiento').val(moment(e.date).add(days, 'd').format("DD/MM/YYYY"));
     }
   });

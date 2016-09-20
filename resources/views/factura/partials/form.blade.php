@@ -1,5 +1,6 @@
 ﻿<div class="form-group">
 
+
 	<label for="aeropuerto_id" class="col-xs-1  control-label"><strong>Aeropuerto<span class="text-danger">*</span></strong> </label>
 	<div class="col-xs-3">
 		{!! Form::hidden('modulo_id', ($factura->modulo_id)?$factura->modulo_id:$modulo_id,[ 'class'=>"form-control", "readonly"=>"true"]) !!}

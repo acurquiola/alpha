@@ -47,7 +47,9 @@ class InformacionController extends Controller {
 
         $bancos = \App\Banco::get();
 
-        return view("administracion/informacion", compact("aeropuerto", "estacionamiento", "portons", "conceptosEstacionamiento", "tasas", "bancos"));
+        $otrasConfiguraciones = \App\OtrasConfiguraciones::where('aeropuerto_id', session('aeropuerto')->id)->first();
+
+        return view("administracion/informacion", compact("aeropuerto", "estacionamiento", "portons", "conceptosEstacionamiento", "tasas", "bancos", "otrasConfiguraciones"));
 	}
 
 	/**
@@ -121,6 +123,10 @@ class InformacionController extends Controller {
 
         //actualizando conceptos
         $this->actualizarConceptos($estacionamiento, $request->get('conceptosNuevos',[]), $request->get("conceptos", []));
+
+        //actualizando configuración 
+        $otrasConfiguraciones = \App\OtrasConfiguraciones::where('aeropuerto_id', session('aeropuerto')->id)->first();
+        $otrasConfiguraciones->update($request->get("otrasConfiguraciones"));
 
 
 
@@ -238,7 +244,7 @@ class InformacionController extends Controller {
             $cuentasCreate->save();
         }
     }
-
+    
     protected function actualizarEstacionamientos($estacionamiento, $nuevos, $actualizados){
 
         foreach($actualizados as $portonId => $porton){
@@ -284,7 +290,5 @@ class InformacionController extends Controller {
             $aeropuerto->tasas()->create($tasa);
         }
 
-    }
-
-    
+    }    
 }
