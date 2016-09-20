@@ -16,6 +16,11 @@ class Aeropuerto extends Model {
         return $this->hasOne('App\Estacionamiento');
     }
 
+    public function otras_configuraciones()
+    {
+        return $this->hasOne('App\otrasConfiguraciones');
+    }
+
     public function tasas()
     {
         return $this->hasMany('App\Tasa');

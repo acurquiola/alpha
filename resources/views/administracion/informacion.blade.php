@@ -18,6 +18,7 @@
                         <li role="presentation"><a href="#cuentasBancariasTab" aria-controls="cuentasBancariasTab" role="tab" data-toggle="tab">Cuentas Bancarias</a></li>
                         <li role="presentation"><a href="#tasasTab" aria-controls="tasasTab" role="tab" data-toggle="tab">Tasas</a></li>
                         <li role="presentation"><a href="#estacionamiento" aria-controls="estacionamiento" role="tab" data-toggle="tab">Estacionamiento</a></li>
+                        <li role="presentation"><a href="#otrasConfiguracionesTab" aria-controls="otrasConfiguracionesTab" role="tab" data-toggle="tab">Otras Configuraciones</a></li>
                     </ul>
                     
                     <!-- Tab panes -->
@@ -291,6 +292,22 @@
                                             </tbody>
                                         </table>
                                     </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div role="tabpanel" class="tab-pane" id="otrasConfiguracionesTab">
+                            <div class="row">
+                                <div class="col-md-8 col-md-offset-2">
+                                <h5>Plazo de días para el vencimiento de facturas</h5>
+                                    <div class="form-group">
+                                        <label for="numero-input">Crédito</label>
+                                        {!! Form::text('otrasConfiguraciones[diasVencimientoCred]', $otrasConfiguraciones->diasVencimientoCred , ["class" => "form-control"]) !!}
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="numero-input">Contado</label>
+                                        {!! Form::text('otrasConfiguraciones[diasVencimientoCont]', $otrasConfiguraciones->diasVencimientoCont , ["class" => "form-control"]) !!}
+                                    </div>
+                                    
                                 </div>
                             </div>
                         </div>
