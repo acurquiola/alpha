@@ -331,8 +331,7 @@ class FacturaController extends Controller {
         $modulo_id=$modulo->id;
 
         $diasVencimientoCred = \App\OtrasConfiguraciones::where('aeropuerto_id', session('aeropuerto')->id)->first()->diasVencimientoCred;
-        $diasVencimientoCont = \App\OtrasConfiguraciones::where('aeropuerto_id', session('aeropuerto')->id)->first()->diasVencimientoCont;
-		return view('factura.create', compact('factura', 'modulo', 'modulo_id', 'diasVencimientoCred', 'diasVencimientoCont'));
+		return view('factura.create', compact('factura', 'modulo', 'modulo_id', 'diasVencimientoCred'));
 	}
 
 

@@ -298,16 +298,11 @@
                         <div role="tabpanel" class="tab-pane" id="otrasConfiguracionesTab">
                             <div class="row">
                                 <div class="col-md-8 col-md-offset-2">
-                                <h5>Plazo de días para el vencimiento de facturas</h5>
+                                <h5>Facturación</h5>
                                     <div class="form-group">
-                                        <label for="numero-input">Crédito</label>
+                                        <label for="numero-input">Días de crédito</label>
                                         {!! Form::text('otrasConfiguraciones[diasVencimientoCred]', $otrasConfiguraciones->diasVencimientoCred , ["class" => "form-control"]) !!}
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="numero-input">Contado</label>
-                                        {!! Form::text('otrasConfiguraciones[diasVencimientoCont]', $otrasConfiguraciones->diasVencimientoCont , ["class" => "form-control"]) !!}
-                                    </div>
-                                    
+                                    </div>                                    
                                 </div>
                             </div>
                         </div>

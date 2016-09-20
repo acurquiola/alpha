@@ -16,7 +16,6 @@ class CreateOtrasConfiguracionesTable extends Migration {
 		{
 			$table->increments('id');
 			$table->integer('diasVencimientoCred');
-			$table->integer('diasVencimientoCont');
             $table->integer('aeropuerto_id')->unsigned();
             $table->foreign('aeropuerto_id')->references('id')->on('aeropuertos')->onDelete('cascade');
 			$table->timestamps();
