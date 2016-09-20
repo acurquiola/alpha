@@ -919,9 +919,12 @@ class DespegueController extends Controller {
         if(!$modulo){
             return response("No se consiguio el modulo 'DOSAS' en el aeropuerto de sesion", 500);
         }
+
+        $diasVencimientoCred = \App\OtrasConfiguraciones::where('aeropuerto_id', session('aeropuerto')->id)->first()->diasVencimientoCred;
+
         $modulo_id=$modulo->id;
 
-		$view=view('factura.facturaAeronautica.create', compact('factura', 'condicionPago', 'modulo_id', 'modulo', 'aplica_minimo_aterrizaje', 'aplica_minimo_estacionamiento'))->with(['despegue_id'=>$despegue->id]);
+		$view=view('factura.facturaAeronautica.create', compact('factura', 'condicionPago', 'modulo_id', 'modulo', 'aplica_minimo_aterrizaje', 'aplica_minimo_estacionamiento', 'diasVencimientoCred'))->with(['despegue_id'=>$despegue->id]);
 
 		if(isset($mensajeAterrizaje))
 			$view->with(['mensajeAterrizaje'=>$mensajeAterrizaje]);
