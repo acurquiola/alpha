@@ -716,7 +716,7 @@ class ReporteController extends Controller {
                     $facturasPendientesModulo[$modulo][$diaMes->month][$nombre] = \App\Factura::with('cliente')
                                                                                         ->where('fecha','>=' ,$diaMes->startOfMonth()->toDateTimeString())
                                                                                         ->where('fecha','<=' ,$diaMes->endOfMonth()->toDateTimeString())
-                                                                                        ->where('fechaVencimiento', '<=', $today)
+                                                                                        ->where('fechaVencimiento', '<', $today)
                                                                                         ->where('estado', 'P')
                                                                                         ->where('cliente_id', $cliente_id)
                                                                                         ->sum('total');
@@ -730,7 +730,7 @@ class ReporteController extends Controller {
                                                             ->where('aeropuerto_id', $aeropuerto)
                                                             ->where('fecha','>=' ,$diaMes->startOfMonth()->toDateTimeString())
                                                             ->where('fecha','<=' ,$diaMes->endOfMonth()->toDateTimeString())
-                                                            ->where('fechaVencimiento', '<=', $today)
+                                                            ->where('fechaVencimiento', '<', $today)
                                                             ->where('estado', 'P')
                                                             ->sum('total');
             }       
@@ -1008,7 +1008,7 @@ class ReporteController extends Controller {
         $jetway          =\App\Concepto::where('aeropuerto_id', $aeropuerto)->where('nompre', 'JETWAY')->first();
         $carga           =\App\Concepto::where('aeropuerto_id', $aeropuerto)->where('nompre', 'CARGA')->first();
 
-        $facturas = \App\Factura::with('detalles')
+        $facturas = \App\Factura::with('detalles', 'cobros')
                              ->whereBetween('fecha', array($annoDesde.'-'.$mesDesde.'-'.$diaDesde,  $annoHasta.'-'.$mesHasta.'-'.$diaHasta))
                              ->where('modulo_id',$modulo_id)
                              ->where('aeropuerto_id', $aeropuerto)
@@ -1029,6 +1029,7 @@ class ReporteController extends Controller {
                                     ->where('tasaops.aeropuerto_id', $aeropuerto)
                                     ->where('tasa_cobros.cv', 1)
                                     ->where('tasaops.consolidado', 1)
+                                    ->groupBy('inicio')
                                     ->get();
  
         $totalTasas            = $tasasVendidas->sum('total');
@@ -1040,7 +1041,6 @@ class ReporteController extends Controller {
             $cobros = \App\Cobro::join('cobro_factura', 'cobros.id', '=', 'cobro_factura.cobro_id')
                                     ->where('cobro_factura.factura_id', $factura->id)
                                     ->first();
-
 
             $dosaFactura[$factura->nroDosa]=[
                 "nFactura"          =>'',
@@ -1060,7 +1060,9 @@ class ReporteController extends Controller {
                 "nroCobro"          =>0
             ];
 
-            $dosaFactura[$factura->nroDosa]["nroCobro"]        =$cobros->id;
+            foreach ($factura->cobros as $cobro) {
+                $dosaFactura[$factura->nroDosa]["nroCobro"]        =$cobro->id;
+            }
             $dosaFactura[$factura->nroDosa]["fecha"]           =$factura->fecha;
             $dosaFactura[$factura->nroDosa]["nFactura"]        =$factura->nFacturaPrefix.'-'.$factura->nFactura;
             $dosaFactura[$factura->nroDosa]["nControl"]        =$factura->nControlPrefix.'-'.$factura->nControl;
@@ -1460,8 +1462,8 @@ class ReporteController extends Controller {
                                     ->where('tasaops.aeropuerto_id', $aeropuerto)
                                     ->where('tasa_cobros.cv', 1)
                                     ->where('tasaops.consolidado', 1)
+                                    ->groupBy('inicio')
                                     ->get();
-
 
         $totalTasas            = $tasasVendidas->sum('total');
         $facturasTotal         = $facturas->sum('total');

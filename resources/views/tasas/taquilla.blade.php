@@ -14,9 +14,13 @@
                     <div class="col-md-3">
                         <span class="pull-left"><strong>TURNO:</strong></span>
                         <select class="form-control" id="turno-input">
+                        @if(session('rolUsuario')->id == '2' || session('rolUsuario')->id == '5')
+                            <option value="1">Turno Único</option>
+                        @else
                             @for($i=1; $i<=$aeropuerto->n_tasas_turnos; $i++)
                                 <option value="{{$i}}">Turno {{$i}}</option>
                             @endfor
+                        @endif)
                         </select>
                     </div>
                     <div class="col-md-3">
