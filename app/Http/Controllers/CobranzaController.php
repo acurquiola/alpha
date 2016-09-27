@@ -343,6 +343,7 @@ return ["success"=>1, "impresion" => $impresion];
         $cobro = \App\Cobro::find($request->cobro_id);
         $reciboAnulado=$this->anularRecibo($cobro);
         if($reciboAnulado){
+            $reciboAnulado->update(['comentario' => $request->comentario]);
             $cobro->update(["nRecibo"=>$request->nRecibo]);
             return ["success"=>1, "text" => "Número de recibo de caja cambiado exitósamente."];
         }

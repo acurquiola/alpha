@@ -89,11 +89,6 @@
 				<button type="submit" class="btn btn-default">Buscar</button>
 				<a class="btn btn-default" href="{{action('FacturaController@index',[$modulo->nombre])}}">Reset</a>
 				{!! Form::close() !!}
-
-
-
-
-				{{--                       --}}
 			</div>
 		</div>
 	</div>
@@ -251,27 +246,32 @@
 			var tr=$(this).closest('tr');
 			var id=$(this).data("id");
 			var url="{{url('facturacion/'.$modulo->nombre.'/factura')}}/"+id;
-            alertify.confirm("¿Está seguro que desea anular la factura seleccionada?", function (e) {
-                if (e) {
-                    $.
-                    ajax({url: url,
-                        method:"DELETE"})
-                    .done(function(response, status, responseObject){
-                        try{
-                            var obj= JSON.parse(responseObject.responseText);
-                            if(obj.success==1){
-                                $(tr).remove();
-                                alertify.success(obj.text);
-                            }else if(obj.success==0)
-                                alertify.error(obj.text);
-                        }catch(e){
-                            console.log(e);
-                            alertify.error("Error en el servidor");
-                        }
-                    })
-			    }
 
-		    })
+			alertify.prompt('Ingrese motivo para confirmar anulación de factura', function(evt, value) {
+							if(evt){
+
+ 				                    $.
+				                    ajax({data: {comentario: value},
+				                    	url: url, 
+				                         method:"DELETE"})
+				                    .done(function(response, status, responseObject){
+				                        try{
+				                            var obj= JSON.parse(responseObject.responseText);
+				                            if(obj.success==1){
+				                                $(tr).remove();
+				                                alertify.success(obj.text);
+				                            }else if(obj.success==0)
+				                                alertify.error(obj.text);
+				                        }catch(e){
+				                            console.log(e);
+				                            alertify.error("Error en el servidor");
+				                        }
+				                    })
+								}else{
+									alertify.error('Cancelado') ;
+								}
+							});
+							
 
 
 	    });

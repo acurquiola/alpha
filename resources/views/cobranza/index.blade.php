@@ -200,6 +200,12 @@
 									<input type="hidden" id="cobro_id" name="cobro_id" value="{{($cobro->id)}}"/>
 									<input type="text" id="nRecibo-input" name="nRecibo" class="form-control" placeholder="Número"/>
 								</div><!-- /.input group -->
+							</div> 
+							<div class="form-group">
+								<label style="font-weight: bold;" >Inserte motivo de anulación </label>
+								<div class="input-group">
+									<input type="text" id="comentario-input" name="comentario" class="form-control" placeholder="Comentario"/>
+								</div><!-- /.input group -->
 							</div>    
 		                </form>
 		            </div>

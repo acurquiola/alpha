@@ -157,17 +157,17 @@
 										<td style="vertical-align: middle; width:80px" align="center" >{{($recibo->nRecibo)?$recibo->nRecibo:'N/A'}}</td>
 										<td style="vertical-align: middle; width:80px" align="center" >{{$recibo->cliente->codigo}}</td>
 										<td style="vertical-align: middle; width:300px" align="left" >{{$recibo->cliente->nombre}}</td>
-										<td style="vertical-align: middle; width:80px" align="center">@foreach($recibo->pagos as $pagos) {{$pagos->fecha}} @endforeach</td>
-										<td style="vertical-align: middle; width:50px" align="center">@foreach($recibo->pagos as $pagos) {{$pagos->tipo}} @endforeach</td>
-										<td style="vertical-align: middle; width:80px" align="center">@foreach($recibo->pagos as $pagos) {{substr($pagos->cuenta->descripcion, -6)}} @endforeach</td>
-										<td style="vertical-align: middle; width:80px" align="center">@foreach($recibo->pagos as $pagos) {{$pagos->ncomprobante}} @endforeach</td>
-										<td style="vertical-align: middle; width:90px" align="center">@foreach($recibo->facturas as $comprobante) {{($comprobante->pivot->retencionFecha=='0')?'':$comprobante->pivot->retencionFecha}} @endforeach</td>
-										<td style="vertical-align: middle; width:90px" align="center">@foreach($recibo->facturas as $comprobante) {{($comprobante->pivot->retencionComprobante=='0')?'':$comprobante->pivot->retencionComprobante}} @endforeach</td>
-										<td style="vertical-align: middle; width:90px" align="center">@foreach($recibo->facturas as $comprobante) {{($comprobante->pivot->iva=='0')?'':$traductor->format($comprobante->pivot->iva)}} @endforeach</td>
-										<td style="vertical-align: middle; width:90px" align="center">@foreach($recibo->facturas as $comprobante) {{(($comprobante->pivot->base * $comprobante->pivot->islrpercentage)/100 == '0')?'':$traductor->format(($comprobante->pivot->base * $comprobante->pivot->islrpercentage)/100)}} @endforeach</td>
+										<td style="vertical-align: middle; width:80px" align="center">@foreach($recibo->pagos as $pagos) {{$pagos->fecha}}</br> @endforeach</td>
+										<td style="vertical-align: middle; width:50px" align="center">@foreach($recibo->pagos as $pagos) {{$pagos->tipo}}</br> @endforeach</td>
+										<td style="vertical-align: middle; width:80px" align="center">@foreach($recibo->pagos as $pagos) {{substr($pagos->cuenta->descripcion, -6)}}</br> @endforeach</td>
+										<td style="vertical-align: middle; width:80px" align="center">@foreach($recibo->pagos as $pagos) {{$pagos->ncomprobante}}</br> @endforeach</td>
+										<td style="vertical-align: middle; width:90px" align="center">@foreach($recibo->facturas as $comprobante) {{($comprobante->pivot->retencionFecha=='0')?'':$comprobante->pivot->retencionFecha}}</br> @endforeach</td>
+										<td style="vertical-align: middle; width:90px" align="center">@foreach($recibo->facturas as $comprobante) {{($comprobante->pivot->retencionComprobante=='0')?'':$comprobante->pivot->retencionComprobante}}</br> @endforeach</td>
+										<td style="vertical-align: middle; width:90px" class="iva-saldo" align="right">@foreach($recibo->facturas as $index => $comprobante) @if($index==0) {{ ($comprobante->pivot->iva=='0')?'':$traductor->format((($comprobante->pivot->ivapercentage)/100)*$comprobante->pivot->iva)  }} @endif </br> @endforeach</td>
+										<td style="vertical-align: middle; width:90px" class="islr-saldo" align="right">@foreach($recibo->facturas as $index => $comprobante) @if($index==0) {{(($comprobante->pivot->base * $comprobante->pivot->islrpercentage)/100 == '0')?'':$traductor->format(($comprobante->pivot->base * $comprobante->pivot->islrpercentage)/100)}}</br> @endif  @endforeach</td>
 										<td style="vertical-align: middle; width:120px" align="right">{{$traductor->format($recibo->montofacturas)}}</td>
 										<td style="vertical-align: middle; width:120px" align="right">{{$traductor->format($recibo->montodepositado)}}</td>
-										<td style="vertical-align: middle; width:120px" align="right">{{$traductor->format(($recibo->montodepositado-$recibo->montofacturas))}}</td>
+										<td style="vertical-align: middle; width:120px" class="saldoFavor" align="right">{{$traductor->format(($recibo->montodepositado-$recibo->montofacturas))}}</td>
 									</tr>
 									@endforeach
 
@@ -184,11 +184,11 @@
 										<td> - </td>
 										<td> - </td>
 										<td> - </td>
-										<td> - </td>
-										<td> - </td>
+										<td style="vertical-align: middle; width:120px" id="ivaTotal" align="right">0,00</td>
+										<td style="vertical-align: middle; width:120px" id="islrTotal" align="right">0,00</td>
 										<td style="vertical-align: middle; width:120px" align="right">{{$traductor->format($totalFacturas)}}</td>
 										<td style="vertical-align: middle; width:120px" align="right">{{$traductor->format($totalDepositado)}}</td>
-										<td style="vertical-align: middle; width:120px" align="right">-</td>                                   
+										<td style="vertical-align: middle; width:120px" id="saldoFavorTotal" align="right">-</td>                                   
 									</tr>   
 									@else
 									<tr>
@@ -225,25 +225,24 @@
 
 		$('#cliente').chosen({width:'355px'});
 
-		var metaTotal=0;
-		$('.meta').each(function(index,value){
-			metaTotal+=parseInt($(value).text().trim());
+
+		var ivaTotal=0;
+		$('.iva-saldo').each(function(index,value){
+			ivaTotal+=commaToNum($(value).text().trim());
+		});
+		var islrTotal=0;
+		$('.islr-saldo').each(function(index,value){
+			islrTotal+=commaToNum($(value).text().trim());
 		});
 
-		var recaudadoTotal=0;
-		$('.recaudado').each(function(index,value){
-			recaudadoTotal+=parseInt($(value).text().trim());
+		var saldoFavorTotal=0;
+		$('.saldoFavor').each(function(index,value){
+			saldoFavorTotal+=commaToNum($(value).text().trim());
 		});
 
-		var diferenciaTotal=0;
-		$('.diferencia').each(function(index,value){
-			diferenciaTotal+=parseInt($(value).text().trim());
-		});
-
-		$('#metaTotal').text(metaTotal);
-		$('#recaudadoTotal').text(recaudadoTotal);
-		$('#diferenciaTotal').text(diferenciaTotal);
-
+		$('#saldoFavorTotal').text(numToComma(saldoFavorTotal));
+		$('#ivaTotal').text(numToComma(ivaTotal));
+		$('#islrTotal').text(numToComma(islrTotal));
 
 		$('#export-btn').click(function(e){
 			var table=$('table').clone();

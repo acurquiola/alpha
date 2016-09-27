@@ -20,7 +20,8 @@ class TasaController extends Controller {
     public function supervisor(){
         $aeropuerto=session('aeropuerto');
         $bancos=\App\Banco::with('cuentas')->get();
-        return view('tasas.supervisor', compact('aeropuerto', 'bancos'));
+        $today = \Carbon\Carbon::now()->format('d/m/Y');
+        return view('tasas.supervisor', compact('aeropuerto', 'bancos','today'));
     }
 
     public function getSupervisorOperacion(Request $request){
@@ -44,9 +45,11 @@ class TasaController extends Controller {
                 if(!array_key_exists($tasa->serie, $serieTasas)){
                     $serieTasas[$tasa->serie]['monto']=0;
                     $serieTasas[$tasa->serie]['taquilla']='';
+                    $serieTasas[$tasa->serie]['cantidad']=0;
                 }
                 $serieTasas[$tasa->serie]['monto']+=$tasa->total;
                 $serieTasas[$tasa->serie]['taquilla']=$tasaOp->taquilla;
+                $serieTasas[$tasa->serie]['cantidad']+=$tasa->cantidad;
             }
         $tasaOpsArray=$tasaOps->sortBy(function($tasaOp, $index){ 
             return ($tasaOp['taquilla'] << 16) + $tasaOp['turno']; 

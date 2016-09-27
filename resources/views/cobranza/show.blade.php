@@ -71,8 +71,10 @@
                                 <td align="center" style="width: 70px">{{$factura->fecha}}</td>
                                 <td align="center" style="width: 80px">{{$factura->nFacturaPrefix}}-{{$factura->nFactura}}</td>
                                 <td align="center" style="width: 80px">{{$factura->nControlPrefix}}-{{$factura->nControl}}</td>
+                                
                                 <td align="center" style="width: 70px">{{$factura->pivot->retencionFecha}}</td>
                                 <td align="center" style="width: 70px">{{$factura->pivot->retencionComprobante}}</td>                                
+                                
                                 <td align="right" style="width: 80px">{{$traductor->format($factura->pivot->base)}}</td>
                                 <td align="right" style="width: 60px">{{$traductor->format($factura->iva)}}</td>
                                 <td align="right" style="width: 80px">{{$traductor->format($factura->pivot->total)}}</td>
@@ -82,6 +84,7 @@
                                 <td align="right" style="width: 60px">{{$traductor->format($factura->pivot->islrpercentage)}}</td>
                                 <td align="right" style="width: 60px">{{$traductor->format((($factura->pivot->islrpercentage)/100)*($factura->pivot->base))}}</td>
                                 <td align="right" style="width: 80px">{{$traductor->format($factura->pivot->retencion)}}</td>
+                                
                                 <td align="right" style="width: 80px">{{$traductor->format(($factura->pivot->total)-($factura->pivot->retencion))}}</td>
                                 <td align="right" style="width: 80px">{{$traductor->format($factura->pivot->monto)}}</td>
                             </tr>

@@ -1107,6 +1107,7 @@ class ReporteController extends Controller {
         $cliente    =$request->get('cliente_id', 0);
         $modulo     =$request->get('modulo', 0);
         $nFactura   =$request->get('nFactura', 0);
+
         if($aeropuerto!=0){
             $moduloNombre =($modulo==0)?'TODOS':\App\Modulo::where('id', $modulo)->first()->nombre;
             if($moduloNombre!='TODOS'){
@@ -1148,8 +1149,10 @@ class ReporteController extends Controller {
 
             $primerDiaMes     =\Carbon\Carbon::create($anno, $mes,1)->startOfMonth();
             $ultimoDiaMes     =\Carbon\Carbon::create($anno, $mes,1)->endOfMonth();
-            $recibos=\App\Cobro::with('pagos','facturas')
-                                  ->where('fecha','>=' ,$primerDiaMes)
+    
+            $recibos=\App\Cobro::with(['pagos' => function($query){
+                                        $query->groupBy('ncomprobante');
+                                    }])->with('facturas')->where('fecha','>=' ,$primerDiaMes)
                                   ->where('fecha','<=' ,$ultimoDiaMes)
                                   ->where('aeropuerto_id',($aeropuerto==0)?">":"=", $aeropuerto)
                                   ->where('cobros.modulo_id',($modulo==0)?">":"=", $modulo)

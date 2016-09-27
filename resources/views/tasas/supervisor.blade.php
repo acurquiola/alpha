@@ -15,7 +15,7 @@
                         <div class="col-md-4">
                             <select class="form-control" id="taquilla-input">
                                 <option value="TQ">Regulares</option>
-                                <option value="CV"  @if(session('rolUsuario')->id == '2' || session('rolUsuario')->id == '5') selected @endif>Control de vuelo</option>
+                                <option value="CV"  @if(session('rolUsuario')->id == '2' || session('rolUsuario')->id == '10') selected @endif>Control de vuelo</option>
                             </select>
                         </div>
                         <div class="col-md-6">
@@ -23,7 +23,7 @@
                                 <div class="form-group" id="dia-div">
                                     <div class="col-xs-8 col-xs-offset-2  text-center">
                                         <div class="input-group">
-                                            <input type="text" id="dia-datepicker" class="form-control" placeholder="Seleccione un día." autocomplete="off">
+                                            <input type="text" id="dia-datepicker" class="form-control" placeholder="Seleccione un día." value="{{ $today }}" autocomplete="off">
                                             <div class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></div>
                                         </div>
                                     </div>

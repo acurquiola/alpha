@@ -162,8 +162,8 @@
 										<td class="text-center TranAdulNac" align="center" style="width: 30px" >{{$cliente['TranAdulNac']}}</td>
 										<td class="text-center TranInfNac" align="center" style="width: 30px" >{{$cliente['TranInfNac']}}</td>
 										<td class="text-center TranTercNac" align="center" style="width: 30px" >{{$cliente['TranTercNac']}}</td>
-										<td class="text-center cargaEmbNac" align="center" style="width: 30px" >{{$cliente['cargaEmbNac']}}</td>
-										<td class="text-center cargaDesNac" align="center" style="width: 30px" >{{$cliente['cargaDesNac']}}</td>
+										<td class="text-center cargaEmbNac" align="center" style="width: 30px" >{{$traductor->format($cliente['cargaEmbNac'])}}</td>
+										<td class="text-center cargaDesNac" align="center" style="width: 30px" >{{$traductor->format($cliente['cargaDesNac'])}}</td>
 										<td class="text-center aeroAterrizaNac" align="center" style="width: 30px" >{{$cliente['aeroAterrizaNac']}}</td>
 										<td class="text-center aeroDespegueNac" align="center" style="width: 30px" >{{$cliente['aeroDespegueNac']}}</td>
 										<td class="text-center desAdulInt" align="center" style="width: 30px" >{{$cliente['desAdulInt']}}</td>
@@ -175,8 +175,8 @@
 										<td class="text-center TranAdulInt" align="center" style="width: 30px" >{{$cliente['TranAdulInt']}}</td>
 										<td class="text-center TranInfInt" align="center" style="width: 30px" >{{$cliente['TranInfInt']}}</td>
 										<td class="text-center TranTercInt" align="center" style="width: 30px" >{{$cliente['TranTercInt']}}</td>
-										<td class="text-center cargaEmbInt" align="center" style="width: 30px" >{{$cliente['cargaEmbInt']}}</td>
-										<td class="text-center cargaDesInt" align="center" style="width: 30px" >{{$cliente['cargaDesInt']}}</td>
+										<td class="text-center cargaEmbInt" align="center" style="width: 30px" >{{$traductor->format($cliente['cargaEmbInt'])}}</td>
+										<td class="text-center cargaDesInt" align="center" style="width: 30px" >{{$traductor->format($cliente['cargaDesInt'])}}</td>
 										<td class="text-center aeroAterrizaInt" align="center" style="width: 30px" >{{$cliente['aeroAterrizaInt']}}</td>
 										<td class="text-center aeroDespegueInt" align="center" style="width: 30px" >{{$cliente['aeroDespegueInt']}}</td>
 									</tr>
@@ -192,8 +192,8 @@
 										<td class="text-center" align="center" style="width: 30px" id="TranAdulNac">0</td>
 										<td class="text-center" align="center" style="width: 30px" id="TranInfNac">0</td>
 										<td class="text-center" align="center" style="width: 30px" id="TranTercNac">0</td>
-										<td class="text-center" align="center" style="width: 30px" id="cargaEmbNac">0</td>
-										<td class="text-center" align="center" style="width: 30px" id="cargaDesNac">0</td>
+										<td class="text-center" align="center" style="width: 30px" id="cargaEmbNac">0,00</td>
+										<td class="text-center" align="center" style="width: 30px" id="cargaDesNac">0,00</td>
 										<td class="text-center" align="center" style="width: 30px" id="aeroAterrizaNac">0</td>
 										<td class="text-center" align="center" style="width: 30px" id="aeroDespegueNac">0</td>
 										<td class="text-center" align="center" style="width: 30px" id="desAdulInt">0</td>
@@ -205,8 +205,8 @@
 										<td class="text-center" align="center" style="width: 30px" id="TranAdulInt">0</td>
 										<td class="text-center" align="center" style="width: 30px" id="TranInfInt">0</td>
 										<td class="text-center" align="center" style="width: 30px" id="TranTercInt">0</td>
-										<td class="text-center" align="center" style="width: 30px" id="cargaEmbInt">0</td>
-										<td class="text-center" align="center" style="width: 30px" id="cargaDesInt">0</td>
+										<td class="text-center" align="center" style="width: 30px" id="cargaEmbInt">0,00</td>
+										<td class="text-center" align="center" style="width: 30px" id="cargaDesInt">0,00</td>
 										<td class="text-center" align="center" style="width: 30px" id="aeroAterrizaInt">0</td>
 										<td class="text-center" align="center" style="width: 30px" id="aeroDespegueInt">0</td>
 									</tr>
@@ -271,15 +271,19 @@
             TranTercNac+=commaToNum($(value).text().trim());
         });
 
-        var cargaEmbNac=0;
+
+		var cargaEmbNac=0;
         $('.cargaEmbNac').each(function(index,value){
             cargaEmbNac+=commaToNum($(value).text().trim());
         });
+        $('#cargaEmbNac').text(numToComma(cargaEmbNac));
 
-        var cargaDesNac=0;
+		var cargaDesNac=0;
         $('.cargaDesNac').each(function(index,value){
             cargaDesNac+=commaToNum($(value).text().trim());
         });
+        $('#cargaDesNac').text(numToComma(cargaDesNac));
+
 
         var aeroAterrizaNac=0;
         $('.aeroAterrizaNac').each(function(index,value){
@@ -341,10 +345,14 @@
             cargaEmbInt+=commaToNum($(value).text().trim());
         });
 
+		$('#cargaEmbInt').text(numToComma(cargaEmbInt));
+
         var cargaDesInt=0;
         $('.cargaDesInt').each(function(index,value){
             cargaDesInt+=commaToNum($(value).text().trim());
         });
+
+		$('#cargaDesInt').text(numToComma(cargaDesInt));
 
         var aeroAterrizaInt=0;
         $('.aeroAterrizaInt').each(function(index,value){

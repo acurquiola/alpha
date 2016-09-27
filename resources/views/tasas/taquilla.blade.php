@@ -14,7 +14,7 @@
                     <div class="col-md-3">
                         <span class="pull-left"><strong>TURNO:</strong></span>
                         <select class="form-control" id="turno-input">
-                        @if(session('rolUsuario')->id == '2' || session('rolUsuario')->id == '5')
+                        @if(session('rolUsuario')->id == '2' || session('rolUsuario')->id == '10')
                             <option value="1">Turno Único</option>
                         @else
                             @for($i=1; $i<=$aeropuerto->n_tasas_turnos; $i++)
@@ -29,7 +29,7 @@
                             @for($i=1; $i<=$aeropuerto->n_tasas_taquillas; $i++)
                                 <option value="{{$i}}">Taquilla {{$i}}</option>
                             @endfor
-                            <option value="CV" @if(session('rolUsuario')->id == '2' || session('rolUsuario')->id == '5') selected @endif>Control de Vuelos</option>
+                            <option value="CV" @if(session('rolUsuario')->id == '2' || session('rolUsuario')->id == '10') selected @endif>Control de Vuelos</option>
                         </select>
                     </div>
                     <div class="col-md-4">

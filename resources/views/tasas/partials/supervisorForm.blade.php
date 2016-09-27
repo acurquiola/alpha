@@ -77,7 +77,10 @@
                                             @foreach($serieTasas as $serie => $serieTotal)
                                                 @foreach($turno->detalles as $detalle)
                                                     @if($detalle->serie == $serie)
-                                                        <td colspan="5" class="text-right totales-tasas">
+                                                        <td colspan="4" class="text-right totales-cantidad">
+                                                            {{$serieTotal['cantidad']}}
+                                                        </td>
+                                                        <td class="text-right totales-tasas">
                                                             {{$traductor->format($serieTotal['monto'])}}
                                                         </td>
                                                     @endif
@@ -104,9 +107,9 @@
                             <th>Banco</th>
                             <th>Cuenta</th>
                             <th>Forma de Pago</th>
-                            <th>#DepÃ³sito/#Lote</th>
+                            <th>#Depósito/#Lote</th>
                             <th>Monto</th>
-                            <th>AcciÃ³n</th>
+                            <th>Acción</th>
                         </thead>
                         <tbody>
                             @if($tasaCobro && $tasaCobro->detalles->count()>0)

@@ -477,14 +477,15 @@ class FacturaController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function destroy($id,Factura $factura)
+	public function destroy($id,Factura $factura,Request $request)
 	{
-
 
         if($factura->cobros()->count()>0){
             return ["success"=>0, "text"=>"No se pudo anular la factura ya que posee cobros asociados"];
         }
 
+
+        $factura->update(['comentario' => $request->comentario]);
 
         $despegue = \App\Despegue::where('factura_id', $factura->id)->first();
         if($despegue != ''){

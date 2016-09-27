@@ -42,7 +42,6 @@
 				{!! Form::hidden('table') !!}
                 {!! Form::hidden('gerencia', $gerencia) !!}
                 {!! Form::hidden('departamento', $departamento) !!}
-				<h3 class="box-title">Reporte</h3>
 				<span class="pull-right">
 					<button type="button" class="btn btn-primary" id="export-btn">
 						<span class="glyphicon glyphicon-file"></span> Exportar
@@ -56,72 +55,80 @@
 						<div class="table-responsive" style="max-height: 500px">
 							<table class="table table-condensed">
 								<tr  class="bg-primary" >
-									<td style="vertical-align: middle; width: 1250px; "  colspan="5" align="center" class="text-center">
+									<td style="vertical-align: middle; width: 1200px; "  colspan="6" align="center" class="text-center">
 										<strong>FACTURAS ANULADAS</strong>
 									</td>
 								</tr>
 								<tr class="bg-primary">
-									<td style="vertical-align: middle; width: 250px; " align="center" class="text-center">
+									<td style="vertical-align: middle; width: 200px; " align="center" class="text-center">
 										<strong>NRO.</strong>
 									</td>
-									<td style="vertical-align: middle; width: 250px; " align="center" class="text-center">
+									<td style="vertical-align: middle; width: 200px; " align="center" class="text-center">
 										<strong>FECHA DE ANULACIÓN</strong>
 									</td>
-									<td style="vertical-align: middle; width: 250px; " align="center" class="text-center">
+									<td style="vertical-align: middle; width: 200px; " align="center" class="text-center">
 										<strong>FECHA DE FACTURACIÓN</strong>
 									</td>
-									<td style="vertical-align: middle; width: 250px; " align="center" class="text-center">
+									<td style="vertical-align: middle; width: 200px; " align="center" class="text-center">
 										<strong>NRO DE FACTURA</strong>
 									</td>
-									<td style="vertical-align: middle; width: 250px; " align="center" class="text-center">
+									<td style="vertical-align: middle; width: 200px; " align="center" class="text-center">
 										<strong>NRO DE CONTROL</strong>
+									</td>
+									<td style="vertical-align: middle; width: 200px; " align="center" class="text-center">
+										<strong>COMENTARIOS</strong>
 									</td>
 								</tr>
 								@if($facturasAnuladas->count()>0)
 									@foreach($facturasAnuladas as $index => $factura)
 										<tr >
-											<td style="vertical-align: middle; width: 250px; " align="center">{{$index+1}}</td>
-											<td style="vertical-align: middle; width: 250px; " align="center">{{$factura->deleted_at}}</td>
-											<td style="vertical-align: middle; width: 250px; " align="center">{{$factura->fecha}}</td>
-											<td style="vertical-align: middle; width: 250px; " align="center" ">{{$factura->nFactura}}</td>
-											<td style="vertical-align: middle; width: 250px; " align="center" ">{{$factura->nControl}}</td>
+											<td style="vertical-align: middle; width: 200px; " align="center">{{$index+1}}</td>
+											<td style="vertical-align: middle; width: 200px; " align="center">{{$factura->deleted_at}}</td>
+											<td style="vertical-align: middle; width: 200px; " align="center">{{$factura->fecha}}</td>
+											<td style="vertical-align: middle; width: 200px; " align="center" ">{{$factura->nFactura}}</td>
+											<td style="vertical-align: middle; width: 200px; " align="center" ">{{$factura->nControl}}</td>
+											<td style="vertical-align: middle; width: 200px; " align="center" >{{($factura->comentario)?$factura->comentario:''}}</td>
 										</tr>
 									@endforeach 
 								@else
 									<tr>
-										<td colspan="5" class="text-center" align="center">No hay registros para las fechas seleccionadas</td>
+										<td colspan="6" class="text-center" align="center">No hay registros para las fechas seleccionadas</td>
 									</tr>
 								@endif
 								<tr  class="bg-primary" >
-									<td style="vertical-align: middle; width: 1250px; " colspan="5" align="center" class="text-center">
+									<td style="vertical-align: middle; width: 1200px; " colspan="6" align="center" class="text-center">
 										<strong>RECIBOS ANULADOS</strong>
 									</td>
 								</tr>
 								<tr class="bg-primary">
-									<td style="vertical-align: middle; width: 250px; "  align="center" class="text-center">
+									<td style="vertical-align: middle; width: 200px; "  align="center" class="text-center">
 										<strong>NRO.</strong>
 									</td>
-									<td style="vertical-align: middle; width: 250px; "  align="center" class="text-center">
+									<td style="vertical-align: middle; width: 200px; "  align="center" class="text-center">
 										<strong>FECHA DE ANULACIÓN</strong>
 									</td>
-									<td style="vertical-align: middle; width: 250px; "  align="center" class="text-center">
+									<td style="vertical-align: middle; width: 200px; "  align="center" class="text-center">
 										<strong>FECHA DE COBRO</strong>
 									</td>
-									<td style="vertical-align: middle; width: 250px;  " align="center" class="text-center">
+									<td style="vertical-align: middle; width: 200px;  " align="center" class="text-center">
 										<strong>NRO DE RECIBO</strong>
 									</td>
-									<td style="vertical-align: middle; width: 250px;  " align="center" class="text-center">
+									<td style="vertical-align: middle; width: 200px;  " align="center" class="text-center">
 										<strong>NRO COBRO</strong>
+									</td>
+									<td style="vertical-align: middle; width: 200px;  " align="center" class="text-center">
+										<strong>COMENTARIOS</strong>
 									</td>
 								</tr>
 								@if($recibosAnulados->count()>0)
 									@foreach($recibosAnulados as $index => $recibo)
 									<tr>
-										<td style="vertical-align: middle; width: 250px; " align="center">{{$index+1}}</td>
-										<td style="vertical-align: middle; width: 250px; " align="center">{{$recibo->fecha}}</td>
-										<td style="vertical-align: middle; width: 250px; " align="center">{{$recibo->cobro->fecha}}</td>
-										<td style="vertical-align: middle; width: 250px; " align="center" >{{$recibo->nroRecibo}}</td>
-										<td style="vertical-align: middle; width: 250px; " align="center" >{{$recibo->cobro_id}}</td>
+										<td style="vertical-align: middle; width: 200px; " align="center">{{$index+1}}</td>
+										<td style="vertical-align: middle; width: 200px; " align="center">{{$recibo->fecha}}</td>
+										<td style="vertical-align: middle; width: 200px; " align="center">{{$recibo->cobro->fecha}}</td>
+										<td style="vertical-align: middle; width: 200px; " align="center" >{{$recibo->nroRecibo}}</td>
+										<td style="vertical-align: middle; width: 200px; " align="center" >{{$recibo->cobro_id}}</td>
+										<td style="vertical-align: middle; width: 200px; " align="center" >{{($recibo->comentario)?$recibo->comentario:''}}</td>
 									</tr>
 									@endforeach 
 								@else
@@ -180,7 +187,7 @@
 			}).remove();
 			$(table).prepend('<thead>\
 								<tr>\
-									<th colspan="5" style="vertical-align: middle; margin-top:20px" align="center" class="text-center">RELACIÓN DE FORMULARIOS ANULADOS\
+									<th colspan="6" style="vertical-align: middle; margin-top:20px" align="center" class="text-center">RELACIÓN DE FORMULARIOS ANULADOS\
 										</br>\
 										MES: {{$mes}} AÑO: {{$anno}}\
 									</th>\

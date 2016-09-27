@@ -98,7 +98,7 @@
 								<tbody>
 									@foreach($montosMeses as $mes => $montos)
 										<tr>
-											<td class="text-left cobradoPZO" style="width: 200px" align="left">{{$mes}}</td>
+											<td class="text-left" style="width: 200px" align="left">{{$mes}}</td>
 											<td class="text-right cobradoPZO" style="width: 200px" align="right">{{$traductor->format($montos["cobradoPZO"])}}</td>
 											<td class="text-right porCobrarPZO" style="width: 200px" align="right">{{$traductor->format($montos["porCobrarPZO"])}}</td>
 											<td class="text-right cobradoCBL" style="width: 200px" align="right">{{$traductor->format($montos["cobradoCBL"])}}</td>
@@ -110,7 +110,7 @@
 										</tr>
 									@endforeach
 										<tr class="bg-gray">
-											<td class="text-right cobradoPZO" align="center" style="font-weight: bold; width: 200px">TOTALES</td>
+											<td class="text-right" align="center" style="font-weight: bold; width: 200px">TOTALES</td>
 											<td class="text-right" id="cobradoTotalPZO" style="font-weight: bold; width: 200px" align="right">0</td>
 											<td class="text-right" id="porCobrarTotalPZO" style="font-weight: bold; width: 200px" align="right">0</td>
 											<td class="text-right" id="cobradoTotalCBL" style="font-weight: bold; width: 200px" align="right">0</td>
