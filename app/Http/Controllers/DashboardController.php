@@ -202,6 +202,22 @@ class DashboardController extends Controller {
         ->where('cobros.aeropuerto_id','3')
         ->get();
 
+        $tasasPZO = \App\TasaCobroDetalle::join('tasa_cobros', 'tasa_cobros.id', '=', 'tasa_cobro_detalles.tasa_cobro_id')
+                                ->where('tasa_cobro_detalles.fecha','>=' ,$diaMes->startOfMonth()->toDateTimeString())
+                                ->where('tasa_cobro_detalles.fecha','<=' ,$diaMes->endOfMonth()->toDateTimeString())
+                                ->where('tasa_cobros.aeropuerto_id','1')
+                                ->get();
+        $tasasCBL = \App\TasaCobroDetalle::join('tasa_cobros', 'tasa_cobros.id', '=', 'tasa_cobro_detalles.tasa_cobro_id')
+                                ->where('tasa_cobro_detalles.fecha','>=' ,$diaMes->startOfMonth()->toDateTimeString())
+                                ->where('tasa_cobro_detalles.fecha','<=' ,$diaMes->endOfMonth()->toDateTimeString())
+                                ->where('tasa_cobros.aeropuerto_id','2')
+                                ->get();
+        $tasasSNV = \App\TasaCobroDetalle::join('tasa_cobros', 'tasa_cobros.id', '=', 'tasa_cobro_detalles.tasa_cobro_id')
+                                ->where('tasa_cobro_detalles.fecha','>=' ,$diaMes->startOfMonth()->toDateTimeString())
+                                ->where('tasa_cobro_detalles.fecha','<=' ,$diaMes->endOfMonth()->toDateTimeString())
+                                ->where('tasa_cobros.aeropuerto_id','3')
+                                ->get();
+
         //Cobrado Anual
         $cobrosPZOAnual=\App\Cobro::where('cobros.fecha','>=' ,$diaInicio->startOfMonth()->toDateTimeString())
         ->where('cobros.fecha','<=' ,$diaMes->endOfMonth()->toDateTimeString())
@@ -217,6 +233,24 @@ class DashboardController extends Controller {
         ->where('cobros.fecha','<=' ,$diaMes->endOfMonth()->toDateTimeString())
         ->where('cobros.aeropuerto_id','3')
         ->get();
+
+
+
+        $tasasPZOAnual = \App\TasaCobroDetalle::join('tasa_cobros', 'tasa_cobros.id', '=', 'tasa_cobro_detalles.tasa_cobro_id')
+                                ->where('tasa_cobro_detalles.fecha','>=' ,$diaInicio->startOfMonth()->toDateTimeString())
+                                ->where('tasa_cobro_detalles.fecha','<=' ,$diaMes->endOfMonth()->toDateTimeString())
+                                ->where('tasa_cobros.aeropuerto_id','1')
+                                ->get();
+        $tasasCBLAnual = \App\TasaCobroDetalle::join('tasa_cobros', 'tasa_cobros.id', '=', 'tasa_cobro_detalles.tasa_cobro_id')
+                                ->where('tasa_cobro_detalles.fecha','>=' ,$diaInicio->startOfMonth()->toDateTimeString())
+                                ->where('tasa_cobro_detalles.fecha','<=' ,$diaMes->endOfMonth()->toDateTimeString())
+                                ->where('tasa_cobros.aeropuerto_id','2')
+                                ->get();
+        $tasasSNVAnual = \App\TasaCobroDetalle::join('tasa_cobros', 'tasa_cobros.id', '=', 'tasa_cobro_detalles.tasa_cobro_id')
+                                ->where('tasa_cobro_detalles.fecha','>=' ,$diaInicio->startOfMonth()->toDateTimeString())
+                                ->where('tasa_cobro_detalles.fecha','<=' ,$diaMes->endOfMonth()->toDateTimeString())
+                                ->where('tasa_cobros.aeropuerto_id','3')
+                                ->get();
             
         $montosMeses[$mes]=[
 				"metaPZO"              =>0,
@@ -259,24 +293,49 @@ class DashboardController extends Controller {
             $montosMeses[$mes]["recaudadoPZO"]+=$cobroPZO->montodepositado;
         }
 
+        foreach ($tasasPZO as $tasaPZO) {
+            $montosMeses[$mes]["recaudadoPZO"]+=$tasaPZO->monto;
+        }
+
         foreach ($cobrosCBL as $cobroCBL) {
             $montosMeses[$mes]["recaudadoCBL"]+=$cobroCBL->montodepositado;
+        }
+
+        foreach ($tasasCBL as $tasaCBL) {
+            $montosMeses[$mes]["recaudadoCBL"]+=$tasaCBL->monto;
         }
 
         foreach ($cobrosSNV as $cobroSNV) {
             $montosMeses[$mes]["recaudadoSNV"]+=$cobroSNV->montodepositado;
         }
+
+        foreach ($tasasSNV as $tasaSNV) {
+            $montosMeses[$mes]["recaudadoSNV"]+=$tasaSNV->monto;
+        }
+
         //Anual
         foreach ($cobrosPZOAnual as $cobroPZOAnual) {
             $montosMeses[$mes]["recaudadoPZOAnual"]+=$cobroPZOAnual->montodepositado;
+        }
+
+        foreach ($tasasPZOAnual as $tasaPZO) {
+            $montosMeses[$mes]["recaudadoPZOAnual"]+=$tasaPZO->monto;
         }
 
         foreach ($cobrosCBLAnual as $cobroCBLAnual) {
             $montosMeses[$mes]["recaudadoCBLAnual"]+=$cobroCBLAnual->montodepositado;
         }
 
+        foreach ($tasasCBLAnual as $tasaCBL) {
+            $montosMeses[$mes]["recaudadoCBLAnual"]+=$tasaCBL->monto;
+        }
+
         foreach ($cobrosSNVAnual as $cobroSNVAnual) {
             $montosMeses[$mes]["recaudadoSNVAnual"]+=$cobroSNVAnual->montodepositado;
+        }
+
+        foreach ($tasasSNVAnual as $tasaSNV) {
+            $montosMeses[$mes]["recaudadoSNVAnual"]+=$tasaSNV->monto;
         }
 
 		$montosMeses[$mes]["diferenciaPZO"]        =$montosMeses[$mes]["recaudadoPZO"]-$montosMeses[$mes]["metaPZO"];
