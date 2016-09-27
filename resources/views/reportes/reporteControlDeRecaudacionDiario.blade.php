@@ -199,9 +199,7 @@
 			$(table).find('thead, th').css({'border-top':'1px solid black', 'font-weight': 'bold', 'text-align':"center", 'font-size': '10px'})
 			$(table).find('th').css({'border-bottom':'1px solid black', 'font-weight': 'bold', 'text-align':"center", 'font-size': '10px'})
 			$(table).find('td').css({'font-size': '8px'})
-			$(table).find('td:nth-child(even)').css({'background-color': '#F7F7F7'})
-			$(table).find('th:nth-child(even)').css({'border-left':'1px solid black','border-right':'1px solid black',})
-			$(table).find('tr:nth-child(even)').css({'background-color': '#E2E2E2'})
+			$(table).find('tr:nth-child(even)').css({'border-bottom':'1px solid black'})
 			$(table).find('tr:last td').css({'border-bottom':'1px solid black','border-top':'1px solid black', 'font-weight': 'bold'})
 			$(table).append('<tr>\
 								<td colspan="23"><br></td>\

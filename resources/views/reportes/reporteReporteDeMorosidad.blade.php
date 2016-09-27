@@ -182,7 +182,8 @@
 			$(table).find('th').css({'border-bottom':'1px solid black', 'font-weight': 'bold', 'text-align':"center", 'font-size': '12px'})
 			$(table).find('td').css({'font-size': '10px'})
 			$(table).find('#NombreModulo').css({'font-size': '80px'})
-			$(table).find('tr:nth-child(even)').css({'background-color': '#E2E2E2'})
+			$(table).find('tr:nth-child(even)').css({'border-bottom':'1px solid black'})
+
 			$(table).find('tr:last td').css({'border-bottom':'1px solid black','border-top':'1px solid black', 'font-weight': 'bold'})
 			var tableHtml= $(table)[0].outerHTML;
 			$('[name=table]').val(tableHtml);

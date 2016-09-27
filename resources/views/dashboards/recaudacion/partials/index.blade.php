@@ -32,7 +32,7 @@
 			$(table).find('thead, th').css({'border-top':'1px solid black', 'font-weight': 'bold', 'text-align':"center", 'font-size': '7px'})
 			$(table).find('th').css({'border-bottom':'1px solid black', 'font-weight': 'bold', 'text-align':"center", 'font-size': '7px'})
 			$(table).find('td').css({'font-size': '6px'})
-			$(table).find('tr:nth-child(even)').css({'background-color': '#E2E2E2'})
+			$(table).find('tr:nth-child(even)').css({'border-bottom':'1px solid black'})
 			var tableHtml= $(table)[0].outerHTML;
 			$('[name=table]').val(tableHtml);
 			$('#export-form').submit();
