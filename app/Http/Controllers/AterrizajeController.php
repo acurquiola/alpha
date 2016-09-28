@@ -249,7 +249,11 @@ class AterrizajeController extends Controller {
           return response("No se consiguio el modulo 'DOSAS' en el aeropuerto de sesion", 500);
       }
       $modulo_id=$modulo->id;
-			return view('factura.facturaCargosAdicionales.create', compact('factura', 'modulo_id', 'modulo', 'conceptos'))->with(["aterrizaje_id"=>$aterrizaje->id]);
+
+        $diasVencimientoCred = \App\OtrasConfiguraciones::where('aeropuerto_id', session('aeropuerto')->id)->first()->diasVencimientoCred;
+
+
+			return view('factura.facturaCargosAdicionales.create', compact('factura', 'modulo_id', 'modulo', 'conceptos', 'diasVencimientoCred'))->with(["aterrizaje_id"=>$aterrizaje->id]);
 
     }
 }

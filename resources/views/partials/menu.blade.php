@@ -15,23 +15,6 @@
 		<!-- sidebar menu: : style can be found in sidebar.less -->
 		<ul class="sidebar-menu">
 			<li class="header">MENÚ</li>		
-<!--	<li class="header">ADMINISTRADOR</li>
-			<li>
-				<a href="">
-					<i class="ion-settings"></i>
-					<span> Configuración del Sistema</span>
-				</a>
-			</li>
-			<li >
-				<a href="">
-					<i class="ion ion-compass"></i>
-					<span> Historial</span>
-				</a>
-			</li>
-		-->
-
-
-
 
 		@permission('menu.systas')
 		<li class="treeview {{ (\Request::is('systas/*'))?"active":"" }}">

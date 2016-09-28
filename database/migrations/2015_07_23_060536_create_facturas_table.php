@@ -56,13 +56,13 @@ Schema::create('facturadetalles', function(Blueprint $table)
       $table->integer('concepto_id')->unsigned();
       $table->foreign('concepto_id')->references('id')->on('conceptos');
       $table->integer('cantidadDes')->unsigned();
-      $table->float('montoDes')->unsigned();
-      $table->float('descuentoPerDes')->unsigned();
-      $table->float('descuentoTotalDes')->unsigned();
-      $table->float('ivaDes')->unsigned();
-      $table->float('recargoPerDes')->unsigned();
-      $table->float('recargoTotalDes')->unsigned();
-      $table->float('totalDes')->unsigned();
+      $table->double('montoDes', 20,2)->unsigned();
+      $table->double('descuentoPerDes', 20,2)->unsigned();
+      $table->double('descuentoTotalDes', 20,2)->unsigned();
+      $table->double('ivaDes',20,2)->unsigned();
+      $table->double('recargoPerDes', 20,2)->unsigned();
+      $table->double('recargoTotalDes', 20,2)->unsigned();
+      $table->double('totalDes', 20,2)->unsigned();
       $table->timestamps();
 });
 

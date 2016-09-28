@@ -510,6 +510,25 @@ class FacturaController extends Controller {
             return ["success"=>0, "text"=>"No se pudo anular la factura."];
 	}
 
+    public function facturaManual(){
+
+        $factura    = new Factura();
+        
+        $aeropuerto = session('aeropuerto')->id;
+        $clientes   = \App\Cliente::all();
+        $conceptos  = \App\Concepto::where('aeropuerto_id', $aeropuerto)->get();
+        $nControlPrefix = session('aeropuerto')->siglas.'-G';
+        $nFacturaPrefix = session('aeropuerto')->siglas.'-G';
+        $modulo = 0;
+
+        $factura->fill(['aeropuerto_id' => $aeropuerto]);
+        $diasVencimientoCred = \App\OtrasConfiguraciones::where('aeropuerto_id', session('aeropuerto')->id)->first()->diasVencimientoCred;
+
+
+
+        return view('factura.facturaManual.create', compact('factura', 'clientes', 'conceptos', 'modulo_id', 'modulo', 'nControlPrefix', 'nFacturaPrefix', 'diasVencimientoCred', 'modulo'));
+    }
+
 
 
     protected function getFacturaDataFromRequest($request){
