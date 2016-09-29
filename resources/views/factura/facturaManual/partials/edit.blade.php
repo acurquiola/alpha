@@ -3,14 +3,14 @@
 <ol class="breadcrumb">
 	<li><a href="{{url('principal')}}">Inicio</a></li>
 	<li><a href="{{action('FacturaController@main', ["Todos"])}}">Facturación Principal</a></li>
-	<li><a href="{{action('FacturaController@index',["modulo"=>$modulo->nombre])}}">Facturación {{$modulo->nombre}}</a></li>
+	<li><a href="{{action('FacturaController@index',["todos"])}}">Facturación Manual</a></li>
 	<li><a class="active">Edición de factura</a></li>
 </ol>
 <div class="row" id="box-wrapper">
 	<!-- left column -->
 	<div class="col-md-12">
 		<!-- general form elements -->
-		{!! Form::model($factura, ["url" => action("FacturaController@update",['modulo'=>$modulo, 'factura'=>$factura->id]), "method" => "PUT", "class" => "form-horizontal"]) !!}
+		{!! Form::model($factura, ["url" => action("FacturaController@update",['modulo'=>'todos', 'factura'=>$factura->id]), "method" => "PUT", "class" => "form-horizontal"]) !!}
 
 		<div id="main-box" class="box box-primary">
 			<div class="box-header">
@@ -19,7 +19,8 @@
 			<!-- form start -->
 
 			<div class="box-body"  id="container">
-				@include('factura.partials.form', ["disabled"=>""])
+
+				@include('factura.facturaManual.partials.form', ["disabled"=>""])
 
 			</div><!-- /.box-body -->
 			<div class="box-footer text-right">
@@ -76,7 +77,7 @@
 			console.log(data);
 
 			addLoadingOverlay('#main-box');
-			$.ajax({url:'{{action('FacturaController@update', ['modulo'=>$modulo->nombre,'factura'=>$factura->id])}}',
+			$.ajax({url:'{{action('FacturaController@update', ['modulo'=>'TODOS','factura'=>$factura->id])}}',
 				method:'PUT',
 				data:data}).always(function(response, status, responseObject){
 					if(status=="error"){
@@ -97,7 +98,7 @@
 								setTimeout(
 									function()
 									{
-										location.replace("{{($modulo->nombre=="Todos")?action('FacturaController@main',["modulo"=>$modulo->nombre]):action('FacturaController@index', ["modulo"=>$modulo->nombre])}}");
+										location.replace("{{ URL::to('facturacion/Todos/main')}}");
 									}, 2000);
 							});
 						}

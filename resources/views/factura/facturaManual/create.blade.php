@@ -107,7 +107,7 @@ $(document).ready(function(){
 		var form=$(this).closest('form');
 		var data=$(form).serializeArray();
 		addLoadingOverlay('#main-box');
-		$.ajax({url:'{{action('FacturaController@store', ['modulo'=>''])}}',
+		$.ajax({url:'{{action('FacturaController@store', ['modulo'=>'0'])}}',
 			method:'POST',
 			data:data}).always(function(response, status, responseObject){
 				if(status=="error"){
@@ -128,7 +128,7 @@ $(document).ready(function(){
 							setTimeout(
 								function()
 								{
-									location.replace("{{ action('FacturaController@main') }}");
+									location.replace("{{ URL::to('facturacion/Todos/main')}}");
 								}, 2000);
 
 						});

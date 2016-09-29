@@ -171,7 +171,7 @@
 	<div class="form-group">
 		<label for="descripcion" class="col-xs-2 control-label"><strong>Descripción<span class="text-danger">*</span></strong></label>
 		<div class="col-xs-10">
-			{!! Form::textarea('descripcion', '', [ 'style'=>'padding-top:4px' ,'class'=>"form-control", $disabled , 'rows'=>"2", 'cols'=>"", "placeholder" => "Descripción de la factura"]) !!}
+			{!! Form::textarea('descripcion', ($factura->descripcion)?$factura->descripcion:'', [ 'style'=>'padding-top:4px' ,'class'=>"form-control", $disabled , 'rows'=>"2", 'cols'=>"", "placeholder" => "Descripción de la factura"]) !!}
 		</div>
 	</div>
 	<div class="form-group">
