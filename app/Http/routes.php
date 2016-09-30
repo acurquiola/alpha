@@ -147,11 +147,11 @@ Route::group(['prefix' => 'cobranza/{modulo}/'], function () {
     Route::resource('cobro', 'CobranzaController');
 });
 
-Route::group(['prefix'=>'facturacionManual'], function(){
-    Route::get('crear', 'FacturaController@facturaManual');
-});
+
 
 Route::group(['prefix' => 'facturacion/{modulo}/'], function () {
+
+    Route::get('crear', 'FacturaController@facturaManual');
     Route::get('print/{factura}', 'FacturaController@getPrint');
     Route::get('main', 'FacturaController@main');
     Route::post('contratosByFecha', 'FacturaController@postContratosByFecha');

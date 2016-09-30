@@ -4,6 +4,7 @@
 <ol class="breadcrumb">
 	<li><a href="{{url('principal')}}">Inicio</a></li>
 	<li><a href="{{action('FacturaController@main', ["Todos"])}}">Facturación Principal</a></li>
+	<li><a href="{{action('FacturaController@index',["modulo"=>$modulo->nombre])}}">Facturación {{$modulo->nombre}}</a></li>
 	<li><a class="active">Creación de factura Manual</a></li>
 </ol>
 <div class="row" id="box-wrapper">
@@ -107,7 +108,7 @@ $(document).ready(function(){
 		var form=$(this).closest('form');
 		var data=$(form).serializeArray();
 		addLoadingOverlay('#main-box');
-		$.ajax({url:'{{action('FacturaController@store', ['modulo'=>'0'])}}',
+		$.ajax({url:'{{action('FacturaController@store', [$modulo->nombre])}}',
 			method:'POST',
 			data:data}).always(function(response, status, responseObject){
 				if(status=="error"){
@@ -128,7 +129,7 @@ $(document).ready(function(){
 							setTimeout(
 								function()
 								{
-									location.replace("{{ URL::to('facturacion/Todos/main')}}");
+									location.replace("{{($modulo->nombre=="Todos")?action('FacturaController@main',["modulo"=>$modulo->nombre]):action('FacturaController@index', ["modulo"=>$modulo->nombre])}}");
 								}, 2000);
 
 						});

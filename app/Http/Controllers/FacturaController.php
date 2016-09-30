@@ -195,7 +195,6 @@ class FacturaController extends Controller {
     public function main($moduloNombre){
         $moduloNombre     =($moduloNombre=="Todos")?"%":$moduloNombre;
         $modulos          =$this->getModulos($moduloNombre);
-        $facturasManuales = \App\Factura::where('modulo_id', null)->get();
         return view('factura.main', compact('modulos', 'facturasManuales'));
     }
 
@@ -260,42 +259,6 @@ class FacturaController extends Controller {
                         'sortName'                      =>$sortName,
                         'sortType'                      =>$sortType]);
 
-        if($moduloNombre == 'TODOS'){
-
-            if($estado == 'A'){
-                $facturas=\App\Factura::onlyTrashed()
-                                        ->select("facturas.*","clientes.nombre as clienteNombre")
-                                        ->join('clientes','clientes.id' , '=', 'facturas.cliente_id')
-                                        ->where('facturas.nControl', $nControlOperator, $nControl)
-                                        ->where('facturas.nFactura', $nFacturaOperator, $nFactura)
-                                        ->where('modulo_id', null)
-                                        ->where('total', $totalOperator, $total)
-                                        ->where('fecha', $fechaOperator, $fecha)
-                                        ->where('descripcion', 'like', "%$descripcion%")
-                                        ->where('clientes.nombre', 'like', "%$clienteNombre%")
-                                        ->where('facturas.aeropuerto_id','=', session('aeropuerto')->id)
-                                        ->with('cliente')->groupBy("facturas.nFactura")
-                                        ->orderBy('nFactura', $sortType)->paginate(10);
-            }else{
-                $facturas=\App\Factura::select("facturas.*","clientes.nombre as clienteNombre")
-                                    ->join('clientes','clientes.id' , '=', 'facturas.cliente_id')
-                                    ->where('facturas.nControl', $nControlOperator, $nControl)
-                                    ->where('facturas.nFactura', $nFacturaOperator, $nFactura)
-                                    ->where('modulo_id', null)
-                                    ->where('total', $totalOperator, $total)
-                                    ->where('fecha', $fechaOperator, $fecha)
-                                    ->where('descripcion', 'like', "%$descripcion%")
-                                    ->where('clientes.nombre', 'like', "%$clienteNombre%")
-                                    ->where('facturas.aeropuerto_id','=', session('aeropuerto')->id)
-                                    ->where('estado', 'like', $estado)
-                                    ->with('cliente')->groupBy("facturas.nFactura")
-                                    ->orderBy('nFactura', $sortType)->paginate(10);
-            }
-
-            $facturas->setPath('');
-
-            return view('factura.facturaManual.index', compact('facturas'))->withInput(\Input::all());
-        }
 
         $modulo=\App\Modulo::where("nombre","like",$moduloNombre)->where('aeropuerto_id', session('aeropuerto')->id)->first();
 
@@ -454,16 +417,17 @@ class FacturaController extends Controller {
 	 */
 	public function show($moduloId,Factura $factura)
 	{
-        if($moduloId == 'TODOS'){
+        $nFacturaPrefixManual = \App\Modulo::where('nombre', $moduloId)->first()->nFacturaPrefixManual;
+        if($factura->nFacturaPrefix == $nFacturaPrefixManual){
 
-            $modulo_id=0;
             $factura->load('detalles');
             // $aeropuerto = session('aeropuerto')->id;
              $clientes   = \App\Cliente::all();
             // $conceptos  = \App\Concepto::where('aeropuerto_id', $aeropuerto)->get();
-            $nControlPrefix = session('aeropuerto')->siglas.'-G';
-            $nFacturaPrefix = session('aeropuerto')->siglas.'-G';
-            $modulo = $moduloId;
+            $nControlPrefix = \App\Modulo::where('nombre', $moduloId)->first()->nFacturaPrefixManual;
+            $nFacturaPrefix = $nFacturaPrefixManual;
+            $modulo= \App\Modulo::where('nombre', $moduloId)->where('aeropuerto_id', session('aeropuerto')->id)->first();
+            $modulo_id = $modulo->id;
 
             $diasVencimientoCred = \App\OtrasConfiguraciones::where('aeropuerto_id', session('aeropuerto')->id)->first()->diasVencimientoCred;
 
@@ -485,15 +449,19 @@ class FacturaController extends Controller {
 	 */
 	public function edit($modulo, Factura $factura)
 	{
-        if($modulo == 'TODOS'){
 
-            $modulo_id=0;
+        $nFacturaPrefixManual = \App\Modulo::where('nombre', $modulo)->first()->nFacturaPrefixManual;
+        if($factura->nFacturaPrefix == $nFacturaPrefixManual){
+
             $factura->load('detalles');
             // $aeropuerto = session('aeropuerto')->id;
              $clientes   = \App\Cliente::all();
             // $conceptos  = \App\Concepto::where('aeropuerto_id', $aeropuerto)->get();
-            $nControlPrefix = session('aeropuerto')->siglas.'-G';
-            $nFacturaPrefix = session('aeropuerto')->siglas.'-G';
+            $nControlPrefix = \App\Modulo::where('nombre', $modulo)->first()->nFacturaPrefixManual;
+            $nFacturaPrefix = $nFacturaPrefixManual;
+
+            $modulo= \App\Modulo::where('nombre', $modulo)->where('aeropuerto_id', session('aeropuerto')->id)->first();
+            $modulo_id = $modulo->id;
 
             $diasVencimientoCred = \App\OtrasConfiguraciones::where('aeropuerto_id', session('aeropuerto')->id)->first()->diasVencimientoCred;
 
@@ -582,18 +550,19 @@ class FacturaController extends Controller {
             return ["success"=>0, "text"=>"No se pudo anular la factura."];
 	}
 
-    public function facturaManual(){
+    public function facturaManual($modulo,Factura $factura){
 
         $factura    = new Factura();
-        
         $aeropuerto = session('aeropuerto')->id;
+        $modulo = \App\Modulo::where('nombre', $modulo)->where('aeropuerto_id', $aeropuerto)->first();
+        
         $clientes   = \App\Cliente::all();
-        $conceptos  = \App\Concepto::where('aeropuerto_id', $aeropuerto)->get();
-        $nControlPrefix = session('aeropuerto')->siglas.'-G';
-        $nFacturaPrefix = session('aeropuerto')->siglas.'-G';
-        $modulo = 0;
+        $conceptos  = \App\Concepto::where('aeropuerto_id', $aeropuerto)->where('modulo_id', $modulo->id)->get();
+        $nControlPrefix = $modulo->nControlPrefixManual;
+        $nFacturaPrefix = $modulo->nFacturaPrefixManual;
+        $modulo_id=$modulo->id;
 
-        $factura->fill(['aeropuerto_id' => $aeropuerto, 'modulo_id' => 0]);
+        $factura->fill(['aeropuerto_id' => $aeropuerto]);
         $diasVencimientoCred = \App\OtrasConfiguraciones::where('aeropuerto_id', session('aeropuerto')->id)->first()->diasVencimientoCred;
 
 

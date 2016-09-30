@@ -116,9 +116,8 @@
 								<div class="media">
 
 									<div class="pull-right media-right">
-										<div class="btn-group-vertical  btn-group-xs" role="group" aria-label="...">
-											<a class="btn btn-primary"  href="{{ URL::to('facturacion/'.$modulo->nombre.'/factura/create') }}">&nbsp;<span class="glyphicon glyphicon-plus"></span>&nbsp;</a>
-										</div>
+										<span><a  class="btn btn-warning"  href="{{ action('FacturaController@facturaManual', $modulo->nombre) }}" >Crear factura Manual</a></span>
+										<a  style="margin-left: 20px"  class="btn btn-primary"  href="{{ URL::to('facturacion/'.$modulo->nombre.'/factura/create') }}">&nbsp;<span class="glyphicon glyphicon-plus"></span>&nbsp;</a>
 									</div>
 									<div class="media-body">
 										<h6 class="media-heading">Crear una nueva factura</h6>

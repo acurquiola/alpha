@@ -1,14 +1,19 @@
 ﻿<div class="form-group">
 	<label for="aeropuerto_id" class="col-xs-1  control-label"><strong>Aeropuerto<span class="text-danger">*</span></strong> </label>
 	<div class="col-xs-3">
+		{!! Form::hidden('modulo_id', ($factura->modulo_id)?$factura->modulo_id:$modulo_id,[ 'class'=>"form-control", "readonly"=>"true"]) !!}
 		{!! Form::hidden('aeropuerto_id', session('aeropuerto')->id,[ 'class'=>"form-control", "readonly"=>"true"]) !!}
 		{!! Form::text(null, session('aeropuerto')->nombre,[ 'class'=>"form-control", "readonly"=>"true"]) !!}
 	</div>
 	<label for="condicionPago" class="col-xs-1 control-label"><strong>Cond. de pago<span class="text-danger">*</span></strong> </label>
 	<div class="col-xs-3">
-			{!! Form::hidden('aplica_minimo_aterrizaje', 0) !!}
-			{!! Form::hidden('aplica_minimo_estacionamiento', 0) !!}
+		{!! Form::hidden('aplica_minimo_aterrizaje', 0) !!}
+		{!! Form::hidden('aplica_minimo_estacionamiento', 0) !!}
+		@if($modulo_id=="9" || $modulo_id=="4" || $modulo_id == "2")
+			{!! Form::select('condicionPago', ["Contado"=>"Contado","Crédito" => "Crédito"], null, [ 'id' =>'condicionPago', 'class'=>"form-control", $disabled, (!$factura->isImpresa)?"":"readonly"]) !!}
+		@else
 			{!! Form::select('condicionPago', ["Crédito" => "Crédito", "Contado"=>"Contado"], null, [ 'id' =>'condicionPago', 'class'=>"form-control", $disabled, (!$factura->isImpresa)?"":"readonly"]) !!}
+		@endif
 	</div>
 	<label for="nControl" class="col-xs-1 control-label"><strong>N° Control</strong> </label>
 	<div class="col-xs-3">

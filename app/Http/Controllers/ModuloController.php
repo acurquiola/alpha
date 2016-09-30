@@ -44,12 +44,12 @@ class ModuloController extends Controller {
 	 */
 	public function store(ModuloRequest $request)
 	{
-        $attrs=$request->only('nombre', 'descripcion', 'nControlPrefix', 'nFacturaPrefix', 'nombreImprimible');
-        $attrs["aeropuerto_id"]=session('aeropuerto')->id;
-        $modulo=\App\Modulo::create($attrs);
-        $conceptos=$request->get('conceptos',[]);
-        $conceptos=\App\Concepto::findMany(array_flatten($conceptos));
-        $conceptos->each(function ($item) use ($modulo) {
+		$attrs                  =$request->only('nombre', 'descripcion', 'nControlPrefix', 'nFacturaPrefix', 'nControlPrefixManual', 'nFacturaPrefixManual', 'nombreImprimible');
+		$attrs["aeropuerto_id"] =session('aeropuerto')->id;
+		$modulo                 =\App\Modulo::create($attrs);
+		$conceptos              =$request->get('conceptos',[]);
+		$conceptos              =\App\Concepto::findMany(array_flatten($conceptos));
+		$conceptos->each(function ($item) use ($modulo) {
            $item->update(["modulo_id" => $modulo->id]);
         });
         return redirect("administracion/modulo")->with('status', 'Se ha creado el Módulo de manera satisfactoria.');
@@ -90,7 +90,7 @@ class ModuloController extends Controller {
 	public function update($id, ModuloRequest $request)
 	{
         $modulo=\App\Modulo::find($id);
-        $modulo->update($request->only('nombre', 'descripcion', 'nControlPrefix', 'nFacturaPrefix', 'nombreImprimible'));
+        $modulo->update($request->only('nombre', 'descripcion', 'nControlPrefix', 'nFacturaPrefix',  'nControlPrefixManual', 'nFacturaPrefixManual', 'nombreImprimible'));
         $invalidConcepts=collect([]);
         $validConcepts=$modulo->conceptos->filter(function($item) use ($invalidConcepts){
             if($item->facturadetalles()->count()>0){
