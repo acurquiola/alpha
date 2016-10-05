@@ -226,6 +226,26 @@ $('#advance-search-modal .modal-body').delegate('.operator-list li', 'click', fu
     yearSuffix: '',
     dateFormat: "dd/mm/yy"});
 
+  $('#fecha:not([readonly])').on('changeDate', function(e){
+    condicionPago = $('#condicionPago').val();
+    if(condicionPago == 'Contado'){
+      $('#fechaVencimiento').val(moment(e.date).format("DD/MM/YYYY"))
+    }else{
+      days = {{ $diasVencimientoCred }};
+      $('#fechaVencimiento').val(moment(e.date).add(days, 'd').format("DD/MM/YYYY"));
+    }
+  });
+
+
+  $('#condicionPago').on('changeDate', function(e){
+    condicionPago = $('#condicionPago').val();
+    if(condicionPago == 'Contado'){
+      $('#fechaVencimiento').val(moment(e.date).format("DD/MM/YYYY"))
+    }else{
+      days = {{ $diasVencimientoCred }};
+      $('#fechaVencimiento').val(moment(e.date).add(days, 'd').format("DD/MM/YYYY"));
+    }
+  });
   
 
 
