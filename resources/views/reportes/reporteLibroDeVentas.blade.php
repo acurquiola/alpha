@@ -106,9 +106,9 @@
 												<td   style="vertical-align: middle; width: 100px" class="text-right totalVentasConIva" align="right"></td>
 												<td   style="vertical-align: middle; width: 100px" class="text-right ventasNoGravadas" align="right"></td>
 												<td   style="vertical-align: middle; width: 100px" class="text-right baseImponible" align="right"></td>
-												<td   style="vertical-align: middle; width: 100px" class="text-right porcAlicuota" align="right">{{($facturaCobrada->base == $facturaCobrada->monto)?'':$traductor->format((($facturaCobrada->iva)*100)/$facturaCobrada->base)}} </td>
+												<td   style="vertical-align: middle; width: 100px" class="text-right porcAlicuota" align="right">{{($facturaCobrada->base == $facturaCobrada->total)?'':$traductor->format((($facturaCobrada->iva)*100)/$facturaCobrada->base)}} </td>
 												<td   style="vertical-align: middle; width: 100px" class="text-right impuestoIva" align="right">0,00</td>
-												<td   style="vertical-align: middle; width: 100px" class="text-right ivaRetenido" align="right">{{($facturaCobrada->base == $facturaCobrada->monto)?'':$traductor->format((($facturaCobrada->total-$facturaCobrada->base)*$facturaCobrada->ivapercentage)/100)}}</td>
+												<td   style="vertical-align: middle; width: 100px" class="text-right ivaRetenido" align="right">{{($facturaCobrada->base == $facturaCobrada->total)?'':$traductor->format((($facturaCobrada->total-$facturaCobrada->base)*$facturaCobrada->ivapercentage)/100)}}</td>
 											</tr>
 										@endforeach
 										@foreach($facturas as $index2 => $factura)
