@@ -54,6 +54,7 @@
 					<div class="col-xs-12">
 						<div class="table-responsive" style="max-height: 500px">
 							<table class="table table-condensed">
+								@if($facturasAnuladas->count()>0)
 								<thead>
 									<tr  class="bg-primary" >
 										<th style="vertical-align: middle; width: 1200px"  colspan="6" align="center" class="text-center">
@@ -81,7 +82,6 @@
 										</th>
 									</tr>
 								</thead>
-								@if($facturasAnuladas->count()>0)
 									@foreach($facturasAnuladas as $index => $factura)
 										<tr >
 											<td style="vertical-align: middle; width: 200px; " align="center">{{$index+1}}</td>
@@ -94,9 +94,10 @@
 									@endforeach 
 								@else
 									<tr>
-										<td colspan="6" class="text-center" align="center">No hay registros para las fechas seleccionadas</td>
+										<td colspan="6" class="text-center" align="center">No hay facturas anuladas para las fechas seleccionadas</td>
 									</tr>
 								@endif
+								@if($recibosAnulados->count()>0)
 								<thead>
 									<tr  class="bg-primary" >
 										<th style="vertical-align: middle; width: 1200px" colspan="6" align="center" class="text-center">
@@ -137,8 +138,9 @@
 									@endforeach 
 								@else
 									<tr>
-										<td colspan="6" class="text-center" align="center">No hay registros para las fechas seleccionadas</td>
+										<td colspan="6" class="text-center" align="center">No hay recibos anulados para las fechas seleccionadas</td>
 									</tr>
+								@endif
 								@endif
 			                    </tbody>
 

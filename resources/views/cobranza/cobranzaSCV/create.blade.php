@@ -239,7 +239,7 @@
 				    <div class="form-group">
 					    <label for="monto-modal-input" class="col-sm-2 control-label">Monto</label>
 					    <div class="col-md-10">
-						    <input type="text" class="form-control" id="monto-modal-input" readonly autocomplete='off'>
+						    <input type="text" class="form-control" id="monto-modal-input" autocomplete='off'>
 					    </div>
 				    </div>
 			    </div>

@@ -205,8 +205,11 @@ class CargaController extends Controller {
         if(!$modulo){
             return response("No se consiguio el modulo 'CARGA' en el aeropuerto de sesion", 500);
         }
+	
+        $diasVencimientoCred = \App\OtrasConfiguraciones::where('aeropuerto_id', session('aeropuerto')->id)->first()->diasVencimientoCred;
+
         $modulo_id=$modulo->id;
-		return view('factura.facturaCarga.create', compact('factura', 'condicionPago', 'modulo_id', 'modulo', 'aplica_minimo_estacionamiento', 'aplica_minimo_aterrizaje'))->with(['carga_id'=>$carga->id]);
+		return view('factura.facturaCarga.create', compact('factura', 'condicionPago', 'modulo_id', 'modulo', 'aplica_minimo_estacionamiento', 'aplica_minimo_aterrizaje', 'diasVencimientoCred'))->with(['carga_id'=>$carga->id]);
 
 	}
 
