@@ -65,7 +65,6 @@
                 {!! Form::hidden('table') !!}
                 {!! Form::hidden('departamento', $departamento) !!}
                 {!! Form::hidden('gerencia', $gerencia) !!}
-                    <h3 class="box-title">Reporte</h3>
                     <span class="pull-right">
                         <button type="button" class="btn btn-primary" id="export-btn">
                             <span class="glyphicon glyphicon-file"></span> Exportar
@@ -77,10 +76,11 @@
                 <div class="row">
                     <div class="col-xs-12">
 
-                        <div class="table-responsive" style="max-height: 500px">
+                        <div class="table-responsive">
                             <table  class="table table-condensed">
+                                <thead>
                                     <tr class="bg-primary" >
-                                        <th  style="vertical-align: middle" rowspan="2" colspan="2" class="text-center">CLIENTE</th>
+                                        <th  style="vertical-align: middle; width: 200px" rowspan="2" colspan="2" class="text-center">CLIENTE</th>
                                         <th  style="vertical-align: middle" colspan="3" class="text-center" >COBRO</th>
                                         <th  style="vertical-align: middle" colspan="9" class="text-center">DOSA</th>
                                         <th  style="vertical-align: middle" colspan="3" class="text-center">DEPÓSITO</th>
@@ -104,52 +104,60 @@
                                         <th style="vertical-align: middle" class="text-center">Fecha</th>
                                         <th style="vertical-align: middle" class="text-center">Monto (Bs.)</th>
                                     </tr>
+                                </thead>
                                 <tbody>
-                                    @foreach($dosaFactura as $index => $df)
-                                        <tr align="center">
-                                            <td class="text-left" align="left" colspan="2">{{$df['cliente']}}</td> 
+                                    @if(count($dosaFactura) >0)
+                                        @foreach($dosaFactura as $index => $df)
+                                            <tr align="center">
+                                                <td class="text-left" align="left" colspan="2" style="width: 200px">{{$df['cliente']}}</td> 
 
-                                            <td class="text-center" align="center">{{$df['nCobro']}}</td>                         
-                                            <td class="text-center" align="center">{{$df['reciboCaja']}}</td>                         
-                                            <td class="text-center" align="center">{{$df['fecha']}}</td>  
+                                                <td class="text-center" align="center">{{$df['nCobro']}}</td>                         
+                                                <td class="text-center" align="center">{{$df['reciboCaja']}}</td>                         
+                                                <td class="text-center" align="center">{{$df['fecha']}}</td>  
 
-                                            <td class="text-center" align="center">{{$index}}</td>                               
-                                            <td class="text-right formularioBs" align="right">{{$traductor->format($df['formularioBs'])}}</td>                               
-                                            <td class="text-right aterrizajeBs" align="right">{{$traductor->format($df['aterrizajeBs'])}}</td>                               
-                                            <td class="text-right estacionamientoBs" align="right">{{$traductor->format($df['estacionamientoBs'])}}</td>                               
-                                            <td class="text-right habilitacionBs" align="right">{{$traductor->format($df['habilitacionBs'])}}</td>                               
-                                            <td class="text-right jetwayBs" align="right">{{$traductor->format($df['jetwayBs'])}}</td>                               
-                                            <td class="text-right cargaBs" align="right">{{$traductor->format($df['cargaBs'])}}</td>                               
-                                            <td class="text-right otrosCargosBs" align="right">{{$traductor->format($df['otrosCargosBs'])}}</td>                               
-                                            <td class="text-right totalDosa" align="right">{{$traductor->format($df['totalDosa'])}}</td> 
+                                                <td class="text-center" align="center">{{$index}}</td>                               
+                                                <td class="text-right formularioBs" align="right">{{$traductor->format($df['formularioBs'])}}</td>                               
+                                                <td class="text-right aterrizajeBs" align="right">{{$traductor->format($df['aterrizajeBs'])}}</td>                               
+                                                <td class="text-right estacionamientoBs" align="right">{{$traductor->format($df['estacionamientoBs'])}}</td>                               
+                                                <td class="text-right habilitacionBs" align="right">{{$traductor->format($df['habilitacionBs'])}}</td>                               
+                                                <td class="text-right jetwayBs" align="right">{{$traductor->format($df['jetwayBs'])}}</td>                               
+                                                <td class="text-right cargaBs" align="right">{{$traductor->format($df['cargaBs'])}}</td>                               
+                                                <td class="text-right otrosCargosBs" align="right">{{$traductor->format($df['otrosCargosBs'])}}</td>                               
+                                                <td class="text-right totalDosa" align="right">{{$traductor->format($df['totalDosa'])}}</td> 
 
-                                            <td>{{$df['refBancaria']}}</td>   
-                                            <td>{{$df['fechaDeposito']}}</td>                               
-                                            <td class="text-right totalDepositado" align="right">{{$traductor->format($df['totalDepositado'])}}</td>                               
-                                        </tr>                                    
-                                    @endforeach
-                                    <tr class="bg-gray" align="center">
-                                        <td colspan="2">Total</td>
-                                        <td> - </td>
-                                        <td> - </td>
-                                        <td> - </td>
-                                        <td> - </td>
-                                        <td align="right" id="totalFormulario">0,00</td>                           
-                                        <td align="right" id="totalAterrizaje">0,00</td>                           
-                                        <td align="right" id="totalEstacionamiento">0,00</td>                           
-                                        <td align="right" id="totalHabilitacion">0,00</td>                           
-                                        <td align="right" id="totalJetway">0,00</td>                           
-                                        <td align="right" id="totalCarga">0,00</td>                           
-                                        <td align="right" id="totalOtrosCargos">0,00</td>                           
-                                        <td align="right" id="totalDosa">0,00</td>                           
-                                        <td> - </td>                                 
-                                        <td> - </td>                                 
-                                        <td align="right" id="totalTotal">0,00</td>                           
-                                    </tr>
-                                    <tr>
-                                        <td colspan="16" class="text-right" align="right">CANTIDAD DE FACTURAS:</td>
-                                        <td class="text-right" align="right">{{ count($dosaFactura) }}</td>
-                                    </tr>
+                                                <td>{{$df['refBancaria']}}</td>   
+                                                <td>{{$df['fechaDeposito']}}</td>                               
+                                                <td class="text-right totalDepositado" align="right">{{$traductor->format($df['totalDepositado'])}}</td>                               
+                                            </tr>                                    
+                                        @endforeach
+                                        <tr class="bg-gray" align="center">
+                                            <td colspan="2">TOTAL</td>
+                                            <td> - </td>
+                                            <td> - </td>
+                                            <td> - </td>
+                                            <td> - </td>
+                                            <td align="right" id="totalFormulario">0,00</td>                           
+                                            <td align="right" id="totalAterrizaje">0,00</td>                           
+                                            <td align="right" id="totalEstacionamiento">0,00</td>                           
+                                            <td align="right" id="totalHabilitacion">0,00</td>                           
+                                            <td align="right" id="totalJetway">0,00</td>                           
+                                            <td align="right" id="totalCarga">0,00</td>                           
+                                            <td align="right" id="totalOtrosCargos">0,00</td>                           
+                                            <td align="right" id="totalDosa">0,00</td>                           
+                                            <td> - </td>                                 
+                                            <td> - </td>                                 
+                                            <td align="right" id="totalTotal">0,00</td>                           
+                                        </tr>
+                                        <tr>
+                                            <td colspan="16" class="text-right" align="right">CANTIDAD DE FACTURAS:</td>
+                                            <td class="text-right" align="right">{{ count($dosaFactura) }}</td>
+                                        </tr>
+                                    @else
+                                        <tr>
+                                            <td colspan="17" class="text-center" align="center">No hay registros disponibles.</td>
+                                        </tr>
+                                    @endif
+
                                 </tbody>
                             </table>
                         </div>
@@ -236,9 +244,9 @@
                                     </th>\
                                 </tr>\
                             </thead>')
-                $(table).find('thead, th').css({'border-top':'1px solid black', 'font-weight': 'bold', 'text-align':"center", 'font-size': '7px'})
-                $(table).find('th').css({'border-bottom':'1px solid black', 'font-weight': 'bold', 'text-align':"center", 'font-size': '7px'})
-                $(table).find('td').css({'font-size': '6px'})
+                $(table).find('thead, th').css({'border-top':'1px solid black', 'font-weight': 'bold', 'text-align':"center", 'font-size': '10px'})
+                $(table).find('th').css({'border-bottom':'1px solid black', 'font-weight': 'bold', 'text-align':"center", 'font-size': '10px'})
+                $(table).find('td').css({'font-size': '8px'})
                 $(table).find('tr:nth-child(even)').css({'border-bottom':'1px solid black'})
 
                 $(table).find('tr:last td').css({'border-bottom':'1px solid black','border-top':'1px solid black', 'font-weight': 'bold'})

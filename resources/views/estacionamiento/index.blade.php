@@ -766,8 +766,8 @@ $('body').delegate('.consolidar-btn', 'click', function(){
     var depositadoBox= $(box).find('.total-depositado-box').text();
     totalBox=commaToNum(totalBox);
     depositadoBox=commaToNum(depositadoBox);
-    if(totalBox!=depositadoBox){
-        alertify.error("El valor depositado no es igual al total del dia");
+    if(totalBox>depositadoBox){
+        alertify.error("El valor depositado no puede ser menor al total de día.");
         return;
     }
 

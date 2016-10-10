@@ -99,6 +99,9 @@
 											CARGA
 										</th>
 										<th   style="width: 80px; vertical-align: middle" class="text-center" align="center">
+											OTROS
+										</th>
+										<th   style="width: 80px; vertical-align: middle" class="text-center" align="center">
 											Nro. COBRO
 										</th>
 										<th   style="width: 80px; vertical-align: middle" class="text-center" align="center">
@@ -115,7 +118,7 @@
 								<tbody>
 								@if($dosaFactura == [])
 									<tr>
-										<td colspan="15" class="text-center" align="center">No hay registros para los datos suministrados.</td>
+										<td colspan="16" class="text-center" align="center">No hay registros para los datos suministrados.</td>
 									</tr>
 								@else
 									@foreach($dosaFactura as $nroDosa => $df)
@@ -150,6 +153,9 @@
 											<td   style="width: 80px; vertical-align: middle" class="text-right carga-bs" align="right">
 												{{$traductor->format($df['carga'])}}
 											</td>
+											<td   style="width: 80px; vertical-align: middle" class="text-right carga-bs" align="right">
+                                                {{$traductor->format($df['otros'])}}                             
+											</td>
 											<td   style="width: 80px; vertical-align: middle" class="text-right" align="right">
 												{{$df['nroCobro']}}
 											</td>
@@ -181,13 +187,13 @@
 											<td align="right" class="text-right" id="montoDiferenciaTotal" style="width: 80px; font-weight: bold;" align="right">0</td>
 										</tr>
 	                                    <tr>
-	                                        <td colspan="13" class="text-right" align="right">CANTIDAD DE FACTURAS</td>
+	                                        <td colspan="14" class="text-right" align="right">CANTIDAD DE FACTURAS</td>
 	                                        <td class="text-right" align="right" style="width: 80px">{{ count($dosaFactura) }}</td>
 	                                    </tr>
 									@endif
 									@if($tasasVendidas->count()>0)
 										<tr class="bg-primary" >
-											<th class="text-center" colspan="14" >
+											<th class="text-center" colspan="15" >
 												TASAS VENDIDAS
 											</th>
 										</tr>
@@ -293,7 +299,7 @@
 			}).remove();
 			$(table).prepend('<thead>\
 								<tr>\
-									<th colspan="15" style="vertical-align: middle; margin-top:20px" align="center" class="text-center">RELACIÓN DE INGRESOS AERONÁUTICOS CONTADO\
+									<th colspan="16" style="vertical-align: middle; margin-top:20px" align="center" class="text-center">RELACIÓN DE INGRESOS AERONÁUTICOS CONTADO\
 										</br>\
 										DESDE: {{$diaDesde}}/{{$mesDesde}}/{{$annoDesde}} HASTA: {{$diaHasta}}/{{$mesHasta}}/{{$annoHasta}} </th>\
 		                    			</br>\
