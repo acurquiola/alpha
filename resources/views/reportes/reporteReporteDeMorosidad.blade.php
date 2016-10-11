@@ -24,6 +24,10 @@
 					<label><strong>AEROPUERTO: </strong></label>
 					{!! Form::select('aeropuerto', $aeropuertos, $aeropuerto, ["class"=> "form-control"]) !!}
 				</div>
+                <div class="form-group text-left">
+                    <label>CLIENTE:</label>
+                      {!! Form::select('cliente_id', $clientes, $cliente, ["class"=> "form-control select-flt"]) !!}
+                </div>
 				<button type="submit" class="btn btn-primary">Buscar</button>
 				<a class="btn btn-default" href="{{action('ReporteController@getReporteDeMorosidad')}}">RESET</a>
 				{!! Form::close() !!}
@@ -35,14 +39,12 @@
 			<div class="box-header">
 				{!! Form::open(["url" => action("ReporteController@postExportReport"), "id" =>"export-form", "target"=>"_blank"]) !!}
 				{!! Form::hidden('table') !!}
-				<h3 class="box-title">Reporte</h3>
 				<span class="pull-right"><button type="button" class="btn btn-primary" id="export-btn"><span class="glyphicon glyphicon-file"></span> Exportar</button></span>
 				{!! Form::close() !!}
 			</div>
 			<div class="box-body" >
 				<div class="row">
 					<div class="col-xs-12">
-
 						<div class="table-responsive" style="max-height: 500px">
 							<table class="table table-hover table-condensed">
 								<thead  class="bg-primary">
@@ -83,7 +85,7 @@
 															@foreach($facturasPendientes as $mes => $clientesPendientes)
 																@foreach($clientesPendientes as $id => $montoMensual)
 																	@if($cliente_id == $id)
-																		<td class="text-right" align="right" style="width: 80px">
+																		<td class="text-right total-{{ $mes }}" align="right" style="width: 80px">
 																			{{ $traductor->format($montoMensual) }}
 																		</td>
 																	@endif
@@ -95,7 +97,7 @@
 														@if($m == $modulo)
 															@foreach($c as $nombre => $monto)
 																@if($nombre == $cliente_id)
-																	<td  class="text-right" align="right" style="width: 80px">
+																	<td  class="text-right {{ $m }}" align="right" style="width: 80px">
 																		{{ $traductor->format($monto["total"]) }}
 																	</td>
 																@endif
@@ -108,8 +110,8 @@
 											<td>
 												<strong>TOTAL</strong>
 											</td>
-											@foreach($ModTotales as $mod=>$monto)
-												@if($mod == $modulo)
+											@foreach($ModTotales as $md=>$monto)
+												@if($md == $modulo)
 													<td class="text-right  totalModulos" align="right" colspan="13">
 														<strong>{{ $traductor->format($monto) }}</strong>
 													</td>
@@ -124,11 +126,42 @@
 										<th  align="left" class="text-left">
 											TOTALES
 										</th>
-										@foreach($totalMes as $mes => $monto)
-											<td  class="text-right" align="right" style="width: 80px">
+											<td  class="text-right" id="total-1" align="right" style="width: 80px">
 												<strong>{{ $traductor->format($monto) }}</strong>
 											</td>
-										@endforeach
+											<td  class="text-right" id="total-2" align="right" style="width: 80px">
+												<strong>{{ $traductor->format($monto) }}</strong>
+											</td>
+											<td  class="text-right" id="total-3" align="right" style="width: 80px">
+												<strong>{{ $traductor->format($monto) }}</strong>
+											</td>
+											<td  class="text-right" id="total-4" align="right" style="width: 80px">
+												<strong>{{ $traductor->format($monto) }}</strong>
+											</td>
+											<td  class="text-right" id="total-5" align="right" style="width: 80px">
+												<strong>{{ $traductor->format($monto) }}</strong>
+											</td>
+											<td  class="text-right" id="total-6" align="right" style="width: 80px">
+												<strong>{{ $traductor->format($monto) }}</strong>
+											</td>
+											<td  class="text-right" id="total-7" align="right" style="width: 80px">
+												<strong>{{ $traductor->format($monto) }}</strong>
+											</td>
+											<td  class="text-right" id="total-8" align="right" style="width: 80px">
+												<strong>{{ $traductor->format($monto) }}</strong>
+											</td>
+											<td  class="text-right" id="total-9" align="right" style="width: 80px">
+												<strong>{{ $traductor->format($monto) }}</strong>
+											</td>
+											<td  class="text-right" id="total-10" align="right" style="width: 80px">
+												<strong>{{ $traductor->format($monto) }}</strong>
+											</td>
+											<td  class="text-right" id="total-11" align="right" style="width: 80px">
+												<strong>{{ $traductor->format($monto) }}</strong>
+											</td>
+											<td  class="text-right" id="total-12" align="right" style="width: 80px">
+												<strong>{{ $traductor->format($monto) }}</strong>
+											</td>
 										<th class="text-right totalTotal" align="right">
 											0,00
 										</th>
@@ -150,6 +183,7 @@
 <script>
 
 	$(document).ready(function(){
+		$('.select-flt').chosen({width:'200px'});
 
 
 		var totalTotal=0;
@@ -159,6 +193,97 @@
 
 
 		$('.totalTotal').text(numToComma(totalTotal));
+
+
+		var total1=0;
+		$('.total-1').each(function(index,value){
+			total1+=commaToNum($(value).text().trim());
+		});
+
+		$('#total-1').text(numToComma(total1));
+
+		var total2=0;
+		$('.total-2').each(function(index,value){
+			total2+=commaToNum($(value).text().trim());
+		});
+
+		$('#total-2').text(numToComma(total2));
+
+		var total3=0;
+		$('.total-3').each(function(index,value){
+			total3+=commaToNum($(value).text().trim());
+		});
+
+		$('#total-3').text(numToComma(total3));
+
+
+		var total4=0;
+		$('.total-4').each(function(index,value){
+			total4+=commaToNum($(value).text().trim());
+		});
+
+		$('#total-4').text(numToComma(total4));
+
+
+		var total5=0;
+		$('.total-5').each(function(index,value){
+			total5+=commaToNum($(value).text().trim());
+		});
+
+		$('#total-5').text(numToComma(total5));
+
+		var total6=0;
+		$('.total-6').each(function(index,value){
+			total6+=commaToNum($(value).text().trim());
+		});
+
+		$('#total-6').text(numToComma(total6));
+
+
+		var total7=0;
+		$('.total-7').each(function(index,value){
+			total7+=commaToNum($(value).text().trim());
+		});
+
+		$('#total-7').text(numToComma(total7));
+
+		var total8=0;
+		$('.total-8').each(function(index,value){
+			total8+=commaToNum($(value).text().trim());
+		});
+
+		$('#total-8').text(numToComma(total8));
+
+
+		var total9=0;
+		$('.total-9').each(function(index,value){
+			total9+=commaToNum($(value).text().trim());
+		});
+
+		$('#total-9').text(numToComma(total9));
+
+
+		var total10=0;
+		$('.total-10').each(function(index,value){
+			total10+=commaToNum($(value).text().trim());
+		});
+
+		$('#total-10').text(numToComma(total10));
+
+		var total11=0;
+		$('.total-11').each(function(index,value){
+			total11+=commaToNum($(value).text().trim());
+		});
+
+		$('#total-11').text(numToComma(total11));
+
+
+		var total12=0;
+		$('.total-12').each(function(index,value){
+			total12+=commaToNum($(value).text().trim());
+		});
+
+		$('#total-12').text(numToComma(total12));
 
 
 
@@ -174,7 +299,11 @@
 									<tr>\
 										<th colspan="14" style="vertical-align: middle; margin-top:20px" align="center" class="text-center">REPORTE DE MOROSIDAD\
 										</br>\
-										AÑO: {{ $anno }} | AEROPUERTO: {{ $aeropuerto }}\
+										AEROPUERTO: {{ $aeropuertoNombre }} \
+										</br>\
+										CLIENTE: {{ $nombreCliente }}\
+										</br>\
+										AÑO: {{ $anno }}\
 									</th>\
 								</tr>\
 							</thead>')

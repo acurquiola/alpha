@@ -85,12 +85,16 @@
 												@foreach($conceptos as $concepto => $monto)
 													@if($concepto=="total")
 														<td align="right" style="text-align:right; ;" main data-parent="{{$moduloNombre}}">{{$traductor->format($monto)}}</td>
-													@else
+													@elseif($concepto!="totalDia")
 														<td class="{{ $concepto }}" details data-parent="{{$moduloNombre}}" style="display:none;text-align:right">{{$traductor->format($monto)}}</td>
 													@endif
 												@endforeach
 											@endforeach
-										<td align="right" class="text-right">0,00</td>
+										@foreach($montosDias as $dia => $monto)
+											@if($dia == $fecha)
+												<td align="right" class="text-right totalDia">{{ $traductor->format($monto['total']) }}</td>
+											@endif
+										@endforeach
 									</tr>
 									@endforeach
 									<tr class="bg-gray">
@@ -104,7 +108,7 @@
 													@endif
 												@endforeach
 											@endforeach
-										<td align="right" class="text-right">0,00</td>
+										<td align="right" id="totalDia" class="text-right">0,00</td>
 									</tr>
 								</tbody>
 							</table>
@@ -144,6 +148,13 @@
 		});
 
 
+		var totalDia=0;
+		$('.totalDia').each(function(index,value){
+			totalDia+=commaToNum($(value).text().trim());
+		});
+
+
+		$('#totalDia').text(numToComma(totalDia));
 		$('#TASAS NACIONALES MODULO').text(numToComma(tasasNacMod));
 		$('#TASAS INTERNACIONALES MODULO').text(numToComma(tasasIntMod));
 		$('#TASAS NACIONALES SCV').text(numToComma(tasasNacSCV));
@@ -196,9 +207,9 @@
 									MES: {{$mesLetras}} AÑO: {{$anno}} </th>\
 								</tr>\
 							</thead>')
-			$(table).find('thead, th').css({'border-top':'1px solid black', 'font-weight': 'bold', 'text-align':"center", 'font-size': '10px'})
-			$(table).find('th').css({'border-bottom':'1px solid black', 'font-weight': 'bold', 'text-align':"center", 'font-size': '10px'})
-			$(table).find('td').css({'font-size': '8px'})
+			$(table).find('thead, th').css({'border-top':'1px solid black', 'font-weight': 'bold', 'text-align':"center", 'font-size': '9px'})
+			$(table).find('th').css({'border-bottom':'1px solid black', 'font-weight': 'bold', 'text-align':"center", 'font-size': '9px'})
+			$(table).find('td').css({'font-size': '7px'})
 			$(table).find('tr:nth-child(even)').css({'border-bottom':'1px solid black'})
 			$(table).find('tr:last td').css({'border-bottom':'1px solid black','border-top':'1px solid black', 'font-weight': 'bold'})
 			$(table).append('<tr>\

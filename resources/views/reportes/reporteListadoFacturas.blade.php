@@ -100,7 +100,7 @@
                     <div class="row">
                         <div class="col-xs-12">
 
-                            <div class="table-responsive" style="max-height: 500px">
+                            <div class="table-responsive">
                                <table class="table table-hover table-condensed">
                                    <thead  class="bg-primary">
                                        <tr>
@@ -483,17 +483,17 @@ $('#export-btn').click(function(e){
         return $(this).find('td,th').length == 0;
     }).remove();
     $(table).prepend('<thead>\
-        <tr>\
-            <th colspan="13" style="vertical-align: middle; margin-top:20px" align="center" class="text-center">LISTADO DE FACTURAS EMITIDAS\
-            </br>\
-            DESDE: {{isset($desde)?$desde:"N/A"}} HASTA: {{isset($hasta)?$hasta:"N/A"}} | MÓDULO: {{isset($moduloNombre)?$moduloNombre:"TODOS"}}\
-        </br>\
-        CLIENTE: {{isset($clienteNombre)?$clienteNombre:"TODOS"}} | AEROPUERTO: {{isset($aeropuertoNombre)?$aeropuertoNombre:"TODOS"}}\
-    </br>\
-    CONDICIÓN: {{isset($estatusNombre)?$estatusNombre:"TODAS"}}\
-</th>\
-</tr>\
-</thead>')
+                        <tr>\
+                            <th colspan="13" style="vertical-align: middle; margin-top:20px" align="center" class="text-center">LISTADO DE FACTURAS EMITIDAS\
+                                </br>\
+                                DESDE: {{isset($desde)?$desde:"N/A"}} HASTA: {{isset($hasta)?$hasta:"N/A"}} | MÓDULO: {{isset($moduloNombre)?$moduloNombre:"TODOS"}}\
+                                </br>\
+                                CLIENTE: {{isset($clienteNombre)?$clienteNombre:"TODOS"}} | AEROPUERTO: {{isset($aeropuertoNombre)?$aeropuertoNombre:"TODOS"}}\
+                                </br>\
+                                CONDICIÓN: {{isset($estatusNombre)?$estatusNombre:"TODAS"}}\
+                            </th>\
+                        </tr>\
+                </thead>')
     $(table).find('thead, th').css({'border-top':'1px solid black', 'font-weight': 'bold', 'text-align':"center", 'font-size': '11px'})
     $(table).find('th').css({'border-bottom':'1px solid black', 'font-weight': 'bold', 'text-align':"center", 'font-size': '11px'})
     $(table).find('td').css({'font-size': '9px'})

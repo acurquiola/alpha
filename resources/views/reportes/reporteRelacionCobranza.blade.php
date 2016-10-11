@@ -71,7 +71,7 @@
 			<div class="box-body" >
 				<div class="row">
 					<div class="col-xs-12">
-						<div class="table-responsive" style="max-height: 500px">
+						<div class="table-responsive">
 							<table class="table table-hover table-condensed">
 								<thead  class="bg-primary">
 									<tr>
@@ -165,7 +165,7 @@
 										<td style="vertical-align: middle; width:90px" class="islr-saldo" align="right">@foreach($recibo->facturas as $index => $comprobante) @if($index==0) {{(($comprobante->pivot->base * $comprobante->pivot->islrpercentage)/100 == '0')?'':$traductor->format(($comprobante->pivot->base * $comprobante->pivot->islrpercentage)/100)}}</br> @endif  @endforeach</td>
 										<td style="vertical-align: middle; width:120px" align="right">{{$traductor->format($recibo->montofacturas)}}</td>
 										<td style="vertical-align: middle; width:120px" align="right">{{$traductor->format($recibo->montodepositado)}}</td>
-										<td style="vertical-align: middle; width:120px" class="saldoFavor" align="right">{{$traductor->format(($recibo->montodepositado-$recibo->montofacturas))}}</td>
+										<td style="vertical-align: middle; width:120px" class="saldoFavor" align="right">@foreach($ajustes as $i => $monto) @if($i == $recibo->id) {{$traductor->format($monto)}} @endif @endforeach</td>
 									</tr>
 									@endforeach
 

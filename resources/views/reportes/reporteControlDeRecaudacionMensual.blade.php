@@ -37,7 +37,6 @@
 				{!! Form::hidden('table') !!}
                 {!! Form::hidden('gerencia', $gerencia) !!}
                 {!! Form::hidden('departamento', $departamento) !!}
-				<h3 class="box-title">Reporte</h3>
 				<span class="pull-right">
 					<button type="button" class="btn btn-primary" id="export-btn">
 						<span class="glyphicon glyphicon-file"></span> Exportar
@@ -193,7 +192,7 @@
 							</thead>')
 			$(table).find('thead, th').css({'border-top':'1px solid black', 'font-weight': 'bold', 'text-align':"center", 'font-size': '10px'})
 			$(table).find('th').css({'border-bottom':'1px solid black', 'font-weight': 'bold', 'text-align':"center", 'font-size': '10px'})
-			$(table).find('td').css({'font-size': '8px'})
+			$(table).find('td').css({'font-size': '7px'})
 			$(table).find('tr:last td').css({'border-bottom':'1px solid black','border-top':'1px solid black'})
 			$(table).find('tr:nth-child(even)').css({'border-bottom':'1px solid black'})
 			$(table).append('<tr>\

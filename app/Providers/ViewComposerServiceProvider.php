@@ -90,7 +90,7 @@ class ViewComposerServiceProvider extends ServiceProvider {
             $view->with(compact('clientes'));
         });
 
-        view()->composer(['reportes.reporteRelacionCobranza'], function($view){
+        view()->composer(['reportes.reporteRelacionCobranza', 'reportes.reporteReporteDeMorosidad'], function($view){
             $clientes= [""=>"-- Seleccione Cliente--"]+\App\Cliente::lists('nombre', 'id');
             $view->with(compact('clientes'));
         });
