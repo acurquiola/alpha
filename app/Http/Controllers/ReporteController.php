@@ -1142,6 +1142,7 @@ class ReporteController extends Controller {
         $cliente    =$request->get('cliente_id', 0);
         $modulo     =$request->get('modulo', 0);
         $nFactura   =$request->get('nFactura', 0);
+        $ajustes = [];
 
         if($aeropuerto!=0){
             $moduloNombre =($modulo==0)?'TODOS':\App\Modulo::where('id', $modulo)->first()->nombre;
