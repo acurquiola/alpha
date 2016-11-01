@@ -7,17 +7,17 @@
             <!-- general form elements -->
             <div class="box box-primary">
                 <div class="box-header">
-                    <h3 class="box-title">Estacionamiento</h3>
+                    <h3 class="box-title">ESTACIONAMIENTO</h3>
                 </div><!-- /.box-header -->
                 <!-- form start -->
                 <div class="box-body">
                     <div class="row">
                         <div class="col-xs-3 col-md-2">
-                            <label>Seleccione modo de carga</label>
+                            <label>Modo de Carga</label>
                         </div>
                         <div class="col-xs-2 col-md-1 text-center">
                             <label class="radio-inline">
-                                <input type="radio" name="date-radio" id="dia-radio" checked autocomplete="off"> Dia
+                                <input type="radio" name="date-radio" id="dia-radio" checked autocomplete="off"> Día
                             </label>
                         </div>
                         <div class="col-xs-2 col-md-1 text-center">
@@ -30,7 +30,7 @@
                                 <div class="form-group" id="dia-div">
                                     <div class="col-xs-8 col-xs-offset-2  text-center">
                                         <div class="input-group">
-                                            <input type="text" id="dia-datepicker" class="form-control" placeholder="Seleccione un dia." autocomplete="off">
+                                            <input type="text" id="dia-datepicker" class="form-control" placeholder="Seleccione un día." autocomplete="off">
                                             <div class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></div>
                                         </div>
                                     </div>
@@ -38,13 +38,13 @@
                                 <div class="form-group" style="display:none" id="rango-div">
                                     <div class="col-xs-6 text-center">
                                         <div class="input-group">
-                                            <input type="text" id="inicial-datepicker" class="form-control" placeholder="Seleccione el dia inicial." autocomplete="off">
+                                            <input type="text" id="inicial-datepicker" class="form-control" placeholder="Seleccione el día inicial." autocomplete="off">
                                             <div class="input-group-addon"><span class="glyphicon glyphicon-calendar" ></span></div>
                                         </div>
                                     </div>
                                     <div class="col-xs-6 text-center">
                                         <div class="input-group">
-                                            <input type="text" id="final-datepicker" class="form-control" placeholder="Seleccione el dia final." autocomplete="off">
+                                            <input type="text" id="final-datepicker" class="form-control" placeholder="Seleccione el día final." autocomplete="off">
                                             <div class="input-group-addon"><span class="glyphicon glyphicon-calendar" ></span></div>
                                         </div>
                                     </div>
@@ -52,7 +52,8 @@
                             </div>
                         </div>
                         <div class="col-xs-1 col-md-1">
-                            <button class="btn btn-default pull-right" id="date-select-panel-btn"><span class="hidden-sm">Aceptar</span> <span class="glyphicon glyphicon-share-alt"></span></button>
+                            <button class="btn btn-default pull-right" id="date-select-panel-btn">
+                            <span class="hidden-sm">ACEPTAR</span> <span class="glyphicon glyphicon-share-alt"></span></button>
                         </div>
                     </div>
                 </div><!-- /.box-body -->
@@ -70,20 +71,23 @@
                 <div class="modal-body">
                     <div class="form-horizontal">
                         <div class="form-group">
-                            <label for="modal-nombre-input" class="col-sm-2 control-label">RIF</label>
+                            <label for="modal-nombre-input" class="col-sm-2 control-label">Nombre</label>
                             <div class="col-sm-10">
-                                <select class="form-control" id="modal-rif-select">
-                                    <option value="" data-nombre=""> -- Seleccione un Ced/RIF -- </option>
+                                <select class="form-control" id="modal-nombre-input" name="cliente_id" autocomplete="off">                                <option value="">--Seleccione una opcion--</option>
                                     @foreach($clientes as $cliente)
-                                        <option value="{{$cliente->id}}" data-nombre="{{$cliente->nombre}}">{{$cliente->cedRifPrefix.$cliente->cedRif}}</option>
-                                    @endforeach
-                                </select>
+                                    <option
+                                        data-rif="{{$cliente->cedRifPrefix}}-{{$cliente->cedRif}}"
+                                        value="{{$cliente->id}}">
+                                        {{$cliente->codigo}} | {{$cliente->nombre}}
+                                    </option>
+                                    @endforeach    
+                                </select>                             
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="modal-nombre-input" class="col-sm-2 control-label">Nombre</label>
+                            <label for="modal-rif-input" class="col-sm-2 control-label">RIF</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" id="modal-nombre-input" placeholder="Nombre del cliente" readonly>
+                                <input type="text" class="form-control" id="modal-rif-input" placeholder="RIF">
                             </div>
                         </div>
                         <div class="form-group">
@@ -376,6 +380,7 @@ function tableTicketsConstructor(object){
 $(document).ready(function(){
 
   $('#dia-datepicker,#final-datepicker,#inicial-datepicker, #modal-fechaSuscripcion-input').datepicker();
+  $('#modal-nombre-input').chosen({width:'450px'});
 
  
   $('#rango-radio').change(function(){
@@ -710,10 +715,11 @@ $('#estacionamiento-cliente-modal').on('shown.bs.modal', function () {
   $('#estacionamiento-cliente-modal input, #estacionamiento-cliente-modal select').val("").trigger('change');
 })
 
-$('#modal-rif-select').change(function(){
+$('#modal-nombre-input').change(function(){
     var value=$(this).val();
-    var nombre= $(this).find('option[value="'+value+'"]').data('nombre');
-    $('#modal-nombre-input').val(nombre);
+    var rif= $(this).find('option[value="'+value+'"]').data('rif');
+    console.log(rif);
+    $('#modal-rif-input').val(rif).attr('readonly');
 })
 
 

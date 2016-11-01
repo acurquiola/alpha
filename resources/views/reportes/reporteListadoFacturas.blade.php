@@ -58,13 +58,13 @@
                             <select class="form-control" id="cliente-select" name="cliente_id" autocomplete="off">                                <option value="">--Seleccione una opcion--</option>
                                 @foreach($clientes as $cliente)
                                 <option
-                                value="{{$cliente->id}}">
-                                {{$cliente->codigo}} | {{$cliente->nombre}}
-                            </option>
-                            @endforeach    
-                        </select>                   
+                                    value="{{$cliente->id}}">
+                                    {{$cliente->codigo}} | {{$cliente->nombre}}
+                                </option>
+                                @endforeach    
+                            </select>                   
+                        </div>
                     </div>
-                </div>
                 <div class="form-group">
                     <label class="col-md-1 control-label"><strong>Estatus</strong></label>
                     <div class="col-md-6">
