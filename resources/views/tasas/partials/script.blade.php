@@ -196,6 +196,24 @@ $(function(){
     })
 
     $('body').delegate('.save-tasa-btn','click',function(e){
+
+        var pagar     =commaToNum($('.total-a-pagar-doc-input').first().val());
+        var depositar =commaToNum($('#total-a-depositar-doc-input').val());
+
+
+        if(pagar>depositar){
+            alertify.error("El monto total no puede ser mayor al depositado.");
+            return;
+        }
+        if(pagar < depositar){
+            alertify.error("El monto depositado no puede ser mayor al monto total.");
+            return;
+        }
+        if(pagar==0 || depositar==0){
+            alertify.error("El monto a cobrar o depositado no pueden ser cero.");
+            return;
+        }
+
         e.preventDefault();
         var $btn= $(this);
         var $form= $btn.closest('form');

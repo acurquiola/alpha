@@ -1,9 +1,18 @@
-    $('#condicionPago').change(function(){
+    $('#condicionPago').change(function(e){
         var value=$(this).val();
         $('#concepto-select').val('');
         $('#concepto-select option').addClass('inactive').hide();
         $('#concepto-select option[condicionPago="'+value+'"], #concepto-select option[condicionPago="Ambas"]').removeClass('inactive').show();
         $('#concepto-select').trigger('chosen:updated');
+        var fecha = $('#fecha').val();
+
+	 	condicionPago = $('#condicionPago').val();
+	    if(condicionPago == 'Contado'){
+	      $('#fechaVencimiento').val(moment(fecha, "DD/MM/YYYY").format("DD/MM/YYYY"));
+	    }else{
+	      days = {{ $diasVencimientoCred }};
+	      $('#fechaVencimiento').val(moment(fecha, "DD/MM/YYYY").add('days', days).format("DD/MM/YYYY"));
+	    };
 
         
     }).trigger('change');
@@ -28,6 +37,7 @@
     var iva=0;
     var recargoTotalDoc=0;
     var total=0;
+
 
     {{--$('.nControlPrefix-list li').click(function(e){--}}
         {{--e.preventDefault();--}}

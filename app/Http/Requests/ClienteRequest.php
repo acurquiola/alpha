@@ -28,7 +28,7 @@ class ClienteRequest extends Request {
         return [
 			'codigo'         =>        'required|unique:clientes,codigo,'.$id,
 			'nombre'         =>        'required',
-			'cedRif'         =>        'required|regex:/^(?!.*[vVjJeE]).*$/',
+			'cedRif'         =>        'required|regex:/^(?!.*[vVjJeE]).*$/|numeric',
 			'cedRifPrefix'   =>   	   'unique_with:clientes,cedRif,'.$id.'=id',
 			'tipo'           =>        'required',
 			'email'          =>        'required_with:isEnvioAutomatico|email',
