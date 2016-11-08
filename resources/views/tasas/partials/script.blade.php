@@ -201,6 +201,57 @@ $(function(){
         var depositar =commaToNum($('#total-a-depositar-doc-input').val());
 
 
+        e.preventDefault();
+        var $btn= $(this);
+        var $form= $btn.closest('form');
+        var $consulta= $form.closest('.consulta');
+        var canUpload=true;
+        var isSupervisor=$form.data('isSupervisor');
+        $form.find('.hasta-input, .desde-input').each(function(index, value){
+            if($(value).val()=="")
+                canUpload=false;
+        })
+        var pagos=[];
+
+        $('#formas-pago-table tbody tr').each(function(index,value){
+            pagos.push($(value).data('object'));
+        })
+        var data=$form.serializeArray();
+        data.push({name:'pagos', value:JSON.stringify(pagos)});
+            
+
+        if(canUpload){
+
+        alertify.confirm("¿Desea guardar la ínformación?", function (e) {
+            if (e) {
+                $.ajax({
+                    url: $form.data('url'),
+                    data: data,
+                    method: "POST"
+                }).always(function(response, status, responseObject){
+                    if(status!="error"){
+                        if(isSupervisor){
+                            $('#consultas_wrapper').html(response);
+                        }else{
+                            $form.closest('.consulta').html($(response).html());
+                        }
+                        alertify.success('Los datos han sido guardados.');
+                    }else
+                        alertify.error('Error procesando los datos en el servidor.');
+                    });
+                }    
+            })
+        }else{
+            alertify.error('Los campos no pueden estar vacios.');
+        }
+    })
+
+    $('body').delegate('.consolidar-tasa-btn','click',function(e){
+
+        var pagar     =commaToNum($('.total-a-pagar-doc-input').first().val());
+        var depositar =commaToNum($('#total-a-depositar-doc-input').val());
+
+
         if(pagar>depositar){
             alertify.error("El monto total no puede ser mayor al depositado.");
             return;
