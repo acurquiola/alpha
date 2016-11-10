@@ -1,4 +1,4 @@
-<table style="width:90%; border-collapse: collapse">
+<table style="width:95%; border-collapse: collapse">
 <br>
 <br>
 <br>
