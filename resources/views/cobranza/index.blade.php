@@ -26,9 +26,9 @@
 						<div class="input-group-btn">
 							<button style="max-height:37px" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="operator-text">{{array_get( $input, 'cobroIdOperator')}}</span></button>
 							<ul class="dropdown-menu operator-list">
+								<li><a href="#">=</a></li>
 								<li><a href="#">>=</a></li>
 								<li><a href="#"><=</a></li>
-								<li><a href="#">=</a></li>
 							</ul>
 						</div>
 						{!! Form::text('id', array_get( $input, 'id'), [ 'class'=>"form-control", 'style' => 'padding-left:2px', 'placeholder'=>'Número Cobro', 'style'=>'max-width:112px']) !!}
@@ -297,6 +297,35 @@
                 $('#show-modal').modal('show');
             })
 
+
+
+	    /*
+			Datepicker
+			*/
+
+
+	        //Datemask dd/mm/yyyy
+	        $('#f-datepicker').inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/yyyy"});
+
+
+			$('#f-datepicker').datepicker({
+				closeText: 'Cerrar',
+				prevText: '&#x3C;Ant',
+				nextText: 'Sig&#x3E;',
+				currentText: 'Hoy',
+				monthNames: ['Enero','Febrero','Marzo','Abril','Mayo','Junio',
+				'Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'],
+				monthNamesShort: ['Ene','Feb','Mar','Abr','May','Jun',
+				'Jul','Ago','Sep','Oct','Nov','Dic'],
+				dayNames: ['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'],
+				dayNamesShort: ['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'],
+				dayNamesMin: ['D','L','M','M','J','V','S'],
+				weekHeader: 'Sm',
+				firstDay: 1,
+				isRTL: false,
+				showMonthAfterYear: false,
+				yearSuffix: '',
+				dateFormat: 'yy-mm-dd'});
 
 		$('#save-nvoRecibo-btn-modal').click(function(){
     		var data =$('#show-modal form').serializeArray()

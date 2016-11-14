@@ -243,21 +243,27 @@ class FacturaController extends Controller {
             $fecha         ='0000-00-00';
             $fechaOperator ='>=';
         }else{
-            $fecha           =\Carbon\Carbon::createFromFormat('d/m/Y', $fecha);
-            $fecha->timezone = 'America/Caracas';
+            $fecha            =\Carbon\Carbon::createFromFormat('d/m/Y', $fecha);
+            $fecha            = $fecha->toDateString();
         }
 
         $estado               = $request->get('estado', '%');
         $estado               =($estado=="")?"%":$estado;
 
 
+        if($total==""){
+            $total         =0;
+            $totalOperator ='>=';
+        }else{
+                $total            =$this->parseDecimal($total);
+        }
 
-        \Input::merge([ 'fechaOperator'                 =>$fechaOperator,
-                        'nFacturaOperator'              =>$nFacturaOperator,
-                        'nControlOperator'              =>$nControlOperator,
-                        'totalOperator'                 =>$totalOperator,
-                        'sortName'                      =>$sortName,
-                        'sortType'                      =>$sortType]);
+        \Input::replace([ 'fechaOperator'   =>'=',
+                        'nFacturaOperator'  =>'=',
+                        'nControlOperator'  =>'=',
+                        'totalOperator'     =>'=',
+                        'sortName'          =>$sortName,
+                        'sortType'          =>$sortType]);
 
 
         $modulo=\App\Modulo::where("nombre","like",$moduloNombre)->where('aeropuerto_id', session('aeropuerto')->id)->first();

@@ -4,8 +4,11 @@ use App\Facturametadata;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Traits\DecimalConverterTrait;
 
 class CobranzaController extends Controller {
+
+    use DecimalConverterTrait;
 
     public function __construct()
     {
@@ -62,15 +65,29 @@ class CobranzaController extends Controller {
             $fecha         ='0000-00-00';
             $fechaOperator ='>=';
         }else{
-            $fecha=\Carbon\Carbon::createFromFormat('d/m/Y', $fecha);
+                $fecha            =\Carbon\Carbon::createFromFormat('d/m/Y', $fecha);
+                $fecha            = $fecha->toDateString();
+        }
+        if($pagado==""){
+            $pagado         =0;
+            $pagadoOperator ='>=';
+        }else{
+                $pagado            =$this->parseDecimal($pagado);
+        }
+        if($depositado==""){
+            $depositado         =0;
+            $depositadoOperator ='>=';
+        }else{
+                $depositado            =$this->parseDecimal($depositado);
         }
 
-        \Input::merge([ 'fechaOperator'      =>$fechaOperator,
-                        'cobroIdOperator'    =>$cobroIdOperator,
-                        'pagadoOperator'     =>$pagadoOperator,
-                        'depositadoOperator' =>$depositadoOperator,
+        \Input::replace([ 'fechaOperator'      =>'=',
+                        'cobroIdOperator'    =>'=',
+                        'pagadoOperator'     =>'=',
+                        'depositadoOperator' =>'=',
                         'sortName'           =>$sortName,
                         'sortType'           =>$sortType]);
+
 
         $modulo=\App\Modulo::where("nombre","like",$moduloNombre)
                             ->where('aeropuerto_id','=', session('aeropuerto')->id)->first();
