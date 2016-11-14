@@ -114,13 +114,13 @@
 								<table class="table text-center">
 									<thead class="bg-primary">
 										<tr>
-											{!!Html::sortableColumnTitle("Nro. Cobro", "nContrato")!!}
+											{!!Html::sortableColumnTitle("Nro. Cobro", "id")!!}
 											{!!Html::sortableColumnTitle("Nro. Recibo", "nRecibo")!!}
 											{!!Html::sortableColumnTitle("Cliente", "clienteNombre")!!}
-											{!!Html::sortableColumnTitle("Fecha", "clienteNombre")!!}
-											{!!Html::sortableColumnTitle("Monto pagado", "conceptoNombre")!!}
-											{!!Html::sortableColumnTitle("Monto depositado", "fechaInicio")!!}
-											{!!Html::sortableColumnTitle("Observaciones", "fechaVencimiento")!!}
+											{!!Html::sortableColumnTitle("Fecha", "fecha")!!}
+											{!!Html::sortableColumnTitle("Monto pagado", "montofacturas")!!}
+											{!!Html::sortableColumnTitle("Monto depositado", "montodepositado")!!}
+											{!!Html::sortableColumnTitle("Observaciones", "observacion")!!}
 											<th>Acción</th>
 										</tr>
 									</thead>

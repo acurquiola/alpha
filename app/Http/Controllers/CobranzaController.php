@@ -28,6 +28,7 @@ class CobranzaController extends Controller {
 	 */
 	public function index($moduloNombre, Request $request)
 	{
+
         $sortName           = $request->get('sortName','id');
         $sortName           = ($sortName=="")?"id":$sortName;
 
