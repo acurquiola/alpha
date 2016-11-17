@@ -55,7 +55,7 @@
 					{!! Form::text('descripcion', array_get( $input, 'descripcion'), [ 'class'=>"form-control", 'placeholder'=>'Descripción', 'style'=>'max-width:150px']) !!}
 				</div>
 				<div class="form-group">
-					{!! Form::select('estado', ["%" => "-- Seleccione --","P" => "Pendiente","C" => "Pagada","A" => "Anulada"], array_get( $input, 'estado'), [ 'class'=>"form-control", 'style'=>'max-width:100px']) !!}
+					{!! Form::select('estado', ["%" => "-- Estado --","P" => "Pendiente","C" => "Pagada","A" => "Anulada"], array_get( $input, 'estado'), [ 'class'=>"form-control", 'style'=>'max-width:100px']) !!}
 				</div>
 				<div class="form-group">
 					{!! Form::hidden('fechaOperator', array_get( $input, 'fechaOperator'), ['id' => 'fechaOperator', 'class' => 'operator-input', 'autocomplete'=>'off']) !!}
@@ -159,8 +159,7 @@
 													<a class='btn btn-warning' href='{{url('facturacion/'.$modulo->nombre.'/factura/'.$factura->id.'/edit')}}'><span class='glyphicon glyphicon-pencil' ></span></a>
 													<button class='btn btn-danger eliminar-factura-btn' data-id="{{$factura->id}}"><span class='glyphicon glyphicon-remove'></span></button>
 													<a target="_blank" class='btn btn-default' href='{{action('FacturaController@getPrint', [$modulo->nombre, $factura->id])}}'><span class='glyphicon glyphicon-print' ></span></a>
-
-													{{-- @if($factura->deleted_at !=  null) <a class='btn btn-info resturar-factura-btn'  href='{{action('FacturaController@restore', [$modulo->nombre, $factura->id])}}'><span class='glyphicon glyphicon-refresh'></span></a> @endif --}}
+													@if($factura->deleted_at !=  null) <button class='btn btn-info resturar-factura-btn' data-id="{{$factura->id}}"><span class='glyphicon glyphicon-refresh'></span></button> @endif 
 												</div>
 											</td>
 										</tr>
@@ -272,6 +271,36 @@
 							});
 							
 
+
+	    });
+
+		$('.resturar-factura-btn').click(function(){
+			var tr=$(this).closest('tr');
+			var id=$(this).data("id");
+
+			alertify.confirm("¿Realmente desea  restaurar este registro?", function (e) {
+                if (e) {        
+                	
+		                $.
+	                    ajax({
+							data:{id:id},
+							method:'get',
+							url:"{{action('FacturaController@restore')}}"})
+	                    .done(function(response, status, responseObject){
+	                        try{
+	                            var obj= JSON.parse(responseObject.responseText);
+	                            if(obj.success==1){
+	                                $(tr).remove();
+	                                alertify.success(obj.text);
+	                            }else if(obj.success==0)
+	                                alertify.error(obj.text);
+	                        }catch(e){
+	                            console.log(e);
+	                            alertify.error("Error en el servidor");
+	                        }
+	                    })
+                	} 
+          	  })
 
 	    });
     })

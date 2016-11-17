@@ -511,10 +511,14 @@ class FacturaController extends Controller {
 
     }
 
-    public function restore($modulo, Factura $factura){
-        if($factura->restore())
+    public function restore(Request $request){
 
-            return view('factura.index', compact('modulo'))->withInput(\Input::all());
+        $factura = Factura::withTrashed()->find($request['id']);
+
+        if($factura->restore())
+            return ["success"=>1, "text"=>"La factura se ha restaurado con éxito."];
+        else
+            return ["success"=>0, "text"=>"No se pudo resturar la factura."];
     }
 
 	/**

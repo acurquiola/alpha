@@ -240,7 +240,9 @@
                                 <tr>\
                                     <th colspan="17" style="vertical-align: middle; margin-top:20px" align="center" class="text-center">RELACIÓN DE FACTURAS AERONÁUTICAS CRÉDITO\
                                         </br>\
-                                        AEROPUERTO: {{$aeropuertoNombre}} | CLIENTE: {{($cliente==0)?"TODOS":$cliente}}\
+                                        AEROPUERTO: {{$aeropuertoNombre}} \
+                                        </br>\
+                                        CLIENTE: {{($cliente==0)?"TODOS":$cliente}}\
                                     </th>\
                                 </tr>\
                             </thead>')

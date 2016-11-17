@@ -1142,6 +1142,8 @@ class ReporteController extends Controller {
         $cliente    =$request->get('cliente_id', 0);
         $modulo     =$request->get('modulo', 0);
         $nFactura   =$request->get('nFactura', 0);
+        $nCobro   =$request->get('nCobro', 0);
+
         $ajustes = [];
 
         if($aeropuerto!=0){
@@ -1168,18 +1170,29 @@ class ReporteController extends Controller {
 
             $factura_id = \App\Factura::where('nFactura', $nFactura)
                                       ->where('aeropuerto_id', $aeropuerto)
-                                      ->first()->id;
+                                      ->first();
 
+            if($factura_id != ''){
 
-            $cobros=\App\Cobro::select('cobros.id')
-                                  ->join('cobro_factura', 'cobro_factura.cobro_id', '=', 'cobros.id')
-                                  ->where('cobro_factura.factura_id', $factura_id)
-                                  ->orderBy('cobro_factura.factura_id', 'ASC')
-                                  ->lists('id');
+                $cobros=\App\Cobro::select('cobros.id')
+                                      ->join('cobro_factura', 'cobro_factura.cobro_id', '=', 'cobros.id')
+                                      ->where('cobro_factura.factura_id', $factura_id->id)
+                                      ->orderBy('cobro_factura.factura_id', 'ASC')
+                                      ->lists('id');
+            }else{
+                $cobros = [];
+            }
+
+                $recibos=\App\Cobro::with('pagos','facturas')
+                                      ->whereIn('cobros.id', $cobros)
+                                      ->orderBy('fecha', 'ASC', 'facturas.nFactura', 'ASC')
+                                      ->get();
+
+        }elseif($nCobro != 0){
 
             $recibos=\App\Cobro::with('pagos','facturas')
-                                  ->whereIn('cobros.id', $cobros)
-                                  ->orderBy('fecha', 'ASC', 'facturas.nFactura', 'ASC')
+                                  ->where('cobros.id', $nCobro)
+                                  ->orderBy('fecha', 'ASC', 'cobros.id', 'ASC')
                                   ->get();
         }else{
 
@@ -1212,7 +1225,7 @@ class ReporteController extends Controller {
         $totalFacturas   =$recibos->sum('montofacturas');
         $totalDepositado =$recibos->sum('montodepositado');
 
-        return view('reportes.reporteRelacionCobranza', compact('ajustes', 'mes','nFactura', 'anno', 'aeropuerto', 'modulo', 'recibos', 'modulos', 'clientes', 'cliente', 'totalFacturas', 'totalDepositado', 'moduloNombre', 'clienteNombre', 'aeropuertoNombre'));
+        return view('reportes.reporteRelacionCobranza', compact('ajustes', 'mes','nFactura','nCobro', 'anno', 'aeropuerto', 'modulo', 'recibos', 'modulos', 'clientes', 'cliente', 'totalFacturas', 'totalDepositado', 'moduloNombre', 'clienteNombre', 'aeropuertoNombre'));
 
     }
 

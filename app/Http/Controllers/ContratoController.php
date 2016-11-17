@@ -86,11 +86,13 @@ class ContratoController extends Controller {
             ->where('fechaInicio', $fechaInicioOperator, $fechaInicio)
             ->where('fechaVencimiento', $fechaVencimientoOperator, $fechaVencimiento)
             ->where('clientes.nombre', 'like', "%$clienteNombre%")
+            ->where('clientes.isActivo', '1')
             ->where('conceptos.aeropuerto_id','=', session('aeropuerto')->id)
             ->orderBy($sortName, $sortType)->paginate(10);
         $contratos->setPath('contrato');
         $conceptos=["Todos"]+\App\Concepto::where('aeropuerto_id', '=', session('aeropuerto')->id)->orderBy('nompre', 'ASC')->lists('nompre', 'id');
         $contratos->load('concepto', 'cliente');
+
         return view("contrato.index", compact('contratos','conceptos'))->withInput(\Input::all());
 	}
 
@@ -187,7 +189,14 @@ class ContratoController extends Controller {
 
     public function lote()
     {
-        $contratos=\App\Contrato::with('cliente')->where('fechaVencimiento', '>=', \Carbon\Carbon::now()->format('d/m/Y'))->get();
+        $contratos=\App\Contrato::with('cliente')
+        ->join('clientes','clientes.id' , '=', 'contratos.cliente_id')
+        ->join('conceptos','conceptos.id' , '=', 'contratos.concepto_id')
+        ->where('fechaVencimiento', '>=', \Carbon\Carbon::now()->format('d/m/Y'))
+        ->where('clientes.isActivo', '1')
+        ->where('conceptos.aeropuerto_id','=', session('aeropuerto')->id)
+        ->get();
+
         return view('contrato.lote', compact('contratos'));
     }
 
