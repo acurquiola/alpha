@@ -669,6 +669,7 @@ class ReporteController extends Controller {
 
     //Reporte de Morosidad
     public function getReporteDeMorosidad(Request $request){
+
         $anno             = $request->get('anno',  \Carbon\Carbon::now()->year);
         $aeropuerto       = $request->get('aeropuerto', session('aeropuerto')->id);
         $aeropuertoNombre = Aeropuerto::find($aeropuerto)->nombre;
@@ -682,8 +683,14 @@ class ReporteController extends Controller {
         $today         = Carbon::now()->toDateString();
 
 
+
         if($clienteID == ''){
-            $cliente = Cliente::all();
+            $cliente = \App\Cliente::join('facturas','facturas.cliente_id' , '=', 'clientes.id')
+                                    ->where('facturas.aeropuerto_id','=', session('aeropuerto')->id)
+                                    ->where('facturas.estado','=','P')
+                                    ->orderBy('clientes.nombre')
+                                    ->groupBy("clientes.id")->get();
+
             $nombreCliente = 'TODOS';
         }else{
             $cliente = Cliente::find($clienteID);
@@ -767,7 +774,6 @@ class ReporteController extends Controller {
             }   
 
         }
-
 
         return view('reportes.reporteReporteDeMorosidad', compact('aeropuertoNombre', 'nombreCliente', 'anno', 'aeropuerto', 'cliente',  'clientesMod','totalClientes','ModTotales','totalMes', 'facturasPendientesModulo', 'meses', 'modulos', 'totales', 'totalesCliente', 'clienteFacturaMes'));
     }
@@ -1894,9 +1900,6 @@ class ReporteController extends Controller {
                                  ->orderBy('fecha', 'ASC')
                                  ->orderBy('nFactura', 'ASC')
                                  ->get();
-
-                           //      dd($facturas);
-
 
         $dosaFactura=[];
         $recibo=[];
