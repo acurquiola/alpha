@@ -85,7 +85,7 @@ class ViewComposerServiceProvider extends ServiceProvider {
             $view->with(compact('clientes'));
         });
 
-        view()->composer(['aeronaves.partials.form', 'aeronaves.index', 'aterrizajes.index', 'aterrizajes.create', 'aterrizajes.partials.form', 'aterrizajes.partials.edit', 'aterrizajes.partials.show', 'despegues.index', 'despegues.create', 'despegues.partials.form', 'despegues.partials.edit', 'despegues.partials.show', 'cargas.index', 'cargas.create', 'cargas.partials.edit', 'cargas.partials.form', 'cargas.partials.show', 'reportes.reporteRelacionFacturasAeronauticasCredito'], function($view){
+        view()->composer(['aeronaves.partials.form', 'aeronaves.index', 'aterrizajes.index', 'aterrizajes.create', 'aterrizajes.partials.form', 'aterrizajes.partials.edit', 'aterrizajes.partials.show', 'despegues.index', 'despegues.create', 'despegues.partials.form', 'despegues.partials.edit', 'despegues.partials.show', 'cargas.index', 'cargas.create', 'cargas.partials.edit', 'cargas.partials.form', 'cargas.partials.show', 'reportes.reporteRelacionFacturasAeronauticasCredito', 'reportes.reporteRelacionFacturasAeronauticasCreditoResumen'], function($view){
             $clientes= [""=>"-- Seleccione Cliente--"]+\App\Cliente::where("tipo","=", "Aeronáutico")->orWhere("tipo","=", "Mixto")->lists('nombre', 'id');
             $view->with(compact('clientes'));
         });
@@ -234,6 +234,7 @@ class ViewComposerServiceProvider extends ServiceProvider {
                             'reportes.reporteRelacionIngresoMensual',
                             'reportes.reporteRelacionIngresosAeronauticosContado',
                             'reportes.reporteRelacionFacturasAeronauticasCredito',
+                            'reportes.reporteRelacionFacturasAeronauticasCreditoResumen',
                             'reportes.reporteRelacionMetaRecaudacionMensual',
                             'reportes.reporteDiario',
                             'reportes.reporteFormulariosAnulados',
@@ -311,6 +312,7 @@ class ViewComposerServiceProvider extends ServiceProvider {
             'reportes.reporteRelacionIngresosAeronauticosContado',
             'reportes.reporteLibroDeVentas',
             'reportes.reporteRelacionFacturasAeronauticasCredito',
+            'reportes.reporteRelacionFacturasAeronauticasCreditoResumen',
             'reportes.reporteTraficoAereo'], function($view){
             $aeropuertos = \App\Aeropuerto::lists('nombre', 'id');
             $aeropuertos[0]="Todos";
@@ -333,6 +335,7 @@ class ViewComposerServiceProvider extends ServiceProvider {
             'reportes.reporteRelacionIngresosAeronauticosContado',
             'reportes.reporteRelacionMetaRecaudacionMensual',
             'reportes.reporteRelacionFacturasAeronauticasCredito',
+            'reportes.reporteRelacionFacturasAeronauticasCreditoResumen',
             'reportes.reporteRelacionMensualDeIngresosRecaudacionPendiente',
             'reportes.reporteControlDeRecaudacionMensual',
             'reportes.reporteControlDeRecaudacionDiario',

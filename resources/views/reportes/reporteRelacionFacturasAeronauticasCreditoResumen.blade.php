@@ -4,7 +4,7 @@
 
 <ol class="breadcrumb">
     <li><a href="{{url('principal')}}">Inicio</a></li>
-    <li><a class="active">Relación de Facturas Aeronáuticas Crédito</a></li>
+    <li><a class="active">Relación de Facturas Aeronáuticas Crédito RESUMEN </a></li>
 </ol>
 <div class="row" id="box-wrapper">
     <div class="col-md-12">
@@ -18,7 +18,7 @@
                 </div><!-- /.box-tools -->
             </div>
             <div class="box-body">
-                {!! Form::open(["url" => action('ReporteController@getReporteRelacionFacturasAeronauticasCredito'), "method" => "GET", "class"=>"form-inline"]) !!}
+                {!! Form::open(["url" => action('ReporteController@getReporteResumenFacturasAeronauticasCredito'), "method" => "GET", "class"=>"form-inline"]) !!}
                 <div class="form-group ">
                     <label>AEROPUERTO:</label>
                       {!! Form::select('aeropuerto_id', $aeropuertos, $aeropuerto, ["class"=> "form-control select-flt"]) !!}
@@ -52,7 +52,7 @@
                 <br>
                 <div class="text-right">
                     <button type="submit" class="btn btn-primary" >Buscar</button>
-                    <a class="btn btn-default text-right" href="{{action('ReporteController@getReporteRelacionFacturasAeronauticasCredito')}}">Reset</a>
+                    <a class="btn btn-default text-right" href="{{action('ReporteController@getReporteResumenFacturasAeronauticasCredito')}}">Reset</a>
                 </div>
                 {!! Form::close() !!}
             </div>
@@ -90,7 +90,7 @@
                                         <th  style="vertical-align: middle" class="text-center" >Rec. Caja</th>
                                        
                                         <th style="vertical-align: middle" class="text-center" >Fecha</th>
-                                        <th style="vertical-align: middle" class="text-center" >Nro.</th>
+                                        <th style="vertical-align: middle" class="text-center" >Cant.</th>
                                         <th style="vertical-align: middle" class="text-center" >Formulario(Bs.)</th>
                                         <th style="vertical-align: middle" class="text-center" >Aterrizaje (Bs.)</th>
                                         <th style="vertical-align: middle" class="text-center" >Estacionamiento (Bs.)</th>
@@ -111,11 +111,11 @@
                                             <tr align="center">
                                                 <td class="text-left" align="left" colspan="2" style="width: 200px">{{$df['cliente']}}</td> 
 
-                                                <td class="text-center" align="center">{{$df['nCobro']}}</td>                         
+                                                <td class="text-center" align="center">{{$index}}</td>                         
                                                 <td class="text-center" align="center">{{$df['reciboCaja']}}</td>                         
                                                 <td class="text-center" align="center">{{$df['fecha']}}</td>  
 
-                                                <td class="text-center" align="center">{{$index}}</td>                               
+                                                <td class="text-center" align="center">{{$df['cantDosas']}}</td>  
                                                 <td class="text-right formularioBs" align="right">{{$traductor->format($df['formularioBs'])}}</td>                               
                                                 <td class="text-right aterrizajeBs" align="right">{{$traductor->format($df['aterrizajeBs'])}}</td>                               
                                                 <td class="text-right estacionamientoBs" align="right">{{$traductor->format($df['estacionamientoBs'])}}</td>                               
@@ -149,7 +149,7 @@
                                             <td align="right" id="totalTotal">0,00</td>                           
                                         </tr>
                                         <tr>
-                                            <td colspan="16" class="text-right" align="right">CANTIDAD DE FACTURAS:</td>
+                                            <td colspan="16" class="text-right" align="right">CANTIDAD DE COBROS:</td>
                                             <td class="text-right" align="right">{{ count($dosaFactura) }}</td>
                                         </tr>
                                     @else
