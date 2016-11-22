@@ -104,6 +104,15 @@ class ClienteController extends Controller {
 	 */
 	public function update(Cliente $cliente, ClienteRequest $request)
 	{
+		$factura = \App\Factura::where('cliente_id', $cliente->id)->get();
+
+		if($factura->count() > 0){
+			$nombreActual = Cliente::find($cliente->id)->nombre;
+			if($nombreActual != $request->nombre){
+        		return redirect()->back()->withErrors('No se puede modificar el nombre del cliente ya que tiene movimientos asociados.')->withInput();
+			}
+		}
+
         $cliente->update($request->except('hangars', 'isContribuyente'));
 		$cliente->isContribuyente =$request->input('isContribuyente', 0);
         if($request->get('tipo')!="No Aeronáutico")

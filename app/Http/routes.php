@@ -158,7 +158,7 @@ Route::group(['prefix' => 'facturacion/{modulo}/'], function () {
     Route::get('automatica/resultados','FacturaController@getContratosAutomaticaResult');
     Route::post('contratosStoreAutomatica', 'FacturaController@postContratosStoreAutomatica');
     Route::get('automatica', 'FacturaController@automatica');
-    Route::get('resutaurar', 'FacturaController@restore');
+    Route::get('restaurar/{id}', 'FacturaController@restore');
     Route::resource('factura', 'FacturaController');
 });
 
@@ -227,6 +227,7 @@ Route::group(['prefix' => 'reporte/'], function () {
     Route::get('reporteDiarioIngreso', 'ReporteController@getReporteDiarioIngreso');
     Route::get('reporteRelacionCobranza', 'ReporteController@getReporteRelacionCobranza');
     Route::get('reporteRelacionFacturasAeronauticasCredito', 'ReporteController@getReporteRelacionFacturasAeronauticasCredito');
+    Route::get('reporteResumenFacturasAeronauticasCredito', 'ReporteController@getReporteResumenFacturasAeronauticasCredito');
     Route::get('reporteContratos', 'ReporteController@getReporteContratos');
     Route::get('reporteRelacionMetaRecaudacionMensual', 'ReporteController@getReporteRelacionMetaRecaudacionMensual');
     Route::get('reporteTraficoAereo', 'ReporteController@getReporteTraficoAereo');

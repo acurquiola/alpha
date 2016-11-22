@@ -54,7 +54,6 @@
 					<div class="col-xs-12">
 						<div class="table-responsive" style="max-height: 500px">
 							<table class="table table-condensed">
-								@if($facturasAnuladas->count()>0)
 								<thead>
 									<tr  class="bg-primary" >
 										<th style="vertical-align: middle; width: 1200px"  colspan="6" align="center" class="text-center">
@@ -82,6 +81,7 @@
 										</th>
 									</tr>
 								</thead>
+								@if($facturasAnuladas->count()>0)
 									@foreach($facturasAnuladas as $index => $factura)
 										<tr >
 											<td style="vertical-align: middle; width: 200px; " align="center">{{$index+1}}</td>
@@ -97,7 +97,6 @@
 										<td colspan="6" class="text-center" align="center">No hay facturas anuladas para las fechas seleccionadas</td>
 									</tr>
 								@endif
-								@if($recibosAnulados->count()>0)
 								<thead>
 									<tr  class="bg-primary" >
 										<th style="vertical-align: middle; width: 1200px" colspan="6" align="center" class="text-center">
@@ -141,9 +140,7 @@
 										<td colspan="6" class="text-center" align="center">No hay recibos anulados para las fechas seleccionadas</td>
 									</tr>
 								@endif
-								@endif
 			                    </tbody>
-
 			                </table>
 			            </div>
 			        </div>
@@ -195,7 +192,7 @@
 								<tr>\
 									<th colspan="6" style="vertical-align: middle; margin-top:20px" align="center" class="text-center">RELACIÓN DE FORMULARIOS ANULADOS\
 										</br>\
-										MES: {{$mes}} AÑO: {{$anno}}\
+										MES: {{ mesEnLetras($mes) }} AÑO: {{$anno}}\
 									</th>\
 								</tr>\
 							</thead>')

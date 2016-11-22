@@ -34,13 +34,21 @@
 							<label><strong>AÑO: </strong></label>
 							{!! Form::select('anno', $annos, $anno, ["class"=> "form-control"]) !!}
 						</div>
+						<div class="clearfix"></div>
+						</br>
 						<div class="form-group" >
 							<label ><strong>CLIENTE: </strong></label>
-                     		 {!! Form::select('cliente_id', $clientes, $cliente, ["class"=> "form-control select-flt"]) !!}
+                     		 {!! Form::select('cliente_id', $clientes, $cliente, ["class"=> "form-control select-flt", 'id' => 'cliente']) !!}
 						</div>
+						<div class="clearfix"></div>
+						</br>
 						<div class="form-group" >
 			            <label><strong>Nro. FACTURA: </strong></label>
-							<input type="text" name="nFactura" class="form-control" value="{{ ($nFactura)?$nFactura:'' }}"placeholder="Número de Factura" />
+							<input type="text" name="nFactura" class="form-control" value="{{ ($nFactura)?$nFactura:'' }}" placeholder="Número de Factura" />
+		                </div> 
+						<div class="form-group" >
+			            <label><strong>Nro. COBRO: </strong></label>
+							<input type="text" name="nCobro" class="form-control" value="{{ ($nCobro)?$nCobro:'' }}" placeholder="Número de Cobro" />
 		                </div> 
 					</div>
 				</div>
@@ -166,7 +174,7 @@
 										<td style="vertical-align: middle; width:90px" class="islr-saldo" align="right">@if($recibo->facturas->count() >0) @foreach($recibo->facturas as $index => $comprobante) @if($index==0) {{(($comprobante->pivot->base * $comprobante->pivot->islrpercentage)/100 == '0')?'':$traductor->format(($comprobante->pivot->base * $comprobante->pivot->islrpercentage)/100)}}</br> @endif  @endforeach @endif</td>
 										<td style="vertical-align: middle; width:120px" align="right">{{$traductor->format($recibo->montofacturas)}}</td>
 										<td style="vertical-align: middle; width:120px" align="right">{{$traductor->format($recibo->montodepositado)}}</td>
-										<td style="vertical-align: middle; width:120px" class="saldoFavor" align="right">@if(count($ajustes) >0) @foreach($ajustes as $i => $monto) @if($i == $recibo->id) {{$traductor->format($monto)}}  @else 0,00  @endif @endforeach @else 0,00 @endif</td>
+										<td style="vertical-align: middle; width:120px" class="saldoFavor" align="right">@if(count($ajustes) >0) @foreach($ajustes as $i => $monto) @if($i == $recibo->id) {{$traductor->format($monto)}} @endif @endforeach @else 0,00 @endif</td>
 									</tr>
 									@endforeach
 
@@ -255,7 +263,7 @@
 								<tr>\
 									<th colspan="17" style="vertical-align: middle; margin-top:20px" align="center" class="text-center">RELACIÓN DE COBRANZA\
 										</br>\
-										MES: {{$mes}} AÑO: {{$anno}} | MÓDULO: {{$moduloNombre}}\
+										MES: {{ mesEnLetras($mes) }} AÑO: {{$anno}} | MÓDULO: {{$moduloNombre}}\
 										</br>\
 										CLIENTE: {{$clienteNombre}} | AEROPUERTO: {{$aeropuertoNombre}}\
 									</th>\

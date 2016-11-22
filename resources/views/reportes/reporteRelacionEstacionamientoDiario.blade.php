@@ -311,7 +311,7 @@
 								<tr>\
 									<th colspan="20" style="vertical-align: middle; margin-top:20px" align="center" class="text-center">RELACIÓN DE ESTACIONAMIENTO DIARIO\
 										</br>\
-										MES: {{$mes}} AÑO: {{$anno}}\
+										MES:  {{ mesEnLetras($mes) }} AÑO: {{$anno}}\
 										</br>\
 										AEROPUERTO: {{$aeropuertoNombre}}\
 									</th>\

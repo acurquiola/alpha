@@ -48,7 +48,7 @@
 <br>
 <br>
 
-<table style="width:90%; border-collapse: collapse; padding: 2px">
+<table style="width:95%; border-collapse: collapse; padding: 2px">
 <tr>
 <td colspan="4" style="border-bottom: 1px solid black; ">		
 </td>
@@ -61,7 +61,7 @@
 </table>
 <br>
 
-<table style="width:90%; border-collapse: collapse;">
+<table style="width:95%; border-collapse: collapse;">
 <tr>
 <td  colspan="7">
 <strong>CLIENTE:</strong> {{$factura->cliente->nombre}}
@@ -81,7 +81,7 @@
 </tr>
 </table>
 
-<table style="width: 90%" >
+<table style="width: 95%" >
 <tr>
 <td colspan="4" style="border-bottom: 1px solid black;">		
 </td>
@@ -95,7 +95,7 @@
 <br>
 <br>
 
-<table style="width:90%;"> 
+<table style="width:95%;"> 
 <tr> 
 <td colspan="2"> 
 <strong>MATRÍCULA: </strong> 
@@ -119,7 +119,7 @@
 <br>
 <br>
 
-<table style="width:90%">
+<table style="width:95%">
 <tr>
 <td colspan="4" style="border-bottom: 1px solid black;">    
 </td>
@@ -132,7 +132,7 @@
 </table>
 <br>
 
-<table style="width:90%; border-collapse: collapse; padding: 2px;">
+<table style="width:95%; border-collapse: collapse; padding: 2px;">
 <tr>
 <td  colspan="4">
 </td>
@@ -249,7 +249,7 @@
 </table>
 <br>
 <br>
-<table style="width:90%; border-collapse: collapse; padding: 2px">
+<table style="width:95%; border-collapse: collapse; padding: 2px">
 <tr>
 <td style="border-top: 1px solid black;border-bottom: 1px solid black;" colspan="1">
 <strong>Nro.</strong>
@@ -300,7 +300,7 @@
 <br>
 <br>
 <br>
-<table style="width:90%; border-collapse: collapse; padding: 2px">
+<table style="width:95%; border-collapse: collapse; padding: 2px">
 <tr>
 <td colspan="2">
 <strong>DESCRIPCIÓN: </strong> 
@@ -321,7 +321,7 @@
 <br>
 <br>
 <br>
-<table style="width:90%; border-collapse: collapse; padding: 2px">
+<table style="width:95%; border-collapse: collapse; padding: 2px">
 <tr>
 <td  colspan="5">
 <strong></strong>
