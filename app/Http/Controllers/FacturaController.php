@@ -164,7 +164,7 @@ class FacturaController extends Controller {
         // Set some content to print
         //
         if($despegue){
-            $pdf->SetFont('helvetica', '', 8.5, '', true);
+            $pdf->SetFont('helvetica', '', '9.5', true);
             $html = view('pdf.dosa', compact('factura', 'despegue', 'traductor'))->render();
         }else{
             $pdf->SetFont('helvetica', '', 10, '', true);

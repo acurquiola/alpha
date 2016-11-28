@@ -1,7 +1,4 @@
-<table style="width:95%; border-collapse: collapse">
-<br>
-<br>
-<br>
+<table style="width:100%; border-collapse: collapse">
 <tr>
 <td  colspan="7">
 </td>
@@ -48,7 +45,7 @@
 <br>
 <br>
 
-<table style="width:95%; border-collapse: collapse; padding: 2px">
+<table style="width:100%; border-collapse: collapse; padding: 2px">
 <tr>
 <td colspan="4" style="border-bottom: 1px solid black; ">		
 </td>
@@ -61,7 +58,7 @@
 </table>
 <br>
 
-<table style="width:95%; border-collapse: collapse;">
+<table style="width:100%; border-collapse: collapse;">
 <tr>
 <td  colspan="7">
 <strong>CLIENTE:</strong> {{$factura->cliente->nombre}}
@@ -81,7 +78,7 @@
 </tr>
 </table>
 
-<table style="width: 95%" >
+<table style="width: 100%" >
 <tr>
 <td colspan="4" style="border-bottom: 1px solid black;">		
 </td>
@@ -95,7 +92,7 @@
 <br>
 <br>
 
-<table style="width:95%;"> 
+<table style="width:100%;"> 
 <tr> 
 <td colspan="2"> 
 <strong>MATRÍCULA: </strong> 
@@ -119,7 +116,7 @@
 <br>
 <br>
 
-<table style="width:95%">
+<table style="width:100%">
 <tr>
 <td colspan="4" style="border-bottom: 1px solid black;">    
 </td>
@@ -132,7 +129,7 @@
 </table>
 <br>
 
-<table style="width:95%; border-collapse: collapse; padding: 2px;">
+<table style="width:100%; border-collapse: collapse; padding: 2px;">
 <tr>
 <td  colspan="4">
 </td>
@@ -249,7 +246,7 @@
 </table>
 <br>
 <br>
-<table style="width:95%; border-collapse: collapse; padding: 2px">
+<table style="width:100%; border-collapse: collapse; padding: 2px">
 <tr>
 <td style="border-top: 1px solid black;border-bottom: 1px solid black;" colspan="1">
 <strong>Nro.</strong>
@@ -277,7 +274,7 @@
 </tr>
 @endforeach
 <tr> <td colspan="10">
-@for($i=0; $i<10-$factura->detalles->count();$i++)
+@for($i=0; $i<8-$factura->detalles->count();$i++)
 <br>
 @endfor
 </td></tr>
@@ -297,10 +294,7 @@
 
 <br>
 <br>
-<br>
-<br>
-<br>
-<table style="width:95%; border-collapse: collapse; padding: 2px">
+<table style="width:100%; border-collapse: collapse; padding: 2px">
 <tr>
 <td colspan="2">
 <strong>DESCRIPCIÓN: </strong> 
@@ -315,13 +309,11 @@
 </table>
 
 
-
 <br>
 <br>
 <br>
 <br>
-<br>
-<table style="width:95%; border-collapse: collapse; padding: 2px">
+<table style="width:100%; border-collapse: collapse; padding: 2px">
 <tr>
 <td  colspan="5">
 <strong></strong>
