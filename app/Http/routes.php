@@ -92,6 +92,9 @@ Route::post('login', 'Auth\AuthController@postLogin');
 Route::get('logout', 'Auth\AuthController@getLogout');
 Route::get('logoutRemember', 'Auth\AuthController@getLogoutRemember');
 
+Route::get('/conciliacion', function () {
+    return view('conciliacion.index');
+});
 
 
 //Route::get('facturaHtml', function(){
