@@ -1,6 +1,6 @@
 
 <br>
-<table  style="width:100%; border-collapse: collapse; padding:2px;">
+<table  style="width:90%; border-collapse: collapse; padding:2px;">
 <tr>
 <td  colspan="7">
 </td>
@@ -59,7 +59,7 @@
 
 <br>
 <br>
-<table>
+<table style="width:95%" >
 <tr>
 <td colspan="2" style="border-bottom: 1px solid black; text-align:center">
 <strong>FORMA DE PAGO</strong>
@@ -122,7 +122,7 @@
 <br>
 <br>
 <br>
-<table style="width:100%; border-collapse: collapse; padding:2px">
+<table style="width:95%; border-collapse: collapse; padding:2px">
 <tr>
 <td  colspan="5">
 <strong></strong>
