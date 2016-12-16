@@ -18,7 +18,7 @@ class ReporteController extends Controller {
         $this->middleware('auth');
     }
 
-    public function getReporteMensual(qq){
+    public function getReporteMensual(Request $request){
         $mes           =$request->get('mes', \Carbon\Carbon::now()->month);
         $anno          =$request->get('anno',  \Carbon\Carbon::now()->year);
         $aeropuerto    =$request->get('aeropuerto',  0);
