@@ -17,35 +17,49 @@
                     </button>
                 </div><!-- /.box-tools -->
             </div>
-            <div class="box-body text-right">
+            <div class="box-body">
+                {!! Form::open(["url" => action('ConciliacionController@getMovimientos'), "method" => "GET", "class"=>"form-inline"]) !!}
                 <div class="form-inline">
                     <div class="form-group">
-                        <select class="form-control search-parm-select" id="year-select" autocomplete="off">
-                            <option value="" >Seleccione Banco</option>
-                            <option value="2015" >Banco Bicentenario</option>
-                            <option value="2016" >Banco Caroní</option>
+                        <select id="banco-select" name="banco_id" class="form-control" >
+                            <option value="">-- Seleccione Banco --</option>
+                            @foreach($bancos as $banco)
+                            <option value="{{$banco->id}}" data-cuentas='{!!$banco->cuentas!!}'  data-nombre="{{$banco->nombre}}">{{$banco->nombre}}</option>
+                            @endforeach
                         </select>
                     </div>
                     <div class="form-group">
-                        <select class="form-control search-parm-select" id="month-select" autocomplete="off">
-                            <option value="">Seleccione Cuenta</option>
-                            <option value="01">0175XXXXXXXXXXXXXX</option>
-                            <option value="01">0175XXXXXXXXXXXXXX</option>
-                            <option value="01">0175XXXXXXXXXXXXXX</option>
-                            <option value="01">0175XXXXXXXXXXXXXX</option>
-                            <option value="01">0175XXXXXXXXXXXXXX</option>
+                        <select id="cuenta-modal-input" name="cuenta_id" class="form-control">
+                            <option value="">-- Seleccione Cuenta Bancaria --</option>
                         </select>
                     </div>
                     <div class="form-group">
-                            <input class="form-control " id="month-select" autocomplete="off" placeholder="Fecha" />
+                        <select class="form-control search-parm-select" name="tipo" id="formaPago-select" autocomplete="off">
+                            <option value="">-- Seleccione Forma de Pago --</option>
+                            <option value="T">Transferencia Bancario</option>
+                            <option value="D">Depósito Bancario</option>
+                            <option value="NC">Nota de Crédito</option>
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for="active-input">Nro Referencia</label>
-                            <input class="form-control " id="month-select" autocomplete="off"  placeholder="Nro de Referencia/Lote" />
-                        </select>
+                        <input class="form-control" id="referencia-input" name="ncomprobante" autocomplete="off"  placeholder="Nro de Referencia/Lote" />
                     </div>
                 </div>
+                <div class="form-inline">
+                    <div class="form-group">
+                        <input class="form-control datepicker" name="fecha_inicio" id="fecha_inicio-input" autocomplete="off" placeholder="Fecha Inicio" />
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control datepicker" name="fecha_fin" id="fecha_fin -input" autocomplete="off" placeholder="Fecha Fin" />
+                    </div>
+                    <div class="form-group">
+                            <input class="form-control " name="cobro_id" id="cobro-input" autocomplete="off"  placeholder="Nro de Cobro" />
+                    </div>
+                </div>
+                <div class="form-inline text-right">
+                    <button type="submit" class="btn btn-primary">Buscar</button>
+                </div>
+                {!! Form::close() !!}
             </div>
         </div>
     </div>
@@ -54,7 +68,6 @@
             <div class="box-body" >
                 <div class="row">
                     <div class="col-xs-12">
-
                         <div class="col-md-8">
                             <label for="Femision-input"><b>SELECCIONE LOS MOVIMIENTOS A CONCILIAR</b></label>
                         </div>
@@ -63,54 +76,16 @@
                         </div>
                         <div class="col-md-8" id="movimientos-checkbox" >
                             
-                            <div class="checkbox">
-                                <label>
-                                    <input name="contratos-checkbox" type="checkbox">
-                                    Fecha | Nombre Banco | Número Cuenta | Número de Referencia | Monto 
-                                </label>
-                            </div>
-                            <div class="checkbox">
-                                <label>
-                                    <input name="contratos-checkbox" type="checkbox">
-                                    Fecha | Nombre Banco | Número Cuenta | Número de Referencia | Monto 
-                                </label>
-                            </div>
-                            <div class="checkbox">
-                                <label>
-                                    <input name="contratos-checkbox" type="checkbox">
-                                    Fecha | Nombre Banco | Número Cuenta | Número de Referencia | Monto 
-                                </label>
-                            </div>
-                            <div class="checkbox">
-                                <label>
-                                    <input name="contratos-checkbox" type="checkbox">
-                                    Fecha | Nombre Banco | Número Cuenta | Número de Referencia | Monto 
-                                </label>
-                            </div>
-                            <div class="checkbox">
-                                <label>
-                                    <input name="contratos-checkbox" type="checkbox">
-                                    Fecha | Nombre Banco | Número Cuenta | Número de Referencia | Monto 
-                                </label>
-                            </div>
-                            <div class="checkbox">
-                                <label>
-                                    <input name="contratos-checkbox" type="checkbox">
-                                    Fecha | Nombre Banco | Número Cuenta | Número de Referencia | Monto 
-                                </label>
-                            </div>
-                            <div class="checkbox">
-                                <label>
-                                    <input name="contratos-checkbox" type="checkbox">
-                                    Fecha | Nombre Banco | Número Cuenta | Número de Referencia | Monto 
-                                </label>
-                            </div>
-                            <div class="checkbox">
-                                <label>
-                                    <input name="contratos-checkbox" type="checkbox">
-                                    Fecha | Nombre Banco | Número Cuenta | Número de Referencia | Monto 
-                                </label>
-                            </div>
+
+                            @foreach($movimientos as $movimiento)
+                                <div class="checkbox">
+                                    <label>
+                                        <input name="contratos-checkbox" type="checkbox">
+                                        {{ $movimiento->fecha }} | {{ $movimiento->banco->nombre }} | {{ $movimiento->cuenta->descripcion }} | {{ $movimiento->tipo }} | {{ $movimiento->ncomprobante }} | {{ $movimiento->monto }} 
+                                    </label>
+                                </div>
+                            @endforeach 
+                            
                             
                         </div>
 
@@ -187,6 +162,43 @@
                     $('#movimientos-checkbox [type=checkbox]:not(:disabled)').iCheck('check');
 
             });
+
+            $('.datepicker').inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/yyyy"});
+
+
+
+            $('.datepicker').datepicker({
+                closeText: 'Cerrar',
+                prevText: '&#x3C;Ant',
+                nextText: 'Sig&#x3E;',
+                currentText: 'Hoy',
+                monthNames: ['Enero','Febrero','Marzo','Abril','Mayo','Junio',
+                'Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'],
+                monthNamesShort: ['Ene','Feb','Mar','Abr','May','Jun',
+                'Jul','Ago','Sep','Oct','Nov','Dic'],
+                dayNames: ['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'],
+                dayNamesShort: ['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'],
+                dayNamesMin: ['D','L','M','M','J','V','S'],
+                weekHeader: 'Sm',
+                firstDay: 1,
+                isRTL: false,
+                showMonthAfterYear: false,
+                yearSuffix: '',
+                dateFormat: 'yy-mm-dd'});
+
+
+
+            $('#banco-select').change(function(){
+                var cuentas=$(this).find(':selected').data('cuentas');
+                cuentas=eval(cuentas);
+                var options="";
+                $.each(cuentas,function(index,value){
+                    options+="<option value='"+value.id+"'>"+value.descripcion+"</option>";
+                })
+                var seleccione = "<option>-- Seleccione cuenta Bancaria --</option>\ ";
+                options=seleccione+options;
+                $('#cuenta-modal-input').html(options);
+            }).trigger('change');
         })
     </script>
 @endsection

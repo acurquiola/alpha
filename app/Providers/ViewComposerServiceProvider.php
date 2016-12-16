@@ -65,9 +65,15 @@ class ViewComposerServiceProvider extends ServiceProvider {
             $view->with(compact('puertos'));
         });
 
-        view()->composer(['administracion.informacion'], function($view){
+
+        view()->composer(['administracion.informacion', 'conciliacion.index'], function($view){
             $bancos= \App\Banco::get();
             $view->with(compact('bancos'));
+        });
+
+        view()->composer(['conciliacion.index'], function($view){
+            $cuentas= [""=>"-- Seleccione Cuenta Bancaria--"]+\App\Bancoscuenta::lists('descripcion', 'id');
+            $view->with(compact('cuentas'));
         });
 
         view()->composer(['administracion.informacion'], function($view){
