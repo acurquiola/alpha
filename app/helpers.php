@@ -26,15 +26,24 @@ function fechaEsMayor($primera, $segunda)
 function mesEnLetras($mes)
 {
     $meses=[
+        '1'=>"ENERO",
         '01'=>"ENERO",
+        '2'=>"FEBRERO",
         '02'=>"FEBRERO",
         '03'=>"MARZO",
+        '3'=>"MARZO",
         '04'=>"ABRIL",
+        '4'=>"ABRIL",
         '05'=>"MAYO",
+        '5'=>"MAYO",
         '06'=>"JUNIO",
+        '6'=>"JUNIO",
         '07'=>"JULIO",
+        '7'=>"JULIO",
         '08'=>"AGOSTO",
+        '8'=>"AGOSTO",
         '09'=>"SEPTIEMBRE",
+        '9'=>"SEPTIEMBRE",
         '10'=>"OCTUBRE",
         '11'=>"NOVIEMBRE",
         '12'=>"DICIEMBRE"];
