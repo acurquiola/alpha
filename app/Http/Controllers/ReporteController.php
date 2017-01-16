@@ -111,9 +111,7 @@ class ReporteController extends Controller {
                                                                                     ->where('fecha','>=' ,$diaMes->startOfMonth()->toDateTimeString())
                                                                                     ->where('fecha','<=' ,$diaMes->endOfMonth()->toDateTimeString())
                                                                                     ->sum('montodepositado');
-	                if(!isset($montosTotalesMeses[$meses[$diaMes->month]]["totalMes"]))
-	        			$montosTotalesMeses[$meses[$diaMes->month]]["totalMes"] = 0;
-	            	$montosTotalesMeses[$meses[$diaMes->month]]["totalMes"] += ($montos[$meses[$diaMes->month]][$modulo->nombre]["total"]);
+
 
 
                     if($modulo->nombre == 'ESTACIONAMIENTO'){
@@ -139,11 +137,21 @@ class ReporteController extends Controller {
                                                                         ->where('facturadetalles.concepto_id', $concepto->id)
                                                                         ->sum('facturadetalles.montoDes');
 
-
+         
                     }
 
 
+                     if(!isset($montosTotalesMeses[$meses[$diaMes->month]]["totalMes"]))
+                        $montosTotalesMeses[$meses[$diaMes->month]]["totalMes"] = 0;
+                    $montosTotalesMeses[$meses[$diaMes->month]]["totalMes"] += ($montos[$meses[$diaMes->month]][$modulo->nombre]["total"]);
+
+                        
+
+
                     if($modulo->nombre == 'TASAS'){
+
+
+
 
                         $tasas = \App\TasaCobroDetalle::join('tasa_cobros', 'tasa_cobros.id', '=', 'tasa_cobro_detalles.tasa_cobro_id')
                                                                 ->where('tasa_cobro_detalles.fecha','>=' ,$diaMes->startOfMonth()->toDateTimeString())
@@ -151,7 +159,6 @@ class ReporteController extends Controller {
                                                                  ->where('tasa_cobros.aeropuerto_id', $aeropuerto)
                                                                  ->sum('tasa_cobro_detalles.monto');
 
-                        $montos[$meses[$diaMes->month]][$modulo->nombre]["total"]    += $tasas;
 
 
                         foreach($modulo->conceptos as $concepto){
@@ -186,6 +193,9 @@ class ReporteController extends Controller {
                                                             ->sum('tasaopdetalles.total');
 
 
+                                $montos[$meses[$diaMes->month]][$modulo->nombre]["total"]    += $montos[$meses[$diaMes->month]][$modulo->nombre][$concepto->nompre];
+
+
                             }elseif($concepto->nompre == 'TASAS NACIONALES MODULO'){
 
 
@@ -202,6 +212,9 @@ class ReporteController extends Controller {
                                                             ->whereIn('tasaops.id', $tasasNacMod)
                                                             ->whereIn('tasaopdetalles.serie', $tasasNacionales)
                                                             ->sum('tasaopdetalles.total');
+
+
+                                $montos[$meses[$diaMes->month]][$modulo->nombre]["total"]    += $montos[$meses[$diaMes->month]][$modulo->nombre][$concepto->nompre];
 
 
 
@@ -224,6 +237,9 @@ class ReporteController extends Controller {
                                                             ->sum('tasaopdetalles.total');
 
 
+                                $montos[$meses[$diaMes->month]][$modulo->nombre]["total"]    += $montos[$meses[$diaMes->month]][$modulo->nombre][$concepto->nompre];
+
+
                             }elseif($concepto->nompre == 'TASAS NACIONALES SCV'){
 
 
@@ -241,10 +257,28 @@ class ReporteController extends Controller {
                                                             ->whereIn('tasaopdetalles.serie', $tasasNacionales)
                                                             ->sum('tasaopdetalles.total');
 
+
+                                $montos[$meses[$diaMes->month]][$modulo->nombre]["total"]    += $montos[$meses[$diaMes->month]][$modulo->nombre][$concepto->nompre];
+
                             }
+
                         }
 
+
+                         if(!isset($montosTasas[$meses[$diaMes->month]]["totalMes"]))
+                            $montosTasas[$meses[$diaMes->month]]["totalMes"] = 0;
+                        $montosTasas[$meses[$diaMes->month]]["totalMes"] += ($montos[$meses[$diaMes->month]][$modulo->nombre]["total"]);
+
+
+
+                    $montosTotalesMeses[$meses[$diaMes->month]]["totalMes"] += $montosTasas[$meses[$diaMes->month]]["totalMes"];
                     }
+
+
+
+
+                    
+
 
 
                     if(!isset($montosTotales[$modulo->nombre]))
@@ -257,10 +291,11 @@ class ReporteController extends Controller {
                             $montosTotales[$modulo->nombre][$concepto->nompre]=0;
                         $montosTotales[$modulo->nombre][$concepto->nompre]+=($montos[$meses[$diaMes->month]][$modulo->nombre][$concepto->nompre]);
                     }
-                }    
+                }  
 
+
+//dd($montos, $montosTotalesMeses, $montosTasas);
             }    
-
         $aeropuertoNombre=\App\Aeropuerto::find($aeropuerto)->nombre;
 
         return view('reportes.reporteControlDeRecaudacionMensual', compact('aeropuertoNombre', 'modulos', 'montos', 'montosTotales', 'mes', 'anno', 'aeropuerto', 'montosTotalesMeses'));
@@ -1599,6 +1634,7 @@ class ReporteController extends Controller {
                                             ->where('aeropuerto_id', $aeropuerto)
                                             ->orderBy('facturas.nFactura')
                                             ->lists('facturas.id');
+
 
 
         $cobrosFacturasAnteriores  =  \App\Cobro::select('cobros.id as cobroID')
