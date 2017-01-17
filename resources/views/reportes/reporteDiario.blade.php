@@ -41,7 +41,6 @@
 				{!! Form::hidden('table') !!}
 				{!! Form::hidden('gerencia', $gerencia) !!}
 				{!! Form::hidden('departamento', $departamento) !!}
-				<h3 class="box-title">Reporte</h3>
 				<span class="pull-right">
 					<button type="button" class="btn btn-primary" id="export-btn">
 						<span class="glyphicon glyphicon-file"></span> Exportar

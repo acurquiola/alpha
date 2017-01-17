@@ -1,5 +1,4 @@
 @extends('app')
-
 @section('content')
 <ol class="breadcrumb">
 	<li><a href="{{url('principal')}}">Inicio</a></li>
@@ -81,15 +80,15 @@
 										@foreach($montoModulos as $moduloNombre => $conceptos)
 											@foreach($conceptos as $concepto => $monto)
 												@if($concepto=="total")
-													<td align="right" style="text-align:right;" main data-parent="{{$moduloNombre}}">{{$traductor->format($monto)}}</td>
+													<td align="right" style="text-align:right;"  class="totalMes{{ $fecha }}" main data-parent="{{$moduloNombre}}">{{$traductor->format($monto)}}</td>
 												@else
-													<td details data-parent="{{$moduloNombre}}" style="display:none;text-align:right">{{$traductor->format($monto)}}</td>
+													<td details data-parent="{{$moduloNombre}}" class="totalMes{{ $fecha }}" style="display:none;text-align:right">{{$traductor->format($monto)}}</td>
 												@endif
 											@endforeach
 										@endforeach
 										@foreach($montosTotalesMeses as $mes => $totalMes)
 											@if($mes == $fecha)
-												<td align="right" class="text-right totalMes" style="width: 60px">{{$traductor->format($totalMes["totalMes"])}}</td>
+												<td align="right" class="text-right totalTotalMes" id="totalMes{{ $fecha }}" style="width: 60px">{{$traductor->format($totalMes["totalMes"])}}</td>
 											@endif
 										@endforeach
 									</tr>
@@ -126,7 +125,7 @@
 
 	$(document).ready(function(){
 	    var totalMeses=0;
-	    $('.totalMes').each(function(index,value){
+	    $('.totalTotalMes').each(function(index,value){
 	        totalMeses+=commaToNum($(value).text().trim());
 	    });
 	    var metaMeses=0;
@@ -141,6 +140,108 @@
 	    $('#totalMeses').text(numToComma(totalMeses));
 	    $('#metaMeses').text(numToComma(metaMeses));
 	    $('#diferenciaMeses').text(numToComma(diferenciaMeses));
+
+
+
+		var totalMesENERO=0;
+		$('.totalMesENERO').each(function(index,value){
+			totalMesENERO+=commaToNum($(value).text().trim());
+		});
+
+
+		$('#totalMesENERO').text(numToComma(totalMesENERO));
+
+		var totalMesFEBRERO=0;
+		$('.totalMesFEBRERO').each(function(index,value){
+			totalMesFEBRERO+=commaToNum($(value).text().trim());
+		});
+
+
+		$('#totalMesFEBRERO').text(numToComma(totalMesFEBRERO));
+
+		var totalMesMARZO=0;
+		$('.totalMesMARZO').each(function(index,value){
+			totalMesMARZO+=commaToNum($(value).text().trim());
+		});
+
+
+		$('#totalMesMARZO').text(numToComma(totalMesMARZO));
+
+		var totalMesABRIL=0;
+		$('.totalMesABRIL').each(function(index,value){
+			totalMesABRIL+=commaToNum($(value).text().trim());
+		});
+
+
+		$('#totalMesABRIL').text(numToComma(totalMesABRIL));
+
+		var totalMesMAYO=0;
+		$('.totalMesMAYO').each(function(index,value){
+			totalMesMAYO+=commaToNum($(value).text().trim());
+		});
+
+
+		$('#totalMesMAYO').text(numToComma(totalMesMAYO));
+
+		var totalMesJUNIO=0;
+		$('.totalMesJUNIO').each(function(index,value){
+			totalMesJUNIO+=commaToNum($(value).text().trim());
+		});
+
+
+		$('#totalMesJUNIO').text(numToComma(totalMesJUNIO));
+
+		var totalMesJULIO=0;
+		$('.totalMesJULIO').each(function(index,value){
+			totalMesJULIO+=commaToNum($(value).text().trim());
+		});
+
+
+		$('#totalMesJULIO').text(numToComma(totalMesJULIO));
+
+
+		var totalMesAGOSTO=0;
+		$('.totalMesAGOSTO').each(function(index,value){
+			totalMesAGOSTO+=commaToNum($(value).text().trim());
+		});
+
+
+		$('#totalMesAGOSTO').text(numToComma(totalMesAGOSTO));
+
+
+		var totalMesSEPTIEMBRE=0;
+		$('.totalMesSEPTIEMBRE').each(function(index,value){
+			totalMesSEPTIEMBRE+=commaToNum($(value).text().trim());
+		});
+
+
+		$('#totalMesSEPTIEMBRE').text(numToComma(totalMesSEPTIEMBRE));
+
+
+		var totalMesOCTUBRE=0;
+		$('.totalMesOCTUBRE').each(function(index,value){
+			totalMesOCTUBRE+=commaToNum($(value).text().trim());
+		});
+
+
+		$('#totalMesOCTUBRE').text(numToComma(totalMesOCTUBRE));
+
+		var totalMesNOVIEMBRE=0;
+		$('.totalMesNOVIEMBRE').each(function(index,value){
+			totalMesNOVIEMBRE+=commaToNum($(value).text().trim());
+		});
+
+
+		$('#totalMesNOVIEMBRE').text(numToComma(totalMesNOVIEMBRE));
+
+
+		var totalMesDICIEMBRE=0;
+		$('.totalMesDICIEMBRE').each(function(index,value){
+			totalMesDICIEMBRE+=commaToNum($(value).text().trim());
+		});
+
+
+		$('#totalMesDICIEMBRE').text(numToComma(totalMesDICIEMBRE));
 
 
 		$.each($('th[expandible]'), function(index,value){

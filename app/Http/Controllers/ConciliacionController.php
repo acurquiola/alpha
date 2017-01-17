@@ -84,12 +84,14 @@ class ConciliacionController extends Controller {
 
 	public function getMovimientos(Request $request)
 	{
+		dd($request->all());
+		$today = Carbon\Carbon::now()->toDateString();
 		$banco_id     = ($request->get('banco_id') == '')?'0':$request->get('banco_id');
 		$cuenta_id    = ($request->get('cuenta_id') == '')?'0':$request->get('cuenta_id');
 		$tipo         = ($request->get('tipo') == '')?'':$request->get('tipo');
 		$ncomprobante = ($request->get('ncomprobante') == '')?'0':$request->get('ncomprobante');
-		$fecha_inicio = ($request->get('fecha_inicio') == '')?'':$request->get('fecha_inicio');
-		$fecha_fin    = ($request->get('fecha_fin') == '')?'':$request->get('fecha_fin');
+		$fecha_inicio = ($request->get('fecha_inicio') == '')?$today:$request->get('fecha_inicio');
+		$fecha_fin    = ($request->get('fecha_fin') == '')?$today:$request->get('fecha_fin');
 		$cobro_id     = ($request->get('cobro_id') == '')?'0':$request->get('cobro_id');
 	
 		$movimientos = \App\Cobrospago::numerocobro($cobro_id)
