@@ -108,7 +108,7 @@
 													@endif
 												@endforeach
 											@endforeach
-										<td align="right" id="totalDia" class="text-right">0,00</td>
+										<td align="right" id="totalDia" class="text-right" style="font-weight: bold">0,00</td>
 									</tr>
 								</tbody>
 							</table>

@@ -168,8 +168,12 @@ class CobranzaController extends Controller {
              *
              */
             //Calculo el total de la retencion
+            //
 
-            $totalRetencion=($factura->subtotalNeto*$f["islrpercentage"]/100)+($factura->iva*$f["ivapercentage"]/100);
+           // dd($factura->subtotalNeto, $f["islrpercentage"], round($factura->subtotalNeto*$f["islrpercentage"]/100, 2), round($factura->iva*$f["ivapercentage"]/100, 2), $factura->subtotalNeto*$f["islrpercentage"]/100+($factura->iva*$f["ivapercentage"]/100));
+            //$totalRetencion=($factura->subtotalNeto*$f["islrpercentage"]/100)+($factura->iva*$f["ivapercentage"]/100);
+            $totalRetencion=round($factura->subtotalNeto*$f["islrpercentage"]/100, 2)+round($factura->iva*$f["ivapercentage"]/100, 2);
+            //dd($totalRetencion);
 
             //Calculo el total que se debe pagar
 
@@ -181,7 +185,7 @@ class CobranzaController extends Controller {
 
             //total real abonado a la factura
 
-            $abonadoReal=$abonadoPorcentaje*$factura->total;
+            $abonadoReal=round($abonadoPorcentaje*$factura->total,2);
 
             /*
              * ya tengo el abonado real, ahora debo calcular cuanto contribuye a la base y al iva
@@ -211,7 +215,8 @@ class CobranzaController extends Controller {
 
             //Ya que tengo la base y el iva abonado puedo calcular la retencion abonada
 
-            $retencion=round($base*$f["islrpercentage"]/100,3)+round($iva*$f["ivapercentage"]/100, 3);
+            //dd(round($base*$f["islrpercentage"]/100,2), round($iva*$f["ivapercentage"]/100, 2), round(($base*$f["islrpercentage"]/100)+($iva*$f["ivapercentage"]/100), 2), round($base, 2));
+            $retencion=(round($base*$f["islrpercentage"]/100, 2)+round($iva*$f["ivapercentage"]/100, 2));
 
             $facturaMetadata->montopagado+=$f["montoAbonado"];
             $facturaMetadata->basepagado+=$base;
@@ -234,7 +239,7 @@ class CobranzaController extends Controller {
                 'retencionComprobante' => $f["retencionComprobante"],
                 ]]);
 
-            if(round($facturaMetadata->montopagado+$retencion,2)>=($factura->total)){
+            if($facturaMetadata->montopagado+$retencion>=($factura->total)){
 
                 $factura->estado="C";
                 $factura->save();
