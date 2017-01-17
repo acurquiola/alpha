@@ -258,13 +258,6 @@ class FacturaController extends Controller {
                 $total            =$this->parseDecimal($total);
         }
 
-        \Input::replace([ 'fechaOperator'   =>'=',
-                        'nFacturaOperator'  =>'=',
-                        'nControlOperator'  =>'=',
-                        'totalOperator'     =>'=',
-                        'sortName'          =>$sortName,
-                        'sortType'          =>$sortType]);
-
 
         $modulo=\App\Modulo::where("nombre","like",$moduloNombre)->where('aeropuerto_id', session('aeropuerto')->id)->first();
 
@@ -300,6 +293,15 @@ class FacturaController extends Controller {
         }
 
         $modulo->facturas->setPath('');
+
+
+
+        \Input::replace([ 'fechaOperator'   =>'=',
+                        'nFacturaOperator'  =>'=',
+                        'nControlOperator'  =>'=',
+                        'totalOperator'     =>'=',
+                        'sortName'          =>$sortName,
+                        'sortType'          =>$sortType]);
 
 		return view('factura.index', compact('modulo'))->withInput(\Input::all());
 	}

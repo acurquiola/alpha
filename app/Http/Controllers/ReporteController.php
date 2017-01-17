@@ -1051,29 +1051,33 @@ class ReporteController extends Controller {
 
     //DES 900 
     public function getReporteDES900(Request $request){
-        $diaDesde    =$request->get('diaDesde', \Carbon\Carbon::now()->day);
-        $mesDesde    =$request->get('mesDesde', \Carbon\Carbon::now()->month);
-        $annoDesde   =$request->get('annoDesde',  \Carbon\Carbon::now()->year);
-        $diaHasta    =$request->get('diaHasta', \Carbon\Carbon::now()->day);
-        $mesHasta    =$request->get('mesHasta', \Carbon\Carbon::now()->month);
-        $annoHasta   =$request->get('annoHasta',  \Carbon\Carbon::now()->year);
-        $aeropuerto  =session('aeropuerto');
+        $diaDesde      =$request->get('diaDesde', \Carbon\Carbon::now()->day);
+        $mesDesde      =$request->get('mesDesde', \Carbon\Carbon::now()->month);
+        $annoDesde     =$request->get('annoDesde',  \Carbon\Carbon::now()->year);
+        $diaHasta      =$request->get('diaHasta', \Carbon\Carbon::now()->day);
+        $mesHasta      =$request->get('mesHasta', \Carbon\Carbon::now()->month);
+        $annoHasta     =$request->get('annoHasta',  \Carbon\Carbon::now()->year);
+        $aeropuerto    =session('aeropuerto');
+        $cliente       =$request->get('cliente_id', 0);
+        $clienteNombre =($cliente==0)?'TODOS':(\App\Cliente::where('id', $cliente)->first()->nombre);
 
         $aterrizajes =\App\Aterrizaje::select('aterrizajes.id as aux')
                                     ->whereBetween('aterrizajes.fecha', array($annoDesde.'-'.$mesDesde.'-'.$diaDesde,  $annoHasta.'-'.$mesHasta.'-'.$diaHasta))
                                     ->join('despegues', 'despegues.aterrizaje_id', '=', 'aterrizajes.id')
                                     ->where('aterrizajes.aeropuerto_id', session('aeropuerto')->id)
+                                    ->where('aterrizajes.cliente_id',($cliente==0)?">":"=", $cliente)
                                     ->lists('aux');
 
         $despegues   =\App\Despegue::with("factura", "aterrizaje")
                                 ->where('aeropuerto_id', session('aeropuerto')->id)
+                                ->where('despegues.cliente_id',($cliente==0)?">":"=", $cliente)
                                 ->whereBetween('fecha', array($annoDesde.'-'.$mesDesde.'-'.$diaDesde,  $annoHasta.'-'.$mesHasta.'-'.$diaHasta) )
                                 ->OrwhereIn('aterrizaje_id', $aterrizajes)
                                 ->orderBy('fecha')
                                 ->get();
 
 
-        return view('reportes.reporteDES900', compact('diaDesde', 'mesDesde', 'annoDesde', 'diaHasta', 'mesHasta', 'annoHasta', 'aeropuerto', 'despegues'));
+        return view('reportes.reporteDES900', compact('diaDesde', 'mesDesde', 'annoDesde', 'diaHasta', 'mesHasta', 'annoHasta', 'aeropuerto', 'despegues', 'cliente'));
     }
 
     //Formularios Anulados
@@ -1150,7 +1154,7 @@ class ReporteController extends Controller {
                                     ->join('tasaopdetalles', 'tasaopdetalles.tasaop_id', '=', 'tasaops.id')
                                     ->join('tasas', 'tasas.nombre', '=', 'tasaopdetalles.serie')
                                     ->whereBetween('tasaops.fecha', array($annoDesde.'-'.$mesDesde.'-'.$diaDesde,  $annoHasta.'-'.$mesHasta.'-'.$diaHasta) )
-                                    ->whereBetween('tasa_cobro_detalles.fecha', array($annoDesde.'-'.$mesDesde.'-'.$diaDesde,  $annoHasta.'-'.$mesHasta.'-'.$diaHasta) )
+                                    //->whereBetween('tasa_cobro_detalles.fecha', array($annoDesde.'-'.$mesDesde.'-'.$diaDesde,  $annoHasta.'-'.$mesHasta.'-'.$diaHasta) )
                                     ->where('tasaops.aeropuerto_id', $aeropuerto)
                                     ->where('tasa_cobros.cv', 1)
                                     ->where('tasaops.consolidado', 1)
@@ -1606,6 +1610,8 @@ class ReporteController extends Controller {
                                 ->orderBy('nroDosa', 'ASC')
                                 ->get();
 
+                                //dd($facturasAnuladas);
+
 
         $tasasVendidas = \App\Tasaop::select('tasaops.fecha', 'tasaopdetalles.inicio', 'tasaopdetalles.fin', 'tasaopdetalles.costo', 'tasaopdetalles.cantidad', 'tasaopdetalles.total', 'tasaopdetalles.serie', 'tasas.internacional')
                                     ->join('tasa_cobro_detalles', 'tasa_cobro_detalles.tasa_cobro_id', '=', 'tasaops.tasa_cobro_id')
@@ -1613,7 +1619,7 @@ class ReporteController extends Controller {
                                     ->join('tasaopdetalles', 'tasaopdetalles.tasaop_id', '=', 'tasaops.id')
                                     ->join('tasas', 'tasas.nombre', '=', 'tasaopdetalles.serie')
                                     ->whereBetween('tasaops.fecha', array($annoDesde.'-'.$mesDesde.'-'.$diaDesde,  $annoHasta.'-'.$mesHasta.'-'.$diaHasta) )
-                                    ->whereBetween('tasa_cobro_detalles.fecha', array($annoDesde.'-'.$mesDesde.'-'.$diaDesde,  $annoHasta.'-'.$mesHasta.'-'.$diaHasta) )
+                                    //->whereBetween('tasa_cobro_detalles.fecha', array($annoDesde.'-'.$mesDesde.'-'.$diaDesde,  $annoHasta.'-'.$mesHasta.'-'.$diaHasta) )
                                     ->where('tasaops.aeropuerto_id', $aeropuerto)
                                     ->where('tasa_cobros.cv', 1)
                                     ->where('tasaops.consolidado', 1)

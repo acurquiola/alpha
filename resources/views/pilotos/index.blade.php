@@ -16,10 +16,7 @@
 						{!! Form::hidden('sortName', null, []) !!}
 						{!! Form::hidden('sortType', null, []) !!}
 						<div class="form-group ">
-							<input type="text" class="form-control" name="username"  placeholder="Username">
-						</div>
-						<div class="form-group ">
-							<input type="text" class="form-control" name="fullname"  placeholder="Nombre">
+							<input type="text" class="form-control" name="nombre"  placeholder="Nombre y/o Apellido">
 						</div>
 						<div class="form-group">
 							<select  name="nacionalidad_id" id="nacionalidad_id-flt"  class="form-control">

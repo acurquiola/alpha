@@ -86,7 +86,7 @@ class ViewComposerServiceProvider extends ServiceProvider {
             $view->with(compact('hangars'));
         });
 
-        view()->composer(['reportes.reporteTraficoAereo'], function($view){
+        view()->composer(['reportes.reporteTraficoAereo', 'reportes.reporteDES900'], function($view){
             $clientes= [""=>"TODOS"]+\App\Cliente::where("tipo","=", "Aeronáutico")->orWhere("tipo","=", "Mixto")->lists('nombre', 'id');
             $view->with(compact('clientes'));
         });
