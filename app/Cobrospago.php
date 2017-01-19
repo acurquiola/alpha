@@ -3,6 +3,7 @@
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\DecimalConverterTrait;
 use App\Traits\DateConverterTrait;
+use Carbon\Carbon;
 
 class Cobrospago extends Model {
 
@@ -10,16 +11,17 @@ class Cobrospago extends Model {
     use DateConverterTrait;
 
     protected $guarded = array();
-
-/*    public static function filter($cuenta_id, $tipo, $ncomprobante, $cobro_id)
+/*
+    public static function filter($cuenta_id, $tipo, $ncomprobante, $cobro_id, $banco_id)
     {
-        return Cobrospago::cuenta($cuenta_id)
-                    ->tipo($tipo)
+        return Cobrospago::numerocuenta($cuenta_id)
+                    ->tipotransaccion($tipo)
                     ->referencia($ncomprobante)
-                    ->cobro($cobro_id)
+                    ->numerocobro($cobro_id)
+                    ->nombrebanco($banco_id)
                     ->orderBy('id', 'DESC');
-    }*/
-
+    }
+*/
     public function cobro()
     {
         return $this->belongsTo('App\Cobro');
@@ -62,76 +64,56 @@ class Cobrospago extends Model {
 
     //Filtros
     
-    public function scopeNumerocobro($query, $cobro_id)
-    {
-        if($cobro_id == '0'){
-            $query->where('cobro_id', '>', '0');
-        }else{
-            $query->where('cobro_id', $cobro_id);
-        }
-    }
-    
-    public function scopeNumerocuenta($query, $cuenta_id)
-    {
-        if($cuenta_id == '0'){
-            $query->where('cuenta_id', '>', '0');
-        }else{
-            $query->where('cuenta_id', $cuenta_id);
-        }
-    }
-    public function scopeTipotransaccion($query, $tipo)
-    {
-
-        if (trim($tipo) != ""){
-            $query->where('tipo', $tipo);
-        }
-    }
     public function scopeNombrebanco($query, $banco_id)
     {
-        if($banco_id == '0'){
-            $query->where('banco_id', '>', '0');
-        }else{
-            $query->where('banco_id', $banco_id);
+        if($banco_id != null){
+            $query->where('banco_id', ($banco_id == '')?'>':'=', $banco_id);
         }
+        
     }
+
+    public function scopeNumerocuenta($query, $cuenta_id)
+    {
+        if($cuenta_id != null){
+            $query->where('cuenta_id', ($cuenta_id == '')?'>':'=', $cuenta_id);
+        }
+
+    }
+
+    public function scopeTipo($query, $tipo)
+    {
+        if($tipo != null){
+            $query->where('tipo', ($tipo == '')?'%':$tipo);
+        }
+
+    }
+
     public function scopeReferencia($query, $ncomprobante)
     {
-        if($ncomprobante == '0'){
-            $query->where('ncomprobante', '>', '0');
-        }else{
-            $query->where('ncomprobante', $ncomprobante);
+        if($ncomprobante != null){
+            $query->where('ncomprobante', ($ncomprobante == '')?'>':'=', $ncomprobante);
         }
+
     }
 
-    public function scopeFechainicial($query, $fecha_inicio)
+    public function scopeCobro($query, $cobro_id)
     {
-        if($fecha_inicio != ""){
-            $fecha_inicio            =\Carbon\Carbon::createFromFormat('d/m/Y', $fecha_inicio);
-            $fecha_inicio            = $fecha_inicio->toDateString();
-            $query->where('fecha', ">=", "%$fecha_inicio%");
+        if($cobro_id != null){
+            $query->where('cobro_id', ($cobro_id == '')?'>':'=', $cobro_id);
         }
-        
+
     }
 
-    public function scopeFechafinal($query, $fecha_fin)
+    public function scopeFecha($query, $fecha_inicio, $fecha_fin)
     {
-        if($fecha_fin != ""){
-            $fecha_fin            =\Carbon\Carbon::createFromFormat('d/m/Y', $fecha_fin);
-            $fecha_fin            = $fecha_fin->toDateString();
-            $query->where('fecha', "<=", "%$fecha_fin%");
+        if($fecha_inicio != null && $fecha_fin != null){
+            if($fecha_inicio != '' && $fecha_fin != ''){
+                $fecha_inicio = ($fecha_inicio == '')?'':Carbon::createFromFormat('d/m/Y', $fecha_inicio)->format('Y-m-d');
+                $fecha_fin    = ($fecha_fin == '')?'':Carbon::createFromFormat('d/m/Y', $fecha_fin)->format('Y-m-d');
+                $query->whereBetween('fecha', array($fecha_inicio, $fecha_fin));  
+            }else{
+                $query->where('fecha', '>', '0000-00-00');
+            }
         }
-        
     }
-
-    public function scopeConciliado($query)
-    {
-        $query->where('conciliado', '0');   
-    }
-    /*
-    public function scopeFechaFin($query, $fecha_fin)
-    {
-        if (trim($fecha_fin) != ""){
-            $query->where('fecha', "<=", "%$fecha_fin%");
-        }
-    }*/
 }

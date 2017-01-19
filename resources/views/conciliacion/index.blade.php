@@ -75,19 +75,26 @@
 							<button type="button" class="btn btn-success" id="select-all-btn">Seleccionar todos</button>
 						</div>
 						<div class="col-md-8" id="movimientos-checkbox" >
-
+							<span style="margin-left: 60px" >FECHA | BANCO | CUENTA | TIPO | REFERENCIA | MONTO</span>
 							@if($movimientos->count() > 0)
 								@foreach($movimientos as $movimiento)
 								<div class="checkbox">
 									<label>
 										<input name="contratos-checkbox" type="checkbox">
-										{{ $movimiento->fecha }} | {{ $movimiento->banco->nombre }} | {{ $movimiento->cuenta->descripcion }} | {{ $movimiento->tipo }} | {{ $movimiento->ncomprobante }} | {{ $movimiento->monto }} 
+										{{ $movimiento->fecha }} | {{ $movimiento->banco->nombre }} | {{ $movimiento->cuenta->descripcion }} | {{ $movimiento->tipo }} | {{ $movimiento->ncomprobante }} | {{ $traductor->format($movimiento->monto) }} 
 									</label>
 								</div>
 								@endforeach
 							@else
 								<span>No hay registros disponibles para los datos suministrados</span> 
 							@endif
+						</div>
+
+
+						<div class="row">
+						     <div class="col-xs-12 text-center">
+						          {!! $movimientos->appends(Input::except('page'))->render() !!}
+						     </div>
 						</div>
 
 						<div class="col-md-8" style="margin-top: 20px">
@@ -164,7 +171,7 @@
 
 		});
 
-		$('.datepicker').inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/yyyy"});
+//		$('.datepicker').inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/yyyy"});
 
 
 
@@ -196,7 +203,7 @@
 			$.each(cuentas,function(index,value){
 				options+="<option value='"+value.id+"'>"+value.descripcion+"</option>";
 			})
-			var seleccione = "<option>-- Seleccione cuenta Bancaria --</option>\ ";
+			var seleccione = "<option value=''>-- Seleccione cuenta Bancaria --</option>\ ";
 			options=seleccione+options;
 			$('#cuenta-modal-input').html(options);
 		}).trigger('change');
