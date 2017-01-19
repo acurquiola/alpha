@@ -131,6 +131,9 @@
 					@permission('menu.cobranza')
 					<li {{ (\Request::is('cobranza*'))?"class=active":"" }}><a href="{{ URL::to('cobranza/Todos/main') }}"><i class="fa fa-folder-o"></i> Cobranza</a></li>
 					@endpermission
+					@permission('menu.conciliacion')
+					<li {{ (\Request::is('conciliacion*'))?"class=active":"" }}><a href="{{ URL::to('conciliacion') }}"><i class="fa fa-bank"></i> Conciliación Bancaria</a></li>
+					@endpermission
 				</ul>
 			</li>
 			@endpermission
