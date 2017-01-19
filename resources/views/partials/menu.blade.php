@@ -115,8 +115,8 @@
 		</li>
 		@endpermission
 
-		@permission('menu.contrato|menu.factura|menu.cobranza|menu.cliente|menu.role|menu.usuario|menu.modulo|menu.concepto|menu.reporteSCV|menu.reporteRecaudacion|menu.informacion')
-			@permission('menu.contrato|menu.factura|menu.cobranza')
+		@permission('menu.contrato|menu.factura|menu.cobranza|menu.conciliacion|menu.cliente|menu.role|menu.usuario|menu.modulo|menu.concepto|menu.reporteSCV|menu.reporteRecaudacion|menu.informacion')
+			@permission('menu.contrato|menu.factura|menu.cobranza|menu.conciliacion')
 			<li class="treeview {{ (\Request::is('contrato*') or \Request::is('factura*') or \Request::is('cobranza*'))?"active":""}}">
 				<a href="#">
 					<i class="fa fa-money"></i> <span>Recaudación</span> <i class="fa fa-angle-left pull-right"></i>
