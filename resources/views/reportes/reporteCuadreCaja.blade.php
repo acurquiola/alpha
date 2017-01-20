@@ -104,7 +104,7 @@
 			                        	<td colspan="7" align="right" class="text-right"><strong>TOTAL CRÉDITO</strong></td>
 			                        	<td align="right"><strong>{{$traductor->format($facturasCredito)}}</strong></td>			                        
 			                        </tr>
-									@if($facturasAnuladasTotal>0)
+									@if($facturasAnuladas->count()>0)
 										<tr class="bg-primary" >
 											<th class="text-center" colspan="8" >
 												FACTURAS ANULADAS
@@ -117,7 +117,7 @@
 											<th class="text-center" align="center" style="width: 100px">Nro. FACTURA</th>
 											<th class="text-center" align="center" style="width: 400px">CLIENTE</th>
 											<th class="text-center" align="center" style="width: 100px">COND. PAGO</th>
-											<th class="text-center" align="center" style="width: 100px">Nro. COBRO</th>
+											<th class="text-center" align="center" style="width: 100px">OBSERVACIONES</th>
 											<th class="text-center" align="center" style="width: 150px">MONTO</th>
 										</tr>
 										<tbody>
@@ -129,7 +129,7 @@
 										<td class="text-center" align="center" style="width: 100px">{{$facturaAnulada->nFacturaPrefix}}-{{$facturaAnulada->nFactura}}</td>
 										<td class="text-left" align="left" style="width: 400px">{{$facturaAnulada->cliente->nombre}}</td>
 										<td class="text-center" align="center"   style="width: 100px">{{$facturaAnulada->condicionPago}}</td>
-										<td class="text-center" align="center"   style="width: 100px">@foreach($facturaAnulada->cobros as $cobro) {{($cobro->id)?$cobro->id:''}} @endforeach</td>
+										<td class="text-left" align="left"   style="width: 100px">{{$facturaAnulada->comentario}}</td>
 										<td class="text-right" align="right"  style="width: 150px">{{$traductor->format($facturaAnulada->total)}}</td>
 											</tr>
 											@endforeach

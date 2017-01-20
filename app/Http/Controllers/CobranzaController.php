@@ -82,12 +82,6 @@ class CobranzaController extends Controller {
                 $depositado            =$this->parseDecimal($depositado);
         }
 
-        \Input::replace([ 'fechaOperator'      =>'=',
-                        'cobroIdOperator'    =>'=',
-                        'pagadoOperator'     =>'=',
-                        'depositadoOperator' =>'=',
-                        'sortName'           =>$sortName,
-                        'sortType'           =>$sortType]);
 
 
         $modulo=\App\Modulo::where("nombre","like",$moduloNombre)
@@ -109,6 +103,12 @@ class CobranzaController extends Controller {
         $cobros->setPath('');
 
 
+        \Input::replace([ 'fechaOperator'      =>'=',
+                        'cobroIdOperator'    =>'=',
+                        'pagadoOperator'     =>'=',
+                        'depositadoOperator' =>'=',
+                        'sortName'           =>$sortName,
+                        'sortType'           =>$sortType]);
 
 
 

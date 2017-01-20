@@ -15,7 +15,6 @@
         <div class="box-header">
             {!! Form::open(["url" => action("ReporteController@postExportReport"), "id" =>"export-form", "target"=>"_blank"]) !!}
             {!! Form::hidden('table') !!}
-            <h3 class="box-title">Reporte</h3>
             <span class="pull-right">
                 <button type="button" class="btn btn-primary" id="export-btn">
                     <span class="glyphicon glyphicon-file"></span> Exportar
@@ -123,7 +122,7 @@
     $(function(){
         $('#export-btn').click(function(e){
             var table=$('table').clone();
-            $(table).prepend('<thead>\
+            $(table).prepend("<thead>\
                                 <tr>\
                                     <th align="left" colspan="15" >\
                                     <div style="font-weight: normal"><strong>NRO. COBRO: </strong> {{$cobro->id}} </div>\
@@ -135,7 +134,7 @@
                                     </br> \
                                     </th>\
                                 </tr>\
-                            </thead>')
+                            </thead>")
             $(table).find('thead, th').css({'border-top':'1px solid black', 'font-weight': 'bold', 'text-align':"center", 'font-size': '12px'})
             $(table).find('th').css({'border-bottom':'1px solid black', 'font-weight': 'bold', 'text-align':"center",  'font-size': '12px'})
             $(table).find('td').css({'font-size': '10px'})

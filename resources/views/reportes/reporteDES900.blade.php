@@ -39,6 +39,10 @@
                 <div class="form-group">
                       {!! Form::select('annoHasta', $annos, $annoHasta, ["class"=> "form-control"]) !!}
                 </div>
+				<div class="form-group text-left" >
+					<label ><strong>CLIENTE: </strong></label>
+             		 {!! Form::select('cliente_id', $clientes, $cliente, ["class"=> "form-control select-flt", 'id' => 'cliente']) !!}
+				</div>
                 <br>
                 <button type="submit" class="btn btn-primary">Buscar</button>
                 <a class="btn btn-default" href="{{action('ReporteController@getReporteDES900')}}">Reset</a>
@@ -155,6 +159,10 @@
 @section('script')
 <script>
 	$(function(){
+
+
+
+		$('#cliente').chosen({width:'355px'});
 		$('#export-btn').click(function(e){
 			var table=$('table').clone();
 			$(table).find('td, th').filter(function() {

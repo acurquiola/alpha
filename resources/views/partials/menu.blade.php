@@ -115,8 +115,8 @@
 		</li>
 		@endpermission
 
-		@permission('menu.contrato|menu.factura|menu.cobranza|menu.cliente|menu.role|menu.usuario|menu.modulo|menu.concepto|menu.reporteSCV|menu.reporteRecaudacion|menu.informacion')
-			@permission('menu.contrato|menu.factura|menu.cobranza')
+		@permission('menu.contrato|menu.factura|menu.cobranza|menu.conciliacion|menu.cliente|menu.role|menu.usuario|menu.modulo|menu.concepto|menu.reporteSCV|menu.reporteRecaudacion|menu.informacion')
+			@permission('menu.contrato|menu.factura|menu.cobranza|menu.conciliacion')
 			<li class="treeview {{ (\Request::is('contrato*') or \Request::is('factura*') or \Request::is('cobranza*'))?"active":""}}">
 				<a href="#">
 					<i class="fa fa-money"></i> <span>Recaudación</span> <i class="fa fa-angle-left pull-right"></i>
@@ -130,6 +130,9 @@
 					@endpermission
 					@permission('menu.cobranza')
 					<li {{ (\Request::is('cobranza*'))?"class=active":"" }}><a href="{{ URL::to('cobranza/Todos/main') }}"><i class="fa fa-folder-o"></i> Cobranza</a></li>
+					@endpermission
+					@permission('menu.conciliacion')
+					<li {{ (\Request::is('conciliacion*'))?"class=active":"" }}><a href="{{ URL::to('conciliacion') }}"><i class="fa fa-bank"></i> Conciliación Bancaria</a></li>
 					@endpermission
 				</ul>
 			</li>

@@ -182,6 +182,7 @@
 											<td align="right" class="text-right" id="jetwayTotal" style="width: 80px; font-weight: bold;" align="right">0</td>
 											<td align="right" class="text-right" id="cargaTotal" style="width: 80px; font-weight: bold;" align="right">0</td>
 											<td align="center" class="text-center" style="width: 80px;">-</td>
+											<td align="center" class="text-center" style="width: 80px;">-</td>
 											<td align="right" class="text-right" id="montoFacturadoTotal" style="width: 80px; font-weight: bold;" align="right">0</td>
 											<td align="right" class="text-right" id="montoDepositadoTotal" style="width: 80px; font-weight: bold;" align="right">0</td>
 											<td align="right" class="text-right" id="montoDiferenciaTotal" style="width: 80px; font-weight: bold;" align="right">0</td>
