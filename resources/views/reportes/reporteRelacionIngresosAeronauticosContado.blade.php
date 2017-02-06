@@ -53,7 +53,6 @@
 				{!! Form::hidden('table') !!}
                 {!! Form::hidden('gerencia', $gerencia) !!}
                 {!! Form::hidden('departamento', $departamento) !!}
-				<h3 class="box-title">Reporte</h3>
 				<span class="pull-right">
 					<button type="button" class="btn btn-primary" id="export-btn">
 						<span class="glyphicon glyphicon-file"></span> Exportar
@@ -153,7 +152,7 @@
 											<td   style="width: 80px; vertical-align: middle" class="text-right carga-bs" align="right">
 												{{$traductor->format($df['carga'])}}
 											</td>
-											<td   style="width: 80px; vertical-align: middle" class="text-right carga-bs" align="right">
+											<td   style="width: 80px; vertical-align: middle" class="text-right otros-bs" align="right">
                                                 {{$traductor->format($df['otros'])}}                             
 											</td>
 											<td   style="width: 80px; vertical-align: middle" class="text-right" align="right">
@@ -172,17 +171,17 @@
 									@endforeach
 										<tr class="bg-gray">
 											<td align="center" class="text-center" style="width: 80px; font-weight: bold;">TOTALES</td>
-											<td align="center" class="text-center" style="width: 80px;">-</td>
-											<td align="center" class="text-center" style="width: 80px;">-</td>
-											<td align="center" class="text-center" style="width: 80px;">-</td>
+											<td align="center" class="text-center" style="width: 80px;"></td>
+											<td align="center" class="text-center" style="width: 80px;"></td>
+											<td align="center" class="text-center" style="width: 80px;"></td>
 											<td align="right" class="text-right" id="formularioTotal" style="width: 80px; font-weight: bold;" align="right">0</td>
 											<td align="right" class="text-right" id="aterrizajeTotal" style="width: 80px; font-weight: bold;" align="right">0</td>
 											<td align="right" class="text-right" id="estacionamientoTotal" style="width: 80px; font-weight: bold;" align="right">0</td>
 											<td align="right" class="text-right" id="habilitacionTotal" style="width: 80px; font-weight: bold;" align="right">0</td>
 											<td align="right" class="text-right" id="jetwayTotal" style="width: 80px; font-weight: bold;" align="right">0</td>
 											<td align="right" class="text-right" id="cargaTotal" style="width: 80px; font-weight: bold;" align="right">0</td>
-											<td align="center" class="text-center" style="width: 80px;">-</td>
-											<td align="center" class="text-center" style="width: 80px;">-</td>
+											<td align="right" class="text-right" id="otrosTotal" style="width: 80px; font-weight: bold;" align="right">0</td>
+											<td align="center" class="text-center" style="width: 80px;"></td>
 											<td align="right" class="text-right" id="montoFacturadoTotal" style="width: 80px; font-weight: bold;" align="right">0</td>
 											<td align="right" class="text-right" id="montoDepositadoTotal" style="width: 80px; font-weight: bold;" align="right">0</td>
 											<td align="right" class="text-right" id="montoDiferenciaTotal" style="width: 80px; font-weight: bold;" align="right">0</td>
@@ -265,6 +264,10 @@
 		$('.carga-bs').each(function(index,value){
 			cargaTotal+=commaToNum($(value).text().trim());
 		});
+		var otrosTotal=0;
+		$('.otros-bs').each(function(index,value){
+			otrosTotal+=commaToNum($(value).text().trim());
+		});
 		var montoFacturadoTotal=0;
 		$('.montoFacturado-bs').each(function(index,value){
 			montoFacturadoTotal+=commaToNum($(value).text().trim());
@@ -285,6 +288,7 @@
 		$('#habilitacionTotal').text(numToComma(habilitacionTotal));
 		$('#jetwayTotal').text(numToComma(jetwayTotal));
 		$('#cargaTotal').text(numToComma(cargaTotal));
+		$('#otrosTotal').text(numToComma(otrosTotal));
 		$('#montoFacturadoTotal').text(numToComma(montoFacturadoTotal));
 		$('#montoDepositadoTotal').text(numToComma(montoDepositadoTotal));
 		$('#montoDiferenciaTotal').text(numToComma(montoDiferenciaTotal));
