@@ -90,7 +90,7 @@
 								</thead>
 								<tbody>
 									@if($facturas->count()>0 || $facturasCobradas->count()>0)
-										@foreach($facturasPendientesAnteriores as $index => $facturaCobrada)
+										@foreach($facturasCobradas as $index => $facturaCobrada)
 											<tr>
 												<td   style="vertical-align: middle; width: 50px" class="text-center" align="center" >{{$index+1}}</td>
 												<td   style="vertical-align: middle; width: 70px" class="text-center" align="center" >{{$facturaCobrada->fecha}}</td>
@@ -111,30 +111,9 @@
 												<td   style="vertical-align: middle; width: 100px" class="text-right ivaRetenido" align="right">{{($facturaCobrada->base == $facturaCobrada->total)?'':$traductor->format((($facturaCobrada->total-$facturaCobrada->base)*$facturaCobrada->ivapercentage)/100)}}</td>
 											</tr>
 										@endforeach
-										@foreach($facturasCobradas as $index => $facturaCobrada)
-											<tr>
-												<td   style="vertical-align: middle; width: 50px" class="text-center" align="center" >{{$index+1+$facturasPendientesAnteriores->count()}}</td>
-												<td   style="vertical-align: middle; width: 70px" class="text-center" align="center" >{{$facturaCobrada->fecha}}</td>
-												<td   style="vertical-align: middle; width: 70px" class="text-center" align="center" >{{$facturaCobrada->cliente->cedRifPrefix}}-{{$facturaCobrada->cliente->cedRif}}</td>
-												<td   style="vertical-align: middle; width: 300px" class="text-left" align="left"    >{{$facturaCobrada->cliente->nombre}}</td>
-												<td   style="vertical-align: middle; width: 70px" class="text-center" align="center" >{{($facturaCobrada->retencionComprobante == 0)?'':$facturaCobrada->retencionComprobante}}</td>
-												<td   style="vertical-align: middle; width: 70px" class="text-center" align="center" >{{$facturaCobrada->nFacturaPrefix}}-{{$facturaCobrada->nFactura}}</td>
-												<td   style="vertical-align: middle; width: 70px" class="text-center" align="center" >{{$facturaCobrada->nControlPrefix}}-{{$facturaCobrada->nControl}}</td>
-												<td   style="vertical-align: middle; width: 70px" class="text-center" align="center" > </td>
-												<td   style="vertical-align: middle; width: 70px" class="text-center" align="center" > </td>
-												<td   style="vertical-align: middle; width: 70px" class="text-center" align="center" >{{ ($facturaCobrada->deleted_at == null)?'01-reg':'03-anu' }}</td>
-												<td   style="vertical-align: middle; width: 70px" class="text-right" align="right"   > </td>
-												<td   style="vertical-align: middle; width: 100px" class="text-right totalVentasConIva" align="right"></td>
-												<td   style="vertical-align: middle; width: 100px" class="text-right ventasNoGravadas" align="right"></td>
-												<td   style="vertical-align: middle; width: 100px" class="text-right baseImponible" align="right"></td>
-												<td   style="vertical-align: middle; width: 100px" class="text-right porcAlicuota" align="right">{{($facturaCobrada->base == $facturaCobrada->total)?'':$traductor->format((($facturaCobrada->iva)*100)/$facturaCobrada->base)}} </td>
-												<td   style="vertical-align: middle; width: 100px" class="text-right impuestoIva" align="right">0,00</td>
-												<td   style="vertical-align: middle; width: 100px" class="text-right ivaRetenido" align="right">{{($facturaCobrada->base == $facturaCobrada->total)?'':$traductor->format((($facturaCobrada->total-$facturaCobrada->base)*$facturaCobrada->ivapercentage)/100)}}</td>
-											</tr>
-										@endforeach
 										@foreach($facturas as $index2 => $factura)
 											<tr>
-												<td   style="vertical-align: middle; width: 50px" class="text-center" align="center" align="center">{{$index2+1+$facturasPendientesAnteriores->count()+$facturasCobradas->count()}}</td>
+												<td   style="vertical-align: middle; width: 50px" class="text-center" align="center" align="center">{{$index2+1+$facturasCobradas->count()}}</td>
 												<td   style="vertical-align: middle; width: 70px" class="text-center" align="center" align="center">{{$factura->fecha}}</td>
 												<td   style="vertical-align: middle; width: 70px" class="text-center formulario-bs" align="left">{{$factura->cliente->cedRifPrefix}}-{{$factura->cliente->cedRif}}</td>
 												<td   style="vertical-align: middle; width: 300px" class="text-left aterrizaje-bs" align="left">{{$factura->cliente->nombre}}</td>
