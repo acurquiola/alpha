@@ -113,7 +113,7 @@
 										@endforeach
 										@foreach($facturasCobradas as $index => $facturaCobrada)
 											<tr>
-												<td   style="vertical-align: middle; width: 50px" class="text-center" align="center" >{{$index+1}}</td>
+												<td   style="vertical-align: middle; width: 50px" class="text-center" align="center" >{{$index+1+$facturasPendientesAnteriores->count()}}</td>
 												<td   style="vertical-align: middle; width: 70px" class="text-center" align="center" >{{$facturaCobrada->fecha}}</td>
 												<td   style="vertical-align: middle; width: 70px" class="text-center" align="center" >{{$facturaCobrada->cliente->cedRifPrefix}}-{{$facturaCobrada->cliente->cedRif}}</td>
 												<td   style="vertical-align: middle; width: 300px" class="text-left" align="left"    >{{$facturaCobrada->cliente->nombre}}</td>
