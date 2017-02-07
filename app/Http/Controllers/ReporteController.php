@@ -1680,6 +1680,7 @@ class ReporteController extends Controller {
                                 ->join('cobro_factura', 'facturas.id', '=', 'cobro_factura.factura_id')
                                 ->whereIn('cobro_factura.cobro_id', $cobrosFacturasAnteriores)
                                 ->whereIn('facturas.id', $facturasAnteriores)
+                                ->where('facturas.estado', 'C')
                                 ->groupBy('facturas.nFactura')
                                 ->orderBy('facturas.fecha', 'ASC')
                                 ->orderBy('facturas.nFacturaPrefix', 'ASC')
