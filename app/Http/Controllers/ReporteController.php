@@ -1672,8 +1672,7 @@ class ReporteController extends Controller {
                                                 ->join('cobro_factura', 'cobros.id', '=', 'cobro_factura.cobro_id')
                                                 ->whereBetween('cobros.fecha', array($annoDesde.'-'.$mesDesde.'-'.$diaDesde,  $annoHasta.'-'.$mesHasta.'-'.$diaHasta) )
                                                 ->whereIn('cobro_factura.factura_id', $facturasAnteriores)
-                                                ->where('retencionComprobante', '<>', 0)
-                                                ->where('ivapercentage', '>', 0)
+                                                ->where('retencionComprobante', '<>', '0')
                                                 ->lists('cobroID');
 
         $facturasCobradas = \App\Factura::with('cobros', 'detalles')
@@ -1687,9 +1686,38 @@ class ReporteController extends Controller {
                                 ->orderBy('facturas.nFactura', 'ASC')
                                 ->get();
 
+
+
+                                //Chanchullo
+        $facturasP = \App\Factura::where('nFactura', '9180')
+                                    ->orWhere('nFactura', '9088')
+                                    ->orWhere('nFactura', '9247')
+                                    ->orWhere('nFactura', '9204')
+                                    ->orderBy('facturas.nFactura')
+                                    ->lists('facturas.id');
+
+
+
+        $cobrosP  =  \App\Cobro::select('cobros.id as cobroID')
+                                    ->join('cobro_factura', 'cobros.id', '=', 'cobro_factura.cobro_id')
+                                    ->whereIn('cobro_factura.factura_id', $facturasP)
+                                    ->lists('cobroID');
+
+        $facturasPendientesAnteriores = \App\Factura::with('cobros', 'detalles')
+                                        ->join('cobro_factura', 'facturas.id', '=', 'cobro_factura.factura_id')
+                                        ->whereIn('cobro_factura.cobro_id', $cobrosP)
+                                        ->whereIn('facturas.id', $facturasP)
+                                        ->groupBy('facturas.nFactura')
+                                        ->orderBy('facturas.fecha', 'ASC')
+                                        ->orderBy('facturas.nFacturaPrefix', 'ASC')
+                                        ->orderBy('facturas.nFactura', 'ASC')
+                                        ->get();
+
+
+
         $aeropuertoNombre = session('aeropuerto')->nombre;
 
-        return view('reportes.reporteLibroDeVentas', compact('diaDesde', 'mesDesde', 'annoDesde', 'diaHasta', 'mesHasta', 'annoHasta', 'aeropuerto', 'facturas', 'facturasCobradas', 'fecha', 'aeropuertoNombre'));
+        return view('reportes.reporteLibroDeVentas', compact('diaDesde', 'mesDesde', 'annoDesde', 'diaHasta', 'mesHasta', 'annoHasta', 'aeropuerto', 'facturas', 'facturasCobradas', 'fecha', 'aeropuertoNombre', 'facturasPendientesAnteriores'));
     }
 
     //Listado de Facturas Emitidas
