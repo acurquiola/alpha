@@ -53,7 +53,6 @@
 				{!! Form::hidden('table') !!}
                 {!! Form::hidden('gerencia', $gerencia) !!}
                 {!! Form::hidden('departamento', $departamento) !!}
-				<h3 class="box-title">Reporte</h3>
 				<span class="pull-right">
 					<button type="button" class="btn btn-primary" id="export-btn">
 						<span class="glyphicon glyphicon-file"></span> Exportar
@@ -153,7 +152,7 @@
 											<td   style="width: 80px; vertical-align: middle" class="text-right carga-bs" align="right">
 												{{$traductor->format($df['carga'])}}
 											</td>
-											<td   style="width: 80px; vertical-align: middle" class="text-right carga-bs" align="right">
+											<td   style="width: 80px; vertical-align: middle" class="text-right otros-bs" align="right">
                                                 {{$traductor->format($df['otros'])}}                             
 											</td>
 											<td   style="width: 80px; vertical-align: middle" class="text-right" align="right">
@@ -172,17 +171,17 @@
 									@endforeach
 										<tr class="bg-gray">
 											<td align="center" class="text-center" style="width: 80px; font-weight: bold;">TOTALES</td>
-											<td align="center" class="text-center" style="width: 80px;">-</td>
-											<td align="center" class="text-center" style="width: 80px;">-</td>
-											<td align="center" class="text-center" style="width: 80px;">-</td>
+											<td align="center" class="text-center" style="width: 80px;"></td>
+											<td align="center" class="text-center" style="width: 80px;"></td>
+											<td align="center" class="text-center" style="width: 80px;"></td>
 											<td align="right" class="text-right" id="formularioTotal" style="width: 80px; font-weight: bold;" align="right">0</td>
 											<td align="right" class="text-right" id="aterrizajeTotal" style="width: 80px; font-weight: bold;" align="right">0</td>
 											<td align="right" class="text-right" id="estacionamientoTotal" style="width: 80px; font-weight: bold;" align="right">0</td>
 											<td align="right" class="text-right" id="habilitacionTotal" style="width: 80px; font-weight: bold;" align="right">0</td>
 											<td align="right" class="text-right" id="jetwayTotal" style="width: 80px; font-weight: bold;" align="right">0</td>
 											<td align="right" class="text-right" id="cargaTotal" style="width: 80px; font-weight: bold;" align="right">0</td>
-											<td align="center" class="text-center" style="width: 80px;">-</td>
-											<td align="center" class="text-center" style="width: 80px;">-</td>
+											<td align="right" class="text-right" id="otrosTotal" style="width: 80px; font-weight: bold;" align="right">0</td>
+											<td align="center" class="text-center" style="width: 80px;"></td>
 											<td align="right" class="text-right" id="montoFacturadoTotal" style="width: 80px; font-weight: bold;" align="right">0</td>
 											<td align="right" class="text-right" id="montoDepositadoTotal" style="width: 80px; font-weight: bold;" align="right">0</td>
 											<td align="right" class="text-right" id="montoDiferenciaTotal" style="width: 80px; font-weight: bold;" align="right">0</td>
@@ -199,7 +198,7 @@
 											</th>
 										</tr>
 											<tr class="bg-primary" >
-												<th colspan="2" class="text-center">Fecha</th>
+												<th colspan="3" class="text-center">Fecha</th>
 												<th class="text-center">Serie</th>
 												<th class="text-center">Tipo</th>
 												<th colspan="2" class="text-center">Inicio</th>
@@ -211,7 +210,7 @@
 										<tbody>
 											@foreach($tasasVendidas as $tasas)
 											<tr title="{{$tasas->fecha}}" align="center">
-												<td colspan="2" class="text-center" align="center">{{$tasas->fecha}}</td>
+												<td colspan="3" class="text-center" align="center">{{$tasas->fecha}}</td>
 												<td class="text-center" align="center">{{($tasas->serie)?$tasas->serie:'-'}}</td>
 												<td class="text-center" align="center">{{($tasas->internacional=='1')?'Internacional':'Nacional'}}</td>
 												<td colspan="2" class="text-center" align="center">{{($tasas->inicio)?$tasas->inicio:'-'}}</td>
@@ -222,7 +221,7 @@
 											</tr>
 											@endforeach
 					                        <tr class="bg-gray" align="center">
-					                        	<td colspan="13" align="right" class="text-right"><strong>TOTAL TASAS</strong></td>
+					                        	<td colspan="14" align="right" class="text-right"><strong>TOTAL TASAS</strong></td>
 					                        	<td align="right"><strong>{{$traductor->format($totalTasas)}}</strong></td>			                        
 					                        </tr>
 										</tbody>
@@ -265,6 +264,10 @@
 		$('.carga-bs').each(function(index,value){
 			cargaTotal+=commaToNum($(value).text().trim());
 		});
+		var otrosTotal=0;
+		$('.otros-bs').each(function(index,value){
+			otrosTotal+=commaToNum($(value).text().trim());
+		});
 		var montoFacturadoTotal=0;
 		$('.montoFacturado-bs').each(function(index,value){
 			montoFacturadoTotal+=commaToNum($(value).text().trim());
@@ -285,6 +288,7 @@
 		$('#habilitacionTotal').text(numToComma(habilitacionTotal));
 		$('#jetwayTotal').text(numToComma(jetwayTotal));
 		$('#cargaTotal').text(numToComma(cargaTotal));
+		$('#otrosTotal').text(numToComma(otrosTotal));
 		$('#montoFacturadoTotal').text(numToComma(montoFacturadoTotal));
 		$('#montoDepositadoTotal').text(numToComma(montoDepositadoTotal));
 		$('#montoDiferenciaTotal').text(numToComma(montoDiferenciaTotal));

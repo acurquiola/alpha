@@ -90,7 +90,7 @@ class ConciliacionController extends Controller {
 										->referencia($request->get('ncomprobante'))
 										->cobro($request->get('cobro_id'))
 										->fecha($request->get('fecha_inicio'), $request->get('fecha_fin'));
-
+										//FALTAA EL FILTRO PARA SABER SI ESTA CONCILIADO
 
 		//dd($request->all());
 		/*$today = Carbon\Carbon::now()->toDateString();

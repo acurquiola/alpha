@@ -239,7 +239,7 @@ class CobranzaController extends Controller {
                 'retencionComprobante' => $f["retencionComprobante"],
                 ]]);
 
-            if($facturaMetadata->montopagado+$retencion>=($factura->total)){
+            if($abonadoReal >= $factura->total){
 
                 $factura->estado="C";
                 $factura->save();
