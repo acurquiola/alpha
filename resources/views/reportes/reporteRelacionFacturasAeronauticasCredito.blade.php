@@ -132,10 +132,10 @@
                                         @endforeach
                                         <tr class="bg-gray" align="center">
                                             <td colspan="2">TOTAL</td>
-                                            <td> - </td>
-                                            <td> - </td>
-                                            <td> - </td>
-                                            <td> - </td>
+                                            <td>  </td>
+                                            <td>  </td>
+                                            <td>  </td>
+                                            <td>  </td>
                                             <td align="right" id="totalFormulario">0,00</td>                           
                                             <td align="right" id="totalAterrizaje">0,00</td>                           
                                             <td align="right" id="totalEstacionamiento">0,00</td>                           
@@ -144,8 +144,8 @@
                                             <td align="right" id="totalCarga">0,00</td>                           
                                             <td align="right" id="totalOtrosCargos">0,00</td>                           
                                             <td align="right" id="totalDosa">0,00</td>                           
-                                            <td> - </td>                                 
-                                            <td> - </td>                                 
+                                            <td>  </td>                                 
+                                            <td>  </td>                                 
                                             <td align="right" id="totalTotal">0,00</td>                           
                                         </tr>
                                         <tr>
@@ -210,9 +210,9 @@
             totalOtrosCargos+=commaToNum($(value).text().trim());
         });
 
-        var totalTotal=0;
+        var totalDosa=0;
         $('.totalDosa').each(function(index,value){
-            totalTotal+=commaToNum($(value).text().trim());
+            totalDosa+=commaToNum($(value).text().trim());
         });
 
         $('#totalFormulario').text(numToComma(totalFormulario));
@@ -222,7 +222,8 @@
         $('#totalJetway').text(numToComma(totalJetway));
         $('#totalCarga').text(numToComma(totalCarga));
         $('#totalOtrosCargos').text(numToComma(totalOtrosCargos));
-        $('#totalTotal').text(numToComma(totalTotal));
+        $('#totalDosa').text(numToComma(totalDosa));
+        $('#totalTotal').text(numToComma(totalDosa));
 
 
         $('.select-flt').chosen({width:'400px'});
@@ -238,7 +239,7 @@
             }).remove();
             $(table).prepend('<thead>\
                                 <tr>\
-                                    <th colspan="17" style="vertical-align: middle; margin-top:20px" align="center" class="text-center">RELACIÓN DE FACTURAS AERONÁUTICAS CRÉDITO\
+                                    <th colspan="17" style="vertical-align: middle; margin-top:20px" align="center" class="text-center">RELACIÓN DE FACTURAS AERONÁUTICAS CRÉDITO (DETALLADO) \
                                         </br>\
                                         AEROPUERTO: {{$aeropuertoNombre}} \
                                         </br>\

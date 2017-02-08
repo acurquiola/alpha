@@ -766,14 +766,18 @@ class ReporteController extends Controller {
         $totales       = [];
         $totalClientes = [];
         $totalMes      = [];
-        $today         = Carbon::now()->toDateString();
+        $hoy           = Carbon::now();
+        $today         = $hoy->toDateString();
+        $primerDiaAno=\Carbon\Carbon::create($anno, 1,1);
+        $ultimoDiaAno=\Carbon\Carbon::create($anno, 12, 31);
+
 
 
 
         if($clienteID == ''){
             $cliente = \App\Cliente::join('facturas','facturas.cliente_id' , '=', 'clientes.id')
                                     ->where('facturas.aeropuerto_id','=', session('aeropuerto')->id)
-                                    ->where('facturas.estado','=','P')
+                                    ->where('facturas.estado','P')
                                     ->orderBy('clientes.nombre')
                                     ->groupBy("clientes.id")->get();
 
@@ -790,9 +794,14 @@ class ReporteController extends Controller {
             $f = DB::table('facturas')
                     ->join('clientes', 'facturas.cliente_id', '=', 'clientes.id')
                     ->where('facturas.deleted_at', null)
+                    ->where('facturas.fecha','>=' ,$primerDiaAno->toDateTimeString())
+                    ->where('facturas.fecha','<=' ,$ultimoDiaAno->toDateTimeString())
+                    ->where('facturas.fechaVencimiento', '<', $ultimoDiaAno->toDateTimeString())
                     ->where('aeropuerto_id', $aeropuerto)
                     ->where('modulo_id', $idModulo)
                     ->where('estado', 'P');
+
+
 
             if($clienteID == ''){
                 $clientesMod[$modulo] = $f->groupBy('cliente_id')
@@ -805,6 +814,7 @@ class ReporteController extends Controller {
 
 
             }
+
 
             $meses=[
                 1  =>"ENERO",
@@ -860,6 +870,8 @@ class ReporteController extends Controller {
             }   
 
         }
+
+
 
         return view('reportes.reporteReporteDeMorosidad', compact('aeropuertoNombre', 'nombreCliente', 'anno', 'aeropuerto', 'cliente',  'clientesMod','totalClientes','ModTotales','totalMes', 'facturasPendientesModulo', 'meses', 'modulos', 'totales', 'totalesCliente', 'clienteFacturaMes'));
     }
@@ -2088,7 +2100,6 @@ class ReporteController extends Controller {
         $otrosIngresos   =\App\Modulo::with('conceptos')->where('aeropuerto_id', $aeropuerto)->where('nombre', 'like', 'OTROS INGRESOS AERONÁUTICOS')->first();
 
 
-
         $facturasAnteriores  =  \App\Factura::where('fecha', '<',  $annoHasta.'-'.$mesHasta.'-'.$diaHasta)
                                             ->where('estado', 'C')
                                             ->where('condicionPago', 'Crédito')
@@ -2162,7 +2173,11 @@ class ReporteController extends Controller {
                 $dosaFactura[$recibo->id]["habilitacionBs"]= DB::table('facturadetalles')->wherein('factura_id', $nroFacturas)->where('concepto_id', $habilitacion->id)->sum('totalDes');
                 $dosaFactura[$recibo->id]["jetwayBs"]= DB::table('facturadetalles')->wherein('factura_id', $nroFacturas)->where('concepto_id', $jetway->id)->sum('totalDes');
                 $dosaFactura[$recibo->id]["cargaBs"]= DB::table('facturadetalles')->wherein('factura_id', $nroFacturas)->where('concepto_id', $carga->id)->sum('totalDes');
-                $dosaFactura[$recibo->id]["otrosCargosBs"]= DB::table('facturadetalles')->wherein('factura_id', $nroFacturas)->where('concepto_id', $otrosIngresos->id)->sum('totalDes');
+
+                foreach ($otrosIngresos->conceptos as $c) {
+
+                    $dosaFactura[$recibo->id]["otrosCargosBs"]= DB::table('facturadetalles')->wherein('factura_id', $nroFacturas)->where('concepto_id', $c->id)->sum('totalDes');
+                }
             }
         }
 
