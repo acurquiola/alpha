@@ -18,7 +18,7 @@
 				{!! Form::select('condicionPago', ["Crédito" => "Crédito", "Contado"=>"Contado"], null, [ 'id' =>'condicionPago', 'class'=>"form-control", $disabled, (!$factura->isImpresa)?"":"readonly"]) !!}
 			@endif
 		@else		
-		{!! Form::text('condicionPago', $condicionPago, [ 'id' =>'condicionPago', 'class'=>"form-control", $disabled, 'readonly']) !!}
+		{!! Form::text('condicionPago', $condicionPago, [ 'id' =>'condicionPagoDosa', 'class'=>"form-control", $disabled, 'readonly']) !!}
 			{!! Form::hidden('aplica_minimo_aterrizaje', $aplica_minimo_aterrizaje) !!}
 			{!! Form::hidden('aplica_minimo_estacionamiento', $aplica_minimo_estacionamiento) !!}
 		@endif

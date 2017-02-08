@@ -6,16 +6,33 @@
         $('#concepto-select').trigger('chosen:updated');
         var fecha = $('#fecha').val();
 
-	 	condicionPago = $('#condicionPago').val();
-	    if(condicionPago == 'Contado'){
+    condicionPago = $('#condicionPago').val();
+      if(condicionPago == 'Contado'){
+        $('#fechaVencimiento').val(moment(fecha, "DD/MM/YYYY").format("DD/MM/YYYY"));
+      }else{
+        days = {{ $diasVencimientoCred }};
+        $('#fechaVencimiento').val(moment(fecha, "DD/MM/YYYY").add('days', days).format("DD/MM/YYYY"));
+      };
+
+        
+    }).trigger('change');
+
+
+    condicionPagoDosa = $('#condicionPagoDosa').val();
+        var value=$(this).val();
+        $('#concepto-select').val('');
+        $('#concepto-select option').addClass('inactive').hide();
+        $('#concepto-select option[condicionPagoDosa="'+value+'"], #concepto-select option[condicionPagoDosa="Ambas"]').removeClass('inactive').show();
+        $('#concepto-select').trigger('chosen:updated');
+        var fecha = $('#fecha').val();
+
+	 	condicionPagoDosa = $('#condicionPagoDosa').val();
+	    if(condicionPagoDosa == 'Contado'){
 	      $('#fechaVencimiento').val(moment(fecha, "DD/MM/YYYY").format("DD/MM/YYYY"));
 	    }else{
 	      days = {{ $diasVencimientoCred }};
 	      $('#fechaVencimiento').val(moment(fecha, "DD/MM/YYYY").add('days', days).format("DD/MM/YYYY"));
 	    };
-
-        
-    }).trigger('change');
 
     var ajaxClienteTableStartUrl='{{url('administracion/cliente')}}';
     var timeOut=null;
