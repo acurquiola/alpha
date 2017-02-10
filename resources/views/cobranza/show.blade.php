@@ -64,7 +64,6 @@
                             </tr>
                         </thead>
                         <tbody>
-
                             @foreach($cobro->facturas as $factura)
                             <tr>
                                 <td align="center" style="width: 70px">{{$factura->fecha}}</td>
@@ -97,12 +96,17 @@
                             <tr class="footer-table">
                                 <td colspan="10"> </td>
                                 <td align="left" colspan="4"><strong>TOTAL DEPOSITADO</strong></td>
-                                <td align="right">{{$traductor->format($cobro->montodepositado)}}</td>                                   
+                                <td align="right">{{$traductor->format($totalDepositado)}}</td>                                   
                             </tr>
                             <tr class="footer-table">
                                 <td colspan="10"> </td>
-                                <td align="left" colspan="4"><strong>DIFERENCIA</strong></td>
-                                <td align="right">{{$traductor->format($cobro->montodepositado-$cobro->montofacturas)}}</td>                                 
+                                <td align="left" colspan="4"><strong>AJUSTE APLICADO</strong></td>
+                                <td align="right">{{$traductor->format($totalAjuste)}}</td>                                   
+                            </tr>
+                            <tr class="footer-table">
+                                <td colspan="10"> </td>
+                                <td align="left" colspan="4"><strong>SALDO A FAVOR</strong></td>
+                                <td align="right">{{$traductor->format(($totalDepositado+$totalAjuste) -$cobro->montofacturas)}}</td>                                 
                             </tr>
 
                         </tbody>

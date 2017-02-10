@@ -171,13 +171,16 @@ class FacturaController extends Controller {
             $html = view('pdf.factura', compact('factura', 'traductor'))->render();
         }
         // Print text using writeHTMLCell()
-        $pdf->writeHTML($html);
+        $pdf->writeHTML($html, true, false, true, false, '');
+    
+        //$pdf->writeHTML($html);
         // ---------------------------------------------------------
         // Close and output PDF document
         // This method has several options, check the source code documentation for more information.
-        ob_end_clean();
-        if($output=='I')
+
+        if($output=='I'){
             $pdf->Output($factura->id."factura.pdf", $output);
+        }
         else{
             $path=$dir.$factura->id."factura.pdf";
             $pdf->Output($path, $output);

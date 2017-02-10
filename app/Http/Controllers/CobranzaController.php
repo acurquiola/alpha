@@ -292,7 +292,22 @@ return ["success"=>1, "impresion" => $impresion];
         $cobro=\App\Cobro::find($id);
 
         $cobro->load('facturas', 'pagos', 'ajustes', 'cliente')->groupBy($cobro->facturas)->orderBy($cobro->facturas);
-        return view('cobranza.show', compact('cobro', 'moduloNombre'));
+        $totalDepositado = 0;
+        $totalAjuste = 0;
+        foreach ($cobro->pagos as $p) {
+            # code...
+            $totalDepositado +=$p->monto;
+        }
+
+        $ajuste     =\DB::table('ajustes')
+                            ->select('monto')
+                                ->where('cobro_id', $cobro->id)
+                                ->lists('monto');
+        $ajuste = array_sum($ajuste);
+
+        $totalAjuste =($ajuste<0)?abs($ajuste):'0,00';
+
+        return view('cobranza.show', compact('cobro', 'moduloNombre', 'totalDepositado', 'totalAjuste'));
     }
 
 	/**

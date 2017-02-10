@@ -185,8 +185,8 @@
 						</ul>  
 					<li {{ (\Request::is('reporte/reporteRelacionCobranza*') || \Request::is('reporte/reporteRelacionFacturasAeronauticasCredito*') || \Request::is('reporte/reporteRelacionIngresosAeronauticosContado*'))?"class=active":"" }}><a href="#"><i class="fa fa-folder-open"></i><span> Cobranza</span><i class="fa fa-angle-left pull-right"></i></a>
 					<ul class="treeview-menu">
-							<li {{ (\Request::is('reporte/reporteRelacionFacturasAeronauticasCredito*'))?"class=active":"" }}><a href="{{ URL::to('reporte/reporteRelacionFacturasAeronauticasCredito') }}"><i class="fa fa-file-o"></i> 1-. Relación de Facturas Aeronáuticas Crédito</a></li>
-							<li {{ (\Request::is('reporte/reporteResumenFacturasAeronauticasCredito*'))?"class=active":"" }}><a href="{{ URL::to('reporte/reporteResumenFacturasAeronauticasCredito') }}"><i class="fa fa-file-o"></i> 2-. Relación de Facturas Aeronáuticas Crédito Resumen</a></li>
+							<li {{ (\Request::is('reporte/reporteRelacionFacturasAeronauticasCredito*'))?"class=active":"" }}><a href="{{ URL::to('reporte/reporteRelacionFacturasAeronauticasCredito') }}"><i class="fa fa-file-o"></i> 1-. Relación de Facturas Aeronáuticas Cobradas Crédito (Detallado)</a></li>
+							<li {{ (\Request::is('reporte/reporteResumenFacturasAeronauticasCredito*'))?"class=active":"" }}><a href="{{ URL::to('reporte/reporteResumenFacturasAeronauticasCredito') }}"><i class="fa fa-file-o"></i> 2-. Relación de Facturas Aeronáuticas Cobradas Crédito (Resumen)</a></li>
 							<li {{ (\Request::is('reporte/reporteRelacionIngresosAeronauticosContado*'))?"class=active":"" }}><a href="{{ URL::to('reporte/reporteRelacionIngresosAeronauticosContado') }}"><i class="fa fa-folder-o"></i> 3-. Relación de Ingresos Aeronáuticos Contado</a></li>
                    			<li {{ (\Request::is('reporte/reporteRelacionCobranza*'))?"class=active":"" }}><a href="{{ URL::to('reporte/reporteRelacionCobranza') }}"><i class="fa fa-file-o"></i> 4-. Relación de Cobranza</a></li>        	
 					</ul> 

@@ -4,7 +4,7 @@
 
 <ol class="breadcrumb">
     <li><a href="{{url('principal')}}">Inicio</a></li>
-    <li><a class="active">Relación de Facturas Aeronáuticas Crédito RESUMEN </a></li>
+    <li><a class="active">Relación de Facturas Aeronáuticas Cobradas Crédito (Resumen) </a></li>
 </ol>
 <div class="row" id="box-wrapper">
     <div class="col-md-12">
@@ -84,6 +84,7 @@
                                         <th  style="vertical-align: middle" colspan="3" class="text-center" >COBRO</th>
                                         <th  style="vertical-align: middle" colspan="9" class="text-center">DOSA</th>
                                         <th  style="vertical-align: middle" colspan="3" class="text-center">DEPÓSITO</th>
+                                        <th  style="vertical-align: middle" colspan="2" class="text-center"></th>
                                     </tr>
                                     <tr class="bg-primary" >
                                         <th  style="vertical-align: middle" class="text-center" >Nro.</th>
@@ -103,6 +104,9 @@
                                         <th style="vertical-align: middle" class="text-center">Ref.</th>
                                         <th style="vertical-align: middle" class="text-center">Fecha</th>
                                         <th style="vertical-align: middle" class="text-center">Monto (Bs.)</th>
+
+                                        <th style="vertical-align: middle" class="text-center">Ajuste (Bs.)</th>
+                                        <th style="vertical-align: middle" class="text-center">Cobrado (Bs.)</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -125,12 +129,15 @@
                                                 <td class="text-right otrosCargosBs" align="right">{{$traductor->format($df['otrosCargosBs'])}}</td>                               
                                                 <td class="text-right totalDosa" align="right">{{$traductor->format($df['totalDosa'])}}</td> 
 
-                                                <td>{{$df['refBancaria']}}</td>   
-                                                <td>{{$df['fechaDeposito']}}</td>                               
-                                                <td class="text-right totalDepositado" align="right">{{$traductor->format($df['totalDepositado'])}}</td>                               
+                                                <td class="text-center" align="center">{{$df['refBancaria']}}</td>   
+                                                <td class="text-center" align="center">{{$df['fechaDeposito']}}</td>                               
+                                                <td class="text-right totalDepositado" align="right">{{$traductor->format($df['totalDosa'])}}</td>                               
+
+                                                <td class="text-right totalAjuste" align="right">{{$traductor->format($df['ajuste'])}}</td>                               
+                                                <td class="text-right totalCobrado" align="right">{{$traductor->format($df['totalDepositado']+ $df['ajuste'])}}</td>                               
                                             </tr>                                    
                                         @endforeach
-                                        <tr class="bg-gray" align="center">
+                                        <tr class="bg-gray" align="center" style="font-weight: bold">
                                             <td colspan="2">TOTAL</td>
                                             <td>  </td>
                                             <td>  </td>
@@ -146,15 +153,17 @@
                                             <td align="right" id="totalDosa">0,00</td>                           
                                             <td>  </td>                                 
                                             <td>  </td>                                 
-                                            <td align="right" id="totalTotal">0,00</td>                           
+                                            <td align="right" id="totalDepositado">0,00</td>                           
+                                            <td align="right" id="totalAjuste">0,00</td>                           
+                                            <td align="right" id="totalCobrado">0,00</td>                           
                                         </tr>
                                         <tr>
-                                            <td colspan="16" class="text-right" align="right">CANTIDAD DE COBROS:</td>
+                                            <td colspan="18" class="text-right" align="right">CANTIDAD DE COBROS:</td>
                                             <td class="text-right" align="right">{{ count($dosaFactura) }}</td>
                                         </tr>
                                     @else
                                         <tr>
-                                            <td colspan="17" class="text-center" align="center">No hay registros disponibles.</td>
+                                            <td colspan="19" class="text-center" align="center">No hay registros disponibles.</td>
                                         </tr>
                                     @endif
 
@@ -215,6 +224,21 @@
             totalTotal+=commaToNum($(value).text().trim());
         });
 
+        var totalDepositado=0;
+        $('.totalDepositado').each(function(index,value){
+            totalDepositado+=commaToNum($(value).text().trim());
+        });
+
+        var totalAjuste=0;
+        $('.totalAjuste').each(function(index,value){
+            totalAjuste+=commaToNum($(value).text().trim());
+        });
+
+        var totalCobrado=0;
+        $('.totalCobrado').each(function(index,value){
+            totalCobrado+=commaToNum($(value).text().trim());
+        });
+
         $('#totalFormulario').text(numToComma(totalFormulario));
         $('#totalAterrizaje').text(numToComma(totalAterrizaje));
         $('#totalEstacionamiento').text(numToComma(totalEstacionamiento));
@@ -222,8 +246,10 @@
         $('#totalJetway').text(numToComma(totalJetway));
         $('#totalCarga').text(numToComma(totalCarga));
         $('#totalOtrosCargos').text(numToComma(totalOtrosCargos));
-        $('#totalTotal').text(numToComma(totalTotal));
+        $('#totalDepositado').text(numToComma(totalDepositado));
         $('#totalDosa').text(numToComma(totalTotal));
+        $('#totalAjuste').text(numToComma(totalAjuste));
+        $('#totalCobrado').text(numToComma(totalCobrado));
 
 
         $('.select-flt').chosen({width:'400px'});
@@ -239,11 +265,11 @@
             }).remove();
             $(table).prepend('<thead>\
                                 <tr>\
-                                    <th colspan="17" style="vertical-align: middle; margin-top:20px" align="center" class="text-center">RELACIÓN DE FACTURAS AERONÁUTICAS CRÉDITO (RESUMEN) \
+                                    <th colspan="19" style="vertical-align: middle; margin-top:20px" align="center" class="text-center">RELACIÓN DE FACTURAS AERONÁUTICAS COBRADAS CRÉDITO (RESUMEN) \
                                         </br>\
                                         AEROPUERTO: {{$aeropuertoNombre}} \
                                         </br>\
-                                        CLIENTE: {{($cliente==0)?"TODOS":$cliente}}\
+                                        CLIENTE: {{$clienteNombre}}\
                                     </th>\
                                 </tr>\
                             </thead>')

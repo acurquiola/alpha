@@ -4,7 +4,7 @@
 
 <ol class="breadcrumb">
     <li><a href="{{url('principal')}}">Inicio</a></li>
-    <li><a class="active">Relación de Facturas Aeronáuticas Crédito</a></li>
+    <li><a class="active">Relación de Facturas Aeronáuticas Cobradas Crédito (Detallado)</a></li>
 </ol>
 <div class="row" id="box-wrapper">
     <div class="col-md-12">
@@ -239,7 +239,7 @@
             }).remove();
             $(table).prepend('<thead>\
                                 <tr>\
-                                    <th colspan="17" style="vertical-align: middle; margin-top:20px" align="center" class="text-center">RELACIÓN DE FACTURAS AERONÁUTICAS CRÉDITO (DETALLADO) \
+                                    <th colspan="17" style="vertical-align: middle; margin-top:20px" align="center" class="text-center">RELACIÓN DE FACTURAS AERONÁUTICAS COBRADAS CRÉDITO (DETALLADO) \
                                         </br>\
                                         AEROPUERTO: {{$aeropuertoNombre}} \
                                         </br>\
