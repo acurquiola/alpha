@@ -353,7 +353,6 @@ class ReporteController extends Controller {
                 }
 
 
-
                      if(!isset($montosTotalesMeses[$primerDiaMes->format('d/m/Y')]["totalMes"]))
                         $montosTotalesMeses[$primerDiaMes->format('d/m/Y')]["totalMes"] = 0;
                     $montosTotalesMeses[$primerDiaMes->format('d/m/Y')]["totalMes"] += ($montos[$primerDiaMes->format('d/m/Y')][$modulo->nombre]["total"]);
@@ -397,8 +396,6 @@ class ReporteController extends Controller {
         $mesLetras = $meses[$mes];
 
         $aeropuertoNombre=Aeropuerto::find($aeropuerto)->nombre;
-
-        dd($montos);
 
 
         return view('reportes.reporteControlDeRecaudacionDiario', compact('montosDias', 'mesLetras', 'aeropuertoNombre','modulos', 'montos', 'montosTotales', 'mes', 'anno', 'aeropuerto'));
