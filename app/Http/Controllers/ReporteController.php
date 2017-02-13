@@ -131,13 +131,15 @@ class ReporteController extends Controller {
                         $montos[$meses[$diaMes->month]][$modulo->nombre][$concepto->nompre]    =\App\Cobro::join('cobro_factura', 'cobro_factura.cobro_id', '=', 'cobros.id')
                                                                         ->join('facturas', 'facturas.id', '=', 'cobro_factura.factura_id')
                                                                         ->join('facturadetalles', 'facturadetalles.factura_id', '=', 'facturas.id')
-                                                                        ->where('cobros.modulo_id', $modulo->id)
-                                                                        ->where('facturas.modulo_id', $modulo->id)
                                                                         ->where('cobros.fecha','>=' ,$diaMes->startOfMonth()->toDateTimeString())
                                                                         ->where('cobros.fecha','<=' ,$diaMes->endOfMonth()->toDateTimeString())
                                                                         ->where('facturadetalles.concepto_id', $concepto->id)
-                                                                        ->sum('facturadetalles.montoDes');
+                                                                        ->sum('facturadetalles.totalDes');
 
+                    if($concepto->nompre == 'CARGA' || $concepto->nompre == 'CARGA (CRÉDITO)'){
+                        $modulo == Modulo::where('nombre', 'CARGA')->first();
+                        $montos[$meses[$diaMes->month]][$modulo->nombre]["total"]    += $montos[$meses[$diaMes->month]][$modulo->nombre][$concepto->nompre];
+                    }
 
                     }
 
@@ -499,7 +501,7 @@ class ReporteController extends Controller {
         $mesLetras = $meses[$mes];
 
         $aeropuertoNombre=Aeropuerto::find($aeropuerto)->nombre;
-dd($montos);
+
         return view('reportes.reporteControlDeRecaudacionDiario', compact('montosDias', 'mesLetras', 'aeropuertoNombre','modulos', 'montos', 'montosTotales', 'mes', 'anno', 'aeropuerto'));
     }
 
