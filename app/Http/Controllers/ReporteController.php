@@ -336,6 +336,7 @@ class ReporteController extends Controller {
                                                                     ->join('cobro_factura', 'cobro_factura.factura_id', '=', 'facturas.id')
                                                                     ->join('facturadetalles', 'facturadetalles.factura_id', '=', 'facturas.id')
                                                                     ->join('cobros', 'cobros.id', '=', 'cobro_factura.cobro_id')
+                                                                    ->where('aeropuerto_id', $aeropuerto);
                                                                     ->where('cobros.fecha' , $primerDiaMes->toDateString())
                                                                     ->where('facturadetalles.concepto_id', $concepto->id)
                                                                     ->sum('facturadetalles.totalDes');
