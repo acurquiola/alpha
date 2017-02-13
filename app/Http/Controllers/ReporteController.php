@@ -498,8 +498,7 @@ class ReporteController extends Controller {
         $mesLetras = $meses[$mes];
 
         $aeropuertoNombre=Aeropuerto::find($aeropuerto)->nombre;
-
-
+dd($montos);
         return view('reportes.reporteControlDeRecaudacionDiario', compact('montosDias', 'mesLetras', 'aeropuertoNombre','modulos', 'montos', 'montosTotales', 'mes', 'anno', 'aeropuerto'));
     }
 
