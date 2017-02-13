@@ -344,7 +344,7 @@ class ReporteController extends Controller {
                     $montos[$primerDiaMes->format('d/m/Y')][$modulo->nombre][$concepto->nompre]    =DB::table('facturas')
                                                                     ->join('cobro_factura', 'cobro_factura.factura_id', '=', 'facturas.id')
                                                                     ->join('facturadetalles', 'facturadetalles.factura_id', '=', 'facturas.id')
-                                                                    ->join('cobros', 'cobros.cobro_id', '=', 'cobro_factura.id')
+                                                                    ->join('cobros', 'cobros.id', '=', 'cobro_factura.cobro_id')
                                                                     ->where('cobros.modulo_id', $modulo->id)
                                                                     ->where('facturas.modulo_id', $modulo->id)
                                                                     ->where('cobros.fecha' , $primerDiaMes->toDateString())
