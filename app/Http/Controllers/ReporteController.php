@@ -349,7 +349,7 @@ class ReporteController extends Controller {
                                                                     ->where('facturas.modulo_id', $modulo->id)
                                                                     ->where('cobros.fecha' , $primerDiaMes->toDateString())
                                                                     ->where('facturadetalles.concepto_id', $concepto->id)
-                                                                    ->sum('facturadetalles.montoDes');
+                                                                    ->sum('facturadetalles.totalDes');
                 }
 
 
