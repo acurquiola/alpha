@@ -338,8 +338,10 @@ class ReporteController extends Controller {
                                                                     ->join('cobros', 'cobros.id', '=', 'cobro_factura.cobro_id')
                                                                     ->where('cobros.fecha' , $primerDiaMes->toDateString())
                                                                     ->where('facturadetalles.concepto_id', $concepto->id)
+                                                                    ->where('facturas.aeropuerto_id', $aeropuerto)
                                                                     ->sum('facturadetalles.totalDes');
-                    if($concepto->nompre == 'CARGA'){
+                                                                    
+                    if($concepto->nompre == 'CARGA' || $concepto->nompre == 'CARGA (CRÉDITO)'){
                         $modulo == Modulo::where('nombre', 'CARGA')->first();
                         $montos[$primerDiaMes->format('d/m/Y')][$modulo->nombre]["total"]    += $montos;  
                     }
