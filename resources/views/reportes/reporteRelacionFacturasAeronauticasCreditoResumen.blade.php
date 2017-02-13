@@ -131,7 +131,7 @@
 
                                                 <td class="text-center" align="center">{{$df['refBancaria']}}</td>   
                                                 <td class="text-center" align="center">{{$df['fechaDeposito']}}</td>                               
-                                                <td class="text-right totalDepositado" align="right">{{$traductor->format($df['totalDosa'])}}</td>                               
+                                                <td class="text-right totalDepositado" align="right">{{$traductor->format($df['totalDepositado'])}}</td>                               
 
                                                 <td class="text-right totalAjuste" align="right">{{$traductor->format($df['ajuste'])}}</td>                               
                                                 <td class="text-right totalCobrado" align="right">{{$traductor->format($df['totalDepositado']+ $df['ajuste'])}}</td>                               
