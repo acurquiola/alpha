@@ -339,6 +339,10 @@ class ReporteController extends Controller {
                                                                     ->where('cobros.fecha' , $primerDiaMes->toDateString())
                                                                     ->where('facturadetalles.concepto_id', $concepto->id)
                                                                     ->sum('facturadetalles.totalDes');
+                    if($concepto->nompre == 'CARGA'){
+                        $modulo == Modulo::where('nombre', 'CARGA')->first();
+                        $montos[$primerDiaMes->format('d/m/Y')][$modulo->nombre]["total"]    += $montos;  
+                    }
                 }  
 
                 if($modulo->nombre == 'TASAS'){
