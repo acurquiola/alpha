@@ -727,12 +727,11 @@ class ReporteController extends Controller {
                                             ->sum('tasaopdetalles.total');
 
 
-                $cobrosPZO=\App\Cobro::select('montodepositado')->where('cobros.fecha','=' ,'2017-01-20')
-                //->where('cobros.fecha','<=' ,$diaMes->endOfMonth()->toDateString())
+                $cobrosPZO=\App\Cobro::select('montodepositado')
+                ->where('cobros.fecha','>=' ,$diaMes->startOfMonth()->toDateString())
+                ->where('cobros.fecha','<=' ,$diaMes->endOfMonth()->toDateString())
                 ->where('cobros.aeropuerto_id','1')
-               // ->sum('cobros.montodepositado');
-               ->lists('montodepositado');
-               dd($cobrosPZO);
+                ->sum('cobros.montodepositado');
 
                 $cobrosCBL=\App\Cobro::where('cobros.fecha','>=' ,$diaMes->startOfMonth()->toDateTimeString())
                 ->where('cobros.fecha','<=' ,$diaMes->endOfMonth()->toDateString())
