@@ -131,13 +131,14 @@ class ReporteController extends Controller {
                         $montos[$meses[$diaMes->month]][$modulo->nombre][$concepto->nompre]    =\App\Cobro::join('cobro_factura', 'cobro_factura.cobro_id', '=', 'cobros.id')
                                                                         ->join('facturas', 'facturas.id', '=', 'cobro_factura.factura_id')
                                                                         ->join('facturadetalles', 'facturadetalles.factura_id', '=', 'facturas.id')
+									->where('cobros.aeropuerto_id', $aeropuerto)
                                                                         ->where('cobros.fecha','>=' ,$diaMes->startOfMonth()->toDateTimeString())
                                                                         ->where('cobros.fecha','<=' ,$diaMes->endOfMonth()->toDateTimeString())
                                                                         ->where('facturadetalles.concepto_id', $concepto->id)
                                                                         ->sum('facturadetalles.totalDes');
 
                     if($concepto->nompre == 'CARGA' || $concepto->nompre == 'CARGA (CRÉDITO)'){
-                        $modulo == Modulo::where('nombre', 'CARGA')->first();
+                        $modulo == Modulo::where('nombre', 'CARGA')->where('aeropuerto_id', $aeropuerto)->first();
                         $montos[$meses[$diaMes->month]][$modulo->nombre]["total"]    += $montos[$meses[$diaMes->month]][$modulo->nombre][$concepto->nompre];
                     }
 
@@ -338,7 +339,7 @@ class ReporteController extends Controller {
                                                                     ->join('cobro_factura', 'cobro_factura.factura_id', '=', 'facturas.id')
                                                                     ->join('facturadetalles', 'facturadetalles.factura_id', '=', 'facturas.id')
                                                                     ->join('cobros', 'cobros.id', '=', 'cobro_factura.cobro_id')
-                                                                    ->where('aeropuerto_id', $aeropuerto)
+                                                                    ->where('facturas.aeropuerto_id', $aeropuerto)
                                                                     ->where('cobros.fecha' , $primerDiaMes->toDateString())
                                                                     ->where('facturadetalles.concepto_id', $concepto->id)
                                                                     ->sum('facturadetalles.totalDes');
