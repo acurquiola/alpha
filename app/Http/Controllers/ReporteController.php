@@ -338,7 +338,7 @@ class ReporteController extends Controller {
                                                                     ->join('cobro_factura', 'cobro_factura.factura_id', '=', 'facturas.id')
                                                                     ->join('facturadetalles', 'facturadetalles.factura_id', '=', 'facturas.id')
                                                                     ->join('cobros', 'cobros.id', '=', 'cobro_factura.cobro_id')
-                                                                    ->where('aeropuerto_id', $aeropuerto);
+                                                                    ->where('aeropuerto_id', $aeropuerto)
                                                                     ->where('cobros.fecha' , $primerDiaMes->toDateString())
                                                                     ->where('facturadetalles.concepto_id', $concepto->id)
                                                                     ->sum('facturadetalles.totalDes');
@@ -726,10 +726,12 @@ class ReporteController extends Controller {
                                             ->sum('tasaopdetalles.total');
 
 
-                $cobrosPZO=\App\Cobro::where('cobros.fecha','>=' ,$diaMes->startOfMonth()->toDateTimeString())
-                ->where('cobros.fecha','<=' ,$diaMes->endOfMonth()->toDateString())
+                $cobrosPZO=\App\Cobro::select('montodepositado')->where('cobros.fecha','=' ,'2017-01-20')
+                //->where('cobros.fecha','<=' ,$diaMes->endOfMonth()->toDateString())
                 ->where('cobros.aeropuerto_id','1')
-                ->sum('cobros.montodepositado');
+               // ->sum('cobros.montodepositado');
+               ->lists('montodepositado');
+               dd($cobrosPZO);
 
                 $cobrosCBL=\App\Cobro::where('cobros.fecha','>=' ,$diaMes->startOfMonth()->toDateTimeString())
                 ->where('cobros.fecha','<=' ,$diaMes->endOfMonth()->toDateString())
