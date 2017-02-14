@@ -358,15 +358,16 @@ class FacturaController extends Controller {
 	{
 
         $mensaje="";
-        $cp = $request->get('condicionPago');
+/*        $cp = $request->get('condicionPago');
         $conceptos = \App\Concepto::select('condicionPago')->whereIn('id', $request->get('concepto_id'))->lists('condicionPago');
 
         foreach($conceptos as $index=> $c){
-            if($cp != $c)
+            if($cp != $c){
                 $mensaje='Alguno de los conceptos asociados a la factura no coinciden con la condicion de pago.';
-            
+                return ["success" => 0, "mensaje"=>$mensaje];
+            }   
         }
-
+*/
         $facturas=\App\Factura::all();
              foreach ($facturas as $factura) {
                 $nFacturaPrefix    =$factura->nFacturaPrefix;
