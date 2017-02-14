@@ -731,7 +731,8 @@ class ReporteController extends Controller {
                 ->where('cobros.fecha','>=' ,$diaMes->startOfMonth()->toDateString())
                 ->where('cobros.fecha','<=' ,$diaMes->endOfMonth()->toDateString())
                 ->where('cobros.aeropuerto_id','1')
-                ->sum('cobros.montodepositado');
+                ->sum('cobros.montofacturas');
+                dd($cobrosPZO);
 
                 $cobrosCBL=\App\Cobro::where('cobros.fecha','>=' ,$diaMes->startOfMonth()->toDateTimeString())
                 ->where('cobros.fecha','<=' ,$diaMes->endOfMonth()->toDateString())
@@ -1148,7 +1149,7 @@ class ReporteController extends Controller {
         $diaHasta   =$request->get('diaHasta', \Carbon\Carbon::now()->day);
         $mesHasta   =$request->get('mesHasta', \Carbon\Carbon::now()->month);
         $annoHasta  =$request->get('annoHasta',  \Carbon\Carbon::now()->year);
-        $aeropuerto =session('aeropuerto')->id;
+        $aeropuerto =$request->get('aeropuerto', session('aeropuerto')->id);
         $modulo_id  =\App\Modulo::where('nombre', 'DOSAS')
                                     ->where('aeropuerto_id', $aeropuerto)
                                     ->lists('id');
@@ -1193,6 +1194,7 @@ class ReporteController extends Controller {
 
             $cobros = \App\Cobro::join('cobro_factura', 'cobros.id', '=', 'cobro_factura.cobro_id')
                                     ->where('cobro_factura.factura_id', $factura->id)
+                                    ->where('aeropuerto_id', $aeropuerto)
                                     ->first();
 
             $dosaFactura[$factura->nroDosa]=[
@@ -1998,6 +2000,7 @@ class ReporteController extends Controller {
         $jetway          =\App\Concepto::where('aeropuerto_id', $aeropuerto)->where('nompre', 'JETWAY (CRÉDITO)')->first();
         $carga           =\App\Concepto::where('aeropuerto_id', $aeropuerto)->where('nompre', 'CARGA (CRÉDITO)')->first();
         $otrosIngresos   =\App\Modulo::with('conceptos')->where('aeropuerto_id', $aeropuerto)->where('nombre', 'like', 'OTROS INGRESOS AERONÁUTICOS')->first();
+
 
 
 

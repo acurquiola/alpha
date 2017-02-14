@@ -16,7 +16,7 @@
                   </div><!-- /.box-header -->
                   <!-- form start -->
                     {!! Form::model($concepto, ['route' => ['administracion.concepto.update', $concepto->id], "method" => "PUT", "class" => "form-horizontal"]) !!}
-                        @include('concepto.partials.form', ["SubmitBtnText"=>"Modificar", "disabled" =>""])
+                        @include('concepto.partials.form', ["SubmitBtnText"=>"Modificar", "disabled" =>"", "readonly"=>"readonly"])
                     {!! Form::close() !!}
                 </div><!-- /.box -->
               </div>

@@ -10,7 +10,7 @@
 	<div class="form-group">
 		<label for="nompre" class="col-sm-2 control-label">Nombre<span class="text-danger">*</span></label>
 		<div class="col-sm-10">
-			{!! Form::text('nompre', null, [ 'class'=>"form-control", $disabled, "placeholder"=>"Nombre del concepto", "maxlength"=>"255"]) !!}
+			{!! Form::text('nompre', null, [ 'class'=>"form-control", $disabled,$readonly, "placeholder"=>"Nombre del concepto", "maxlength"=>"255"]) !!}
 		</div>
 	</div>
 	<div class="form-group">
@@ -22,13 +22,13 @@
 	<div class="form-group">
 		<label for="nombreImprimible" class="col-sm-2 control-label">Nombre Imprimible</label>
 		<div class="col-sm-10">
-			{!! Form::text('nombreImprimible', null, [ 'class'=>"form-control", $disabled, "placeholder"=>"Nombre que se visualizará en los reportes"]) !!}
+			{!! Form::text('nombreImprimible', null, [ 'class'=>"form-control", $disabled,  "placeholder"=>"Nombre que se visualizará en los reportes"]) !!}
 		</div>
 	</div>
 	<div class="form-group">
 		<label for="iva" class="col-sm-2 control-label">Condición de pago</label>
 		<div class="col-sm-10">
-		{!! Form::select('condicionPago', ["Ambas" => "Ambas", "Crédito" => "Crédito", "Contado"=>"Contado"], null, [ 'class'=>"form-control", $disabled]) !!}
+		{!! Form::select('condicionPago', ["Crédito" => "Crédito", "Contado"=>"Contado"], null, [ 'class'=>"form-control", $disabled]) !!}
 		</div>
 	</div>
 
