@@ -731,8 +731,7 @@ class ReporteController extends Controller {
                 ->where('cobros.fecha','>=' ,$diaMes->startOfMonth()->toDateString())
                 ->where('cobros.fecha','<=' ,$diaMes->endOfMonth()->toDateString())
                 ->where('cobros.aeropuerto_id','1')
-                ->sum('cobros.montofacturas');
-                dd($cobrosPZO);
+                ->sum('cobros.montodepositado');
 
                 $cobrosCBL=\App\Cobro::where('cobros.fecha','>=' ,$diaMes->startOfMonth()->toDateTimeString())
                 ->where('cobros.fecha','<=' ,$diaMes->endOfMonth()->toDateString())
