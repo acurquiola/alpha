@@ -1492,37 +1492,55 @@ class ReporteController extends Controller {
                 $diaMes=\Carbon\Carbon::create($anno, $i,1);
 
                 //Cobrado
-                $cobrosPZO=\App\Cobro::where('cobros.fecha','>=' ,$diaMes->startOfMonth()->toDateTimeString())
-                                            ->where('cobros.fecha','<=' ,$diaMes->endOfMonth()->toDateTimeString())
-                                            ->where('cobros.aeropuerto_id','1')
-                                            ->get();
+                $pzo = \App\TasaCobro::select('tasaops.id')->join('tasaops', 'tasaops.tasa_cobro_id', '=', 'tasa_cobros.id')
+                                            ->where('tasaops.fecha', '>=', $diaMes->startOfMonth()->toDateString())
+                                            ->where('tasaops.fecha', '<=', $diaMes->endOfMonth()->toDateString())
+                                            ->where('tasaops.aeropuerto_id', '1')
+                                            ->where('tasaops.consolidado', 1)
+                                            ->lists('tasaops.id');
+
+                $tasasPZO = \App\Tasaop::join('tasaopdetalles', 'tasaops.id', '=', 'tasaopdetalles.tasaop_id')
+                                            ->whereIn('tasaops.id', $pzo)
+                                            ->sum('tasaopdetalles.total');
+
+                $cbl = \App\TasaCobro::select('tasaops.id')->join('tasaops', 'tasaops.tasa_cobro_id', '=', 'tasa_cobros.id')
+                                            ->where('tasaops.fecha', '>=', $diaMes->startOfMonth()->toDateString())
+                                            ->where('tasaops.fecha', '<=', $diaMes->endOfMonth()->toDateString())
+                                            ->where('tasaops.aeropuerto_id', '2')
+                                            ->where('tasaops.consolidado', 1)
+                                            ->lists('tasaops.id');
+
+                $tasasCBL = \App\Tasaop::join('tasaopdetalles', 'tasaops.id', '=', 'tasaopdetalles.tasaop_id')
+                                            ->whereIn('tasaops.id', $cbl)
+                                            ->sum('tasaopdetalles.total');
+
+                $snv = \App\TasaCobro::select('tasaops.id')->join('tasaops', 'tasaops.tasa_cobro_id', '=', 'tasa_cobros.id')
+                                            ->where('tasaops.fecha', '>=', $diaMes->startOfMonth()->toDateString())
+                                            ->where('tasaops.fecha', '<=', $diaMes->endOfMonth()->toDateString())
+                                            ->where('tasaops.aeropuerto_id', '2')
+                                            ->where('tasaops.consolidado', 1)
+                                            ->lists('tasaops.id');
+
+                $tasasSNV = \App\Tasaop::join('tasaopdetalles', 'tasaops.id', '=', 'tasaopdetalles.tasaop_id')
+                                            ->whereIn('tasaops.id', $snv)
+                                            ->sum('tasaopdetalles.total');
+
+
+                $cobrosPZO=\App\Cobro::select('montodepositado')
+                ->where('cobros.fecha','>=' ,$diaMes->startOfMonth()->toDateString())
+                ->where('cobros.fecha','<=' ,$diaMes->endOfMonth()->toDateString())
+                ->where('cobros.aeropuerto_id','1')
+                ->sum('cobros.montodepositado');
 
                 $cobrosCBL=\App\Cobro::where('cobros.fecha','>=' ,$diaMes->startOfMonth()->toDateTimeString())
-                                            ->where('cobros.fecha','<=' ,$diaMes->endOfMonth()->toDateTimeString())
-                                            ->where('cobros.aeropuerto_id','2')
-                                            ->get();
+                ->where('cobros.fecha','<=' ,$diaMes->endOfMonth()->toDateString())
+                ->where('cobros.aeropuerto_id','2')
+                ->sum('cobros.montodepositado');
 
                 $cobrosSNV=\App\Cobro::where('cobros.fecha','>=' ,$diaMes->startOfMonth()->toDateTimeString())
-                                            ->where('cobros.fecha','<=' ,$diaMes->endOfMonth()->toDateTimeString())
-                                            ->where('cobros.aeropuerto_id','3')
-                                            ->get();
-
-                $tasasPZO = \App\TasaCobroDetalle::join('tasa_cobros', 'tasa_cobros.id', '=', 'tasa_cobro_detalles.tasa_cobro_id')
-                                            ->where('tasa_cobro_detalles.fecha','>=' ,$diaMes->startOfMonth()->toDateTimeString())
-                                            ->where('tasa_cobro_detalles.fecha','<=' ,$diaMes->endOfMonth()->toDateTimeString())
-                                            ->where('tasa_cobros.aeropuerto_id','1')
-                                            ->get();
-                $tasasCBL = \App\TasaCobroDetalle::join('tasa_cobros', 'tasa_cobros.id', '=', 'tasa_cobro_detalles.tasa_cobro_id')
-                                            ->where('tasa_cobro_detalles.fecha','>=' ,$diaMes->startOfMonth()->toDateTimeString())
-                                            ->where('tasa_cobro_detalles.fecha','<=' ,$diaMes->endOfMonth()->toDateTimeString())
-                                            ->where('tasa_cobros.aeropuerto_id','2')
-                                            ->get();
-                $tasasSNV = \App\TasaCobroDetalle::join('tasa_cobros', 'tasa_cobros.id', '=', 'tasa_cobro_detalles.tasa_cobro_id')
-                                            ->where('tasa_cobro_detalles.fecha','>=' ,$diaMes->startOfMonth()->toDateTimeString())
-                                            ->where('tasa_cobro_detalles.fecha','<=' ,$diaMes->endOfMonth()->toDateTimeString())
-                                            ->where('tasa_cobros.aeropuerto_id','3')
-                                            ->get();
-
+                ->where('cobros.fecha','<=' ,$diaMes->endOfMonth()->toDateString())
+                ->where('cobros.aeropuerto_id','3')
+                ->sum('cobros.montodepositado');
 
                 //Facturas por Cobrar
                 $facturasPZO=\App\Factura::where('facturas.fecha','>=' ,$diaMes->startOfMonth()->toDateTimeString())
@@ -1555,29 +1573,9 @@ class ReporteController extends Controller {
                     "porCobrarTotal" =>0,
                 ];
 
-            foreach ($cobrosPZO as $cobroPZO) {
-                $montosMeses[$meses[$diaMes->month]]["cobradoPZO"]+=$cobroPZO->montodepositado;
-            }
-
-            foreach ($cobrosCBL as $cobroCBL) {
-                $montosMeses[$meses[$diaMes->month]]["cobradoCBL"]+=$cobroCBL->montodepositado;
-            }
-
-            foreach ($cobrosSNV as $cobroSNV) {
-                $montosMeses[$meses[$diaMes->month]]["cobradoSNV"]+=$cobroSNV->montodepositado;
-            }
-
-            foreach ($tasasPZO as $tasaPZO) {
-            $montosMeses[$meses[$diaMes->month]]["cobradoPZO"]+=$tasaPZO->monto;
-            }
-
-            foreach ($tasasCBL as $tasaCBL) {
-                $montosMeses[$meses[$diaMes->month]]["cobradoCBL"]+=$tasaCBL->monto;
-            }
-
-            foreach ($tasasSNV as $tasaSNV) {
-                $montosMeses[$meses[$diaMes->month]]["cobradoSNV"]+=$tasaSNV->monto;
-            }
+            $montosMeses[$meses[$diaMes->month]]["cobradoPZO"]+=$tasasPZO+$cobrosPZO;
+            $montosMeses[$meses[$diaMes->month]]["cobradoCBL"]+=$tasasCBL+$cobrosCBL;
+            $montosMeses[$meses[$diaMes->month]]["cobradoSNV"]+=$tasasSNV+$cobrosSNV;
 
 
             foreach ($facturasPZO as $facturaPZO) {
