@@ -184,6 +184,19 @@ $('#accept-retencion-modal-btn').click(function(){
 })
 
 
+$('#edit-accept-retencion-modal-btn').click(function(){
+
+	var tr             =$('tr.retencion');
+	var retencionInput =$(tr).find('.retencion-pagar');
+
+    var retencionfecha=$('#edit-fecha-retencion-input').val();
+    var retencioncomprobante=$('#edit-comprobante-retencion-input').val();
+    $(retencionInput).data('retencionfecha',retencionfecha);
+    $(retencionInput).data('retencioncomprobante',retencioncomprobante);
+	$('#edit-retencion-modal').modal('hide');
+})
+
+
 $('.retencion-check').on('ifChanged',function(){calculateTotalRetencion()})
 $('.retencion-input').keyup(function(){calculateTotalRetencion()});
 
@@ -210,6 +223,16 @@ $('#cxc-table').delegate('.retencion-btn','click',function(){
 	$('#retencion-modal').modal('show');
 })
 
+
+$('#cxc-table').delegate('.edit-retencion-btn','click',function(){
+	var tr   =$(this).closest('tr');
+	var data =$(tr).data();
+	$(tr).addClass('retencion');
+	$('#edit-fecha-retencion-input').val(data.retencionfecha);
+	$('#edit-comprobante-retencion-input').val(data.retencioncomprobante);
+	$('#edit-retencion-modal').modal('show');
+})
+
 $('#retencion-modal').on('hidden.bs.modal', function () {
 	$('#retencion-modal [type=text]').removeAttr("disabled");
 	$('#retencion-modal :checkbox').iCheck('enable');
@@ -218,6 +241,13 @@ $('#retencion-modal').on('hidden.bs.modal', function () {
 	$('#base-modal-input,#iva-modal-input, #total-modal-input').val(0)
 	$('tr.retencion').removeClass('retencion');
 	$('#retencion-modal').find(':checkbox').iCheck('uncheck');
+})
+
+$('#edit-retencion-modal').on('hidden.bs.modal', function () {
+	$('#retencion-modal [type=text]').removeAttr("disabled");
+	$('#retencion-modal :checkbox').iCheck('enable');
+	$('tr.retencion').removeClass('retencion');
+	$('#edit-retencion-modal').find(':checkbox').iCheck('uncheck');
 })
 
 $('#procesar-cuotas-btn').click(function(){

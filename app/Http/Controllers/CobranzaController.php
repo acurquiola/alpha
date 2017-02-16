@@ -348,6 +348,7 @@ return ["success"=>1, "impresion" => $impresion];
         $cobroAttrs=$request->only('nRecibo', 'observacion', 'hasrecaudos', 'fecha');
         $cobro->update($cobroAttrs);
         $pagos=$request->get('pagos');
+        $facturas=$request->get('facturas');
         $cobro->pagos()->whereNotIn('id', array_column($pagos, 'id'))->delete();
         foreach($pagos as $pago){
             $pagoAttrs=[
@@ -367,6 +368,20 @@ return ["success"=>1, "impresion" => $impresion];
             }
         }
 
+       /* foreach($facturas as $factura){
+            $cobro->facturas()->updateExistingPivot($factura['id'], ["retencionFecha" => $factura['retencionFecha'],  "retencionComprobante" => $factura['retencionComprobante']]);
+        }*/
+        foreach($facturas as $factura){
+            $factAttrs=[
+                "retencionComprobante" => $factura['retencionComprobante'],
+                "retencionFecha" => $factura['retencionFecha'],
+            ];
+            if(array_key_exists('id', $factura)){
+                $facturaIds[]=$factura['id'];
+                $factura=$cobro->facturas()->find($factura['id']);
+                $cobro->facturas()->updateExistingPivot($factura['id'], $factAttrs);
+            }
+        }
         return ["success"=>1];
     }
 

@@ -67,6 +67,7 @@
 
 				            <th style="min-width:120px">Retencion</th>
 				            <th style="min-width:120px">Saldo a pagar</th>
+				            <th style="min-width:120px">Opciones</th>
 				            {{-- <th style="min-width:120px">Saldo Abonado</th> --}}
 				            {{-- <th style="min-width:120px">Saldo Restante</th> --}}
 				            {{-- <th style="min-width:200px">Acción</th> --}}
@@ -100,9 +101,9 @@
                         {{--</tr>--}}
                         {{--@endif--}}
 			            @foreach($cobro->facturas as $factura)
-                            <tr class="success" data-id="{{$factura->id}}" data-is-retencion-editable=1
+                            <tr class="success" data-id="{{$factura->id}}" data-retencionfecha="{{ $factura->pivot->retencionFecha }}" data-retencioncomprobante="{{ $factura->pivot->retencionComprobante }}" data-is-retencion-editable=1
                             data-islrper="'+metadata.islrpercentage+'" data-ivaper="'+metadata.ivapercentage+'"
-                            data-base="'+base+'" data-iva="'+ivaPagado+'" >
+                            data-base="'+base+'" data-iva="'+ivaPagado+'"  >
                                 <td><p class="form-control-static">{{$factura->nFacturaPrefix}}-{{$factura->nFactura}}</p></td>
                                 <td><p class="form-control-static">{{$factura->nControlPrefix}}-{{$factura->nControl}}</p></td>
                                 <td><p class="form-control-static">{{$factura->fecha}}</p></td>
@@ -111,7 +112,7 @@
                                 {{-- <td ><p class="form-control-static"><span class="saldo-pendiente">{{$traductor->format(abs($factura->total-$factura->metadata->total-$factura->pivot->total))}}</span></p></td> --}}
                                 <td>
                                     <div class="input-group">
-                                        <input type="text" class="form-control retencion-pagar" autocomplete="off"  readonly value="{{$traductor->format($factura->pivot->retencion)}}">
+                                        <input type="text" class="form-control retencion-pagar" data-retencionfecha="{{ $factura->pivot->retencionFecha }}" data-retencioncomprobante="{{ $factura->pivot->retencionComprobante }}" autocomplete="off"  readonly value="{{$traductor->format($factura->pivot->retencion)}}">
                                         {{-- <div class="input-group-btn"> --}}
                                             {{-- <button type="button" class="btn btn-warning retencion-btn"><span class="glyphicon glyphicon-search"></span></button> --}}
                                         {{-- </div> --}}
@@ -119,6 +120,7 @@
                                 </td>
                                 {{-- <td ><p class="form-control-static"><span class="saldo-pagar"></span></p></td> --}}
                                 <td><input readonly class=" text-right form-control saldo-abonado-input"  autocomplete="off" value="{{$traductor->format($factura->pivot->total-$factura->pivot->retencion)}}"></td>
+                                <td><button  class='btn btn-warning edit-retencion-btn'><span class='glyphicon glyphicon-pencil'></span></button></td>
                                 {{-- <td><p class="form-control-static saldo-restante"></p></td> --}}
                                 {{-- <td> --}}
                                     {{-- <div class="btn-group" role="group" aria-label="..."> --}}
@@ -374,6 +376,28 @@
                 }
             }
 
+
+            //QUEDE AQUI
+            var facturas=[];
+            var trs=$('#cxc-table tbody').find('tr.success, tr.info, tr.warning').not('.ajuste-row');
+            $.each(trs, function(index,value){
+				var retencionInput       =$(value).find('.retencion-pagar');
+				console.log(retencionInput)
+				var retencionFecha       =$(retencionInput).data('retencionfecha');
+				var retencionComprobante =$(retencionInput).data('retencioncomprobante');
+				retencionFecha           =(retencionFecha===undefined)?0:retencionFecha;
+				retencionComprobante     =(retencionComprobante===undefined)?0:retencionComprobante;
+                var o={
+                    id:$(value).data('id'),
+                    retencionFecha:retencionFecha,
+                    retencionComprobante:retencionComprobante
+                }
+				console.log(o);
+
+                facturas.push(o);
+            });
+
+
             var pagos=[];
             $('#formas-pago-table tbody tr').each(function(index,value){
                 pagos.push($(value).data('object'));
@@ -384,6 +408,7 @@
                 method:'PUT',
                 data:{
                     pagos:pagos,
+                    facturas:facturas,
                     nRecibo: $('#nRecibo-input').val(),
                     fecha: $('#fecha-datepicker').val(),
                     observacion:$('#observaciones-documento').val(),
@@ -396,6 +421,7 @@
                     var response=JSON.parse(jx.responseText);
                     if(response.success){
                         alertify.success("El pago se actualizo con éxito.");
+            			window.location.reload();
                     }
                     removeLoadingOverlay('#main-box');
                 }catch(e){
