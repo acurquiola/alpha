@@ -368,9 +368,7 @@ return ["success"=>1, "impresion" => $impresion];
             }
         }
 
-       /* foreach($facturas as $factura){
-            $cobro->facturas()->updateExistingPivot($factura['id'], ["retencionFecha" => $factura['retencionFecha'],  "retencionComprobante" => $factura['retencionComprobante']]);
-        }*/
+
         foreach($facturas as $factura){
             $factAttrs=[
                 "retencionComprobante" => $factura['retencionComprobante'],
