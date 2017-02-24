@@ -137,7 +137,7 @@ class ReporteController extends Controller {
                                                                         ->where('facturadetalles.concepto_id', $concepto->id)
                                                                         ->sum('facturadetalles.totalDes');
 
-                    if($concepto->nompre == 'CARGA' || $concepto->nompre == 'CARGA (CRÉDITO)'){
+                    if($modulo == 'DOSAS' && ($concepto->nompre == 'CARGA' || $concepto->nompre == 'CARGA (CRÉDITO)')){
                         $modulo == Modulo::where('nombre', 'CARGA')->where('aeropuerto_id', $aeropuerto)->first();
                         $montos[$meses[$diaMes->month]][$modulo->nombre]["total"]    += $montos[$meses[$diaMes->month]][$modulo->nombre][$concepto->nompre];
                     }
@@ -344,7 +344,7 @@ class ReporteController extends Controller {
                                                                     ->where('facturadetalles.concepto_id', $concepto->id)
                                                                     ->sum('facturadetalles.totalDes');
 
-                    if($concepto->nompre == 'CARGA' || $concepto->nompre == 'CARGA (CRÉDITO)'){
+                    if($modulo == 'DOSAS' && ($concepto->nompre == 'CARGA' || $concepto->nompre == 'CARGA (CRÉDITO)')){
                         $modulo == Modulo::where('nombre', 'CARGA')->where('aeropuerto_id', $aeropuerto)->first();
                         $montos[$primerDiaMes->format('d/m/Y')][$modulo->nombre]["total"]    += $montos[$primerDiaMes->format('d/m/Y')][$modulo->nombre][$concepto->nompre];  
                     }
