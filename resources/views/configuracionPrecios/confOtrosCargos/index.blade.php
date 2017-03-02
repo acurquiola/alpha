@@ -72,14 +72,35 @@
 	                        @endforeach
 						</select>
 					</div>
-				</div><!-- /.box-body -->
-			</form>
+				</form>
+			</div><!-- /.box-body -->
 			<div class="box-footer" align="right">
  				<button class="btn btn-default" type="button" id="cancel-otrosCargos-btn">Cancelar </button>
  			    <button class="btn btn-primary" type="submit" id="save-otrosCargos-btn"> Registrar </button>
      		</div><!-- ./box-footer -->
 		</div><!-- /.box -->
 	</div> <!-- /.col -->
+
+
+	<!-- Modal de edición -->
+
+	<div class="modal fade" id="show-modal" tabindex="-1" role="dialog" aria-labelledby="editarOtroCargo-modalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header" id="titulo-div-modal">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title" id="titulo-modal">Editar Cargo</h4>
+				</div>
+				<div class="modal-body">
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+					<button id="save-otrosCargos-btn-modal" type="button" class="btn btn-primary" data-dismiss="modal">Guardar</button>
+				</div>
+			</div>
+		</div> <!-- /.Modal-dialog-->
+	</div> <!-- /.Modal- fade-->
+
 </div> <!-- /.invoice info -->
 
 
@@ -111,6 +132,60 @@ function getTable(url){
     	    //Hay que quitar el slash antes del ?, no se como no generarlo pero replace resuelve.
     	    
     	    getTable($(this).attr('href').replace("/?", "?"));
+    	})
+
+	    	/*
+    		Modificar un registro
+
+    		*/ 		    		
+
+    		//Mostrar la información en un modal para editar
+
+    		$('body').delegate('.editarOtroCargo-btn', 'click', function(){
+    			var fila = $(this).closest('tr');
+    			var id   = $(fila).data('id');
+    			var url  ='{{action('OtrosCargoController@edit', ["::"])}}';
+    			url      = url.replace("::", id)
+
+    			$.ajax({
+    				method: 'get',
+    				url: url})
+    			.always(function(text, status, responseObject){
+    				$('#show-modal .modal-body').html(text);
+    				$('#show-modal').modal('show');
+    			})
+    		})
+
+    	//Editar la información
+
+    	$('#save-otrosCargos-btn-modal').click(function(){
+
+    		var data =$('#show-modal form').serializeArray()
+    		var url  =$('#show-modal form').attr('action')
+
+    		$.ajax({data:data,
+    			method:'PUT',
+    			url:url})
+    		.always(function(text, status, responseObject){
+    			try
+    			{
+    				var respuesta = JSON.parse(responseObject.responseText);
+    				if (respuesta.success==1)
+    				{
+    					alertify.success(respuesta.text);
+    					$('#filtrar-btn').trigger('click');
+    				}
+    				else
+    				{
+    					alertify.error(respuesta.text);
+    				}
+    			}
+    			catch(e)
+    			{
+    				console.log(e);
+    				alertify.error('Error procesando la información');
+    			}
+    		})
     	})
    	
 

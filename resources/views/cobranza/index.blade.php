@@ -24,7 +24,7 @@
 					{!! Form::hidden('cobroIdOperator', array_get( $input, 'cobroIdOperator'), ['id' => 'cobroIdOperator', 'class' => 'operator-input', 'autocomplete'=>'off']) !!}
 					<div class="input-group">
 						<div class="input-group-btn">
-							<button style="max-height:37px" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="operator-text">{{array_get( $input, 'cobroIdOperator')}}</span></button>
+							<button style="max-height:37px" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="operator-text">=</span></button>
 							<ul class="dropdown-menu operator-list">
 								<li><a href="#">=</a></li>
 								<li><a href="#">>=</a></li>
@@ -41,7 +41,7 @@
 					{!! Form::hidden('fechaOperator', array_get( $input, 'fechaOperator'), ['id' => 'fechaOperator', 'class' => 'operator-input', 'autocomplete'=>'off']) !!}
 					<div class="input-group">
 						<div class="input-group-btn">
-							<button style="max-height:37px" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="operator-text">{{array_get( $input, 'fechaOperator')}}</span></button>
+							<button style="max-height:37px" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="operator-text">=</span></button>
 							<ul class="dropdown-menu operator-list">
 								<li><a href="#">>=</a></li>
 								<li><a href="#"><=</a></li>
@@ -55,7 +55,7 @@
 					{!! Form::hidden('pagadoOperator', array_get( $input, 'pagadoOperator'), ['id' => 'pagadoOperator', 'class' => 'operator-input', 'autocomplete'=>'off']) !!}
 					<div class="input-group">
 						<div class="input-group-btn">
-							<button style="max-height:37px" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="operator-text">{{array_get( $input, 'pagadoOperator')}}</span></button>
+							<button style="max-height:37px" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="operator-text">=</span></button>
 							<ul class="dropdown-menu operator-list">
 								<li><a href="#">>=</a></li>
 								<li><a href="#"><=</a></li>
@@ -69,7 +69,7 @@
 					{!! Form::hidden('depositadoOperator', array_get( $input, 'depositadoOperator'), ['id' => 'depositadoOperator', 'class' => 'operator-input', 'autocomplete'=>'off']) !!}
 					<div class="input-group">
 						<div class="input-group-btn">
-							<button style="max-height:37px" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="operator-text">{{array_get( $input, 'depositadoOperator')}}</span></button>
+							<button style="max-height:37px" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="operator-text">=</span></button>
 							<ul class="dropdown-menu operator-list">
 								<li><a href="#">>=</a></li>
 								<li><a href="#"><=</a></li>
@@ -82,7 +82,7 @@
 				<div class="form-group">
 					{!! Form::text('observacion', array_get( $input, 'observacion'), [ 'class'=>"form-control", 'placeholder'=>'Observación', 'style'=>'max-width:150px']) !!}
 				</div>
-				<button type="submit" id="buscar-btn" class="btn btn-default">Buscar</button>
+				<button type="submit" id="buscar-btn" class="btn btn-primary">Buscar</button>
 				<a class="btn btn-default" id="reset-btn"  href="{{action('CobranzaController@index',[$modulo->nombre])}}">Reset</a>
 				{!! Form::close() !!}
 			</div>

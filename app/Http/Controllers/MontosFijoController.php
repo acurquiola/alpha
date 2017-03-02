@@ -16,7 +16,7 @@ class MontosFijoController extends Controller {
 	 * @return Response
 	 */
 	public function index()
-	{		
+	{
 		return view('configuracionPrecios.index');
 	}
 
@@ -46,7 +46,7 @@ class MontosFijoController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	
+
 	public function show(MontosFijo $confGeneral)
 	{
         return view("configuracionPrecios.confGeneral.partials.show");
@@ -72,14 +72,14 @@ class MontosFijoController extends Controller {
 	 * @return Response
 	 */
 	public function update($id, Request $request)
-	{		
-		$confGeneral                    = MontosFijo::find($id);
+	{
+		$confGeneral                    =MontosFijo::find($id);
 		$confGeneral->unidad_tributaria =$request->input('unidad_tributaria');
-		$confGeneral->dolar_oficial        =$request->input('dolar_oficial');
-		
+		$confGeneral->dolar_oficial     =$request->input('dolar_oficial');
+
 		if($confGeneral->save())
-		{			
-			return response()->json(array("text"=>'Montos modificados exitósamente',
+		{
+			return response()->json(array("text"=>'Montos modificados exitósamente.',
 										  "confGeneral"=>$confGeneral,
 										  "success"=>1));
 		}
