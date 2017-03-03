@@ -4,7 +4,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class OtrosCargo extends Model {
 
-	protected $guarded = [];	
+    protected $fillable = ['nombre_cargo', 'precio_cargo', 'conceptoCredito_id', 'conceptoContado_id'];
+
+    protected $guarded = [];
 
     public function conceptos()
     {

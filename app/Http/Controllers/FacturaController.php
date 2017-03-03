@@ -262,6 +262,7 @@ class FacturaController extends Controller {
         }
 
 
+
         $modulo=\App\Modulo::where("nombre","like",$moduloNombre)->where('aeropuerto_id', session('aeropuerto')->id)->first();
 
 
@@ -297,19 +298,20 @@ class FacturaController extends Controller {
 
         $modulo->facturas->setPath('');
 
+/*
 
-
-        \Input::replace([ 'fechaOperator'   =>'=',
-                        'nFacturaOperator'  =>'=',
-                        'nControlOperator'  =>'=',
-                        'totalOperator'     =>'=',
+        \Input::merge([ 'fechaOperator'   =>$fechaOperator,
+                        'nFacturaOperator'  =>$nFacturaOperator,
+                        'nControlOperator'  =>$nControlOperator,
+                        'totalOperator'     =>$totalOperator,
                         'sortName'          =>$sortName,
                         'sortType'          =>$sortType]);
+*/
 
-		return view('factura.index', compact('modulo'))->withInput(\Input::all());
-	}
+        return view('factura.index', compact('modulo'))->withInput(\Input::all());
+    }
 
-	/**
+    /**
 	 * Show the form for creating a new resource.
 	 *
 	 * @return Response

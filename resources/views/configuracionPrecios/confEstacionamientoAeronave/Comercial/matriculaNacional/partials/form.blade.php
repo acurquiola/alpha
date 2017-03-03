@@ -22,7 +22,7 @@
 
 				<!-- Equivalente de la UT-->
 				<div class="form-group">
-					<label><strong>Minutos Libres</strong>: </label>
+					<label><strong>Precio por bloque:</strong>: </label>
 					<div class="input-group"> 
 						<div class="input-group-addon">
 							Equivalente: 
@@ -92,7 +92,7 @@
 
 				<!-- Equivalente de la UT-->
 				<div class="form-group">
-					<label><strong>Minutos Libres</strong>: </label>
+					<label><strong>Precio por bloque: </strong>: </label>
 					<div class="input-group"> 
 						<div class="input-group-addon">
 							Equivalente: 

@@ -23,7 +23,7 @@
 					{!! Form::hidden('nFacturaOperator', array_get( $input, 'nFacturaOperator'), ['id' => 'nFacturaOperator', 'class' => 'operator-input', 'autocomplete'=>'off']) !!}
 					<div class="input-group">
 						<div class="input-group-btn">
-							<button style="max-height:37px" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="operator-text">{{array_get( $input, 'nFacturaOperator')}}</span></button>
+							<button style="max-height:37px" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="operator-text">=</span></button>
 							<ul class="dropdown-menu operator-list">
 								<li><a href="#">>=</a></li>
 								<li><a href="#"><=</a></li>
@@ -38,7 +38,7 @@
 					{!! Form::hidden('nControlOperator', array_get( $input, 'nControlOperator'), ['id' => 'nControlOperator', 'class' => 'operator-input', 'autocomplete'=>'off']) !!}
 					<div class="input-group">
 						<div class="input-group-btn">
-							<button style="max-height:37px" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="operator-text">{{array_get( $input, 'nControlOperator')}}</span></button>
+							<button style="max-height:37px" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="operator-text">=</span></button>
 							<ul class="dropdown-menu operator-list">
 								<li><a href="#">>=</a></li>
 								<li><a href="#"><=</a></li>
@@ -61,7 +61,7 @@
 					{!! Form::hidden('fechaOperator', array_get( $input, 'fechaOperator'), ['id' => 'fechaOperator', 'class' => 'operator-input', 'autocomplete'=>'off']) !!}
 					<div class="input-group">
 						<div class="input-group-btn">
-							<button style="max-height:37px" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="operator-text">{{array_get( $input, 'fechaOperator')}}</span></button>
+							<button style="max-height:37px" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="operator-text">=</span></button>
 							<ul class="dropdown-menu operator-list">
 								<li><a href="#">>=</a></li>
 								<li><a href="#"><=</a></li>
@@ -76,7 +76,7 @@
 					{!! Form::hidden('totalOperator', array_get( $input, 'totalOperator'), ['id' => 'totalOperator', 'class' => 'operator-input', 'autocomplete'=>'off']) !!}
 					<div class="input-group">
 						<div class="input-group-btn">
-							<button style="max-height:37px" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="operator-text">{{array_get( $input, 'totalOperator')}}</span></button>
+							<button style="max-height:37px" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="operator-text">=</span></button>
 							<ul class="dropdown-menu operator-list">
 								<li><a href="#">>=</a></li>
 								<li><a href="#"><=</a></li>

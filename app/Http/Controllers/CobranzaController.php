@@ -102,14 +102,14 @@ class CobranzaController extends Controller {
         $cobros=$cobros->orderBy($sortName, $sortType)->paginate(15);
         $cobros->setPath('');
 
-
+/*
         \Input::replace([ 'fechaOperator'      =>'=',
                         'cobroIdOperator'    =>'=',
                         'pagadoOperator'     =>'=',
                         'depositadoOperator' =>'=',
                         'sortName'           =>$sortName,
                         'sortType'           =>$sortType]);
-
+*/
 
 
         return view('cobranza.index', compact('cobros','modulo'))->withInput(\Input::all());

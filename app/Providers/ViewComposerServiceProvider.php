@@ -291,7 +291,8 @@ class ViewComposerServiceProvider extends ServiceProvider {
                           'configuracionPrecios.confCarga.partials.edit', 
                           'configuracionPrecios.confCarga.partials.form', 
                           'configuracionPrecios.confOtrosCargos.index',
-                          'configuracionPrecios.confOtrosCargos.partials.table'], function($view){
+                          'configuracionPrecios.confOtrosCargos.partials.table',
+                          'configuracionPrecios.confOtrosCargos.partials.form',], function($view){
             $conceptos =[""=>"-- Seleccione un concepto --"]+session('aeropuerto')->conceptos()->orderBy('nompre', 'ASC')->lists('nompre', 'id');
             $view->with(compact('conceptos'));
         });

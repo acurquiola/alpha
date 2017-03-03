@@ -93,7 +93,8 @@ class OtrosCargoController extends Controller {
 	 */
 	public function edit($id)
 	{
-		//
+		$otrosCargo = OtrosCargo::find($id);
+		return view('configuracionPrecios.confOtrosCargos.partials.edit', compact('otrosCargo'));
 	}
 
 	/**
@@ -102,9 +103,15 @@ class OtrosCargoController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function update($id)
+	public function update($id, Request $request)
 	{
-		//
+		$oc         = OtrosCargo::find($id);
+		$otrosCargo = $oc->update($request->all());
+		if($otrosCargo){
+            return ["success"=>1, "text" => "Registro modificado con éxito."];
+        }else{
+            return ["success"=>0, "text" => "Error modificando el registro."];
+        }
 	}
 
 	/**

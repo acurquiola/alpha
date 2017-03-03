@@ -89,6 +89,7 @@ class AterrizajeController extends Controller {
 	 */
 	public function store(AterrizajeRequest $request)
 	{
+
 		$aterrizaje = Aterrizaje::create($request->except("nacionalidadVuelo_id", "piloto_id", "puerto_id", "cliente_id"));
 
 		if($aterrizaje)

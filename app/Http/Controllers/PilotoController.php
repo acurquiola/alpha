@@ -115,7 +115,7 @@ class PilotoController extends Controller {
 	 * @return Response
 	 */
 	public function edit($id)
-		{
+	{
 		$pilot        = Piloto::find($id);
 		$nacionalidad = Pais::lists('nombre', 'id');
 		return view('pilotos.partials.edit', compact('pilot', 'nacionalidad'));
