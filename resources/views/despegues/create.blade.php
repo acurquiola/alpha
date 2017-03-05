@@ -413,13 +413,12 @@
 					</div> <!-- /. box-body -->					
 				</div>
 				<div class="box-footer" align="right">
-					<button class="btn btn-default" type="button" id="cancel-despegue-btn">Cancelar </button>
+					<a class="btn btn-default" href="{{action('DespegueController@index')}}">Cancelar</a>
 					<button class="btn btn-primary" type="submit" id="save-despegue-btn"> Registrar </button>
 				</div><!-- ./box-footer -->
 			</section>
 		</section>
 	</div><!-- /.row (main row) -->
-
 
 	@endsection
 

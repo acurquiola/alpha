@@ -59,6 +59,8 @@
 
                                         <button class='btn btn-warning  btn-sm editarDespegue-btn' data-id='{{$despegue->id}}'><span class='glyphicon glyphicon-pencil' title='Editar Registro'></span></button>
                                         <button class='btn btn-danger  btn-sm eliminarDespegue-btn' data-id='{{$despegue->id}}'><span class='glyphicon glyphicon-trash' title='Eliminar Registro'></span></button>
+
+                                        <a class='btn btn-default btn-sm facturarDespegueManual-btn' href="{{ action('FacturaController@facturaManual', 'DOSAS') }}"><span class='fa fa-ellipsis-h' title='Crear Dosa'></span></a>
                                    @endif
                               </div>
                          @endif

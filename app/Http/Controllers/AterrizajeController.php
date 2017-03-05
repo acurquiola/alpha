@@ -90,6 +90,16 @@ class AterrizajeController extends Controller {
 	public function store(AterrizajeRequest $request)
 	{
 
+        $fecha            =\Carbon\Carbon::createFromFormat('d/m/Y', $request->get('fecha'));
+        $fecha            = $fecha->toDateString();
+		$aterrizajes = Aterrizaje::where('aeronave_id', $request->get('aeronave_id'))
+									->where('fecha', $fecha)
+									->where('hora', $request->get('hora'))
+									->get();
+		if($aterrizajes->count() > 0)
+			return response()->json(array("text"=>'Aterrizaje Duplicado',"success"=>0));
+		
+
 		$aterrizaje = Aterrizaje::create($request->except("nacionalidadVuelo_id", "piloto_id", "puerto_id", "cliente_id"));
 
 		if($aterrizaje)
@@ -127,7 +137,7 @@ class AterrizajeController extends Controller {
 		}
 		else
 		{
-			response()->json(array("text"=>'Error registrando el aterrizaje',"success"=>0));
+			return response()->json(array("text"=>'Error registrando el aterrizaje',"success"=>0));
 		}
 	}
 

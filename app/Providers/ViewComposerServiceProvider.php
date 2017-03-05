@@ -349,7 +349,8 @@ class ViewComposerServiceProvider extends ServiceProvider {
             'reportes.reporteLibroDeVentas',
             'reportes.reporteFormulariosAnulados',
             'reportes.reporteReporteDeMorosidad',
-            'reportes.reporteTraficoAereo'], function($view){
+            'reportes.reporteTraficoAereo',
+            'conciliacion.index'], function($view){
             $meses=[
                 "01"=>"ENERO",
                 "02"=>"FEBRERO",

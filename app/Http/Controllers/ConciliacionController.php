@@ -15,7 +15,8 @@ class ConciliacionController extends Controller {
 	 */
 	public function index()
 	{
-        return view('conciliacion.index');
+		$anno = Carbon\Carbon::now()->year;
+        return view('conciliacion.index', compact('anno'));
 	}
 
 	/**
@@ -84,42 +85,30 @@ class ConciliacionController extends Controller {
 
 	public function getMovimientos(Request $request)
 	{
-		$movimientos = \App\Cobrospago::nombrebanco($request->get('banco_id'))
-										->numerocuenta($request->get('cuenta_id'))
-										->tipo($request->get('tipo'))
-										->referencia($request->get('ncomprobante'))
-										->cobro($request->get('cobro_id'))
-										->fecha($request->get('fecha_inicio'), $request->get('fecha_fin'));
+		$anno         = $request->get('anno', \Carbon\Carbon::now()->year);
+		$banco_id     = $request->get('banco_id');
+		$cuenta_id    = $request->get('cuenta_id');
+		$tipo         = $request->get('tipo');
+		$ncomprobante = $request->get('ncomprobante');
+		$cobro_id     = $request->get('cobro_id');
+		$fecha_inicio = $request->get('fecha_inicio');
+		$fecha_fin    = $request->get('fecha_fin');
+        $today=\Carbon\Carbon::now();
+		$movimientos  = \App\Cobrospago::nombrebanco($banco_id)
+										->numerocuenta($cuenta_id)
+										->anno($anno)
+										->tipo($tipo)
+										->referencia($ncomprobante)
+										->cobro($cobro_id)
+										->fecha($fecha_inicio, $fecha_fin);
 										//FALTAA EL FILTRO PARA SABER SI ESTA CONCILIADO
 
-		//dd($request->all());
-		/*$today = Carbon\Carbon::now()->toDateString();
-		$banco_id     = ($request->get('banco_id') == '')?'0':$request->get('banco_id');
-		$cuenta_id    = ($request->get('cuenta_id') == '')?'0':$request->get('cuenta_id');
-		$tipo         = ($request->get('tipo') == '')?'':$request->get('tipo');
-		$ncomprobante = ($request->get('ncomprobante') == '')?'0':$request->get('ncomprobante');
-		$fecha_inicio = ($request->get('fecha_inicio') == '')?$today:$request->get('fecha_inicio');
-		$fecha_fin    = ($request->get('fecha_fin') == '')?$today:$request->get('fecha_fin');
-		$cobro_id     = ($request->get('cobro_id') == '')?'0':$request->get('cobro_id');
-	
-		$movimientos = \App\Cobrospago::numerocobro($cobro_id)
-										->nombrebanco($banco_id)
-										->numerocuenta($cuenta_id)
-										->referencia($ncomprobante)
-										->tipotransaccion($tipo)
-										->fechainicial($fecha_inicio)
-										->fechafinal($fecha_fin)
-										->conciliado()->get();
-
-		return view('conciliacion.index', compact('movimientos'));*/
-
-		//dd($movimientos->get());
 
 		$movimientos = $movimientos->orderBy('fecha', 'ASC')->paginate(50);
 
 		$movimientos->setPath('');
 
-		return view('conciliacion.index', compact('movimientos'));
+		return view('conciliacion.index', compact('movimientos', 'anno', 'banco_id', 'cuenta_id', 'tipo', 'ncomprobante', 'cobro_id', 'fecha_inicio', 'fecha_fin', 'today'));
 	}
 
 }

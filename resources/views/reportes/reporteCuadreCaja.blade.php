@@ -122,20 +122,55 @@
 										</tr>
 										<tbody>
 											@foreach($facturasAnuladas as $facturaAnulada)
-											<tr title="{{$facturaAnulada->fecha}}" align="center">
-										<td class="text-center" align="center" style="width: 100px">{{$facturaAnulada->fecha}}</td>
-										<td class="text-center" align="center" style="width: 100px">{{$facturaAnulada->nControlPrefix}}-{{$facturaAnulada->nControl}}</td>
-										<td class="text-center" align="center" style="width: 100px">{{$facturaAnulada->nroDosa}}</td>
-										<td class="text-center" align="center" style="width: 100px">{{$facturaAnulada->nFacturaPrefix}}-{{$facturaAnulada->nFactura}}</td>
-										<td class="text-left" align="left" style="width: 400px">{{$facturaAnulada->cliente->nombre}}</td>
-										<td class="text-center" align="center"   style="width: 100px">{{$facturaAnulada->condicionPago}}</td>
-										<td class="text-left" align="left"   style="width: 100px">{{$facturaAnulada->comentario}}</td>
-										<td class="text-right" align="right"  style="width: 150px">{{$traductor->format($facturaAnulada->total)}}</td>
-											</tr>
+												<tr title="{{$facturaAnulada->fecha}}" align="center">
+													<td class="text-center" align="center" style="width: 100px">{{$facturaAnulada->fecha}}</td>
+													<td class="text-center" align="center" style="width: 100px">{{$facturaAnulada->nControlPrefix}}-{{$facturaAnulada->nControl}}</td>
+													<td class="text-center" align="center" style="width: 100px">{{$facturaAnulada->nroDosa}}</td>
+													<td class="text-center" align="center" style="width: 100px">{{$facturaAnulada->nFacturaPrefix}}-{{$facturaAnulada->nFactura}}</td>
+													<td class="text-left" align="left" style="width: 400px">{{$facturaAnulada->cliente->nombre}}</td>
+													<td class="text-center" align="center"   style="width: 100px">{{$facturaAnulada->condicionPago}}</td>
+													<td class="text-left" align="left"   style="width: 100px">{{$facturaAnulada->comentario}}</td>
+													<td class="text-right" align="right"  style="width: 150px">{{$traductor->format($facturaAnulada->total)}}</td>
+												</tr>
 											@endforeach
 					                        <tr class="bg-gray" align="center">
 					                        	<td colspan="7" align="right" class="text-right"><strong>TOTAL ANULADO</strong></td>
 					                        	<td align="right"><strong>{{$traductor->format($facturasAnuladasTotal)}}</strong></td>			                        
+					                        </tr>
+										</tbody>
+									@endif
+									@if($facturasManuales->count()>0)
+										<tr class="bg-primary" >
+											<th class="text-center" colspan="8" >
+												FACTURAS MANUALES
+											</th>
+										</tr>
+										<tr class="bg-primary" >
+											<th class="text-center" align="center" style="width: 100px">FECHA</th>
+											<th class="text-center" align="center" style="width: 100px">Nro. CONTROL</th>
+											<th class="text-center" align="center" style="width: 100px">Nro. DOSA</th>
+											<th class="text-center" align="center" style="width: 100px">Nro. FACTURA</th>
+											<th class="text-center" align="center" style="width: 400px">CLIENTE</th>
+											<th class="text-center" align="center" style="width: 100px">COND. PAGO</th>
+											<th class="text-center" align="center" style="width: 100px">Nro. COBRO</th>
+											<th class="text-center" align="center" style="width: 150px">MONTO</th>
+										</tr>
+										<tbody>
+											@foreach($facturasManuales as $facturaManual)
+											<tr title="{{$facturaManual->fecha}}" align="center">
+												<td class="text-center" align="center" style="width: 100px">{{$facturaManual->fecha}}</td>
+												<td class="text-center" align="center" style="width: 100px">{{$facturaManual->nControlPrefix}}-{{$facturaManual->nControl}}</td>
+												<td class="text-center" align="center" style="width: 100px">{{$facturaManual->nroDosa}}</td>
+												<td class="text-center" align="center" style="width: 100px">{{$facturaManual->nFacturaPrefix}}-{{$facturaManual->nFactura}}</td>
+												<td class="text-left" align="left" style="width: 400px">{{$facturaManual->cliente->nombre}}</td>
+												<td class="text-center" align="center"   style="width: 100px">{{$facturaManual->condicionPago}}</td>
+												<td class="text-center" align="center"   style="width: 100px">@foreach($facturaManual->cobros as $cobro) {{($cobro->id)?$cobro->id:''}} @endforeach</td>
+												<td class="text-right" align="right"  style="width: 150px">{{$traductor->format($facturaManual->total)}}</td>
+											</tr>
+											@endforeach
+					                        <tr class="bg-gray" align="center">
+					                        	<td colspan="7" align="right" class="text-right"><strong>TOTAL FACTURAS MANUALES</strong></td>
+					                        	<td align="right"><strong>{{$traductor->format($facturasManualesTotal)}}</strong></td>			                        
 					                        </tr>
 										</tbody>
 									@endif
@@ -178,7 +213,7 @@
 
 			                        <tr class="bg-primary" align="center">
 			                        	<td colspan="7" align="right" class="text-right"><strong>TOTAL RECAUDADO</strong></td>
-			                        	<td align="right" class="text-right"><strong>{{$traductor->format($facturasTotal+$totalTasas)}}</strong></td>			                        
+			                        	<td align="right" class="text-right"><strong>{{$traductor->format($facturasTotal+$totalTasas+$facturasManualesTotal)}}</strong></td>			                        
 			                        </tr>
 								</tbody>
 								

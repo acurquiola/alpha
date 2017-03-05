@@ -20,6 +20,9 @@
 			<div class="box-body">
 				{!! Form::open(["url" => action('ConciliacionController@getMovimientos'), "method" => "GET", "class"=>"form-inline"]) !!}
 				<div class="form-inline">
+	                <div class="form-group">
+	                      {!! Form::select('anno', $annos, $anno, ["class"=> "form-control"]) !!}
+	                </div>
 					<div class="form-group">
 						<select id="banco-select" name="banco_id" class="form-control" >
 							<option value="">-- Seleccione Banco --</option>
@@ -42,15 +45,15 @@
 						</select>
 					</div>
 					<div class="form-group">
-						<input class="form-control" id="referencia-input" name="ncomprobante" autocomplete="off"  placeholder="Nro de Referencia/Lote" />
+						<input class="form-control" id="referencia-input" name="ncomprobante" autocomplete="off" value="{{ $ncomprobante }}" placeholder="Nro de Referencia/Lote" />
 					</div>
 				</div>
 				<div class="form-inline">
 					<div class="form-group">
-						<input class="form-control datepicker" name="fecha_inicio" id="fecha_inicio-input"  autocomplete="off" placeholder="Fecha Inicio" />
+						<input class="form-control datepicker" name="fecha_inicio" id="fecha_inicio-input"  autocomplete="off" valeu="{{ $fecha_inicio }}"" placeholder="Fecha Inicio" />
 					</div>
 					<div class="form-group">
-						<input class="form-control datepicker" name="fecha_fin" id="fecha_fin -input" autocomplete="off" placeholder="Fecha Fin" />
+						<input class="form-control datepicker" name="fecha_fin" id="fecha_fin -input" autocomplete="off" value="{{ $fecha_fin }}" placeholder="Fecha Fin" />
 					</div>
 					<div class="form-group">
 						<input class="form-control " name="cobro_id" id="cobro-input" autocomplete="off"  placeholder="Nro de Cobro" />
@@ -75,16 +78,63 @@
 							<button type="button" class="btn btn-success" id="select-all-btn">Seleccionar todos</button>
 						</div>
 						<div class="col-md-8" id="movimientos-checkbox" >
-							<span style="margin-left: 60px" >FECHA | BANCO | CUENTA | TIPO | REFERENCIA | MONTO</span>
 							@if($movimientos->count() > 0)
-								@foreach($movimientos as $movimiento)
-								<div class="checkbox">
+								{{-- @foreach($movimientos as $movimiento)
+							<span style="margin-left: 60px" >FECHA | BANCO | CUENTA | TIPO | REFERENCIA | MONTO</span>
+								<div class="checkbox" >
 									<label>
-										<input name="contratos-checkbox" type="checkbox">
+										<input id="mov-checkbox" name="contratos-checkbox" type="checkbox" data-monto="{{ $movimiento->monto }} ">
 										{{ $movimiento->fecha }} | {{ $movimiento->banco->nombre }} | {{ $movimiento->cuenta->descripcion }} | {{ $movimiento->tipo }} | {{ $movimiento->ncomprobante }} | {{ $traductor->format($movimiento->monto) }} 
 									</label>
 								</div>
 								@endforeach
+ --}}
+
+ 								<table class="table text-center" id="movimientos-table">
+									<thead>
+										<tr>
+											<th></th>
+											<th>Fecha</th>
+											<th>Banco</th>
+											<th>Cuenta</th>
+											<th>Tipo</th>
+											<th>Referencia</th>
+											<th>Monto</th>
+										</tr>
+									</thead>
+									<tbody>
+										@foreach($movimientos as $movimiento)
+											<tr>
+												<td>
+													<input class="box" type="checkbox" name="contratos-checkbox" value="{{ $movimiento->id }} " data-monto="{{ $movimiento->monto }}"/>
+												</td>
+												<td>
+													{{ $movimiento->fecha }}
+												</td>
+												<td>
+													{{ $movimiento->banco->nombre }}
+												</td>
+												<td>
+													{{ $movimiento->cuenta->descripcion }}
+												</td>
+												<td>
+													{{ $movimiento->tipo }}
+												</td>
+												<td>
+													{{ $movimiento->ncomprobante }}
+												</td>
+												<td>
+													<span class="amount">{{ $traductor->format($movimiento->monto) }}</span>
+												</td>
+											</tr>
+										@endforeach
+											<tfooter>
+												<td colspan="7" class="text-right">
+													<button  class="btn btn-primary pull-right" id="aplicar-btn">Aplicar</button>
+												</td>
+											</tfooter>
+									</tbody>
+								</table>
 							@else
 								<span>No hay registros disponibles para los datos suministrados</span> 
 							@endif
@@ -105,11 +155,24 @@
 						<div class="col-md-8" style="margin-top: 20px; margin-left: 25px">
 
 							<div class="form-inline">
+								<label for="active-input">Fecha de Conciliación</label>
 								<div class="form-group">
-									<input class="form-control" type="text" name="fecha" id="fecha" placeholder="Fecha">
+	                                <div class="input-group">
+										    <input class='form-control datepicker today text-center' id="today-input" value="{{$today->format('d/m/Y')}}" /></td>
+	                                </div>
+								</div>
+								</br>
+								<div class="form-group">
+									<input class="form-control datepicker today text-center" type="text" name="fecha" id="fecha" placeholder="Fecha">
 								</div>
 								<div class="form-group">
-									<input class="form-control" type="text" name="porcentaje_deducido" id="fecha" placeholder="% deducido">
+									<input class="form-control text-right" type="text" name="monto" id="monto" placeholder="Monto Actual">
+								</div>
+								<div class="form-group">
+									<input class="form-control text-right" type="text" name="monto_banco" id="monto_banco" placeholder="Monto en Banco">
+								</div>
+								<div class="form-group">
+									<input class="form-control text-right" type="text" name="comision_bancaria" id="comision_bancaria" placeholder="Comisión Bancaria">
 								</div>
 							</div>
 						</div>
@@ -158,12 +221,13 @@
 @section('script')
 <script>
 
+
+	
 	$(document).ready(function(){
 
 
 		$('#select-all-btn').click(function(){
 			var $unCheckedChecks=$('#movimientos-checkbox [type=checkbox]:not(:disabled):not(:checked)');
-			console.log($unCheckedChecks);
 			if($unCheckedChecks.length==0)
 				$('#movimientos-checkbox [type=checkbox]:not(:disabled)').iCheck('uncheck');
 			else
@@ -171,8 +235,24 @@
 
 		});
 
-//		$('.datepicker').inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/yyyy"});
+		$('#aplicar-btn').click(function(event) {
+		   var total = 0;
+	       $('input[type=checkbox]:checked').each(function(){
+	            total+=$(this).data('monto');       
+	       });
+	       $('#monto').val(numToComma(total));
+		});
 
+		$('#monto_banco').keyup(function(event) {
+		   var diferencia = 0;
+		   var monto = commaToNum($('#monto').val());
+		   var monto_banco = commaToNum($('#monto_banco').val());
+		   var comision_bancaria = monto - monto_banco;
+
+	       $('#comision_bancaria').val(numToComma(comision_bancaria));
+		});
+
+//		$('.datepicker').inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/yyyy"});
 
 
 		$('.datepicker').datepicker({
@@ -207,8 +287,6 @@
 			options=seleccione+options;
 			$('#cuenta-modal-input').html(options);
 		}).trigger('change');
-
-
 	})
 </script>
 @endsection

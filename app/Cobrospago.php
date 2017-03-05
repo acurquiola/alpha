@@ -104,6 +104,16 @@ class Cobrospago extends Model {
 
     }
 
+    public function scopeAnno($query, $anno)
+    {
+        if($anno != null){
+            $primerDiaAno=\Carbon\Carbon::create($anno, 1,1)->toDateString();
+            $ultimoDiaAno=\Carbon\Carbon::create($anno, 12, 31)->toDateString();
+            $query->whereBetween('fecha', array($primerDiaAno, $ultimoDiaAno));
+        }
+
+    }
+
     public function scopeFecha($query, $fecha_inicio, $fecha_fin)
     {
         if($fecha_inicio != null && $fecha_fin != null){

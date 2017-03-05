@@ -1612,6 +1612,19 @@ class ReporteController extends Controller {
         $annoHasta  =$request->get('annoHasta',  \Carbon\Carbon::now()->year);
         $aeropuerto =session('aeropuerto')->id;
 
+        $prefixManual = Modulo::where('nombre', 'DOSAS')
+                                ->where('aeropuerto_id', $aeropuerto)
+                                ->first();
+        $prefixManual = $prefixManual->nFacturaPrefixManual;  
+
+        $facturasManuales = Factura::with('cobros')
+                                ->whereBetween('fecha', array($annoDesde.'-'.$mesDesde.'-'.$diaDesde,  $annoHasta.'-'.$mesHasta.'-'.$diaHasta) )
+                                ->where('nFacturaPrefix', $prefixManual)
+                                ->orderBy('fecha', 'ASC')
+                                ->orderBy('nControl', 'ASC')
+                                ->orderBy('nFactura', 'ASC')
+                                ->get();
+
         $facturas = \App\Factura::with('cobros')
                                 ->whereBetween('fecha', array($annoDesde.'-'.$mesDesde.'-'.$diaDesde,  $annoHasta.'-'.$mesHasta.'-'.$diaHasta) )
                                 ->where('facturas.deleted_at', null)
@@ -1652,6 +1665,7 @@ class ReporteController extends Controller {
         $totalTasas            = $tasasVendidas->sum('total');
         $facturasTotal         = $facturas->sum('total');
         $facturasAnuladasTotal = $facturasAnuladas->sum('total');
+        $facturasManualesTotal = $facturasManuales->sum('total');
 
         $facturasCredito       = $facturas->where('condicionPago', 'Crédito')
                                                 ->sum('total');
@@ -1659,7 +1673,7 @@ class ReporteController extends Controller {
         $facturasContado       = $facturas->where('condicionPago', 'Contado')
                                                 ->sum('total');
 
-        return view('reportes.reporteCuadreCaja', compact('diaDesde', 'mesDesde', 'annoDesde', 'diaHasta', 'mesHasta', 'annoHasta', 'aeropuerto', 'facturas', 'facturasTotal', 'facturasContado', 'facturasCredito', 'facturasAnuladas', 'facturasAnuladasTotal', 'tasasVendidas', 'totalTasas', 'tipoTasas'));
+        return view('reportes.reporteCuadreCaja', compact('diaDesde', 'mesDesde', 'annoDesde', 'diaHasta', 'mesHasta', 'annoHasta', 'aeropuerto', 'facturas', 'facturasTotal', 'facturasContado', 'facturasCredito', 'facturasAnuladas', 'facturasAnuladasTotal', 'tasasVendidas', 'totalTasas', 'tipoTasas', 'facturasManuales', 'facturasManualesTotal'));
     }
 
     //Libro de Ventas

@@ -141,6 +141,7 @@ Route::group(['prefix' => 'operaciones/'], function () {
     });
     Route::resource('Aterrizajes', 'AterrizajeController');
     Route::resource('Cargas', 'CargaController');
+    Route::resource('facturacionManual', 'FacturacionManualController');
 
 });
 

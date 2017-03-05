@@ -33,6 +33,7 @@
 									data-islr="{{$cliente->islrpercentage}}"
 									data-iva="{{$cliente->ivapercentage}}"
 									data-is-contribuyente="{{$cliente->isContribuyente}}"
+									data-condicion="{{$cliente->condicionPago}}"
 									value="{{$cliente->codigo}}">
 									{{$cliente->codigo}} | {{$cliente->nombre}}
 								</option>
@@ -248,11 +249,12 @@
 			var ajuste    =commaToNum($('#ajuste-input').val());
 			var nRecibo   =$('#nRecibo-input').val();
 			var fecha     =$('#fecha-datepicker').val();
+			var condicion =$('#cliente-select option:selected').data("condicion");
 
-		    if(nRecibo==''){
+		    /*if(nRecibo=='' && condicion=="Crédito"){
 				alertify.error("Número de Recibo de Caja es requerido.");
 				return;
-		    }
+		    }*/
             if(pagar>depositar){
                 alertify.error("El monto a cobrar no puede ser mayor al depositado.");
                 return;

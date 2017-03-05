@@ -1,1 +1,0 @@
-<iframe src="php/barcode/codigo.php?id=<?php echo $_GET['id']?>" width="160" height="100" frameborder="0"></iframe>

@@ -5,7 +5,7 @@ use App\Http\Requests\DespegueRequest;
 use App\Http\Controllers\Controller;
 use Illuminate\Database\Eloquent\Collection;
 
-use Illuminate\Http\Request; 
+use Illuminate\Http\Request;
 
 use App\Despegue;
 use App\Aterrizaje;
@@ -108,6 +108,24 @@ class DespegueController extends Controller {
 	 */
 	public function store(DespegueRequest $request)
 	{
+		$fecha     =\Carbon\Carbon::createFromFormat('d/m/Y', $request->get('fecha'));
+		$fecha     = $fecha->toDateString();
+		$despegues = Despegue::where('aeronave_id', $request->get('aeronave_id'))
+									->where('fecha', $fecha)
+									->where('hora', $request->get('hora'))
+									->get();
+		if($despegues->count() > 0)
+			return response()->json(array("text"=>'Despegue Duplicado',"success"=>0));
+		else{
+			$fechaD = $fecha.' '.$request->get('hora');
+			$at     = Aterrizaje::where('id', $request->get("aterrizaje_id"))->first();
+			$fechaA =\Carbon\Carbon::createFromFormat('d/m/Y', $at->fecha);
+			$fechaA = $fechaA->toDateString();
+			$fechaA = $fechaA.' '.$at->hora;
+			if($fechaA >= $fechaD)
+				return response()->json(array("text"=>'Fecha y hora de despegue no puede ser menor a su aterrizaje',"success"=>0));
+		}
+
 		$despegue                         = Despegue::create($request->except("piloto_id", "puerto_id", "cliente_id", "cobrar_estacionamiento", "cobrar_puenteAbordaje", "cobrar_Formulario", "cobrar_AterDesp", "cobrar_habilitacion", "cobrar_carga", "cobrar_otrosCargos", "otrosCargo_id"));
 		$aterrizaje                       = Aterrizaje::find($request->get("aterrizaje_id"));
 		$aterrizaje->despegue()->save($despegue);
@@ -116,15 +134,15 @@ class DespegueController extends Controller {
 		$despegue->cobrar_puenteAbordaje  =$request->input('cobrar_puenteAbordaje', 0);
 		$despegue->cobrar_Formulario      =$request->input('cobrar_Formulario', 1);
 		$despegue->cobrar_AterDesp        =$request->input('cobrar_AterDesp', 0);
-		$despegue->cobrar_AterDesp        =$request->input('cobrar_AterDesp', 0);	
-		$despegue->cobrar_carga           =$request->input('cobrar_carga', 0);	
+		$despegue->cobrar_AterDesp        =$request->input('cobrar_AterDesp', 0);
+		$despegue->cobrar_carga           =$request->input('cobrar_carga', 0);
 		$despegue->cobrar_otrosCargos     =$request->input('cobrar_otrosCargos', 0);
 		$otrosCargos =$request->input('otrosCargo_id', []);
 		foreach ($otrosCargos as $oc) {
 			$precio[] = \App\OtrosCargo::where('id', $oc)->first()->precio_cargo;
 		}
 		$despegue->otros_cargos()->sync($otrosCargos, array('precio'));
-		
+
 		$hora              = $aterrizaje->hora;
 		$inicioOperaciones = HorariosAeronautico::first()->operaciones_inicio;
 		$finOperaciones    = HorariosAeronautico::first()->operaciones_fin;
@@ -140,11 +158,11 @@ class DespegueController extends Controller {
 			$puertoID  =$puerto=Puerto::find($request->get("puerto_id"));
 			$pilotoID  =$piloto=Piloto::find($request->get("piloto_id"));
 			$clienteID =$cliente=Cliente::find($request->get("cliente_id"));
-			
+
 			$puertoID  =($puertoID)?$puerto->id:NULL;
 			$pilotoID  =($pilotoID)?$piloto->id:NULL;
 			$clienteID =($clienteID)?$cliente->id:NULL;
-			
+
 			$despegue->puerto_id            =$puertoID;
 			$despegue->piloto_id            =$pilotoID;
 			$despegue->cliente_id           =$clienteID;
@@ -208,19 +226,19 @@ class DespegueController extends Controller {
 	{
 		$despegue     = Despegue::find($id);
 		$despegue->update($request->except("nacionalidadVuelo_id", "piloto_id", "puerto_id", "cliente_id", "cobrar_estacionamiento", "cobrar_puenteAbordaje", "cobrar_Formulario", "cobrar_AterDesp", "cobrar_habilitacion", "cobrar_carga", "tiempo_estacionamiento"));
-			
+
 			$cobrarAterrizaje      =$request->input('cobrar_AterDesp');
 			$cobrarFormulario      =$request->input('cobrar_Formulario');
 			$cobrarPuentes         =$request->input('cobrar_puenteAbordaje');
 			$cobrarEstacionamiento =$request->input('cobrar_estacionamiento');
 			$cobrarCarga           =$request->input('cobrar_carga');
-			
+
 			$cobrarAterrizaje      =($cobrarAterrizaje)?1:0;
 			$cobrarFormulario      =($cobrarFormulario)?1:0;
 			$cobrarPuentes         =($cobrarPuentes)?1:0;
 			$cobrarEstacionamiento =($cobrarEstacionamiento)?1:0;
 			$cobrarCarga           =($cobrarCarga)?1:0;
-			
+
 			$despegue->cobrar_AterDesp        =$cobrarAterrizaje;
 			$despegue->cobrar_Formulario      =$cobrarFormulario;
 			$despegue->cobrar_puenteAbordaje  =$cobrarPuentes;
@@ -234,19 +252,19 @@ class DespegueController extends Controller {
 				$fechaAterrizaje       = $fechaAterrizaje->format('Y-m-d');
 				$horaAterrizaje        = $despegue->aterrizaje->hora;
 				$fecha_hora_aterrizaje = $fechaAterrizaje.' '.$horaAterrizaje;
-				
-				
+
+
 				$fechaDespegue         = $request->fecha;
 				$fechaDespegue         = Carbon::createFromFormat('d/m/Y', $fechaDespegue);
 				$fechaDespegue         = $fechaDespegue->format('Y-m-d');
 				$horaDespegue          = $despegue->hora;
 				$fecha_hora_despegue   = $fechaDespegue.' '.$horaDespegue;
-				
+
 				$startTime             = Carbon::parse($fecha_hora_aterrizaje);
 				$finishTime            = Carbon::parse($fecha_hora_despegue);
 
 				$totalDuration = $finishTime->diffInMinutes($startTime);
-				
+
 				$despegue->tiempo_estacionamiento = $totalDuration;
 			}
 
@@ -265,12 +283,12 @@ class DespegueController extends Controller {
 			$puertoID  =$puerto=Puerto::find($request->get("puerto_id"));
 			$pilotoID  =$piloto=Piloto::find($request->get("piloto_id"));
 			$clienteID =$cliente=Cliente::find($request->get("cliente_id"));
-			
+
 			$nacID     =($nacID)?$nacionalidad->id:NULL;
 			$puertoID  =($puertoID)?$puerto->id:NULL;
 			$pilotoID  =($pilotoID)?$piloto->id:NULL;
 			$clienteID =($clienteID)?$cliente->id:NULL;
-			
+
 			$despegue->nacionalidadVuelo_id =$nacID;
 			$despegue->puerto_id            =$puertoID;
 			$despegue->piloto_id            =$pilotoID;
@@ -335,7 +353,7 @@ class DespegueController extends Controller {
 				}
 			}
 		}
-		
+
 		$factura->fill(['aeropuerto_id' => $despegue->aeropuerto_id,
 						'cliente_id'    => $despegue->cliente_id,
 						'nroDosa'       => $nroDosa]);
@@ -368,7 +386,7 @@ class DespegueController extends Controller {
 
 		if($despegue->cobrar_estacionamiento == '1'){
 			$estacionamiento = new Facturadetalle();
-			$nacionalidad    = $despegue->aterrizaje->nacionalidadVuelo_id;			
+			$nacionalidad    = $despegue->aterrizaje->nacionalidadVuelo_id;
 			$tipoVuelo       = $despegue->aterrizaje->tipoMatricula_id;
 
 
@@ -427,9 +445,9 @@ class DespegueController extends Controller {
 					}
 				}
 			}else{
-					
+
 				if($tipoVuelo == 2 || $tipoVuelo == 3){
-					
+
 					switch ($nacionalidad) {
 						case 1:
 						$minutosLibre           = EstacionamientoAeronave::where('aeropuerto_id', session('aeropuerto')->id)->first()->tiempoLibreNac_ext;
@@ -488,7 +506,7 @@ class DespegueController extends Controller {
 				$mensajeEstacionamiento = 'Estacionamiento '.$tipoEstacionamiento.'. Horas: '.intval($tiempoAFacturar).', Tiempo libre: '.$minutosLibre.' min.';
 
 				if($minimo == 0){
-				
+
 					//Calculo Estandar
 					$equivalente     = number_format($precio_estacionamiento, 2);
 
@@ -502,7 +520,7 @@ class DespegueController extends Controller {
 					$totalDes        = $montoDes + $montoIva;
 
 				}else{
-					
+
 					$cantidadDes     = '1';
 					$iva             = Concepto::find($concepto_id)->iva;
 
@@ -729,7 +747,7 @@ class DespegueController extends Controller {
 
 
 				$montoDes              = $precio_AterDesp * $peso_aeronave;
-				
+
 				if($despegue->aterrizaje->aeronave->nacionalidad->nombre != "Venezuela"){
 					$montoDes =$eq_aterDesp*$dolar*$peso_aeronave;
 				}
@@ -741,7 +759,7 @@ class DespegueController extends Controller {
 			}else{
 				$cantidadDes           = '1';
 				$iva                   = Concepto::find($concepto_id)->iva;
-				
+
 
 				//Cálculo Estándar
 				$montoDesEstandar = $precio_AterDesp * $peso_aeronave;
@@ -752,7 +770,7 @@ class DespegueController extends Controller {
 				$montoIvaEstandar = ($iva * $montoDesEstandar)/100 ;
 				$totalDesEstandar = $montoDesEstandar + $montoIvaEstandar;
 
-				
+
 				//Cálculo con Mínimo
 				$montoDesMinimo   = $minimo * $ut;
 
@@ -778,10 +796,10 @@ class DespegueController extends Controller {
 			$aterrizajeDespegue->fill(compact('concepto_id', 'condicionPago',  'montoDes', 'cantidadDes', 'iva', 'totalDes'));
 			$factura->detalles->push($aterrizajeDespegue);
 		}
-		
+
 		//Ítem de Puentes de Abordaje.
 		if($despegue->cobrar_puenteAbordaje == '1'){
-			$puenteAbordaje    = new Facturadetalle();		
+			$puenteAbordaje    = new Facturadetalle();
 			$hora              = $despegue->aterrizaje->hora;
 			$inicioOperaciones = HorariosAeronautico::where('aeropuerto_id', session('aeropuerto')->id)->first()->operaciones_inicio;
 			$finOperaciones    = HorariosAeronautico::where('aeropuerto_id', session('aeropuerto')->id)->first()->operaciones_fin;
@@ -819,12 +837,12 @@ class DespegueController extends Controller {
 			$factura->detalles->push($puenteAbordaje);
 
 		}
-		
+
 		//Ítem de Puentes de Abordaje.
 		if($despegue->cobrar_carga == '1'){
 
-			$carga    = new Facturadetalle();		
-			
+			$carga    = new Facturadetalle();
+
 			switch ($condicionPago) {
 				case 'Contado':
 				$concepto_id     = PreciosCarga::where('aeropuerto_id', session('aeropuerto')->id)->first()->conceptoContado_id;
@@ -841,7 +859,7 @@ class DespegueController extends Controller {
 			$eq_Carga     = PreciosCarga::where('aeropuerto_id', session('aeropuerto')->id)->first()->equivalenteUT;
 			$precio_carga = PreciosCarga::where('aeropuerto_id', session('aeropuerto')->id)->first()->precio_carga;
 			$equivalente  = $precio_carga+0;
-			
+
 			$montoDes     = $equivalente * $pesoCargado;
 			$cantidadDes  = '1';
 			$iva          = Concepto::find($concepto_id)->iva;
@@ -978,7 +996,7 @@ class DespegueController extends Controller {
         $ajusteCliente= \DB::table('ajustes')
             ->where('cliente_id', $cliente->id)
             ->sum('monto');
-            
+
 
         return ["facturas"=>$facturas];
     }

@@ -89,6 +89,9 @@
 					@permission('menu.carga')
 					<li {{ (\Request::is('operaciones/Cargas*'))?"class=active":"" }}><a href="{{ URL::to('operaciones/Cargas') }}"><i class="fa fa-truck"></i> Cargas</a></li>
 					@endpermission
+					@permission('menu.facturacionManual')
+					<li {{ (\Request::is('operaciones/facturacionManual*'))?"class=active":"" }}><a href="{{ URL::to('operaciones/facturacionManual') }}"><i class="fa fa-credit-card"></i> Facturación Manual</a></li>
+					@endpermission
 				</ul>
 			</li>
 		@endpermission

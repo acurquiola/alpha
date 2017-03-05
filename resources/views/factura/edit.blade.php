@@ -97,7 +97,8 @@
 								setTimeout(
 									function()
 									{
-										location.replace("{{($modulo->nombre=="Todos")?action('FacturaController@main',["modulo"=>$modulo->nombre]):action('FacturaController@index', ["modulo"=>$modulo->nombre])}}");
+										parent.history.back();
+										return false;
 									}, 2000);
 							});
 						}
