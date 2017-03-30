@@ -9,7 +9,7 @@
 <tr>
 <td  colspan="7">
 </td>
-<td  colspan="3">
+<td  colspan="3" style="font-family: Times New Roman, Times, serif">
 <strong>FACTURA:</strong> {{$factura->nFacturaPrefix}}-{{$factura->nFactura}}
 </td>
 </tr>

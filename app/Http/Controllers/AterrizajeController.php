@@ -29,6 +29,8 @@ class AterrizajeController extends Controller {
 	public function index(Request $request)
 	{
 		if($request->ajax()){
+
+			
 			$fecha            = $request->get('fecha');
 			if($fecha == ""){
 				$fecha = "0000-00-00";

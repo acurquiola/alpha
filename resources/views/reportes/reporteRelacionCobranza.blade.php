@@ -10,7 +10,6 @@
 	<div class="col-md-12">
 		<div class="box box-primary">
 			<div class="box-header">
-				<h3 class="box-title">FILTROS</h3>
 				<div class="box-tools pull-right">
 					<button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
 				</div><!-- /.box-tools -->
@@ -160,18 +159,18 @@
 									<tr>
 										<td style="vertical-align: middle; width:30px" align="center">{{$index+1}}</td>
 										<td style="vertical-align: middle; width:80px" align="center">{{$recibo->fecha}}</td>
-										<td align="center"  style="width:50px">{{$recibo->id}}</td>
+										<td align="center"  style="vertical-align: middle; width:50px">{{$recibo->id}}</td>
 										<td style="vertical-align: middle; width:80px" align="center" >{{($recibo->nRecibo)?$recibo->nRecibo:'N/A'}}</td>
 										<td style="vertical-align: middle; width:80px" align="center" >{{$recibo->cliente->codigo}}</td>
 										<td style="vertical-align: middle; width:300px" align="left" >{{$recibo->cliente->nombre}}</td>
-										<td style="vertical-align: middle; width:80px" align="center">@if($recibo->pagos->count() >0) @foreach($recibo->pagos as $pagos) {{$pagos->fecha}}</br> @endforeach @endif</td>
-										<td style="vertical-align: middle; width:50px" align="center">@if($recibo->pagos->count() >0) @foreach($recibo->pagos as $pagos) {{$pagos->tipo}}</br> @endforeach @endif</td>
-										<td style="vertical-align: middle; width:80px" align="center">@if($recibo->pagos->count() >0) @foreach($recibo->pagos as $pagos) {{substr($pagos->cuenta->descripcion, -6)}}</br> @endforeach @endif</td>
-										<td style="vertical-align: middle; width:80px" align="center">@if($recibo->pagos->count() >0) @foreach($recibo->pagos as $pagos) {{$pagos->ncomprobante}}</br> @endforeach @endif</td>
-										<td style="vertical-align: middle; width:90px" align="center">@if($recibo->facturas->count() >0) @foreach($recibo->facturas as $comprobante) {{($comprobante->pivot->retencionFecha=='0')?'':$comprobante->pivot->retencionFecha}}</br> @endforeach @endif</td>
-										<td style="vertical-align: middle; width:90px" align="center">@if($recibo->facturas->count() >0) @foreach($recibo->facturas as $comprobante) {{($comprobante->pivot->retencionComprobante=='0')?'':$comprobante->pivot->retencionComprobante}}</br> @endforeach @endif</td>
-										<td style="vertical-align: middle; width:90px" class="iva-saldo" align="right">@if($recibo->facturas->count() >0) @foreach($recibo->facturas as $index => $comprobante) @if($index==0) {{ ($comprobante->pivot->iva=='0')?'':$traductor->format((($comprobante->pivot->ivapercentage)/100)*$comprobante->pivot->iva)  }} @endif </br> @endforeach @endif</td>
-										<td style="vertical-align: middle; width:90px" class="islr-saldo" align="right">@if($recibo->facturas->count() >0) @foreach($recibo->facturas as $index => $comprobante) @if($index==0) {{(($comprobante->pivot->base * $comprobante->pivot->islrpercentage)/100 == '0')?'':$traductor->format(($comprobante->pivot->base * $comprobante->pivot->islrpercentage)/100)}}</br> @endif  @endforeach @endif</td>
+										<td style="vertical-align: middle; width:80px" align="center">@if($recibo->pagos->count() >0) @foreach($recibo->pagos as $pagos) {{$pagos->fecha}} @if($recibo->pagos->count() > 1 ) </br> @endif @endforeach @endif</td>
+										<td style="vertical-align: middle; width:50px" align="center">@if($recibo->pagos->count() >0) @foreach($recibo->pagos as $pagos) {{$pagos->tipo}}  @if($recibo->pagos->count() > 1 ) </br> @endif  @endforeach @endif</td>
+										<td style="vertical-align: middle; width:80px" align="center">@if($recibo->pagos->count() >0) @foreach($recibo->pagos as $pagos) {{substr($pagos->cuenta->descripcion, -6)}}  @if($recibo->pagos->count() > 1 ) </br> @endif  @endforeach @endif</td>
+										<td style="vertical-align: middle; width:80px" align="center">@if($recibo->pagos->count() >0) @foreach($recibo->pagos as $pagos) {{$pagos->ncomprobante}}  @if($recibo->pagos->count() > 1 ) </br> @endif  @endforeach @endif</td>
+										<td style="vertical-align: middle; width:90px" align="center">@if($recibo->facturas->count() >0) @foreach($recibo->facturas as $comprobante) {{($comprobante->pivot->retencionFecha=='0')?'':$comprobante->pivot->retencionFecha}}  @if($recibo->pagos->count() > 1 ) </br> @endif  @endforeach @endif</td>
+										<td style="vertical-align: middle; width:90px" align="center">@if($recibo->facturas->count() >0) @foreach($recibo->facturas as $comprobante) {{($comprobante->pivot->retencionComprobante=='0')?'':$comprobante->pivot->retencionComprobante}}  @if($recibo->pagos->count() > 1 ) </br> @endif  @endforeach @endif</td>
+										<td style="vertical-align: middle; width:90px" class="iva-saldo" align="right">@if($recibo->facturas->count() >0) @foreach($recibo->facturas as $index => $comprobante) @if($index==0) {{ ($comprobante->pivot->iva=='0')?'':$traductor->format((($comprobante->pivot->ivapercentage)/100)*$comprobante->pivot->iva)  }} @endif  @if($recibo->pagos->count() > 1 ) </br> @endif  @endforeach @endif</td>
+										<td style="vertical-align: middle; width:90px" class="islr-saldo" align="right">@if($recibo->facturas->count() >0) @foreach($recibo->facturas as $index => $comprobante) @if($index==0) {{(($comprobante->pivot->base * $comprobante->pivot->islrpercentage)/100 == '0')?'':$traductor->format(($comprobante->pivot->base * $comprobante->pivot->islrpercentage)/100)}}@endif   @if($recibo->pagos->count() > 1 ) </br> @endif  @endforeach @endif</td>
 										<td style="vertical-align: middle; width:120px" align="right">{{$traductor->format($recibo->montofacturas)}}</td>
 										<td style="vertical-align: middle; width:120px" align="right">{{$traductor->format($recibo->montodepositado)}}</td>
 										<td style="vertical-align: middle; width:120px" class="saldoFavor" align="right">@if(count($ajustes) >0) @foreach($ajustes as $i => $monto) @if($i == $recibo->id) {{$traductor->format($monto)}} @endif @endforeach @else 0,00 @endif</td>

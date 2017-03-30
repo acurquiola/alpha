@@ -66,12 +66,12 @@ class ViewComposerServiceProvider extends ServiceProvider {
         });
 
 
-        view()->composer(['administracion.informacion', 'conciliacion.index'], function($view){
+        view()->composer(['administracion.informacion', 'conciliacion.listMovimientos'], function($view){
             $bancos= \App\Banco::get();
             $view->with(compact('bancos'));
         });
 
-        view()->composer(['conciliacion.index'], function($view){
+        view()->composer(['conciliacion.listMovimientos'], function($view){
             $cuentas= [""=>"-- Seleccione Cuenta Bancaria--"]+\App\Bancoscuenta::lists('descripcion', 'id');
             $view->with(compact('cuentas'));
         });
@@ -350,7 +350,7 @@ class ViewComposerServiceProvider extends ServiceProvider {
             'reportes.reporteFormulariosAnulados',
             'reportes.reporteReporteDeMorosidad',
             'reportes.reporteTraficoAereo',
-            'conciliacion.index'], function($view){
+            'conciliacion.listMovimientos'], function($view){
             $meses=[
                 "01"=>"ENERO",
                 "02"=>"FEBRERO",
