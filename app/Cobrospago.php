@@ -11,6 +11,9 @@ class Cobrospago extends Model {
     use DateConverterTrait;
 
     protected $guarded = array();
+
+    protected $fillable = ['conciliado'];
+
 /*
     public static function filter($cuenta_id, $tipo, $ncomprobante, $cobro_id, $banco_id)
     {
@@ -102,6 +105,10 @@ class Cobrospago extends Model {
             $query->where('cobro_id', ($cobro_id == '')?'>':'=', $cobro_id);
         }
 
+    }
+
+    public function scopeConciliado($query){
+        $query->where('conciliado', 0);
     }
 
     public function scopeAnno($query, $anno)

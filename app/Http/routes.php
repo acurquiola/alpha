@@ -96,7 +96,8 @@ Route::get('logoutRemember', 'Auth\AuthController@getLogoutRemember');
 
 Route::group(['prefix' => 'conciliacion/'], function () {
     //Route::get('/', 'ConciliacionController@index');
-    Route::get('/', 'ConciliacionController@getMovimientos');
+    Route::get('getMovs', 'ConciliacionController@getMovimientos');
+    Route::resource('movimientos', 'ConciliacionController');
 });
 
 

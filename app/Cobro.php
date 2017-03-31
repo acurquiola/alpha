@@ -11,6 +11,7 @@ class Cobro extends Model {
 
     protected $guarded = array();
 
+
     public function ajustes()
     {
         return $this->hasMany('App\Ajuste');
@@ -72,4 +73,10 @@ class Cobro extends Model {
     {
         return $this->getFecha($fecha);
     }
+
+    public function conciliado()
+    {
+        return $this->belongsTo('App\Conciliado');
+    }
+
 }
