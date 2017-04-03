@@ -12,7 +12,7 @@ class Cobrospago extends Model {
 
     protected $guarded = array();
 
-    protected $fillable = ['conciliado'];
+   // protected $fillable = ['conciliado'];
 
 /*
     public static function filter($cuenta_id, $tipo, $ncomprobante, $cobro_id, $banco_id)
