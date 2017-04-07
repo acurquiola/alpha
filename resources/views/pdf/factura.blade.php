@@ -9,7 +9,7 @@
 <tr>
 <td  colspan="7">
 </td>
-<td  colspan="3" style="font-family: Times New Roman, Times, serif">
+<td  colspan="3">
 <strong>FACTURA:</strong> {{$factura->nFacturaPrefix}}-{{$factura->nFactura}}
 </td>
 </tr>
@@ -114,7 +114,7 @@ Bs. {{$traductor->format($factura->iva)}}
 <td colspan="2" style="border-bottom: 1px solid black;border-top: 1px solid black;border-left: 1px solid black;">
 <strong>TOTAL GENERAL</strong>
 </td>
-<td colspan="2" style="border-bottom: 1px solid black;border-top: 1px solid black;border-right: 1px solid black;text-align:right" >
+<td colspan="2" style="border-bottom: 1px solid black;border-top: 1px solid black;border-right: 1px solid black;text-align:right; font-weight: bold" >
 <strong>Bs. </strong>{{$traductor->format($factura->total)}}
 </td>
 </tr>

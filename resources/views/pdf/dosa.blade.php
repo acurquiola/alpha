@@ -2,7 +2,7 @@
 <tr>
 <td  colspan="7">
 </td>
-<td  colspan="3" style="font-family: Times New Roman, Times, serif">
+<td  colspan="3" >
 <strong>FACTURA:</strong> {{$factura->nFacturaPrefix}}-{{$factura->nFactura}}
 </td>
 </tr>
@@ -94,7 +94,7 @@
 
 <table style="width:100%;"> 
 <tr> 
-<td colspan="2"> 
+<td colspan="3"> 
 <strong>MATRÍCULA: </strong> 
 {{($despegue->aterrizaje->aeronave)?$despegue->aterrizaje->aeronave->matricula:"N/A"}} 
 </td> 
@@ -102,12 +102,12 @@
 <strong>MODELO: </strong> 
 {{$despegue->aterrizaje->aeronave->modelo->modelo}} 
 </td> 
-<td colspan="2"> 
+<td colspan="3"> 
 <strong>PESO: </strong> 
 {{$traductor->format($despegue->aterrizaje->aeronave->peso)}} Kgs. 
 </td> 
-<td colspan="3"> 
-<strong>TIPO DE VUELO: </strong> 
+<td colspan="2"> 
+<strong>TIPO: </strong> 
 {{ $despegue->aterrizaje->tipo->nombre}}  
 </td> 
 </tr> 
@@ -131,9 +131,9 @@
 
 <table style="width:100%; border-collapse: collapse; padding: 2px;">
 <tr>
-<td  colspan="4">
+<td  colspan="3">
 </td>
-<td  colspan="2">
+<td  colspan="3">
 <strong>ATERRIZAJE</strong>
 </td>
 <td  colspan="1">
@@ -143,10 +143,10 @@
 </td>
 </tr>
 <tr>
-<td  colspan="4">
+<td  colspan="3">
 <strong>PROCEDENCIA/DESTINO</strong>
 </td>
-<td  colspan="2">
+<td  colspan="3">
 {{$despegue->aterrizaje->puerto->nombre}}
 </td>
 <td colspan="1">
@@ -163,10 +163,10 @@
 <tr>
 <td colspan="1">
 </td>
-<td  colspan="3">
+<td  colspan="2">
 <strong>Nombre:</strong>
 </td>
-<td  colspan="3">
+<td  colspan="4">
 {{$despegue->aterrizaje->piloto->nombre}}
 </td>
 <td  colspan="3">
@@ -176,10 +176,10 @@
 <tr>
 <td colspan="1">
 </td>
-<td  colspan="3">
+<td  colspan="2">
 <strong>Licencia:</strong>
 </td>
-<td  colspan="3">
+<td  colspan="4">
 {{$despegue->aterrizaje->piloto->licencia}}
 </td>
 <td  colspan="3">
@@ -187,10 +187,10 @@
 </td>
 </tr>
 <tr>
-<td  colspan="4">
+<td  colspan="3">
 <strong>NRO. VUELO</strong>
 </td>
-<td  colspan="2">
+<td  colspan="3">
 {{($despegue->aterrizaje->num_vuelo)?$despegue->aterrizaje->num_vuelo:"N/A"}}
 </td>
 <td colspan="1">
@@ -207,10 +207,10 @@
 <tr>
 <td colspan="1">
 </td>
-<td  colspan="3">
-<strong>Desembarcados/Embarcados</strong>
+<td  colspan="2">
+<strong>Des/Embarcados</strong>
 </td>
-<td  colspan="3">
+<td  colspan="4">
 {{$despegue->aterrizaje->desembarqueAdultos+$despegue->aterrizaje->desembarqueInfante+$despegue->aterrizaje->desembarqueTercera}}
 </td>
 <td  colspan="3">
@@ -220,10 +220,10 @@
 <tr>
 <td colspan="1">
 </td>
-<td  colspan="3">
+<td  colspan="2">
 <strong>En tránsito:</strong>
 </td>
-<td  colspan="3">
+<td  colspan="4">
 {{$despegue->aterrizaje->desembarqueTransito}}
 </td>
 <td  colspan="3">
@@ -231,16 +231,16 @@
 </td>
 </tr>
 <tr>
-<td  colspan="4">
+<td  colspan="3">
 <strong>FECHA y HORA</strong>
 </td>
-<td  colspan="2">
-{{$despegue->aterrizaje->fecha}} -  {{$despegue->aterrizaje->hora}}
+<td  colspan="3">
+{{$despegue->aterrizaje->fecha}} {{$despegue->aterrizaje->hora}}
 </td>
 <td colspan="1">
 </td>
 <td  colspan="3">
-{{$despegue->fecha}} - {{$despegue->hora}}
+{{$despegue->fecha}} {{$despegue->hora}}
 </td>
 </tr>
 </table>
