@@ -142,12 +142,13 @@ class FacturaController extends Controller {
         // set default monospaced font
         $pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
         // set margins
-        $pdf->SetMargins(5, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
+        $pdf->SetMargins(5, PDF_MARGIN_TOP, '4');
         // set some language-dependent strings (optional)
         if (@file_exists(dirname(__FILE__).'/lang/eng.php')) {
             require_once(dirname(__FILE__).'/lang/eng.php');
             $pdf->setLanguageArray($l);
         }
+
         // ---------------------------------------------------------
         // set default font subsetting mode
         $pdf->setFontSubsetting(true);
@@ -164,10 +165,10 @@ class FacturaController extends Controller {
         // Set some content to print
         //
         if($despegue){
-            $pdf->SetFont('helvetica', '', '9.5', true);
+            $pdf->SetFont('courier', '', '10', true);
             $html = view('pdf.dosa', compact('factura', 'despegue', 'traductor'))->render();
         }else{
-            $pdf->SetFont('helvetica', '', 10, '', true);
+            $pdf->SetFont('courier', '', '10', '', true);
             $html = view('pdf.factura', compact('factura', 'traductor'))->render();
         }
         // Print text using writeHTMLCell()

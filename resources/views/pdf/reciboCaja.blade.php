@@ -31,8 +31,8 @@
 <table style="width:100%; border-collapse: collapse; padding:2px;">
 <tr>
 <td colspan="7"></td>
-<td  colspan="3">
-<strong>MONTO:</strong> {{$traductor->format($cobro->montodepositado)}}
+<td  colspan="3" style="font-size: 11px"> 
+<strong >MONTO:</strong> {{$traductor->format($cobro->montodepositado)}}
 </td>
 </tr>
 <tr>
@@ -64,13 +64,13 @@
 <td colspan="2" style="border-bottom: 1px solid black; text-align:center">
 <strong>FORMA DE PAGO</strong>
 </td>
-<td colspan="2" style="border-bottom: 1px solid black; text-align:center">
+<td colspan="3" style="border-bottom: 1px solid black; text-align:center">
 <strong>MONTO</strong>
 </td>
 <td colspan="2" style="border-bottom: 1px solid black; text-align:center">
 <strong>REF</strong>
 </td>
-<td colspan="5" style="border-bottom: 1px solid black; text-align:center">
+<td colspan="4" style="border-bottom: 1px solid black; text-align:center">
 <strong>BANCO</strong>
 </td>
 <td colspan="4" style="border-bottom: 1px solid black; text-align:center">
@@ -99,13 +99,13 @@
 <td colspan="2" style=" text-align:center;" >
 {{$pago->tipo}}
 </td>
-<td colspan="2" style="text-align:right;" >
+<td colspan="3" style="text-align:right;" >
 {{$traductor->format($pago->monto)}}
 </td>
 <td colspan="2"  style="text-align:center;">
 {{$pago->ncomprobante}}
 </td>
-<td colspan="5" style="text-align:center;">
+<td colspan="4" style="text-align:center;">
 {{$pago->banco->nombre}}
 </td>
 <td colspan="4" style="text-align:center;">

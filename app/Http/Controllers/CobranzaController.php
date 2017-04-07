@@ -559,7 +559,7 @@ return ["success"=>1, "impresion" => $impresion];
         // set default monospaced font
         $pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
         // set margins
-        $pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
+        $pdf->SetMargins('2', PDF_MARGIN_TOP, '-5');
         // set some language-dependent strings (optional)
         if (@file_exists(dirname(__FILE__).'/lang/eng.php')) {
             require_once(dirname(__FILE__).'/lang/eng.php');
@@ -572,7 +572,7 @@ return ["success"=>1, "impresion" => $impresion];
         // dejavusans is a UTF-8 Unicode font, if you only need to
         // print standard ASCII chars, you can use core fonts like
         // helvetica or times to reduce file size.
-        $pdf->SetFont('helvetica', '', 8.7, '', true);
+        $pdf->SetFont('courier', '', '10', '', true);
         // Add a page
         // This method has several options, check the source code documentation for more information.
         $pdf->AddPage();
