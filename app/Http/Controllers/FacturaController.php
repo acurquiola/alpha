@@ -165,10 +165,17 @@ class FacturaController extends Controller {
         // Set some content to print
         //
         if($despegue){
+<<<<<<< HEAD
             $pdf->SetFont('courier', '', '10', true);
             $html = view('pdf.dosa', compact('factura', 'despegue', 'traductor'))->render();
         }else{
             $pdf->SetFont('courier', '', '10', '', true);
+=======
+            $pdf->SetFont('helvetica', '', '10', true);
+            $html = view('pdf.dosa', compact('factura', 'despegue', 'traductor'))->render();
+        }else{
+            $pdf->SetFont('helvetica', '', '10', '', true);
+>>>>>>> fecf234774e2ca995b07dd06cb3a23329dc0e669
             $html = view('pdf.factura', compact('factura', 'traductor'))->render();
         }
         // Print text using writeHTMLCell()
