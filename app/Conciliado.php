@@ -28,4 +28,9 @@ class Conciliado extends Model {
         return $this->hasMany('App\Cobro');
     }
 
+    public function tasasCobros()
+    {
+        return $this->hasMany('App\TasaCobro');
+    }
+
 }

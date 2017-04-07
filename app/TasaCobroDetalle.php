@@ -51,4 +51,66 @@ class TasaCobroDetalle extends Model {
             return (array_key_exists($value, $d))?$d[$value]:"";
         }
 
+
+    //Filtros
+    
+    public function scopeNombrebanco($query, $banco_id)
+    {
+        if($banco_id != null){
+            $query->where('banco_id', ($banco_id == '')?'>':'=', $banco_id);
+        }
+        
+    }
+
+    public function scopeNumerocuenta($query, $cuenta_id)
+    {
+        if($cuenta_id != null){
+            $query->where('cuenta_id', ($cuenta_id == '')?'>':'=', $cuenta_id);
+        }
+
+    }
+
+    public function scopeTipo($query, $tipo)
+    {
+        if($tipo != null){
+            $query->where('tipo', ($tipo == '')?'%':$tipo);
+        }
+
+    }
+
+    public function scopeReferencia($query, $ncomprobante)
+    {
+        if($ncomprobante != null){
+            $query->where('ncomprobante', ($ncomprobante == '')?'>':'=', $ncomprobante);
+        }
+
+    }
+
+    public function scopeConciliado($query){
+        $query->where('conciliado', 0);
+    }
+
+    public function scopeAnno($query, $anno)
+    {
+        if($anno != null){
+            $primerDiaAno=\Carbon\Carbon::create($anno, 1,1)->toDateString();
+            $ultimoDiaAno=\Carbon\Carbon::create($anno, 12, 31)->toDateString();
+            $query->whereBetween('fecha', array($primerDiaAno, $ultimoDiaAno));
+        }
+
+    }
+
+    public function scopeFecha($query, $fecha_inicio, $fecha_fin)
+    {
+        if($fecha_inicio != null && $fecha_fin != null){
+            if($fecha_inicio != '' && $fecha_fin != ''){
+                $fecha_inicio = ($fecha_inicio == '')?'':Carbon::createFromFormat('d/m/Y', $fecha_inicio)->format('Y-m-d');
+                $fecha_fin    = ($fecha_fin == '')?'':Carbon::createFromFormat('d/m/Y', $fecha_fin)->format('Y-m-d');
+                $query->whereBetween('fecha', array($fecha_inicio, $fecha_fin));  
+            }else{
+                $query->where('fecha', '>', '0000-00-00');
+            }
+        }
+    }
+
 }

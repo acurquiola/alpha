@@ -91,6 +91,7 @@ class ConciliacionController extends Controller {
 	public function store(Request $request)
 	{
         $movimientos=$request->get('movimientos');
+        dd($movimientos);
 		foreach ($movimientos as $movimiento) {
 
 			$cobros = explode(',', $movimiento['cobros']);
@@ -193,31 +194,49 @@ class ConciliacionController extends Controller {
 
 	public function getMovimientos(Request $request)
 	{
-		$anno         = $request->get('anno', \Carbon\Carbon::now()->year);
-		$banco_id     = $request->get('banco_id');
-		$cuenta_id    = $request->get('cuenta_id');
-		$tipo         = $request->get('tipo');
-		$ncomprobante = $request->get('ncomprobante');
-		$cobro_id     = $request->get('cobro_id');
-		$fecha_inicio = $request->get('fecha_inicio');
-		$fecha_fin    = $request->get('fecha_fin');
-        $today=\Carbon\Carbon::now();
-		$movimientos  = \App\Cobrospago::nombrebanco($banco_id)
-										->numerocuenta($cuenta_id)
-										->anno($anno)
-										->tipo($tipo)
-										->referencia($ncomprobante)
-										->cobro($cobro_id)
-										->conciliado()
-										->fecha($fecha_inicio, $fecha_fin);
-										//FALTAA EL FILTRO PARA SABER SI ESTA CONCILIADO
+		dd(count($request));
+		if(count($request) != 0){
+
+			$anno         = $request->get('anno', \Carbon\Carbon::now()->year);
+			$banco_id     = $request->get('banco_id');
+			$cuenta_id    = $request->get('cuenta_id');
+			$tipo         = $request->get('tipo');
+			$ncomprobante = $request->get('ncomprobante');
+			$cobro_id     = $request->get('cobro_id');
+			$fecha_inicio = $request->get('fecha_inicio');
+			$fecha_fin    = $request->get('fecha_fin');
+	        $today=\Carbon\Carbon::now();
+
+			$movimientosCobros  = \App\Cobrospago::nombrebanco($banco_id)
+											->numerocuenta($cuenta_id)
+											->anno($anno)
+											->tipo($tipo)
+											->referencia($ncomprobante)
+											->cobro($cobro_id)
+											->conciliado()
+											->fecha($fecha_inicio, $fecha_fin);
+			$movimientosCobros = $movimientosCobros->orderBy('fecha', 'ASC')->get();
+			if($cobro_id == ''){
+				$movimientosTasas = \App\TasaCobroDetalle::nombrebanco($banco_id)
+												->numerocuenta($cuenta_id)
+												->anno($anno)
+												->tipo($tipo)
+												->referencia($ncomprobante)
+												->conciliado()
+												->fecha($fecha_inicio, $fecha_fin);	
+			}
+
+			//$movimientos = array_merge($movimientosCobros, $movimientosTasas);
+			//dd($movimientos);
+
+											//dd($movimientosTasas->toSql(), $movimientosTasas->getBindings());
+			$movimientosTasas = $movimientosTasas->orderBy('fecha', 'ASC')->get();
+
+			$movimientos = $movimientosCobros->merge($movimientosTasas);
+		}
 
 
-		$movimientos = $movimientos->orderBy('fecha', 'ASC')->paginate(50);
-
-		$movimientos->setPath('');
-
-		return view('conciliacion.listMovimientos', compact('movimientos', 'anno', 'banco_id', 'cuenta_id', 'tipo', 'ncomprobante', 'cobro_id', 'fecha_inicio', 'fecha_fin', 'today'));
+		return view('conciliacion.listMovimientos', compact('movimientos', 'movimientosTasas', 'anno', 'banco_id', 'cuenta_id', 'tipo', 'ncomprobante', 'cobro_id', 'fecha_inicio', 'fecha_fin', 'today'));
 	}
 
 }

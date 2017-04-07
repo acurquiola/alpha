@@ -7,19 +7,24 @@ use App\Traits\DateConverterTrait;
 class TasaCobro extends Model {
 
 
-        use DecimalConverterTrait;
-        use DateConverterTrait;
+    use DecimalConverterTrait;
+    use DateConverterTrait;
 
-        protected $guarded = array();
+    protected $guarded = array();
 
-        public function detalles()
-        {
-            return $this->hasMany('App\TasaCobroDetalle');
-        }
+    public function detalles()
+    {
+        return $this->hasMany('App\TasaCobroDetalle');
+    }
 
-        public function operaciones()
-        {
-            return $this->hasMany('App\Tasaop');
-        }
+    public function operaciones()
+    {
+        return $this->hasMany('App\Tasaop');
+    }
+
+    public function conciliado()
+    {
+        return $this->belongsTo('App\Conciliado');
+    }
 
 }

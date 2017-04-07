@@ -107,13 +107,21 @@
 										@foreach($movimientos as $movimiento)
 											<tr>
 												<td>
-													<input class="box" type="checkbox" name="contratos-checkbox" value="{{ $movimiento->id }} " data-monto="{{ $movimiento->monto }}" data-bancoid="{{ $movimiento->banco_id }}" data-cuentaid="{{ $movimiento->cuenta_id }}" data-banco="{{ $movimiento->banco->nombre }}" data-cuenta="{{ $movimiento->cuenta->descripcion }}" data-cobro="{{ $movimiento->cobro->id }}" data-movimiento="{{ $movimiento->id }}"/>
+													<input class="box" type="checkbox" name="contratos-checkbox" value="{{ $movimiento->id }} " 
+													data-monto="{{ $movimiento->monto }}" 
+													data-bancoid="{{ $movimiento->banco_id }}" 
+													data-cuentaid="{{ $movimiento->cuenta_id }}" 
+													data-banco="{{ $movimiento->banco->nombre }}" 
+													data-cuenta="{{ $movimiento->cuenta->descripcion }}" 
+													data-cobro="{{ ($movimiento->cobro_id)?$movimiento->cobro_id:'' }}"
+													data-cobroTasas="{{ ($movimiento->tasa_cobro_id)?$movimiento->tasa_cobro_id:'' }}"
+													data-movimiento="{{ $movimiento->id }}"/>
 												</td>
 												<td>
 													{{ $movimiento->fecha }}
 												</td>
 												<td>
-													{{ $movimiento->cobro->id }}
+													{{ ($movimiento->cobro_id)?$movimiento->cobro_id:'N/A' }}
 												</td>
 												<td>
 													{{ $movimiento->banco->nombre }}
@@ -146,9 +154,9 @@
 
 
 						<div class="row">
-						     <div class="col-xs-12 text-center">
+						   {{--   <div class="col-xs-12 text-center">
 						          {!! $movimientos->appends(Input::except('page'))->render() !!}
-						     </div>
+						     </div> --}}
 						</div>
 
 						<div class="col-md-8" style="margin-top: 20px">
@@ -174,6 +182,7 @@
 									<input class="form-control text-right" type="hidden" id="banco" >
 									<input class="form-control text-right" type="hidden" id="cuenta" >
 									<input class="form-control text-right" type="hidden" id="cobros" >
+									<input class="form-control text-right" type="hidden" id="cobrosTasas" >
 									<input class="form-control text-right" type="hidden" id="movimientos" >
 								</div>
 								<div class="form-group">
@@ -215,8 +224,6 @@
 
 
 	$(document).ready(function(){
-
-
 		$('#select-all-btn').click(function(){
 			var $unCheckedChecks=$('#movimientos-checkbox [type=checkbox]:not(:disabled):not(:checked)');
 			if($unCheckedChecks.length==0)
@@ -226,6 +233,9 @@
 
 		});
 
+
+
+
 		$('#aplicar-btn').click(function(event) {
 		   var total = 0;
 		   var cobros = [];
@@ -233,6 +243,7 @@
 	       $('input[type=checkbox]:checked').each(function(i){
 				total          +=$(this).data('monto');
 				cobros[i]      =$(this).data('cobro');
+				cobrosTasas[i]      =$(this).data('cobrotasas');
 				movimientos[i] =$(this).data('movimiento');
 	       });
 	       $('#monto_lote-input').val(numToComma(total));
@@ -245,6 +256,7 @@
 			banco_id      = $('input[type=checkbox]:checked:first').data('bancoid');
 			banco         = $('input[type=checkbox]:checked').data('banco');
 	       $('#cobros').val(cobros);
+	       $('#cobrosTasas').val(cobrosTasas);
 	       $('#movimientos').val(movimientos);
 	       $('#banco_id').val(banco_id);
 	       $('#cuenta_id').val(cuenta_id);
@@ -275,6 +287,7 @@
 				var comision_bancaria  = $('#comision_bancaria-input').val();
 				var fecha_conciliacion = $('#today-input').val();
 				var cobros             = $('#cobros').val();
+				var cobrosTasas        = $('#cobrosTasas').val();
 				var movimientos        = $('#movimientos').val();
 
  				table="<table class='table' id='conciliacion-table'>" +
@@ -304,7 +317,7 @@
 		                        "<td class='text-center'><input class='form-control ' id='fecha_conciliacion-td' type='hidden' value='"+fecha_conciliacion+"' /><input class='form-control ' id='fecha_banco-td' readonly value='"+fecha_banco+"' /></td>" +
 		                        "<td class='text-center'><input class='form-control ' id='banco_id-td' type='hidden' value='"+banco_id+"' /><input class='form-control' readonly value='"+banco+"' /></td>" +
 		                        "<td class='text-center'><input class='form-control ' id='cuenta_id-td' type='hidden' value='"+cuenta_id+"' /><input class='form-control' readonly value='"+ cuenta+"' /></td>" +
-		                        "<td class='text-center'><input class='form-control ' id='movimientos-td' type='hidden' value='"+movimientos+"' /><input class='form-control ' id='cobros-td' type='hidden' value='"+cobros+"' /><input class='form-control ' id='referencia-td' readonly value='"+referencia+"' /></td>" +
+		                        "<td class='text-center'><input class='form-control ' id='movimientos-td' type='hidden' value='"+movimientos+"' /><input class='form-control ' id='cobrosTasas-td' type='hidden' value='"+cobrosTasas+"' /><input class='form-control ' id='cobros-td' type='hidden' value='"+cobros+"' /><input class='form-control ' id='referencia-td' readonly value='"+referencia+"' /></td>" +
 		                        "<td class='text-right'><input class='form-control ' id='monto_lote-td' readonly value='"+monto_lote+"' /></td>" +
 		                        "<td class='text-right'><input class='form-control ' id='monto_banco-td' readonly value='"+numToComma(monto_banco)+"' /></td>" +
 		                        "<td class='text-right'><input class='form-control ' id='comision_bancaria-td' readonly value='"+comision_bancaria+"' /></td>" +
@@ -335,6 +348,7 @@
                 $(value).data('monto_banco', $(value).find('#monto_banco-td').val());
                 $(value).data('comision_bancaria', $(value).find('#comision_bancaria-td').val());
                 $(value).data('cobros', $(value).find('#cobros-td').val());
+                $(value).data('cobrosTasas', $(value).find('#cobrosTasas-td').val());
                 $(value).data('movimientos', $(value).find('#movimientos-td').val());
                 movimientos.push($(value).data());
             })
@@ -386,7 +400,7 @@
 			dateFormat: 'yy-mm-dd'});
 
 
-/*
+
 		$('#banco-select').change(function(){
 			var cuentas=$(this).find(':selected').data('cuentas');
 			cuentas=eval(cuentas);
@@ -397,7 +411,7 @@
 			var seleccione = "<option value=''>-- Seleccione cuenta Bancaria --</option>\ ";
 			options=seleccione+options;
 			$('#cuenta-modal-input').html(options);
-		}).trigger('change');*/
+		}).trigger('change');
 	})
 </script>
 @endsection
