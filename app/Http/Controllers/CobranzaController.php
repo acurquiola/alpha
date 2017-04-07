@@ -572,7 +572,11 @@ return ["success"=>1, "impresion" => $impresion];
         // dejavusans is a UTF-8 Unicode font, if you only need to
         // print standard ASCII chars, you can use core fonts like
         // helvetica or times to reduce file size.
+<<<<<<< HEAD
+        $pdf->SetFont('courier', '', '10', '', true);
+=======
         $pdf->SetFont('helvetica', '', '10', '', true);
+>>>>>>> fecf234774e2ca995b07dd06cb3a23329dc0e669
         // Add a page
         // This method has several options, check the source code documentation for more information.
         $pdf->AddPage();
