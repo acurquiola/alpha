@@ -107,13 +107,24 @@
 										@foreach($movimientos as $movimiento)
 											<tr>
 												<td>
-													<input class="box" type="checkbox" name="contratos-checkbox" value="{{ $movimiento->id }} " data-monto="{{ $movimiento->monto }}" data-bancoid="{{ $movimiento->banco_id }}" data-cuentaid="{{ $movimiento->cuenta_id }}" data-banco="{{ $movimiento->banco->nombre }}" data-cuenta="{{ $movimiento->cuenta->descripcion }}" data-cobro="{{ $movimiento->cobro->id }}" data-movimiento="{{ $movimiento->id }}"/>
+													<input class="box" 
+														   type="checkbox" 
+														   name="contratos-checkbox" 
+														   value="{{ $movimiento->id }}" 
+														   data-monto="{{ $movimiento->monto }}" 
+														   data-bancoid="{{ $movimiento->banco_id }}" 
+														   data-cuentaid="{{ $movimiento->cuenta_id }}" 
+														   data-banco="{{ $movimiento->banco->nombre }}" 
+														   data-cuenta="{{ $movimiento->cuenta->descripcion }}" 
+														   data-cobro="{{ ($movimiento->cobro_id)?$movimiento->cobro_id:'' }}" 
+														   data-cobro="{{ ($movimiento->tasa_cobro_id)?$movimiento->tasa_cobro_id:'' }}" 
+														   data-movimiento="{{ $movimiento->id }}"/>
 												</td>
 												<td>
 													{{ $movimiento->fecha }}
 												</td>
 												<td>
-													{{ $movimiento->cobro->id }}
+													{{ ($movimiento->cobro_id)?$movimiento->cobro_id:'N/A' }}
 												</td>
 												<td>
 													{{ $movimiento->banco->nombre }}
@@ -144,12 +155,12 @@
 							@endif
 						</div>
 
-
-						<div class="row">
+ 
+						{{-- <div class="row">
 						     <div class="col-xs-12 text-center">
 						          {!! $movimientos->appends(Input::except('page'))->render() !!}
 						     </div>
-						</div>
+						</div>  --}}
 
 						<div class="col-md-8" style="margin-top: 20px">
 							<label>
@@ -384,7 +395,6 @@
 			showMonthAfterYear: false,
 			yearSuffix: '',
 			dateFormat: 'yy-mm-dd'});
-
 
 		$('#banco-select').change(function(){
 			var cuentas=$(this).find(':selected').data('cuentas');
