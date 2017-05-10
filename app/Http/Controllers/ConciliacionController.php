@@ -194,8 +194,7 @@ class ConciliacionController extends Controller {
 
 	public function getMovimientos(Request $request)
 	{
-		dd(count($request));
-		if(count($request) != 0){
+		if(count($request->all()) != 0){
 
 			$anno         = $request->get('anno', \Carbon\Carbon::now()->year);
 			$banco_id     = $request->get('banco_id');
@@ -233,8 +232,18 @@ class ConciliacionController extends Controller {
 			$movimientosTasas = $movimientosTasas->orderBy('fecha', 'ASC')->get();
 
 			$movimientos = $movimientosCobros->merge($movimientosTasas);
+		}else{
+			$anno         = $request->get('anno', \Carbon\Carbon::now()->year);
+			$banco_id     = $request->get('banco_id');
+			$cuenta_id    = $request->get('cuenta_id');
+			$tipo         = $request->get('tipo');
+			$ncomprobante = $request->get('ncomprobante');
+			$cobro_id     = $request->get('cobro_id');
+			$fecha_inicio = $request->get('fecha_inicio');
+			$fecha_fin    = $request->get('fecha_fin');
+	        $today=\Carbon\Carbon::now();
+			$movimientos = collect([]);
 		}
-
 
 		return view('conciliacion.listMovimientos', compact('movimientos', 'movimientosTasas', 'anno', 'banco_id', 'cuenta_id', 'tipo', 'ncomprobante', 'cobro_id', 'fecha_inicio', 'fecha_fin', 'today'));
 	}

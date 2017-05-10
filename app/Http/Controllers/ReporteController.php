@@ -1694,7 +1694,7 @@ class ReporteController extends Controller {
                                // ->groupBy('nFactura')
                                 ->orderBy('fecha', 'ASC')
                                 ->orderBy('nFacturaPrefix', 'ASC')
-                                ->orderBy('id', 'ASC')
+                                ->orderBy('nFactura', 'ASC')
                                 ->get();
 
         $facturasAnteriores  =  \App\Factura::where('fecha', '<',  $annoDesde.'-'.$mesDesde.'-'.$diaDesde)
