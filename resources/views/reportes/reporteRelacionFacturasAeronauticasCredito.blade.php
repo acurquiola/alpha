@@ -125,9 +125,9 @@
                                                 <td class="text-right otrosCargosBs" align="right">{{$traductor->format($df['otrosCargosBs'])}}</td>                               
                                                 <td class="text-right totalDosa" align="right">{{$traductor->format($df['totalDosa'])}}</td> 
 
-                                                <td>{{$df['refBancaria']}}</td>   
-                                                <td>{{$df['fechaDeposito']}}</td>                               
-                                                <td class="text-right totalDepositado" align="right">{{$traductor->format($df['totalDepositado'])}}</td>                               
+                                                <td>{{($df['refBancaria'])?$df['refBancaria']:'N/A'}}</td>   
+                                                <td>{{($df['fechaDeposito']!=0)?$df['fechaDeposito']:'N/A'}}</td>                               
+                                                <td class="text-right totalDepositado" align="right">{{($df['totalDepositado']!=0)?$traductor->format($df['totalDepositado']):$traductor->format($df['totalDosa'])}}</td>                               
                                             </tr>                                    
                                         @endforeach
                                         <tr class="bg-gray" align="center">

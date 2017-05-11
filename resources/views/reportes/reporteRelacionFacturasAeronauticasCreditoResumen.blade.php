@@ -129,8 +129,8 @@
                                                 <td class="text-right otrosCargosBs" align="right">{{$traductor->format($df['otrosCargosBs'])}}</td>                               
                                                 <td class="text-right totalDosa" align="right">{{$traductor->format($df['totalDosa'])}}</td> 
 
-                                                <td class="text-center" align="center">{{$df['refBancaria']}}</td>   
-                                                <td class="text-center" align="center">{{$df['fechaDeposito']}}</td>                               
+                                                <td class="text-center" align="center">{{($df['refBancaria'])?$df['refBancaria']:'N/A'}}</td>   
+                                                <td class="text-center" align="center">{{($df['fechaDeposito']!=0)?$df['fechaDeposito']:'N/A'}}</td>                               
                                                 <td class="text-right totalDepositado" align="right">{{$traductor->format($df['totalDepositado'])}}</td>                               
 
                                                 <td class="text-right totalAjuste" align="right">{{$traductor->format($df['ajuste'])}}</td>                               
@@ -158,8 +158,8 @@
                                             <td align="right" id="totalCobrado">0,00</td>                           
                                         </tr>
                                         <tr>
-                                            <td colspan="18" class="text-right" align="right">CANTIDAD DE COBROS:</td>
-                                            <td class="text-right" align="right">{{ count($dosaFactura) }}</td>
+                                            <td colspan="18" class="text-n=right" align="right">CANTIDAD DE COBROS:</td>
+                                            <td class="text-right" alig"right">{{ count($dosaFactura) }}</td>
                                         </tr>
                                     @else
                                         <tr>

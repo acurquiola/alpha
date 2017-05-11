@@ -94,6 +94,7 @@
 <td colspan="2" >
 </td>
 </tr>
+@if($cobro->pagos->count() > 0)
 @foreach($cobro->pagos as $index => $pago)
 <tr>
 <td colspan="2" style=" text-align:center;" >
@@ -116,6 +117,14 @@
 </td>
 </tr>
 @endforeach
+@else
+<tr>
+<td colspan="17" style=" text-align:center;" >
+<strong>PAGO REALIZADO CON SALDO A FAVOR DEL CLIENTE</strong>
+</td>
+</tr>
+@endif
+
 </table>
 <br>
 <br>

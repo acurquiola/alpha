@@ -90,7 +90,7 @@ class CobranzaController extends Controller {
         $cobros=\App\Cobro::select("cobros.*","clientes.nombre as clienteNombre")
         ->join('clientes','clientes.id' , '=', 'cobros.cliente_id')
         ->where('cobros.modulo_id', "=", $modulo->id)
-        ->where('cobros.id', $cobroIdOperator, $cobroId)
+        ->where('cobros.id', ($cobroId==0)?'>':'=', $cobroId)
         ->where('montodepositado', $depositadoOperator, $depositado)
         ->where('montofacturas', $pagadoOperator, $pagado)
         ->where('cobros.fecha', $fechaOperator, $fecha)
@@ -98,7 +98,7 @@ class CobranzaController extends Controller {
         ->where('clientes.nombre', 'like', "%$clienteNombre%")
         ->where('cobros.aeropuerto_id', session('aeropuerto')->id)
         ->with('cliente');
-        
+
         $cobros=$cobros->orderBy($sortName, $sortType)->paginate(15);
         $cobros->setPath('');
 
@@ -537,11 +537,12 @@ return ["success"=>1, "impresion" => $impresion];
 
         $cobroid =$cobro;
         $cobro   =\App\Cobro::with('pagos', 'cliente')->find($cobroid);
+
         foreach ($cobro->pagos as $c){
             $pagos[]   =\App\Cobrospago::with('banco', 'cuenta')->find($c->id);
             $cuentas[] =\App\Bancoscuenta::where('id', $c->cuenta_id)->get();
         }
-
+    
         $fechaDesglose = explode('/', $cobro->fecha);
 
         $ajuste = \App\Ajuste::with('cobro')
