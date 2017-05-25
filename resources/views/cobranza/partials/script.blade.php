@@ -463,7 +463,10 @@ $('#cxc-table').delegate('.pay-all-btn', 'click',function(){
 $('#cxc-table').delegate('.reset-btn', 'click',function(){
 	var row=$(this).closest('tr');
 	checkRowCondition(row, 0, 0,"");
+	var abonado = commaToNum($(row).find('.saldo-abonado-input').val());
 	$(row).find('.saldo-abonado-input').val("");
+	var total = commaToNum($('#total-a-depositar-doc-input').val()) - abonado;
+	$('#total-a-depositar-doc-input').val(numToComma(total));
 
 
 })

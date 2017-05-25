@@ -104,8 +104,8 @@ class TasaCobroDetalle extends Model {
     {
         if($fecha_inicio != null && $fecha_fin != null){
             if($fecha_inicio != '' && $fecha_fin != ''){
-                $fecha_inicio = ($fecha_inicio == '')?'':Carbon::createFromFormat('d/m/Y', $fecha_inicio)->format('Y-m-d');
-                $fecha_fin    = ($fecha_fin == '')?'':Carbon::createFromFormat('d/m/Y', $fecha_fin)->format('Y-m-d');
+                $fecha_inicio = ($fecha_inicio == '')?'':\Carbon\Carbon::createFromFormat('d/m/Y', $fecha_inicio)->format('Y-m-d');
+                $fecha_fin    = ($fecha_fin == '')?'':\Carbon\Carbon::createFromFormat('d/m/Y', $fecha_fin)->format('Y-m-d');
                 $query->whereBetween('fecha', array($fecha_inicio, $fecha_fin));  
             }else{
                 $query->where('fecha', '>', '0000-00-00');
