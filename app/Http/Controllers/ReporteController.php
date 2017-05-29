@@ -1188,6 +1188,7 @@ class ReporteController extends Controller {
         $totalTasas            = $tasasVendidas->sum('total');
 
         $dosaFactura = [];
+        $dosaFacturaManual = [];
 
         foreach ($facturas as $factura) {
 
@@ -1246,11 +1247,85 @@ class ReporteController extends Controller {
 
         }
 
+
+        
+
+        $prefixManual = Modulo::where('nombre', 'DOSAS')
+                                ->where('aeropuerto_id', $aeropuerto)
+                                ->first();
+        $prefixManual = $prefixManual->nFacturaPrefixManual;  
+
+        $facturasManuales = Factura::with('cobros')
+                                ->whereBetween('fecha', array($annoDesde.'-'.$mesDesde.'-'.$diaDesde,  $annoHasta.'-'.$mesHasta.'-'.$diaHasta) )
+                                ->where('nFacturaPrefix', $prefixManual)
+                                ->orderBy('fecha', 'ASC')
+                                ->orderBy('nControl', 'ASC')
+                                ->orderBy('nFactura', 'ASC')
+                                ->get();
+
+
+        foreach ($facturasManuales as $factura) {
+
+            $cobros = \App\Cobro::join('cobro_factura', 'cobros.id', '=', 'cobro_factura.cobro_id')
+                                    ->where('cobro_factura.factura_id', $factura->id)
+                                    ->where('aeropuerto_id', $aeropuerto)
+                                    ->first();
+
+            $dosaFacturaManual[$factura->nroDosa]=[
+                "nFactura"          =>'',
+                "nControl"          =>'',
+                "fecha"             =>0,
+                "formulario"        =>0,
+                "aterrizaje"        =>0,
+                "estacionamiento"   =>0,
+                "habilitacion"      =>0,
+                "jetway"            =>0,
+                "carga"             =>0,
+                "otros"             =>0,
+                "tasaNacional"      =>0,
+                "tasaInternacional" =>0,
+                "montoFacturado"    =>0,
+                "montoDepositado"   =>0,
+                "nroCobro"          =>0
+            ];
+
+            foreach ($factura->cobros as $cobro) {
+                $dosaFacturaManual[$factura->nroDosa]["nroCobro"]        =$cobro->id;
+            }
+            $dosaFacturaManual[$factura->nroDosa]["fecha"]           =$factura->fecha;
+            $dosaFacturaManual[$factura->nroDosa]["nFactura"]        =$factura->nFacturaPrefix.'-'.$factura->nFactura;
+            $dosaFacturaManual[$factura->nroDosa]["nControl"]        =$factura->nControlPrefix.'-'.$factura->nControl;
+            $dosaFacturaManual[$factura->nroDosa]["montoFacturado"]  =$cobros->montofacturas;
+            $dosaFacturaManual[$factura->nroDosa]["montoDepositado"] =$cobros->montodepositado;
+
+            foreach ($factura->detalles as $detalle) {
+                if($detalle->concepto_id == $formulario->id){
+                    $dosaFacturaManual[$factura->nroDosa]["formulario"]=$detalle->totalDes;
+                }elseif($detalle->concepto_id == $aterrizaje->id){
+                    $dosaFacturaManual[$factura->nroDosa]["aterrizaje"]=$detalle->totalDes;
+                }elseif($detalle->concepto_id == $estacionamiento->id){
+                    $dosaFacturaManual[$factura->nroDosa]["estacionamiento"]=$detalle->totalDes;
+                }elseif($detalle->concepto_id == $habilitacion->id){
+                    $dosaFacturaManual[$factura->nroDosa]["habilitacion"]=$detalle->totalDes;
+                }elseif($detalle->concepto_id == $jetway->id){
+                    $dosaFacturaManual[$factura->nroDosa]["jetway"]=$detalle->totalDes;
+                }elseif($detalle->concepto_id == $carga->id){
+                    $dosaFacturaManual[$factura->nroDosa]["carga"]=$detalle->totalDes;
+                }else{
+                    foreach ($otrosIngresos->conceptos as $concepto) {
+                        if($detalle->concepto_id == $concepto->id)
+                            $dosaFacturaManual[$factura->nroDosa]["otros"]+=$detalle->totalDes;
+                    }
+                }
+            }
+
+        }
+
         $aeropuertoNombre = \App\Aeropuerto::where('id', $aeropuerto)->first()->nombre;
 
 
 
-        return view('reportes.reporteRelacionIngresosAeronauticosContado', compact('dosaFactura', 'aeropuertoNombre', 'diaDesde', 'mesDesde', 'annoDesde', 'diaHasta', 'mesHasta', 'annoHasta', 'aeropuerto', 'tasasVendidas', 'totalTasas'));
+        return view('reportes.reporteRelacionIngresosAeronauticosContado', compact('dosaFactura', 'dosaFacturaManual', 'aeropuertoNombre', 'diaDesde', 'mesDesde', 'annoDesde', 'diaHasta', 'mesHasta', 'annoHasta', 'aeropuerto', 'tasasVendidas', 'totalTasas'));
 
     }
 
