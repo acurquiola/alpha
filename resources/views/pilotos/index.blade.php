@@ -373,36 +373,36 @@ function getTable(url){
     	Eliminar registro
     	*/
     	$('body').delegate('.eliminarPiloto-btn', 'click', function(){
-    		var tr  =$(this).closest('tr');
-    		var id  =$(this).data('id');
-    		var url ="{{action('PilotoController@index')}}/"+id;
-    					// confirm dialog
-    					alertify.confirm("¿Realmente desea  eliminar este Piloto?", function (e) {
-    						if (e) {		
+		var tr  =$(this).closest('tr');
+		var id  =$(this).data('id');
+		var url ="{{action('PilotoController@index')}}/"+id;
+			// confirm dialog
+			alertify.confirm("¿Realmente desea  eliminar este Piloto?", function (e) {
+				if (e) {		
 
-    							$.
-    							ajax({url: url,
-    								method:"DELETE"})
-    							.done(function(response, status, responseObject){
-    								try{
-    									var obj= JSON.parse(responseObject.responseText);
-    									if(obj.success==1){
-    										$(tr).remove();
-    										$('#filtrar-btn').trigger('click');
-    										alertify.success(obj.text);
-    									}
-    								}catch(e){
-    									console.log(e);
-    									alertify.error('Error procesando la información');
-    								}
+					$.
+					ajax({url: url,
+						method:"DELETE"})
+					.done(function(response, status, responseObject){
+						try{
+							var obj= JSON.parse(responseObject.responseText);
+							if(obj.success==1){
+								$(tr).remove();
+								$('#filtrar-btn').trigger('click');
+								alertify.success(obj.text);
+							}
+						}catch(e){
+							console.log(e);
+							alertify.error('Error procesando la información');
+						}
 
-    							})
-    						} 
-    					})
-    				})
+					})
+				} 
+			})
+		})
 
 
-  		}) //.document    
+	}) //.document    
 
 
 

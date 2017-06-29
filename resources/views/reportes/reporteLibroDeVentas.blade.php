@@ -39,6 +39,10 @@
                 <div class="form-group">
                       {!! Form::select('annoHasta', $annos, $annoHasta, ["class"=> "form-control"]) !!}
                 </div>
+				<div class="form-group">
+					<label><strong>AEROPUERTO: </strong></label>
+					{!! Form::select('aeropuerto', $aeropuertos, $aeropuerto, ["class"=> "form-control"]) !!}
+				</div>
                 <br>
                 <button type="submit" class="btn btn-primary">Buscar</button>
                 <a class="btn btn-default" href="{{action('ReporteController@getReporteLibroDeVentas')}}">Reset</a>

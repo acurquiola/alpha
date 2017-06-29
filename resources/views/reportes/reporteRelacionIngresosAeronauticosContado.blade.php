@@ -110,7 +110,7 @@
 											DEPOSITADO
 										</th>
 										<th   style="width: 80px; vertical-align: middle" class="text-center" align="center">
-											DIFERENCIA
+											SALDO A FAVOR
 										</th>
 									</tr>
 								</thead>
@@ -165,7 +165,7 @@
 												{{$traductor->format($df['montoDepositado'])}}
 											</td>
 											<td   style="width: 80px; vertical-align: middle" class="text-right diferencia-bs" align="right">
-												{{$traductor->format($df['montoFacturado']-$df['montoDepositado'])}}
+												{{$traductor->format($df['montoDepositado']-$df['montoFacturado'])}}
 											</td>
 										</tr>
 									@endforeach
