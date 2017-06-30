@@ -10,7 +10,6 @@
     <div class="col-md-12">
         <div class="box box-primary">
             <div class="box-header">
-                <h3 class="box-title">Filtros</h3>
                 <div class="box-tools pull-right">
                     <button class="btn btn-box-tool" data-widget="collapse">
                         <i class="fa fa-minus"></i>
@@ -270,6 +269,8 @@
                                         AEROPUERTO: {{$aeropuertoNombre}} \
                                         </br>\
                                         CLIENTE: {{$clienteNombre}}\
+                                        </br>\
+                                        DESDE: {{$diaDesde}}/{{$mesDesde}}/{{$annoDesde}} HASTA: {{$diaHasta}}/{{$mesHasta}}/{{$annoHasta}} </th>\
                                     </th>\
                                 </tr>\
                             </thead>')
