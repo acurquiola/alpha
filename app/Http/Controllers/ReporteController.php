@@ -912,9 +912,6 @@ class ReporteController extends Controller {
 
             $diaMes=\Carbon\Carbon::create($anno, $i,1);
 
-
-
-	        
             $tasas = \App\TasaCobro::select('tasaops.id')->join('tasaops', 'tasaops.tasa_cobro_id', '=', 'tasa_cobros.id')
                                         ->where('tasaops.fecha', '>=', $diaMes->startOfMonth()->toDateString())
                                         ->where('tasaops.fecha', '<=', $diaMes->endOfMonth()->toDateString())
@@ -924,6 +921,12 @@ class ReporteController extends Controller {
 
             $tasasMontos = \App\Tasaop::join('tasaopdetalles', 'tasaops.id', '=', 'tasaopdetalles.tasaop_id')
                                         ->whereIn('tasaops.id', $tasas)
+                                        ->sum('tasaopdetalles.total');
+
+
+            $tasasFacturadas = \App\Tasaop::join('tasaopdetalles', 'tasaops.id', '=', 'tasaopdetalles.tasaop_id')
+                                        ->where('tasaops.fecha', '>=', $diaMes->startOfMonth()->toDateString())
+                                        ->where('tasaops.fecha', '<=', $diaMes->endOfMonth()->toDateString())
                                         ->sum('tasaopdetalles.total');
 
             //Facturas por Cobrar
@@ -988,6 +991,9 @@ class ReporteController extends Controller {
             foreach ($cobrosAnteriores as $cobroAnterior) {
                 $montosMeses[$meses[$diaMes->month]]["cobroAnterior"]+=$cobroAnterior->montodepositado;
             }
+
+
+            $montosMeses[$meses[$diaMes->month]]["facturado"]=$montosMeses[$meses[$diaMes->month]]["facturado"]+$tasasFacturadas;
 
             $montosMeses[$meses[$diaMes->month]]["cobrado"]=$montosMeses[$meses[$diaMes->month]]["cobrado"]+$tasasMontos;
 
@@ -1832,12 +1838,6 @@ class ReporteController extends Controller {
                                 ->orderBy('facturas.nFacturaPrefix', 'ASC')
                                 ->orderBy('facturas.nFactura', 'ASC')
                                 ->get();
-
-
-
-
-
-        $aeropuertoNombre = session('aeropuerto')->nombre;
 
         return view('reportes.reporteLibroDeVentas', compact('diaDesde', 'mesDesde', 'annoDesde', 'diaHasta', 'mesHasta', 'annoHasta', 'aeropuerto', 'facturas', 'facturasCobradas', 'fecha', 'aeropuertoNombre'));
     }
