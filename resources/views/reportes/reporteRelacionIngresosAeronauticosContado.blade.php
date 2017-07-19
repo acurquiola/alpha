@@ -246,7 +246,7 @@
 									</tr>
 								</thead>
 								<tbody>
-									@foreach($dosaFacturaManual as $nroDosa => $df)
+									@foreach($dosaFacturaManual as $nFactura => $df)
 										<tr>
 											<td   style="width: 80px; vertical-align: middle;" class="text-center" align="center">
 												{{$df['fecha']}}
@@ -258,7 +258,7 @@
 												{{$df['nControl']}}
 											</td>
 											<td   style="width: 80px; vertical-align: middle" class="text-center" align="center">
-												{{$nroDosa}}
+												'N/D'
 											</td>
 											<td   style="width: 80px; vertical-align: middle" class="text-right formularioM-bs" align="right">
 												{{$traductor->format($df['formulario'])}}
@@ -333,6 +333,132 @@
 											<td align="right" class="text-right" id="montoDepositadoTotalTodas" style="width: 80px; font-weight: bold;" align="right">0</td>
 											<td align="right" class="text-right" id="montoDiferenciaTotalTodas" style="width: 80px; font-weight: bold;" align="right">0</td>
 										</tr>
+									@endif
+								@if($dosaFacturaAnulada != [])
+										<tr class="bg-primary" >
+											<th class="text-center" colspan="15" >
+												FACTURAS ANULADAS
+											</th>
+										</tr>
+									<tr  class="bg-primary" >
+										<th   style="width: 80px; vertical-align: middle;" class="text-center" align="center">
+											FECHA
+										</th>
+										<th   style="width: 80px; vertical-align: middle" class="text-center" align="center">
+											Nro. FACTURA
+										</th>
+										<th   style="width: 80px; vertical-align: middle" class="text-center" align="center">
+											Nro. CONTROL
+										</th>
+										<th   style="width: 80px; vertical-align: middle" class="text-center" align="center">
+											Nro. DOSA
+										</th>
+										<th   style="width: 80px; vertical-align: middle" class="text-center" align="center">
+											FORMULARIO
+										</th>
+										<th   style="width: 80px; vertical-align: middle;" class="text-center" align="center">
+											ATERRIZAJE
+										</th>
+										<th   style="width: 80px; vertical-align: middle;" class="text-center" align="center">
+											ESTACIONAMIENTO
+										</th>
+										<th   style="width: 80px; vertical-align: middle;; " class="text-center" align="center">
+											HABILITACIÓN
+										</th>
+										<th   style="width: 80px; vertical-align: middle" class="text-center" align="center">
+											JETWAY
+										</th>
+										<th   style="width: 80px; vertical-align: middle" class="text-center" align="center">
+											CARGA
+										</th>
+										<th   style="width: 80px; vertical-align: middle" class="text-center" align="center">
+											OTROS
+										</th>
+										<th   style="width: 80px; vertical-align: middle" class="text-center" align="center">
+											Nro. COBRO
+										</th>
+										<th   style="width: 80px; vertical-align: middle" class="text-center" align="center">
+											FACTURADO
+										</th>
+										<th   style="width: 80px; vertical-align: middle" class="text-center" align="center">
+											DEPOSITADO
+										</th>
+										<th   style="width: 80px; vertical-align: middle" class="text-center" align="center">
+											DIFERENCIA
+										</th>
+									</tr>
+								</thead>
+								<tbody>
+									@foreach($dosaFacturaAnulada as $id => $df)
+										<tr>
+											<td   style="width: 80px; vertical-align: middle;" class="text-center" align="center">
+												{{$df['fecha']}}
+											</td>
+											<td   style="width: 80px; vertical-align: middle" class="text-center" align="center">
+												{{$df['nFactura']}}
+											</td>
+											<td   style="width: 80px; vertical-align: middle" class="text-center" align="center">
+												{{$df['nControl']}}
+											</td>
+											<td   style="width: 80px; vertical-align: middle" class="text-center" align="center">
+												{{$df['nroDosa']}}
+											</td>
+											<td   style="width: 80px; vertical-align: middle" class="text-right formularioA-bs" align="right">
+												{{$traductor->format($df['formulario'])}}
+											</td>
+											<td   style="width: 80px; vertical-align: middle; " class="text-right aterrizajeA-bs" align="right">
+												{{$traductor->format($df['aterrizaje'])}}
+											</td>
+											<td   style="width: 80px; vertical-align: middle; " class="text-right estacionamientoA-bs" align="right">
+												{{$traductor->format($df['estacionamiento'])}}
+											</td>
+											<td   style="width: 80px; vertical-align: middle; " class="text-right habilitacionA-bs" align="right">
+												{{$traductor->format($df['habilitacion'])}}
+											</td>
+											<td   style="width: 80px; vertical-align: middle" class="text-right jetwayA-bs" align="right">
+												{{$traductor->format($df['jetway'])}}
+											</td>
+											<td   style="width: 80px; vertical-align: middle" class="text-right cargaA-bs" align="right">
+												{{$traductor->format($df['carga'])}}
+											</td>
+											<td   style="width: 80px; vertical-align: middle" class="text-right otrosA-bs" align="right">
+                                                {{$traductor->format($df['otros'])}}                             
+											</td>
+											<td   style="width: 80px; vertical-align: middle" class="text-right" align="right">
+												{{$df['nroCobro']}}
+											</td>
+											<td   style="width: 80px; vertical-align: middle" class="text-right montoFacturadoA-bs" align="right">
+												{{$traductor->format($df['montoFacturado'])}}
+											</td>
+											<td   style="width: 80px; vertical-align: middle" class="text-right montoDepositadoA-bs" align="right">
+												{{$traductor->format($df['montoDepositado'])}}
+											</td>
+											<td   style="width: 80px; vertical-align: middle" class="text-right diferenciaA-bs" align="right">
+												{{$traductor->format($df['montoFacturado']-$df['montoDepositado'])}}
+											</td>
+										</tr>
+									@endforeach
+										<tr class="bg-gray">
+											<td align="center" class="text-center" style="width: 80px; font-weight: bold;">TOTALES</td>
+											<td align="center" class="text-center" style="width: 80px;"></td>
+											<td align="center" class="text-center" style="width: 80px;"></td>
+											<td align="center" class="text-center" style="width: 80px;"></td>
+											<td align="right" class="text-right" id="formularioTotalAnulada" style="width: 80px; font-weight: bold;" align="right">0</td>
+											<td align="right" class="text-right" id="aterrizajeTotalAnulada" style="width: 80px; font-weight: bold;" align="right">0</td>
+											<td align="right" class="text-right" id="estacionamientoTotalAnulada" style="width: 80px; font-weight: bold;" align="right">0</td>
+											<td align="right" class="text-right" id="habilitacionTotalAnulada" style="width: 80px; font-weight: bold;" align="right">0</td>
+											<td align="right" class="text-right" id="jetwayTotalAnulada" style="width: 80px; font-weight: bold;" align="right">0</td>
+											<td align="right" class="text-right" id="cargaTotalAnulada" style="width: 80px; font-weight: bold;" align="right">0</td>
+											<td align="right" class="text-right" id="otrosTotalAnulada" style="width: 80px; font-weight: bold;" align="right">0</td>
+											<td align="center" class="text-center" style="width: 80px;"></td>
+											<td align="right" class="text-right" id="montoFacturadoTotalAnulada" style="width: 80px; font-weight: bold;" align="right">0</td>
+											<td align="right" class="text-right" id="montoDepositadoTotalAnulada" style="width: 80px; font-weight: bold;" align="right">0</td>
+											<td align="right" class="text-right" id="montoDiferenciaTotalAnulada" style="width: 80px; font-weight: bold;" align="right">0</td>
+										</tr>
+	                                    <tr>
+	                                        <td colspan="14" class="text-right" align="right">CANTIDAD DE FACTURAS</td>
+	                                        <td class="text-right" align="right" style="width: 80px">{{ count($dosaFacturaAnulada) }}</td>
+	                                    </tr>
 									@endif
 									@if($tasasVendidas->count()>0)
 										<tr class="bg-primary" >
@@ -488,6 +614,60 @@
 		$('#montoFacturadoTotalManual').text(numToComma(montoFacturadoTotalManual));
 		$('#montoDepositadoTotalManual').text(numToComma(montoDepositadoTotalManual));
 		$('#montoDiferenciaTotalManual').text(numToComma(montoDiferenciaTotalManual));
+
+
+		var formularioTotalAnulada=0;
+		$('.formularioA-bs').each(function(index,value){
+			formularioTotalAnulada+=commaToNum($(value).text().trim());
+		});
+		var aterrizajeTotalAnulada=0;
+		$('.aterrizajeA-bs').each(function(index,value){
+			aterrizajeTotalAnulada+=commaToNum($(value).text().trim());
+		});
+		var estacionamientoTotalAnulada=0;
+		$('.estacionamientoA-bs').each(function(index,value){
+			estacionamientoTotalAnulada+=commaToNum($(value).text().trim());
+		});
+		var habilitacionTotalAnulada=0;
+		$('.habilitacionA-bs').each(function(index,value){
+			habilitacionTotalAnulada+=commaToNum($(value).text().trim());
+		});
+		var jetwayTotalAnulada=0;
+		$('.jetwayA-bs').each(function(index,value){
+			jetwayTotalAnulada+=commaToNum($(value).text().trim());
+		});
+		var cargaTotalAnulada=0;
+		$('.cargaA-bs').each(function(index,value){
+			cargaTotalAnulada+=commaToNum($(value).text().trim());
+		});
+		var otrosTotalAnulada=0;
+		$('.otrosA-bs').each(function(index,value){
+			otrosTotalAnulada+=commaToNum($(value).text().trim());
+		});
+		var montoFacturadoTotalAnulada=0;
+		$('.montoFacturadoA-bs').each(function(index,value){
+			montoFacturadoTotalAnulada+=commaToNum($(value).text().trim());
+		});
+		var montoDepositadoTotalAnulada=0;
+		$('.montoDepositadoA-bs').each(function(index,value){
+			montoDepositadoTotalAnulada+=commaToNum($(value).text().trim());
+		});
+		var montoDiferenciaTotalAnulada=0;
+		$('.diferenciaA-bs').each(function(index,value){
+			montoDiferenciaTotalAnulada+=commaToNum($(value).text().trim());
+		});
+
+
+		$('#formularioTotalAnulada').text(numToComma(formularioTotalAnulada));
+		$('#aterrizajeTotalAnulada').text(numToComma(aterrizajeTotalAnulada));
+		$('#estacionamientoTotalAnulada').text(numToComma(estacionamientoTotalAnulada));
+		$('#habilitacionTotalAnulada').text(numToComma(habilitacionTotalAnulada));
+		$('#jetwayTotalAnulada').text(numToComma(jetwayTotalAnulada));
+		$('#cargaTotalAnulada').text(numToComma(cargaTotalAnulada));
+		$('#otrosTotalAnulada').text(numToComma(otrosTotalAnulada));
+		$('#montoFacturadoTotalAnulada').text(numToComma(montoFacturadoTotalAnulada));
+		$('#montoDepositadoTotalAnulada').text(numToComma(montoDepositadoTotalAnulada));
+		$('#montoDiferenciaTotalAnulada').text(numToComma(montoDiferenciaTotalAnulada));
 
 		$('#formularioTotalTodas').text(numToComma(formularioTotalManual+formularioTotal));
 		$('#aterrizajeTotalTodas').text(numToComma(aterrizajeTotal + aterrizajeTotalManual));
